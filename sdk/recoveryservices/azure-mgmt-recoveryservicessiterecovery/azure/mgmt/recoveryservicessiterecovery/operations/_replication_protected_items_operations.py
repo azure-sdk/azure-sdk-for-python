@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -39,7 +39,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_list_by_replication_protection_containers_request(
+def build_list_by_replication_protection_containers_request(  # pylint: disable=name-too-long
     fabric_name: str,
     protection_container_name: str,
     resource_name: str,
@@ -50,7 +50,7 @@ def build_list_by_replication_protection_containers_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -89,7 +89,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -131,7 +131,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -175,7 +175,7 @@ def build_purge_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -212,7 +212,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -257,7 +257,7 @@ def build_add_disks_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -302,7 +302,7 @@ def build_apply_recovery_point_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -347,7 +347,7 @@ def build_failover_cancel_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -389,7 +389,7 @@ def build_failover_commit_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -431,7 +431,7 @@ def build_planned_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -476,7 +476,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     # Construct URL
     _url = kwargs.pop(
@@ -518,7 +518,7 @@ def build_remove_disks_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -563,7 +563,7 @@ def build_repair_replication_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -605,7 +605,7 @@ def build_reprotect_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -650,7 +650,7 @@ def build_resolve_health_errors_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -695,7 +695,7 @@ def build_switch_provider_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -740,7 +740,7 @@ def build_test_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -785,7 +785,7 @@ def build_test_failover_cleanup_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -830,7 +830,7 @@ def build_unplanned_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -875,7 +875,7 @@ def build_update_appliance_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -920,7 +920,7 @@ def build_update_mobility_service_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -965,7 +965,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1014,7 +1014,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_replication_protection_containers(
+    def list_by_replication_protection_containers(  # pylint: disable=name-too-long
         self, fabric_name: str, protection_container_name: str, **kwargs: Any
     ) -> Iterable["_models.ReplicationProtectedItem"]:
         """Gets the list of Replication protected items.
@@ -1025,7 +1025,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type fabric_name: str
         :param protection_container_name: Protection container name. Required.
         :type protection_container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1049,19 +1048,18 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_replication_protection_containers_request(
+                _request = build_list_by_replication_protection_containers_request(
                     fabric_name=fabric_name,
                     protection_container_name=protection_container_name,
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_replication_protection_containers.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1073,13 +1071,13 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItemCollection", pipeline_response)
@@ -1089,11 +1087,11 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1104,10 +1102,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_replication_protection_containers.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems"
-    }
 
     @distributed_trace
     def get(
@@ -1123,7 +1117,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ReplicationProtectedItem or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationProtectedItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1142,7 +1135,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ReplicationProtectedItem] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -1150,16 +1143,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1171,20 +1163,16 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        input: Union[_models.EnableProtectionInput, IO],
+        input: Union[_models.EnableProtectionInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -1210,7 +1198,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(input, "EnableProtectionInput")
 
-        request = build_create_request(
+        _request = build_create_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -1221,16 +1209,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1244,13 +1231,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create(
@@ -1278,14 +1261,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1299,7 +1274,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        input: IO,
+        input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1315,18 +1290,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: A name for the replication protected item. Required.
         :type replicated_protected_item_name: str
         :param input: Enable Protection Input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1340,7 +1307,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        input: Union[_models.EnableProtectionInput, IO],
+        input: Union[_models.EnableProtectionInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Enables protection.
@@ -1353,20 +1320,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: A name for the replication protected item. Required.
         :type replicated_protected_item_name: str
-        :param input: Enable Protection Input. Is either a EnableProtectionInput type or a IO type.
-         Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.EnableProtectionInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Enable Protection Input. Is either a EnableProtectionInput type or a IO[bytes]
+         type. Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.EnableProtectionInput or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1400,7 +1356,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1410,17 +1366,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _purge_initial(  # pylint: disable=inconsistent-return-statements
         self, fabric_name: str, protection_container_name: str, replicated_protected_item_name: str, **kwargs: Any
@@ -1439,7 +1393,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_purge_request(
+        _request = build_purge_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -1447,16 +1401,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._purge_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1466,11 +1419,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _purge_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_purge(
@@ -1488,14 +1437,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1523,7 +1464,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -1532,24 +1473,20 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_purge.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _update_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        update_protection_input: Union[_models.UpdateReplicationProtectedItemInput, IO],
+        update_protection_input: Union[_models.UpdateReplicationProtectedItemInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -1575,7 +1512,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(update_protection_input, "UpdateReplicationProtectedItemInput")
 
-        request = build_update_request(
+        _request = build_update_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -1586,16 +1523,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1609,13 +1545,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -1644,14 +1576,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1665,7 +1589,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        update_protection_input: IO,
+        update_protection_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1681,18 +1605,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param update_protection_input: Update protection input. Required.
-        :type update_protection_input: IO
+        :type update_protection_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1706,7 +1622,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        update_protection_input: Union[_models.UpdateReplicationProtectedItemInput, IO],
+        update_protection_input: Union[_models.UpdateReplicationProtectedItemInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Updates the replication protected item settings.
@@ -1720,20 +1636,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param update_protection_input: Update protection input. Is either a
-         UpdateReplicationProtectedItemInput type or a IO type. Required.
+         UpdateReplicationProtectedItemInput type or a IO[bytes] type. Required.
         :type update_protection_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.UpdateReplicationProtectedItemInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.UpdateReplicationProtectedItemInput or
+         IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1767,7 +1673,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1777,24 +1683,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _add_disks_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        add_disks_input: Union[_models.AddDisksInput, IO],
+        add_disks_input: Union[_models.AddDisksInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -1820,7 +1724,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(add_disks_input, "AddDisksInput")
 
-        request = build_add_disks_request(
+        _request = build_add_disks_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -1831,16 +1735,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._add_disks_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1854,13 +1757,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _add_disks_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_add_disks(
@@ -1888,14 +1787,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1909,7 +1800,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        add_disks_input: IO,
+        add_disks_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1925,18 +1816,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param add_disks_input: Add disks input. Required.
-        :type add_disks_input: IO
+        :type add_disks_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -1950,7 +1833,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        add_disks_input: Union[_models.AddDisksInput, IO],
+        add_disks_input: Union[_models.AddDisksInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Add disk(s) for protection.
@@ -1963,19 +1846,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :param add_disks_input: Add disks input. Is either a AddDisksInput type or a IO type. Required.
-        :type add_disks_input: ~azure.mgmt.recoveryservicessiterecovery.models.AddDisksInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param add_disks_input: Add disks input. Is either a AddDisksInput type or a IO[bytes] type.
+         Required.
+        :type add_disks_input: ~azure.mgmt.recoveryservicessiterecovery.models.AddDisksInput or
+         IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2009,7 +1883,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2019,24 +1893,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_add_disks.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _apply_recovery_point_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        apply_recovery_point_input: Union[_models.ApplyRecoveryPointInput, IO],
+        apply_recovery_point_input: Union[_models.ApplyRecoveryPointInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -2062,7 +1934,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(apply_recovery_point_input, "ApplyRecoveryPointInput")
 
-        request = build_apply_recovery_point_request(
+        _request = build_apply_recovery_point_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -2073,16 +1945,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._apply_recovery_point_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2096,13 +1967,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _apply_recovery_point_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_apply_recovery_point(
@@ -2131,14 +1998,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2152,7 +2011,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        apply_recovery_point_input: IO,
+        apply_recovery_point_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2168,18 +2027,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: The replicated protected item name. Required.
         :type replicated_protected_item_name: str
         :param apply_recovery_point_input: The ApplyRecoveryPointInput. Required.
-        :type apply_recovery_point_input: IO
+        :type apply_recovery_point_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2193,7 +2044,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        apply_recovery_point_input: Union[_models.ApplyRecoveryPointInput, IO],
+        apply_recovery_point_input: Union[_models.ApplyRecoveryPointInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Change or apply recovery point.
@@ -2207,20 +2058,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: The replicated protected item name. Required.
         :type replicated_protected_item_name: str
         :param apply_recovery_point_input: The ApplyRecoveryPointInput. Is either a
-         ApplyRecoveryPointInput type or a IO type. Required.
+         ApplyRecoveryPointInput type or a IO[bytes] type. Required.
         :type apply_recovery_point_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.ApplyRecoveryPointInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.ApplyRecoveryPointInput or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2254,7 +2094,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2264,17 +2104,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_apply_recovery_point.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _failover_cancel_initial(
         self, fabric_name: str, protection_container_name: str, replicated_protected_item_name: str, **kwargs: Any
@@ -2293,7 +2131,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ReplicationProtectedItem]] = kwargs.pop("cls", None)
 
-        request = build_failover_cancel_request(
+        _request = build_failover_cancel_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -2301,16 +2139,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._failover_cancel_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2324,13 +2161,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _failover_cancel_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCancel"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_failover_cancel(
@@ -2346,14 +2179,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2384,7 +2209,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2394,17 +2219,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_failover_cancel.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCancel"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _failover_commit_initial(
         self, fabric_name: str, protection_container_name: str, replicated_protected_item_name: str, **kwargs: Any
@@ -2423,7 +2246,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ReplicationProtectedItem]] = kwargs.pop("cls", None)
 
-        request = build_failover_commit_request(
+        _request = build_failover_commit_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -2431,16 +2254,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._failover_commit_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2454,13 +2276,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _failover_commit_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCommit"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_failover_commit(
@@ -2476,14 +2294,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2514,7 +2324,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2524,24 +2334,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_failover_commit.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCommit"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _planned_failover_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        failover_input: Union[_models.PlannedFailoverInput, IO],
+        failover_input: Union[_models.PlannedFailoverInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -2567,7 +2375,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(failover_input, "PlannedFailoverInput")
 
-        request = build_planned_failover_request(
+        _request = build_planned_failover_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -2578,16 +2386,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._planned_failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2601,13 +2408,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _planned_failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/plannedFailover"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_planned_failover(
@@ -2635,14 +2438,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2656,7 +2451,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        failover_input: IO,
+        failover_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2672,18 +2467,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param failover_input: Planned failover input. Required.
-        :type failover_input: IO
+        :type failover_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2697,7 +2484,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        failover_input: Union[_models.PlannedFailoverInput, IO],
+        failover_input: Union[_models.PlannedFailoverInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Execute planned failover.
@@ -2710,21 +2497,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :param failover_input: Planned failover input. Is either a PlannedFailoverInput type or a IO
-         type. Required.
+        :param failover_input: Planned failover input. Is either a PlannedFailoverInput type or a
+         IO[bytes] type. Required.
         :type failover_input: ~azure.mgmt.recoveryservicessiterecovery.models.PlannedFailoverInput or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -2758,7 +2534,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2768,24 +2544,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_planned_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/plannedFailover"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        disable_protection_input: Union[_models.DisableProtectionInput, IO],
+        disable_protection_input: Union[_models.DisableProtectionInput, IO[bytes]],
         **kwargs: Any
     ) -> None:
         error_map = {
@@ -2811,7 +2585,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(disable_protection_input, "DisableProtectionInput")
 
-        request = build_delete_request(
+        _request = build_delete_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -2822,16 +2596,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2841,11 +2614,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def begin_delete(
@@ -2875,14 +2644,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2894,7 +2655,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        disable_protection_input: IO,
+        disable_protection_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2911,18 +2672,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param disable_protection_input: Disable protection input. Required.
-        :type disable_protection_input: IO
+        :type disable_protection_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2934,7 +2687,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        disable_protection_input: Union[_models.DisableProtectionInput, IO],
+        disable_protection_input: Union[_models.DisableProtectionInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[None]:
         """Disables protection.
@@ -2949,20 +2702,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param disable_protection_input: Disable protection input. Is either a DisableProtectionInput
-         type or a IO type. Required.
+         type or a IO[bytes] type. Required.
         :type disable_protection_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.DisableProtectionInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.DisableProtectionInput or IO[bytes]
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2993,7 +2735,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -3002,24 +2744,20 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _remove_disks_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        remove_disks_input: Union[_models.RemoveDisksInput, IO],
+        remove_disks_input: Union[_models.RemoveDisksInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -3045,7 +2783,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(remove_disks_input, "RemoveDisksInput")
 
-        request = build_remove_disks_request(
+        _request = build_remove_disks_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -3056,16 +2794,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._remove_disks_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3079,13 +2816,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _remove_disks_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/removeDisks"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_remove_disks(
@@ -3113,14 +2846,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3134,7 +2859,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        remove_disks_input: IO,
+        remove_disks_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3150,18 +2875,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param remove_disks_input: Remove disks input. Required.
-        :type remove_disks_input: IO
+        :type remove_disks_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3175,7 +2892,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        remove_disks_input: Union[_models.RemoveDisksInput, IO],
+        remove_disks_input: Union[_models.RemoveDisksInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Removes disk(s).
@@ -3188,21 +2905,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :param remove_disks_input: Remove disks input. Is either a RemoveDisksInput type or a IO type.
-         Required.
+        :param remove_disks_input: Remove disks input. Is either a RemoveDisksInput type or a IO[bytes]
+         type. Required.
         :type remove_disks_input: ~azure.mgmt.recoveryservicessiterecovery.models.RemoveDisksInput or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3236,7 +2942,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3246,17 +2952,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_remove_disks.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/removeDisks"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _repair_replication_initial(
         self, fabric_name: str, protection_container_name: str, replicated_protected_item_name: str, **kwargs: Any
@@ -3275,7 +2979,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ReplicationProtectedItem]] = kwargs.pop("cls", None)
 
-        request = build_repair_replication_request(
+        _request = build_repair_replication_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -3283,16 +2987,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._repair_replication_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3306,13 +3009,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _repair_replication_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_repair_replication(
@@ -3329,14 +3028,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: The name of the replication protected item. Required.
         :type replicated_protected_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3367,7 +3058,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3377,24 +3068,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_repair_replication.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _reprotect_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        reprotect_input: Union[_models.ReverseReplicationInput, IO],
+        reprotect_input: Union[_models.ReverseReplicationInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -3420,7 +3109,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(reprotect_input, "ReverseReplicationInput")
 
-        request = build_reprotect_request(
+        _request = build_reprotect_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -3431,16 +3120,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._reprotect_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3454,13 +3142,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _reprotect_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reProtect"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_reprotect(
@@ -3488,14 +3172,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3509,7 +3185,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        reprotect_input: IO,
+        reprotect_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3525,18 +3201,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param reprotect_input: Reverse replication input. Required.
-        :type reprotect_input: IO
+        :type reprotect_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3550,7 +3218,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        reprotect_input: Union[_models.ReverseReplicationInput, IO],
+        reprotect_input: Union[_models.ReverseReplicationInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Execute Reverse Replication\Reprotect.
@@ -3564,20 +3232,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param reprotect_input: Reverse replication input. Is either a ReverseReplicationInput type or
-         a IO type. Required.
+         a IO[bytes] type. Required.
         :type reprotect_input: ~azure.mgmt.recoveryservicessiterecovery.models.ReverseReplicationInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3611,7 +3268,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3621,24 +3278,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_reprotect.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reProtect"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _resolve_health_errors_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        resolve_health_input: Union[_models.ResolveHealthInput, IO],
+        resolve_health_input: Union[_models.ResolveHealthInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -3664,7 +3319,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(resolve_health_input, "ResolveHealthInput")
 
-        request = build_resolve_health_errors_request(
+        _request = build_resolve_health_errors_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -3675,16 +3330,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._resolve_health_errors_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3698,13 +3352,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _resolve_health_errors_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/resolveHealthErrors"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_resolve_health_errors(
@@ -3732,14 +3382,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3753,7 +3395,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        resolve_health_input: IO,
+        resolve_health_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3769,18 +3411,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param resolve_health_input: Health issue input object. Required.
-        :type resolve_health_input: IO
+        :type resolve_health_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3794,7 +3428,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        resolve_health_input: Union[_models.ResolveHealthInput, IO],
+        resolve_health_input: Union[_models.ResolveHealthInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Resolve health errors.
@@ -3808,20 +3442,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param resolve_health_input: Health issue input object. Is either a ResolveHealthInput type or
-         a IO type. Required.
+         a IO[bytes] type. Required.
         :type resolve_health_input: ~azure.mgmt.recoveryservicessiterecovery.models.ResolveHealthInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3855,7 +3478,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3865,24 +3488,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resolve_health_errors.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/resolveHealthErrors"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _switch_provider_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        switch_provider_input: Union[_models.SwitchProviderInput, IO],
+        switch_provider_input: Union[_models.SwitchProviderInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -3908,7 +3529,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(switch_provider_input, "SwitchProviderInput")
 
-        request = build_switch_provider_request(
+        _request = build_switch_provider_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -3919,16 +3540,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._switch_provider_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3942,13 +3562,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _switch_provider_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/switchProvider"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_switch_provider(
@@ -3977,14 +3593,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -3998,7 +3606,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        switch_provider_input: IO,
+        switch_provider_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4014,18 +3622,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param switch_provider_input: Switch provider input. Required.
-        :type switch_provider_input: IO
+        :type switch_provider_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4039,7 +3639,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        switch_provider_input: Union[_models.SwitchProviderInput, IO],
+        switch_provider_input: Union[_models.SwitchProviderInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Execute switch provider.
@@ -4053,20 +3653,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param switch_provider_input: Switch provider input. Is either a SwitchProviderInput type or a
-         IO type. Required.
+         IO[bytes] type. Required.
         :type switch_provider_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.SwitchProviderInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.SwitchProviderInput or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4100,7 +3689,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4112,24 +3701,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_switch_provider.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/switchProvider"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _test_failover_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        testfailover_input: Union[_models.TestFailoverInput, IO],
+        testfailover_input: Union[_models.TestFailoverInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -4155,7 +3742,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(testfailover_input, "TestFailoverInput")
 
-        request = build_test_failover_request(
+        _request = build_test_failover_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -4166,16 +3753,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4189,13 +3775,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailover"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_test_failover(
@@ -4223,14 +3805,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4244,7 +3818,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        testfailover_input: IO,
+        testfailover_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4260,18 +3834,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param testfailover_input: Test failover input. Required.
-        :type testfailover_input: IO
+        :type testfailover_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4285,7 +3851,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        testfailover_input: Union[_models.TestFailoverInput, IO],
+        testfailover_input: Union[_models.TestFailoverInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Execute test failover.
@@ -4298,21 +3864,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :param testfailover_input: Test failover input. Is either a TestFailoverInput type or a IO
-         type. Required.
+        :param testfailover_input: Test failover input. Is either a TestFailoverInput type or a
+         IO[bytes] type. Required.
         :type testfailover_input: ~azure.mgmt.recoveryservicessiterecovery.models.TestFailoverInput or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4346,7 +3901,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4356,24 +3911,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailover"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _test_failover_cleanup_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        cleanup_input: Union[_models.TestFailoverCleanupInput, IO],
+        cleanup_input: Union[_models.TestFailoverCleanupInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -4399,7 +3952,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(cleanup_input, "TestFailoverCleanupInput")
 
-        request = build_test_failover_cleanup_request(
+        _request = build_test_failover_cleanup_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -4410,16 +3963,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_failover_cleanup_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4433,13 +3985,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_failover_cleanup_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailoverCleanup"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_test_failover_cleanup(
@@ -4467,14 +4015,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4488,7 +4028,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        cleanup_input: IO,
+        cleanup_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4504,18 +4044,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param cleanup_input: Test failover cleanup input. Required.
-        :type cleanup_input: IO
+        :type cleanup_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4529,7 +4061,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        cleanup_input: Union[_models.TestFailoverCleanupInput, IO],
+        cleanup_input: Union[_models.TestFailoverCleanupInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Execute test failover cleanup.
@@ -4543,20 +4075,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param cleanup_input: Test failover cleanup input. Is either a TestFailoverCleanupInput type or
-         a IO type. Required.
+         a IO[bytes] type. Required.
         :type cleanup_input: ~azure.mgmt.recoveryservicessiterecovery.models.TestFailoverCleanupInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4590,7 +4111,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4600,24 +4121,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test_failover_cleanup.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailoverCleanup"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _unplanned_failover_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        failover_input: Union[_models.UnplannedFailoverInput, IO],
+        failover_input: Union[_models.UnplannedFailoverInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -4643,7 +4162,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(failover_input, "UnplannedFailoverInput")
 
-        request = build_unplanned_failover_request(
+        _request = build_unplanned_failover_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -4654,16 +4173,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._unplanned_failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4677,13 +4195,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _unplanned_failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/unplannedFailover"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_unplanned_failover(
@@ -4711,14 +4225,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4732,7 +4238,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        failover_input: IO,
+        failover_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4748,18 +4254,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param failover_input: Failover input. Required.
-        :type failover_input: IO
+        :type failover_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4773,7 +4271,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        failover_input: Union[_models.UnplannedFailoverInput, IO],
+        failover_input: Union[_models.UnplannedFailoverInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Execute unplanned failover.
@@ -4786,21 +4284,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
-        :param failover_input: Failover input. Is either a UnplannedFailoverInput type or a IO type.
-         Required.
+        :param failover_input: Failover input. Is either a UnplannedFailoverInput type or a IO[bytes]
+         type. Required.
         :type failover_input: ~azure.mgmt.recoveryservicessiterecovery.models.UnplannedFailoverInput or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4834,7 +4321,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4844,24 +4331,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_unplanned_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/unplannedFailover"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_appliance_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        appliance_update_input: Union[_models.UpdateApplianceForReplicationProtectedItemInput, IO],
+        appliance_update_input: Union[_models.UpdateApplianceForReplicationProtectedItemInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -4887,7 +4372,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(appliance_update_input, "UpdateApplianceForReplicationProtectedItemInput")
 
-        request = build_update_appliance_request(
+        _request = build_update_appliance_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -4898,16 +4383,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_appliance_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4921,13 +4405,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_appliance_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateAppliance"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_appliance(
@@ -4956,14 +4436,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -4977,7 +4449,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        appliance_update_input: IO,
+        appliance_update_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4993,18 +4465,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param appliance_update_input: Appliance update protection input. Required.
-        :type appliance_update_input: IO
+        :type appliance_update_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -5018,7 +4482,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        appliance_update_input: Union[_models.UpdateApplianceForReplicationProtectedItemInput, IO],
+        appliance_update_input: Union[_models.UpdateApplianceForReplicationProtectedItemInput, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Updates appliance for replication protected Item.
@@ -5032,21 +4496,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :param replicated_protected_item_name: Replication protected item name. Required.
         :type replicated_protected_item_name: str
         :param appliance_update_input: Appliance update protection input. Is either a
-         UpdateApplianceForReplicationProtectedItemInput type or a IO type. Required.
+         UpdateApplianceForReplicationProtectedItemInput type or a IO[bytes] type. Required.
         :type appliance_update_input:
          ~azure.mgmt.recoveryservicessiterecovery.models.UpdateApplianceForReplicationProtectedItemInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -5080,7 +4533,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -5090,24 +4543,22 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_appliance.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateAppliance"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_mobility_service_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        update_mobility_service_request: Union[_models.UpdateMobilityServiceRequest, IO],
+        update_mobility_service_request: Union[_models.UpdateMobilityServiceRequest, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ReplicationProtectedItem]:
         error_map = {
@@ -5133,7 +4584,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(update_mobility_service_request, "UpdateMobilityServiceRequest")
 
-        request = build_update_mobility_service_request(
+        _request = build_update_mobility_service_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             replicated_protected_item_name=replicated_protected_item_name,
@@ -5144,16 +4595,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_mobility_service_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5171,13 +4621,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_mobility_service_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateMobilityService"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_mobility_service(
@@ -5210,14 +4656,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -5231,7 +4669,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        update_mobility_service_request: IO,
+        update_mobility_service_request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -5251,18 +4689,10 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type replicated_protected_item_name: str
         :param update_mobility_service_request: Request to update the mobility service on the protected
          item. Required.
-        :type update_mobility_service_request: IO
+        :type update_mobility_service_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -5276,7 +4706,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         replicated_protected_item_name: str,
-        update_mobility_service_request: Union[_models.UpdateMobilityServiceRequest, IO],
+        update_mobility_service_request: Union[_models.UpdateMobilityServiceRequest, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ReplicationProtectedItem]:
         """Update the mobility service on a protected item.
@@ -5293,20 +4723,9 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
          be updated. Required.
         :type replicated_protected_item_name: str
         :param update_mobility_service_request: Request to update the mobility service on the protected
-         item. Is either a UpdateMobilityServiceRequest type or a IO type. Required.
+         item. Is either a UpdateMobilityServiceRequest type or a IO[bytes] type. Required.
         :type update_mobility_service_request:
-         ~azure.mgmt.recoveryservicessiterecovery.models.UpdateMobilityServiceRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.UpdateMobilityServiceRequest or IO[bytes]
         :return: An instance of LROPoller that returns either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -5340,7 +4759,7 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -5352,17 +4771,15 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ReplicationProtectedItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_mobility_service.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateMobilityService"
-    }
+        return LROPoller[_models.ReplicationProtectedItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list(
@@ -5377,7 +4794,6 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         :type skip_token: str
         :param filter: OData filter options. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ReplicationProtectedItem or the result of
          cls(response)
         :rtype:
@@ -5401,19 +4817,18 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     skip_token=skip_token,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -5425,13 +4840,13 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ReplicationProtectedItemCollection", pipeline_response)
@@ -5441,11 +4856,11 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -5456,7 +4871,3 @@ class ReplicationProtectedItemsOperations:  # pylint: disable=too-many-public-me
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectedItems"
-    }

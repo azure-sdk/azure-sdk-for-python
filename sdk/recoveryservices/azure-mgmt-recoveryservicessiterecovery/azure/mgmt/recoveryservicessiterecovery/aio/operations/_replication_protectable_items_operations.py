@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -57,7 +57,7 @@ class ReplicationProtectableItemsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_replication_protection_containers(
+    def list_by_replication_protection_containers(  # pylint: disable=name-too-long
         self,
         fabric_name: str,
         protection_container_name: str,
@@ -80,7 +80,6 @@ class ReplicationProtectableItemsOperations:
         :type take: str
         :param skip_token: skipToken OData query parameter. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ProtectableItem or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.ProtectableItem]
@@ -103,7 +102,7 @@ class ReplicationProtectableItemsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_replication_protection_containers_request(
+                _request = build_list_by_replication_protection_containers_request(
                     fabric_name=fabric_name,
                     protection_container_name=protection_container_name,
                     resource_name=self._config.resource_name,
@@ -113,12 +112,11 @@ class ReplicationProtectableItemsOperations:
                     take=take,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list_by_replication_protection_containers.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -130,13 +128,13 @@ class ReplicationProtectableItemsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ProtectableItemCollection", pipeline_response)
@@ -146,11 +144,11 @@ class ReplicationProtectableItemsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -161,10 +159,6 @@ class ReplicationProtectableItemsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_replication_protection_containers.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems"
-    }
 
     @distributed_trace_async
     async def get(
@@ -180,7 +174,6 @@ class ReplicationProtectableItemsOperations:
         :type protection_container_name: str
         :param protectable_item_name: Protectable item name. Required.
         :type protectable_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ProtectableItem or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.ProtectableItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -199,7 +192,7 @@ class ReplicationProtectableItemsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ProtectableItem] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             protectable_item_name=protectable_item_name,
@@ -207,16 +200,15 @@ class ReplicationProtectableItemsOperations:
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -228,10 +220,6 @@ class ReplicationProtectableItemsOperations:
         deserialized = self._deserialize("ProtectableItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}"
-    }
+        return deserialized  # type: ignore

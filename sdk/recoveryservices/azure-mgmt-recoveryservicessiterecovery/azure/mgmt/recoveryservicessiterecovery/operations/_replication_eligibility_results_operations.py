@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -40,7 +40,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +71,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -123,7 +123,6 @@ class ReplicationEligibilityResultsOperations:
 
         :param virtual_machine_name: Virtual Machine name. Required.
         :type virtual_machine_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ReplicationEligibilityResultsCollection or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationEligibilityResultsCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -142,21 +141,20 @@ class ReplicationEligibilityResultsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ReplicationEligibilityResultsCollection] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             virtual_machine_name=virtual_machine_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -168,13 +166,9 @@ class ReplicationEligibilityResultsOperations:
         deserialized = self._deserialize("ReplicationEligibilityResultsCollection", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get(self, virtual_machine_name: str, **kwargs: Any) -> _models.ReplicationEligibilityResults:
@@ -184,7 +178,6 @@ class ReplicationEligibilityResultsOperations:
 
         :param virtual_machine_name: Virtual Machine name. Required.
         :type virtual_machine_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ReplicationEligibilityResults or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationEligibilityResults
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -203,21 +196,20 @@ class ReplicationEligibilityResultsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ReplicationEligibilityResults] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             virtual_machine_name=virtual_machine_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -229,10 +221,6 @@ class ReplicationEligibilityResultsOperations:
         deserialized = self._deserialize("ReplicationEligibilityResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default"
-    }
+        return deserialized  # type: ignore

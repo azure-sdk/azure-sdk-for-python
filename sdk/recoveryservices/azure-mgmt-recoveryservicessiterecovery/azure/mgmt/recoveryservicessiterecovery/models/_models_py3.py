@@ -28,9 +28,9 @@ class AddDisksProviderSpecificInput(_serialization.Model):
     """Add Disks provider specific input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    A2AAddDisksInput
+    A2AAddDisksInput, InMageRcmAddDisksInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -44,7 +44,7 @@ class AddDisksProviderSpecificInput(_serialization.Model):
         "instance_type": {"key": "instanceType", "type": "str"},
     }
 
-    _subtype_map = {"instance_type": {"A2A": "A2AAddDisksInput"}}
+    _subtype_map = {"instance_type": {"A2A": "A2AAddDisksInput", "InMageRcm": "InMageRcmAddDisksInput"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -55,7 +55,7 @@ class AddDisksProviderSpecificInput(_serialization.Model):
 class A2AAddDisksInput(AddDisksProviderSpecificInput):
     """A2A add disk(s) input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -105,7 +105,7 @@ class ApplyRecoveryPointProviderSpecificInput(_serialization.Model):
     HyperVReplicaAzureApplyRecoveryPointInput, InMageAzureV2ApplyRecoveryPointInput,
     InMageRcmApplyRecoveryPointInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -138,7 +138,7 @@ class ApplyRecoveryPointProviderSpecificInput(_serialization.Model):
 class A2AApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
     """ApplyRecoveryPoint input specific to A2A provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -158,14 +158,14 @@ class A2AApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
         self.instance_type: str = "A2A"
 
 
-class ReplicationProviderSpecificContainerCreationInput(_serialization.Model):
+class ReplicationProviderSpecificContainerCreationInput(_serialization.Model):  # pylint: disable=name-too-long
     """Provider specific input for container creation operation.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2AContainerCreationInput, A2ACrossClusterMigrationContainerCreationInput,
     VMwareCbtContainerCreationInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -196,7 +196,7 @@ class ReplicationProviderSpecificContainerCreationInput(_serialization.Model):
 class A2AContainerCreationInput(ReplicationProviderSpecificContainerCreationInput):
     """A2A cloud creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -216,13 +216,13 @@ class A2AContainerCreationInput(ReplicationProviderSpecificContainerCreationInpu
         self.instance_type: str = "A2A"
 
 
-class ReplicationProviderSpecificContainerMappingInput(_serialization.Model):
+class ReplicationProviderSpecificContainerMappingInput(_serialization.Model):  # pylint: disable=name-too-long
     """Provider specific input for pairing operations.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2AContainerMappingInput, VMwareCbtContainerMappingInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -247,7 +247,7 @@ class ReplicationProviderSpecificContainerMappingInput(_serialization.Model):
 class A2AContainerMappingInput(ReplicationProviderSpecificContainerMappingInput):
     """A2A container mapping input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -303,13 +303,13 @@ class A2AContainerMappingInput(ReplicationProviderSpecificContainerMappingInput)
         self.automation_account_authentication_type = automation_account_authentication_type
 
 
-class CreateProtectionIntentProviderSpecificDetails(_serialization.Model):
+class CreateProtectionIntentProviderSpecificDetails(_serialization.Model):  # pylint: disable=name-too-long
     """Create protection intent provider specific input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2ACreateProtectionIntentInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -336,7 +336,7 @@ class A2ACreateProtectionIntentInput(
 ):  # pylint: disable=too-many-instance-attributes
     """A2A create protection intent input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -585,10 +585,12 @@ class A2ACreateProtectionIntentInput(
         self.automation_account_arm_id = automation_account_arm_id
 
 
-class A2ACrossClusterMigrationApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
+class A2ACrossClusterMigrationApplyRecoveryPointInput(
+    ApplyRecoveryPointProviderSpecificInput
+):  # pylint: disable=name-too-long
     """ApplyRecoveryPoint input specific to A2ACrossClusterMigration provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -608,10 +610,12 @@ class A2ACrossClusterMigrationApplyRecoveryPointInput(ApplyRecoveryPointProvider
         self.instance_type: str = "A2ACrossClusterMigration"
 
 
-class A2ACrossClusterMigrationContainerCreationInput(ReplicationProviderSpecificContainerCreationInput):
+class A2ACrossClusterMigrationContainerCreationInput(
+    ReplicationProviderSpecificContainerCreationInput
+):  # pylint: disable=name-too-long
     """A2ACrossClusterMigration cloud creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -639,7 +643,7 @@ class EnableProtectionProviderSpecificInput(_serialization.Model):
     HyperVReplicaAzureEnableProtectionInput, InMageEnableProtectionInput,
     InMageAzureV2EnableProtectionInput, InMageRcmEnableProtectionInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -670,10 +674,12 @@ class EnableProtectionProviderSpecificInput(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class A2ACrossClusterMigrationEnableProtectionInput(EnableProtectionProviderSpecificInput):
+class A2ACrossClusterMigrationEnableProtectionInput(
+    EnableProtectionProviderSpecificInput
+):  # pylint: disable=name-too-long
     """A2A Cross-Cluster Migration enable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -717,7 +723,7 @@ class PolicyProviderSpecificInput(_serialization.Model):
     InMageRcmPolicyCreationInput, InMageRcmFailbackPolicyCreationInput,
     VMwareCbtPolicyCreationInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -751,10 +757,10 @@ class PolicyProviderSpecificInput(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class A2ACrossClusterMigrationPolicyCreationInput(PolicyProviderSpecificInput):
+class A2ACrossClusterMigrationPolicyCreationInput(PolicyProviderSpecificInput):  # pylint: disable=name-too-long
     """A2A Cross-Cluster Migration Policy creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -784,7 +790,7 @@ class ReplicationProviderSpecificSettings(_serialization.Model):
     InMageReplicationDetails, InMageAzureV2ReplicationDetails, InMageRcmReplicationDetails,
     InMageRcmFailbackReplicationDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -819,10 +825,10 @@ class ReplicationProviderSpecificSettings(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class A2ACrossClusterMigrationReplicationDetails(ReplicationProviderSpecificSettings):
+class A2ACrossClusterMigrationReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: disable=name-too-long
     """A2A provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -898,7 +904,7 @@ class A2ACrossClusterMigrationReplicationDetails(ReplicationProviderSpecificSett
 class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint: disable=too-many-instance-attributes
     """A2A enable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -1076,7 +1082,7 @@ class EventProviderSpecificDetails(_serialization.Model):
     HyperVReplicaAzureEventDetails, HyperVReplicaBaseEventDetails, InMageAzureV2EventDetails,
     InMageRcmEventDetails, InMageRcmFailbackEventDetails, VMwareCbtEventDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -1113,7 +1119,7 @@ class EventProviderSpecificDetails(_serialization.Model):
 class A2AEventDetails(EventProviderSpecificDetails):
     """Model class for event details of a A2A event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -1329,7 +1335,7 @@ class A2AFabricSpecificLocationDetails(_serialization.Model):  # pylint: disable
 class A2APolicyCreationInput(PolicyProviderSpecificInput):
     """A2A Policy creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -1401,7 +1407,7 @@ class PolicyProviderSpecificDetails(_serialization.Model):
     InMageAzureV2PolicyDetails, InMageBasePolicyDetails, InMageRcmPolicyDetails,
     InMageRcmFailbackPolicyDetails, VmwareCbtPolicyDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -1440,7 +1446,7 @@ class PolicyProviderSpecificDetails(_serialization.Model):
 class A2APolicyDetails(PolicyProviderSpecificDetails):
     """A2A specific policy details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -1919,14 +1925,14 @@ class A2AProtectedManagedDiskDetails(_serialization.Model):  # pylint: disable=t
         self.tfo_disk_name = tfo_disk_name
 
 
-class ProtectionContainerMappingProviderSpecificDetails(_serialization.Model):
+class ProtectionContainerMappingProviderSpecificDetails(_serialization.Model):  # pylint: disable=name-too-long
     """Container mapping provider specific details.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2AProtectionContainerMappingDetails, InMageRcmProtectionContainerMappingDetails,
     VMwareCbtProtectionContainerMappingDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -1957,7 +1963,7 @@ class ProtectionContainerMappingProviderSpecificDetails(_serialization.Model):
 class A2AProtectionContainerMappingDetails(ProtectionContainerMappingProviderSpecificDetails):
     """A2A provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -2030,7 +2036,7 @@ class A2AProtectionContainerMappingDetails(ProtectionContainerMappingProviderSpe
 class A2AProtectionIntentDiskInputDetails(_serialization.Model):
     """Azure VM unmanaged disk input details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_uri: The disk Uri. Required.
     :vartype disk_uri: str
@@ -2083,10 +2089,10 @@ class A2AProtectionIntentDiskInputDetails(_serialization.Model):
         self.primary_staging_storage_account_custom_input = primary_staging_storage_account_custom_input
 
 
-class A2AProtectionIntentManagedDiskInputDetails(_serialization.Model):
+class A2AProtectionIntentManagedDiskInputDetails(_serialization.Model):  # pylint: disable=name-too-long
     """Azure VM managed disk input details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: The disk Id. Required.
     :vartype disk_id: str
@@ -2181,7 +2187,7 @@ class ProviderSpecificRecoveryPointDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2ARecoveryPointDetails, InMageAzureV2RecoveryPointDetails, InMageRcmRecoveryPointDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the provider type. Required.
     :vartype instance_type: str
@@ -2212,7 +2218,7 @@ class ProviderSpecificRecoveryPointDetails(_serialization.Model):
 class A2ARecoveryPointDetails(ProviderSpecificRecoveryPointDetails):
     """A2A provider specific recovery point details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the provider type. Required.
     :vartype instance_type: str
@@ -2261,7 +2267,7 @@ class RemoveDisksProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2ARemoveDisksInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -2286,7 +2292,7 @@ class RemoveDisksProviderSpecificInput(_serialization.Model):
 class A2ARemoveDisksInput(RemoveDisksProviderSpecificInput):
     """A2A remove disk(s) input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -2330,7 +2336,7 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -2766,13 +2772,13 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
         self.churn_option_selected = None
 
 
-class ReplicationProtectionIntentProviderSpecificSettings(_serialization.Model):
+class ReplicationProtectionIntentProviderSpecificSettings(_serialization.Model):  # pylint: disable=name-too-long
     """Replication provider specific settings.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2AReplicationIntentDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -2799,7 +2805,7 @@ class A2AReplicationIntentDetails(
 ):  # pylint: disable=too-many-instance-attributes
     """A2A provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -3031,7 +3037,7 @@ class ReverseReplicationProviderSpecificInput(_serialization.Model):
     A2AReprotectInput, HyperVReplicaAzureReprotectInput, InMageReprotectInput,
     InMageAzureV2ReprotectInput, InMageRcmReprotectInput, InMageRcmFailbackReprotectInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3065,7 +3071,7 @@ class ReverseReplicationProviderSpecificInput(_serialization.Model):
 class A2AReprotectInput(ReverseReplicationProviderSpecificInput):
     """Azure specific reprotect input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3139,7 +3145,7 @@ class SwitchProtectionProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2ASwitchProtectionInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -3164,7 +3170,7 @@ class SwitchProtectionProviderSpecificInput(_serialization.Model):
 class A2ASwitchProtectionInput(SwitchProtectionProviderSpecificInput):  # pylint: disable=too-many-instance-attributes
     """A2A specific switch protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -3292,7 +3298,7 @@ class TestFailoverProviderSpecificInput(_serialization.Model):
     A2ATestFailoverInput, HyperVReplicaAzureTestFailoverInput, InMageTestFailoverInput,
     InMageAzureV2TestFailoverInput, InMageRcmTestFailoverInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3325,7 +3331,7 @@ class TestFailoverProviderSpecificInput(_serialization.Model):
 class A2ATestFailoverInput(TestFailoverProviderSpecificInput):
     """A2A provider specific input for test failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3376,7 +3382,7 @@ class UnplannedFailoverProviderSpecificInput(_serialization.Model):
     InMageUnplannedFailoverInput, InMageAzureV2UnplannedFailoverInput,
     InMageRcmUnplannedFailoverInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3409,7 +3415,7 @@ class UnplannedFailoverProviderSpecificInput(_serialization.Model):
 class A2AUnplannedFailoverInput(UnplannedFailoverProviderSpecificInput):
     """A2A provider specific input for unplanned failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3488,13 +3494,13 @@ class A2AUnprotectedDiskDetails(_serialization.Model):
         self.disk_auto_protection_status = disk_auto_protection_status
 
 
-class ReplicationProviderSpecificUpdateContainerMappingInput(_serialization.Model):
+class ReplicationProviderSpecificUpdateContainerMappingInput(_serialization.Model):  # pylint: disable=name-too-long
     """Provider specific input for update pairing operations.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2AUpdateContainerMappingInput, InMageRcmUpdateContainerMappingInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3521,7 +3527,7 @@ class ReplicationProviderSpecificUpdateContainerMappingInput(_serialization.Mode
 class A2AUpdateContainerMappingInput(ReplicationProviderSpecificUpdateContainerMappingInput):
     """A2A update protection container mapping.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3577,14 +3583,14 @@ class A2AUpdateContainerMappingInput(ReplicationProviderSpecificUpdateContainerM
         self.automation_account_authentication_type = automation_account_authentication_type
 
 
-class UpdateReplicationProtectedItemProviderInput(_serialization.Model):
+class UpdateReplicationProtectedItemProviderInput(_serialization.Model):  # pylint: disable=name-too-long
     """Update replication protected item provider specific input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     A2AUpdateReplicationProtectedItemInput, HyperVReplicaAzureUpdateReplicationProtectedItemInput,
     InMageAzureV2UpdateReplicationProtectedItemInput, InMageRcmUpdateReplicationProtectedItemInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3616,7 +3622,7 @@ class UpdateReplicationProtectedItemProviderInput(_serialization.Model):
 class A2AUpdateReplicationProtectedItemInput(UpdateReplicationProtectedItemProviderInput):
     """InMage Azure V2 input to update replication protected item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -3711,7 +3717,7 @@ class A2AUpdateReplicationProtectedItemInput(UpdateReplicationProtectedItemProvi
 class A2AVmDiskInputDetails(_serialization.Model):
     """A2A disk input details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_uri: The disk Uri. Required.
     :vartype disk_uri: str
@@ -3760,7 +3766,7 @@ class A2AVmDiskInputDetails(_serialization.Model):
 class A2AVmManagedDiskInputDetails(_serialization.Model):
     """A2A managed disk input details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: The disk Id. Required.
     :vartype disk_id: str
@@ -3953,7 +3959,7 @@ class AddDisksInput(_serialization.Model):
 class AddDisksInputProperties(_serialization.Model):
     """Add Disks input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_specific_details: The ReplicationProviderInput. For HyperVReplicaAzure provider,
      it will be AzureEnableProtectionInput object. For San provider, it will be
@@ -3985,7 +3991,7 @@ class AddDisksInputProperties(_serialization.Model):
 class AddRecoveryServicesProviderInput(_serialization.Model):
     """Input required to add a provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: The properties of an add provider request. Required.
     :vartype properties:
@@ -4010,10 +4016,10 @@ class AddRecoveryServicesProviderInput(_serialization.Model):
         self.properties = properties
 
 
-class AddRecoveryServicesProviderInputProperties(_serialization.Model):
+class AddRecoveryServicesProviderInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The properties of an add provider request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar machine_name: The name of the machine where the provider is getting added. Required.
     :vartype machine_name: str
@@ -4556,7 +4562,7 @@ class ApplianceSpecificDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     InMageRcmApplianceSpecificDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -4581,7 +4587,7 @@ class ApplianceSpecificDetails(_serialization.Model):
 class ApplyRecoveryPointInput(_serialization.Model):
     """Input to apply recovery point.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: The input properties to apply recovery point. Required.
     :vartype properties:
@@ -4609,7 +4615,7 @@ class ApplyRecoveryPointInput(_serialization.Model):
 class ApplyRecoveryPointInputProperties(_serialization.Model):
     """Input properties to apply recovery point.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar recovery_point_id: The recovery point Id.
     :vartype recovery_point_id: str
@@ -4657,7 +4663,7 @@ class JobDetails(_serialization.Model):
     AsrJobDetails, ExportJobDetails, FailoverJobDetails, SwitchProtectionJobDetails,
     TestFailoverJobDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
      values). Required.
@@ -4700,7 +4706,7 @@ class JobDetails(_serialization.Model):
 class AsrJobDetails(JobDetails):
     """This class represents job details based on specific job type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
      values). Required.
@@ -4846,7 +4852,7 @@ class TaskTypeDetails(_serialization.Model):
     AutomationRunbookTaskDetails, ConsistencyCheckTaskDetails, JobTaskDetails,
     ManualActionTaskDetails, ScriptActionTaskDetails, VmNicUpdatesTaskDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -4880,7 +4886,7 @@ class TaskTypeDetails(_serialization.Model):
 class AutomationRunbookTaskDetails(TaskTypeDetails):
     """This class represents the task details for an automation runbook.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -4974,7 +4980,7 @@ class FabricSpecificCreationInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureFabricCreationInput, InMageRcmFabricCreationInput, VMwareV2FabricCreationInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Required.
     :vartype instance_type: str
@@ -5005,7 +5011,7 @@ class FabricSpecificCreationInput(_serialization.Model):
 class AzureFabricCreationInput(FabricSpecificCreationInput):
     """Fabric provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Required.
     :vartype instance_type: str
@@ -5039,7 +5045,7 @@ class FabricSpecificDetails(_serialization.Model):
     AzureFabricSpecificDetails, HyperVSiteDetails, InMageRcmFabricSpecificDetails, VmmDetails,
     VMwareDetails, VMwareV2FabricSpecificDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -5073,7 +5079,7 @@ class FabricSpecificDetails(_serialization.Model):
 class AzureFabricSpecificDetails(FabricSpecificDetails):
     """Azure Fabric Specific Details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -5144,7 +5150,7 @@ class FabricSpecificCreateNetworkMappingInput(_serialization.Model):
     AzureToAzureCreateNetworkMappingInput, VmmToAzureCreateNetworkMappingInput,
     VmmToVmmCreateNetworkMappingInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -5175,7 +5181,7 @@ class FabricSpecificCreateNetworkMappingInput(_serialization.Model):
 class AzureToAzureCreateNetworkMappingInput(FabricSpecificCreateNetworkMappingInput):
     """Create network mappings input properties/behavior specific to Azure to Azure Network mapping.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -5210,7 +5216,7 @@ class NetworkMappingFabricSpecificSettings(_serialization.Model):
     AzureToAzureNetworkMappingSettings, VmmToAzureNetworkMappingSettings,
     VmmToVmmNetworkMappingSettings
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -5241,7 +5247,7 @@ class NetworkMappingFabricSpecificSettings(_serialization.Model):
 class AzureToAzureNetworkMappingSettings(NetworkMappingFabricSpecificSettings):
     """A2A Network Mapping fabric specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -5287,7 +5293,7 @@ class FabricSpecificUpdateNetworkMappingInput(_serialization.Model):
     AzureToAzureUpdateNetworkMappingInput, VmmToAzureUpdateNetworkMappingInput,
     VmmToVmmUpdateNetworkMappingInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -5318,7 +5324,7 @@ class FabricSpecificUpdateNetworkMappingInput(_serialization.Model):
 class AzureToAzureUpdateNetworkMappingInput(FabricSpecificUpdateNetworkMappingInput):
     """Updates network mappings input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -5497,7 +5503,7 @@ class ConfigurationSettings(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     HyperVVirtualMachineDetails, ReplicationGroupDetails, VMwareVirtualMachineDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -5592,7 +5598,7 @@ class ConfigureAlertRequestProperties(_serialization.Model):
 class ConsistencyCheckTaskDetails(TaskTypeDetails):
     """This class contains monitoring details of all the inconsistent Protected Entities in Vmm.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -5624,7 +5630,7 @@ class ConsistencyCheckTaskDetails(TaskTypeDetails):
 class CreateNetworkMappingInput(_serialization.Model):
     """Create network mappings input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Input properties for creating network mapping. Required.
     :vartype properties:
@@ -5652,7 +5658,7 @@ class CreateNetworkMappingInput(_serialization.Model):
 class CreateNetworkMappingInputProperties(_serialization.Model):
     """Common input details for network mapping operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar recovery_fabric_name: Recovery fabric Name.
     :vartype recovery_fabric_name: str
@@ -5820,7 +5826,7 @@ class CreateProtectionContainerMappingInput(_serialization.Model):
         self.properties = properties
 
 
-class CreateProtectionContainerMappingInputProperties(_serialization.Model):
+class CreateProtectionContainerMappingInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Configure pairing input properties.
 
     :ivar target_protection_container_id: The target unique protection container name.
@@ -5923,7 +5929,7 @@ class CreateProtectionIntentProperties(_serialization.Model):
 class CreateRecoveryPlanInput(_serialization.Model):
     """Create recovery plan input class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Recovery plan creation properties. Required.
     :vartype properties:
@@ -5951,7 +5957,7 @@ class CreateRecoveryPlanInput(_serialization.Model):
 class CreateRecoveryPlanInputProperties(_serialization.Model):
     """Recovery plan creation properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar primary_fabric_id: The primary fabric Id. Required.
     :vartype primary_fabric_id: str
@@ -6215,7 +6221,7 @@ class DataStoreUtilizationDetails(_serialization.Model):
 class DisableProtectionInput(_serialization.Model):
     """Disable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Disable protection input properties. Required.
     :vartype properties:
@@ -6287,7 +6293,7 @@ class DisableProtectionProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     InMageDisableProtectionProviderSpecificInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -6656,7 +6662,7 @@ class DraDetails(_serialization.Model):
 class EnableMigrationInput(_serialization.Model):
     """Enable migration input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Enable migration input properties. Required.
     :vartype properties:
@@ -6684,7 +6690,7 @@ class EnableMigrationInput(_serialization.Model):
 class EnableMigrationInputProperties(_serialization.Model):
     """Enable migration input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar policy_id: The policy Id. Required.
     :vartype policy_id: str
@@ -6728,7 +6734,7 @@ class EnableMigrationProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtEnableMigrationInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -7214,7 +7220,7 @@ class EventSpecificDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     JobStatusEventDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -7242,7 +7248,7 @@ class ProtectionProfileCustomDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExistingProtectionProfile, NewProtectionProfile
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7267,7 +7273,7 @@ class ProtectionProfileCustomDetails(_serialization.Model):
 class ExistingProtectionProfile(ProtectionProfileCustomDetails):
     """Existing storage account input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7303,7 +7309,7 @@ class RecoveryAvailabilitySetCustomDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExistingRecoveryAvailabilitySet
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7328,7 +7334,7 @@ class RecoveryAvailabilitySetCustomDetails(_serialization.Model):
 class ExistingRecoveryAvailabilitySet(RecoveryAvailabilitySetCustomDetails):
     """Existing recovery availability set input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7357,13 +7363,13 @@ class ExistingRecoveryAvailabilitySet(RecoveryAvailabilitySetCustomDetails):
         self.recovery_availability_set_id = recovery_availability_set_id
 
 
-class RecoveryProximityPlacementGroupCustomDetails(_serialization.Model):
+class RecoveryProximityPlacementGroupCustomDetails(_serialization.Model):  # pylint: disable=name-too-long
     """Recovery Proximity placement group custom input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExistingRecoveryProximityPlacementGroup
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7388,7 +7394,7 @@ class RecoveryProximityPlacementGroupCustomDetails(_serialization.Model):
 class ExistingRecoveryProximityPlacementGroup(RecoveryProximityPlacementGroupCustomDetails):
     """Existing recovery proximity placement group input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7423,7 +7429,7 @@ class RecoveryResourceGroupCustomDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExistingRecoveryResourceGroup
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7448,7 +7454,7 @@ class RecoveryResourceGroupCustomDetails(_serialization.Model):
 class ExistingRecoveryResourceGroup(RecoveryResourceGroupCustomDetails):
     """Existing recovery resource group input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7481,7 +7487,7 @@ class RecoveryVirtualNetworkCustomDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExistingRecoveryVirtualNetwork, NewRecoveryVirtualNetwork
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7506,7 +7512,7 @@ class RecoveryVirtualNetworkCustomDetails(_serialization.Model):
 class ExistingRecoveryVirtualNetwork(RecoveryVirtualNetworkCustomDetails):
     """Existing recovery virtual network input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7550,7 +7556,7 @@ class StorageAccountCustomDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExistingStorageAccount
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7575,7 +7581,7 @@ class StorageAccountCustomDetails(_serialization.Model):
 class ExistingStorageAccount(StorageAccountCustomDetails):
     """Existing storage account input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -7608,7 +7614,7 @@ class ExistingStorageAccount(StorageAccountCustomDetails):
 class ExportJobDetails(JobDetails):
     """This class represents details for export jobs workflow.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
      values). Required.
@@ -7659,7 +7665,7 @@ class ExportJobDetails(JobDetails):
 class ExtendedLocation(_serialization.Model):
     """Extended location of the resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the extended location. Required.
     :vartype name: str
@@ -7973,7 +7979,7 @@ class JobTaskDetails(TaskTypeDetails):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     FabricReplicationGroupTaskDetails, VirtualMachineTaskDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -8010,7 +8016,7 @@ class JobTaskDetails(TaskTypeDetails):
 class FabricReplicationGroupTaskDetails(JobTaskDetails):
     """This class represents the fabric replication group task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -8058,7 +8064,7 @@ class FabricReplicationGroupTaskDetails(JobTaskDetails):
 class FailoverJobDetails(JobDetails):
     """This class represents the details for a failover job.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
      values). Required.
@@ -8325,7 +8331,7 @@ class GroupTaskDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     InlineWorkflowTaskDetails, RecoveryPlanGroupTaskDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -8611,7 +8617,7 @@ class HyperVHostDetails(_serialization.Model):
 class HyperVReplica2012EventDetails(EventProviderSpecificDetails):
     """Model class for event details of a HyperVReplica E2E event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -8667,7 +8673,7 @@ class HyperVReplica2012EventDetails(EventProviderSpecificDetails):
 class HyperVReplica2012R2EventDetails(EventProviderSpecificDetails):
     """Model class for event details of a HyperVReplica blue E2E event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -8720,10 +8726,12 @@ class HyperVReplica2012R2EventDetails(EventProviderSpecificDetails):
         self.remote_fabric_name = remote_fabric_name
 
 
-class HyperVReplicaAzureApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
+class HyperVReplicaAzureApplyRecoveryPointInput(
+    ApplyRecoveryPointProviderSpecificInput
+):  # pylint: disable=name-too-long
     """ApplyRecoveryPoint input specific to HyperVReplicaAzure provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -8769,11 +8777,13 @@ class HyperVReplicaAzureDiskInputDetails(_serialization.Model):
     :vartype disk_id: str
     :ivar log_storage_account_id: The LogStorageAccountId.
     :vartype log_storage_account_id: str
-    :ivar disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar disk_encryption_set_id: The DiskEncryptionSet ARM ID.
     :vartype disk_encryption_set_id: str
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _attribute_map = {
@@ -8781,6 +8791,7 @@ class HyperVReplicaAzureDiskInputDetails(_serialization.Model):
         "log_storage_account_id": {"key": "logStorageAccountId", "type": "str"},
         "disk_type": {"key": "diskType", "type": "str"},
         "disk_encryption_set_id": {"key": "diskEncryptionSetId", "type": "str"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -8790,6 +8801,7 @@ class HyperVReplicaAzureDiskInputDetails(_serialization.Model):
         log_storage_account_id: Optional[str] = None,
         disk_type: Optional[Union[str, "_models.DiskAccountType"]] = None,
         disk_encryption_set_id: Optional[str] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -8797,17 +8809,20 @@ class HyperVReplicaAzureDiskInputDetails(_serialization.Model):
         :paramtype disk_id: str
         :keyword log_storage_account_id: The LogStorageAccountId.
         :paramtype log_storage_account_id: str
-        :keyword disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword disk_encryption_set_id: The DiskEncryptionSet ARM ID.
         :paramtype disk_encryption_set_id: str
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.disk_id = disk_id
         self.log_storage_account_id = log_storage_account_id
         self.disk_type = disk_type
         self.disk_encryption_set_id = disk_encryption_set_id
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
 class HyperVReplicaAzureEnableProtectionInput(
@@ -8815,7 +8830,7 @@ class HyperVReplicaAzureEnableProtectionInput(
 ):  # pylint: disable=too-many-instance-attributes
     """HyperVReplicaAzure specific enable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -8825,6 +8840,8 @@ class HyperVReplicaAzureEnableProtectionInput(
     :vartype vm_name: str
     :ivar os_type: The OS type associated with VM.
     :vartype os_type: str
+    :ivar user_selected_os_name: The OS name selected by user.
+    :vartype user_selected_os_name: str
     :ivar vhd_id: The OS disk VHD id associated with VM.
     :vartype vhd_id: str
     :ivar target_storage_account_id: The storage account Id.
@@ -8863,6 +8880,9 @@ class HyperVReplicaAzureEnableProtectionInput(
      "NoLicenseType", "PAYG", and "AHUB".
     :vartype sql_server_license_type: str or
      ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+    :ivar target_vm_security_profile: The target VM security profile.
+    :vartype target_vm_security_profile:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
     :ivar target_vm_size: The target VM size.
     :vartype target_vm_size: str
     :ivar target_proximity_placement_group_id: The proximity placement group ARM Id.
@@ -8870,8 +8890,8 @@ class HyperVReplicaAzureEnableProtectionInput(
     :ivar use_managed_disks_for_replication: A value indicating whether managed disks should be
      used during replication.
     :vartype use_managed_disks_for_replication: str
-    :ivar disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar disks_to_include_for_managed_disks: The disks to include list for managed disks.
     :vartype disks_to_include_for_managed_disks:
@@ -8897,6 +8917,7 @@ class HyperVReplicaAzureEnableProtectionInput(
         "hv_host_vm_id": {"key": "hvHostVmId", "type": "str"},
         "vm_name": {"key": "vmName", "type": "str"},
         "os_type": {"key": "osType", "type": "str"},
+        "user_selected_os_name": {"key": "userSelectedOSName", "type": "str"},
         "vhd_id": {"key": "vhdId", "type": "str"},
         "target_storage_account_id": {"key": "targetStorageAccountId", "type": "str"},
         "target_azure_network_id": {"key": "targetAzureNetworkId", "type": "str"},
@@ -8912,6 +8933,7 @@ class HyperVReplicaAzureEnableProtectionInput(
         "target_availability_zone": {"key": "targetAvailabilityZone", "type": "str"},
         "license_type": {"key": "licenseType", "type": "str"},
         "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "target_vm_security_profile": {"key": "targetVmSecurityProfile", "type": "SecurityProfileProperties"},
         "target_vm_size": {"key": "targetVmSize", "type": "str"},
         "target_proximity_placement_group_id": {"key": "targetProximityPlacementGroupId", "type": "str"},
         "use_managed_disks_for_replication": {"key": "useManagedDisksForReplication", "type": "str"},
@@ -8933,6 +8955,7 @@ class HyperVReplicaAzureEnableProtectionInput(
         hv_host_vm_id: Optional[str] = None,
         vm_name: Optional[str] = None,
         os_type: Optional[str] = None,
+        user_selected_os_name: Optional[str] = None,
         vhd_id: Optional[str] = None,
         target_storage_account_id: Optional[str] = None,
         target_azure_network_id: Optional[str] = None,
@@ -8948,6 +8971,7 @@ class HyperVReplicaAzureEnableProtectionInput(
         target_availability_zone: Optional[str] = None,
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         sql_server_license_type: Optional[Union[str, "_models.SqlServerLicenseType"]] = None,
+        target_vm_security_profile: Optional["_models.SecurityProfileProperties"] = None,
         target_vm_size: Optional[str] = None,
         target_proximity_placement_group_id: Optional[str] = None,
         use_managed_disks_for_replication: Optional[str] = None,
@@ -8967,6 +8991,8 @@ class HyperVReplicaAzureEnableProtectionInput(
         :paramtype vm_name: str
         :keyword os_type: The OS type associated with VM.
         :paramtype os_type: str
+        :keyword user_selected_os_name: The OS name selected by user.
+        :paramtype user_selected_os_name: str
         :keyword vhd_id: The OS disk VHD id associated with VM.
         :paramtype vhd_id: str
         :keyword target_storage_account_id: The storage account Id.
@@ -9005,6 +9031,9 @@ class HyperVReplicaAzureEnableProtectionInput(
          "NotSpecified", "NoLicenseType", "PAYG", and "AHUB".
         :paramtype sql_server_license_type: str or
          ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+        :keyword target_vm_security_profile: The target VM security profile.
+        :paramtype target_vm_security_profile:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
         :keyword target_vm_size: The target VM size.
         :paramtype target_vm_size: str
         :keyword target_proximity_placement_group_id: The proximity placement group ARM Id.
@@ -9012,8 +9041,8 @@ class HyperVReplicaAzureEnableProtectionInput(
         :keyword use_managed_disks_for_replication: A value indicating whether managed disks should be
          used during replication.
         :paramtype use_managed_disks_for_replication: str
-        :keyword disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword disks_to_include_for_managed_disks: The disks to include list for managed disks.
         :paramtype disks_to_include_for_managed_disks:
@@ -9034,6 +9063,7 @@ class HyperVReplicaAzureEnableProtectionInput(
         self.hv_host_vm_id = hv_host_vm_id
         self.vm_name = vm_name
         self.os_type = os_type
+        self.user_selected_os_name = user_selected_os_name
         self.vhd_id = vhd_id
         self.target_storage_account_id = target_storage_account_id
         self.target_azure_network_id = target_azure_network_id
@@ -9049,6 +9079,7 @@ class HyperVReplicaAzureEnableProtectionInput(
         self.target_availability_zone = target_availability_zone
         self.license_type = license_type
         self.sql_server_license_type = sql_server_license_type
+        self.target_vm_security_profile = target_vm_security_profile
         self.target_vm_size = target_vm_size
         self.target_proximity_placement_group_id = target_proximity_placement_group_id
         self.use_managed_disks_for_replication = use_managed_disks_for_replication
@@ -9064,7 +9095,7 @@ class HyperVReplicaAzureEnableProtectionInput(
 class HyperVReplicaAzureEventDetails(EventProviderSpecificDetails):
     """Model class for event details of a HyperVReplica E2A event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -9110,14 +9141,14 @@ class HyperVReplicaAzureEventDetails(EventProviderSpecificDetails):
         self.remote_container_name = remote_container_name
 
 
-class PlannedFailoverProviderSpecificFailoverInput(_serialization.Model):
+class PlannedFailoverProviderSpecificFailoverInput(_serialization.Model):  # pylint: disable=name-too-long
     """Provider specific failover input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     HyperVReplicaAzurePlannedFailoverProviderInput, HyperVReplicaAzureFailbackProviderInput,
     InMageRcmFailbackPlannedFailoverProviderInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9148,7 +9179,7 @@ class PlannedFailoverProviderSpecificFailoverInput(_serialization.Model):
 class HyperVReplicaAzureFailbackProviderInput(PlannedFailoverProviderSpecificFailoverInput):
     """HyperVReplicaAzureFailback specific planned failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9205,6 +9236,12 @@ class HyperVReplicaAzureManagedDiskDetails(_serialization.Model):
     :vartype replica_disk_type: str
     :ivar disk_encryption_set_id: The disk encryption set ARM Id.
     :vartype disk_encryption_set_id: str
+    :ivar target_disk_account_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
+    :vartype target_disk_account_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _attribute_map = {
@@ -9212,6 +9249,8 @@ class HyperVReplicaAzureManagedDiskDetails(_serialization.Model):
         "seed_managed_disk_id": {"key": "seedManagedDiskId", "type": "str"},
         "replica_disk_type": {"key": "replicaDiskType", "type": "str"},
         "disk_encryption_set_id": {"key": "diskEncryptionSetId", "type": "str"},
+        "target_disk_account_type": {"key": "targetDiskAccountType", "type": "str"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -9221,6 +9260,8 @@ class HyperVReplicaAzureManagedDiskDetails(_serialization.Model):
         seed_managed_disk_id: Optional[str] = None,
         replica_disk_type: Optional[str] = None,
         disk_encryption_set_id: Optional[str] = None,
+        target_disk_account_type: Optional[Union[str, "_models.DiskAccountType"]] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9232,18 +9273,29 @@ class HyperVReplicaAzureManagedDiskDetails(_serialization.Model):
         :paramtype replica_disk_type: str
         :keyword disk_encryption_set_id: The disk encryption set ARM Id.
         :paramtype disk_encryption_set_id: str
+        :keyword target_disk_account_type: The disk type. Known values are: "Standard_LRS",
+         "Premium_LRS", "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and
+         "Premium_ZRS".
+        :paramtype target_disk_account_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.disk_id = disk_id
         self.seed_managed_disk_id = seed_managed_disk_id
         self.replica_disk_type = replica_disk_type
         self.disk_encryption_set_id = disk_encryption_set_id
+        self.target_disk_account_type = target_disk_account_type
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
-class HyperVReplicaAzurePlannedFailoverProviderInput(PlannedFailoverProviderSpecificFailoverInput):
+class HyperVReplicaAzurePlannedFailoverProviderInput(
+    PlannedFailoverProviderSpecificFailoverInput
+):  # pylint: disable=name-too-long
     """HyperVReplicaAzure specific planned failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9301,7 +9353,7 @@ class HyperVReplicaAzurePlannedFailoverProviderInput(PlannedFailoverProviderSpec
 class HyperVReplicaAzurePolicyDetails(PolicyProviderSpecificDetails):
     """Hyper-V Replica Azure specific protection profile details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -9382,7 +9434,7 @@ class HyperVReplicaAzurePolicyDetails(PolicyProviderSpecificDetails):
 class HyperVReplicaAzurePolicyInput(PolicyProviderSpecificInput):
     """Hyper-V Replica Azure specific input for creating a protection profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9460,7 +9512,7 @@ class HyperVReplicaAzureReplicationDetails(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -9542,6 +9594,9 @@ class HyperVReplicaAzureReplicationDetails(
      Upgrade configurations.
     :vartype all_available_os_upgrade_configurations:
      list[~azure.mgmt.recoveryservicessiterecovery.models.OSUpgradeSupportedVersions]
+    :ivar target_vm_security_profile: The target VM security profile.
+    :vartype target_vm_security_profile:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
     """
 
     _validation = {
@@ -9588,6 +9643,7 @@ class HyperVReplicaAzureReplicationDetails(
             "key": "allAvailableOSUpgradeConfigurations",
             "type": "[OSUpgradeSupportedVersions]",
         },
+        "target_vm_security_profile": {"key": "targetVmSecurityProfile", "type": "SecurityProfileProperties"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -9626,6 +9682,7 @@ class HyperVReplicaAzureReplicationDetails(
         target_nic_tags: Optional[Dict[str, str]] = None,
         protected_managed_disks: Optional[List["_models.HyperVReplicaAzureManagedDiskDetails"]] = None,
         all_available_os_upgrade_configurations: Optional[List["_models.OSUpgradeSupportedVersions"]] = None,
+        target_vm_security_profile: Optional["_models.SecurityProfileProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9705,6 +9762,9 @@ class HyperVReplicaAzureReplicationDetails(
          Upgrade configurations.
         :paramtype all_available_os_upgrade_configurations:
          list[~azure.mgmt.recoveryservicessiterecovery.models.OSUpgradeSupportedVersions]
+        :keyword target_vm_security_profile: The target VM security profile.
+        :paramtype target_vm_security_profile:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
         """
         super().__init__(**kwargs)
         self.instance_type: str = "HyperVReplicaAzure"
@@ -9742,12 +9802,13 @@ class HyperVReplicaAzureReplicationDetails(
         self.target_nic_tags = target_nic_tags
         self.protected_managed_disks = protected_managed_disks
         self.all_available_os_upgrade_configurations = all_available_os_upgrade_configurations
+        self.target_vm_security_profile = target_vm_security_profile
 
 
 class HyperVReplicaAzureReprotectInput(ReverseReplicationProviderSpecificInput):
     """Azure specific reprotect input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9817,7 +9878,7 @@ class HyperVReplicaAzureReprotectInput(ReverseReplicationProviderSpecificInput):
 class HyperVReplicaAzureTestFailoverInput(TestFailoverProviderSpecificInput):
     """HvrA provider specific input for test failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9875,7 +9936,7 @@ class HyperVReplicaAzureTestFailoverInput(TestFailoverProviderSpecificInput):
 class HyperVReplicaAzureUnplannedFailoverInput(UnplannedFailoverProviderSpecificInput):
     """HvrA provider specific input for unplanned failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -9925,10 +9986,10 @@ class HyperVReplicaAzureUnplannedFailoverInput(UnplannedFailoverProviderSpecific
 
 class HyperVReplicaAzureUpdateReplicationProtectedItemInput(
     UpdateReplicationProtectedItemProviderInput
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """HyperV replica Azure input to update replication protected item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -10045,7 +10106,7 @@ class HyperVReplicaAzureUpdateReplicationProtectedItemInput(
 class HyperVReplicaBaseEventDetails(EventProviderSpecificDetails):
     """Abstract model class for event details of a HyperVReplica E2E event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -10101,7 +10162,7 @@ class HyperVReplicaBaseEventDetails(EventProviderSpecificDetails):
 class HyperVReplicaBasePolicyDetails(PolicyProviderSpecificDetails):  # pylint: disable=too-many-instance-attributes
     """Base class for HyperVReplica policy details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -10206,7 +10267,7 @@ class HyperVReplicaBasePolicyDetails(PolicyProviderSpecificDetails):  # pylint: 
 class HyperVReplicaBaseReplicationDetails(ReplicationProviderSpecificSettings):
     """Hyper V replica provider specific settings base class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -10285,7 +10346,7 @@ class HyperVReplicaBaseReplicationDetails(ReplicationProviderSpecificSettings):
 class HyperVReplicaBluePolicyDetails(PolicyProviderSpecificDetails):  # pylint: disable=too-many-instance-attributes
     """Hyper-V Replica Blue specific protection profile details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -10400,7 +10461,7 @@ class HyperVReplicaPolicyInput(PolicyProviderSpecificInput):  # pylint: disable=
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     HyperVReplicaBluePolicyInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -10505,7 +10566,7 @@ class HyperVReplicaPolicyInput(PolicyProviderSpecificInput):  # pylint: disable=
 class HyperVReplicaBluePolicyInput(HyperVReplicaPolicyInput):  # pylint: disable=too-many-instance-attributes
     """HyperV Replica Blue policy input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -10617,7 +10678,7 @@ class HyperVReplicaBluePolicyInput(HyperVReplicaPolicyInput):  # pylint: disable
 class HyperVReplicaBlueReplicationDetails(ReplicationProviderSpecificSettings):
     """HyperV replica 2012 R2 (Blue) replication details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -10696,7 +10757,7 @@ class HyperVReplicaBlueReplicationDetails(ReplicationProviderSpecificSettings):
 class HyperVReplicaPolicyDetails(PolicyProviderSpecificDetails):  # pylint: disable=too-many-instance-attributes
     """Hyper-V Replica Blue specific protection profile details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -10801,7 +10862,7 @@ class HyperVReplicaPolicyDetails(PolicyProviderSpecificDetails):  # pylint: disa
 class HyperVReplicaReplicationDetails(ReplicationProviderSpecificSettings):
     """HyperV replica 2012 replication details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -10880,7 +10941,7 @@ class HyperVReplicaReplicationDetails(ReplicationProviderSpecificSettings):
 class HyperVSiteDetails(FabricSpecificDetails):
     """HyperVSite fabric specific details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -10914,7 +10975,7 @@ class HyperVVirtualMachineDetails(ConfigurationSettings):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VmmVirtualMachineDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -11078,7 +11139,7 @@ class IdentityProviderDetails(_serialization.Model):
 class IdentityProviderInput(_serialization.Model):
     """Identity provider input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant Id for the service principal with which the on-premise
      management/data plane components would communicate with our Azure services. Required.
@@ -11224,7 +11285,7 @@ class InitialReplicationDetails(_serialization.Model):
 class InlineWorkflowTaskDetails(GroupTaskDetails):
     """This class represents the inline workflow task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -11313,7 +11374,7 @@ class InMageAgentDetails(_serialization.Model):
 class InMageAzureV2ApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
     """ApplyRecoveryPoint input specific to InMageAzureV2 provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -11340,8 +11401,8 @@ class InMageAzureV2DiskInputDetails(_serialization.Model):
     :vartype disk_id: str
     :ivar log_storage_account_id: The LogStorageAccountId.
     :vartype log_storage_account_id: str
-    :ivar disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar disk_encryption_set_id: The DiskEncryptionSet ARM ID.
     :vartype disk_encryption_set_id: str
@@ -11368,8 +11429,8 @@ class InMageAzureV2DiskInputDetails(_serialization.Model):
         :paramtype disk_id: str
         :keyword log_storage_account_id: The LogStorageAccountId.
         :paramtype log_storage_account_id: str
-        :keyword disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword disk_encryption_set_id: The DiskEncryptionSet ARM ID.
         :paramtype disk_encryption_set_id: str
@@ -11386,7 +11447,7 @@ class InMageAzureV2EnableProtectionInput(
 ):  # pylint: disable=too-many-instance-attributes
     """VMware Azure specific enable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -11422,8 +11483,8 @@ class InMageAzureV2EnableProtectionInput(
     :ivar target_azure_v2_resource_group_id: The Id of the target resource group (for resource
      manager deployment) in which the failover VM is to be created.
     :vartype target_azure_v2_resource_group_id: str
-    :ivar disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar target_availability_set_id: The target availability set ARM Id for resource manager
      deployment.
@@ -11551,8 +11612,8 @@ class InMageAzureV2EnableProtectionInput(
         :keyword target_azure_v2_resource_group_id: The Id of the target resource group (for resource
          manager deployment) in which the failover VM is to be created.
         :paramtype target_azure_v2_resource_group_id: str
-        :keyword disk_type: The DiskType. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword target_availability_set_id: The target availability set ARM Id for resource manager
          deployment.
@@ -11614,7 +11675,7 @@ class InMageAzureV2EnableProtectionInput(
 class InMageAzureV2EventDetails(EventProviderSpecificDetails):
     """Model class for event details of a VMwareAzureV2 event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -11746,7 +11807,7 @@ class InMageAzureV2ManagedDiskDetails(_serialization.Model):
 class InMageAzureV2PolicyDetails(PolicyProviderSpecificDetails):
     """InMage Azure v2 specific protection profile details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -11813,7 +11874,7 @@ class InMageAzureV2PolicyDetails(PolicyProviderSpecificDetails):
 class InMageAzureV2PolicyInput(PolicyProviderSpecificInput):
     """VMWare Azure specific policy Input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -12065,7 +12126,7 @@ class InMageAzureV2ProtectedDiskDetails(_serialization.Model):  # pylint: disabl
 class InMageAzureV2RecoveryPointDetails(ProviderSpecificRecoveryPointDetails):
     """InMage Azure V2 provider specific recovery point details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the provider type. Required.
     :vartype instance_type: str
@@ -12101,7 +12162,7 @@ class InMageAzureV2ReplicationDetails(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -12661,7 +12722,7 @@ class InMageAzureV2ReplicationDetails(
 class InMageAzureV2ReprotectInput(ReverseReplicationProviderSpecificInput):
     """InMageAzureV2 specific provider input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -12735,7 +12796,7 @@ class InMageAzureV2ReprotectInput(ReverseReplicationProviderSpecificInput):
         self.disks_to_include = disks_to_include
 
 
-class InMageAzureV2SwitchProviderBlockingErrorDetails(_serialization.Model):
+class InMageAzureV2SwitchProviderBlockingErrorDetails(_serialization.Model):  # pylint: disable=name-too-long
     """InMageAzureV2 switch provider blocking error details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12827,7 +12888,7 @@ class SwitchProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     InMageAzureV2SwitchProviderInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -12852,7 +12913,7 @@ class SwitchProviderSpecificInput(_serialization.Model):
 class InMageAzureV2SwitchProviderInput(SwitchProviderSpecificInput):
     """Provider specific input for InMageAzureV2 switch provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -12897,7 +12958,7 @@ class InMageAzureV2SwitchProviderInput(SwitchProviderSpecificInput):
 class InMageAzureV2TestFailoverInput(TestFailoverProviderSpecificInput):
     """InMageAzureV2 provider specific input for test failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -12937,7 +12998,7 @@ class InMageAzureV2TestFailoverInput(TestFailoverProviderSpecificInput):
 class InMageAzureV2UnplannedFailoverInput(UnplannedFailoverProviderSpecificInput):
     """InMageAzureV2 provider specific input for unplanned failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -12976,10 +13037,10 @@ class InMageAzureV2UnplannedFailoverInput(UnplannedFailoverProviderSpecificInput
 
 class InMageAzureV2UpdateReplicationProtectedItemInput(
     UpdateReplicationProtectedItemProviderInput
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """InMage Azure V2 input to update replication protected item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -13087,7 +13148,7 @@ class InMageAzureV2UpdateReplicationProtectedItemInput(
 class InMageBasePolicyDetails(PolicyProviderSpecificDetails):
     """Base class for the policies of providers using InMage replication.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -13142,10 +13203,12 @@ class InMageBasePolicyDetails(PolicyProviderSpecificDetails):
         self.multi_vm_sync_status = multi_vm_sync_status
 
 
-class InMageDisableProtectionProviderSpecificInput(DisableProtectionProviderSpecificInput):
+class InMageDisableProtectionProviderSpecificInput(
+    DisableProtectionProviderSpecificInput
+):  # pylint: disable=name-too-long
     """InMage disable protection provider specific input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -13296,7 +13359,7 @@ class InMageEnableProtectionInput(
 ):  # pylint: disable=too-many-instance-attributes
     """VMware Azure specific enable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -13398,7 +13461,7 @@ class InMageEnableProtectionInput(
         self.disks_to_include = disks_to_include
 
 
-class InMageFabricSwitchProviderBlockingErrorDetails(_serialization.Model):
+class InMageFabricSwitchProviderBlockingErrorDetails(_serialization.Model):  # pylint: disable=name-too-long
     """InMageFabric switch provider blocking error details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13449,7 +13512,7 @@ class InMageFabricSwitchProviderBlockingErrorDetails(_serialization.Model):
 class InMagePolicyDetails(PolicyProviderSpecificDetails):
     """InMage specific protection profile details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -13507,7 +13570,7 @@ class InMagePolicyDetails(PolicyProviderSpecificDetails):
 class InMagePolicyInput(PolicyProviderSpecificInput):
     """VMWare Azure specific protection profile Input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -13740,7 +13803,38 @@ class InMageProtectedDiskDetails(_serialization.Model):  # pylint: disable=too-m
         self.progress_status = progress_status
 
 
-class InMageRcmAgentUpgradeBlockingErrorDetails(_serialization.Model):
+class InMageRcmAddDisksInput(AddDisksProviderSpecificInput):
+    """InMageRcm add disk(s) input.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    :ivar disks: The list of disk details. Required.
+    :vartype disks: list[~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmDiskInput]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+        "disks": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "disks": {"key": "disks", "type": "[InMageRcmDiskInput]"},
+    }
+
+    def __init__(self, *, disks: List["_models.InMageRcmDiskInput"], **kwargs: Any) -> None:
+        """
+        :keyword disks: The list of disk details. Required.
+        :paramtype disks: list[~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmDiskInput]
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "InMageRcm"
+        self.disks = disks
+
+
+class InMageRcmAgentUpgradeBlockingErrorDetails(_serialization.Model):  # pylint: disable=name-too-long
     """InMageRcm source agent upgrade blocking error details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13871,7 +13965,7 @@ class InMageRcmApplianceSpecificDetails(ApplianceSpecificDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -13900,7 +13994,7 @@ class InMageRcmApplianceSpecificDetails(ApplianceSpecificDetails):
 class InMageRcmApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
     """ApplyRecoveryPoint input specific to InMageRcm provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -14009,17 +14103,19 @@ class InMageRcmDiscoveredProtectedVmDetails(_serialization.Model):  # pylint: di
 class InMageRcmDiskInput(_serialization.Model):
     """InMageRcm disk input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: The disk Id. Required.
     :vartype disk_id: str
     :ivar log_storage_account_id: The log storage account ARM Id. Required.
     :vartype log_storage_account_id: str
-    :ivar disk_type: The disk type. Required. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Required. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar disk_encryption_set_id: The DiskEncryptionSet ARM Id.
     :vartype disk_encryption_set_id: str
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _validation = {
@@ -14033,6 +14129,7 @@ class InMageRcmDiskInput(_serialization.Model):
         "log_storage_account_id": {"key": "logStorageAccountId", "type": "str"},
         "disk_type": {"key": "diskType", "type": "str"},
         "disk_encryption_set_id": {"key": "diskEncryptionSetId", "type": "str"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -14042,6 +14139,7 @@ class InMageRcmDiskInput(_serialization.Model):
         log_storage_account_id: str,
         disk_type: Union[str, "_models.DiskAccountType"],
         disk_encryption_set_id: Optional[str] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -14050,30 +14148,35 @@ class InMageRcmDiskInput(_serialization.Model):
         :keyword log_storage_account_id: The log storage account ARM Id. Required.
         :paramtype log_storage_account_id: str
         :keyword disk_type: The disk type. Required. Known values are: "Standard_LRS", "Premium_LRS",
-         and "StandardSSD_LRS".
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword disk_encryption_set_id: The DiskEncryptionSet ARM Id.
         :paramtype disk_encryption_set_id: str
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.disk_id = disk_id
         self.log_storage_account_id = log_storage_account_id
         self.disk_type = disk_type
         self.disk_encryption_set_id = disk_encryption_set_id
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
 class InMageRcmDisksDefaultInput(_serialization.Model):
     """InMageRcm disk input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_storage_account_id: The log storage account ARM Id. Required.
     :vartype log_storage_account_id: str
-    :ivar disk_type: The disk type. Required. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Required. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar disk_encryption_set_id: The DiskEncryptionSet ARM Id.
     :vartype disk_encryption_set_id: str
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _validation = {
@@ -14085,6 +14188,7 @@ class InMageRcmDisksDefaultInput(_serialization.Model):
         "log_storage_account_id": {"key": "logStorageAccountId", "type": "str"},
         "disk_type": {"key": "diskType", "type": "str"},
         "disk_encryption_set_id": {"key": "diskEncryptionSetId", "type": "str"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -14093,21 +14197,25 @@ class InMageRcmDisksDefaultInput(_serialization.Model):
         log_storage_account_id: str,
         disk_type: Union[str, "_models.DiskAccountType"],
         disk_encryption_set_id: Optional[str] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword log_storage_account_id: The log storage account ARM Id. Required.
         :paramtype log_storage_account_id: str
         :keyword disk_type: The disk type. Required. Known values are: "Standard_LRS", "Premium_LRS",
-         and "StandardSSD_LRS".
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword disk_encryption_set_id: The DiskEncryptionSet ARM Id.
         :paramtype disk_encryption_set_id: str
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.log_storage_account_id = log_storage_account_id
         self.disk_type = disk_type
         self.disk_encryption_set_id = disk_encryption_set_id
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
 class InMageRcmEnableProtectionInput(
@@ -14115,7 +14223,7 @@ class InMageRcmEnableProtectionInput(
 ):  # pylint: disable=too-many-instance-attributes
     """InMageRcm specific enable protection input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -14159,6 +14267,27 @@ class InMageRcmEnableProtectionInput(
     :vartype process_server_id: str
     :ivar multi_vm_group_name: The multi VM group name.
     :vartype multi_vm_group_name: str
+    :ivar sql_server_license_type: The SQL Server license type. Known values are: "NotSpecified",
+     "NoLicenseType", "PAYG", and "AHUB".
+    :vartype sql_server_license_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+    :ivar target_vm_tags: The target VM tags.
+    :vartype target_vm_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar seed_managed_disk_tags: The tags for the seed managed disks.
+    :vartype seed_managed_disk_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar target_managed_disk_tags: The tags for the target managed disks.
+    :vartype target_managed_disk_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar target_nic_tags: The tags for the target NICs.
+    :vartype target_nic_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar user_selected_os_name: The OS name selected by user.
+    :vartype user_selected_os_name: str
+    :ivar target_vm_security_profile: The target VM security profile.
+    :vartype target_vm_security_profile:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
     """
 
     _validation = {
@@ -14188,9 +14317,16 @@ class InMageRcmEnableProtectionInput(
         "run_as_account_id": {"key": "runAsAccountId", "type": "str"},
         "process_server_id": {"key": "processServerId", "type": "str"},
         "multi_vm_group_name": {"key": "multiVmGroupName", "type": "str"},
+        "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "target_vm_tags": {"key": "targetVmTags", "type": "[UserCreatedResourceTag]"},
+        "seed_managed_disk_tags": {"key": "seedManagedDiskTags", "type": "[UserCreatedResourceTag]"},
+        "target_managed_disk_tags": {"key": "targetManagedDiskTags", "type": "[UserCreatedResourceTag]"},
+        "target_nic_tags": {"key": "targetNicTags", "type": "[UserCreatedResourceTag]"},
+        "user_selected_os_name": {"key": "userSelectedOSName", "type": "str"},
+        "target_vm_security_profile": {"key": "targetVmSecurityProfile", "type": "SecurityProfileProperties"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         fabric_discovery_machine_id: str,
@@ -14211,6 +14347,13 @@ class InMageRcmEnableProtectionInput(
         target_boot_diagnostics_storage_account_id: Optional[str] = None,
         run_as_account_id: Optional[str] = None,
         multi_vm_group_name: Optional[str] = None,
+        sql_server_license_type: Optional[Union[str, "_models.SqlServerLicenseType"]] = None,
+        target_vm_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        seed_managed_disk_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        target_managed_disk_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        target_nic_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        user_selected_os_name: Optional[str] = None,
+        target_vm_security_profile: Optional["_models.SecurityProfileProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -14254,6 +14397,27 @@ class InMageRcmEnableProtectionInput(
         :paramtype process_server_id: str
         :keyword multi_vm_group_name: The multi VM group name.
         :paramtype multi_vm_group_name: str
+        :keyword sql_server_license_type: The SQL Server license type. Known values are:
+         "NotSpecified", "NoLicenseType", "PAYG", and "AHUB".
+        :paramtype sql_server_license_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+        :keyword target_vm_tags: The target VM tags.
+        :paramtype target_vm_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword seed_managed_disk_tags: The tags for the seed managed disks.
+        :paramtype seed_managed_disk_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword target_managed_disk_tags: The tags for the target managed disks.
+        :paramtype target_managed_disk_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword target_nic_tags: The tags for the target NICs.
+        :paramtype target_nic_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword user_selected_os_name: The OS name selected by user.
+        :paramtype user_selected_os_name: str
+        :keyword target_vm_security_profile: The target VM security profile.
+        :paramtype target_vm_security_profile:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
         """
         super().__init__(**kwargs)
         self.instance_type: str = "InMageRcm"
@@ -14275,6 +14439,13 @@ class InMageRcmEnableProtectionInput(
         self.run_as_account_id = run_as_account_id
         self.process_server_id = process_server_id
         self.multi_vm_group_name = multi_vm_group_name
+        self.sql_server_license_type = sql_server_license_type
+        self.target_vm_tags = target_vm_tags
+        self.seed_managed_disk_tags = seed_managed_disk_tags
+        self.target_managed_disk_tags = target_managed_disk_tags
+        self.target_nic_tags = target_nic_tags
+        self.user_selected_os_name = user_selected_os_name
+        self.target_vm_security_profile = target_vm_security_profile
 
 
 class InMageRcmEventDetails(EventProviderSpecificDetails):
@@ -14282,7 +14453,7 @@ class InMageRcmEventDetails(EventProviderSpecificDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -14345,7 +14516,7 @@ class InMageRcmEventDetails(EventProviderSpecificDetails):
 class InMageRcmFabricCreationInput(FabricSpecificCreationInput):
     """InMageRcm fabric provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Required.
     :vartype instance_type: str
@@ -14403,7 +14574,7 @@ class InMageRcmFabricSpecificDetails(FabricSpecificDetails):  # pylint: disable=
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -14513,7 +14684,7 @@ class InMageRcmFabricSpecificDetails(FabricSpecificDetails):  # pylint: disable=
         self.agent_details = None
 
 
-class InMageRcmFabricSwitchProviderBlockingErrorDetails(_serialization.Model):
+class InMageRcmFabricSwitchProviderBlockingErrorDetails(_serialization.Model):  # pylint: disable=name-too-long
     """InMageRcmFabric switch provider blocking error details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -14563,7 +14734,7 @@ class InMageRcmFabricSwitchProviderBlockingErrorDetails(_serialization.Model):
 
 class InMageRcmFailbackDiscoveredProtectedVmDetails(
     _serialization.Model
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """InMageRcmFailback discovered VM details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -14646,7 +14817,7 @@ class InMageRcmFailbackEventDetails(EventProviderSpecificDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -14794,10 +14965,12 @@ class InMageRcmFailbackNicDetails(_serialization.Model):
         self.source_ip_address = None
 
 
-class InMageRcmFailbackPlannedFailoverProviderInput(PlannedFailoverProviderSpecificFailoverInput):
+class InMageRcmFailbackPlannedFailoverProviderInput(
+    PlannedFailoverProviderSpecificFailoverInput
+):  # pylint: disable=name-too-long
     """Provider specific input for InMageRcmFailback failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -14834,7 +15007,7 @@ class InMageRcmFailbackPlannedFailoverProviderInput(PlannedFailoverProviderSpeci
 class InMageRcmFailbackPolicyCreationInput(PolicyProviderSpecificInput):
     """InMageRcmFailback policy creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -14879,7 +15052,7 @@ class InMageRcmFailbackPolicyCreationInput(PolicyProviderSpecificInput):
 class InMageRcmFailbackPolicyDetails(PolicyProviderSpecificDetails):
     """InMageRcm failback specific policy details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -15014,7 +15187,7 @@ class InMageRcmFailbackReplicationDetails(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -15221,7 +15394,7 @@ class InMageRcmFailbackReplicationDetails(
 class InMageRcmFailbackReprotectInput(ReverseReplicationProviderSpecificInput):
     """InMageRcmFailback specific provider input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -15562,7 +15735,7 @@ class InMageRcmNicDetails(_serialization.Model):  # pylint: disable=too-many-ins
 class InMageRcmNicInput(_serialization.Model):
     """InMageRcm NIC input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nic_id: The NIC Id. Required.
     :vartype nic_id: str
@@ -15637,7 +15810,7 @@ class InMageRcmNicInput(_serialization.Model):
 class InMageRcmPolicyCreationInput(PolicyProviderSpecificInput):
     """InMageRcm policy creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -15698,7 +15871,7 @@ class InMageRcmPolicyCreationInput(PolicyProviderSpecificInput):
 class InMageRcmPolicyDetails(PolicyProviderSpecificDetails):
     """InMageRcm specific policy details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -15768,6 +15941,9 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
     :vartype is_os_disk: str
     :ivar capacity_in_bytes: The disk capacity in bytes.
     :vartype capacity_in_bytes: int
+    :ivar disk_state: The disk state. Known values are: "Unavailable", "InitialReplicationPending",
+     "InitialReplicationFailed", and "Protected".
+    :vartype disk_state: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskState
     :ivar log_storage_account_id: The log storage account ARM Id.
     :vartype log_storage_account_id: str
     :ivar disk_encryption_set_id: The DiskEncryptionSet ARM Id.
@@ -15778,8 +15954,8 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
     :vartype seed_blob_uri: str
     :ivar target_managed_disk_id: The ARM Id of the target managed disk.
     :vartype target_managed_disk_id: str
-    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar data_pending_in_log_data_store_in_mb: The data pending in log data store in MB.
     :vartype data_pending_in_log_data_store_in_mb: float
@@ -15792,6 +15968,10 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
     :vartype ir_details: ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmSyncDetails
     :ivar resync_details: The resync details.
     :vartype resync_details: ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmSyncDetails
+    :ivar custom_target_disk_name: The custom target Azure disk name.
+    :vartype custom_target_disk_name: str
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _validation = {
@@ -15799,6 +15979,7 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         "disk_name": {"readonly": True},
         "is_os_disk": {"readonly": True},
         "capacity_in_bytes": {"readonly": True},
+        "disk_state": {"readonly": True},
         "log_storage_account_id": {"readonly": True},
         "disk_encryption_set_id": {"readonly": True},
         "seed_managed_disk_id": {"readonly": True},
@@ -15814,6 +15995,7 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         "disk_name": {"key": "diskName", "type": "str"},
         "is_os_disk": {"key": "isOSDisk", "type": "str"},
         "capacity_in_bytes": {"key": "capacityInBytes", "type": "int"},
+        "disk_state": {"key": "diskState", "type": "str"},
         "log_storage_account_id": {"key": "logStorageAccountId", "type": "str"},
         "disk_encryption_set_id": {"key": "diskEncryptionSetId", "type": "str"},
         "seed_managed_disk_id": {"key": "seedManagedDiskId", "type": "str"},
@@ -15825,6 +16007,8 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         "is_initial_replication_complete": {"key": "isInitialReplicationComplete", "type": "str"},
         "ir_details": {"key": "irDetails", "type": "InMageRcmSyncDetails"},
         "resync_details": {"key": "resyncDetails", "type": "InMageRcmSyncDetails"},
+        "custom_target_disk_name": {"key": "customTargetDiskName", "type": "str"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -15833,22 +16017,29 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         disk_type: Optional[Union[str, "_models.DiskAccountType"]] = None,
         ir_details: Optional["_models.InMageRcmSyncDetails"] = None,
         resync_details: Optional["_models.InMageRcmSyncDetails"] = None,
+        custom_target_disk_name: Optional[str] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword ir_details: The initial replication details.
         :paramtype ir_details: ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmSyncDetails
         :keyword resync_details: The resync details.
         :paramtype resync_details: ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmSyncDetails
+        :keyword custom_target_disk_name: The custom target Azure disk name.
+        :paramtype custom_target_disk_name: str
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.disk_id = None
         self.disk_name = None
         self.is_os_disk = None
         self.capacity_in_bytes = None
+        self.disk_state = None
         self.log_storage_account_id = None
         self.disk_encryption_set_id = None
         self.seed_managed_disk_id = None
@@ -15860,14 +16051,18 @@ class InMageRcmProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         self.is_initial_replication_complete = None
         self.ir_details = ir_details
         self.resync_details = resync_details
+        self.custom_target_disk_name = custom_target_disk_name
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
-class InMageRcmProtectionContainerMappingDetails(ProtectionContainerMappingProviderSpecificDetails):
+class InMageRcmProtectionContainerMappingDetails(
+    ProtectionContainerMappingProviderSpecificDetails
+):  # pylint: disable=name-too-long
     """InMageRcm provider specific container mapping details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -15898,7 +16093,7 @@ class InMageRcmRecoveryPointDetails(ProviderSpecificRecoveryPointDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the provider type. Required.
     :vartype instance_type: str
@@ -15929,7 +16124,7 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -16040,6 +16235,9 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
     :ivar protected_disks: The list of protected disks.
     :vartype protected_disks:
      list[~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmProtectedDiskDetails]
+    :ivar unprotected_disks: The list of unprotected disks.
+    :vartype unprotected_disks:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmUnProtectedDiskDetails]
     :ivar is_last_upgrade_successful: A value indicating whether last agent upgrade was successful
      or not.
     :vartype is_last_upgrade_successful: str
@@ -16060,6 +16258,27 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
     :ivar discovered_vm_details: The discovered VM details.
     :vartype discovered_vm_details:
      ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmDiscoveredProtectedVmDetails
+    :ivar target_vm_tags: The target VM tags.
+    :vartype target_vm_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar seed_managed_disk_tags: The tags for the seed managed disks.
+    :vartype seed_managed_disk_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar target_managed_disk_tags: The tags for the target managed disks.
+    :vartype target_managed_disk_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar target_nic_tags: The tags for the target NICs.
+    :vartype target_nic_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar sql_server_license_type: The SQL Server license type.
+    :vartype sql_server_license_type: str
+    :ivar supported_os_versions: A value indicating the inplace OS Upgrade version.
+    :vartype supported_os_versions: list[str]
+    :ivar os_name: The OS name associated with VM.
+    :vartype os_name: str
+    :ivar target_vm_security_profile: The target VM security profile.
+    :vartype target_vm_security_profile:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
     """
 
     _validation = {
@@ -16148,6 +16367,7 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         "agent_upgrade_job_id": {"key": "agentUpgradeJobId", "type": "str"},
         "agent_upgrade_attempt_to_version": {"key": "agentUpgradeAttemptToVersion", "type": "str"},
         "protected_disks": {"key": "protectedDisks", "type": "[InMageRcmProtectedDiskDetails]"},
+        "unprotected_disks": {"key": "unprotectedDisks", "type": "[InMageRcmUnProtectedDiskDetails]"},
         "is_last_upgrade_successful": {"key": "isLastUpgradeSuccessful", "type": "str"},
         "is_agent_registration_successful_after_failover": {
             "key": "isAgentRegistrationSuccessfulAfterFailover",
@@ -16164,6 +16384,14 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         },
         "vm_nics": {"key": "vmNics", "type": "[InMageRcmNicDetails]"},
         "discovered_vm_details": {"key": "discoveredVmDetails", "type": "InMageRcmDiscoveredProtectedVmDetails"},
+        "target_vm_tags": {"key": "targetVmTags", "type": "[UserCreatedResourceTag]"},
+        "seed_managed_disk_tags": {"key": "seedManagedDiskTags", "type": "[UserCreatedResourceTag]"},
+        "target_managed_disk_tags": {"key": "targetManagedDiskTags", "type": "[UserCreatedResourceTag]"},
+        "target_nic_tags": {"key": "targetNicTags", "type": "[UserCreatedResourceTag]"},
+        "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "supported_os_versions": {"key": "supportedOSVersions", "type": "[str]"},
+        "os_name": {"key": "osName", "type": "str"},
+        "target_vm_security_profile": {"key": "targetVmSecurityProfile", "type": "SecurityProfileProperties"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -16181,6 +16409,7 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         target_network_id: Optional[str] = None,
         test_network_id: Optional[str] = None,
         protected_disks: Optional[List["_models.InMageRcmProtectedDiskDetails"]] = None,
+        unprotected_disks: Optional[List["_models.InMageRcmUnProtectedDiskDetails"]] = None,
         mobility_agent_details: Optional["_models.InMageRcmMobilityAgentDetails"] = None,
         last_agent_upgrade_error_details: Optional[List["_models.InMageRcmLastAgentUpgradeErrorDetails"]] = None,
         agent_upgrade_blocking_error_details: Optional[
@@ -16188,6 +16417,14 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         ] = None,
         vm_nics: Optional[List["_models.InMageRcmNicDetails"]] = None,
         discovered_vm_details: Optional["_models.InMageRcmDiscoveredProtectedVmDetails"] = None,
+        target_vm_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        seed_managed_disk_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        target_managed_disk_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        target_nic_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        sql_server_license_type: Optional[str] = None,
+        supported_os_versions: Optional[List[str]] = None,
+        os_name: Optional[str] = None,
+        target_vm_security_profile: Optional["_models.SecurityProfileProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -16217,6 +16454,9 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         :keyword protected_disks: The list of protected disks.
         :paramtype protected_disks:
          list[~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmProtectedDiskDetails]
+        :keyword unprotected_disks: The list of unprotected disks.
+        :paramtype unprotected_disks:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmUnProtectedDiskDetails]
         :keyword mobility_agent_details: The mobility agent information.
         :paramtype mobility_agent_details:
          ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmMobilityAgentDetails
@@ -16231,6 +16471,27 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         :keyword discovered_vm_details: The discovered VM details.
         :paramtype discovered_vm_details:
          ~azure.mgmt.recoveryservicessiterecovery.models.InMageRcmDiscoveredProtectedVmDetails
+        :keyword target_vm_tags: The target VM tags.
+        :paramtype target_vm_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword seed_managed_disk_tags: The tags for the seed managed disks.
+        :paramtype seed_managed_disk_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword target_managed_disk_tags: The tags for the target managed disks.
+        :paramtype target_managed_disk_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword target_nic_tags: The tags for the target NICs.
+        :paramtype target_nic_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword sql_server_license_type: The SQL Server license type.
+        :paramtype sql_server_license_type: str
+        :keyword supported_os_versions: A value indicating the inplace OS Upgrade version.
+        :paramtype supported_os_versions: list[str]
+        :keyword os_name: The OS name associated with VM.
+        :paramtype os_name: str
+        :keyword target_vm_security_profile: The target VM security profile.
+        :paramtype target_vm_security_profile:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityProfileProperties
         """
         super().__init__(**kwargs)
         self.instance_type: str = "InMageRcm"
@@ -16279,6 +16540,7 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         self.agent_upgrade_job_id = None
         self.agent_upgrade_attempt_to_version = None
         self.protected_disks = protected_disks
+        self.unprotected_disks = unprotected_disks
         self.is_last_upgrade_successful = None
         self.is_agent_registration_successful_after_failover = None
         self.mobility_agent_details = mobility_agent_details
@@ -16286,12 +16548,20 @@ class InMageRcmReplicationDetails(ReplicationProviderSpecificSettings):  # pylin
         self.agent_upgrade_blocking_error_details = agent_upgrade_blocking_error_details
         self.vm_nics = vm_nics
         self.discovered_vm_details = discovered_vm_details
+        self.target_vm_tags = target_vm_tags
+        self.seed_managed_disk_tags = seed_managed_disk_tags
+        self.target_managed_disk_tags = target_managed_disk_tags
+        self.target_nic_tags = target_nic_tags
+        self.sql_server_license_type = sql_server_license_type
+        self.supported_os_versions = supported_os_versions
+        self.os_name = os_name
+        self.target_vm_security_profile = target_vm_security_profile
 
 
 class InMageRcmReprotectInput(ReverseReplicationProviderSpecificInput):
     """InMageRcm specific provider input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16413,7 +16683,7 @@ class InMageRcmSyncDetails(_serialization.Model):
 class InMageRcmTestFailoverInput(TestFailoverProviderSpecificInput):
     """InMageRcm provider specific input for test failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16453,7 +16723,7 @@ class InMageRcmTestFailoverInput(TestFailoverProviderSpecificInput):
 class InMageRcmUnplannedFailoverInput(UnplannedFailoverProviderSpecificInput):
     """InMageRcm provider specific input for unplanned failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16489,13 +16759,48 @@ class InMageRcmUnplannedFailoverInput(UnplannedFailoverProviderSpecificInput):
         self.recovery_point_id = recovery_point_id
 
 
-class UpdateApplianceForReplicationProtectedItemProviderSpecificInput(_serialization.Model):
+class InMageRcmUnProtectedDiskDetails(_serialization.Model):
+    """InMageRcm un-protected disk details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar disk_id: The disk Id.
+    :vartype disk_id: str
+    :ivar disk_name: The disk name.
+    :vartype disk_name: str
+    :ivar capacity_in_bytes: The disk capacity in bytes.
+    :vartype capacity_in_bytes: int
+    """
+
+    _validation = {
+        "disk_id": {"readonly": True},
+        "disk_name": {"readonly": True},
+        "capacity_in_bytes": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "disk_id": {"key": "diskId", "type": "str"},
+        "disk_name": {"key": "diskName", "type": "str"},
+        "capacity_in_bytes": {"key": "capacityInBytes", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.disk_id = None
+        self.disk_name = None
+        self.capacity_in_bytes = None
+
+
+class UpdateApplianceForReplicationProtectedItemProviderSpecificInput(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Update replication protected item provider specific input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     InMageRcmUpdateApplianceForReplicationProtectedItemInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16519,10 +16824,10 @@ class UpdateApplianceForReplicationProtectedItemProviderSpecificInput(_serializa
 
 class InMageRcmUpdateApplianceForReplicationProtectedItemInput(
     UpdateApplianceForReplicationProtectedItemProviderSpecificInput
-):
+):  # pylint: disable=name-too-long
     """InMageRcm provider specific input to update appliance for replication protected item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16552,7 +16857,7 @@ class InMageRcmUpdateApplianceForReplicationProtectedItemInput(
 class InMageRcmUpdateContainerMappingInput(ReplicationProviderSpecificUpdateContainerMappingInput):
     """InMageRcm update protection container mapping.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16584,10 +16889,10 @@ class InMageRcmUpdateContainerMappingInput(ReplicationProviderSpecificUpdateCont
 
 class InMageRcmUpdateReplicationProtectedItemInput(
     UpdateReplicationProtectedItemProviderInput
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """InMageRcm provider specific input to update replication protected item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -16615,6 +16920,19 @@ class InMageRcmUpdateReplicationProtectedItemInput(
     :ivar license_type: The license type. Known values are: "NotSpecified", "NoLicenseType", and
      "WindowsServer".
     :vartype license_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.LicenseType
+    :ivar sql_server_license_type: The SQL Server license type. Known values are: "NotSpecified",
+     "NoLicenseType", "PAYG", and "AHUB".
+    :vartype sql_server_license_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+    :ivar target_vm_tags: The target VM tags.
+    :vartype target_vm_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar target_managed_disk_tags: The tags for the target managed disks.
+    :vartype target_managed_disk_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+    :ivar target_nic_tags: The tags for the target NICs.
+    :vartype target_nic_tags:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
     """
 
     _validation = {
@@ -16634,6 +16952,10 @@ class InMageRcmUpdateReplicationProtectedItemInput(
         "test_network_id": {"key": "testNetworkId", "type": "str"},
         "vm_nics": {"key": "vmNics", "type": "[InMageRcmNicInput]"},
         "license_type": {"key": "licenseType", "type": "str"},
+        "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "target_vm_tags": {"key": "targetVmTags", "type": "[UserCreatedResourceTag]"},
+        "target_managed_disk_tags": {"key": "targetManagedDiskTags", "type": "[UserCreatedResourceTag]"},
+        "target_nic_tags": {"key": "targetNicTags", "type": "[UserCreatedResourceTag]"},
     }
 
     def __init__(
@@ -16650,6 +16972,10 @@ class InMageRcmUpdateReplicationProtectedItemInput(
         test_network_id: Optional[str] = None,
         vm_nics: Optional[List["_models.InMageRcmNicInput"]] = None,
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
+        sql_server_license_type: Optional[Union[str, "_models.SqlServerLicenseType"]] = None,
+        target_vm_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        target_managed_disk_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
+        target_nic_tags: Optional[List["_models.UserCreatedResourceTag"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -16677,6 +17003,19 @@ class InMageRcmUpdateReplicationProtectedItemInput(
         :keyword license_type: The license type. Known values are: "NotSpecified", "NoLicenseType", and
          "WindowsServer".
         :paramtype license_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.LicenseType
+        :keyword sql_server_license_type: The SQL Server license type. Known values are:
+         "NotSpecified", "NoLicenseType", "PAYG", and "AHUB".
+        :paramtype sql_server_license_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+        :keyword target_vm_tags: The target VM tags.
+        :paramtype target_vm_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword target_managed_disk_tags: The tags for the target managed disks.
+        :paramtype target_managed_disk_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
+        :keyword target_nic_tags: The tags for the target NICs.
+        :paramtype target_nic_tags:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.UserCreatedResourceTag]
         """
         super().__init__(**kwargs)
         self.instance_type: str = "InMageRcm"
@@ -16691,12 +17030,16 @@ class InMageRcmUpdateReplicationProtectedItemInput(
         self.test_network_id = test_network_id
         self.vm_nics = vm_nics
         self.license_type = license_type
+        self.sql_server_license_type = sql_server_license_type
+        self.target_vm_tags = target_vm_tags
+        self.target_managed_disk_tags = target_managed_disk_tags
+        self.target_nic_tags = target_nic_tags
 
 
 class InMageReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: disable=too-many-instance-attributes
     """InMage provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -17024,7 +17367,7 @@ class InMageReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: 
 class InMageReprotectInput(ReverseReplicationProviderSpecificInput):
     """InMageAzureV2 specific provider input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -17114,7 +17457,7 @@ class InMageReprotectInput(ReverseReplicationProviderSpecificInput):
 class InMageTestFailoverInput(TestFailoverProviderSpecificInput):
     """Provider specific input for InMage test failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -17166,7 +17509,7 @@ class InMageTestFailoverInput(TestFailoverProviderSpecificInput):
 class InMageUnplannedFailoverInput(UnplannedFailoverProviderSpecificInput):
     """Provider specific input for InMage unplanned failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -18027,7 +18370,7 @@ class JobQueryParameter(_serialization.Model):
 class JobStatusEventDetails(EventSpecificDetails):
     """Model class for event details of a job status event.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -18236,10 +18579,50 @@ class LogicalNetworkProperties(_serialization.Model):
         self.logical_network_definitions_status = logical_network_definitions_status
 
 
+class ManagedRunCommandScriptInput(_serialization.Model):
+    """Managed RunCommand script input.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar step_name: The step name. Required.
+    :vartype step_name: str
+    :ivar script_url: The script url. Required.
+    :vartype script_url: str
+    :ivar script_parameters: The script parameters. Required.
+    :vartype script_parameters: str
+    """
+
+    _validation = {
+        "step_name": {"required": True},
+        "script_url": {"required": True},
+        "script_parameters": {"required": True},
+    }
+
+    _attribute_map = {
+        "step_name": {"key": "stepName", "type": "str"},
+        "script_url": {"key": "scriptUrl", "type": "str"},
+        "script_parameters": {"key": "scriptParameters", "type": "str"},
+    }
+
+    def __init__(self, *, step_name: str, script_url: str, script_parameters: str, **kwargs: Any) -> None:
+        """
+        :keyword step_name: The step name. Required.
+        :paramtype step_name: str
+        :keyword script_url: The script url. Required.
+        :paramtype script_url: str
+        :keyword script_parameters: The script parameters. Required.
+        :paramtype script_parameters: str
+        """
+        super().__init__(**kwargs)
+        self.step_name = step_name
+        self.script_url = script_url
+        self.script_parameters = script_parameters
+
+
 class ManualActionTaskDetails(TaskTypeDetails):
     """This class represents the manual action task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -18501,7 +18884,7 @@ class MasterTargetServer(_serialization.Model):  # pylint: disable=too-many-inst
 class MigrateInput(_serialization.Model):
     """Input for migrate.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Migrate input properties. Required.
     :vartype properties: ~azure.mgmt.recoveryservicessiterecovery.models.MigrateInputProperties
@@ -18527,7 +18910,7 @@ class MigrateInput(_serialization.Model):
 class MigrateInputProperties(_serialization.Model):
     """Migrate input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_specific_details: The provider specific details. Required.
     :vartype provider_specific_details:
@@ -18558,7 +18941,7 @@ class MigrateProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtMigrateInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -18838,7 +19221,7 @@ class MigrationProviderSpecificSettings(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtMigrationDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the instance type. Required.
     :vartype instance_type: str
@@ -19298,7 +19681,7 @@ class NetworkProperties(_serialization.Model):
 class NewProtectionProfile(ProtectionProfileCustomDetails):
     """New Protection profile input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -19372,7 +19755,7 @@ class NewProtectionProfile(ProtectionProfileCustomDetails):
 class NewRecoveryVirtualNetwork(RecoveryVirtualNetworkCustomDetails):
     """Recovery virtual network input to create new virtual network from given source network.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The class type. Required.
     :vartype resource_type: str
@@ -19537,6 +19920,8 @@ class OSDetails(_serialization.Model):
     :vartype o_s_major_version: str
     :ivar o_s_minor_version: The OS Minor Version.
     :vartype o_s_minor_version: str
+    :ivar user_selected_os_name: The OS name selected by user.
+    :vartype user_selected_os_name: str
     """
 
     _attribute_map = {
@@ -19546,6 +19931,7 @@ class OSDetails(_serialization.Model):
         "o_s_version": {"key": "oSVersion", "type": "str"},
         "o_s_major_version": {"key": "oSMajorVersion", "type": "str"},
         "o_s_minor_version": {"key": "oSMinorVersion", "type": "str"},
+        "user_selected_os_name": {"key": "userSelectedOSName", "type": "str"},
     }
 
     def __init__(
@@ -19557,6 +19943,7 @@ class OSDetails(_serialization.Model):
         o_s_version: Optional[str] = None,
         o_s_major_version: Optional[str] = None,
         o_s_minor_version: Optional[str] = None,
+        user_selected_os_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -19572,6 +19959,8 @@ class OSDetails(_serialization.Model):
         :paramtype o_s_major_version: str
         :keyword o_s_minor_version: The OS Minor Version.
         :paramtype o_s_minor_version: str
+        :keyword user_selected_os_name: The OS name selected by user.
+        :paramtype user_selected_os_name: str
         """
         super().__init__(**kwargs)
         self.os_type = os_type
@@ -19580,6 +19969,7 @@ class OSDetails(_serialization.Model):
         self.o_s_version = o_s_version
         self.o_s_major_version = o_s_major_version
         self.o_s_minor_version = o_s_minor_version
+        self.user_selected_os_name = user_selected_os_name
 
 
 class OSDiskDetails(_serialization.Model):
@@ -19678,7 +20068,7 @@ class OSVersionWrapper(_serialization.Model):
 class PauseReplicationInput(_serialization.Model):
     """Pause replication input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Pause replication input properties. Required.
     :vartype properties:
@@ -19706,7 +20096,7 @@ class PauseReplicationInput(_serialization.Model):
 class PauseReplicationInputProperties(_serialization.Model):
     """Pause replication input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21183,7 +21573,7 @@ class RecoveryPlanProviderSpecificDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     RecoveryPlanA2ADetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -21208,7 +21598,7 @@ class RecoveryPlanProviderSpecificDetails(_serialization.Model):
 class RecoveryPlanA2ADetails(RecoveryPlanProviderSpecificDetails):
     """Recovery plan A2A specific details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -21265,7 +21655,7 @@ class RecoveryPlanA2ADetails(RecoveryPlanProviderSpecificDetails):
         self.recovery_extended_location = recovery_extended_location
 
 
-class RecoveryPlanProviderSpecificFailoverInput(_serialization.Model):
+class RecoveryPlanProviderSpecificFailoverInput(_serialization.Model):  # pylint: disable=name-too-long
     """Recovery plan provider specific failover input.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -21274,7 +21664,7 @@ class RecoveryPlanProviderSpecificFailoverInput(_serialization.Model):
     RecoveryPlanInMageAzureV2FailoverInput, RecoveryPlanInMageRcmFailoverInput,
     RecoveryPlanInMageRcmFailbackFailoverInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21309,7 +21699,7 @@ class RecoveryPlanProviderSpecificFailoverInput(_serialization.Model):
 class RecoveryPlanA2AFailoverInput(RecoveryPlanProviderSpecificFailoverInput):
     """Recovery plan A2A failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21374,7 +21764,7 @@ class RecoveryPlanProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     RecoveryPlanA2AInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -21399,7 +21789,7 @@ class RecoveryPlanProviderSpecificInput(_serialization.Model):
 class RecoveryPlanA2AInput(RecoveryPlanProviderSpecificInput):
     """Recovery plan A2A input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -21459,7 +21849,7 @@ class RecoveryPlanA2AInput(RecoveryPlanProviderSpecificInput):
 class RecoveryPlanAction(_serialization.Model):
     """Recovery plan action details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action_name: The action name. Required.
     :vartype action_name: str
@@ -21524,7 +21914,7 @@ class RecoveryPlanActionDetails(_serialization.Model):
     RecoveryPlanAutomationRunbookActionDetails, RecoveryPlanManualActionDetails,
     RecoveryPlanScriptActionDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum
      for possible values). Required.
@@ -21553,10 +21943,10 @@ class RecoveryPlanActionDetails(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class RecoveryPlanAutomationRunbookActionDetails(RecoveryPlanActionDetails):
+class RecoveryPlanAutomationRunbookActionDetails(RecoveryPlanActionDetails):  # pylint: disable=name-too-long
     """Recovery plan Automation runbook action details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum
      for possible values). Required.
@@ -21639,7 +22029,7 @@ class RecoveryPlanCollection(_serialization.Model):
 class RecoveryPlanGroup(_serialization.Model):
     """Recovery plan group details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar group_type: The group type. Required. Known values are: "Shutdown", "Boot", and
      "Failover".
@@ -21704,7 +22094,7 @@ class RecoveryPlanGroupTaskDetails(GroupTaskDetails):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     RecoveryPlanShutdownGroupTaskDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -21758,10 +22148,12 @@ class RecoveryPlanGroupTaskDetails(GroupTaskDetails):
         self.rp_group_type = rp_group_type
 
 
-class RecoveryPlanHyperVReplicaAzureFailbackInput(RecoveryPlanProviderSpecificFailoverInput):
+class RecoveryPlanHyperVReplicaAzureFailbackInput(
+    RecoveryPlanProviderSpecificFailoverInput
+):  # pylint: disable=name-too-long
     """Recovery plan HVR Azure failback input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21810,10 +22202,12 @@ class RecoveryPlanHyperVReplicaAzureFailbackInput(RecoveryPlanProviderSpecificFa
         self.recovery_vm_creation_option = recovery_vm_creation_option
 
 
-class RecoveryPlanHyperVReplicaAzureFailoverInput(RecoveryPlanProviderSpecificFailoverInput):
+class RecoveryPlanHyperVReplicaAzureFailoverInput(
+    RecoveryPlanProviderSpecificFailoverInput
+):  # pylint: disable=name-too-long
     """Recovery plan HVR Azure failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21866,7 +22260,7 @@ class RecoveryPlanHyperVReplicaAzureFailoverInput(RecoveryPlanProviderSpecificFa
 class RecoveryPlanInMageAzureV2FailoverInput(RecoveryPlanProviderSpecificFailoverInput):
     """Recovery plan InMageAzureV2 failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21915,7 +22309,7 @@ class RecoveryPlanInMageAzureV2FailoverInput(RecoveryPlanProviderSpecificFailove
 class RecoveryPlanInMageFailoverInput(RecoveryPlanProviderSpecificFailoverInput):
     """Recovery plan InMage failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21947,10 +22341,12 @@ class RecoveryPlanInMageFailoverInput(RecoveryPlanProviderSpecificFailoverInput)
         self.recovery_point_type = recovery_point_type
 
 
-class RecoveryPlanInMageRcmFailbackFailoverInput(RecoveryPlanProviderSpecificFailoverInput):
+class RecoveryPlanInMageRcmFailbackFailoverInput(
+    RecoveryPlanProviderSpecificFailoverInput
+):  # pylint: disable=name-too-long
     """Recovery plan InMageRcmFailback failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -21999,7 +22395,7 @@ class RecoveryPlanInMageRcmFailbackFailoverInput(RecoveryPlanProviderSpecificFai
 class RecoveryPlanInMageRcmFailoverInput(RecoveryPlanProviderSpecificFailoverInput):
     """Recovery plan InMageRcm failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -22048,7 +22444,7 @@ class RecoveryPlanInMageRcmFailoverInput(RecoveryPlanProviderSpecificFailoverInp
 class RecoveryPlanManualActionDetails(RecoveryPlanActionDetails):
     """Recovery plan manual action details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum
      for possible values). Required.
@@ -22079,7 +22475,7 @@ class RecoveryPlanManualActionDetails(RecoveryPlanActionDetails):
 class RecoveryPlanPlannedFailoverInput(_serialization.Model):
     """Recovery plan planned failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: The recovery plan planned failover input properties. Required.
     :vartype properties:
@@ -22104,10 +22500,10 @@ class RecoveryPlanPlannedFailoverInput(_serialization.Model):
         self.properties = properties
 
 
-class RecoveryPlanPlannedFailoverInputProperties(_serialization.Model):
+class RecoveryPlanPlannedFailoverInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Recovery plan planned failover input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar failover_direction: The failover direction. Required. Known values are:
      "PrimaryToRecovery" and "RecoveryToPrimary".
@@ -22323,7 +22719,7 @@ class RecoveryPlanProtectedItem(_serialization.Model):
 class RecoveryPlanScriptActionDetails(RecoveryPlanActionDetails):
     """Recovery plan script action details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum
      for possible values). Required.
@@ -22379,7 +22775,7 @@ class RecoveryPlanScriptActionDetails(RecoveryPlanActionDetails):
 class RecoveryPlanShutdownGroupTaskDetails(RecoveryPlanGroupTaskDetails):
     """This class represents the recovery plan shutdown group task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -22431,7 +22827,7 @@ class RecoveryPlanShutdownGroupTaskDetails(RecoveryPlanGroupTaskDetails):
 class RecoveryPlanTestFailoverCleanupInput(_serialization.Model):
     """Recovery plan test failover cleanup input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: The recovery plan test failover cleanup input properties. Required.
     :vartype properties:
@@ -22456,7 +22852,7 @@ class RecoveryPlanTestFailoverCleanupInput(_serialization.Model):
         self.properties = properties
 
 
-class RecoveryPlanTestFailoverCleanupInputProperties(_serialization.Model):
+class RecoveryPlanTestFailoverCleanupInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Recovery plan test failover cleanup input properties.
 
     :ivar comments: The test failover cleanup comments.
@@ -22483,7 +22879,7 @@ class RecoveryPlanTestFailoverCleanupInputProperties(_serialization.Model):
 class RecoveryPlanTestFailoverInput(_serialization.Model):
     """Recovery plan test failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: The recovery plan test failover input properties. Required.
     :vartype properties:
@@ -22511,7 +22907,7 @@ class RecoveryPlanTestFailoverInput(_serialization.Model):
 class RecoveryPlanTestFailoverInputProperties(_serialization.Model):
     """Recovery plan test failover input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar failover_direction: The failover direction. Required. Known values are:
      "PrimaryToRecovery" and "RecoveryToPrimary".
@@ -22573,7 +22969,7 @@ class RecoveryPlanTestFailoverInputProperties(_serialization.Model):
 class RecoveryPlanUnplannedFailoverInput(_serialization.Model):
     """Recovery plan unplanned failover input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: The recovery plan unplanned failover input properties. Required.
     :vartype properties:
@@ -22598,10 +22994,10 @@ class RecoveryPlanUnplannedFailoverInput(_serialization.Model):
         self.properties = properties
 
 
-class RecoveryPlanUnplannedFailoverInputProperties(_serialization.Model):
+class RecoveryPlanUnplannedFailoverInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Recovery plan unplanned failover input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar failover_direction: The failover direction. Required. Known values are:
      "PrimaryToRecovery" and "RecoveryToPrimary".
@@ -23103,7 +23499,7 @@ class RemoveProtectionContainerMappingInput(_serialization.Model):
         self.properties = properties
 
 
-class RemoveProtectionContainerMappingInputProperties(_serialization.Model):
+class RemoveProtectionContainerMappingInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Unpairing input properties.
 
     :ivar provider_specific_input: Provider specific input for unpairing.
@@ -23441,7 +23837,7 @@ class ReplicationEligibilityResultsProperties(_serialization.Model):
 class ReplicationGroupDetails(ConfigurationSettings):
     """Replication group details. This will be used in case of San.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -23934,7 +24330,7 @@ class ReplicationProtectionIntentProperties(_serialization.Model):
         self.provider_specific_details = provider_specific_details
 
 
-class ReplicationProviderContainerUnmappingInput(_serialization.Model):
+class ReplicationProviderContainerUnmappingInput(_serialization.Model):  # pylint: disable=name-too-long
     """Provider specific input for unpairing operations.
 
     :ivar instance_type: The class type.
@@ -24185,7 +24581,7 @@ class ResumeJobParamsProperties(_serialization.Model):
 class ResumeReplicationInput(_serialization.Model):
     """Resume replication input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Resume replication input properties. Required.
     :vartype properties:
@@ -24213,7 +24609,7 @@ class ResumeReplicationInput(_serialization.Model):
 class ResumeReplicationInputProperties(_serialization.Model):
     """Resume replication input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_specific_details: The provider specific input for resume replication. Required.
     :vartype provider_specific_details:
@@ -24250,7 +24646,7 @@ class ResumeReplicationProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtResumeReplicationInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -24275,7 +24671,7 @@ class ResumeReplicationProviderSpecificInput(_serialization.Model):
 class ResyncInput(_serialization.Model):
     """Resync input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Resync input properties. Required.
     :vartype properties: ~azure.mgmt.recoveryservicessiterecovery.models.ResyncInputProperties
@@ -24301,7 +24697,7 @@ class ResyncInput(_serialization.Model):
 class ResyncInputProperties(_serialization.Model):
     """Resync input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_specific_details: The provider specific details. Required.
     :vartype provider_specific_details:
@@ -24332,7 +24728,7 @@ class ResyncProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtResyncInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -24543,7 +24939,7 @@ class RunAsAccount(_serialization.Model):
 class ScriptActionTaskDetails(TaskTypeDetails):
     """This class represents the script action task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -24594,6 +24990,79 @@ class ScriptActionTaskDetails(TaskTypeDetails):
         self.path = path
         self.output = output
         self.is_primary_side_script = is_primary_side_script
+
+
+class SecurityProfileProperties(_serialization.Model):
+    """Security profile input.
+
+    :ivar target_vm_security_type: The target VM security type. Known values are: "None",
+     "TrustedLaunch", and "ConfidentialVM".
+    :vartype target_vm_security_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityType
+    :ivar target_vm_secure_boot: A value indicating whether secure boot to be enabled. Known values
+     are: "Disabled" and "Enabled".
+    :vartype target_vm_secure_boot: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+    :ivar target_vm_tpm: A value indicating whether trusted platform module to be enabled. Known
+     values are: "Disabled" and "Enabled".
+    :vartype target_vm_tpm: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+    :ivar target_vm_monitoring: A value indicating whether integrity monitoring to be enabled.
+     Known values are: "Disabled" and "Enabled".
+    :vartype target_vm_monitoring: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+    :ivar target_vm_confidential_encryption: A value indicating whether confidential compute
+     encryption to be enabled. Known values are: "Disabled" and "Enabled".
+    :vartype target_vm_confidential_encryption: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+    """
+
+    _attribute_map = {
+        "target_vm_security_type": {"key": "targetVmSecurityType", "type": "str"},
+        "target_vm_secure_boot": {"key": "targetVmSecureBoot", "type": "str"},
+        "target_vm_tpm": {"key": "targetVmTpm", "type": "str"},
+        "target_vm_monitoring": {"key": "targetVmMonitoring", "type": "str"},
+        "target_vm_confidential_encryption": {"key": "targetVmConfidentialEncryption", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        target_vm_security_type: Optional[Union[str, "_models.SecurityType"]] = None,
+        target_vm_secure_boot: Optional[Union[str, "_models.SecurityConfiguration"]] = None,
+        target_vm_tpm: Optional[Union[str, "_models.SecurityConfiguration"]] = None,
+        target_vm_monitoring: Optional[Union[str, "_models.SecurityConfiguration"]] = None,
+        target_vm_confidential_encryption: Optional[Union[str, "_models.SecurityConfiguration"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword target_vm_security_type: The target VM security type. Known values are: "None",
+         "TrustedLaunch", and "ConfidentialVM".
+        :paramtype target_vm_security_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityType
+        :keyword target_vm_secure_boot: A value indicating whether secure boot to be enabled. Known
+         values are: "Disabled" and "Enabled".
+        :paramtype target_vm_secure_boot: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+        :keyword target_vm_tpm: A value indicating whether trusted platform module to be enabled. Known
+         values are: "Disabled" and "Enabled".
+        :paramtype target_vm_tpm: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+        :keyword target_vm_monitoring: A value indicating whether integrity monitoring to be enabled.
+         Known values are: "Disabled" and "Enabled".
+        :paramtype target_vm_monitoring: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+        :keyword target_vm_confidential_encryption: A value indicating whether confidential compute
+         encryption to be enabled. Known values are: "Disabled" and "Enabled".
+        :paramtype target_vm_confidential_encryption: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.SecurityConfiguration
+        """
+        super().__init__(**kwargs)
+        self.target_vm_security_type = target_vm_security_type
+        self.target_vm_secure_boot = target_vm_secure_boot
+        self.target_vm_tpm = target_vm_tpm
+        self.target_vm_monitoring = target_vm_monitoring
+        self.target_vm_confidential_encryption = target_vm_confidential_encryption
 
 
 class ServiceError(_serialization.Model):
@@ -25144,7 +25613,7 @@ class SwitchProtectionInputProperties(_serialization.Model):
 class SwitchProtectionJobDetails(JobDetails):
     """This class represents details for switch protection job.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
      values). Required.
@@ -25419,7 +25888,7 @@ class TargetComputeSizeProperties(_serialization.Model):
 class TestFailoverCleanupInput(_serialization.Model):
     """Input definition for test failover cleanup.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Test failover cleanup input properties. Required.
     :vartype properties:
@@ -25471,7 +25940,7 @@ class TestFailoverCleanupInputProperties(_serialization.Model):
 class TestFailoverInput(_serialization.Model):
     """Input definition for test failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Test failover input properties. Required.
     :vartype properties:
@@ -25547,7 +26016,7 @@ class TestFailoverInputProperties(_serialization.Model):
 class TestFailoverJobDetails(JobDetails):
     """This class represents the details for a test failover job.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
      values). Required.
@@ -25628,7 +26097,7 @@ class TestFailoverJobDetails(JobDetails):
 class TestMigrateCleanupInput(_serialization.Model):
     """Input for test migrate cleanup.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Test migrate cleanup input properties. Required.
     :vartype properties:
@@ -25680,7 +26149,7 @@ class TestMigrateCleanupInputProperties(_serialization.Model):
 class TestMigrateInput(_serialization.Model):
     """Input for test migrate.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Test migrate input properties. Required.
     :vartype properties: ~azure.mgmt.recoveryservicessiterecovery.models.TestMigrateInputProperties
@@ -25707,7 +26176,7 @@ class TestMigrateInput(_serialization.Model):
 class TestMigrateInputProperties(_serialization.Model):
     """Test migrate input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_specific_details: The provider specific details. Required.
     :vartype provider_specific_details:
@@ -25738,7 +26207,7 @@ class TestMigrateProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtTestMigrateInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -25763,7 +26232,7 @@ class TestMigrateProviderSpecificInput(_serialization.Model):
 class UnplannedFailoverInput(_serialization.Model):
     """Input definition for unplanned failover.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Unplanned failover input properties. Required.
     :vartype properties:
@@ -25832,10 +26301,10 @@ class UnplannedFailoverInputProperties(_serialization.Model):
         self.provider_specific_details = provider_specific_details
 
 
-class UpdateApplianceForReplicationProtectedItemInput(_serialization.Model):
+class UpdateApplianceForReplicationProtectedItemInput(_serialization.Model):  # pylint: disable=name-too-long
     """Update appliance for replication protected item input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Update appliance replication protected item properties. Required.
     :vartype properties:
@@ -25862,10 +26331,10 @@ class UpdateApplianceForReplicationProtectedItemInput(_serialization.Model):
         self.properties = properties
 
 
-class UpdateApplianceForReplicationProtectedItemInputProperties(_serialization.Model):
+class UpdateApplianceForReplicationProtectedItemInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Update appliance for protected item input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar target_appliance_id: The target appliance Id. Required.
     :vartype target_appliance_id: str
@@ -25911,7 +26380,7 @@ class UpdateApplianceForReplicationProtectedItemInputProperties(_serialization.M
 class UpdateDiskInput(_serialization.Model):
     """Disk input for update.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: The disk Id. Required.
     :vartype disk_id: str
@@ -25967,7 +26436,7 @@ class UpdateMigrationItemInput(_serialization.Model):
 class UpdateMigrationItemInputProperties(_serialization.Model):
     """Update migration item input properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_specific_details: The provider specific input to update migration item.
      Required.
@@ -26005,7 +26474,7 @@ class UpdateMigrationItemProviderSpecificInput(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     VMwareCbtUpdateMigrationItemInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -26206,7 +26675,7 @@ class UpdateProtectionContainerMappingInput(_serialization.Model):
         self.properties = properties
 
 
-class UpdateProtectionContainerMappingInputProperties(_serialization.Model):
+class UpdateProtectionContainerMappingInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Container pairing update input.
 
     :ivar provider_specific_input: Provider specific input for updating protection container
@@ -26306,7 +26775,7 @@ class UpdateReplicationProtectedItemInput(_serialization.Model):
         self.properties = properties
 
 
-class UpdateReplicationProtectedItemInputProperties(_serialization.Model):
+class UpdateReplicationProtectedItemInputProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Update protected item input properties.
 
     :ivar recovery_azure_vm_name: Target Azure VM name given by the user.
@@ -26480,6 +26949,41 @@ class UpdateVCenterRequestProperties(_serialization.Model):
         self.process_server_id = process_server_id
         self.port = port
         self.run_as_account_id = run_as_account_id
+
+
+class UserCreatedResourceTag(_serialization.Model):
+    """Resource tag input.
+
+    :ivar tag_name: The tag name. Please read for more information:
+     https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations.
+    :vartype tag_name: str
+    :ivar tag_value: The tag value. Please read her for more information:
+     https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations.
+    :vartype tag_value: str
+    """
+
+    _validation = {
+        "tag_name": {"max_length": 512},
+        "tag_value": {"max_length": 256},
+    }
+
+    _attribute_map = {
+        "tag_name": {"key": "tagName", "type": "str"},
+        "tag_value": {"key": "tagValue", "type": "str"},
+    }
+
+    def __init__(self, *, tag_name: Optional[str] = None, tag_value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword tag_name: The tag name. Please read for more information:
+         https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations.
+        :paramtype tag_name: str
+        :keyword tag_value: The tag value. Please read her for more information:
+         https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations.
+        :paramtype tag_value: str
+        """
+        super().__init__(**kwargs)
+        self.tag_name = tag_name
+        self.tag_value = tag_value
 
 
 class VaultHealthDetails(Resource):
@@ -26662,7 +27166,7 @@ class VaultSettingCollection(_serialization.Model):
 class VaultSettingCreationInput(_serialization.Model):
     """Input to create vault setting.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Vault setting creation input properties. Required.
     :vartype properties:
@@ -26962,7 +27466,7 @@ class VersionDetails(_serialization.Model):
 class VirtualMachineTaskDetails(JobTaskDetails):
     """This class represents the virtual machine task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -27010,7 +27514,7 @@ class VirtualMachineTaskDetails(JobTaskDetails):
 class VmmDetails(FabricSpecificDetails):
     """VMM fabric specific details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -27033,7 +27537,7 @@ class VmmDetails(FabricSpecificDetails):
 class VmmToAzureCreateNetworkMappingInput(FabricSpecificCreateNetworkMappingInput):
     """Create network mappings input properties/behavior specific to Vmm to Azure Network mapping.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -27056,7 +27560,7 @@ class VmmToAzureCreateNetworkMappingInput(FabricSpecificCreateNetworkMappingInpu
 class VmmToAzureNetworkMappingSettings(NetworkMappingFabricSpecificSettings):
     """E2A Network Mapping fabric specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -27079,7 +27583,7 @@ class VmmToAzureNetworkMappingSettings(NetworkMappingFabricSpecificSettings):
 class VmmToAzureUpdateNetworkMappingInput(FabricSpecificUpdateNetworkMappingInput):
     """Update network mappings input properties/behavior specific to vmm to azure.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -27102,7 +27606,7 @@ class VmmToAzureUpdateNetworkMappingInput(FabricSpecificUpdateNetworkMappingInpu
 class VmmToVmmCreateNetworkMappingInput(FabricSpecificCreateNetworkMappingInput):
     """Create network mappings input properties/behavior specific to vmm to vmm Network mapping.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -27125,7 +27629,7 @@ class VmmToVmmCreateNetworkMappingInput(FabricSpecificCreateNetworkMappingInput)
 class VmmToVmmNetworkMappingSettings(NetworkMappingFabricSpecificSettings):
     """E2E Network Mapping fabric specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the Instance type. Required.
     :vartype instance_type: str
@@ -27148,7 +27652,7 @@ class VmmToVmmNetworkMappingSettings(NetworkMappingFabricSpecificSettings):
 class VmmToVmmUpdateNetworkMappingInput(FabricSpecificUpdateNetworkMappingInput):
     """Update network mappings input properties/behavior specific to vmm to vmm.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The instance type. Required.
     :vartype instance_type: str
@@ -27171,7 +27675,7 @@ class VmmToVmmUpdateNetworkMappingInput(FabricSpecificUpdateNetworkMappingInput)
 class VmmVirtualMachineDetails(HyperVVirtualMachineDetails):
     """VMM fabric provider specific VM settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -27567,7 +28071,7 @@ class VMNicInputDetails(_serialization.Model):  # pylint: disable=too-many-insta
 class VmNicUpdatesTaskDetails(TaskTypeDetails):
     """This class represents the vm NicUpdates task details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The type of task details. Required.
     :vartype instance_type: str
@@ -27611,7 +28115,7 @@ class VmNicUpdatesTaskDetails(TaskTypeDetails):
 class VMwareCbtContainerCreationInput(ReplicationProviderSpecificContainerCreationInput):
     """VMwareCbt container creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -27634,7 +28138,7 @@ class VMwareCbtContainerCreationInput(ReplicationProviderSpecificContainerCreati
 class VMwareCbtContainerMappingInput(ReplicationProviderSpecificContainerMappingInput):
     """VMwareCbt container mapping input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -27708,12 +28212,12 @@ class VMwareCbtContainerMappingInput(ReplicationProviderSpecificContainerMapping
 class VMwareCbtDiskInput(_serialization.Model):
     """VMwareCbt disk input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: The disk Id. Required.
     :vartype disk_id: str
-    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar is_os_disk: A value indicating whether the disk is the OS disk. Required.
     :vartype is_os_disk: str
@@ -27724,6 +28228,8 @@ class VMwareCbtDiskInput(_serialization.Model):
     :vartype log_storage_account_sas_secret_name: str
     :ivar disk_encryption_set_id: The DiskEncryptionSet ARM Id.
     :vartype disk_encryption_set_id: str
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _validation = {
@@ -27740,6 +28246,7 @@ class VMwareCbtDiskInput(_serialization.Model):
         "log_storage_account_id": {"key": "logStorageAccountId", "type": "str"},
         "log_storage_account_sas_secret_name": {"key": "logStorageAccountSasSecretName", "type": "str"},
         "disk_encryption_set_id": {"key": "diskEncryptionSetId", "type": "str"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -27751,13 +28258,14 @@ class VMwareCbtDiskInput(_serialization.Model):
         log_storage_account_sas_secret_name: str,
         disk_type: Optional[Union[str, "_models.DiskAccountType"]] = None,
         disk_encryption_set_id: Optional[str] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword disk_id: The disk Id. Required.
         :paramtype disk_id: str
-        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword is_os_disk: A value indicating whether the disk is the OS disk. Required.
         :paramtype is_os_disk: str
@@ -27768,6 +28276,8 @@ class VMwareCbtDiskInput(_serialization.Model):
         :paramtype log_storage_account_sas_secret_name: str
         :keyword disk_encryption_set_id: The DiskEncryptionSet ARM Id.
         :paramtype disk_encryption_set_id: str
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.disk_id = disk_id
@@ -27776,6 +28286,7 @@ class VMwareCbtDiskInput(_serialization.Model):
         self.log_storage_account_id = log_storage_account_id
         self.log_storage_account_sas_secret_name = log_storage_account_sas_secret_name
         self.disk_encryption_set_id = disk_encryption_set_id
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
 class VMwareCbtEnableMigrationInput(
@@ -27783,7 +28294,7 @@ class VMwareCbtEnableMigrationInput(
 ):  # pylint: disable=too-many-instance-attributes
     """VMwareCbt specific enable migration input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -27799,6 +28310,10 @@ class VMwareCbtEnableMigrationInput(
      "NoLicenseType", "PAYG", and "AHUB".
     :vartype sql_server_license_type: str or
      ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+    :ivar linux_license_type: The license type for Linux VM's. Known values are: "NotSpecified",
+     "NoLicenseType", and "LinuxServer".
+    :vartype linux_license_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.LinuxLicenseType
     :ivar perform_sql_bulk_registration: A value indicating whether bulk SQL RP registration to be
      done.
     :vartype perform_sql_bulk_registration: str
@@ -27844,6 +28359,8 @@ class VMwareCbtEnableMigrationInput(
     :vartype target_disk_tags: dict[str, str]
     :ivar target_nic_tags: The tags for the target NICs.
     :vartype target_nic_tags: dict[str, str]
+    :ivar user_selected_os_name: The OS name selected by user.
+    :vartype user_selected_os_name: str
     """
 
     _validation = {
@@ -27862,6 +28379,7 @@ class VMwareCbtEnableMigrationInput(
         "disks_to_include": {"key": "disksToInclude", "type": "[VMwareCbtDiskInput]"},
         "license_type": {"key": "licenseType", "type": "str"},
         "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "linux_license_type": {"key": "linuxLicenseType", "type": "str"},
         "perform_sql_bulk_registration": {"key": "performSqlBulkRegistration", "type": "str"},
         "data_mover_run_as_account_id": {"key": "dataMoverRunAsAccountId", "type": "str"},
         "snapshot_run_as_account_id": {"key": "snapshotRunAsAccountId", "type": "str"},
@@ -27883,6 +28401,7 @@ class VMwareCbtEnableMigrationInput(
         "seed_disk_tags": {"key": "seedDiskTags", "type": "{str}"},
         "target_disk_tags": {"key": "targetDiskTags", "type": "{str}"},
         "target_nic_tags": {"key": "targetNicTags", "type": "{str}"},
+        "user_selected_os_name": {"key": "userSelectedOSName", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -27896,6 +28415,7 @@ class VMwareCbtEnableMigrationInput(
         target_network_id: str,
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         sql_server_license_type: Optional[Union[str, "_models.SqlServerLicenseType"]] = None,
+        linux_license_type: Optional[Union[str, "_models.LinuxLicenseType"]] = None,
         perform_sql_bulk_registration: Optional[str] = None,
         target_vm_name: Optional[str] = None,
         target_vm_size: Optional[str] = None,
@@ -27913,6 +28433,7 @@ class VMwareCbtEnableMigrationInput(
         seed_disk_tags: Optional[Dict[str, str]] = None,
         target_disk_tags: Optional[Dict[str, str]] = None,
         target_nic_tags: Optional[Dict[str, str]] = None,
+        user_selected_os_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -27928,6 +28449,10 @@ class VMwareCbtEnableMigrationInput(
          "NotSpecified", "NoLicenseType", "PAYG", and "AHUB".
         :paramtype sql_server_license_type: str or
          ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+        :keyword linux_license_type: The license type for Linux VM's. Known values are: "NotSpecified",
+         "NoLicenseType", and "LinuxServer".
+        :paramtype linux_license_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.LinuxLicenseType
         :keyword perform_sql_bulk_registration: A value indicating whether bulk SQL RP registration to
          be done.
         :paramtype perform_sql_bulk_registration: str
@@ -27973,6 +28498,8 @@ class VMwareCbtEnableMigrationInput(
         :paramtype target_disk_tags: dict[str, str]
         :keyword target_nic_tags: The tags for the target NICs.
         :paramtype target_nic_tags: dict[str, str]
+        :keyword user_selected_os_name: The OS name selected by user.
+        :paramtype user_selected_os_name: str
         """
         super().__init__(**kwargs)
         self.instance_type: str = "VMwareCbt"
@@ -27980,6 +28507,7 @@ class VMwareCbtEnableMigrationInput(
         self.disks_to_include = disks_to_include
         self.license_type = license_type
         self.sql_server_license_type = sql_server_license_type
+        self.linux_license_type = linux_license_type
         self.perform_sql_bulk_registration = perform_sql_bulk_registration
         self.data_mover_run_as_account_id = data_mover_run_as_account_id
         self.snapshot_run_as_account_id = snapshot_run_as_account_id
@@ -28001,6 +28529,7 @@ class VMwareCbtEnableMigrationInput(
         self.seed_disk_tags = seed_disk_tags
         self.target_disk_tags = target_disk_tags
         self.target_nic_tags = target_nic_tags
+        self.user_selected_os_name = user_selected_os_name
 
 
 class VMwareCbtEventDetails(EventProviderSpecificDetails):
@@ -28008,7 +28537,7 @@ class VMwareCbtEventDetails(EventProviderSpecificDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -28036,7 +28565,7 @@ class VMwareCbtEventDetails(EventProviderSpecificDetails):
 class VMwareCbtMigrateInput(MigrateProviderSpecificInput):
     """VMwareCbt specific migrate input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -28044,6 +28573,9 @@ class VMwareCbtMigrateInput(MigrateProviderSpecificInput):
     :vartype perform_shutdown: str
     :ivar os_upgrade_version: A value indicating the inplace OS Upgrade version.
     :vartype os_upgrade_version: str
+    :ivar post_migration_steps: The managed run command script input.
+    :vartype post_migration_steps:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.ManagedRunCommandScriptInput]
     """
 
     _validation = {
@@ -28055,19 +28587,31 @@ class VMwareCbtMigrateInput(MigrateProviderSpecificInput):
         "instance_type": {"key": "instanceType", "type": "str"},
         "perform_shutdown": {"key": "performShutdown", "type": "str"},
         "os_upgrade_version": {"key": "osUpgradeVersion", "type": "str"},
+        "post_migration_steps": {"key": "postMigrationSteps", "type": "[ManagedRunCommandScriptInput]"},
     }
 
-    def __init__(self, *, perform_shutdown: str, os_upgrade_version: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        perform_shutdown: str,
+        os_upgrade_version: Optional[str] = None,
+        post_migration_steps: Optional[List["_models.ManagedRunCommandScriptInput"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword perform_shutdown: A value indicating whether VM is to be shutdown. Required.
         :paramtype perform_shutdown: str
         :keyword os_upgrade_version: A value indicating the inplace OS Upgrade version.
         :paramtype os_upgrade_version: str
+        :keyword post_migration_steps: The managed run command script input.
+        :paramtype post_migration_steps:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.ManagedRunCommandScriptInput]
         """
         super().__init__(**kwargs)
         self.instance_type: str = "VMwareCbt"
         self.perform_shutdown = perform_shutdown
         self.os_upgrade_version = os_upgrade_version
+        self.post_migration_steps = post_migration_steps
 
 
 class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: disable=too-many-instance-attributes
@@ -28075,7 +28619,7 @@ class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: d
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the instance type. Required.
     :vartype instance_type: str
@@ -28093,6 +28637,10 @@ class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: d
     :vartype license_type: str
     :ivar sql_server_license_type: The SQL Server license type.
     :vartype sql_server_license_type: str
+    :ivar linux_license_type: The license type for Linux VM's. Known values are: "NotSpecified",
+     "NoLicenseType", and "LinuxServer".
+    :vartype linux_license_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.LinuxLicenseType
     :ivar data_mover_run_as_account_id: The data mover run as account Id.
     :vartype data_mover_run_as_account_id: str
     :ivar snapshot_run_as_account_id: The snapshot run as account Id.
@@ -28225,6 +28773,7 @@ class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: d
         "target_generation": {"key": "targetGeneration", "type": "str"},
         "license_type": {"key": "licenseType", "type": "str"},
         "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "linux_license_type": {"key": "linuxLicenseType", "type": "str"},
         "data_mover_run_as_account_id": {"key": "dataMoverRunAsAccountId", "type": "str"},
         "snapshot_run_as_account_id": {"key": "snapshotRunAsAccountId", "type": "str"},
         "storage_account_id": {"key": "storageAccountId", "type": "str"},
@@ -28273,6 +28822,7 @@ class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: d
         *,
         license_type: Optional[str] = None,
         sql_server_license_type: Optional[str] = None,
+        linux_license_type: Optional[Union[str, "_models.LinuxLicenseType"]] = None,
         target_vm_name: Optional[str] = None,
         target_vm_size: Optional[str] = None,
         target_resource_group_id: Optional[str] = None,
@@ -28299,6 +28849,10 @@ class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: d
         :paramtype license_type: str
         :keyword sql_server_license_type: The SQL Server license type.
         :paramtype sql_server_license_type: str
+        :keyword linux_license_type: The license type for Linux VM's. Known values are: "NotSpecified",
+         "NoLicenseType", and "LinuxServer".
+        :paramtype linux_license_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.LinuxLicenseType
         :keyword target_vm_name: Target VM name.
         :paramtype target_vm_name: str
         :keyword target_vm_size: The target VM size.
@@ -28350,6 +28904,7 @@ class VMwareCbtMigrationDetails(MigrationProviderSpecificSettings):  # pylint: d
         self.target_generation = None
         self.license_type = license_type
         self.sql_server_license_type = sql_server_license_type
+        self.linux_license_type = linux_license_type
         self.data_mover_run_as_account_id = None
         self.snapshot_run_as_account_id = None
         self.storage_account_id = None
@@ -28519,7 +29074,7 @@ class VMwareCbtNicDetails(_serialization.Model):  # pylint: disable=too-many-ins
 class VMwareCbtNicInput(_serialization.Model):
     """VMwareCbt NIC input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nic_id: The NIC Id. Required.
     :vartype nic_id: str
@@ -28601,7 +29156,7 @@ class VMwareCbtNicInput(_serialization.Model):
 class VMwareCbtPolicyCreationInput(PolicyProviderSpecificInput):
     """VMware Cbt policy creation input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -28655,7 +29210,7 @@ class VMwareCbtPolicyCreationInput(PolicyProviderSpecificInput):
 class VmwareCbtPolicyDetails(PolicyProviderSpecificDetails):
     """VMware Cbt specific policy details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -28714,8 +29269,8 @@ class VMwareCbtProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
     :vartype disk_id: str
     :ivar disk_name: The disk name.
     :vartype disk_name: str
-    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS", and
-     "StandardSSD_LRS".
+    :ivar disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+     "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
     :ivar disk_path: The disk path.
     :vartype disk_path: str
@@ -28743,6 +29298,8 @@ class VMwareCbtProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
     :ivar gateway_operation_details: A value indicating the gateway operation details.
     :vartype gateway_operation_details:
      ~azure.mgmt.recoveryservicessiterecovery.models.GatewayOperationDetails
+    :ivar sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+    :vartype sector_size_in_bytes: int
     """
 
     _validation = {
@@ -28777,6 +29334,7 @@ class VMwareCbtProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         "target_blob_uri": {"key": "targetBlobUri", "type": "str"},
         "target_disk_name": {"key": "targetDiskName", "type": "str"},
         "gateway_operation_details": {"key": "gatewayOperationDetails", "type": "GatewayOperationDetails"},
+        "sector_size_in_bytes": {"key": "sectorSizeInBytes", "type": "int"},
     }
 
     def __init__(
@@ -28784,14 +29342,17 @@ class VMwareCbtProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         *,
         disk_type: Optional[Union[str, "_models.DiskAccountType"]] = None,
         target_disk_name: Optional[str] = None,
+        sector_size_in_bytes: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS", and
-         "StandardSSD_LRS".
+        :keyword disk_type: The disk type. Known values are: "Standard_LRS", "Premium_LRS",
+         "StandardSSD_LRS", "PremiumV2_LRS", "UltraSSD_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.recoveryservicessiterecovery.models.DiskAccountType
         :keyword target_disk_name: The name for the target managed disk.
         :paramtype target_disk_name: str
+        :keyword sector_size_in_bytes: The logical sector size (in bytes), 512 by default.
+        :paramtype sector_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.disk_id = None
@@ -28809,14 +29370,17 @@ class VMwareCbtProtectedDiskDetails(_serialization.Model):  # pylint: disable=to
         self.target_blob_uri = None
         self.target_disk_name = target_disk_name
         self.gateway_operation_details = None
+        self.sector_size_in_bytes = sector_size_in_bytes
 
 
-class VMwareCbtProtectionContainerMappingDetails(ProtectionContainerMappingProviderSpecificDetails):
+class VMwareCbtProtectionContainerMappingDetails(
+    ProtectionContainerMappingProviderSpecificDetails
+):  # pylint: disable=name-too-long
     """VMwareCbt provider specific container mapping details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -28882,7 +29446,7 @@ class VMwareCbtProtectionContainerMappingDetails(ProtectionContainerMappingProvi
 class VMwareCbtResumeReplicationInput(ResumeReplicationProviderSpecificInput):
     """VMwareCbt specific resume replication input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -28913,7 +29477,7 @@ class VMwareCbtResumeReplicationInput(ResumeReplicationProviderSpecificInput):
 class VMwareCbtResyncInput(ResyncProviderSpecificInput):
     """VMwareCbt specific resync input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -29011,7 +29575,7 @@ class VMwareCbtSecurityProfileProperties(_serialization.Model):
 class VMwareCbtTestMigrateInput(TestMigrateProviderSpecificInput):
     """VMwareCbt specific test migrate input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -29023,6 +29587,9 @@ class VMwareCbtTestMigrateInput(TestMigrateProviderSpecificInput):
     :vartype vm_nics: list[~azure.mgmt.recoveryservicessiterecovery.models.VMwareCbtNicInput]
     :ivar os_upgrade_version: A value indicating the inplace OS Upgrade version.
     :vartype os_upgrade_version: str
+    :ivar post_migration_steps: The managed run command script input.
+    :vartype post_migration_steps:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.ManagedRunCommandScriptInput]
     """
 
     _validation = {
@@ -29037,6 +29604,7 @@ class VMwareCbtTestMigrateInput(TestMigrateProviderSpecificInput):
         "network_id": {"key": "networkId", "type": "str"},
         "vm_nics": {"key": "vmNics", "type": "[VMwareCbtNicInput]"},
         "os_upgrade_version": {"key": "osUpgradeVersion", "type": "str"},
+        "post_migration_steps": {"key": "postMigrationSteps", "type": "[ManagedRunCommandScriptInput]"},
     }
 
     def __init__(
@@ -29046,6 +29614,7 @@ class VMwareCbtTestMigrateInput(TestMigrateProviderSpecificInput):
         network_id: str,
         vm_nics: Optional[List["_models.VMwareCbtNicInput"]] = None,
         os_upgrade_version: Optional[str] = None,
+        post_migration_steps: Optional[List["_models.ManagedRunCommandScriptInput"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -29057,6 +29626,9 @@ class VMwareCbtTestMigrateInput(TestMigrateProviderSpecificInput):
         :paramtype vm_nics: list[~azure.mgmt.recoveryservicessiterecovery.models.VMwareCbtNicInput]
         :keyword os_upgrade_version: A value indicating the inplace OS Upgrade version.
         :paramtype os_upgrade_version: str
+        :keyword post_migration_steps: The managed run command script input.
+        :paramtype post_migration_steps:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.ManagedRunCommandScriptInput]
         """
         super().__init__(**kwargs)
         self.instance_type: str = "VMwareCbt"
@@ -29064,12 +29636,13 @@ class VMwareCbtTestMigrateInput(TestMigrateProviderSpecificInput):
         self.network_id = network_id
         self.vm_nics = vm_nics
         self.os_upgrade_version = os_upgrade_version
+        self.post_migration_steps = post_migration_steps
 
 
 class VMwareCbtUpdateDiskInput(_serialization.Model):
     """VMwareCbt disk input for update.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: The disk Id. Required.
     :vartype disk_id: str
@@ -29111,7 +29684,7 @@ class VMwareCbtUpdateMigrationItemInput(
 ):  # pylint: disable=too-many-instance-attributes
     """VMwareCbt specific update migration item input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: The class type. Required.
     :vartype instance_type: str
@@ -29146,6 +29719,10 @@ class VMwareCbtUpdateMigrationItemInput(
      "NoLicenseType", "PAYG", and "AHUB".
     :vartype sql_server_license_type: str or
      ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+    :ivar linux_license_type: The license type for Linux VM's. Known values are: "NotSpecified",
+     "NoLicenseType", and "LinuxServer".
+    :vartype linux_license_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.LinuxLicenseType
     :ivar perform_auto_resync: A value indicating whether auto resync is to be done.
     :vartype perform_auto_resync: str
     :ivar target_vm_tags: The target VM tags.
@@ -29175,6 +29752,7 @@ class VMwareCbtUpdateMigrationItemInput(
         "vm_disks": {"key": "vmDisks", "type": "[VMwareCbtUpdateDiskInput]"},
         "license_type": {"key": "licenseType", "type": "str"},
         "sql_server_license_type": {"key": "sqlServerLicenseType", "type": "str"},
+        "linux_license_type": {"key": "linuxLicenseType", "type": "str"},
         "perform_auto_resync": {"key": "performAutoResync", "type": "str"},
         "target_vm_tags": {"key": "targetVmTags", "type": "{str}"},
         "target_disk_tags": {"key": "targetDiskTags", "type": "{str}"},
@@ -29197,6 +29775,7 @@ class VMwareCbtUpdateMigrationItemInput(
         vm_disks: Optional[List["_models.VMwareCbtUpdateDiskInput"]] = None,
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         sql_server_license_type: Optional[Union[str, "_models.SqlServerLicenseType"]] = None,
+        linux_license_type: Optional[Union[str, "_models.LinuxLicenseType"]] = None,
         perform_auto_resync: Optional[str] = None,
         target_vm_tags: Optional[Dict[str, str]] = None,
         target_disk_tags: Optional[Dict[str, str]] = None,
@@ -29235,6 +29814,10 @@ class VMwareCbtUpdateMigrationItemInput(
          "NotSpecified", "NoLicenseType", "PAYG", and "AHUB".
         :paramtype sql_server_license_type: str or
          ~azure.mgmt.recoveryservicessiterecovery.models.SqlServerLicenseType
+        :keyword linux_license_type: The license type for Linux VM's. Known values are: "NotSpecified",
+         "NoLicenseType", and "LinuxServer".
+        :paramtype linux_license_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.LinuxLicenseType
         :keyword perform_auto_resync: A value indicating whether auto resync is to be done.
         :paramtype perform_auto_resync: str
         :keyword target_vm_tags: The target VM tags.
@@ -29259,6 +29842,7 @@ class VMwareCbtUpdateMigrationItemInput(
         self.vm_disks = vm_disks
         self.license_type = license_type
         self.sql_server_license_type = sql_server_license_type
+        self.linux_license_type = linux_license_type
         self.perform_auto_resync = perform_auto_resync
         self.target_vm_tags = target_vm_tags
         self.target_disk_tags = target_disk_tags
@@ -29268,7 +29852,7 @@ class VMwareCbtUpdateMigrationItemInput(
 class VMwareDetails(FabricSpecificDetails):  # pylint: disable=too-many-instance-attributes
     """Store the fabric details specific to the VMware fabric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -29538,7 +30122,7 @@ class VMwareDetails(FabricSpecificDetails):  # pylint: disable=too-many-instance
 class VMwareV2FabricCreationInput(FabricSpecificCreationInput):
     """VMwareV2 fabric provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Required.
     :vartype instance_type: str
@@ -29590,7 +30174,7 @@ class VMwareV2FabricSpecificDetails(FabricSpecificDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str
@@ -29649,7 +30233,7 @@ class VMwareV2FabricSpecificDetails(FabricSpecificDetails):
 class VMwareVirtualMachineDetails(ConfigurationSettings):  # pylint: disable=too-many-instance-attributes
     """VMware provider specific settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets the class type. Overridden in derived classes. Required.
     :vartype instance_type: str

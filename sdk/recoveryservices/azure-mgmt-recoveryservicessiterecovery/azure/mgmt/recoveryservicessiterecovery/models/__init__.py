@@ -209,6 +209,7 @@ from ._models_py3 import InMageFabricSwitchProviderBlockingErrorDetails
 from ._models_py3 import InMagePolicyDetails
 from ._models_py3 import InMagePolicyInput
 from ._models_py3 import InMageProtectedDiskDetails
+from ._models_py3 import InMageRcmAddDisksInput
 from ._models_py3 import InMageRcmAgentUpgradeBlockingErrorDetails
 from ._models_py3 import InMageRcmApplianceDetails
 from ._models_py3 import InMageRcmApplianceSpecificDetails
@@ -245,6 +246,7 @@ from ._models_py3 import InMageRcmReplicationDetails
 from ._models_py3 import InMageRcmReprotectInput
 from ._models_py3 import InMageRcmSyncDetails
 from ._models_py3 import InMageRcmTestFailoverInput
+from ._models_py3 import InMageRcmUnProtectedDiskDetails
 from ._models_py3 import InMageRcmUnplannedFailoverInput
 from ._models_py3 import InMageRcmUpdateApplianceForReplicationProtectedItemInput
 from ._models_py3 import InMageRcmUpdateContainerMappingInput
@@ -272,6 +274,7 @@ from ._models_py3 import KeyEncryptionKeyInfo
 from ._models_py3 import LogicalNetwork
 from ._models_py3 import LogicalNetworkCollection
 from ._models_py3 import LogicalNetworkProperties
+from ._models_py3 import ManagedRunCommandScriptInput
 from ._models_py3 import ManualActionTaskDetails
 from ._models_py3 import MarsAgentDetails
 from ._models_py3 import MasterTargetServer
@@ -422,6 +425,7 @@ from ._models_py3 import ReverseReplicationProviderSpecificInput
 from ._models_py3 import RoleAssignment
 from ._models_py3 import RunAsAccount
 from ._models_py3 import ScriptActionTaskDetails
+from ._models_py3 import SecurityProfileProperties
 from ._models_py3 import ServiceError
 from ._models_py3 import StorageAccountCustomDetails
 from ._models_py3 import StorageClassification
@@ -484,6 +488,7 @@ from ._models_py3 import UpdateReplicationProtectedItemInputProperties
 from ._models_py3 import UpdateReplicationProtectedItemProviderInput
 from ._models_py3 import UpdateVCenterRequest
 from ._models_py3 import UpdateVCenterRequestProperties
+from ._models_py3 import UserCreatedResourceTag
 from ._models_py3 import VCenter
 from ._models_py3 import VCenterCollection
 from ._models_py3 import VCenterProperties
@@ -544,6 +549,7 @@ from ._site_recovery_management_client_enums import DataSyncStatus
 from ._site_recovery_management_client_enums import DisableProtectionReason
 from ._site_recovery_management_client_enums import DiskAccountType
 from ._site_recovery_management_client_enums import DiskReplicationProgressHealth
+from ._site_recovery_management_client_enums import DiskState
 from ._site_recovery_management_client_enums import EthernetAddressType
 from ._site_recovery_management_client_enums import ExportJobOutputSerializationType
 from ._site_recovery_management_client_enums import ExtendedLocationType
@@ -554,6 +560,7 @@ from ._site_recovery_management_client_enums import HyperVReplicaAzureRpRecovery
 from ._site_recovery_management_client_enums import InMageRcmFailbackRecoveryPointType
 from ._site_recovery_management_client_enums import InMageV2RpRecoveryPointType
 from ._site_recovery_management_client_enums import LicenseType
+from ._site_recovery_management_client_enums import LinuxLicenseType
 from ._site_recovery_management_client_enums import MigrationItemOperation
 from ._site_recovery_management_client_enums import MigrationRecoveryPointType
 from ._site_recovery_management_client_enums import MigrationState
@@ -573,6 +580,7 @@ from ._site_recovery_management_client_enums import RecoveryPointType
 from ._site_recovery_management_client_enums import ReplicationProtectedItemOperation
 from ._site_recovery_management_client_enums import ResyncState
 from ._site_recovery_management_client_enums import RpInMageRecoveryPointType
+from ._site_recovery_management_client_enums import SecurityConfiguration
 from ._site_recovery_management_client_enums import SecurityType
 from ._site_recovery_management_client_enums import SetMultiVmSyncStatus
 from ._site_recovery_management_client_enums import Severity
@@ -789,6 +797,7 @@ __all__ = [
     "InMagePolicyDetails",
     "InMagePolicyInput",
     "InMageProtectedDiskDetails",
+    "InMageRcmAddDisksInput",
     "InMageRcmAgentUpgradeBlockingErrorDetails",
     "InMageRcmApplianceDetails",
     "InMageRcmApplianceSpecificDetails",
@@ -825,6 +834,7 @@ __all__ = [
     "InMageRcmReprotectInput",
     "InMageRcmSyncDetails",
     "InMageRcmTestFailoverInput",
+    "InMageRcmUnProtectedDiskDetails",
     "InMageRcmUnplannedFailoverInput",
     "InMageRcmUpdateApplianceForReplicationProtectedItemInput",
     "InMageRcmUpdateContainerMappingInput",
@@ -852,6 +862,7 @@ __all__ = [
     "LogicalNetwork",
     "LogicalNetworkCollection",
     "LogicalNetworkProperties",
+    "ManagedRunCommandScriptInput",
     "ManualActionTaskDetails",
     "MarsAgentDetails",
     "MasterTargetServer",
@@ -1002,6 +1013,7 @@ __all__ = [
     "RoleAssignment",
     "RunAsAccount",
     "ScriptActionTaskDetails",
+    "SecurityProfileProperties",
     "ServiceError",
     "StorageAccountCustomDetails",
     "StorageClassification",
@@ -1064,6 +1076,7 @@ __all__ = [
     "UpdateReplicationProtectedItemProviderInput",
     "UpdateVCenterRequest",
     "UpdateVCenterRequestProperties",
+    "UserCreatedResourceTag",
     "VCenter",
     "VCenterCollection",
     "VCenterProperties",
@@ -1123,6 +1136,7 @@ __all__ = [
     "DisableProtectionReason",
     "DiskAccountType",
     "DiskReplicationProgressHealth",
+    "DiskState",
     "EthernetAddressType",
     "ExportJobOutputSerializationType",
     "ExtendedLocationType",
@@ -1133,6 +1147,7 @@ __all__ = [
     "InMageRcmFailbackRecoveryPointType",
     "InMageV2RpRecoveryPointType",
     "LicenseType",
+    "LinuxLicenseType",
     "MigrationItemOperation",
     "MigrationRecoveryPointType",
     "MigrationState",
@@ -1152,6 +1167,7 @@ __all__ = [
     "ReplicationProtectedItemOperation",
     "ResyncState",
     "RpInMageRecoveryPointType",
+    "SecurityConfiguration",
     "SecurityType",
     "SetMultiVmSyncStatus",
     "Severity",

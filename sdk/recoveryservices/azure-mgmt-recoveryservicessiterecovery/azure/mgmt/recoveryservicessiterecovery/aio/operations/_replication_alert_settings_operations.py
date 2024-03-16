@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -64,7 +64,6 @@ class ReplicationAlertSettingsOperations:
 
         Gets the list of email notification(alert) configurations for the vault.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Alert or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.Alert]
@@ -87,17 +86,16 @@ class ReplicationAlertSettingsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -109,13 +107,13 @@ class ReplicationAlertSettingsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("AlertCollection", pipeline_response)
@@ -125,11 +123,11 @@ class ReplicationAlertSettingsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -141,10 +139,6 @@ class ReplicationAlertSettingsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings"
-    }
-
     @distributed_trace_async
     async def get(self, alert_setting_name: str, **kwargs: Any) -> _models.Alert:
         """Gets an email notification(alert) configuration.
@@ -153,7 +147,6 @@ class ReplicationAlertSettingsOperations:
 
         :param alert_setting_name: The name of the email notification configuration. Required.
         :type alert_setting_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -172,22 +165,21 @@ class ReplicationAlertSettingsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Alert] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             alert_setting_name=alert_setting_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -199,13 +191,9 @@ class ReplicationAlertSettingsOperations:
         deserialized = self._deserialize("Alert", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create(
@@ -227,7 +215,6 @@ class ReplicationAlertSettingsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -235,7 +222,7 @@ class ReplicationAlertSettingsOperations:
 
     @overload
     async def create(
-        self, alert_setting_name: str, request: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, alert_setting_name: str, request: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Alert:
         """Configures email notifications for this vault.
 
@@ -244,11 +231,10 @@ class ReplicationAlertSettingsOperations:
         :param alert_setting_name: The name of the email notification(alert) configuration. Required.
         :type alert_setting_name: str
         :param request: The input to configure the email notification(alert). Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -256,7 +242,7 @@ class ReplicationAlertSettingsOperations:
 
     @distributed_trace_async
     async def create(
-        self, alert_setting_name: str, request: Union[_models.ConfigureAlertRequest, IO], **kwargs: Any
+        self, alert_setting_name: str, request: Union[_models.ConfigureAlertRequest, IO[bytes]], **kwargs: Any
     ) -> _models.Alert:
         """Configures email notifications for this vault.
 
@@ -265,12 +251,9 @@ class ReplicationAlertSettingsOperations:
         :param alert_setting_name: The name of the email notification(alert) configuration. Required.
         :type alert_setting_name: str
         :param request: The input to configure the email notification(alert). Is either a
-         ConfigureAlertRequest type or a IO type. Required.
-        :type request: ~azure.mgmt.recoveryservicessiterecovery.models.ConfigureAlertRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ConfigureAlertRequest type or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.recoveryservicessiterecovery.models.ConfigureAlertRequest or
+         IO[bytes]
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -298,7 +281,7 @@ class ReplicationAlertSettingsOperations:
         else:
             _json = self._serialize.body(request, "ConfigureAlertRequest")
 
-        request = build_create_request(
+        _request = build_create_request(
             alert_setting_name=alert_setting_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -307,16 +290,15 @@ class ReplicationAlertSettingsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -328,10 +310,6 @@ class ReplicationAlertSettingsOperations:
         deserialized = self._deserialize("Alert", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}"
-    }
+        return deserialized  # type: ignore

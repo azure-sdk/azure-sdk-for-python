@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -70,7 +70,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_replication_protection_containers(
+    def list_by_replication_protection_containers(  # pylint: disable=name-too-long
         self,
         fabric_name: str,
         protection_container_name: str,
@@ -93,7 +93,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type take_token: str
         :param filter: OData filter options. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MigrationItem or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.MigrationItem]
@@ -116,7 +115,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_replication_protection_containers_request(
+                _request = build_list_by_replication_protection_containers_request(
                     fabric_name=fabric_name,
                     protection_container_name=protection_container_name,
                     resource_name=self._config.resource_name,
@@ -126,12 +125,11 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
                     take_token=take_token,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_replication_protection_containers.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -143,13 +141,13 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MigrationItemCollection", pipeline_response)
@@ -159,11 +157,11 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -174,10 +172,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_replication_protection_containers.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems"
-    }
 
     @distributed_trace_async
     async def get(
@@ -193,7 +187,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MigrationItem or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.MigrationItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -212,7 +205,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MigrationItem] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -220,16 +213,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -241,20 +233,16 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: Union[_models.EnableMigrationInput, IO],
+        input: Union[_models.EnableMigrationInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -280,7 +268,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(input, "EnableMigrationInput")
 
-        request = build_create_request(
+        _request = build_create_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -291,16 +279,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -314,13 +301,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create(
@@ -348,14 +331,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -369,7 +344,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: IO,
+        input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -385,18 +360,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param input: Enable migration input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -410,7 +377,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: Union[_models.EnableMigrationInput, IO],
+        input: Union[_models.EnableMigrationInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Enables migration.
@@ -423,20 +390,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
-        :param input: Enable migration input. Is either a EnableMigrationInput type or a IO type.
-         Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.EnableMigrationInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Enable migration input. Is either a EnableMigrationInput type or a IO[bytes]
+         type. Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.EnableMigrationInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -470,7 +426,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -480,17 +436,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self,
@@ -514,7 +468,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -523,16 +477,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             subscription_id=self._config.subscription_id,
             delete_option=delete_option,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -542,11 +495,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -569,14 +518,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type migration_item_name: str
         :param delete_option: The delete option. Default value is None.
         :type delete_option: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -605,7 +546,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -614,24 +555,20 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _update_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: Union[_models.UpdateMigrationItemInput, IO],
+        input: Union[_models.UpdateMigrationItemInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -657,7 +594,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(input, "UpdateMigrationItemInput")
 
-        request = build_update_request(
+        _request = build_update_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -668,16 +605,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -691,13 +627,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_update(
@@ -725,14 +657,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -746,7 +670,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: IO,
+        input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -762,18 +686,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param input: Update migration item input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -787,7 +703,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: Union[_models.UpdateMigrationItemInput, IO],
+        input: Union[_models.UpdateMigrationItemInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Updates migration item.
@@ -800,20 +716,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
-        :param input: Update migration item input. Is either a UpdateMigrationItemInput type or a IO
-         type. Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.UpdateMigrationItemInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Update migration item input. Is either a UpdateMigrationItemInput type or a
+         IO[bytes] type. Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.UpdateMigrationItemInput or
+         IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -847,7 +753,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -857,24 +763,22 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _migrate_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        migrate_input: Union[_models.MigrateInput, IO],
+        migrate_input: Union[_models.MigrateInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -900,7 +804,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(migrate_input, "MigrateInput")
 
-        request = build_migrate_request(
+        _request = build_migrate_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -911,16 +815,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._migrate_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -934,13 +837,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _migrate_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_migrate(
@@ -968,14 +867,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -989,7 +880,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        migrate_input: IO,
+        migrate_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1005,18 +896,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param migrate_input: Migrate input. Required.
-        :type migrate_input: IO
+        :type migrate_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1030,7 +913,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        migrate_input: Union[_models.MigrateInput, IO],
+        migrate_input: Union[_models.MigrateInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Migrate item.
@@ -1043,19 +926,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
-        :param migrate_input: Migrate input. Is either a MigrateInput type or a IO type. Required.
-        :type migrate_input: ~azure.mgmt.recoveryservicessiterecovery.models.MigrateInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param migrate_input: Migrate input. Is either a MigrateInput type or a IO[bytes] type.
+         Required.
+        :type migrate_input: ~azure.mgmt.recoveryservicessiterecovery.models.MigrateInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1089,7 +962,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1099,24 +972,22 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _pause_replication_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        pause_replication_input: Union[_models.PauseReplicationInput, IO],
+        pause_replication_input: Union[_models.PauseReplicationInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -1142,7 +1013,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(pause_replication_input, "PauseReplicationInput")
 
-        request = build_pause_replication_request(
+        _request = build_pause_replication_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -1153,16 +1024,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._pause_replication_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1176,13 +1046,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _pause_replication_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_pause_replication(
@@ -1211,14 +1077,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1232,7 +1090,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        pause_replication_input: IO,
+        pause_replication_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1248,18 +1106,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param pause_replication_input: Pause replication input. Required.
-        :type pause_replication_input: IO
+        :type pause_replication_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1273,7 +1123,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        pause_replication_input: Union[_models.PauseReplicationInput, IO],
+        pause_replication_input: Union[_models.PauseReplicationInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Pause replication.
@@ -1287,20 +1137,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param pause_replication_input: Pause replication input. Is either a PauseReplicationInput type
-         or a IO type. Required.
+         or a IO[bytes] type. Required.
         :type pause_replication_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.PauseReplicationInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.PauseReplicationInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1334,7 +1173,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1344,24 +1183,22 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_pause_replication.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _resume_replication_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        resume_replication_input: Union[_models.ResumeReplicationInput, IO],
+        resume_replication_input: Union[_models.ResumeReplicationInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -1387,7 +1224,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(resume_replication_input, "ResumeReplicationInput")
 
-        request = build_resume_replication_request(
+        _request = build_resume_replication_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -1398,16 +1235,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._resume_replication_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1421,13 +1257,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _resume_replication_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_resume_replication(
@@ -1456,14 +1288,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1477,7 +1301,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        resume_replication_input: IO,
+        resume_replication_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1493,18 +1317,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param resume_replication_input: Resume replication input. Required.
-        :type resume_replication_input: IO
+        :type resume_replication_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1518,7 +1334,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        resume_replication_input: Union[_models.ResumeReplicationInput, IO],
+        resume_replication_input: Union[_models.ResumeReplicationInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Resume replication.
@@ -1532,20 +1348,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param resume_replication_input: Resume replication input. Is either a ResumeReplicationInput
-         type or a IO type. Required.
+         type or a IO[bytes] type. Required.
         :type resume_replication_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.ResumeReplicationInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.ResumeReplicationInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1579,7 +1384,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1589,24 +1394,22 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resume_replication.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _resync_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: Union[_models.ResyncInput, IO],
+        input: Union[_models.ResyncInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -1632,7 +1435,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(input, "ResyncInput")
 
-        request = build_resync_request(
+        _request = build_resync_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -1643,16 +1446,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._resync_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1666,13 +1468,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _resync_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resync"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_resync(
@@ -1700,14 +1498,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1721,7 +1511,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: IO,
+        input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1737,18 +1527,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param input: Resync input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1762,7 +1544,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        input: Union[_models.ResyncInput, IO],
+        input: Union[_models.ResyncInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Resynchronizes replication.
@@ -1775,19 +1557,8 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
-        :param input: Resync input. Is either a ResyncInput type or a IO type. Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.ResyncInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Resync input. Is either a ResyncInput type or a IO[bytes] type. Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.ResyncInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1821,7 +1592,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1831,24 +1602,22 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resync.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resync"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _test_migrate_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        test_migrate_input: Union[_models.TestMigrateInput, IO],
+        test_migrate_input: Union[_models.TestMigrateInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -1874,7 +1643,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(test_migrate_input, "TestMigrateInput")
 
-        request = build_test_migrate_request(
+        _request = build_test_migrate_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -1885,16 +1654,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_migrate_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1908,13 +1676,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_migrate_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_test_migrate(
@@ -1942,14 +1706,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -1963,7 +1719,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        test_migrate_input: IO,
+        test_migrate_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1979,18 +1735,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param test_migrate_input: Test migrate input. Required.
-        :type test_migrate_input: IO
+        :type test_migrate_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -2004,7 +1752,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        test_migrate_input: Union[_models.TestMigrateInput, IO],
+        test_migrate_input: Union[_models.TestMigrateInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Test migrate item.
@@ -2017,21 +1765,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type protection_container_name: str
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
-        :param test_migrate_input: Test migrate input. Is either a TestMigrateInput type or a IO type.
-         Required.
+        :param test_migrate_input: Test migrate input. Is either a TestMigrateInput type or a IO[bytes]
+         type. Required.
         :type test_migrate_input: ~azure.mgmt.recoveryservicessiterecovery.models.TestMigrateInput or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -2065,7 +1802,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2075,24 +1812,22 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test_migrate.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _test_migrate_cleanup_initial(
         self,
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        test_migrate_cleanup_input: Union[_models.TestMigrateCleanupInput, IO],
+        test_migrate_cleanup_input: Union[_models.TestMigrateCleanupInput, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MigrationItem]:
         error_map = {
@@ -2118,7 +1853,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             _json = self._serialize.body(test_migrate_cleanup_input, "TestMigrateCleanupInput")
 
-        request = build_test_migrate_cleanup_request(
+        _request = build_test_migrate_cleanup_request(
             fabric_name=fabric_name,
             protection_container_name=protection_container_name,
             migration_item_name=migration_item_name,
@@ -2129,16 +1864,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_migrate_cleanup_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2152,13 +1886,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             deserialized = self._deserialize("MigrationItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_migrate_cleanup_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_test_migrate_cleanup(
@@ -2187,14 +1917,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -2208,7 +1930,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        test_migrate_cleanup_input: IO,
+        test_migrate_cleanup_input: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2224,18 +1946,10 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param test_migrate_cleanup_input: Test migrate cleanup input. Required.
-        :type test_migrate_cleanup_input: IO
+        :type test_migrate_cleanup_input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -2249,7 +1963,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         fabric_name: str,
         protection_container_name: str,
         migration_item_name: str,
-        test_migrate_cleanup_input: Union[_models.TestMigrateCleanupInput, IO],
+        test_migrate_cleanup_input: Union[_models.TestMigrateCleanupInput, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MigrationItem]:
         """Test migrate cleanup.
@@ -2263,20 +1977,9 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :param migration_item_name: Migration item name. Required.
         :type migration_item_name: str
         :param test_migrate_cleanup_input: Test migrate cleanup input. Is either a
-         TestMigrateCleanupInput type or a IO type. Required.
+         TestMigrateCleanupInput type or a IO[bytes] type. Required.
         :type test_migrate_cleanup_input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.TestMigrateCleanupInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.TestMigrateCleanupInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MigrationItem or the result of
          cls(response)
         :rtype:
@@ -2310,7 +2013,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MigrationItem", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2320,17 +2023,15 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MigrationItem].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test_migrate_cleanup.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup"
-    }
+        return AsyncLROPoller[_models.MigrationItem](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list(
@@ -2350,7 +2051,6 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         :type take_token: str
         :param filter: OData filter options. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MigrationItem or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.MigrationItem]
@@ -2373,7 +2073,7 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
@@ -2381,12 +2081,11 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
                     take_token=take_token,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2398,13 +2097,13 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MigrationItemCollection", pipeline_response)
@@ -2414,11 +2113,11 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2429,7 +2128,3 @@ class ReplicationMigrationItemsOperations:  # pylint: disable=too-many-public-me
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems"
-    }
