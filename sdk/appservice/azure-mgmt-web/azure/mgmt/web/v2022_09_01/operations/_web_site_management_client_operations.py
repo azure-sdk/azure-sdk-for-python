@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -205,7 +205,7 @@ def build_check_name_availability_request(subscription_id: str, **kwargs: Any) -
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_custom_host_name_sites_request(
+def build_list_custom_host_name_sites_request(  # pylint: disable=name-too-long
     subscription_id: str, *, hostname: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -233,7 +233,9 @@ def build_list_custom_host_name_sites_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_subscription_deployment_locations_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_get_subscription_deployment_locations_request(  # pylint: disable=name-too-long
+    subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -299,7 +301,9 @@ def build_list_geo_regions_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_site_identifiers_assigned_to_host_name_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_list_site_identifiers_assigned_to_host_name_request(  # pylint: disable=name-too-long
+    subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -376,7 +380,9 @@ def build_list_skus_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_verify_hosting_environment_vnet_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_verify_hosting_environment_vnet_request(  # pylint: disable=name-too-long
+    subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -530,7 +536,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         Description for Gets publishing user.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: User or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.User
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -551,18 +556,17 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         )
         cls: ClsType[_models.User] = kwargs.pop("cls", None)
 
-        request = build_get_publishing_user_request(
+        _request = build_get_publishing_user_request(
             api_version=api_version,
-            template_url=self.get_publishing_user.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -575,11 +579,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("User", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_publishing_user.metadata = {"url": "/providers/Microsoft.Web/publishingUsers/web"}
+        return deserialized  # type: ignore
 
     @overload
     def update_publishing_user(
@@ -594,7 +596,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: User or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.User
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -602,35 +603,31 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @overload
     def update_publishing_user(
-        self, user_details: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, user_details: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.User:
         """Updates publishing user.
 
         Description for Updates publishing user.
 
         :param user_details: Details of publishing user. Required.
-        :type user_details: IO
+        :type user_details: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: User or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.User
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    def update_publishing_user(self, user_details: Union[_models.User, IO], **kwargs: Any) -> _models.User:
+    def update_publishing_user(self, user_details: Union[_models.User, IO[bytes]], **kwargs: Any) -> _models.User:
         """Updates publishing user.
 
         Description for Updates publishing user.
 
-        :param user_details: Details of publishing user. Is either a User type or a IO type. Required.
-        :type user_details: ~azure.mgmt.web.v2022_09_01.models.User or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param user_details: Details of publishing user. Is either a User type or a IO[bytes] type.
+         Required.
+        :type user_details: ~azure.mgmt.web.v2022_09_01.models.User or IO[bytes]
         :return: User or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.User
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -660,21 +657,20 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         else:
             _json = self._serialize.body(user_details, "User")
 
-        request = build_update_publishing_user_request(
+        _request = build_update_publishing_user_request(
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update_publishing_user.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -687,11 +683,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("User", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update_publishing_user.metadata = {"url": "/providers/Microsoft.Web/publishingUsers/web"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_source_controls(self, **kwargs: Any) -> Iterable["_models.SourceControl"]:
@@ -699,7 +693,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         Description for Gets the source controls available for Azure websites.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SourceControl or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.SourceControl]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -723,14 +716,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_source_controls_request(
+                _request = build_list_source_controls_request(
                     api_version=api_version,
-                    template_url=self.list_source_controls.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -742,13 +734,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SourceControlCollection", pipeline_response)
@@ -758,11 +750,11 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -775,8 +767,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         return ItemPaged(get_next, extract_data)
 
-    list_source_controls.metadata = {"url": "/providers/Microsoft.Web/sourcecontrols"}
-
     @distributed_trace
     def get_source_control(self, source_control_type: str, **kwargs: Any) -> _models.SourceControl:
         """Gets source control token.
@@ -785,7 +775,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         :param source_control_type: Type of source control. Required.
         :type source_control_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SourceControl or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.SourceControl
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -806,19 +795,18 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         )
         cls: ClsType[_models.SourceControl] = kwargs.pop("cls", None)
 
-        request = build_get_source_control_request(
+        _request = build_get_source_control_request(
             source_control_type=source_control_type,
             api_version=api_version,
-            template_url=self.get_source_control.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -831,11 +819,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("SourceControl", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_source_control.metadata = {"url": "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}"}
+        return deserialized  # type: ignore
 
     @overload
     def update_source_control(
@@ -857,7 +843,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SourceControl or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.SourceControl
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -865,7 +850,12 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @overload
     def update_source_control(
-        self, source_control_type: str, request_message: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        source_control_type: str,
+        request_message: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.SourceControl:
         """Updates source control token.
 
@@ -874,11 +864,10 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param source_control_type: Type of source control. Required.
         :type source_control_type: str
         :param request_message: Source control token information. Required.
-        :type request_message: IO
+        :type request_message: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SourceControl or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.SourceControl
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -886,7 +875,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @distributed_trace
     def update_source_control(
-        self, source_control_type: str, request_message: Union[_models.SourceControl, IO], **kwargs: Any
+        self, source_control_type: str, request_message: Union[_models.SourceControl, IO[bytes]], **kwargs: Any
     ) -> _models.SourceControl:
         """Updates source control token.
 
@@ -895,12 +884,8 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param source_control_type: Type of source control. Required.
         :type source_control_type: str
         :param request_message: Source control token information. Is either a SourceControl type or a
-         IO type. Required.
-        :type request_message: ~azure.mgmt.web.v2022_09_01.models.SourceControl or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         IO[bytes] type. Required.
+        :type request_message: ~azure.mgmt.web.v2022_09_01.models.SourceControl or IO[bytes]
         :return: SourceControl or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.SourceControl
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -930,22 +915,21 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         else:
             _json = self._serialize.body(request_message, "SourceControl")
 
-        request = build_update_source_control_request(
+        _request = build_update_source_control_request(
             source_control_type=source_control_type,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update_source_control.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -958,11 +942,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("SourceControl", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update_source_control.metadata = {"url": "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_billing_meters(
@@ -976,7 +958,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :type billing_location: str
         :param os_type: App Service OS type meters used for. Default value is None.
         :type os_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BillingMeter or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.BillingMeter]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1000,17 +981,16 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_billing_meters_request(
+                _request = build_list_billing_meters_request(
                     subscription_id=self._config.subscription_id,
                     billing_location=billing_location,
                     os_type=os_type,
                     api_version=api_version,
-                    template_url=self.list_billing_meters.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1022,13 +1002,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("BillingMeterCollection", pipeline_response)
@@ -1038,11 +1018,11 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1054,8 +1034,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_billing_meters.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/billingMeters"}
 
     @distributed_trace
     def check_name_availability(
@@ -1073,7 +1051,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :type type: str or ~azure.mgmt.web.v2022_09_01.models.CheckNameResourceTypes
         :param is_fqdn: Is fully qualified domain name. Default value is None.
         :type is_fqdn: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceNameAvailability or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.ResourceNameAvailability
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1098,21 +1075,20 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _request = _models.ResourceNameAvailabilityRequest(is_fqdn=is_fqdn, name=name, type=type)
         _json = self._serialize.body(_request, "ResourceNameAvailabilityRequest")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1125,13 +1101,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("ResourceNameAvailability", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/checknameavailability"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_custom_host_name_sites(
@@ -1143,7 +1115,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         :param hostname: Specific hostname. Default value is None.
         :type hostname: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either CustomHostnameSites or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.CustomHostnameSites]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1167,16 +1138,15 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_custom_host_name_sites_request(
+                _request = build_list_custom_host_name_sites_request(
                     subscription_id=self._config.subscription_id,
                     hostname=hostname,
                     api_version=api_version,
-                    template_url=self.list_custom_host_name_sites.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1188,13 +1158,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("CustomHostnameSitesCollection", pipeline_response)
@@ -1204,11 +1174,11 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1221,17 +1191,12 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         return ItemPaged(get_next, extract_data)
 
-    list_custom_host_name_sites.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnameSites"
-    }
-
     @distributed_trace
     def get_subscription_deployment_locations(self, **kwargs: Any) -> _models.DeploymentLocations:
         """Gets list of available geo regions plus ministamps.
 
         Description for Gets list of available geo regions plus ministamps.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DeploymentLocations or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.DeploymentLocations
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1253,19 +1218,18 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         )
         cls: ClsType[_models.DeploymentLocations] = kwargs.pop("cls", None)
 
-        request = build_get_subscription_deployment_locations_request(
+        _request = build_get_subscription_deployment_locations_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_subscription_deployment_locations.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1278,13 +1242,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("DeploymentLocations", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_subscription_deployment_locations.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_geo_regions(
@@ -1312,7 +1272,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param linux_dynamic_workers_enabled: Specify :code:`<code>true</code>` if you want to filter
          to only regions that support Linux Consumption Workers. Default value is None.
         :type linux_dynamic_workers_enabled: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either GeoRegion or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.GeoRegion]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1336,19 +1295,18 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_geo_regions_request(
+                _request = build_list_geo_regions_request(
                     subscription_id=self._config.subscription_id,
                     sku=sku,
                     linux_workers_enabled=linux_workers_enabled,
                     xenon_workers_enabled=xenon_workers_enabled,
                     linux_dynamic_workers_enabled=linux_dynamic_workers_enabled,
                     api_version=api_version,
-                    template_url=self.list_geo_regions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1360,13 +1318,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("GeoRegionCollection", pipeline_response)
@@ -1376,11 +1334,11 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1393,10 +1351,8 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         return ItemPaged(get_next, extract_data)
 
-    list_geo_regions.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/geoRegions"}
-
     @overload
-    def list_site_identifiers_assigned_to_host_name(
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
         self, name_identifier: _models.NameIdentifier, *, content_type: str = "application/json", **kwargs: Any
     ) -> Iterable["_models.Identifier"]:
         """List all apps that are assigned to a hostname.
@@ -1408,46 +1364,40 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Identifier or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.Identifier]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def list_site_identifiers_assigned_to_host_name(
-        self, name_identifier: IO, *, content_type: str = "application/json", **kwargs: Any
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
+        self, name_identifier: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> Iterable["_models.Identifier"]:
         """List all apps that are assigned to a hostname.
 
         Description for List all apps that are assigned to a hostname.
 
         :param name_identifier: Hostname information. Required.
-        :type name_identifier: IO
+        :type name_identifier: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Identifier or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.Identifier]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    def list_site_identifiers_assigned_to_host_name(
-        self, name_identifier: Union[_models.NameIdentifier, IO], **kwargs: Any
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
+        self, name_identifier: Union[_models.NameIdentifier, IO[bytes]], **kwargs: Any
     ) -> Iterable["_models.Identifier"]:
         """List all apps that are assigned to a hostname.
 
         Description for List all apps that are assigned to a hostname.
 
-        :param name_identifier: Hostname information. Is either a NameIdentifier type or a IO type.
-         Required.
-        :type name_identifier: ~azure.mgmt.web.v2022_09_01.models.NameIdentifier or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param name_identifier: Hostname information. Is either a NameIdentifier type or a IO[bytes]
+         type. Required.
+        :type name_identifier: ~azure.mgmt.web.v2022_09_01.models.NameIdentifier or IO[bytes]
         :return: An iterator like instance of either Identifier or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.Identifier]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1482,18 +1432,17 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_site_identifiers_assigned_to_host_name_request(
+                _request = build_list_site_identifiers_assigned_to_host_name_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     content_type=content_type,
                     json=_json,
                     content=_content,
-                    template_url=self.list_site_identifiers_assigned_to_host_name.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1505,13 +1454,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("IdentifierCollection", pipeline_response)
@@ -1521,11 +1470,11 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1538,17 +1487,12 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         return ItemPaged(get_next, extract_data)
 
-    list_site_identifiers_assigned_to_host_name.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/listSitesAssignedToHostName"
-    }
-
     @distributed_trace
     def list_premier_add_on_offers(self, **kwargs: Any) -> Iterable["_models.PremierAddOnOffer"]:
         """List all premier add-on offers.
 
         Description for List all premier add-on offers.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PremierAddOnOffer or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2022_09_01.models.PremierAddOnOffer]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1572,15 +1516,14 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_premier_add_on_offers_request(
+                _request = build_list_premier_add_on_offers_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_premier_add_on_offers.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1592,13 +1535,13 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("PremierAddOnOfferCollection", pipeline_response)
@@ -1608,11 +1551,11 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1625,17 +1568,12 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
         return ItemPaged(get_next, extract_data)
 
-    list_premier_add_on_offers.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/premieraddonoffers"
-    }
-
     @distributed_trace
     def list_skus(self, **kwargs: Any) -> _models.SkuInfos:
         """List all SKUs.
 
         Description for List all SKUs.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SkuInfos or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.SkuInfos
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1656,19 +1594,18 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         )
         cls: ClsType[_models.SkuInfos] = kwargs.pop("cls", None)
 
-        request = build_list_skus_request(
+        _request = build_list_skus_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_skus.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1681,11 +1618,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("SkuInfos", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_skus.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/skus"}
+        return deserialized  # type: ignore
 
     @overload
     def verify_hosting_environment_vnet(
@@ -1702,7 +1637,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VnetValidationFailureDetails or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.VnetValidationFailureDetails
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1710,7 +1644,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @overload
     def verify_hosting_environment_vnet(
-        self, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.VnetValidationFailureDetails:
         """Verifies if this VNET is compatible with an App Service Environment by analyzing the Network
         Security Group rules.
@@ -1719,11 +1653,10 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         analyzing the Network Security Group rules.
 
         :param parameters: VNET information. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VnetValidationFailureDetails or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.VnetValidationFailureDetails
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1731,7 +1664,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @distributed_trace
     def verify_hosting_environment_vnet(
-        self, parameters: Union[_models.VnetParameters, IO], **kwargs: Any
+        self, parameters: Union[_models.VnetParameters, IO[bytes]], **kwargs: Any
     ) -> _models.VnetValidationFailureDetails:
         """Verifies if this VNET is compatible with an App Service Environment by analyzing the Network
         Security Group rules.
@@ -1739,12 +1672,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         Description for Verifies if this VNET is compatible with an App Service Environment by
         analyzing the Network Security Group rules.
 
-        :param parameters: VNET information. Is either a VnetParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.web.v2022_09_01.models.VnetParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: VNET information. Is either a VnetParameters type or a IO[bytes] type.
+         Required.
+        :type parameters: ~azure.mgmt.web.v2022_09_01.models.VnetParameters or IO[bytes]
         :return: VnetValidationFailureDetails or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.VnetValidationFailureDetails
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1775,22 +1705,21 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         else:
             _json = self._serialize.body(parameters, "VnetParameters")
 
-        request = build_verify_hosting_environment_vnet_request(
+        _request = build_verify_hosting_environment_vnet_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.verify_hosting_environment_vnet.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1803,13 +1732,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("VnetValidationFailureDetails", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    verify_hosting_environment_vnet.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def move(  # pylint: disable=inconsistent-return-statements
@@ -1831,7 +1756,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1841,7 +1765,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
     def move(  # pylint: disable=inconsistent-return-statements
         self,
         resource_group_name: str,
-        move_resource_envelope: IO,
+        move_resource_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1853,11 +1777,10 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
         :param move_resource_envelope: Object that represents the resource to move. Required.
-        :type move_resource_envelope: IO
+        :type move_resource_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1867,7 +1790,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
     def move(  # pylint: disable=inconsistent-return-statements
         self,
         resource_group_name: str,
-        move_resource_envelope: Union[_models.CsmMoveResourceEnvelope, IO],
+        move_resource_envelope: Union[_models.CsmMoveResourceEnvelope, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """Move resources between resource groups.
@@ -1877,12 +1800,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
         :param move_resource_envelope: Object that represents the resource to move. Is either a
-         CsmMoveResourceEnvelope type or a IO type. Required.
-        :type move_resource_envelope: ~azure.mgmt.web.v2022_09_01.models.CsmMoveResourceEnvelope or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         CsmMoveResourceEnvelope type or a IO[bytes] type. Required.
+        :type move_resource_envelope: ~azure.mgmt.web.v2022_09_01.models.CsmMoveResourceEnvelope or
+         IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1912,23 +1832,22 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         else:
             _json = self._serialize.body(move_resource_envelope, "CsmMoveResourceEnvelope")
 
-        request = build_move_request(
+        _request = build_move_request(
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.move.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1939,9 +1858,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    move.metadata = {"url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def validate(
@@ -1963,7 +1880,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ValidateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.ValidateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1971,7 +1887,12 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @overload
     def validate(
-        self, resource_group_name: str, validate_request: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        resource_group_name: str,
+        validate_request: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.ValidateResponse:
         """Validate if a resource can be created.
 
@@ -1980,11 +1901,10 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
         :param validate_request: Request with the resources to validate. Required.
-        :type validate_request: IO
+        :type validate_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ValidateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.ValidateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1992,7 +1912,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
 
     @distributed_trace
     def validate(
-        self, resource_group_name: str, validate_request: Union[_models.ValidateRequest, IO], **kwargs: Any
+        self, resource_group_name: str, validate_request: Union[_models.ValidateRequest, IO[bytes]], **kwargs: Any
     ) -> _models.ValidateResponse:
         """Validate if a resource can be created.
 
@@ -2001,12 +1921,8 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
         :param validate_request: Request with the resources to validate. Is either a ValidateRequest
-         type or a IO type. Required.
-        :type validate_request: ~azure.mgmt.web.v2022_09_01.models.ValidateRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type validate_request: ~azure.mgmt.web.v2022_09_01.models.ValidateRequest or IO[bytes]
         :return: ValidateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.ValidateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2036,23 +1952,22 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         else:
             _json = self._serialize.body(validate_request, "ValidateRequest")
 
-        request = build_validate_request(
+        _request = build_validate_request(
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.validate.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2065,13 +1980,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         deserialized = self._deserialize("ValidateResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    validate.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def validate_move(  # pylint: disable=inconsistent-return-statements
@@ -2093,7 +2004,6 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2103,7 +2013,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
     def validate_move(  # pylint: disable=inconsistent-return-statements
         self,
         resource_group_name: str,
-        move_resource_envelope: IO,
+        move_resource_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2115,11 +2025,10 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
         :param move_resource_envelope: Object that represents the resource to move. Required.
-        :type move_resource_envelope: IO
+        :type move_resource_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2129,7 +2038,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
     def validate_move(  # pylint: disable=inconsistent-return-statements
         self,
         resource_group_name: str,
-        move_resource_envelope: Union[_models.CsmMoveResourceEnvelope, IO],
+        move_resource_envelope: Union[_models.CsmMoveResourceEnvelope, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """Validate whether a resource can be moved.
@@ -2139,12 +2048,9 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
         :param move_resource_envelope: Object that represents the resource to move. Is either a
-         CsmMoveResourceEnvelope type or a IO type. Required.
-        :type move_resource_envelope: ~azure.mgmt.web.v2022_09_01.models.CsmMoveResourceEnvelope or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         CsmMoveResourceEnvelope type or a IO[bytes] type. Required.
+        :type move_resource_envelope: ~azure.mgmt.web.v2022_09_01.models.CsmMoveResourceEnvelope or
+         IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2174,23 +2080,22 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         else:
             _json = self._serialize.body(move_resource_envelope, "CsmMoveResourceEnvelope")
 
-        request = build_validate_move_request(
+        _request = build_validate_move_request(
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.validate_move.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2201,8 +2106,4 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    validate_move.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
