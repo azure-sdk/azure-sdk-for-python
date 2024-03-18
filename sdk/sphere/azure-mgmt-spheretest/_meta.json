@@ -1,0 +1,6 @@
+{
+  "commit": "5ff96dac776808c29d33ef92a2dc89b6a356cb2b",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/sphere/Sphere.Management",
+  "@azure-tools/typespec-python": "0.22.4"
+}
