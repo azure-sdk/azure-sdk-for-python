@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.apimanagement import ApiManagementClient
 
 """
@@ -26,7 +29,7 @@ from azure.mgmt.apimanagement import ApiManagementClient
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.begin_perform_connectivity_check_async(
@@ -37,7 +40,7 @@ def main():
             "protocol": "HTTPS",
             "protocolConfiguration": {
                 "HTTPConfiguration": {
-                    "headers": [{"name": "Authorization", "value": "******"}],
+                    "headers": [{"name": "Authorization", "value": "Bearer myPreciousToken"}],
                     "method": "GET",
                     "validStatusCodes": [200, 204],
                 }
@@ -48,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
 if __name__ == "__main__":
     main()
