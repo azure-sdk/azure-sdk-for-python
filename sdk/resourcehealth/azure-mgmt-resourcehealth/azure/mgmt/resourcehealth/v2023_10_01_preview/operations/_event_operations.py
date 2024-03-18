@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -34,7 +34,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_by_subscription_id_and_tracking_id_request(
+def build_get_by_subscription_id_and_tracking_id_request(  # pylint: disable=name-too-long
     event_tracking_id: str,
     subscription_id: str,
     *,
@@ -72,7 +72,7 @@ def build_get_by_subscription_id_and_tracking_id_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_fetch_details_by_subscription_id_and_tracking_id_request(
+def build_fetch_details_by_subscription_id_and_tracking_id_request(  # pylint: disable=name-too-long
     event_tracking_id: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -102,7 +102,7 @@ def build_fetch_details_by_subscription_id_and_tracking_id_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_by_tenant_id_and_tracking_id_request(
+def build_get_by_tenant_id_and_tracking_id_request(  # pylint: disable=name-too-long
     event_tracking_id: str, *, filter: Optional[str] = None, query_start_time: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -132,7 +132,9 @@ def build_get_by_tenant_id_and_tracking_id_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_fetch_details_by_tenant_id_and_tracking_id_request(event_tracking_id: str, **kwargs: Any) -> HttpRequest:
+def build_fetch_details_by_tenant_id_and_tracking_id_request(  # pylint: disable=name-too-long
+    event_tracking_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -196,7 +198,6 @@ class EventOperations:
          property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
          value is None.
         :type query_start_time: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Event or the result of cls(response)
         :rtype: ~azure.mgmt.resourcehealth.v2023_10_01_preview.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -217,22 +218,21 @@ class EventOperations:
         )
         cls: ClsType[_models.Event] = kwargs.pop("cls", None)
 
-        request = build_get_by_subscription_id_and_tracking_id_request(
+        _request = build_get_by_subscription_id_and_tracking_id_request(
             event_tracking_id=event_tracking_id,
             subscription_id=self._config.subscription_id,
             filter=filter,
             query_start_time=query_start_time,
             api_version=api_version,
-            template_url=self.get_by_subscription_id_and_tracking_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -245,22 +245,19 @@ class EventOperations:
         deserialized = self._deserialize("Event", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_subscription_id_and_tracking_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def fetch_details_by_subscription_id_and_tracking_id(self, event_tracking_id: str, **kwargs: Any) -> _models.Event:
+    def fetch_details_by_subscription_id_and_tracking_id(  # pylint: disable=name-too-long
+        self, event_tracking_id: str, **kwargs: Any
+    ) -> _models.Event:
         """Service health event details in the subscription by event tracking id. This can be used to
         fetch sensitive properties for Security Advisory events.
 
         :param event_tracking_id: Event Id which uniquely identifies ServiceHealth event. Required.
         :type event_tracking_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Event or the result of cls(response)
         :rtype: ~azure.mgmt.resourcehealth.v2023_10_01_preview.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -281,20 +278,19 @@ class EventOperations:
         )
         cls: ClsType[_models.Event] = kwargs.pop("cls", None)
 
-        request = build_fetch_details_by_subscription_id_and_tracking_id_request(
+        _request = build_fetch_details_by_subscription_id_and_tracking_id_request(
             event_tracking_id=event_tracking_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.fetch_details_by_subscription_id_and_tracking_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -307,13 +303,9 @@ class EventOperations:
         deserialized = self._deserialize("Event", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    fetch_details_by_subscription_id_and_tracking_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get_by_tenant_id_and_tracking_id(
@@ -335,7 +327,6 @@ class EventOperations:
          property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
          value is None.
         :type query_start_time: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Event or the result of cls(response)
         :rtype: ~azure.mgmt.resourcehealth.v2023_10_01_preview.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -356,21 +347,20 @@ class EventOperations:
         )
         cls: ClsType[_models.Event] = kwargs.pop("cls", None)
 
-        request = build_get_by_tenant_id_and_tracking_id_request(
+        _request = build_get_by_tenant_id_and_tracking_id_request(
             event_tracking_id=event_tracking_id,
             filter=filter,
             query_start_time=query_start_time,
             api_version=api_version,
-            template_url=self.get_by_tenant_id_and_tracking_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -383,20 +373,19 @@ class EventOperations:
         deserialized = self._deserialize("Event", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_tenant_id_and_tracking_id.metadata = {"url": "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}"}
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def fetch_details_by_tenant_id_and_tracking_id(self, event_tracking_id: str, **kwargs: Any) -> _models.Event:
+    def fetch_details_by_tenant_id_and_tracking_id(  # pylint: disable=name-too-long
+        self, event_tracking_id: str, **kwargs: Any
+    ) -> _models.Event:
         """Service health event details in the tenant by event tracking id. This can be used to fetch
         sensitive properties for Security Advisory events.
 
         :param event_tracking_id: Event Id which uniquely identifies ServiceHealth event. Required.
         :type event_tracking_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Event or the result of cls(response)
         :rtype: ~azure.mgmt.resourcehealth.v2023_10_01_preview.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -417,19 +406,18 @@ class EventOperations:
         )
         cls: ClsType[_models.Event] = kwargs.pop("cls", None)
 
-        request = build_fetch_details_by_tenant_id_and_tracking_id_request(
+        _request = build_fetch_details_by_tenant_id_and_tracking_id_request(
             event_tracking_id=event_tracking_id,
             api_version=api_version,
-            template_url=self.fetch_details_by_tenant_id_and_tracking_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -442,10 +430,6 @@ class EventOperations:
         deserialized = self._deserialize("Event", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    fetch_details_by_tenant_id_and_tracking_id.metadata = {
-        "url": "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails"
-    }
+        return deserialized  # type: ignore
