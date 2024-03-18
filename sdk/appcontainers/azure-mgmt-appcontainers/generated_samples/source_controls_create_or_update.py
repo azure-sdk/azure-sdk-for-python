@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
 
 """
@@ -26,6 +29,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        container_app_name="testcanadacentral",
         subscription_id="651f8027-33e8-4ec4-97b4-f6e9f3dc8744",
     )
 
@@ -43,6 +47,7 @@ def main():
                         "kind": "feaderated",
                         "tenantId": "<tenantid>",
                     },
+                    "buildEnvironmentVariables": [{"name": "foo1", "value": "bar1"}, {"name": "foo2", "value": "bar2"}],
                     "contextPath": "./",
                     "githubPersonalAccessToken": "test",
                     "image": "image/tag",
@@ -59,6 +64,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/SourceControls_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/SourceControls_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
