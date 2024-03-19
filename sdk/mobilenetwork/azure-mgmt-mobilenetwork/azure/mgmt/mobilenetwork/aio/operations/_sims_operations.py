@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -81,22 +81,21 @@ class SimsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             sim_group_name=sim_group_name,
             sim_name=sim_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -107,11 +106,7 @@ class SimsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims/{simName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -126,14 +121,6 @@ class SimsOperations:
         :type sim_group_name: str
         :param sim_name: The name of the SIM. Required.
         :type sim_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -161,7 +148,7 @@ class SimsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -172,17 +159,13 @@ class SimsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims/{simName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, sim_group_name: str, sim_name: str, **kwargs: Any) -> _models.Sim:
@@ -195,7 +178,6 @@ class SimsOperations:
         :type sim_group_name: str
         :param sim_name: The name of the SIM. Required.
         :type sim_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Sim or the result of cls(response)
         :rtype: ~azure.mgmt.mobilenetwork.models.Sim
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -214,22 +196,21 @@ class SimsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Sim] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             sim_group_name=sim_group_name,
             sim_name=sim_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -242,20 +223,16 @@ class SimsOperations:
         deserialized = self._deserialize("Sim", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims/{simName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
         sim_group_name: str,
         sim_name: str,
-        parameters: Union[_models.Sim, IO],
+        parameters: Union[_models.Sim, IO[bytes]],
         **kwargs: Any
     ) -> _models.Sim:
         error_map = {
@@ -281,7 +258,7 @@ class SimsOperations:
         else:
             _json = self._serialize.body(parameters, "Sim")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             sim_group_name=sim_group_name,
             sim_name=sim_name,
@@ -290,16 +267,15 @@ class SimsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -319,10 +295,6 @@ class SimsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims/{simName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -349,14 +321,6 @@ class SimsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Sim or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.mobilenetwork.models.Sim]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -368,7 +332,7 @@ class SimsOperations:
         resource_group_name: str,
         sim_group_name: str,
         sim_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -383,18 +347,10 @@ class SimsOperations:
         :param sim_name: The name of the SIM. Required.
         :type sim_name: str
         :param parameters: Parameters supplied to the create or update SIM operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Sim or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.mobilenetwork.models.Sim]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -406,7 +362,7 @@ class SimsOperations:
         resource_group_name: str,
         sim_group_name: str,
         sim_name: str,
-        parameters: Union[_models.Sim, IO],
+        parameters: Union[_models.Sim, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Sim]:
         """Creates or updates a SIM.
@@ -419,19 +375,8 @@ class SimsOperations:
         :param sim_name: The name of the SIM. Required.
         :type sim_name: str
         :param parameters: Parameters supplied to the create or update SIM operation. Is either a Sim
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.mobilenetwork.models.Sim or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.mobilenetwork.models.Sim or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Sim or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.mobilenetwork.models.Sim]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -463,7 +408,7 @@ class SimsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Sim", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -476,17 +421,15 @@ class SimsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Sim].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims/{simName}"
-    }
+        return AsyncLROPoller[_models.Sim](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_by_group(
@@ -499,7 +442,6 @@ class SimsOperations:
         :type resource_group_name: str
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Sim or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.mobilenetwork.models.Sim]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -521,17 +463,16 @@ class SimsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_group_request(
+                _request = build_list_by_group_request(
                     resource_group_name=resource_group_name,
                     sim_group_name=sim_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -543,13 +484,13 @@ class SimsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("SimListResult", pipeline_response)
@@ -559,11 +500,11 @@ class SimsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -576,12 +517,12 @@ class SimsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims"
-    }
-
     async def _bulk_upload_initial(
-        self, resource_group_name: str, sim_group_name: str, parameters: Union[_models.SimUploadList, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        sim_group_name: str,
+        parameters: Union[_models.SimUploadList, IO[bytes]],
+        **kwargs: Any
     ) -> Optional[_models.AsyncOperationStatus]:
         error_map = {
             401: ClientAuthenticationError,
@@ -606,7 +547,7 @@ class SimsOperations:
         else:
             _json = self._serialize.body(parameters, "SimUploadList")
 
-        request = build_bulk_upload_request(
+        _request = build_bulk_upload_request(
             resource_group_name=resource_group_name,
             sim_group_name=sim_group_name,
             subscription_id=self._config.subscription_id,
@@ -614,16 +555,15 @@ class SimsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._bulk_upload_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -638,13 +578,9 @@ class SimsOperations:
             deserialized = self._deserialize("AsyncOperationStatus", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _bulk_upload_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/uploadSims"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_bulk_upload(
@@ -668,14 +604,6 @@ class SimsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -688,7 +616,7 @@ class SimsOperations:
         self,
         resource_group_name: str,
         sim_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -701,18 +629,10 @@ class SimsOperations:
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
         :param parameters: Parameters supplied to the bulk SIM upload operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -722,7 +642,11 @@ class SimsOperations:
 
     @distributed_trace_async
     async def begin_bulk_upload(
-        self, resource_group_name: str, sim_group_name: str, parameters: Union[_models.SimUploadList, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        sim_group_name: str,
+        parameters: Union[_models.SimUploadList, IO[bytes]],
+        **kwargs: Any
     ) -> AsyncLROPoller[_models.AsyncOperationStatus]:
         """Bulk upload SIMs to a SIM group.
 
@@ -732,19 +656,8 @@ class SimsOperations:
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
         :param parameters: Parameters supplied to the bulk SIM upload operation. Is either a
-         SimUploadList type or a IO type. Required.
-        :type parameters: ~azure.mgmt.mobilenetwork.models.SimUploadList or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         SimUploadList type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.mobilenetwork.models.SimUploadList or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -777,7 +690,7 @@ class SimsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("AsyncOperationStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -789,20 +702,22 @@ class SimsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.AsyncOperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_bulk_upload.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/uploadSims"
-    }
+        return AsyncLROPoller[_models.AsyncOperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _bulk_delete_initial(
-        self, resource_group_name: str, sim_group_name: str, parameters: Union[_models.SimDeleteList, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        sim_group_name: str,
+        parameters: Union[_models.SimDeleteList, IO[bytes]],
+        **kwargs: Any
     ) -> Optional[_models.AsyncOperationStatus]:
         error_map = {
             401: ClientAuthenticationError,
@@ -827,7 +742,7 @@ class SimsOperations:
         else:
             _json = self._serialize.body(parameters, "SimDeleteList")
 
-        request = build_bulk_delete_request(
+        _request = build_bulk_delete_request(
             resource_group_name=resource_group_name,
             sim_group_name=sim_group_name,
             subscription_id=self._config.subscription_id,
@@ -835,16 +750,15 @@ class SimsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._bulk_delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -859,13 +773,9 @@ class SimsOperations:
             deserialized = self._deserialize("AsyncOperationStatus", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _bulk_delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/deleteSims"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_bulk_delete(
@@ -889,14 +799,6 @@ class SimsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -909,7 +811,7 @@ class SimsOperations:
         self,
         resource_group_name: str,
         sim_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -922,18 +824,10 @@ class SimsOperations:
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
         :param parameters: Parameters supplied to the bulk SIM delete operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -943,7 +837,11 @@ class SimsOperations:
 
     @distributed_trace_async
     async def begin_bulk_delete(
-        self, resource_group_name: str, sim_group_name: str, parameters: Union[_models.SimDeleteList, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        sim_group_name: str,
+        parameters: Union[_models.SimDeleteList, IO[bytes]],
+        **kwargs: Any
     ) -> AsyncLROPoller[_models.AsyncOperationStatus]:
         """Bulk delete SIMs from a SIM group.
 
@@ -953,19 +851,8 @@ class SimsOperations:
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
         :param parameters: Parameters supplied to the bulk SIM delete operation. Is either a
-         SimDeleteList type or a IO type. Required.
-        :type parameters: ~azure.mgmt.mobilenetwork.models.SimDeleteList or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         SimDeleteList type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.mobilenetwork.models.SimDeleteList or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -998,7 +885,7 @@ class SimsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("AsyncOperationStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1010,23 +897,21 @@ class SimsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.AsyncOperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_bulk_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/deleteSims"
-    }
+        return AsyncLROPoller[_models.AsyncOperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _bulk_upload_encrypted_initial(
         self,
         resource_group_name: str,
         sim_group_name: str,
-        parameters: Union[_models.EncryptedSimUploadList, IO],
+        parameters: Union[_models.EncryptedSimUploadList, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.AsyncOperationStatus]:
         error_map = {
@@ -1052,7 +937,7 @@ class SimsOperations:
         else:
             _json = self._serialize.body(parameters, "EncryptedSimUploadList")
 
-        request = build_bulk_upload_encrypted_request(
+        _request = build_bulk_upload_encrypted_request(
             resource_group_name=resource_group_name,
             sim_group_name=sim_group_name,
             subscription_id=self._config.subscription_id,
@@ -1060,16 +945,15 @@ class SimsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._bulk_upload_encrypted_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1084,13 +968,9 @@ class SimsOperations:
             deserialized = self._deserialize("AsyncOperationStatus", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _bulk_upload_encrypted_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/uploadEncryptedSims"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_bulk_upload_encrypted(
@@ -1114,14 +994,6 @@ class SimsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -1134,7 +1006,7 @@ class SimsOperations:
         self,
         resource_group_name: str,
         sim_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1147,18 +1019,10 @@ class SimsOperations:
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
         :param parameters: Parameters supplied to the encrypted SIMs upload operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -1171,7 +1035,7 @@ class SimsOperations:
         self,
         resource_group_name: str,
         sim_group_name: str,
-        parameters: Union[_models.EncryptedSimUploadList, IO],
+        parameters: Union[_models.EncryptedSimUploadList, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.AsyncOperationStatus]:
         """Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
@@ -1182,19 +1046,8 @@ class SimsOperations:
         :param sim_group_name: The name of the SIM Group. Required.
         :type sim_group_name: str
         :param parameters: Parameters supplied to the encrypted SIMs upload operation. Is either a
-         EncryptedSimUploadList type or a IO type. Required.
-        :type parameters: ~azure.mgmt.mobilenetwork.models.EncryptedSimUploadList or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         EncryptedSimUploadList type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.mobilenetwork.models.EncryptedSimUploadList or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either AsyncOperationStatus or the result
          of cls(response)
         :rtype:
@@ -1227,7 +1080,7 @@ class SimsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("AsyncOperationStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1239,14 +1092,12 @@ class SimsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.AsyncOperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_bulk_upload_encrypted.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/uploadEncryptedSims"
-    }
+        return AsyncLROPoller[_models.AsyncOperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

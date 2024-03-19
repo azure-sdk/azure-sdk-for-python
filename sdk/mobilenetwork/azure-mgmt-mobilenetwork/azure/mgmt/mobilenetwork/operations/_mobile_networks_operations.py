@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -277,21 +277,20 @@ class MobileNetworksOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             mobile_network_name=mobile_network_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -302,11 +301,7 @@ class MobileNetworksOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, mobile_network_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -317,14 +312,6 @@ class MobileNetworksOperations:
         :type resource_group_name: str
         :param mobile_network_name: The name of the mobile network. Required.
         :type mobile_network_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -351,7 +338,7 @@ class MobileNetworksOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -362,17 +349,13 @@ class MobileNetworksOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get(self, resource_group_name: str, mobile_network_name: str, **kwargs: Any) -> _models.MobileNetwork:
@@ -383,7 +366,6 @@ class MobileNetworksOperations:
         :type resource_group_name: str
         :param mobile_network_name: The name of the mobile network. Required.
         :type mobile_network_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MobileNetwork or the result of cls(response)
         :rtype: ~azure.mgmt.mobilenetwork.models.MobileNetwork
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -402,21 +384,20 @@ class MobileNetworksOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MobileNetwork] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             mobile_network_name=mobile_network_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -429,19 +410,15 @@ class MobileNetworksOperations:
         deserialized = self._deserialize("MobileNetwork", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         mobile_network_name: str,
-        parameters: Union[_models.MobileNetwork, IO],
+        parameters: Union[_models.MobileNetwork, IO[bytes]],
         **kwargs: Any
     ) -> _models.MobileNetwork:
         error_map = {
@@ -467,7 +444,7 @@ class MobileNetworksOperations:
         else:
             _json = self._serialize.body(parameters, "MobileNetwork")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             mobile_network_name=mobile_network_name,
             subscription_id=self._config.subscription_id,
@@ -475,16 +452,15 @@ class MobileNetworksOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -504,10 +480,6 @@ class MobileNetworksOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -532,14 +504,6 @@ class MobileNetworksOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either MobileNetwork or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.mobilenetwork.models.MobileNetwork]
@@ -551,7 +515,7 @@ class MobileNetworksOperations:
         self,
         resource_group_name: str,
         mobile_network_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -565,18 +529,10 @@ class MobileNetworksOperations:
         :type mobile_network_name: str
         :param parameters: Parameters supplied to the create or update mobile network operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either MobileNetwork or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.mobilenetwork.models.MobileNetwork]
@@ -588,7 +544,7 @@ class MobileNetworksOperations:
         self,
         resource_group_name: str,
         mobile_network_name: str,
-        parameters: Union[_models.MobileNetwork, IO],
+        parameters: Union[_models.MobileNetwork, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.MobileNetwork]:
         """Creates or updates a mobile network.
@@ -599,19 +555,8 @@ class MobileNetworksOperations:
         :param mobile_network_name: The name of the mobile network. Required.
         :type mobile_network_name: str
         :param parameters: Parameters supplied to the create or update mobile network operation. Is
-         either a MobileNetwork type or a IO type. Required.
-        :type parameters: ~azure.mgmt.mobilenetwork.models.MobileNetwork or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         either a MobileNetwork type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.mobilenetwork.models.MobileNetwork or IO[bytes]
         :return: An instance of LROPoller that returns either MobileNetwork or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.mobilenetwork.models.MobileNetwork]
@@ -643,7 +588,7 @@ class MobileNetworksOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MobileNetwork", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -655,17 +600,15 @@ class MobileNetworksOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.MobileNetwork].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}"
-    }
+        return LROPoller[_models.MobileNetwork](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     def update_tags(
@@ -689,7 +632,6 @@ class MobileNetworksOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MobileNetwork or the result of cls(response)
         :rtype: ~azure.mgmt.mobilenetwork.models.MobileNetwork
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -700,7 +642,7 @@ class MobileNetworksOperations:
         self,
         resource_group_name: str,
         mobile_network_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -713,11 +655,10 @@ class MobileNetworksOperations:
         :param mobile_network_name: The name of the mobile network. Required.
         :type mobile_network_name: str
         :param parameters: Parameters supplied to update mobile network tags and/or identity. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MobileNetwork or the result of cls(response)
         :rtype: ~azure.mgmt.mobilenetwork.models.MobileNetwork
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -728,7 +669,7 @@ class MobileNetworksOperations:
         self,
         resource_group_name: str,
         mobile_network_name: str,
-        parameters: Union[_models.IdentityAndTagsObject, IO],
+        parameters: Union[_models.IdentityAndTagsObject, IO[bytes]],
         **kwargs: Any
     ) -> _models.MobileNetwork:
         """Updates mobile network tags and managed identity.
@@ -739,12 +680,8 @@ class MobileNetworksOperations:
         :param mobile_network_name: The name of the mobile network. Required.
         :type mobile_network_name: str
         :param parameters: Parameters supplied to update mobile network tags and/or identity. Is either
-         a IdentityAndTagsObject type or a IO type. Required.
-        :type parameters: ~azure.mgmt.mobilenetwork.models.IdentityAndTagsObject or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         a IdentityAndTagsObject type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.mobilenetwork.models.IdentityAndTagsObject or IO[bytes]
         :return: MobileNetwork or the result of cls(response)
         :rtype: ~azure.mgmt.mobilenetwork.models.MobileNetwork
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -772,7 +709,7 @@ class MobileNetworksOperations:
         else:
             _json = self._serialize.body(parameters, "IdentityAndTagsObject")
 
-        request = build_update_tags_request(
+        _request = build_update_tags_request(
             resource_group_name=resource_group_name,
             mobile_network_name=mobile_network_name,
             subscription_id=self._config.subscription_id,
@@ -780,16 +717,15 @@ class MobileNetworksOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update_tags.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -802,19 +738,14 @@ class MobileNetworksOperations:
         deserialized = self._deserialize("MobileNetwork", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update_tags.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.MobileNetwork"]:
         """Lists all the mobile networks in a subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MobileNetwork or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.mobilenetwork.models.MobileNetwork]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -836,15 +767,14 @@ class MobileNetworksOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -856,13 +786,13 @@ class MobileNetworksOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MobileNetworkListResult", pipeline_response)
@@ -872,11 +802,11 @@ class MobileNetworksOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -888,10 +818,6 @@ class MobileNetworksOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/mobileNetworks"
-    }
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.MobileNetwork"]:
@@ -900,7 +826,6 @@ class MobileNetworksOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MobileNetwork or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.mobilenetwork.models.MobileNetwork]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -922,16 +847,15 @@ class MobileNetworksOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -943,13 +867,13 @@ class MobileNetworksOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MobileNetworkListResult", pipeline_response)
@@ -959,11 +883,11 @@ class MobileNetworksOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -975,7 +899,3 @@ class MobileNetworksOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks"
-    }

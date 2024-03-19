@@ -27,7 +27,7 @@ JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 class Ambr(_serialization.Model):
     """Aggregate maximum bit rate.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar uplink: Uplink bit rate. Required.
     :vartype uplink: str
@@ -60,7 +60,7 @@ class Ambr(_serialization.Model):
 class Arp(_serialization.Model):
     """Allocation and Retention Priority (ARP) parameters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar priority_level: ARP priority level. Required.
     :vartype priority_level: int
@@ -111,7 +111,7 @@ class Arp(_serialization.Model):
 class AsyncOperationId(_serialization.Model):
     """Reference to an Azure Async Operation ID.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure Async Operation ID. Required.
     :vartype id: str
@@ -140,7 +140,7 @@ class AsyncOperationId(_serialization.Model):
 class AsyncOperationStatus(_serialization.Model):
     """The current status of an async operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -233,7 +233,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -274,10 +274,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -328,10 +328,10 @@ class AttachedDataNetwork(TrackedResource):  # pylint: disable=too-many-instance
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -496,7 +496,7 @@ class AttachedDataNetworkListResult(_serialization.Model):
 class AttachedDataNetworkResourceId(_serialization.Model):
     """Reference to an attached data network resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Attached data network resource ID. Required.
     :vartype id: str
@@ -525,7 +525,7 @@ class AttachedDataNetworkResourceId(_serialization.Model):
 class AzureStackEdgeDeviceResourceId(_serialization.Model):
     """Reference to an Azure Stack Edge device resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure Stack Edge device resource ID. Required.
     :vartype id: str
@@ -554,7 +554,7 @@ class AzureStackEdgeDeviceResourceId(_serialization.Model):
 class AzureStackHCIClusterResourceId(_serialization.Model):
     """Reference to an Azure Stack HCI cluster resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure Stack HCI cluster resource ID. Required.
     :vartype id: str
@@ -614,7 +614,7 @@ class CommonSimPropertiesFormat(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the SIM resource. Known values are:
      "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", and "Deleted".
@@ -717,7 +717,7 @@ class CommonSimPropertiesFormat(_serialization.Model):
 class ConnectedClusterResourceId(_serialization.Model):
     """Reference to an Azure Arc custom location resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure Arc connected cluster resource ID. Required.
     :vartype id: str
@@ -746,7 +746,7 @@ class ConnectedClusterResourceId(_serialization.Model):
 class CustomLocationResourceId(_serialization.Model):
     """Reference to an Azure Arc custom location resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure Arc custom location resource ID. Required.
     :vartype id: str
@@ -777,10 +777,10 @@ class DataNetwork(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -840,7 +840,7 @@ class DataNetwork(TrackedResource):
 class DataNetworkConfiguration(_serialization.Model):
     """Settings controlling data network use.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_network: A reference to the data network that these settings apply to. The data
      network must be in the same location as the SIM policy. Required.
@@ -1018,7 +1018,7 @@ class DataNetworkListResult(_serialization.Model):
 class DataNetworkResourceId(_serialization.Model):
     """Reference to a data network resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Data network resource ID. Required.
     :vartype id: str
@@ -1051,7 +1051,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1063,24 +1063,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.mobilenetwork.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class DiagnosticsPackage(ProxyResource):
     """Diagnostics package resource.
@@ -1088,7 +1070,7 @@ class DiagnosticsPackage(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1170,7 +1152,7 @@ class DiagnosticsPackageListResult(_serialization.Model):
 class DiagnosticsUploadConfiguration(_serialization.Model):
     """Configuration for uploading packet core diagnostics.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_account_container_url: The Storage Account Container URL to upload diagnostics
      to. Required.
@@ -1232,7 +1214,7 @@ class EncryptedSimPropertiesFormat(CommonSimPropertiesFormat):  # pylint: disabl
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the SIM resource. Known values are:
      "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", and "Deleted".
@@ -1340,7 +1322,7 @@ class EncryptedSimPropertiesFormat(CommonSimPropertiesFormat):  # pylint: disabl
 class EncryptedSimUploadList(_serialization.Model):
     """The SIMs to upload. The SIM credentials must be encrypted.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar version: The upload file format version. Required.
     :vartype version: int
@@ -1511,7 +1493,7 @@ class ErrorResponse(_serialization.Model):
 class EventHubConfiguration(_serialization.Model):
     """Configuration for sending packet core events to Azure Event Hub.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID  of Azure Event Hub to send packet core events to. Required.
     :vartype id: str
@@ -1551,10 +1533,10 @@ class ExtendedUeInfo(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1599,7 +1581,7 @@ class ExtendedUeInfoProperties(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     UeInfo4G, UeInfo5G
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rat_type: RAT Type. Required. Known values are: "4G" and "5G".
     :vartype rat_type: str or ~azure.mgmt.mobilenetwork.models.RatType
@@ -1633,7 +1615,7 @@ class HomeNetworkPrivateKeysProvisioning(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: The provisioning state of the private keys for SUPI concealment. Required. Known
      values are: "NotProvisioned", "Provisioned", and "Failed".
@@ -1657,7 +1639,7 @@ class HomeNetworkPrivateKeysProvisioning(_serialization.Model):
 class HomeNetworkPublicKey(_serialization.Model):
     """A key used for SUPI concealment.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The Home Network Public Key Identifier determines which public key was used to
      generate the SUCI sent to the AMF. See TS 23.003 Section 2.2B Section 5. Required.
@@ -1699,7 +1681,7 @@ class HttpsServerCertificate(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar certificate_url: The certificate URL, unversioned. For example:
      https://contosovault.vault.azure.net/certificates/ingress. Required.
@@ -1898,7 +1880,7 @@ class LocalDiagnosticsAccessConfiguration(_serialization.Model):
     """The kubernetes ingress configuration to control access to packet core diagnostics over local
     APIs.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar authentication_type: How to authenticate users who access local diagnostics APIs.
      Required. Known values are: "AAD" and "Password".
@@ -1940,14 +1922,14 @@ class LocalDiagnosticsAccessConfiguration(_serialization.Model):
 class ManagedServiceIdentity(_serialization.Model):
     """Managed service identity (User assigned identity).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of managed service identity (currently only UserAssigned allowed). Required.
      Known values are: "None" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.mobilenetwork.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.mobilenetwork.models.UserAssignedIdentity]
@@ -1975,7 +1957,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.mobilenetwork.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.mobilenetwork.models.UserAssignedIdentity]
@@ -1990,10 +1972,10 @@ class MobileNetwork(TrackedResource):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2128,7 +2110,7 @@ class MobileNetworkListResult(_serialization.Model):
 class MobileNetworkResourceId(_serialization.Model):
     """Reference to a mobile network resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Mobile network resource ID. Required.
     :vartype id: str
@@ -2233,7 +2215,7 @@ class NaptConfiguration(_serialization.Model):
 class NASRerouteConfiguration(_serialization.Model):
     """Configuration enabling NAS reroute.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar macro_mme_group_id: The macro network's MME group ID. This is where unknown UEs are sent
      to via NAS reroute. Required.
@@ -2375,7 +2357,7 @@ class PacketCapture(ProxyResource):  # pylint: disable=too-many-instance-attribu
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2508,10 +2490,10 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2735,10 +2717,10 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
         self.home_network_private_keys_provisioning = None
 
 
-class PacketCoreControlPlaneCollectDiagnosticsPackage(_serialization.Model):
+class PacketCoreControlPlaneCollectDiagnosticsPackage(_serialization.Model):  # pylint: disable=name-too-long
     """Packet core control plane collect diagnostics package options.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_account_blob_url: The Storage Account Blob URL to upload the diagnostics package
      to. Required.
@@ -2796,7 +2778,7 @@ class PacketCoreControlPlaneListResult(_serialization.Model):
 class PacketCoreControlPlaneResourceId(_serialization.Model):
     """Reference to an packet core control plane resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Packet core control plane resource ID. Required.
     :vartype id: str
@@ -2828,7 +2810,7 @@ class PacketCoreControlPlaneVersion(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2909,10 +2891,10 @@ class PacketCoreDataPlane(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3030,7 +3012,7 @@ class PacketCoreDataPlaneListResult(_serialization.Model):
 class PccRuleConfiguration(_serialization.Model):
     """Data flow policy rule configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rule_name: The name of the rule. This must be unique within the parent service. You must
      not use any of the following reserved strings - ``default``\ , ``requested`` or ``service``.
@@ -3113,7 +3095,7 @@ class PccRuleConfiguration(_serialization.Model):
 class QosPolicy(_serialization.Model):
     """QoS policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar five_qi: 5G QoS Flow Indicator value. The 5QI identifies a specific QoS forwarding
      treatment to be provided to a flow. See 3GPP TS23.501 section 5.7.2.1 for a full description of
@@ -3202,7 +3184,7 @@ class QosPolicy(_serialization.Model):
 class PccRuleQosPolicy(QosPolicy):
     """Data flow policy rule QoS policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar five_qi: 5G QoS Flow Indicator value. The 5QI identifies a specific QoS forwarding
      treatment to be provided to a flow. See 3GPP TS23.501 section 5.7.2.1 for a full description of
@@ -3419,7 +3401,7 @@ class PlatformConfiguration(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The platform type where packet core is deployed. Required. Known values are:
      "AKS-HCI" and "3P-AZURE-STACK-HCI".
@@ -3498,7 +3480,7 @@ class PlmnId(_serialization.Model):
     can be used for testing and the values 999-99 and 999-999 can be used on internal private
     networks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mcc: Mobile country code (MCC). Required.
     :vartype mcc: str
@@ -3601,7 +3583,7 @@ class PortReuseHoldTimes(_serialization.Model):
 class PublicLandMobileNetwork(PlmnId):
     """Configuration relating to a particular PLMN.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mcc: Mobile country code (MCC). Required.
     :vartype mcc: str
@@ -3647,7 +3629,7 @@ class PublicLandMobileNetwork(PlmnId):
         self.home_network_public_keys = home_network_public_keys
 
 
-class PublicLandMobileNetworkHomeNetworkPublicKeys(_serialization.Model):
+class PublicLandMobileNetworkHomeNetworkPublicKeys(_serialization.Model):  # pylint: disable=name-too-long
     """Configuration relating to SUPI concealment.
 
     :ivar profile_a: This provides a mapping to identify which public key has been used for SUPI
@@ -3693,10 +3675,10 @@ class Service(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3785,7 +3767,7 @@ class Service(TrackedResource):
 class ServiceDataFlowTemplate(_serialization.Model):
     """Data flow template.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar template_name: The name of the data flow template. This must be unique within the parent
      data flow policy rule. You must not use any of the following reserved strings - ``default``\ ,
@@ -3917,7 +3899,7 @@ class ServiceListResult(_serialization.Model):
 class ServiceResourceId(_serialization.Model):
     """Reference to a service resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Service resource ID. Required.
     :vartype id: str
@@ -3968,10 +3950,10 @@ class Sim(ProxyResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4109,7 +4091,7 @@ class Sim(ProxyResource):  # pylint: disable=too-many-instance-attributes
 class SimDeleteList(_serialization.Model):
     """The SIMs to delete.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sims: A list of SIM resource names to delete. Required.
     :vartype sims: list[str]
@@ -4137,10 +4119,10 @@ class SimGroup(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4251,7 +4233,7 @@ class SimGroupListResult(_serialization.Model):
 class SimGroupResourceId(_serialization.Model):
     """Reference to a SIM group resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: SIM group resource ID. Required.
     :vartype id: str
@@ -4312,7 +4294,7 @@ class SimNameAndEncryptedProperties(_serialization.Model):  # pylint: disable=to
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SIM. Required.
     :vartype name: str
@@ -4436,7 +4418,7 @@ class SimNameAndProperties(_serialization.Model):  # pylint: disable=too-many-in
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SIM. Required.
     :vartype name: str
@@ -4568,10 +4550,10 @@ class SimPolicy(TrackedResource):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4719,7 +4701,7 @@ class SimPolicyListResult(_serialization.Model):
 class SimPolicyResourceId(_serialization.Model):
     """Reference to a SIM policy resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: SIM policy resource ID. Required.
     :vartype id: str
@@ -4750,7 +4732,7 @@ class SimPropertiesFormat(CommonSimPropertiesFormat):  # pylint: disable=too-man
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the SIM resource. Known values are:
      "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", and "Deleted".
@@ -4943,7 +4925,7 @@ class SimStaticIpPropertiesStaticIp(_serialization.Model):
 class SimUploadList(_serialization.Model):
     """The SIMs to upload.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sims: A list of SIMs to upload. Required.
     :vartype sims: list[~azure.mgmt.mobilenetwork.models.SimNameAndProperties]
@@ -4971,10 +4953,10 @@ class Site(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5084,7 +5066,7 @@ class SiteListResult(_serialization.Model):
 class SiteResourceId(_serialization.Model):
     """Reference to a site resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Site resource ID. Required.
     :vartype id: str
@@ -5115,10 +5097,10 @@ class Slice(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5193,7 +5175,7 @@ class Slice(TrackedResource):
 class SliceConfiguration(_serialization.Model):
     """Per-slice settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar slice: A reference to the slice that these settings apply to. The slice must be in the
      same location as the SIM policy. Required.
@@ -5280,7 +5262,7 @@ class SliceListResult(_serialization.Model):
 class SliceResourceId(_serialization.Model):
     """Reference to a slice resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Slice resource ID. Required.
     :vartype id: str
@@ -5309,7 +5291,7 @@ class SliceResourceId(_serialization.Model):
 class Snssai(_serialization.Model):
     """Single-network slice selection assistance information (S-NSSAI).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sst: Slice/service type (SST). Required.
     :vartype sst: int
@@ -5342,7 +5324,7 @@ class Snssai(_serialization.Model):
 class SubResource(_serialization.Model):
     """Reference to another sub resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID. Required.
     :vartype id: str
@@ -5454,10 +5436,10 @@ class UeInfo(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5529,7 +5511,7 @@ class UeInfo(ProxyResource):
 class UeInfo4G(ExtendedUeInfoProperties):  # pylint: disable=too-many-instance-attributes
     """UE Information for 4G.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rat_type: RAT Type. Required. Known values are: "4G" and "5G".
     :vartype rat_type: str or ~azure.mgmt.mobilenetwork.models.RatType
@@ -5833,7 +5815,7 @@ class UeInfo4G(ExtendedUeInfoProperties):  # pylint: disable=too-many-instance-a
 class UeInfo5G(ExtendedUeInfoProperties):  # pylint: disable=too-many-instance-attributes
     """UE Information for 5G.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rat_type: RAT Type. Required. Known values are: "4G" and "5G".
     :vartype rat_type: str or ~azure.mgmt.mobilenetwork.models.RatType
@@ -6175,7 +6157,7 @@ class UeInfoList(_serialization.Model):
 class UeQOSFlow(_serialization.Model):
     """QoS Flow.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar qfi: Qos Flow Identifier. Required.
     :vartype qfi: int
@@ -6246,7 +6228,7 @@ class UeQOSFlow(_serialization.Model):
 class UeSessionInfo4G(_serialization.Model):
     """UE Session Info for 4G.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar ebi: EPS bearer identifier. Required.
     :vartype ebi: int
@@ -6303,7 +6285,7 @@ class UeSessionInfo4G(_serialization.Model):
 class UeSessionInfo5G(_serialization.Model):
     """UE Session Info for 5G.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar pdu_session_id: PDU session identifier. Required.
     :vartype pdu_session_id: int
