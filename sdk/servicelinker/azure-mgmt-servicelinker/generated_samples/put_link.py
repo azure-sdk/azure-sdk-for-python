@@ -14,7 +14,7 @@ from azure.mgmt.servicelinker import ServiceLinkerManagementClient
     pip install azure-identity
     pip install azure-mgmt-servicelinker
 # USAGE
-    python patch_connector.py
+    python put_link.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,21 +28,18 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.connector.begin_update(
-        subscription_id="00000000-0000-0000-0000-000000000000",
-        resource_group_name="test-rg",
-        location="westus",
-        connector_name="connectorName",
+    response = client.linker.begin_create_or_update(
+        resource_uri="subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app",
+        linker_name="linkName",
         parameters={
             "properties": {
                 "authInfo": {
-                    "authType": "servicePrincipalSecret",
-                    "clientId": "name",
-                    "principalId": "id",
-                    "secret": "secret",
+                    "authType": "secret",
+                    "name": "name",
+                    "secretInfo": {"secretType": "rawValue", "value": "secret"},
                 },
                 "targetService": {
-                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DocumentDb/databaseAccounts/test-acc/mongodbDatabases/test-db",
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DBforPostgreSQL/servers/test-pg/databases/test-db",
                     "type": "AzureResource",
                 },
             }
@@ -51,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2022-11-01-preview/examples/PatchConnector.json
+# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/stable/2022-05-01/examples/PutLink.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.servicelinker import ServiceLinkerManagementClient
     pip install azure-identity
     pip install azure-mgmt-servicelinker
 # USAGE
-    python validate_connector_success.py
+    python link_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,15 +28,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.connector.begin_validate(
-        subscription_id="00000000-0000-0000-0000-000000000000",
-        resource_group_name="test-rg",
-        location="westus",
-        connector_name="connectorName",
-    ).result()
-    print(response)
+    response = client.linker.list(
+        resource_uri="subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2022-11-01-preview/examples/ValidateConnectorSuccess.json
+# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/stable/2022-05-01/examples/LinkList.json
 if __name__ == "__main__":
     main()
