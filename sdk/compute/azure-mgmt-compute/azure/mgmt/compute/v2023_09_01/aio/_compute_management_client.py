@@ -40,7 +40,6 @@ from .operations import (
     VirtualMachineScaleSetVMRunCommandsOperations,
     VirtualMachineScaleSetVMsOperations,
     VirtualMachineScaleSetsOperations,
-    VirtualMachineSizesOperations,
     VirtualMachinesOperations,
 )
 
@@ -56,9 +55,6 @@ class ComputeManagementClient:  # pylint: disable=client-accepts-api-version-key
     :vartype operations: azure.mgmt.compute.v2023_09_01.aio.operations.Operations
     :ivar usage: UsageOperations operations
     :vartype usage: azure.mgmt.compute.v2023_09_01.aio.operations.UsageOperations
-    :ivar virtual_machine_sizes: VirtualMachineSizesOperations operations
-    :vartype virtual_machine_sizes:
-     azure.mgmt.compute.v2023_09_01.aio.operations.VirtualMachineSizesOperations
     :ivar virtual_machine_scale_sets: VirtualMachineScaleSetsOperations operations
     :vartype virtual_machine_scale_sets:
      azure.mgmt.compute.v2023_09_01.aio.operations.VirtualMachineScaleSetsOperations
@@ -160,9 +156,6 @@ class ComputeManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2023-09-01")
         self.usage = UsageOperations(self._client, self._config, self._serialize, self._deserialize, "2023-09-01")
-        self.virtual_machine_sizes = VirtualMachineSizesOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
-        )
         self.virtual_machine_scale_sets = VirtualMachineScaleSetsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
         )

@@ -8,7 +8,6 @@
 
 from ._operations import Operations
 from ._operations import UsageOperations
-from ._operations import VirtualMachineSizesOperations
 from ._operations import VirtualMachineScaleSetsOperations
 from ._operations import VirtualMachineScaleSetExtensionsOperations
 from ._operations import VirtualMachineScaleSetRollingUpgradesOperations
@@ -40,7 +39,6 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "Operations",
     "UsageOperations",
-    "VirtualMachineSizesOperations",
     "VirtualMachineScaleSetsOperations",
     "VirtualMachineScaleSetExtensionsOperations",
     "VirtualMachineScaleSetRollingUpgradesOperations",
