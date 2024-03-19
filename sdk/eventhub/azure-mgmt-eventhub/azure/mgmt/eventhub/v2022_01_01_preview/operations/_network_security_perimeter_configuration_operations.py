@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -25,7 +25,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -52,11 +52,18 @@ def build_list_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "namespaceName": _SERIALIZER.url("namespace_name", namespace_name, "str", max_length=50, min_length=6),
+        "namespaceName": _SERIALIZER.url(
+            "namespace_name",
+            namespace_name,
+            "str",
+            max_length=50,
+            min_length=6,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{6,50}[a-zA-Z0-9]$",
+        ),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -67,7 +74,7 @@ def build_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class NetworkSecurityPerimeterConfigurationOperations:
+class NetworkSecurityPerimeterConfigurationOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -85,6 +92,7 @@ class NetworkSecurityPerimeterConfigurationOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list(
@@ -96,7 +104,6 @@ class NetworkSecurityPerimeterConfigurationOperations:
         :type resource_group_name: str
         :param namespace_name: The Namespace name. Required.
         :type namespace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkSecurityPerimeterConfigurationList or the result of cls(response)
         :rtype:
          ~azure.mgmt.eventhub.v2022_01_01_preview.models.NetworkSecurityPerimeterConfigurationList
@@ -113,24 +120,25 @@ class NetworkSecurityPerimeterConfigurationOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-01-01-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2022-01-01-preview")
+        )
         cls: ClsType[_models.NetworkSecurityPerimeterConfigurationList] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             resource_group_name=resource_group_name,
             namespace_name=namespace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -143,10 +151,6 @@ class NetworkSecurityPerimeterConfigurationOperations:
         deserialized = self._deserialize("NetworkSecurityPerimeterConfigurationList", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkSecurityPerimeterConfigurations"
-    }
+        return deserialized  # type: ignore
