@@ -50,12 +50,6 @@ class CapacityReservationGroupInstanceViewTypes(str, Enum, metaclass=CaseInsensi
     INSTANCE_VIEW = "instanceView"
 
 
-class CapacityReservationInstanceViewTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """CapacityReservationInstanceViewTypes."""
-
-    INSTANCE_VIEW = "instanceView"
-
-
 class ConsistencyModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore
     point. For now, only CrashConsistent is accepted as a valid input. Please refer to
@@ -520,12 +514,6 @@ class RestorePointEncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENCRYPTION_AT_REST_WITH_PLATFORM_AND_CUSTOMER_KEYS = "EncryptionAtRestWithPlatformAndCustomerKeys"
     """Disk Restore Point is encrypted at rest with 2 layers of encryption. One of the keys is
     #: Customer managed and the other key is Platform managed."""
-
-
-class RestorePointExpandOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """RestorePointExpandOptions."""
-
-    INSTANCE_VIEW = "instanceView"
 
 
 class RollingUpgradeActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

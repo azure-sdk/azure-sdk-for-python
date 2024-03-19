@@ -281,7 +281,6 @@ from ._compute_management_client_enums import ArchitectureTypes
 from ._compute_management_client_enums import AvailabilitySetSkuTypes
 from ._compute_management_client_enums import CachingTypes
 from ._compute_management_client_enums import CapacityReservationGroupInstanceViewTypes
-from ._compute_management_client_enums import CapacityReservationInstanceViewTypes
 from ._compute_management_client_enums import ConsistencyModeTypes
 from ._compute_management_client_enums import DedicatedHostLicenseTypes
 from ._compute_management_client_enums import DeleteOptions
@@ -333,7 +332,6 @@ from ._compute_management_client_enums import RepairAction
 from ._compute_management_client_enums import ResourceIdentityType
 from ._compute_management_client_enums import RestorePointCollectionExpandOptions
 from ._compute_management_client_enums import RestorePointEncryptionType
-from ._compute_management_client_enums import RestorePointExpandOptions
 from ._compute_management_client_enums import RollingUpgradeActionType
 from ._compute_management_client_enums import RollingUpgradeStatusCode
 from ._compute_management_client_enums import SecurityEncryptionTypes
@@ -638,7 +636,6 @@ __all__ = [
     "AvailabilitySetSkuTypes",
     "CachingTypes",
     "CapacityReservationGroupInstanceViewTypes",
-    "CapacityReservationInstanceViewTypes",
     "ConsistencyModeTypes",
     "DedicatedHostLicenseTypes",
     "DeleteOptions",
@@ -690,7 +687,6 @@ __all__ = [
     "ResourceIdentityType",
     "RestorePointCollectionExpandOptions",
     "RestorePointEncryptionType",
-    "RestorePointExpandOptions",
     "RollingUpgradeActionType",
     "RollingUpgradeStatusCode",
     "SecurityEncryptionTypes",
