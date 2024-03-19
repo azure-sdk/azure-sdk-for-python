@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.springappdiscovery import SpringAppDiscoveryMgmtClient
 
 """
@@ -42,6 +45,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootsites_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2024-04-01-preview/examples/springbootsites_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
