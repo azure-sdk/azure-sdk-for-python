@@ -133,39 +133,6 @@ def build_list_request(resource_group_name: str, vault_name: str, subscription_i
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_version_request(
-    resource_group_name: str, vault_name: str, key_name: str, key_version: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "vaultName": _SERIALIZER.url("vault_name", vault_name, "str", pattern=r"^[a-zA-Z0-9-]{3,24}$"),
-        "keyName": _SERIALIZER.url("key_name", key_name, "str", pattern=r"^[a-zA-Z0-9-]{1,127}$"),
-        "keyVersion": _SERIALIZER.url("key_version", key_version, "str", pattern=r"^[a-fA-F0-9]{32}$"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_list_versions_request(
     resource_group_name: str, vault_name: str, key_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
@@ -534,77 +501,6 @@ class KeysOperations:
 
     list.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys"
-    }
-
-    @distributed_trace
-    def get_version(
-        self, resource_group_name: str, vault_name: str, key_name: str, key_version: str, **kwargs: Any
-    ) -> _models.Key:
-        """Gets the specified version of the specified key in the specified key vault.
-
-        :param resource_group_name: The name of the resource group which contains the specified key
-         vault. Required.
-        :type resource_group_name: str
-        :param vault_name: The name of the vault which contains the key version to be retrieved.
-         Required.
-        :type vault_name: str
-        :param key_name: The name of the key version to be retrieved. Required.
-        :type key_name: str
-        :param key_version: The version of the key to be retrieved. Required.
-        :type key_version: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Key or the result of cls(response)
-        :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.Key
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
-        cls: ClsType[_models.Key] = kwargs.pop("cls", None)
-
-        request = build_get_version_request(
-            resource_group_name=resource_group_name,
-            vault_name=vault_name,
-            key_name=key_name,
-            key_version=key_version,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_version.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("Key", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_version.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}"
     }
 
     @distributed_trace
