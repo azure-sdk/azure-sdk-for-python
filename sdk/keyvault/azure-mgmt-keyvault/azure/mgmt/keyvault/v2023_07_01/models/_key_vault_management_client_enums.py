@@ -10,14 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AccessPolicyUpdateKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """AccessPolicyUpdateKind."""
-
-    ADD = "add"
-    REPLACE = "replace"
-    REMOVE = "remove"
-
-
 class ActionsRequired(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """A message indicating if changes on the service provider require any updates on the consumer."""
 

@@ -102,7 +102,6 @@ from ._models_py3 import VaultPatchProperties
 from ._models_py3 import VaultProperties
 from ._models_py3 import VirtualNetworkRule
 
-from ._key_vault_management_client_enums import AccessPolicyUpdateKind
 from ._key_vault_management_client_enums import ActionsRequired
 from ._key_vault_management_client_enums import ActivationStatus
 from ._key_vault_management_client_enums import CertificatePermissions
@@ -230,7 +229,6 @@ __all__ = [
     "VaultPatchProperties",
     "VaultProperties",
     "VirtualNetworkRule",
-    "AccessPolicyUpdateKind",
     "ActionsRequired",
     "ActivationStatus",
     "CertificatePermissions",
