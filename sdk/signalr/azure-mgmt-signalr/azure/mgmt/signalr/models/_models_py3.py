@@ -23,7 +23,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -65,7 +65,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -77,34 +77,16 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.signalr.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class CustomCertificate(ProxyResource):
     """A custom certificate.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -209,10 +191,10 @@ class CustomDomain(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -767,7 +749,7 @@ class NameAvailability(_serialization.Model):
 class NameAvailabilityParameters(_serialization.Model):
     """Data POST-ed to the nameAvailability action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The resource type. Can be "Microsoft.SignalRService/SignalR",
      "Microsoft.SignalRService/WebPubSub", "Microsoft.SignalRService/SignalR/replicas" or
@@ -1014,7 +996,7 @@ class PrivateEndpoint(_serialization.Model):
 class PrivateEndpointACL(NetworkACL):
     """ACL for a private endpoint.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar allow: Allowed request types. The value can be one or more of: ClientConnection,
      ServerConnection, RESTAPI.
@@ -1064,7 +1046,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1174,7 +1156,7 @@ class PrivateLinkResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1350,10 +1332,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1403,10 +1385,10 @@ class Replica(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1601,11 +1583,11 @@ class ResourceSku(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SKU. Required.
 
-     Allowed values: Standard_S1, Free_F1, Premium_P1. Required.
+     Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2. Required.
     :vartype name: str
     :ivar tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 
@@ -1616,12 +1598,14 @@ class ResourceSku(_serialization.Model):
     :vartype size: str
     :ivar family: Not used. Retained for future use.
     :vartype family: str
-    :ivar capacity: Optional, integer. The unit count of the resource. 1 by default.
+    :ivar capacity: Optional, integer. The unit count of the resource.
+     1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default.
 
      If present, following values are allowed:
-         Free: 1;
-         Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
-         Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;.
+         Free_F1: 1;
+         Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+         Premium_P1:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+         Premium_P2:  100,200,300,400,500,600,700,800,900,1000;.
     :vartype capacity: int
     """
 
@@ -1650,19 +1634,21 @@ class ResourceSku(_serialization.Model):
         """
         :keyword name: The name of the SKU. Required.
 
-         Allowed values: Standard_S1, Free_F1, Premium_P1. Required.
+         Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2. Required.
         :paramtype name: str
         :keyword tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 
          ``Basic`` is deprecated, use ``Standard`` instead. Known values are: "Free", "Basic",
          "Standard", and "Premium".
         :paramtype tier: str or ~azure.mgmt.signalr.models.SignalRSkuTier
-        :keyword capacity: Optional, integer. The unit count of the resource. 1 by default.
+        :keyword capacity: Optional, integer. The unit count of the resource.
+         1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default.
 
          If present, following values are allowed:
-             Free: 1;
-             Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
-             Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;.
+             Free_F1: 1;
+             Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+             Premium_P1:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+             Premium_P2:  100,200,300,400,500,600,700,800,900,1000;.
         :paramtype capacity: int
         """
         super().__init__(**kwargs)
@@ -1858,7 +1844,7 @@ class SharedPrivateLinkResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1996,7 +1982,7 @@ class SignalRCorsSettings(_serialization.Model):
 class SignalRFeature(_serialization.Model):
     """Feature of a resource, which controls the runtime behavior.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar flag: FeatureFlags is the supported features of Azure SignalR service.
 
@@ -2174,10 +2160,10 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2817,7 +2803,7 @@ class UpstreamTemplate(_serialization.Model):
     The template defines the pattern of the event, the hub or the category of the incoming request
     that matches current URL template.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar hub_pattern: Gets or sets the matching pattern for hub names. If not set, it matches any
      hub.
