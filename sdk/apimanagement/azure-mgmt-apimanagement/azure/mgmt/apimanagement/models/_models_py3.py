@@ -337,7 +337,7 @@ class AdditionalLocation(_serialization.Model):  # pylint: disable=too-many-inst
      locations. This can be used to disable the gateway in this additional location.
     :vartype disable_gateway: bool
     :ivar platform_version: Compute Platform Version running the service. Known values are:
-     "undetermined", "stv1", "stv2", and "mtv1".
+     "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     """
 
@@ -413,6 +413,91 @@ class AdditionalLocation(_serialization.Model):  # pylint: disable=too-many-inst
         self.outbound_public_ip_addresses = None
         self.disable_gateway = disable_gateway
         self.platform_version = None
+
+
+class AllPoliciesCollection(_serialization.Model):
+    """The response of All Policies.
+
+    :ivar value: AllPolicies Contract value.
+    :vartype value: list[~azure.mgmt.apimanagement.models.AllPoliciesContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AllPoliciesContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.AllPoliciesContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: AllPolicies Contract value.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.AllPoliciesContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class AllPoliciesContract(ProxyResource):
+    """AllPolicies Contract details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar reference_policy_id: Policy Identifier.
+    :vartype reference_policy_id: str
+    :ivar compliance_state: Policy Restriction Compliance State. Known values are: "Pending",
+     "NonCompliant", and "Compliant".
+    :vartype compliance_state: str or ~azure.mgmt.apimanagement.models.PolicyComplianceState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "reference_policy_id": {"key": "properties.referencePolicyId", "type": "str"},
+        "compliance_state": {"key": "properties.complianceState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        reference_policy_id: Optional[str] = None,
+        compliance_state: Optional[Union[str, "_models.PolicyComplianceState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword reference_policy_id: Policy Identifier.
+        :paramtype reference_policy_id: str
+        :keyword compliance_state: Policy Restriction Compliance State. Known values are: "Pending",
+         "NonCompliant", and "Compliant".
+        :paramtype compliance_state: str or ~azure.mgmt.apimanagement.models.PolicyComplianceState
+        """
+        super().__init__(**kwargs)
+        self.reference_policy_id = reference_policy_id
+        self.compliance_state = compliance_state
 
 
 class ApiCollection(_serialization.Model):
@@ -507,7 +592,8 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -549,6 +635,8 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
     :vartype protocols: list[str or ~azure.mgmt.apimanagement.models.Protocol]
     :ivar api_version_set: Version set details.
     :vartype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
@@ -563,6 +651,7 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
         "display_name": {"max_length": 300, "min_length": 1},
         "service_url": {"max_length": 2000},
         "path": {"max_length": 400},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -596,6 +685,7 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
         "path": {"key": "properties.path", "type": "str"},
         "protocols": {"key": "properties.protocols", "type": "[str]"},
         "api_version_set": {"key": "properties.apiVersionSet", "type": "ApiVersionSetContractDetails"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -632,7 +722,8 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -695,6 +786,7 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
         self.path = path
         self.protocols = protocols
         self.api_version_set = api_version_set
+        self.provisioning_state = None
 
 
 class ApiEntityBaseContract(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -710,7 +802,8 @@ class ApiEntityBaseContract(_serialization.Model):  # pylint: disable=too-many-i
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -796,7 +889,8 @@ class ApiEntityBaseContract(_serialization.Model):  # pylint: disable=too-many-i
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -855,7 +949,8 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -897,6 +992,8 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
     :vartype protocols: list[str or ~azure.mgmt.apimanagement.models.Protocol]
     :ivar api_version_set: Version set details.
     :vartype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
@@ -908,6 +1005,7 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
         "display_name": {"max_length": 300, "min_length": 1},
         "service_url": {"max_length": 2000},
         "path": {"required": True, "max_length": 400},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -935,6 +1033,7 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
         "path": {"key": "path", "type": "str"},
         "protocols": {"key": "protocols", "type": "[str]"},
         "api_version_set": {"key": "apiVersionSet", "type": "ApiVersionSetContractDetails"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -971,7 +1070,8 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1035,6 +1135,7 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
         self.path = path
         self.protocols = protocols
         self.api_version_set = api_version_set
+        self.provisioning_state = None
 
 
 class ApiContractUpdateProperties(ApiEntityBaseContract):  # pylint: disable=too-many-instance-attributes
@@ -1050,7 +1151,8 @@ class ApiContractUpdateProperties(ApiEntityBaseContract):  # pylint: disable=too
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -1157,7 +1259,8 @@ class ApiContractUpdateProperties(ApiEntityBaseContract):  # pylint: disable=too
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1229,7 +1332,8 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -1271,11 +1375,14 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
     :vartype protocols: list[str or ~azure.mgmt.apimanagement.models.Protocol]
     :ivar api_version_set: Version set details.
     :vartype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     :ivar value: Content value when Importing an API.
     :vartype value: str
-    :ivar format: Format of the Content in which the API is getting imported. Known values are:
-     "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-     "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+    :ivar format: Format of the Content in which the API is getting imported. New formats can be
+     added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+     "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+     "openapi+json-link", "graphql-link", "odata", "odata-link", "grpc", and "grpc-link".
     :vartype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
     :ivar wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
     :vartype wsdl_selector:
@@ -1286,8 +1393,9 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
      * ``http`` creates a REST API
      * ``soap`` creates a SOAP pass-through API
      * ``websocket`` creates websocket API
-     * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-     "graphql".
+     * ``graphql`` creates GraphQL API.
+       New types can be added in the future. Known values are: "http", "soap", "websocket",
+     "graphql", "odata", and "grpc".
     :vartype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
     :ivar translate_required_query_parameters_conduct: Strategy of translating required query
      parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -1305,6 +1413,7 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         "display_name": {"max_length": 300, "min_length": 1},
         "service_url": {"max_length": 2000},
         "path": {"max_length": 400},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1335,6 +1444,7 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         "path": {"key": "properties.path", "type": "str"},
         "protocols": {"key": "properties.protocols", "type": "[str]"},
         "api_version_set": {"key": "properties.apiVersionSet", "type": "ApiVersionSetContractDetails"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "value": {"key": "properties.value", "type": "str"},
         "format": {"key": "properties.format", "type": "str"},
         "wsdl_selector": {"key": "properties.wsdlSelector", "type": "ApiCreateOrUpdatePropertiesWsdlSelector"},
@@ -1386,7 +1496,8 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1428,9 +1539,10 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         :paramtype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
         :keyword value: Content value when Importing an API.
         :paramtype value: str
-        :keyword format: Format of the Content in which the API is getting imported. Known values are:
-         "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-         "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+        :keyword format: Format of the Content in which the API is getting imported. New formats can be
+         added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+         "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+         "openapi+json-link", "graphql-link", "odata", "odata-link", "grpc", and "grpc-link".
         :paramtype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
         :keyword wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
         :paramtype wsdl_selector:
@@ -1441,8 +1553,9 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
          * ``http`` creates a REST API
          * ``soap`` creates a SOAP pass-through API
          * ``websocket`` creates websocket API
-         * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-         "graphql".
+         * ``graphql`` creates GraphQL API.
+           New types can be added in the future. Known values are: "http", "soap", "websocket",
+         "graphql", "odata", and "grpc".
         :paramtype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
         :keyword translate_required_query_parameters_conduct: Strategy of translating required query
          parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -1472,6 +1585,7 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         self.path = path
         self.protocols = protocols
         self.api_version_set = api_version_set
+        self.provisioning_state = None
         self.value = value
         self.format = format
         self.wsdl_selector = wsdl_selector
@@ -1494,7 +1608,8 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -1536,11 +1651,14 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
     :vartype protocols: list[str or ~azure.mgmt.apimanagement.models.Protocol]
     :ivar api_version_set: Version set details.
     :vartype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     :ivar value: Content value when Importing an API.
     :vartype value: str
-    :ivar format: Format of the Content in which the API is getting imported. Known values are:
-     "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-     "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+    :ivar format: Format of the Content in which the API is getting imported. New formats can be
+     added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+     "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+     "openapi+json-link", "graphql-link", "odata", "odata-link", "grpc", and "grpc-link".
     :vartype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
     :ivar wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
     :vartype wsdl_selector:
@@ -1551,8 +1669,9 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
      * ``http`` creates a REST API
      * ``soap`` creates a SOAP pass-through API
      * ``websocket`` creates websocket API
-     * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-     "graphql".
+     * ``graphql`` creates GraphQL API.
+       New types can be added in the future. Known values are: "http", "soap", "websocket",
+     "graphql", "odata", and "grpc".
     :vartype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
     :ivar translate_required_query_parameters_conduct: Strategy of translating required query
      parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -1570,6 +1689,7 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
         "display_name": {"max_length": 300, "min_length": 1},
         "service_url": {"max_length": 2000},
         "path": {"required": True, "max_length": 400},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1597,6 +1717,7 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
         "path": {"key": "path", "type": "str"},
         "protocols": {"key": "protocols", "type": "[str]"},
         "api_version_set": {"key": "apiVersionSet", "type": "ApiVersionSetContractDetails"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
         "value": {"key": "value", "type": "str"},
         "format": {"key": "format", "type": "str"},
         "wsdl_selector": {"key": "wsdlSelector", "type": "ApiCreateOrUpdatePropertiesWsdlSelector"},
@@ -1645,7 +1766,8 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1687,9 +1809,10 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
         :paramtype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
         :keyword value: Content value when Importing an API.
         :paramtype value: str
-        :keyword format: Format of the Content in which the API is getting imported. Known values are:
-         "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-         "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+        :keyword format: Format of the Content in which the API is getting imported. New formats can be
+         added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+         "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+         "openapi+json-link", "graphql-link", "odata", "odata-link", "grpc", and "grpc-link".
         :paramtype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
         :keyword wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
         :paramtype wsdl_selector:
@@ -1700,8 +1823,9 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
          * ``http`` creates a REST API
          * ``soap`` creates a SOAP pass-through API
          * ``websocket`` creates websocket API
-         * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-         "graphql".
+         * ``graphql`` creates GraphQL API.
+           New types can be added in the future. Known values are: "http", "soap", "websocket",
+         "graphql", "odata", and "grpc".
         :paramtype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
         :keyword translate_required_query_parameters_conduct: Strategy of translating required query
          parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -2005,6 +2129,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -2072,8 +2198,14 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     """
 
     _validation = {
@@ -2109,6 +2241,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         "private_ip_addresses": {"key": "privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {"key": "virtualNetworkConfiguration", "type": "VirtualNetworkConfiguration"},
         "additional_locations": {"key": "additionalLocations", "type": "[AdditionalLocation]"},
         "custom_properties": {"key": "customProperties", "type": "{str}"},
@@ -2125,6 +2258,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "developerPortalStatus", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -2134,6 +2269,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -2145,6 +2281,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         **kwargs: Any
     ) -> None:
         """
@@ -2162,6 +2300,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -2225,6 +2365,13 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         """
         super().__init__(**kwargs)
         self.notification_sender_email = notification_sender_email
@@ -2242,6 +2389,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         self.private_ip_addresses = None
         self.public_ip_address_id = public_ip_address_id
         self.public_network_access = public_network_access
+        self.configuration_api = configuration_api
         self.virtual_network_configuration = virtual_network_configuration
         self.additional_locations = additional_locations
         self.custom_properties = custom_properties
@@ -2255,6 +2403,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         self.restore = restore
         self.private_endpoint_connections = private_endpoint_connections
         self.platform_version = None
+        self.legacy_portal_status = legacy_portal_status
+        self.developer_portal_status = developer_portal_status
 
 
 class ApiManagementServiceCheckNameAvailabilityParameters(_serialization.Model):  # pylint: disable=name-too-long
@@ -2524,6 +2674,8 @@ class ApiManagementServiceProperties(
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -2591,8 +2743,14 @@ class ApiManagementServiceProperties(
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email. Required.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name. Required.
@@ -2634,6 +2792,7 @@ class ApiManagementServiceProperties(
         "private_ip_addresses": {"key": "privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {"key": "virtualNetworkConfiguration", "type": "VirtualNetworkConfiguration"},
         "additional_locations": {"key": "additionalLocations", "type": "[AdditionalLocation]"},
         "custom_properties": {"key": "customProperties", "type": "{str}"},
@@ -2650,6 +2809,8 @@ class ApiManagementServiceProperties(
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "publisherEmail", "type": "str"},
         "publisher_name": {"key": "publisherName", "type": "str"},
     }
@@ -2663,6 +2824,7 @@ class ApiManagementServiceProperties(
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -2674,6 +2836,8 @@ class ApiManagementServiceProperties(
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         **kwargs: Any
     ) -> None:
         """
@@ -2691,6 +2855,8 @@ class ApiManagementServiceProperties(
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -2754,6 +2920,13 @@ class ApiManagementServiceProperties(
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email. Required.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name. Required.
@@ -2764,6 +2937,7 @@ class ApiManagementServiceProperties(
             hostname_configurations=hostname_configurations,
             public_ip_address_id=public_ip_address_id,
             public_network_access=public_network_access,
+            configuration_api=configuration_api,
             virtual_network_configuration=virtual_network_configuration,
             additional_locations=additional_locations,
             custom_properties=custom_properties,
@@ -2775,6 +2949,8 @@ class ApiManagementServiceProperties(
             api_version_constraint=api_version_constraint,
             restore=restore,
             private_endpoint_connections=private_endpoint_connections,
+            legacy_portal_status=legacy_portal_status,
+            developer_portal_status=developer_portal_status,
             **kwargs
         )
         self.publisher_email = publisher_email
@@ -2890,6 +3066,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -2957,8 +3135,14 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email. Required.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name. Required.
@@ -3017,6 +3201,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         "private_ip_addresses": {"key": "properties.privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "properties.publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "properties.configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {
             "key": "properties.virtualNetworkConfiguration",
             "type": "VirtualNetworkConfiguration",
@@ -3036,6 +3221,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "properties.platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "properties.legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "properties.developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "properties.publisherEmail", "type": "str"},
         "publisher_name": {"key": "properties.publisherName", "type": "str"},
     }
@@ -3054,6 +3241,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -3065,6 +3253,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         **kwargs: Any
     ) -> None:
         """
@@ -3092,6 +3282,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -3155,6 +3347,13 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email. Required.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name. Required.
@@ -3182,6 +3381,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         self.private_ip_addresses = None
         self.public_ip_address_id = public_ip_address_id
         self.public_network_access = public_network_access
+        self.configuration_api = configuration_api
         self.virtual_network_configuration = virtual_network_configuration
         self.additional_locations = additional_locations
         self.custom_properties = custom_properties
@@ -3195,6 +3395,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         self.restore = restore
         self.private_endpoint_connections = private_endpoint_connections
         self.platform_version = None
+        self.legacy_portal_status = legacy_portal_status
+        self.developer_portal_status = developer_portal_status
         self.publisher_email = publisher_email
         self.publisher_name = publisher_name
 
@@ -3205,7 +3407,7 @@ class ApiManagementServiceSkuProperties(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the Sku. Required. Known values are: "Developer", "Standard", "Premium",
-     "Basic", "Consumption", and "Isolated".
+     "Basic", "Consumption", "Isolated", "BasicV2", and "StandardV2".
     :vartype name: str or ~azure.mgmt.apimanagement.models.SkuType
     :ivar capacity: Capacity of the SKU (number of deployed units of the SKU). For Consumption SKU
      capacity must be specified as 0. Required.
@@ -3225,7 +3427,7 @@ class ApiManagementServiceSkuProperties(_serialization.Model):
     def __init__(self, *, name: Union[str, "_models.SkuType"], capacity: int, **kwargs: Any) -> None:
         """
         :keyword name: Name of the Sku. Required. Known values are: "Developer", "Standard", "Premium",
-         "Basic", "Consumption", and "Isolated".
+         "Basic", "Consumption", "Isolated", "BasicV2", and "StandardV2".
         :paramtype name: str or ~azure.mgmt.apimanagement.models.SkuType
         :keyword capacity: Capacity of the SKU (number of deployed units of the SKU). For Consumption
          SKU capacity must be specified as 0. Required.
@@ -3299,6 +3501,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -3366,8 +3570,14 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name.
@@ -3421,6 +3631,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         "private_ip_addresses": {"key": "properties.privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "properties.publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "properties.configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {
             "key": "properties.virtualNetworkConfiguration",
             "type": "VirtualNetworkConfiguration",
@@ -3440,6 +3651,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "properties.platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "properties.legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "properties.developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "properties.publisherEmail", "type": "str"},
         "publisher_name": {"key": "properties.publisherName", "type": "str"},
     }
@@ -3455,6 +3668,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -3466,6 +3680,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         publisher_email: Optional[str] = None,
         publisher_name: Optional[str] = None,
         **kwargs: Any
@@ -3493,6 +3709,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -3556,6 +3774,13 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name.
@@ -3581,6 +3806,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         self.private_ip_addresses = None
         self.public_ip_address_id = public_ip_address_id
         self.public_network_access = public_network_access
+        self.configuration_api = configuration_api
         self.virtual_network_configuration = virtual_network_configuration
         self.additional_locations = additional_locations
         self.custom_properties = custom_properties
@@ -3594,6 +3820,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         self.restore = restore
         self.private_endpoint_connections = private_endpoint_connections
         self.platform_version = None
+        self.legacy_portal_status = legacy_portal_status
+        self.developer_portal_status = developer_portal_status
         self.publisher_email = publisher_email
         self.publisher_name = publisher_name
 
@@ -3647,6 +3875,8 @@ class ApiManagementServiceUpdateProperties(
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -3714,8 +3944,14 @@ class ApiManagementServiceUpdateProperties(
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name.
@@ -3757,6 +3993,7 @@ class ApiManagementServiceUpdateProperties(
         "private_ip_addresses": {"key": "privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {"key": "virtualNetworkConfiguration", "type": "VirtualNetworkConfiguration"},
         "additional_locations": {"key": "additionalLocations", "type": "[AdditionalLocation]"},
         "custom_properties": {"key": "customProperties", "type": "{str}"},
@@ -3773,6 +4010,8 @@ class ApiManagementServiceUpdateProperties(
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "publisherEmail", "type": "str"},
         "publisher_name": {"key": "publisherName", "type": "str"},
     }
@@ -3784,6 +4023,7 @@ class ApiManagementServiceUpdateProperties(
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -3795,6 +4035,8 @@ class ApiManagementServiceUpdateProperties(
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         publisher_email: Optional[str] = None,
         publisher_name: Optional[str] = None,
         **kwargs: Any
@@ -3814,6 +4056,8 @@ class ApiManagementServiceUpdateProperties(
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -3877,6 +4121,13 @@ class ApiManagementServiceUpdateProperties(
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name.
@@ -3887,6 +4138,7 @@ class ApiManagementServiceUpdateProperties(
             hostname_configurations=hostname_configurations,
             public_ip_address_id=public_ip_address_id,
             public_network_access=public_network_access,
+            configuration_api=configuration_api,
             virtual_network_configuration=virtual_network_configuration,
             additional_locations=additional_locations,
             custom_properties=custom_properties,
@@ -3898,6 +4150,8 @@ class ApiManagementServiceUpdateProperties(
             api_version_constraint=api_version_constraint,
             restore=restore,
             private_endpoint_connections=private_endpoint_connections,
+            legacy_portal_status=legacy_portal_status,
+            developer_portal_status=developer_portal_status,
             **kwargs
         )
         self.publisher_email = publisher_email
@@ -4506,7 +4760,8 @@ class ApiTagResourceContractProperties(ApiEntityBaseContract):  # pylint: disabl
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -4617,7 +4872,8 @@ class ApiTagResourceContractProperties(ApiEntityBaseContract):  # pylint: disabl
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -4692,7 +4948,8 @@ class ApiUpdateContract(_serialization.Model):  # pylint: disable=too-many-insta
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", "odata",
+     and "grpc".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -4802,7 +5059,8 @@ class ApiUpdateContract(_serialization.Model):  # pylint: disable=too-many-insta
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql",
+         "odata", and "grpc".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -5493,6 +5751,8 @@ class AuthorizationAccessPolicyContract(ProxyResource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar app_ids: The allowed Azure Active Directory Application IDs.
+    :vartype app_ids: list[str]
     :ivar tenant_id: The Tenant Id.
     :vartype tenant_id: str
     :ivar object_id: The Object Id.
@@ -5509,18 +5769,29 @@ class AuthorizationAccessPolicyContract(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "app_ids": {"key": "properties.appIds", "type": "[str]"},
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
         "object_id": {"key": "properties.objectId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, object_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        app_ids: Optional[List[str]] = None,
+        tenant_id: Optional[str] = None,
+        object_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword app_ids: The allowed Azure Active Directory Application IDs.
+        :paramtype app_ids: list[str]
         :keyword tenant_id: The Tenant Id.
         :paramtype tenant_id: str
         :keyword object_id: The Object Id.
         :paramtype object_id: str
         """
         super().__init__(**kwargs)
+        self.app_ids = app_ids
         self.tenant_id = tenant_id
         self.object_id = object_id
 
@@ -6984,6 +7255,13 @@ class BackendBaseParameters(_serialization.Model):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+    :ivar pool:
+    :vartype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+    :ivar type: Type of the backend. A backend can be either Single or Pool. Known values are:
+     "Single" and "Pool".
+    :vartype type: str or ~azure.mgmt.apimanagement.models.BackendType
     """
 
     _validation = {
@@ -7000,6 +7278,9 @@ class BackendBaseParameters(_serialization.Model):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
+        "pool": {"key": "pool", "type": "BackendBaseParametersPool"},
+        "type": {"key": "type", "type": "str"},
     }
 
     def __init__(
@@ -7012,6 +7293,9 @@ class BackendBaseParameters(_serialization.Model):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
+        pool: Optional["_models.BackendBaseParametersPool"] = None,
+        type: Optional[Union[str, "_models.BackendType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7030,6 +7314,13 @@ class BackendBaseParameters(_serialization.Model):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+        :keyword pool:
+        :paramtype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+        :keyword type: Type of the backend. A backend can be either Single or Pool. Known values are:
+         "Single" and "Pool".
+        :paramtype type: str or ~azure.mgmt.apimanagement.models.BackendType
         """
         super().__init__(**kwargs)
         self.title = title
@@ -7039,6 +7330,65 @@ class BackendBaseParameters(_serialization.Model):
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
+        self.pool = pool
+        self.type = type
+
+
+class BackendPool(_serialization.Model):
+    """Backend pool information.
+
+    :ivar services: The list of backend entities belonging to a pool.
+    :vartype services: list[~azure.mgmt.apimanagement.models.BackendPoolItem]
+    """
+
+    _validation = {
+        "services": {"min_items": 1},
+    }
+
+    _attribute_map = {
+        "services": {"key": "services", "type": "[BackendPoolItem]"},
+    }
+
+    def __init__(self, *, services: Optional[List["_models.BackendPoolItem"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword services: The list of backend entities belonging to a pool.
+        :paramtype services: list[~azure.mgmt.apimanagement.models.BackendPoolItem]
+        """
+        super().__init__(**kwargs)
+        self.services = services
+
+
+class BackendBaseParametersPool(BackendPool):
+    """BackendBaseParametersPool.
+
+    :ivar services: The list of backend entities belonging to a pool.
+    :vartype services: list[~azure.mgmt.apimanagement.models.BackendPoolItem]
+    """
+
+
+class BackendCircuitBreaker(_serialization.Model):
+    """The configuration of the backend circuit breaker.
+
+    :ivar rules: The rules for tripping the backend.
+    :vartype rules: list[~azure.mgmt.apimanagement.models.CircuitBreakerRule]
+    """
+
+    _validation = {
+        "rules": {"max_items": 15, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "rules": {"key": "rules", "type": "[CircuitBreakerRule]"},
+    }
+
+    def __init__(self, *, rules: Optional[List["_models.CircuitBreakerRule"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword rules: The rules for tripping the backend.
+        :paramtype rules: list[~azure.mgmt.apimanagement.models.CircuitBreakerRule]
+        """
+        super().__init__(**kwargs)
+        self.rules = rules
 
 
 class BackendCollection(_serialization.Model):
@@ -7108,6 +7458,13 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+    :ivar pool:
+    :vartype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+    :ivar type_properties_type: Type of the backend. A backend can be either Single or Pool. Known
+     values are: "Single" and "Pool".
+    :vartype type_properties_type: str or ~azure.mgmt.apimanagement.models.BackendType
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7135,6 +7492,9 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         "credentials": {"key": "properties.credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "properties.proxy", "type": "BackendProxyContract"},
         "tls": {"key": "properties.tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "properties.circuitBreaker", "type": "BackendCircuitBreaker"},
+        "pool": {"key": "properties.pool", "type": "BackendBaseParametersPool"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
         "url": {"key": "properties.url", "type": "str"},
         "protocol": {"key": "properties.protocol", "type": "str"},
     }
@@ -7149,6 +7509,9 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
+        pool: Optional["_models.BackendBaseParametersPool"] = None,
+        type_properties_type: Optional[Union[str, "_models.BackendType"]] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7169,6 +7532,13 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+        :keyword pool:
+        :paramtype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+        :keyword type_properties_type: Type of the backend. A backend can be either Single or Pool.
+         Known values are: "Single" and "Pool".
+        :paramtype type_properties_type: str or ~azure.mgmt.apimanagement.models.BackendType
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7182,11 +7552,14 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
+        self.pool = pool
+        self.type_properties_type = type_properties_type
         self.url = url
         self.protocol = protocol
 
 
-class BackendContractProperties(BackendBaseParameters):
+class BackendContractProperties(BackendBaseParameters):  # pylint: disable=too-many-instance-attributes
     """Parameters supplied to the Create Backend operation.
 
     All required parameters must be populated in order to send to server.
@@ -7206,6 +7579,13 @@ class BackendContractProperties(BackendBaseParameters):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+    :ivar pool:
+    :vartype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+    :ivar type: Type of the backend. A backend can be either Single or Pool. Known values are:
+     "Single" and "Pool".
+    :vartype type: str or ~azure.mgmt.apimanagement.models.BackendType
     :ivar url: Runtime Url of the Backend. Required.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Required. Known values are: "http" and "soap".
@@ -7228,6 +7608,9 @@ class BackendContractProperties(BackendBaseParameters):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
+        "pool": {"key": "pool", "type": "BackendBaseParametersPool"},
+        "type": {"key": "type", "type": "str"},
         "url": {"key": "url", "type": "str"},
         "protocol": {"key": "protocol", "type": "str"},
     }
@@ -7244,6 +7627,9 @@ class BackendContractProperties(BackendBaseParameters):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
+        pool: Optional["_models.BackendBaseParametersPool"] = None,
+        type: Optional[Union[str, "_models.BackendType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7262,6 +7648,13 @@ class BackendContractProperties(BackendBaseParameters):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+        :keyword pool:
+        :paramtype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+        :keyword type: Type of the backend. A backend can be either Single or Pool. Known values are:
+         "Single" and "Pool".
+        :paramtype type: str or ~azure.mgmt.apimanagement.models.BackendType
         :keyword url: Runtime Url of the Backend. Required.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Required. Known values are: "http" and
@@ -7276,6 +7669,9 @@ class BackendContractProperties(BackendBaseParameters):
             credentials=credentials,
             proxy=proxy,
             tls=tls,
+            circuit_breaker=circuit_breaker,
+            pool=pool,
+            type=type,
             **kwargs
         )
         self.url = url
@@ -7341,6 +7737,34 @@ class BackendCredentialsContract(_serialization.Model):
         self.query = query
         self.header = header
         self.authorization = authorization
+
+
+class BackendPoolItem(_serialization.Model):
+    """Backend pool service information.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The unique ARM id of the backend entity. The ARM id should refer to an already
+     existing backend entity. Required.
+    :vartype id: str
+    """
+
+    _validation = {
+        "id": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: The unique ARM id of the backend entity. The ARM id should refer to an already
+         existing backend entity. Required.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
 
 
 class BackendProperties(_serialization.Model):
@@ -7554,7 +7978,7 @@ class BackendTlsProperties(_serialization.Model):
         self.validate_certificate_name = validate_certificate_name
 
 
-class BackendUpdateParameterProperties(BackendBaseParameters):
+class BackendUpdateParameterProperties(BackendBaseParameters):  # pylint: disable=too-many-instance-attributes
     """Parameters supplied to the Update Backend operation.
 
     :ivar title: Backend Title.
@@ -7572,6 +7996,13 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+    :ivar pool:
+    :vartype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+    :ivar type: Type of the backend. A backend can be either Single or Pool. Known values are:
+     "Single" and "Pool".
+    :vartype type: str or ~azure.mgmt.apimanagement.models.BackendType
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7593,6 +8024,9 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
+        "pool": {"key": "pool", "type": "BackendBaseParametersPool"},
+        "type": {"key": "type", "type": "str"},
         "url": {"key": "url", "type": "str"},
         "protocol": {"key": "protocol", "type": "str"},
     }
@@ -7607,6 +8041,9 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
+        pool: Optional["_models.BackendBaseParametersPool"] = None,
+        type: Optional[Union[str, "_models.BackendType"]] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7627,6 +8064,13 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+        :keyword pool:
+        :paramtype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+        :keyword type: Type of the backend. A backend can be either Single or Pool. Known values are:
+         "Single" and "Pool".
+        :paramtype type: str or ~azure.mgmt.apimanagement.models.BackendType
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7640,13 +8084,16 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
             credentials=credentials,
             proxy=proxy,
             tls=tls,
+            circuit_breaker=circuit_breaker,
+            pool=pool,
+            type=type,
             **kwargs
         )
         self.url = url
         self.protocol = protocol
 
 
-class BackendUpdateParameters(_serialization.Model):
+class BackendUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Backend update parameters.
 
     :ivar title: Backend Title.
@@ -7664,6 +8111,13 @@ class BackendUpdateParameters(_serialization.Model):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+    :ivar pool:
+    :vartype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+    :ivar type: Type of the backend. A backend can be either Single or Pool. Known values are:
+     "Single" and "Pool".
+    :vartype type: str or ~azure.mgmt.apimanagement.models.BackendType
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7685,6 +8139,9 @@ class BackendUpdateParameters(_serialization.Model):
         "credentials": {"key": "properties.credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "properties.proxy", "type": "BackendProxyContract"},
         "tls": {"key": "properties.tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "properties.circuitBreaker", "type": "BackendCircuitBreaker"},
+        "pool": {"key": "properties.pool", "type": "BackendBaseParametersPool"},
+        "type": {"key": "properties.type", "type": "str"},
         "url": {"key": "properties.url", "type": "str"},
         "protocol": {"key": "properties.protocol", "type": "str"},
     }
@@ -7699,6 +8156,9 @@ class BackendUpdateParameters(_serialization.Model):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
+        pool: Optional["_models.BackendBaseParametersPool"] = None,
+        type: Optional[Union[str, "_models.BackendType"]] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7719,6 +8179,13 @@ class BackendUpdateParameters(_serialization.Model):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
+        :keyword pool:
+        :paramtype pool: ~azure.mgmt.apimanagement.models.BackendBaseParametersPool
+        :keyword type: Type of the backend. A backend can be either Single or Pool. Known values are:
+         "Single" and "Pool".
+        :paramtype type: str or ~azure.mgmt.apimanagement.models.BackendType
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7732,6 +8199,9 @@ class BackendUpdateParameters(_serialization.Model):
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
+        self.pool = pool
+        self.type = type
         self.url = url
         self.protocol = protocol
 
@@ -8169,6 +8639,103 @@ class CertificateInformation(_serialization.Model):
         self.subject = subject
 
 
+class CircuitBreakerFailureCondition(_serialization.Model):
+    """The trip conditions of the circuit breaker.
+
+    :ivar count: The threshold for opening the circuit.
+    :vartype count: int
+    :ivar percentage: The threshold for opening the circuit.
+    :vartype percentage: int
+    :ivar interval: The interval during which the failures are counted.
+    :vartype interval: ~datetime.timedelta
+    :ivar status_code_ranges: The status code ranges which are considered as failure.
+    :vartype status_code_ranges: list[~azure.mgmt.apimanagement.models.FailureStatusCodeRange]
+    :ivar error_reasons: The error reasons which are considered as failure.
+    :vartype error_reasons: list[str]
+    """
+
+    _validation = {
+        "status_code_ranges": {"max_items": 10, "min_items": 0},
+        "error_reasons": {"max_items": 10, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "count": {"key": "count", "type": "int"},
+        "percentage": {"key": "percentage", "type": "int"},
+        "interval": {"key": "interval", "type": "duration"},
+        "status_code_ranges": {"key": "statusCodeRanges", "type": "[FailureStatusCodeRange]"},
+        "error_reasons": {"key": "errorReasons", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        count: Optional[int] = None,
+        percentage: Optional[int] = None,
+        interval: Optional[datetime.timedelta] = None,
+        status_code_ranges: Optional[List["_models.FailureStatusCodeRange"]] = None,
+        error_reasons: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword count: The threshold for opening the circuit.
+        :paramtype count: int
+        :keyword percentage: The threshold for opening the circuit.
+        :paramtype percentage: int
+        :keyword interval: The interval during which the failures are counted.
+        :paramtype interval: ~datetime.timedelta
+        :keyword status_code_ranges: The status code ranges which are considered as failure.
+        :paramtype status_code_ranges: list[~azure.mgmt.apimanagement.models.FailureStatusCodeRange]
+        :keyword error_reasons: The error reasons which are considered as failure.
+        :paramtype error_reasons: list[str]
+        """
+        super().__init__(**kwargs)
+        self.count = count
+        self.percentage = percentage
+        self.interval = interval
+        self.status_code_ranges = status_code_ranges
+        self.error_reasons = error_reasons
+
+
+class CircuitBreakerRule(_serialization.Model):
+    """Rule configuration to trip the backend.
+
+    :ivar name: The rule name.
+    :vartype name: str
+    :ivar failure_condition: The conditions for tripping the circuit breaker.
+    :vartype failure_condition: ~azure.mgmt.apimanagement.models.CircuitBreakerFailureCondition
+    :ivar trip_duration: The duration for which the circuit will be tripped.
+    :vartype trip_duration: ~datetime.timedelta
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "failure_condition": {"key": "failureCondition", "type": "CircuitBreakerFailureCondition"},
+        "trip_duration": {"key": "tripDuration", "type": "duration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        failure_condition: Optional["_models.CircuitBreakerFailureCondition"] = None,
+        trip_duration: Optional[datetime.timedelta] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The rule name.
+        :paramtype name: str
+        :keyword failure_condition: The conditions for tripping the circuit breaker.
+        :paramtype failure_condition: ~azure.mgmt.apimanagement.models.CircuitBreakerFailureCondition
+        :keyword trip_duration: The duration for which the circuit will be tripped.
+        :paramtype trip_duration: ~datetime.timedelta
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.failure_condition = failure_condition
+        self.trip_duration = trip_duration
+
+
 class ClientSecretContract(_serialization.Model):
     """Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.
 
@@ -8187,6 +8754,32 @@ class ClientSecretContract(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.client_secret = client_secret
+
+
+class ConfigurationApi(_serialization.Model):
+    """Information regarding the Configuration API of the API Management service.
+
+    :ivar legacy_api: Indication whether or not the legacy Configuration API (v1) should be exposed
+     on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'. If
+     'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways.
+     Default value is 'Enabled'. Known values are: "Enabled" and "Disabled".
+    :vartype legacy_api: str or ~azure.mgmt.apimanagement.models.LegacyApiState
+    """
+
+    _attribute_map = {
+        "legacy_api": {"key": "legacyApi", "type": "str"},
+    }
+
+    def __init__(self, *, legacy_api: Union[str, "_models.LegacyApiState"] = "Enabled", **kwargs: Any) -> None:
+        """
+        :keyword legacy_api: Indication whether or not the legacy Configuration API (v1) should be
+         exposed on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'.
+         If 'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways.
+         Default value is 'Enabled'. Known values are: "Enabled" and "Disabled".
+        :paramtype legacy_api: str or ~azure.mgmt.apimanagement.models.LegacyApiState
+        """
+        super().__init__(**kwargs)
+        self.legacy_api = legacy_api
 
 
 class ConnectivityCheckRequest(_serialization.Model):
@@ -9150,6 +9743,125 @@ class DiagnosticContract(ProxyResource):  # pylint: disable=too-many-instance-at
         self.metrics = metrics
 
 
+class DiagnosticUpdateContract(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Diagnostic details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar always_log: Specifies for what type of messages sampling settings should not apply.
+     "allErrors"
+    :vartype always_log: str or ~azure.mgmt.apimanagement.models.AlwaysLog
+    :ivar logger_id: Resource Id of a target logger.
+    :vartype logger_id: str
+    :ivar sampling: Sampling settings for Diagnostic.
+    :vartype sampling: ~azure.mgmt.apimanagement.models.SamplingSettings
+    :ivar frontend: Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.
+    :vartype frontend: ~azure.mgmt.apimanagement.models.PipelineDiagnosticSettings
+    :ivar backend: Diagnostic settings for incoming/outgoing HTTP messages to the Backend.
+    :vartype backend: ~azure.mgmt.apimanagement.models.PipelineDiagnosticSettings
+    :ivar log_client_ip: Log the ClientIP. Default is false.
+    :vartype log_client_ip: bool
+    :ivar http_correlation_protocol: Sets correlation protocol to use for Application Insights
+     diagnostics. Known values are: "None", "Legacy", and "W3C".
+    :vartype http_correlation_protocol: str or
+     ~azure.mgmt.apimanagement.models.HttpCorrelationProtocol
+    :ivar verbosity: The verbosity level applied to traces emitted by trace policies. Known values
+     are: "verbose", "information", and "error".
+    :vartype verbosity: str or ~azure.mgmt.apimanagement.models.Verbosity
+    :ivar operation_name_format: The format of the Operation Name for Application Insights
+     telemetries. Default is Name. Known values are: "Name" and "Url".
+    :vartype operation_name_format: str or ~azure.mgmt.apimanagement.models.OperationNameFormat
+    :ivar metrics: Emit custom metrics via emit-metric policy. Applicable only to Application
+     Insights diagnostic settings.
+    :vartype metrics: bool
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "always_log": {"key": "properties.alwaysLog", "type": "str"},
+        "logger_id": {"key": "properties.loggerId", "type": "str"},
+        "sampling": {"key": "properties.sampling", "type": "SamplingSettings"},
+        "frontend": {"key": "properties.frontend", "type": "PipelineDiagnosticSettings"},
+        "backend": {"key": "properties.backend", "type": "PipelineDiagnosticSettings"},
+        "log_client_ip": {"key": "properties.logClientIp", "type": "bool"},
+        "http_correlation_protocol": {"key": "properties.httpCorrelationProtocol", "type": "str"},
+        "verbosity": {"key": "properties.verbosity", "type": "str"},
+        "operation_name_format": {"key": "properties.operationNameFormat", "type": "str"},
+        "metrics": {"key": "properties.metrics", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        always_log: Optional[Union[str, "_models.AlwaysLog"]] = None,
+        logger_id: Optional[str] = None,
+        sampling: Optional["_models.SamplingSettings"] = None,
+        frontend: Optional["_models.PipelineDiagnosticSettings"] = None,
+        backend: Optional["_models.PipelineDiagnosticSettings"] = None,
+        log_client_ip: Optional[bool] = None,
+        http_correlation_protocol: Optional[Union[str, "_models.HttpCorrelationProtocol"]] = None,
+        verbosity: Optional[Union[str, "_models.Verbosity"]] = None,
+        operation_name_format: Optional[Union[str, "_models.OperationNameFormat"]] = None,
+        metrics: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword always_log: Specifies for what type of messages sampling settings should not apply.
+         "allErrors"
+        :paramtype always_log: str or ~azure.mgmt.apimanagement.models.AlwaysLog
+        :keyword logger_id: Resource Id of a target logger.
+        :paramtype logger_id: str
+        :keyword sampling: Sampling settings for Diagnostic.
+        :paramtype sampling: ~azure.mgmt.apimanagement.models.SamplingSettings
+        :keyword frontend: Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.
+        :paramtype frontend: ~azure.mgmt.apimanagement.models.PipelineDiagnosticSettings
+        :keyword backend: Diagnostic settings for incoming/outgoing HTTP messages to the Backend.
+        :paramtype backend: ~azure.mgmt.apimanagement.models.PipelineDiagnosticSettings
+        :keyword log_client_ip: Log the ClientIP. Default is false.
+        :paramtype log_client_ip: bool
+        :keyword http_correlation_protocol: Sets correlation protocol to use for Application Insights
+         diagnostics. Known values are: "None", "Legacy", and "W3C".
+        :paramtype http_correlation_protocol: str or
+         ~azure.mgmt.apimanagement.models.HttpCorrelationProtocol
+        :keyword verbosity: The verbosity level applied to traces emitted by trace policies. Known
+         values are: "verbose", "information", and "error".
+        :paramtype verbosity: str or ~azure.mgmt.apimanagement.models.Verbosity
+        :keyword operation_name_format: The format of the Operation Name for Application Insights
+         telemetries. Default is Name. Known values are: "Name" and "Url".
+        :paramtype operation_name_format: str or ~azure.mgmt.apimanagement.models.OperationNameFormat
+        :keyword metrics: Emit custom metrics via emit-metric policy. Applicable only to Application
+         Insights diagnostic settings.
+        :paramtype metrics: bool
+        """
+        super().__init__(**kwargs)
+        self.always_log = always_log
+        self.logger_id = logger_id
+        self.sampling = sampling
+        self.frontend = frontend
+        self.backend = backend
+        self.log_client_ip = log_client_ip
+        self.http_correlation_protocol = http_correlation_protocol
+        self.verbosity = verbosity
+        self.operation_name_format = operation_name_format
+        self.metrics = metrics
+
+
 class DocumentationCollection(_serialization.Model):
     """Paged Documentation list representation.
 
@@ -9649,6 +10361,43 @@ class ErrorResponseBody(_serialization.Model):
         self.details = details
 
 
+class FailureStatusCodeRange(_serialization.Model):
+    """The failure http status code range.
+
+    :ivar min: The minimum http status code.
+    :vartype min: int
+    :ivar max: The maximum http status code.
+    :vartype max: int
+    """
+
+    _validation = {
+        "min": {"maximum": 599, "minimum": 200},
+        "max": {"maximum": 599, "minimum": 200},
+    }
+
+    _attribute_map = {
+        "min": {"key": "min", "type": "int"},
+        "max": {"key": "max", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        min: Optional[int] = None,  # pylint: disable=redefined-builtin
+        max: Optional[int] = None,  # pylint: disable=redefined-builtin
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword min: The minimum http status code.
+        :paramtype min: int
+        :keyword max: The maximum http status code.
+        :paramtype max: int
+        """
+        super().__init__(**kwargs)
+        self.min = min
+        self.max = max
+
+
 class GatewayCertificateAuthorityCollection(_serialization.Model):
     """Paged Gateway certificate authority list representation.
 
@@ -9801,6 +10550,26 @@ class GatewayContract(ProxyResource):
         super().__init__(**kwargs)
         self.location_data = location_data
         self.description = description
+
+
+class GatewayDebugCredentialsContract(_serialization.Model):
+    """Gateway debug credentials.
+
+    :ivar token: Gateway debug token.
+    :vartype token: str
+    """
+
+    _attribute_map = {
+        "token": {"key": "token", "type": "str"},
+    }
+
+    def __init__(self, *, token: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword token: Gateway debug token.
+        :paramtype token: str
+        """
+        super().__init__(**kwargs)
+        self.token = token
 
 
 class GatewayHostnameConfigurationCollection(_serialization.Model):
@@ -9966,6 +10735,76 @@ class GatewayKeysContract(_serialization.Model):
         self.secondary = secondary
 
 
+class GatewayListDebugCredentialsContract(_serialization.Model):
+    """List debug credentials properties.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credentials_expire_after: Credentials expiration in ISO8601 format. Maximum duration of
+     the credentials is PT1H. When property is not specified, them value PT1H is used.
+    :vartype credentials_expire_after: ~datetime.timedelta
+    :ivar purposes: Purposes of debug credential. Required.
+    :vartype purposes: list[str or
+     ~azure.mgmt.apimanagement.models.GatewayListDebugCredentialsContractPurpose]
+    :ivar api_id: Full resource Id of an API. Required.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "purposes": {"required": True},
+        "api_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "credentials_expire_after": {"key": "credentialsExpireAfter", "type": "duration"},
+        "purposes": {"key": "purposes", "type": "[str]"},
+        "api_id": {"key": "apiId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        purposes: List[Union[str, "_models.GatewayListDebugCredentialsContractPurpose"]],
+        api_id: str,
+        credentials_expire_after: Optional[datetime.timedelta] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword credentials_expire_after: Credentials expiration in ISO8601 format. Maximum duration
+         of the credentials is PT1H. When property is not specified, them value PT1H is used.
+        :paramtype credentials_expire_after: ~datetime.timedelta
+        :keyword purposes: Purposes of debug credential. Required.
+        :paramtype purposes: list[str or
+         ~azure.mgmt.apimanagement.models.GatewayListDebugCredentialsContractPurpose]
+        :keyword api_id: Full resource Id of an API. Required.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.credentials_expire_after = credentials_expire_after
+        self.purposes = purposes
+        self.api_id = api_id
+
+
+class GatewayListTraceContract(_serialization.Model):
+    """List trace properties.
+
+    :ivar trace_id: Trace id.
+    :vartype trace_id: str
+    """
+
+    _attribute_map = {
+        "trace_id": {"key": "traceId", "type": "str"},
+    }
+
+    def __init__(self, *, trace_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword trace_id: Trace id.
+        :paramtype trace_id: str
+        """
+        super().__init__(**kwargs)
+        self.trace_id = trace_id
+
+
 class GatewayTokenContract(_serialization.Model):
     """Gateway access token.
 
@@ -10101,12 +10940,15 @@ class GlobalSchemaContract(ProxyResource):
     :vartype value: any
     :ivar document: Global Schema document object for json-based schema formats(e.g. json schema).
     :vartype document: JSON
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -10117,6 +10959,7 @@ class GlobalSchemaContract(ProxyResource):
         "description": {"key": "properties.description", "type": "str"},
         "value": {"key": "properties.value", "type": "object"},
         "document": {"key": "properties.document", "type": "object"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -10144,6 +10987,7 @@ class GlobalSchemaContract(ProxyResource):
         self.description = description
         self.value = value
         self.document = document
+        self.provisioning_state = None
 
 
 class GroupCollection(_serialization.Model):
@@ -10442,7 +11286,7 @@ class HostnameConfiguration(_serialization.Model):  # pylint: disable=too-many-i
     All required parameters must be populated in order to send to server.
 
     :ivar type: Hostname type. Required. Known values are: "Proxy", "Portal", "Management", "Scm",
-     and "DeveloperPortal".
+     "DeveloperPortal", and "ConfigurationApi".
     :vartype type: str or ~azure.mgmt.apimanagement.models.HostnameType
     :ivar host_name: Hostname to configure on the Api Management service. Required.
     :vartype host_name: str
@@ -10514,7 +11358,7 @@ class HostnameConfiguration(_serialization.Model):  # pylint: disable=too-many-i
     ) -> None:
         """
         :keyword type: Hostname type. Required. Known values are: "Proxy", "Portal", "Management",
-         "Scm", and "DeveloperPortal".
+         "Scm", "DeveloperPortal", and "ConfigurationApi".
         :paramtype type: str or ~azure.mgmt.apimanagement.models.HostnameType
         :keyword host_name: Hostname to configure on the Api Management service. Required.
         :paramtype host_name: str
@@ -12388,6 +13232,28 @@ class LoggerUpdateContract(_serialization.Model):
         self.is_buffered = is_buffered
 
 
+class MigrateToStv2Contract(_serialization.Model):
+    """Describes an available API Management SKU.
+
+    :ivar mode: Mode of Migration to stv2. Default is PreserveIp. Known values are: "PreserveIp"
+     and "NewIP".
+    :vartype mode: str or ~azure.mgmt.apimanagement.models.MigrateToStv2Mode
+    """
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+    }
+
+    def __init__(self, *, mode: Optional[Union[str, "_models.MigrateToStv2Mode"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword mode: Mode of Migration to stv2. Default is PreserveIp. Known values are: "PreserveIp"
+         and "NewIP".
+        :paramtype mode: str or ~azure.mgmt.apimanagement.models.MigrateToStv2Mode
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+
+
 class NamedValueCollection(_serialization.Model):
     """Paged NamedValue list representation.
 
@@ -12454,6 +13320,8 @@ class NamedValueContract(ProxyResource):
     :vartype value: str
     :ivar key_vault: KeyVault location details of the namedValue.
     :vartype key_vault: ~azure.mgmt.apimanagement.models.KeyVaultContractProperties
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
@@ -12463,6 +13331,7 @@ class NamedValueContract(ProxyResource):
         "tags": {"max_items": 32, "min_items": 0},
         "display_name": {"max_length": 256, "min_length": 1, "pattern": r"^[A-Za-z0-9-._]+$"},
         "value": {"max_length": 4096},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -12474,6 +13343,7 @@ class NamedValueContract(ProxyResource):
         "display_name": {"key": "properties.displayName", "type": "str"},
         "value": {"key": "properties.value", "type": "str"},
         "key_vault": {"key": "properties.keyVault", "type": "KeyVaultContractProperties"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -12508,6 +13378,7 @@ class NamedValueContract(ProxyResource):
         self.display_name = display_name
         self.value = value
         self.key_vault = key_vault
+        self.provisioning_state = None
 
 
 class NamedValueEntityBaseParameters(_serialization.Model):
@@ -12545,6 +13416,8 @@ class NamedValueEntityBaseParameters(_serialization.Model):
 class NamedValueContractProperties(NamedValueEntityBaseParameters):
     """NamedValue Contract properties.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to server.
 
     :ivar tags: Optional tags that when provided can be used to filter the NamedValue list.
@@ -12561,12 +13434,15 @@ class NamedValueContractProperties(NamedValueEntityBaseParameters):
     :vartype value: str
     :ivar key_vault: KeyVault location details of the namedValue.
     :vartype key_vault: ~azure.mgmt.apimanagement.models.KeyVaultContractProperties
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
         "tags": {"max_items": 32, "min_items": 0},
         "display_name": {"required": True, "max_length": 256, "min_length": 1, "pattern": r"^[A-Za-z0-9-._]+$"},
         "value": {"max_length": 4096},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -12575,6 +13451,7 @@ class NamedValueContractProperties(NamedValueEntityBaseParameters):
         "display_name": {"key": "displayName", "type": "str"},
         "value": {"key": "value", "type": "str"},
         "key_vault": {"key": "keyVault", "type": "KeyVaultContractProperties"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -12607,6 +13484,7 @@ class NamedValueContractProperties(NamedValueEntityBaseParameters):
         self.display_name = display_name
         self.value = value
         self.key_vault = key_vault
+        self.provisioning_state = None
 
 
 class NamedValueCreateContract(ProxyResource):
@@ -14566,6 +15444,8 @@ class PolicyFragmentContract(ProxyResource):
     :vartype description: str
     :ivar format: Format of the policy fragment content. Known values are: "xml" and "rawxml".
     :vartype format: str or ~azure.mgmt.apimanagement.models.PolicyFragmentContentFormat
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
@@ -14573,6 +15453,7 @@ class PolicyFragmentContract(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "description": {"max_length": 1000},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -14582,6 +15463,7 @@ class PolicyFragmentContract(ProxyResource):
         "value": {"key": "properties.value", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
         "format": {"key": "properties.format", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -14604,6 +15486,211 @@ class PolicyFragmentContract(ProxyResource):
         self.value = value
         self.description = description
         self.format = format
+        self.provisioning_state = None
+
+
+class PolicyRestrictionCollection(_serialization.Model):
+    """The response of the get policy restrictions operation.
+
+    :ivar value:
+    :vartype value: list[~azure.mgmt.apimanagement.models.PolicyRestrictionContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PolicyRestrictionContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.PolicyRestrictionContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value:
+        :paramtype value: list[~azure.mgmt.apimanagement.models.PolicyRestrictionContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PolicyRestrictionContract(ProxyResource):
+    """Policy restriction contract details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar scope: Path to the policy document.
+    :vartype scope: str
+    :ivar require_base: Indicates if base policy should be enforced for the policy document. Known
+     values are: "true" and "false".
+    :vartype require_base: str or ~azure.mgmt.apimanagement.models.PolicyRestrictionRequireBase
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "scope": {"key": "properties.scope", "type": "str"},
+        "require_base": {"key": "properties.requireBase", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        scope: Optional[str] = None,
+        require_base: Union[str, "_models.PolicyRestrictionRequireBase"] = "false",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword scope: Path to the policy document.
+        :paramtype scope: str
+        :keyword require_base: Indicates if base policy should be enforced for the policy document.
+         Known values are: "true" and "false".
+        :paramtype require_base: str or ~azure.mgmt.apimanagement.models.PolicyRestrictionRequireBase
+        """
+        super().__init__(**kwargs)
+        self.scope = scope
+        self.require_base = require_base
+
+
+class PolicyRestrictionUpdateContract(_serialization.Model):
+    """Policy restriction contract details.
+
+    :ivar scope: Path to the policy document.
+    :vartype scope: str
+    :ivar require_base: Indicates if base policy should be enforced for the policy document. Known
+     values are: "true" and "false".
+    :vartype require_base: str or ~azure.mgmt.apimanagement.models.PolicyRestrictionRequireBase
+    """
+
+    _attribute_map = {
+        "scope": {"key": "properties.scope", "type": "str"},
+        "require_base": {"key": "properties.requireBase", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        scope: Optional[str] = None,
+        require_base: Union[str, "_models.PolicyRestrictionRequireBase"] = "false",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword scope: Path to the policy document.
+        :paramtype scope: str
+        :keyword require_base: Indicates if base policy should be enforced for the policy document.
+         Known values are: "true" and "false".
+        :paramtype require_base: str or ~azure.mgmt.apimanagement.models.PolicyRestrictionRequireBase
+        """
+        super().__init__(**kwargs)
+        self.scope = scope
+        self.require_base = require_base
+
+
+class PolicyWithComplianceCollection(_serialization.Model):
+    """The response of the list policy operation.
+
+    :ivar value: Policy Contract value.
+    :vartype value: list[~azure.mgmt.apimanagement.models.PolicyWithComplianceContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PolicyWithComplianceContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.PolicyWithComplianceContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Policy Contract value.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.PolicyWithComplianceContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PolicyWithComplianceContract(ProxyResource):
+    """Policy Contract details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar reference_policy_id: Policy Identifier.
+    :vartype reference_policy_id: str
+    :ivar compliance_state: Policy Restriction Compliance State. Known values are: "Pending",
+     "NonCompliant", and "Compliant".
+    :vartype compliance_state: str or ~azure.mgmt.apimanagement.models.PolicyComplianceState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "reference_policy_id": {"key": "properties.referencePolicyId", "type": "str"},
+        "compliance_state": {"key": "properties.complianceState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        reference_policy_id: Optional[str] = None,
+        compliance_state: Optional[Union[str, "_models.PolicyComplianceState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword reference_policy_id: Policy Identifier.
+        :paramtype reference_policy_id: str
+        :keyword compliance_state: Policy Restriction Compliance State. Known values are: "Pending",
+         "NonCompliant", and "Compliant".
+        :paramtype compliance_state: str or ~azure.mgmt.apimanagement.models.PolicyComplianceState
+        """
+        super().__init__(**kwargs)
+        self.reference_policy_id = reference_policy_id
+        self.compliance_state = compliance_state
 
 
 class PortalConfigCollection(_serialization.Model):
@@ -15021,6 +16108,8 @@ class PortalRevisionContract(ProxyResource):
     :vartype created_date_time: ~datetime.datetime
     :ivar updated_date_time: Last updated date and time.
     :vartype updated_date_time: ~datetime.datetime
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
@@ -15032,6 +16121,7 @@ class PortalRevisionContract(ProxyResource):
         "status": {"readonly": True},
         "created_date_time": {"readonly": True},
         "updated_date_time": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -15044,6 +16134,7 @@ class PortalRevisionContract(ProxyResource):
         "is_current": {"key": "properties.isCurrent", "type": "bool"},
         "created_date_time": {"key": "properties.createdDateTime", "type": "iso-8601"},
         "updated_date_time": {"key": "properties.updatedDateTime", "type": "iso-8601"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(self, *, description: Optional[str] = None, is_current: Optional[bool] = None, **kwargs: Any) -> None:
@@ -15060,6 +16151,7 @@ class PortalRevisionContract(ProxyResource):
         self.is_current = is_current
         self.created_date_time = None
         self.updated_date_time = None
+        self.provisioning_state = None
 
 
 class PortalSettingsCollection(_serialization.Model):
@@ -15577,6 +16669,84 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
+class ProductApiLinkCollection(_serialization.Model):
+    """Paged Product-API link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductApiLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ProductApiLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ProductApiLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductApiLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class ProductApiLinkContract(ProxyResource):
+    """Product-API link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar api_id: Full resource Id of an API.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "api_id": {"key": "properties.apiId", "type": "str"},
+    }
+
+    def __init__(self, *, api_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword api_id: Full resource Id of an API.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.api_id = api_id
+
+
 class ProductCollection(_serialization.Model):
     """Paged Products list representation.
 
@@ -15926,6 +17096,84 @@ class ProductContractProperties(ProductEntityBaseParameters):
             **kwargs
         )
         self.display_name = display_name
+
+
+class ProductGroupLinkCollection(_serialization.Model):
+    """Paged Product-group link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductGroupLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ProductGroupLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ProductGroupLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductGroupLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class ProductGroupLinkContract(ProxyResource):
+    """Product-group link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar group_id: Full resource Id of a group.
+    :vartype group_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "group_id": {"key": "properties.groupId", "type": "str"},
+    }
+
+    def __init__(self, *, group_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword group_id: Full resource Id of a group.
+        :paramtype group_id: str
+        """
+        super().__init__(**kwargs)
+        self.group_id = group_id
 
 
 class ProductTagResourceContractProperties(ProductEntityBaseParameters):
@@ -17732,7 +18980,7 @@ class ResourceSku(_serialization.Model):
     """Describes an available API Management SKU.
 
     :ivar name: Name of the Sku. Known values are: "Developer", "Standard", "Premium", "Basic",
-     "Consumption", and "Isolated".
+     "Consumption", "Isolated", "BasicV2", and "StandardV2".
     :vartype name: str or ~azure.mgmt.apimanagement.models.SkuType
     """
 
@@ -17743,7 +18991,7 @@ class ResourceSku(_serialization.Model):
     def __init__(self, *, name: Optional[Union[str, "_models.SkuType"]] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the Sku. Known values are: "Developer", "Standard", "Premium", "Basic",
-         "Consumption", and "Isolated".
+         "Consumption", "Isolated", "BasicV2", and "StandardV2".
         :paramtype name: str or ~azure.mgmt.apimanagement.models.SkuType
         """
         super().__init__(**kwargs)
@@ -18026,8 +19274,11 @@ class SchemaContract(ProxyResource):
      - ``Swagger`` Schema use ``application/vnd.ms-azure-apim.swagger.definitions+json`` </br> -
      ``WSDL`` Schema use ``application/vnd.ms-azure-apim.xsd+xml`` </br> - ``OpenApi`` Schema use
      ``application/vnd.oai.openapi.components+json`` </br> - ``WADL Schema`` use
-     ``application/vnd.ms-azure-apim.wadl.grammars+xml``.
+     ``application/vnd.ms-azure-apim.wadl.grammars+xml`` </br> - ``OData Schema`` use
+     ``application/vnd.ms-azure-apim.odata.schema`` </br> - ``gRPC Schema`` use ``text/protobuf``.
     :vartype content_type: str
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
     :ivar value: Json escaped string defining the document representing the Schema. Used for
      schemas other than Swagger/OpenAPI.
     :vartype value: str
@@ -18042,6 +19293,7 @@ class SchemaContract(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -18049,6 +19301,7 @@ class SchemaContract(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "content_type": {"key": "properties.contentType", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "value": {"key": "properties.document.value", "type": "str"},
         "definitions": {"key": "properties.document.definitions", "type": "object"},
         "components": {"key": "properties.document.components", "type": "object"},
@@ -18069,7 +19322,8 @@ class SchemaContract(ProxyResource):
          - ``Swagger`` Schema use ``application/vnd.ms-azure-apim.swagger.definitions+json`` </br> -
          ``WSDL`` Schema use ``application/vnd.ms-azure-apim.xsd+xml`` </br> - ``OpenApi`` Schema use
          ``application/vnd.oai.openapi.components+json`` </br> - ``WADL Schema`` use
-         ``application/vnd.ms-azure-apim.wadl.grammars+xml``.
+         ``application/vnd.ms-azure-apim.wadl.grammars+xml`` </br> - ``OData Schema`` use
+         ``application/vnd.ms-azure-apim.odata.schema`` </br> - ``gRPC Schema`` use ``text/protobuf``.
         :paramtype content_type: str
         :keyword value: Json escaped string defining the document representing the Schema. Used for
          schemas other than Swagger/OpenAPI.
@@ -18083,6 +19337,7 @@ class SchemaContract(ProxyResource):
         """
         super().__init__(**kwargs)
         self.content_type = content_type
+        self.provisioning_state = None
         self.value = value
         self.definitions = definitions
         self.components = components
@@ -18640,6 +19895,84 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
+class TagApiLinkCollection(_serialization.Model):
+    """Paged Tag-API link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagApiLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagApiLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagApiLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagApiLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class TagApiLinkContract(ProxyResource):
+    """Tag-API link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar api_id: Full resource Id of an API.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "api_id": {"key": "properties.apiId", "type": "str"},
+    }
+
+    def __init__(self, *, api_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword api_id: Full resource Id of an API.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.api_id = api_id
+
+
 class TagCollection(_serialization.Model):
     """Paged Tag list representation.
 
@@ -19000,6 +20333,162 @@ class TagDescriptionCreateParameters(_serialization.Model):
         self.description = description
         self.external_docs_url = external_docs_url
         self.external_docs_description = external_docs_description
+
+
+class TagOperationLinkCollection(_serialization.Model):
+    """Paged Tag-operation link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagOperationLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagOperationLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagOperationLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagOperationLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class TagOperationLinkContract(ProxyResource):
+    """Tag-operation link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar operation_id: Full resource Id of an API operation.
+    :vartype operation_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "operation_id": {"key": "properties.operationId", "type": "str"},
+    }
+
+    def __init__(self, *, operation_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword operation_id: Full resource Id of an API operation.
+        :paramtype operation_id: str
+        """
+        super().__init__(**kwargs)
+        self.operation_id = operation_id
+
+
+class TagProductLinkCollection(_serialization.Model):
+    """Paged Tag-product link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagProductLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagProductLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagProductLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagProductLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class TagProductLinkContract(ProxyResource):
+    """Tag-product link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar product_id: Full resource Id of a product.
+    :vartype product_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "product_id": {"key": "properties.productId", "type": "str"},
+    }
+
+    def __init__(self, *, product_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword product_id: Full resource Id of a product.
+        :paramtype product_id: str
+        """
+        super().__init__(**kwargs)
+        self.product_id = product_id
 
 
 class TagResourceCollection(_serialization.Model):
@@ -20272,6 +21761,90 @@ class WikiUpdateContract(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.documents = documents
+
+
+class WorkspaceCollection(_serialization.Model):
+    """Paged workspace list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.WorkspaceContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[WorkspaceContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.WorkspaceContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.WorkspaceContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class WorkspaceContract(ProxyResource):
+    """Workspace details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar display_name: Name of the workspace.
+    :vartype display_name: str
+    :ivar description: Description of the workspace.
+    :vartype description: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+    }
+
+    def __init__(self, *, display_name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword display_name: Name of the workspace.
+        :paramtype display_name: str
+        :keyword description: Description of the workspace.
+        :paramtype description: str
+        """
+        super().__init__(**kwargs)
+        self.display_name = display_name
+        self.description = description
 
 
 class X509CertificateName(_serialization.Model):

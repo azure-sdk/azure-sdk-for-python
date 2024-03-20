@@ -29,7 +29,7 @@ from azure.mgmt.apimanagement import ApiManagementClient
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.private_endpoint_connection.begin_create_or_update(
@@ -37,7 +37,7 @@ def main():
         service_name="apimService1",
         private_endpoint_connection_name="privateEndpointConnectionName",
         private_endpoint_connection_request={
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/privateEndpointConnections/connectionName",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/privateEndpointConnections/connectionName",
             "properties": {
                 "privateLinkServiceConnectionState": {
                     "description": "The Private Endpoint Connection is approved.",
@@ -49,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-09-01-preview/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
 if __name__ == "__main__":
     main()

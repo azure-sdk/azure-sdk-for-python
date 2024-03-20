@@ -304,7 +304,7 @@ class GlobalSchemaOperations:
         parameters: Union[_models.GlobalSchemaContract, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
-    ) -> Optional[_models.GlobalSchemaContract]:
+    ) -> _models.GlobalSchemaContract:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -318,7 +318,7 @@ class GlobalSchemaOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.GlobalSchemaContract]] = kwargs.pop("cls", None)
+        cls: ClsType[_models.GlobalSchemaContract] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -351,20 +351,27 @@ class GlobalSchemaOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 201, 202]:
+        if response.status_code not in [200, 201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
         if response.status_code == 200:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
             deserialized = self._deserialize("GlobalSchemaContract", pipeline_response)
 
         if response.status_code == 201:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
             deserialized = self._deserialize("GlobalSchemaContract", pipeline_response)
 
@@ -508,6 +515,10 @@ class GlobalSchemaOperations:
             response_headers = {}
             response = pipeline_response.http_response
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
             deserialized = self._deserialize("GlobalSchemaContract", pipeline_response)
             if cls:
