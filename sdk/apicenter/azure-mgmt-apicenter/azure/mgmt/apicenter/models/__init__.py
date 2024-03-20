@@ -20,6 +20,9 @@ from ._models_py3 import ApiVersion
 from ._models_py3 import ApiVersionListResult
 from ._models_py3 import ApiVersionProperties
 from ._models_py3 import Contact
+from ._models_py3 import DeletedService
+from ._models_py3 import DeletedServiceListResult
+from ._models_py3 import DeletedServiceProperties
 from ._models_py3 import Deployment
 from ._models_py3 import DeploymentListResult
 from ._models_py3 import DeploymentProperties
@@ -92,6 +95,9 @@ __all__ = [
     "ApiVersionListResult",
     "ApiVersionProperties",
     "Contact",
+    "DeletedService",
+    "DeletedServiceListResult",
+    "DeletedServiceProperties",
     "Deployment",
     "DeploymentListResult",
     "DeploymentProperties",
