@@ -74,7 +74,7 @@ class AvailabilityStatus(_serialization.Model):
 class AvailabilityStatusListResult(_serialization.Model):
     """The List availabilityStatus operation response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of availabilityStatuses. Required.
     :vartype value: list[~azure.mgmt.resourcehealth.v2015_01_01.models.AvailabilityStatus]
@@ -278,7 +278,7 @@ class AvailabilityStatusProperties(_serialization.Model):  # pylint: disable=too
         self.service_impacting_events = service_impacting_events
 
 
-class AvailabilityStatusPropertiesRecentlyResolvedState(_serialization.Model):
+class AvailabilityStatusPropertiesRecentlyResolvedState(_serialization.Model):  # pylint: disable=name-too-long
     """An annotation describing a change in the availabilityState to Available from Unavailable with a
     reasonType of type Unplanned.
 
@@ -431,7 +431,7 @@ class OperationDisplay(_serialization.Model):
 class OperationListResult(_serialization.Model):
     """Lists the operations response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of operations available in the resourcehealth resource provider. Required.
     :vartype value: list[~azure.mgmt.resourcehealth.v2015_01_01.models.Operation]

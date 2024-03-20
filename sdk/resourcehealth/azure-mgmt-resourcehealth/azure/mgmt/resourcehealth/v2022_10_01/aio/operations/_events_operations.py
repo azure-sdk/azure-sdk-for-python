@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -71,7 +71,6 @@ class EventsOperations:
          property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
          value is None.
         :type query_start_time: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Event or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resourcehealth.v2022_10_01.models.Event]
@@ -94,17 +93,16 @@ class EventsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_id_request(
+                _request = build_list_by_subscription_id_request(
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     query_start_time=query_start_time,
                     api_version=api_version,
-                    template_url=self.list_by_subscription_id.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -115,14 +113,14 @@ class EventsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("Events", pipeline_response)
@@ -132,11 +130,11 @@ class EventsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -148,10 +146,6 @@ class EventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_subscription_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events"
-    }
 
     @distributed_trace
     def list_by_tenant_id(
@@ -167,7 +161,6 @@ class EventsOperations:
          property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
          value is None.
         :type query_start_time: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Event or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resourcehealth.v2022_10_01.models.Event]
@@ -190,16 +183,15 @@ class EventsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_tenant_id_request(
+                _request = build_list_by_tenant_id_request(
                     filter=filter,
                     query_start_time=query_start_time,
                     api_version=api_version,
-                    template_url=self.list_by_tenant_id.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -210,14 +202,14 @@ class EventsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("Events", pipeline_response)
@@ -227,11 +219,11 @@ class EventsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -243,8 +235,6 @@ class EventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_tenant_id.metadata = {"url": "/providers/Microsoft.ResourceHealth/events"}
 
     @distributed_trace
     def list_by_single_resource(
@@ -263,7 +253,6 @@ class EventsOperations:
          https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN. Default value
          is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Event or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resourcehealth.v2022_10_01.models.Event]
@@ -286,16 +275,15 @@ class EventsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_single_resource_request(
+                _request = build_list_by_single_resource_request(
                     resource_uri=resource_uri,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_single_resource.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -306,14 +294,14 @@ class EventsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("Events", pipeline_response)
@@ -323,11 +311,11 @@ class EventsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -339,5 +327,3 @@ class EventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_single_resource.metadata = {"url": "/{resourceUri}/providers/Microsoft.ResourceHealth/events"}
