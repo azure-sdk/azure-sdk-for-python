@@ -6,8 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.quantum import AzureQuantumManagementClient
+
+from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
 # PREREQUISITES
@@ -24,7 +27,7 @@ from azure.mgmt.quantum import AzureQuantumManagementClient
 
 
 def main():
-    client = AzureQuantumManagementClient(
+    client = AzureQuantumMgmtClient(
         credential=DefaultAzureCredential(),
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
@@ -37,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesPatch.json
+# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesPatch.json
 if __name__ == "__main__":
     main()
