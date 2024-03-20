@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -51,6 +51,7 @@ class RegionsOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list_by_sku(self, sku: str, **kwargs: Any) -> AsyncIterable["_models.MessagingRegions"]:
@@ -58,7 +59,6 @@ class RegionsOperations:
 
         :param sku: The sku type. Required.
         :type sku: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MessagingRegions or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.eventhub.v2017_04_01.models.MessagingRegions]
@@ -67,7 +67,7 @@ class RegionsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2017-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2017-04-01"))
         cls: ClsType[_models.MessagingRegionsListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -81,16 +81,15 @@ class RegionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_sku_request(
+                _request = build_list_by_sku_request(
                     sku=sku,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_sku.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -101,14 +100,14 @@ class RegionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MessagingRegionsListResult", pipeline_response)
@@ -118,11 +117,11 @@ class RegionsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -134,5 +133,3 @@ class RegionsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_sku.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/sku/{sku}/regions"}
