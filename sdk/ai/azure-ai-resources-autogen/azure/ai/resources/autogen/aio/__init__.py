@@ -6,12 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._client import DevCenterClient
-from ._client import DevBoxesClient
-from ._client import DeploymentEnvironmentsClient
-from ._version import VERSION
-
-__version__ = VERSION
+from ._client import MachineLearningServicesClient
 
 try:
     from ._patch import __all__ as _patch_all
@@ -21,9 +16,7 @@ except ImportError:
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "DevCenterClient",
-    "DevBoxesClient",
-    "DeploymentEnvironmentsClient",
+    "MachineLearningServicesClient",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 

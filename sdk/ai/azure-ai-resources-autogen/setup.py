@@ -12,8 +12,8 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-developer-devcenter"
-PACKAGE_PPRINT_NAME = "Azure Developer Devcenter"
+PACKAGE_NAME = "azure-ai-resources-autogen"
+PACKAGE_PPRINT_NAME = "Azure Ai Resources Autogen"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -55,12 +55,13 @@ setup(
             "tests",
             # Exclude packages that will be covered by PEP420 or nspkg
             "azure",
-            "azure.developer",
+            "azure.ai",
+            "azure.ai.resources",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.developer.devcenter": ["py.typed"],
+        "azure.ai.resources.autogen": ["py.typed"],
     },
     install_requires=[
         "isodate<1.0.0,>=0.6.1",
