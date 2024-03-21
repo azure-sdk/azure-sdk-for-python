@@ -10,10 +10,16 @@ from ._models import AddOrUpdateTextBlocklistItemsOptions
 from ._models import AddOrUpdateTextBlocklistItemsResult
 from ._models import AnalyzeImageOptions
 from ._models import AnalyzeImageResult
+from ._models import AnalyzeTextJailbreakOptions
+from ._models import AnalyzeTextJailbreakResult
 from ._models import AnalyzeTextOptions
+from ._models import AnalyzeTextProtectedMaterialOptions
+from ._models import AnalyzeTextProtectedMaterialResult
 from ._models import AnalyzeTextResult
 from ._models import ImageCategoriesAnalysis
 from ._models import ImageData
+from ._models import JailbreakAnalysisResult
+from ._models import ProtectedMaterialAnalysisResult
 from ._models import RemoveTextBlocklistItemsOptions
 from ._models import TextBlocklist
 from ._models import TextBlocklistItem
@@ -33,10 +39,16 @@ __all__ = [
     "AddOrUpdateTextBlocklistItemsResult",
     "AnalyzeImageOptions",
     "AnalyzeImageResult",
+    "AnalyzeTextJailbreakOptions",
+    "AnalyzeTextJailbreakResult",
     "AnalyzeTextOptions",
+    "AnalyzeTextProtectedMaterialOptions",
+    "AnalyzeTextProtectedMaterialResult",
     "AnalyzeTextResult",
     "ImageCategoriesAnalysis",
     "ImageData",
+    "JailbreakAnalysisResult",
+    "ProtectedMaterialAnalysisResult",
     "RemoveTextBlocklistItemsOptions",
     "TextBlocklist",
     "TextBlocklistItem",
