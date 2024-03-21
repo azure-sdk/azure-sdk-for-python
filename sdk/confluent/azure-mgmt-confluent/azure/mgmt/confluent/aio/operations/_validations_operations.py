@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -77,7 +77,6 @@ class ValidationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -88,7 +87,7 @@ class ValidationsOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -102,11 +101,10 @@ class ValidationsOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Organization resource model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -117,7 +115,7 @@ class ValidationsOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.OrganizationResource, IO],
+        body: Union[_models.OrganizationResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.OrganizationResource:
         """Organization Validate proxy resource.
@@ -128,13 +126,9 @@ class ValidationsOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: Organization resource model. Is either a OrganizationResource type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.OrganizationResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Organization resource model. Is either a OrganizationResource type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.OrganizationResource or IO[bytes]
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -162,7 +156,7 @@ class ValidationsOperations:
         else:
             _json = self._serialize.body(body, "OrganizationResource")
 
-        request = build_validate_organization_request(
+        _request = build_validate_organization_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -170,16 +164,15 @@ class ValidationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.validate_organization.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -194,13 +187,9 @@ class ValidationsOperations:
         deserialized = self._deserialize("OrganizationResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    validate_organization.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidate"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def validate_organization_v2(
@@ -225,7 +214,6 @@ class ValidationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ValidationResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.ValidationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -236,7 +224,7 @@ class ValidationsOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -250,11 +238,10 @@ class ValidationsOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Organization resource model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ValidationResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.ValidationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -265,7 +252,7 @@ class ValidationsOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.OrganizationResource, IO],
+        body: Union[_models.OrganizationResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.ValidationResponse:
         """Organization Validate proxy resource.
@@ -276,13 +263,9 @@ class ValidationsOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: Organization resource model. Is either a OrganizationResource type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.OrganizationResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Organization resource model. Is either a OrganizationResource type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.OrganizationResource or IO[bytes]
         :return: ValidationResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.ValidationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -310,7 +293,7 @@ class ValidationsOperations:
         else:
             _json = self._serialize.body(body, "OrganizationResource")
 
-        request = build_validate_organization_v2_request(
+        _request = build_validate_organization_v2_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -318,16 +301,15 @@ class ValidationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.validate_organization_v2.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -342,10 +324,6 @@ class ValidationsOperations:
         deserialized = self._deserialize("ValidationResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    validate_organization_v2.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidateV2"
-    }
+        return deserialized  # type: ignore

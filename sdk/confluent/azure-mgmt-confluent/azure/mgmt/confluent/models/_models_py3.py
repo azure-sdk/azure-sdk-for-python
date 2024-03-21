@@ -1347,7 +1347,7 @@ class InvitationRecord(_serialization.Model):
 class LinkOrganization(_serialization.Model):
     """Link an existing Confluent organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar token: User auth token. Required.
     :vartype token: str
@@ -1528,7 +1528,7 @@ class MetadataEntity(_serialization.Model):
 class OfferDetail(_serialization.Model):
     """Confluent Offer detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar publisher_id: Publisher Id. Required.
     :vartype publisher_id: str
@@ -1740,7 +1740,7 @@ class OrganizationResource(_serialization.Model):  # pylint: disable=too-many-in
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The ARM id of the resource.
     :vartype id: str
@@ -2416,7 +2416,7 @@ class SCEnvironmentRecord(_serialization.Model):
         self.metadata = metadata
 
 
-class SchemaRegistryClusterEnvironmentRegionEntity(_serialization.Model):
+class SchemaRegistryClusterEnvironmentRegionEntity(_serialization.Model):  # pylint: disable=name-too-long
     """The environment associated with this object.
 
     :ivar id: ID of the referred resource.
@@ -2762,7 +2762,7 @@ class SystemData(_serialization.Model):
 class UserDetail(_serialization.Model):
     """Subscriber detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar first_name: First name.
     :vartype first_name: str
