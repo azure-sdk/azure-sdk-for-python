@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.recoveryservices import RecoveryServicesClient
@@ -15,7 +17,7 @@ from azure.mgmt.recoveryservices import RecoveryServicesClient
     pip install azure-identity
     pip install azure-mgmt-recoveryservices
 # USAGE
-    python list_usages.py
+    python put_vault_with_redundancy_settings.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +32,25 @@ def main():
         subscription_id="77777777-b0c6-47a2-b37c-d8e65a629c18",
     )
 
-    response = client.usages.list_by_vaults(
+    response = client.vaults.begin_create_or_update(
         resource_group_name="Default-RecoveryServices-ResourceGroup",
         vault_name="swaggerExample",
-    )
-    for item in response:
-        print(item)
+        vault={
+            "identity": {"type": "SystemAssigned"},
+            "location": "West US",
+            "properties": {
+                "publicNetworkAccess": "Enabled",
+                "redundancySettings": {
+                    "crossRegionRestore": "Enabled",
+                    "standardTierStorageRedundancy": "GeoRedundant",
+                },
+            },
+            "sku": {"name": "Standard"},
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/ListUsages.json
+# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/PUTVault_WithRedundancySettings.json
 if __name__ == "__main__":
     main()
