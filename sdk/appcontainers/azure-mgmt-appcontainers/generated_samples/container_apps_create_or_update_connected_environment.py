@@ -29,6 +29,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        container_app_name="testcontainerApp0",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
@@ -98,6 +99,7 @@ def main():
                         "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
                     },
                     "maxInactiveRevisions": 10,
+                    "runtime": {"dotnet": {"autoConfigureDataProtection": True}, "java": {"enableMetrics": True}},
                 },
                 "environmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/connectedEnvironments/demokube",
                 "template": {
@@ -145,6 +147,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_CreateOrUpdate_ConnectedEnvironment.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/ContainerApps_CreateOrUpdate_ConnectedEnvironment.json
 if __name__ == "__main__":
     main()
