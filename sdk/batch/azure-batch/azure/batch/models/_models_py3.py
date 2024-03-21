@@ -40,15 +40,25 @@ class AccountListPoolNodeCountsOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, max_results: int=10, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        max_results: int = 10,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(AccountListPoolNodeCountsOptions, self).__init__(**kwargs)
         self.filter = filter
         self.max_results = max_results
@@ -85,15 +95,25 @@ class AccountListSupportedImagesOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(AccountListSupportedImagesOptions, self).__init__(**kwargs)
         self.filter = filter
         self.max_results = max_results
@@ -118,11 +138,11 @@ class AffinityInformation(Model):
     """
 
     _validation = {
-        'affinity_id': {'required': True},
+        "affinity_id": {"required": True},
     }
 
     _attribute_map = {
-        'affinity_id': {'key': 'affinityId', 'type': 'str'},
+        "affinity_id": {"key": "affinityId", "type": "str"},
     }
 
     def __init__(self, *, affinity_id: str, **kwargs) -> None:
@@ -150,13 +170,21 @@ class ApplicationGetOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ApplicationGetOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -187,14 +215,23 @@ class ApplicationListOptions(Model):
     """
 
     _attribute_map = {
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ApplicationListOptions, self).__init__(**kwargs)
         self.max_results = max_results
         self.timeout = timeout
@@ -221,15 +258,15 @@ class ApplicationPackageReference(Model):
     """
 
     _validation = {
-        'application_id': {'required': True},
+        "application_id": {"required": True},
     }
 
     _attribute_map = {
-        'application_id': {'key': 'applicationId', 'type': 'str'},
-        'version': {'key': 'version', 'type': 'str'},
+        "application_id": {"key": "applicationId", "type": "str"},
+        "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, *, application_id: str, version: str=None, **kwargs) -> None:
+    def __init__(self, *, application_id: str, version: str = None, **kwargs) -> None:
         super(ApplicationPackageReference, self).__init__(**kwargs)
         self.application_id = application_id
         self.version = version
@@ -249,15 +286,15 @@ class ApplicationSummary(Model):
     """
 
     _validation = {
-        'id': {'required': True},
-        'display_name': {'required': True},
-        'versions': {'required': True},
+        "id": {"required": True},
+        "display_name": {"required": True},
+        "versions": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'versions': {'key': 'versions', 'type': '[str]'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "versions": {"key": "versions", "type": "[str]"},
     }
 
     def __init__(self, *, id: str, display_name: str, versions, **kwargs) -> None:
@@ -279,7 +316,7 @@ class AuthenticationTokenSettings(Model):
     """
 
     _attribute_map = {
-        'access': {'key': 'access', 'type': '[AccessScope]'},
+        "access": {"key": "access", "type": "[AccessScope]"},
     }
 
     def __init__(self, *, access=None, **kwargs) -> None:
@@ -313,17 +350,19 @@ class AutoPoolSpecification(Model):
     """
 
     _validation = {
-        'pool_lifetime_option': {'required': True},
+        "pool_lifetime_option": {"required": True},
     }
 
     _attribute_map = {
-        'auto_pool_id_prefix': {'key': 'autoPoolIdPrefix', 'type': 'str'},
-        'pool_lifetime_option': {'key': 'poolLifetimeOption', 'type': 'PoolLifetimeOption'},
-        'keep_alive': {'key': 'keepAlive', 'type': 'bool'},
-        'pool': {'key': 'pool', 'type': 'PoolSpecification'},
+        "auto_pool_id_prefix": {"key": "autoPoolIdPrefix", "type": "str"},
+        "pool_lifetime_option": {"key": "poolLifetimeOption", "type": "PoolLifetimeOption"},
+        "keep_alive": {"key": "keepAlive", "type": "bool"},
+        "pool": {"key": "pool", "type": "PoolSpecification"},
     }
 
-    def __init__(self, *, pool_lifetime_option, auto_pool_id_prefix: str=None, keep_alive: bool=None, pool=None, **kwargs) -> None:
+    def __init__(
+        self, *, pool_lifetime_option, auto_pool_id_prefix: str = None, keep_alive: bool = None, pool=None, **kwargs
+    ) -> None:
         super(AutoPoolSpecification, self).__init__(**kwargs)
         self.auto_pool_id_prefix = auto_pool_id_prefix
         self.pool_lifetime_option = pool_lifetime_option
@@ -347,16 +386,16 @@ class AutoScaleRun(Model):
     """
 
     _validation = {
-        'timestamp': {'required': True},
+        "timestamp": {"required": True},
     }
 
     _attribute_map = {
-        'timestamp': {'key': 'timestamp', 'type': 'iso-8601'},
-        'results': {'key': 'results', 'type': 'str'},
-        'error': {'key': 'error', 'type': 'AutoScaleRunError'},
+        "timestamp": {"key": "timestamp", "type": "iso-8601"},
+        "results": {"key": "results", "type": "str"},
+        "error": {"key": "error", "type": "AutoScaleRunError"},
     }
 
-    def __init__(self, *, timestamp, results: str=None, error=None, **kwargs) -> None:
+    def __init__(self, *, timestamp, results: str = None, error=None, **kwargs) -> None:
         super(AutoScaleRun, self).__init__(**kwargs)
         self.timestamp = timestamp
         self.results = results
@@ -376,12 +415,12 @@ class AutoScaleRunError(Model):
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'str'},
-        'values': {'key': 'values', 'type': '[NameValuePair]'},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "values": {"key": "values", "type": "[NameValuePair]"},
     }
 
-    def __init__(self, *, code: str=None, message: str=None, values=None, **kwargs) -> None:
+    def __init__(self, *, code: str = None, message: str = None, values=None, **kwargs) -> None:
         super(AutoScaleRunError, self).__init__(**kwargs)
         self.code = code
         self.message = message
@@ -405,8 +444,8 @@ class AutoUserSpecification(Model):
     """
 
     _attribute_map = {
-        'scope': {'key': 'scope', 'type': 'AutoUserScope'},
-        'elevation_level': {'key': 'elevationLevel', 'type': 'ElevationLevel'},
+        "scope": {"key": "scope", "type": "AutoUserScope"},
+        "elevation_level": {"key": "elevationLevel", "type": "ElevationLevel"},
     }
 
     def __init__(self, *, scope=None, elevation_level=None, **kwargs) -> None:
@@ -444,22 +483,33 @@ class AzureBlobFileSystemConfiguration(Model):
     """
 
     _validation = {
-        'account_name': {'required': True},
-        'container_name': {'required': True},
-        'relative_mount_path': {'required': True},
+        "account_name": {"required": True},
+        "container_name": {"required": True},
+        "relative_mount_path": {"required": True},
     }
 
     _attribute_map = {
-        'account_name': {'key': 'accountName', 'type': 'str'},
-        'container_name': {'key': 'containerName', 'type': 'str'},
-        'account_key': {'key': 'accountKey', 'type': 'str'},
-        'sas_key': {'key': 'sasKey', 'type': 'str'},
-        'blobfuse_options': {'key': 'blobfuseOptions', 'type': 'str'},
-        'relative_mount_path': {'key': 'relativeMountPath', 'type': 'str'},
-        'identity_reference': {'key': 'identityReference', 'type': 'ComputeNodeIdentityReference'},
+        "account_name": {"key": "accountName", "type": "str"},
+        "container_name": {"key": "containerName", "type": "str"},
+        "account_key": {"key": "accountKey", "type": "str"},
+        "sas_key": {"key": "sasKey", "type": "str"},
+        "blobfuse_options": {"key": "blobfuseOptions", "type": "str"},
+        "relative_mount_path": {"key": "relativeMountPath", "type": "str"},
+        "identity_reference": {"key": "identityReference", "type": "ComputeNodeIdentityReference"},
     }
 
-    def __init__(self, *, account_name: str, container_name: str, relative_mount_path: str, account_key: str=None, sas_key: str=None, blobfuse_options: str=None, identity_reference=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        account_name: str,
+        container_name: str,
+        relative_mount_path: str,
+        account_key: str = None,
+        sas_key: str = None,
+        blobfuse_options: str = None,
+        identity_reference=None,
+        **kwargs
+    ) -> None:
         super(AzureBlobFileSystemConfiguration, self).__init__(**kwargs)
         self.account_name = account_name
         self.container_name = container_name
@@ -492,21 +542,30 @@ class AzureFileShareConfiguration(Model):
     """
 
     _validation = {
-        'account_name': {'required': True},
-        'azure_file_url': {'required': True},
-        'account_key': {'required': True},
-        'relative_mount_path': {'required': True},
+        "account_name": {"required": True},
+        "azure_file_url": {"required": True},
+        "account_key": {"required": True},
+        "relative_mount_path": {"required": True},
     }
 
     _attribute_map = {
-        'account_name': {'key': 'accountName', 'type': 'str'},
-        'azure_file_url': {'key': 'azureFileUrl', 'type': 'str'},
-        'account_key': {'key': 'accountKey', 'type': 'str'},
-        'relative_mount_path': {'key': 'relativeMountPath', 'type': 'str'},
-        'mount_options': {'key': 'mountOptions', 'type': 'str'},
+        "account_name": {"key": "accountName", "type": "str"},
+        "azure_file_url": {"key": "azureFileUrl", "type": "str"},
+        "account_key": {"key": "accountKey", "type": "str"},
+        "relative_mount_path": {"key": "relativeMountPath", "type": "str"},
+        "mount_options": {"key": "mountOptions", "type": "str"},
     }
 
-    def __init__(self, *, account_name: str, azure_file_url: str, account_key: str, relative_mount_path: str, mount_options: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        account_name: str,
+        azure_file_url: str,
+        account_key: str,
+        relative_mount_path: str,
+        mount_options: str = None,
+        **kwargs
+    ) -> None:
         super(AzureFileShareConfiguration, self).__init__(**kwargs)
         self.account_name = account_name
         self.azure_file_url = azure_file_url
@@ -528,12 +587,12 @@ class BatchError(Model):
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'ErrorMessage'},
-        'values': {'key': 'values', 'type': '[BatchErrorDetail]'},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "ErrorMessage"},
+        "values": {"key": "values", "type": "[BatchErrorDetail]"},
     }
 
-    def __init__(self, *, code: str=None, message=None, values=None, **kwargs) -> None:
+    def __init__(self, *, code: str = None, message=None, values=None, **kwargs) -> None:
         super(BatchError, self).__init__(**kwargs)
         self.code = code
         self.message = message
@@ -549,7 +608,7 @@ class BatchErrorException(HttpOperationError):
 
     def __init__(self, deserialize, response, *args):
 
-        super(BatchErrorException, self).__init__(deserialize, response, 'BatchError', *args)
+        super(BatchErrorException, self).__init__(deserialize, response, "BatchError", *args)
 
 
 class BatchErrorDetail(Model):
@@ -563,11 +622,11 @@ class BatchErrorDetail(Model):
     """
 
     _attribute_map = {
-        'key': {'key': 'key', 'type': 'str'},
-        'value': {'key': 'value', 'type': 'str'},
+        "key": {"key": "key", "type": "str"},
+        "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, key: str=None, value: str=None, **kwargs) -> None:
+    def __init__(self, *, key: str = None, value: str = None, **kwargs) -> None:
         super(BatchErrorDetail, self).__init__(**kwargs)
         self.key = key
         self.value = value
@@ -594,12 +653,12 @@ class BatchPoolIdentity(Model):
     """
 
     _validation = {
-        'type': {'required': True},
+        "type": {"required": True},
     }
 
     _attribute_map = {
-        'type': {'key': 'type', 'type': 'PoolIdentityType'},
-        'user_assigned_identities': {'key': 'userAssignedIdentities', 'type': '[UserAssignedIdentity]'},
+        "type": {"key": "type", "type": "PoolIdentityType"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "[UserAssignedIdentity]"},
     }
 
     def __init__(self, *, type, user_assigned_identities=None, **kwargs) -> None:
@@ -639,18 +698,31 @@ class Certificate(Model):
     """
 
     _attribute_map = {
-        'thumbprint': {'key': 'thumbprint', 'type': 'str'},
-        'thumbprint_algorithm': {'key': 'thumbprintAlgorithm', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
-        'state': {'key': 'state', 'type': 'CertificateState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'previous_state': {'key': 'previousState', 'type': 'CertificateState'},
-        'previous_state_transition_time': {'key': 'previousStateTransitionTime', 'type': 'iso-8601'},
-        'public_data': {'key': 'publicData', 'type': 'str'},
-        'delete_certificate_error': {'key': 'deleteCertificateError', 'type': 'DeleteCertificateError'},
+        "thumbprint": {"key": "thumbprint", "type": "str"},
+        "thumbprint_algorithm": {"key": "thumbprintAlgorithm", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "state": {"key": "state", "type": "CertificateState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "previous_state": {"key": "previousState", "type": "CertificateState"},
+        "previous_state_transition_time": {"key": "previousStateTransitionTime", "type": "iso-8601"},
+        "public_data": {"key": "publicData", "type": "str"},
+        "delete_certificate_error": {"key": "deleteCertificateError", "type": "DeleteCertificateError"},
     }
 
-    def __init__(self, *, thumbprint: str=None, thumbprint_algorithm: str=None, url: str=None, state=None, state_transition_time=None, previous_state=None, previous_state_transition_time=None, public_data: str=None, delete_certificate_error=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        thumbprint: str = None,
+        thumbprint_algorithm: str = None,
+        url: str = None,
+        state=None,
+        state_transition_time=None,
+        previous_state=None,
+        previous_state_transition_time=None,
+        public_data: str = None,
+        delete_certificate_error=None,
+        **kwargs
+    ) -> None:
         super(Certificate, self).__init__(**kwargs)
         self.thumbprint = thumbprint
         self.thumbprint_algorithm = thumbprint_algorithm
@@ -683,13 +755,21 @@ class CertificateAddOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(CertificateAddOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -716,20 +796,29 @@ class CertificateAddParameter(Model):
     """
 
     _validation = {
-        'thumbprint': {'required': True},
-        'thumbprint_algorithm': {'required': True},
-        'data': {'required': True},
+        "thumbprint": {"required": True},
+        "thumbprint_algorithm": {"required": True},
+        "data": {"required": True},
     }
 
     _attribute_map = {
-        'thumbprint': {'key': 'thumbprint', 'type': 'str'},
-        'thumbprint_algorithm': {'key': 'thumbprintAlgorithm', 'type': 'str'},
-        'data': {'key': 'data', 'type': 'str'},
-        'certificate_format': {'key': 'certificateFormat', 'type': 'CertificateFormat'},
-        'password': {'key': 'password', 'type': 'str'},
+        "thumbprint": {"key": "thumbprint", "type": "str"},
+        "thumbprint_algorithm": {"key": "thumbprintAlgorithm", "type": "str"},
+        "data": {"key": "data", "type": "str"},
+        "certificate_format": {"key": "certificateFormat", "type": "CertificateFormat"},
+        "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, thumbprint: str, thumbprint_algorithm: str, data: str, certificate_format=None, password: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        thumbprint: str,
+        thumbprint_algorithm: str,
+        data: str,
+        certificate_format=None,
+        password: str = None,
+        **kwargs
+    ) -> None:
         super(CertificateAddParameter, self).__init__(**kwargs)
         self.thumbprint = thumbprint
         self.thumbprint_algorithm = thumbprint_algorithm
@@ -758,13 +847,21 @@ class CertificateCancelDeletionOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(CertificateCancelDeletionOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -792,13 +889,21 @@ class CertificateDeleteOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(CertificateDeleteOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -828,14 +933,23 @@ class CertificateGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(CertificateGetOptions, self).__init__(**kwargs)
         self.select = select
         self.timeout = timeout
@@ -873,16 +987,27 @@ class CertificateListOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(CertificateListOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -931,19 +1056,28 @@ class CertificateReference(Model):
     """
 
     _validation = {
-        'thumbprint': {'required': True},
-        'thumbprint_algorithm': {'required': True},
+        "thumbprint": {"required": True},
+        "thumbprint_algorithm": {"required": True},
     }
 
     _attribute_map = {
-        'thumbprint': {'key': 'thumbprint', 'type': 'str'},
-        'thumbprint_algorithm': {'key': 'thumbprintAlgorithm', 'type': 'str'},
-        'store_location': {'key': 'storeLocation', 'type': 'CertificateStoreLocation'},
-        'store_name': {'key': 'storeName', 'type': 'str'},
-        'visibility': {'key': 'visibility', 'type': '[CertificateVisibility]'},
+        "thumbprint": {"key": "thumbprint", "type": "str"},
+        "thumbprint_algorithm": {"key": "thumbprintAlgorithm", "type": "str"},
+        "store_location": {"key": "storeLocation", "type": "CertificateStoreLocation"},
+        "store_name": {"key": "storeName", "type": "str"},
+        "visibility": {"key": "visibility", "type": "[CertificateVisibility]"},
     }
 
-    def __init__(self, *, thumbprint: str, thumbprint_algorithm: str, store_location=None, store_name: str=None, visibility=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        thumbprint: str,
+        thumbprint_algorithm: str,
+        store_location=None,
+        store_name: str = None,
+        visibility=None,
+        **kwargs
+    ) -> None:
         super(CertificateReference, self).__init__(**kwargs)
         self.thumbprint = thumbprint
         self.thumbprint_algorithm = thumbprint_algorithm
@@ -973,21 +1107,30 @@ class CIFSMountConfiguration(Model):
     """
 
     _validation = {
-        'username': {'required': True},
-        'source': {'required': True},
-        'relative_mount_path': {'required': True},
-        'password': {'required': True},
+        "username": {"required": True},
+        "source": {"required": True},
+        "relative_mount_path": {"required": True},
+        "password": {"required": True},
     }
 
     _attribute_map = {
-        'username': {'key': 'username', 'type': 'str'},
-        'source': {'key': 'source', 'type': 'str'},
-        'relative_mount_path': {'key': 'relativeMountPath', 'type': 'str'},
-        'mount_options': {'key': 'mountOptions', 'type': 'str'},
-        'password': {'key': 'password', 'type': 'str'},
+        "username": {"key": "username", "type": "str"},
+        "source": {"key": "source", "type": "str"},
+        "relative_mount_path": {"key": "relativeMountPath", "type": "str"},
+        "mount_options": {"key": "mountOptions", "type": "str"},
+        "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, username: str, source: str, relative_mount_path: str, password: str, mount_options: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        username: str,
+        source: str,
+        relative_mount_path: str,
+        password: str,
+        mount_options: str = None,
+        **kwargs
+    ) -> None:
         super(CIFSMountConfiguration, self).__init__(**kwargs)
         self.username = username
         self.source = source
@@ -997,11 +1140,9 @@ class CIFSMountConfiguration(Model):
 
 
 class CloudError(Model):
-    """CloudError.
-    """
+    """CloudError."""
 
-    _attribute_map = {
-    }
+    _attribute_map = {}
 
 
 class CloudJob(Model):
@@ -1107,35 +1248,65 @@ class CloudJob(Model):
     """
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'uses_task_dependencies': {'key': 'usesTaskDependencies', 'type': 'bool'},
-        'url': {'key': 'url', 'type': 'str'},
-        'e_tag': {'key': 'eTag', 'type': 'str'},
-        'last_modified': {'key': 'lastModified', 'type': 'iso-8601'},
-        'creation_time': {'key': 'creationTime', 'type': 'iso-8601'},
-        'state': {'key': 'state', 'type': 'JobState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'previous_state': {'key': 'previousState', 'type': 'JobState'},
-        'previous_state_transition_time': {'key': 'previousStateTransitionTime', 'type': 'iso-8601'},
-        'priority': {'key': 'priority', 'type': 'int'},
-        'allow_task_preemption': {'key': 'allowTaskPreemption', 'type': 'bool'},
-        'max_parallel_tasks': {'key': 'maxParallelTasks', 'type': 'int'},
-        'constraints': {'key': 'constraints', 'type': 'JobConstraints'},
-        'job_manager_task': {'key': 'jobManagerTask', 'type': 'JobManagerTask'},
-        'job_preparation_task': {'key': 'jobPreparationTask', 'type': 'JobPreparationTask'},
-        'job_release_task': {'key': 'jobReleaseTask', 'type': 'JobReleaseTask'},
-        'common_environment_settings': {'key': 'commonEnvironmentSettings', 'type': '[EnvironmentSetting]'},
-        'pool_info': {'key': 'poolInfo', 'type': 'PoolInformation'},
-        'on_all_tasks_complete': {'key': 'onAllTasksComplete', 'type': 'OnAllTasksComplete'},
-        'on_task_failure': {'key': 'onTaskFailure', 'type': 'OnTaskFailure'},
-        'network_configuration': {'key': 'networkConfiguration', 'type': 'JobNetworkConfiguration'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'execution_info': {'key': 'executionInfo', 'type': 'JobExecutionInformation'},
-        'stats': {'key': 'stats', 'type': 'JobStatistics'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "uses_task_dependencies": {"key": "usesTaskDependencies", "type": "bool"},
+        "url": {"key": "url", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "last_modified": {"key": "lastModified", "type": "iso-8601"},
+        "creation_time": {"key": "creationTime", "type": "iso-8601"},
+        "state": {"key": "state", "type": "JobState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "previous_state": {"key": "previousState", "type": "JobState"},
+        "previous_state_transition_time": {"key": "previousStateTransitionTime", "type": "iso-8601"},
+        "priority": {"key": "priority", "type": "int"},
+        "allow_task_preemption": {"key": "allowTaskPreemption", "type": "bool"},
+        "max_parallel_tasks": {"key": "maxParallelTasks", "type": "int"},
+        "constraints": {"key": "constraints", "type": "JobConstraints"},
+        "job_manager_task": {"key": "jobManagerTask", "type": "JobManagerTask"},
+        "job_preparation_task": {"key": "jobPreparationTask", "type": "JobPreparationTask"},
+        "job_release_task": {"key": "jobReleaseTask", "type": "JobReleaseTask"},
+        "common_environment_settings": {"key": "commonEnvironmentSettings", "type": "[EnvironmentSetting]"},
+        "pool_info": {"key": "poolInfo", "type": "PoolInformation"},
+        "on_all_tasks_complete": {"key": "onAllTasksComplete", "type": "OnAllTasksComplete"},
+        "on_task_failure": {"key": "onTaskFailure", "type": "OnTaskFailure"},
+        "network_configuration": {"key": "networkConfiguration", "type": "JobNetworkConfiguration"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "execution_info": {"key": "executionInfo", "type": "JobExecutionInformation"},
+        "stats": {"key": "stats", "type": "JobStatistics"},
     }
 
-    def __init__(self, *, id: str=None, display_name: str=None, uses_task_dependencies: bool=None, url: str=None, e_tag: str=None, last_modified=None, creation_time=None, state=None, state_transition_time=None, previous_state=None, previous_state_transition_time=None, priority: int=None, allow_task_preemption: bool=None, max_parallel_tasks: int=-1, constraints=None, job_manager_task=None, job_preparation_task=None, job_release_task=None, common_environment_settings=None, pool_info=None, on_all_tasks_complete=None, on_task_failure=None, network_configuration=None, metadata=None, execution_info=None, stats=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        display_name: str = None,
+        uses_task_dependencies: bool = None,
+        url: str = None,
+        e_tag: str = None,
+        last_modified=None,
+        creation_time=None,
+        state=None,
+        state_transition_time=None,
+        previous_state=None,
+        previous_state_transition_time=None,
+        priority: int = None,
+        allow_task_preemption: bool = None,
+        max_parallel_tasks: int = -1,
+        constraints=None,
+        job_manager_task=None,
+        job_preparation_task=None,
+        job_release_task=None,
+        common_environment_settings=None,
+        pool_info=None,
+        on_all_tasks_complete=None,
+        on_task_failure=None,
+        network_configuration=None,
+        metadata=None,
+        execution_info=None,
+        stats=None,
+        **kwargs
+    ) -> None:
         super(CloudJob, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -1222,24 +1393,43 @@ class CloudJobSchedule(Model):
     """
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
-        'e_tag': {'key': 'eTag', 'type': 'str'},
-        'last_modified': {'key': 'lastModified', 'type': 'iso-8601'},
-        'creation_time': {'key': 'creationTime', 'type': 'iso-8601'},
-        'state': {'key': 'state', 'type': 'JobScheduleState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'previous_state': {'key': 'previousState', 'type': 'JobScheduleState'},
-        'previous_state_transition_time': {'key': 'previousStateTransitionTime', 'type': 'iso-8601'},
-        'schedule': {'key': 'schedule', 'type': 'Schedule'},
-        'job_specification': {'key': 'jobSpecification', 'type': 'JobSpecification'},
-        'execution_info': {'key': 'executionInfo', 'type': 'JobScheduleExecutionInformation'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'stats': {'key': 'stats', 'type': 'JobScheduleStatistics'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "last_modified": {"key": "lastModified", "type": "iso-8601"},
+        "creation_time": {"key": "creationTime", "type": "iso-8601"},
+        "state": {"key": "state", "type": "JobScheduleState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "previous_state": {"key": "previousState", "type": "JobScheduleState"},
+        "previous_state_transition_time": {"key": "previousStateTransitionTime", "type": "iso-8601"},
+        "schedule": {"key": "schedule", "type": "Schedule"},
+        "job_specification": {"key": "jobSpecification", "type": "JobSpecification"},
+        "execution_info": {"key": "executionInfo", "type": "JobScheduleExecutionInformation"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "stats": {"key": "stats", "type": "JobScheduleStatistics"},
     }
 
-    def __init__(self, *, id: str=None, display_name: str=None, url: str=None, e_tag: str=None, last_modified=None, creation_time=None, state=None, state_transition_time=None, previous_state=None, previous_state_transition_time=None, schedule=None, job_specification=None, execution_info=None, metadata=None, stats=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        display_name: str = None,
+        url: str = None,
+        e_tag: str = None,
+        last_modified=None,
+        creation_time=None,
+        state=None,
+        state_transition_time=None,
+        previous_state=None,
+        previous_state_transition_time=None,
+        schedule=None,
+        job_specification=None,
+        execution_info=None,
+        metadata=None,
+        stats=None,
+        **kwargs
+    ) -> None:
         super(CloudJobSchedule, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -1429,52 +1619,97 @@ class CloudPool(Model):
     """
 
     _validation = {
-        'current_node_communication_mode': {'readonly': True},
+        "current_node_communication_mode": {"readonly": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
-        'e_tag': {'key': 'eTag', 'type': 'str'},
-        'last_modified': {'key': 'lastModified', 'type': 'iso-8601'},
-        'creation_time': {'key': 'creationTime', 'type': 'iso-8601'},
-        'state': {'key': 'state', 'type': 'PoolState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'allocation_state': {'key': 'allocationState', 'type': 'AllocationState'},
-        'allocation_state_transition_time': {'key': 'allocationStateTransitionTime', 'type': 'iso-8601'},
-        'vm_size': {'key': 'vmSize', 'type': 'str'},
-        'cloud_service_configuration': {'key': 'cloudServiceConfiguration', 'type': 'CloudServiceConfiguration'},
-        'virtual_machine_configuration': {'key': 'virtualMachineConfiguration', 'type': 'VirtualMachineConfiguration'},
-        'resize_timeout': {'key': 'resizeTimeout', 'type': 'duration'},
-        'resize_errors': {'key': 'resizeErrors', 'type': '[ResizeError]'},
-        'current_dedicated_nodes': {'key': 'currentDedicatedNodes', 'type': 'int'},
-        'current_low_priority_nodes': {'key': 'currentLowPriorityNodes', 'type': 'int'},
-        'target_dedicated_nodes': {'key': 'targetDedicatedNodes', 'type': 'int'},
-        'target_low_priority_nodes': {'key': 'targetLowPriorityNodes', 'type': 'int'},
-        'enable_auto_scale': {'key': 'enableAutoScale', 'type': 'bool'},
-        'auto_scale_formula': {'key': 'autoScaleFormula', 'type': 'str'},
-        'auto_scale_evaluation_interval': {'key': 'autoScaleEvaluationInterval', 'type': 'duration'},
-        'auto_scale_run': {'key': 'autoScaleRun', 'type': 'AutoScaleRun'},
-        'enable_inter_node_communication': {'key': 'enableInterNodeCommunication', 'type': 'bool'},
-        'network_configuration': {'key': 'networkConfiguration', 'type': 'NetworkConfiguration'},
-        'start_task': {'key': 'startTask', 'type': 'StartTask'},
-        'certificate_references': {'key': 'certificateReferences', 'type': '[CertificateReference]'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'application_licenses': {'key': 'applicationLicenses', 'type': '[str]'},
-        'task_slots_per_node': {'key': 'taskSlotsPerNode', 'type': 'int'},
-        'task_scheduling_policy': {'key': 'taskSchedulingPolicy', 'type': 'TaskSchedulingPolicy'},
-        'user_accounts': {'key': 'userAccounts', 'type': '[UserAccount]'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'stats': {'key': 'stats', 'type': 'PoolStatistics'},
-        'mount_configuration': {'key': 'mountConfiguration', 'type': '[MountConfiguration]'},
-        'identity': {'key': 'identity', 'type': 'BatchPoolIdentity'},
-        'target_node_communication_mode': {'key': 'targetNodeCommunicationMode', 'type': 'NodeCommunicationMode'},
-        'current_node_communication_mode': {'key': 'currentNodeCommunicationMode', 'type': 'NodeCommunicationMode'},
-        'resource_tags': {'key': 'resourceTags', 'type': '{str}'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "last_modified": {"key": "lastModified", "type": "iso-8601"},
+        "creation_time": {"key": "creationTime", "type": "iso-8601"},
+        "state": {"key": "state", "type": "PoolState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "allocation_state": {"key": "allocationState", "type": "AllocationState"},
+        "allocation_state_transition_time": {"key": "allocationStateTransitionTime", "type": "iso-8601"},
+        "vm_size": {"key": "vmSize", "type": "str"},
+        "cloud_service_configuration": {"key": "cloudServiceConfiguration", "type": "CloudServiceConfiguration"},
+        "virtual_machine_configuration": {"key": "virtualMachineConfiguration", "type": "VirtualMachineConfiguration"},
+        "resize_timeout": {"key": "resizeTimeout", "type": "duration"},
+        "resize_errors": {"key": "resizeErrors", "type": "[ResizeError]"},
+        "current_dedicated_nodes": {"key": "currentDedicatedNodes", "type": "int"},
+        "current_low_priority_nodes": {"key": "currentLowPriorityNodes", "type": "int"},
+        "target_dedicated_nodes": {"key": "targetDedicatedNodes", "type": "int"},
+        "target_low_priority_nodes": {"key": "targetLowPriorityNodes", "type": "int"},
+        "enable_auto_scale": {"key": "enableAutoScale", "type": "bool"},
+        "auto_scale_formula": {"key": "autoScaleFormula", "type": "str"},
+        "auto_scale_evaluation_interval": {"key": "autoScaleEvaluationInterval", "type": "duration"},
+        "auto_scale_run": {"key": "autoScaleRun", "type": "AutoScaleRun"},
+        "enable_inter_node_communication": {"key": "enableInterNodeCommunication", "type": "bool"},
+        "network_configuration": {"key": "networkConfiguration", "type": "NetworkConfiguration"},
+        "start_task": {"key": "startTask", "type": "StartTask"},
+        "certificate_references": {"key": "certificateReferences", "type": "[CertificateReference]"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "application_licenses": {"key": "applicationLicenses", "type": "[str]"},
+        "task_slots_per_node": {"key": "taskSlotsPerNode", "type": "int"},
+        "task_scheduling_policy": {"key": "taskSchedulingPolicy", "type": "TaskSchedulingPolicy"},
+        "user_accounts": {"key": "userAccounts", "type": "[UserAccount]"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "stats": {"key": "stats", "type": "PoolStatistics"},
+        "mount_configuration": {"key": "mountConfiguration", "type": "[MountConfiguration]"},
+        "identity": {"key": "identity", "type": "BatchPoolIdentity"},
+        "target_node_communication_mode": {"key": "targetNodeCommunicationMode", "type": "NodeCommunicationMode"},
+        "current_node_communication_mode": {"key": "currentNodeCommunicationMode", "type": "NodeCommunicationMode"},
+        "resource_tags": {"key": "resourceTags", "type": "{str}"},
     }
 
-    def __init__(self, *, id: str=None, display_name: str=None, url: str=None, e_tag: str=None, last_modified=None, creation_time=None, state=None, state_transition_time=None, allocation_state=None, allocation_state_transition_time=None, vm_size: str=None, cloud_service_configuration=None, virtual_machine_configuration=None, resize_timeout=None, resize_errors=None, current_dedicated_nodes: int=None, current_low_priority_nodes: int=None, target_dedicated_nodes: int=None, target_low_priority_nodes: int=None, enable_auto_scale: bool=None, auto_scale_formula: str=None, auto_scale_evaluation_interval=None, auto_scale_run=None, enable_inter_node_communication: bool=None, network_configuration=None, start_task=None, certificate_references=None, application_package_references=None, application_licenses=None, task_slots_per_node: int=None, task_scheduling_policy=None, user_accounts=None, metadata=None, stats=None, mount_configuration=None, identity=None, target_node_communication_mode=None, resource_tags=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        display_name: str = None,
+        url: str = None,
+        e_tag: str = None,
+        last_modified=None,
+        creation_time=None,
+        state=None,
+        state_transition_time=None,
+        allocation_state=None,
+        allocation_state_transition_time=None,
+        vm_size: str = None,
+        cloud_service_configuration=None,
+        virtual_machine_configuration=None,
+        resize_timeout=None,
+        resize_errors=None,
+        current_dedicated_nodes: int = None,
+        current_low_priority_nodes: int = None,
+        target_dedicated_nodes: int = None,
+        target_low_priority_nodes: int = None,
+        enable_auto_scale: bool = None,
+        auto_scale_formula: str = None,
+        auto_scale_evaluation_interval=None,
+        auto_scale_run=None,
+        enable_inter_node_communication: bool = None,
+        network_configuration=None,
+        start_task=None,
+        certificate_references=None,
+        application_package_references=None,
+        application_licenses=None,
+        task_slots_per_node: int = None,
+        task_scheduling_policy=None,
+        user_accounts=None,
+        metadata=None,
+        stats=None,
+        mount_configuration=None,
+        identity=None,
+        target_node_communication_mode=None,
+        resource_tags=None,
+        **kwargs
+    ) -> None:
         super(CloudPool, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -1538,15 +1773,15 @@ class CloudServiceConfiguration(Model):
     """
 
     _validation = {
-        'os_family': {'required': True},
+        "os_family": {"required": True},
     }
 
     _attribute_map = {
-        'os_family': {'key': 'osFamily', 'type': 'str'},
-        'os_version': {'key': 'osVersion', 'type': 'str'},
+        "os_family": {"key": "osFamily", "type": "str"},
+        "os_version": {"key": "osVersion", "type": "str"},
     }
 
-    def __init__(self, *, os_family: str, os_version: str=None, **kwargs) -> None:
+    def __init__(self, *, os_family: str, os_version: str = None, **kwargs) -> None:
         super(CloudServiceConfiguration, self).__init__(**kwargs)
         self.os_family = os_family
         self.os_version = os_version
@@ -1687,36 +1922,70 @@ class CloudTask(Model):
     """
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
-        'e_tag': {'key': 'eTag', 'type': 'str'},
-        'last_modified': {'key': 'lastModified', 'type': 'iso-8601'},
-        'creation_time': {'key': 'creationTime', 'type': 'iso-8601'},
-        'exit_conditions': {'key': 'exitConditions', 'type': 'ExitConditions'},
-        'state': {'key': 'state', 'type': 'TaskState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'previous_state': {'key': 'previousState', 'type': 'TaskState'},
-        'previous_state_transition_time': {'key': 'previousStateTransitionTime', 'type': 'iso-8601'},
-        'command_line': {'key': 'commandLine', 'type': 'str'},
-        'container_settings': {'key': 'containerSettings', 'type': 'TaskContainerSettings'},
-        'resource_files': {'key': 'resourceFiles', 'type': '[ResourceFile]'},
-        'output_files': {'key': 'outputFiles', 'type': '[OutputFile]'},
-        'environment_settings': {'key': 'environmentSettings', 'type': '[EnvironmentSetting]'},
-        'affinity_info': {'key': 'affinityInfo', 'type': 'AffinityInformation'},
-        'constraints': {'key': 'constraints', 'type': 'TaskConstraints'},
-        'required_slots': {'key': 'requiredSlots', 'type': 'int'},
-        'user_identity': {'key': 'userIdentity', 'type': 'UserIdentity'},
-        'execution_info': {'key': 'executionInfo', 'type': 'TaskExecutionInformation'},
-        'node_info': {'key': 'nodeInfo', 'type': 'ComputeNodeInformation'},
-        'multi_instance_settings': {'key': 'multiInstanceSettings', 'type': 'MultiInstanceSettings'},
-        'stats': {'key': 'stats', 'type': 'TaskStatistics'},
-        'depends_on': {'key': 'dependsOn', 'type': 'TaskDependencies'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'authentication_token_settings': {'key': 'authenticationTokenSettings', 'type': 'AuthenticationTokenSettings'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "last_modified": {"key": "lastModified", "type": "iso-8601"},
+        "creation_time": {"key": "creationTime", "type": "iso-8601"},
+        "exit_conditions": {"key": "exitConditions", "type": "ExitConditions"},
+        "state": {"key": "state", "type": "TaskState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "previous_state": {"key": "previousState", "type": "TaskState"},
+        "previous_state_transition_time": {"key": "previousStateTransitionTime", "type": "iso-8601"},
+        "command_line": {"key": "commandLine", "type": "str"},
+        "container_settings": {"key": "containerSettings", "type": "TaskContainerSettings"},
+        "resource_files": {"key": "resourceFiles", "type": "[ResourceFile]"},
+        "output_files": {"key": "outputFiles", "type": "[OutputFile]"},
+        "environment_settings": {"key": "environmentSettings", "type": "[EnvironmentSetting]"},
+        "affinity_info": {"key": "affinityInfo", "type": "AffinityInformation"},
+        "constraints": {"key": "constraints", "type": "TaskConstraints"},
+        "required_slots": {"key": "requiredSlots", "type": "int"},
+        "user_identity": {"key": "userIdentity", "type": "UserIdentity"},
+        "execution_info": {"key": "executionInfo", "type": "TaskExecutionInformation"},
+        "node_info": {"key": "nodeInfo", "type": "ComputeNodeInformation"},
+        "multi_instance_settings": {"key": "multiInstanceSettings", "type": "MultiInstanceSettings"},
+        "stats": {"key": "stats", "type": "TaskStatistics"},
+        "depends_on": {"key": "dependsOn", "type": "TaskDependencies"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "authentication_token_settings": {"key": "authenticationTokenSettings", "type": "AuthenticationTokenSettings"},
     }
 
-    def __init__(self, *, id: str=None, display_name: str=None, url: str=None, e_tag: str=None, last_modified=None, creation_time=None, exit_conditions=None, state=None, state_transition_time=None, previous_state=None, previous_state_transition_time=None, command_line: str=None, container_settings=None, resource_files=None, output_files=None, environment_settings=None, affinity_info=None, constraints=None, required_slots: int=None, user_identity=None, execution_info=None, node_info=None, multi_instance_settings=None, stats=None, depends_on=None, application_package_references=None, authentication_token_settings=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        display_name: str = None,
+        url: str = None,
+        e_tag: str = None,
+        last_modified=None,
+        creation_time=None,
+        exit_conditions=None,
+        state=None,
+        state_transition_time=None,
+        previous_state=None,
+        previous_state_transition_time=None,
+        command_line: str = None,
+        container_settings=None,
+        resource_files=None,
+        output_files=None,
+        environment_settings=None,
+        affinity_info=None,
+        constraints=None,
+        required_slots: int = None,
+        user_identity=None,
+        execution_info=None,
+        node_info=None,
+        multi_instance_settings=None,
+        stats=None,
+        depends_on=None,
+        application_package_references=None,
+        authentication_token_settings=None,
+        **kwargs
+    ) -> None:
         super(CloudTask, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -1755,7 +2024,7 @@ class CloudTaskListSubtasksResult(Model):
     """
 
     _attribute_map = {
-        'value': {'key': 'value', 'type': '[SubtaskInformation]'},
+        "value": {"key": "value", "type": "[SubtaskInformation]"},
     }
 
     def __init__(self, *, value=None, **kwargs) -> None:
@@ -1863,32 +2132,59 @@ class ComputeNode(Model):
     """
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
-        'state': {'key': 'state', 'type': 'ComputeNodeState'},
-        'scheduling_state': {'key': 'schedulingState', 'type': 'SchedulingState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'last_boot_time': {'key': 'lastBootTime', 'type': 'iso-8601'},
-        'allocation_time': {'key': 'allocationTime', 'type': 'iso-8601'},
-        'ip_address': {'key': 'ipAddress', 'type': 'str'},
-        'affinity_id': {'key': 'affinityId', 'type': 'str'},
-        'vm_size': {'key': 'vmSize', 'type': 'str'},
-        'total_tasks_run': {'key': 'totalTasksRun', 'type': 'int'},
-        'running_tasks_count': {'key': 'runningTasksCount', 'type': 'int'},
-        'running_task_slots_count': {'key': 'runningTaskSlotsCount', 'type': 'int'},
-        'total_tasks_succeeded': {'key': 'totalTasksSucceeded', 'type': 'int'},
-        'recent_tasks': {'key': 'recentTasks', 'type': '[TaskInformation]'},
-        'start_task': {'key': 'startTask', 'type': 'StartTask'},
-        'start_task_info': {'key': 'startTaskInfo', 'type': 'StartTaskInformation'},
-        'certificate_references': {'key': 'certificateReferences', 'type': '[CertificateReference]'},
-        'errors': {'key': 'errors', 'type': '[ComputeNodeError]'},
-        'is_dedicated': {'key': 'isDedicated', 'type': 'bool'},
-        'endpoint_configuration': {'key': 'endpointConfiguration', 'type': 'ComputeNodeEndpointConfiguration'},
-        'node_agent_info': {'key': 'nodeAgentInfo', 'type': 'NodeAgentInformation'},
-        'virtual_machine_info': {'key': 'virtualMachineInfo', 'type': 'VirtualMachineInfo'},
+        "id": {"key": "id", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "state": {"key": "state", "type": "ComputeNodeState"},
+        "scheduling_state": {"key": "schedulingState", "type": "SchedulingState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "last_boot_time": {"key": "lastBootTime", "type": "iso-8601"},
+        "allocation_time": {"key": "allocationTime", "type": "iso-8601"},
+        "ip_address": {"key": "ipAddress", "type": "str"},
+        "affinity_id": {"key": "affinityId", "type": "str"},
+        "vm_size": {"key": "vmSize", "type": "str"},
+        "total_tasks_run": {"key": "totalTasksRun", "type": "int"},
+        "running_tasks_count": {"key": "runningTasksCount", "type": "int"},
+        "running_task_slots_count": {"key": "runningTaskSlotsCount", "type": "int"},
+        "total_tasks_succeeded": {"key": "totalTasksSucceeded", "type": "int"},
+        "recent_tasks": {"key": "recentTasks", "type": "[TaskInformation]"},
+        "start_task": {"key": "startTask", "type": "StartTask"},
+        "start_task_info": {"key": "startTaskInfo", "type": "StartTaskInformation"},
+        "certificate_references": {"key": "certificateReferences", "type": "[CertificateReference]"},
+        "errors": {"key": "errors", "type": "[ComputeNodeError]"},
+        "is_dedicated": {"key": "isDedicated", "type": "bool"},
+        "endpoint_configuration": {"key": "endpointConfiguration", "type": "ComputeNodeEndpointConfiguration"},
+        "node_agent_info": {"key": "nodeAgentInfo", "type": "NodeAgentInformation"},
+        "virtual_machine_info": {"key": "virtualMachineInfo", "type": "VirtualMachineInfo"},
     }
 
-    def __init__(self, *, id: str=None, url: str=None, state=None, scheduling_state=None, state_transition_time=None, last_boot_time=None, allocation_time=None, ip_address: str=None, affinity_id: str=None, vm_size: str=None, total_tasks_run: int=None, running_tasks_count: int=None, running_task_slots_count: int=None, total_tasks_succeeded: int=None, recent_tasks=None, start_task=None, start_task_info=None, certificate_references=None, errors=None, is_dedicated: bool=None, endpoint_configuration=None, node_agent_info=None, virtual_machine_info=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        url: str = None,
+        state=None,
+        scheduling_state=None,
+        state_transition_time=None,
+        last_boot_time=None,
+        allocation_time=None,
+        ip_address: str = None,
+        affinity_id: str = None,
+        vm_size: str = None,
+        total_tasks_run: int = None,
+        running_tasks_count: int = None,
+        running_task_slots_count: int = None,
+        total_tasks_succeeded: int = None,
+        recent_tasks=None,
+        start_task=None,
+        start_task_info=None,
+        certificate_references=None,
+        errors=None,
+        is_dedicated: bool = None,
+        endpoint_configuration=None,
+        node_agent_info=None,
+        virtual_machine_info=None,
+        **kwargs
+    ) -> None:
         super(ComputeNode, self).__init__(**kwargs)
         self.id = id
         self.url = url
@@ -1935,13 +2231,21 @@ class ComputeNodeAddUserOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeAddUserOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -1969,13 +2273,21 @@ class ComputeNodeDeleteUserOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeDeleteUserOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2003,13 +2315,21 @@ class ComputeNodeDisableSchedulingOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeDisableSchedulingOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2037,13 +2357,21 @@ class ComputeNodeEnableSchedulingOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeEnableSchedulingOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2061,11 +2389,11 @@ class ComputeNodeEndpointConfiguration(Model):
     """
 
     _validation = {
-        'inbound_endpoints': {'required': True},
+        "inbound_endpoints": {"required": True},
     }
 
     _attribute_map = {
-        'inbound_endpoints': {'key': 'inboundEndpoints', 'type': '[InboundEndpoint]'},
+        "inbound_endpoints": {"key": "inboundEndpoints", "type": "[InboundEndpoint]"},
     }
 
     def __init__(self, *, inbound_endpoints, **kwargs) -> None:
@@ -2085,12 +2413,12 @@ class ComputeNodeError(Model):
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'str'},
-        'error_details': {'key': 'errorDetails', 'type': '[NameValuePair]'},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "error_details": {"key": "errorDetails", "type": "[NameValuePair]"},
     }
 
-    def __init__(self, *, code: str=None, message: str=None, error_details=None, **kwargs) -> None:
+    def __init__(self, *, code: str = None, message: str = None, error_details=None, **kwargs) -> None:
         super(ComputeNodeError, self).__init__(**kwargs)
         self.code = code
         self.message = message
@@ -2119,14 +2447,23 @@ class ComputeNodeExtensionGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeExtensionGetOptions, self).__init__(**kwargs)
         self.select = select
         self.timeout = timeout
@@ -2160,15 +2497,25 @@ class ComputeNodeExtensionListOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeExtensionListOptions, self).__init__(**kwargs)
         self.select = select
         self.max_results = max_results
@@ -2200,14 +2547,23 @@ class ComputeNodeGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeGetOptions, self).__init__(**kwargs)
         self.select = select
         self.timeout = timeout
@@ -2236,13 +2592,21 @@ class ComputeNodeGetRemoteDesktopOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeGetRemoteDesktopOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2270,13 +2634,21 @@ class ComputeNodeGetRemoteLoginSettingsOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeGetRemoteLoginSettingsOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2297,13 +2669,13 @@ class ComputeNodeGetRemoteLoginSettingsResult(Model):
     """
 
     _validation = {
-        'remote_login_ip_address': {'required': True},
-        'remote_login_port': {'required': True},
+        "remote_login_ip_address": {"required": True},
+        "remote_login_port": {"required": True},
     }
 
     _attribute_map = {
-        'remote_login_ip_address': {'key': 'remoteLoginIPAddress', 'type': 'str'},
-        'remote_login_port': {'key': 'remoteLoginPort', 'type': 'int'},
+        "remote_login_ip_address": {"key": "remoteLoginIPAddress", "type": "str"},
+        "remote_login_port": {"key": "remoteLoginPort", "type": "int"},
     }
 
     def __init__(self, *, remote_login_ip_address: str, remote_login_port: int, **kwargs) -> None:
@@ -2321,10 +2693,10 @@ class ComputeNodeIdentityReference(Model):
     """
 
     _attribute_map = {
-        'resource_id': {'key': 'resourceId', 'type': 'str'},
+        "resource_id": {"key": "resourceId", "type": "str"},
     }
 
-    def __init__(self, *, resource_id: str=None, **kwargs) -> None:
+    def __init__(self, *, resource_id: str = None, **kwargs) -> None:
         super(ComputeNodeIdentityReference, self).__init__(**kwargs)
         self.resource_id = resource_id
 
@@ -2347,15 +2719,25 @@ class ComputeNodeInformation(Model):
     """
 
     _attribute_map = {
-        'affinity_id': {'key': 'affinityId', 'type': 'str'},
-        'node_url': {'key': 'nodeUrl', 'type': 'str'},
-        'pool_id': {'key': 'poolId', 'type': 'str'},
-        'node_id': {'key': 'nodeId', 'type': 'str'},
-        'task_root_directory': {'key': 'taskRootDirectory', 'type': 'str'},
-        'task_root_directory_url': {'key': 'taskRootDirectoryUrl', 'type': 'str'},
+        "affinity_id": {"key": "affinityId", "type": "str"},
+        "node_url": {"key": "nodeUrl", "type": "str"},
+        "pool_id": {"key": "poolId", "type": "str"},
+        "node_id": {"key": "nodeId", "type": "str"},
+        "task_root_directory": {"key": "taskRootDirectory", "type": "str"},
+        "task_root_directory_url": {"key": "taskRootDirectoryUrl", "type": "str"},
     }
 
-    def __init__(self, *, affinity_id: str=None, node_url: str=None, pool_id: str=None, node_id: str=None, task_root_directory: str=None, task_root_directory_url: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        affinity_id: str = None,
+        node_url: str = None,
+        pool_id: str = None,
+        node_id: str = None,
+        task_root_directory: str = None,
+        task_root_directory_url: str = None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeInformation, self).__init__(**kwargs)
         self.affinity_id = affinity_id
         self.node_url = node_url
@@ -2394,16 +2776,27 @@ class ComputeNodeListOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeListOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -2434,13 +2827,21 @@ class ComputeNodeRebootOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeRebootOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2468,13 +2869,21 @@ class ComputeNodeReimageOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeReimageOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2502,13 +2911,21 @@ class ComputeNodeUpdateUserOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeUpdateUserOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2536,13 +2953,21 @@ class ComputeNodeUploadBatchServiceLogsOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeUploadBatchServiceLogsOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -2578,18 +3003,27 @@ class ComputeNodeUser(Model):
     """
 
     _validation = {
-        'name': {'required': True},
+        "name": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'is_admin': {'key': 'isAdmin', 'type': 'bool'},
-        'expiry_time': {'key': 'expiryTime', 'type': 'iso-8601'},
-        'password': {'key': 'password', 'type': 'str'},
-        'ssh_public_key': {'key': 'sshPublicKey', 'type': 'str'},
+        "name": {"key": "name", "type": "str"},
+        "is_admin": {"key": "isAdmin", "type": "bool"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "password": {"key": "password", "type": "str"},
+        "ssh_public_key": {"key": "sshPublicKey", "type": "str"},
     }
 
-    def __init__(self, *, name: str, is_admin: bool=None, expiry_time=None, password: str=None, ssh_public_key: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: str,
+        is_admin: bool = None,
+        expiry_time=None,
+        password: str = None,
+        ssh_public_key: str = None,
+        **kwargs
+    ) -> None:
         super(ComputeNodeUser, self).__init__(**kwargs)
         self.name = name
         self.is_admin = is_admin
@@ -2618,13 +3052,13 @@ class ContainerConfiguration(Model):
     """
 
     _validation = {
-        'type': {'required': True},
+        "type": {"required": True},
     }
 
     _attribute_map = {
-        'type': {'key': 'type', 'type': 'str'},
-        'container_image_names': {'key': 'containerImageNames', 'type': '[str]'},
-        'container_registries': {'key': 'containerRegistries', 'type': '[ContainerRegistry]'},
+        "type": {"key": "type", "type": "str"},
+        "container_image_names": {"key": "containerImageNames", "type": "[str]"},
+        "container_registries": {"key": "containerRegistries", "type": "[ContainerRegistry]"},
     }
 
     def __init__(self, *, type, container_image_names=None, container_registries=None, **kwargs) -> None:
@@ -2650,13 +3084,21 @@ class ContainerRegistry(Model):
     """
 
     _attribute_map = {
-        'user_name': {'key': 'username', 'type': 'str'},
-        'password': {'key': 'password', 'type': 'str'},
-        'registry_server': {'key': 'registryServer', 'type': 'str'},
-        'identity_reference': {'key': 'identityReference', 'type': 'ComputeNodeIdentityReference'},
+        "user_name": {"key": "username", "type": "str"},
+        "password": {"key": "password", "type": "str"},
+        "registry_server": {"key": "registryServer", "type": "str"},
+        "identity_reference": {"key": "identityReference", "type": "ComputeNodeIdentityReference"},
     }
 
-    def __init__(self, *, user_name: str=None, password: str=None, registry_server: str=None, identity_reference=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        user_name: str = None,
+        password: str = None,
+        registry_server: str = None,
+        identity_reference=None,
+        **kwargs
+    ) -> None:
         super(ContainerRegistry, self).__init__(**kwargs)
         self.user_name = user_name
         self.password = password
@@ -2690,15 +3132,15 @@ class DataDisk(Model):
     """
 
     _validation = {
-        'lun': {'required': True},
-        'disk_size_gb': {'required': True},
+        "lun": {"required": True},
+        "disk_size_gb": {"required": True},
     }
 
     _attribute_map = {
-        'lun': {'key': 'lun', 'type': 'int'},
-        'caching': {'key': 'caching', 'type': 'CachingType'},
-        'disk_size_gb': {'key': 'diskSizeGB', 'type': 'int'},
-        'storage_account_type': {'key': 'storageAccountType', 'type': 'StorageAccountType'},
+        "lun": {"key": "lun", "type": "int"},
+        "caching": {"key": "caching", "type": "CachingType"},
+        "disk_size_gb": {"key": "diskSizeGB", "type": "int"},
+        "storage_account_type": {"key": "storageAccountType", "type": "StorageAccountType"},
     }
 
     def __init__(self, *, lun: int, disk_size_gb: int, caching=None, storage_account_type=None, **kwargs) -> None:
@@ -2724,12 +3166,12 @@ class DeleteCertificateError(Model):
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'str'},
-        'values': {'key': 'values', 'type': '[NameValuePair]'},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "values": {"key": "values", "type": "[NameValuePair]"},
     }
 
-    def __init__(self, *, code: str=None, message: str=None, values=None, **kwargs) -> None:
+    def __init__(self, *, code: str = None, message: str = None, values=None, **kwargs) -> None:
         super(DeleteCertificateError, self).__init__(**kwargs)
         self.code = code
         self.message = message
@@ -2754,7 +3196,7 @@ class DiffDiskSettings(Model):
     """
 
     _attribute_map = {
-        'placement': {'key': 'placement', 'type': 'DiffDiskPlacement'},
+        "placement": {"key": "placement", "type": "DiffDiskPlacement"},
     }
 
     def __init__(self, *, placement=None, **kwargs) -> None:
@@ -2774,7 +3216,7 @@ class DiskEncryptionConfiguration(Model):
     """
 
     _attribute_map = {
-        'targets': {'key': 'targets', 'type': '[DiskEncryptionTarget]'},
+        "targets": {"key": "targets", "type": "[DiskEncryptionTarget]"},
     }
 
     def __init__(self, *, targets=None, **kwargs) -> None:
@@ -2794,15 +3236,15 @@ class EnvironmentSetting(Model):
     """
 
     _validation = {
-        'name': {'required': True},
+        "name": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'value': {'key': 'value', 'type': 'str'},
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: str, value: str=None, **kwargs) -> None:
+    def __init__(self, *, name: str, value: str = None, **kwargs) -> None:
         super(EnvironmentSetting, self).__init__(**kwargs)
         self.name = name
         self.value = value
@@ -2818,11 +3260,11 @@ class ErrorMessage(Model):
     """
 
     _attribute_map = {
-        'lang': {'key': 'lang', 'type': 'str'},
-        'value': {'key': 'value', 'type': 'str'},
+        "lang": {"key": "lang", "type": "str"},
+        "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, lang: str=None, value: str=None, **kwargs) -> None:
+    def __init__(self, *, lang: str = None, value: str = None, **kwargs) -> None:
         super(ErrorMessage, self).__init__(**kwargs)
         self.lang = lang
         self.value = value
@@ -2842,13 +3284,13 @@ class ExitCodeMapping(Model):
     """
 
     _validation = {
-        'code': {'required': True},
-        'exit_options': {'required': True},
+        "code": {"required": True},
+        "exit_options": {"required": True},
     }
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'int'},
-        'exit_options': {'key': 'exitOptions', 'type': 'ExitOptions'},
+        "code": {"key": "code", "type": "int"},
+        "exit_options": {"key": "exitOptions", "type": "ExitOptions"},
     }
 
     def __init__(self, *, code: int, exit_options, **kwargs) -> None:
@@ -2873,15 +3315,15 @@ class ExitCodeRangeMapping(Model):
     """
 
     _validation = {
-        'start': {'required': True},
-        'end': {'required': True},
-        'exit_options': {'required': True},
+        "start": {"required": True},
+        "end": {"required": True},
+        "exit_options": {"required": True},
     }
 
     _attribute_map = {
-        'start': {'key': 'start', 'type': 'int'},
-        'end': {'key': 'end', 'type': 'int'},
-        'exit_options': {'key': 'exitOptions', 'type': 'ExitOptions'},
+        "start": {"key": "start", "type": "int"},
+        "end": {"key": "end", "type": "int"},
+        "exit_options": {"key": "exitOptions", "type": "ExitOptions"},
     }
 
     def __init__(self, *, start: int, end: int, exit_options, **kwargs) -> None:
@@ -2918,14 +3360,23 @@ class ExitConditions(Model):
     """
 
     _attribute_map = {
-        'exit_codes': {'key': 'exitCodes', 'type': '[ExitCodeMapping]'},
-        'exit_code_ranges': {'key': 'exitCodeRanges', 'type': '[ExitCodeRangeMapping]'},
-        'pre_processing_error': {'key': 'preProcessingError', 'type': 'ExitOptions'},
-        'file_upload_error': {'key': 'fileUploadError', 'type': 'ExitOptions'},
-        'default': {'key': 'default', 'type': 'ExitOptions'},
+        "exit_codes": {"key": "exitCodes", "type": "[ExitCodeMapping]"},
+        "exit_code_ranges": {"key": "exitCodeRanges", "type": "[ExitCodeRangeMapping]"},
+        "pre_processing_error": {"key": "preProcessingError", "type": "ExitOptions"},
+        "file_upload_error": {"key": "fileUploadError", "type": "ExitOptions"},
+        "default": {"key": "default", "type": "ExitOptions"},
     }
 
-    def __init__(self, *, exit_codes=None, exit_code_ranges=None, pre_processing_error=None, file_upload_error=None, default=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        exit_codes=None,
+        exit_code_ranges=None,
+        pre_processing_error=None,
+        file_upload_error=None,
+        default=None,
+        **kwargs
+    ) -> None:
         super(ExitConditions, self).__init__(**kwargs)
         self.exit_codes = exit_codes
         self.exit_code_ranges = exit_code_ranges
@@ -2952,8 +3403,8 @@ class ExitOptions(Model):
     """
 
     _attribute_map = {
-        'job_action': {'key': 'jobAction', 'type': 'JobAction'},
-        'dependency_action': {'key': 'dependencyAction', 'type': 'DependencyAction'},
+        "job_action": {"key": "jobAction", "type": "JobAction"},
+        "dependency_action": {"key": "dependencyAction", "type": "DependencyAction"},
     }
 
     def __init__(self, *, job_action=None, dependency_action=None, **kwargs) -> None:
@@ -2982,13 +3433,21 @@ class FileDeleteFromComputeNodeOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(FileDeleteFromComputeNodeOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3016,13 +3475,21 @@ class FileDeleteFromTaskOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(FileDeleteFromTaskOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3062,16 +3529,27 @@ class FileGetFromComputeNodeOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'ocp_range': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "ocp_range": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, ocp_range: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        ocp_range: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(FileGetFromComputeNodeOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3114,16 +3592,27 @@ class FileGetFromTaskOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'ocp_range': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "ocp_range": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, ocp_range: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        ocp_range: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(FileGetFromTaskOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3163,15 +3652,25 @@ class FileGetPropertiesFromComputeNodeOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(FileGetPropertiesFromComputeNodeOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3210,15 +3709,25 @@ class FileGetPropertiesFromTaskOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(FileGetPropertiesFromTaskOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3255,15 +3764,25 @@ class FileListFromComputeNodeOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(FileListFromComputeNodeOptions, self).__init__(**kwargs)
         self.filter = filter
         self.max_results = max_results
@@ -3300,15 +3819,25 @@ class FileListFromTaskOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(FileListFromTaskOptions, self).__init__(**kwargs)
         self.filter = filter
         self.max_results = max_results
@@ -3338,19 +3867,28 @@ class FileProperties(Model):
     """
 
     _validation = {
-        'last_modified': {'required': True},
-        'content_length': {'required': True},
+        "last_modified": {"required": True},
+        "content_length": {"required": True},
     }
 
     _attribute_map = {
-        'creation_time': {'key': 'creationTime', 'type': 'iso-8601'},
-        'last_modified': {'key': 'lastModified', 'type': 'iso-8601'},
-        'content_length': {'key': 'contentLength', 'type': 'long'},
-        'content_type': {'key': 'contentType', 'type': 'str'},
-        'file_mode': {'key': 'fileMode', 'type': 'str'},
+        "creation_time": {"key": "creationTime", "type": "iso-8601"},
+        "last_modified": {"key": "lastModified", "type": "iso-8601"},
+        "content_length": {"key": "contentLength", "type": "long"},
+        "content_type": {"key": "contentType", "type": "str"},
+        "file_mode": {"key": "fileMode", "type": "str"},
     }
 
-    def __init__(self, *, last_modified, content_length: int, creation_time=None, content_type: str=None, file_mode: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        last_modified,
+        content_length: int,
+        creation_time=None,
+        content_type: str = None,
+        file_mode: str = None,
+        **kwargs
+    ) -> None:
         super(FileProperties, self).__init__(**kwargs)
         self.creation_time = creation_time
         self.last_modified = last_modified
@@ -3371,15 +3909,15 @@ class HttpHeader(Model):
     """
 
     _validation = {
-        'name': {'required': True},
+        "name": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'value': {'key': 'value', 'type': 'str'},
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: str, value: str=None, **kwargs) -> None:
+    def __init__(self, *, name: str, value: str = None, **kwargs) -> None:
         super(HttpHeader, self).__init__(**kwargs)
         self.name = name
         self.value = value
@@ -3411,22 +3949,32 @@ class ImageInformation(Model):
     """
 
     _validation = {
-        'node_agent_sku_id': {'required': True},
-        'image_reference': {'required': True},
-        'os_type': {'required': True},
-        'verification_type': {'required': True},
+        "node_agent_sku_id": {"required": True},
+        "image_reference": {"required": True},
+        "os_type": {"required": True},
+        "verification_type": {"required": True},
     }
 
     _attribute_map = {
-        'node_agent_sku_id': {'key': 'nodeAgentSKUId', 'type': 'str'},
-        'image_reference': {'key': 'imageReference', 'type': 'ImageReference'},
-        'os_type': {'key': 'osType', 'type': 'OSType'},
-        'capabilities': {'key': 'capabilities', 'type': '[str]'},
-        'batch_support_end_of_life': {'key': 'batchSupportEndOfLife', 'type': 'iso-8601'},
-        'verification_type': {'key': 'verificationType', 'type': 'VerificationType'},
+        "node_agent_sku_id": {"key": "nodeAgentSKUId", "type": "str"},
+        "image_reference": {"key": "imageReference", "type": "ImageReference"},
+        "os_type": {"key": "osType", "type": "OSType"},
+        "capabilities": {"key": "capabilities", "type": "[str]"},
+        "batch_support_end_of_life": {"key": "batchSupportEndOfLife", "type": "iso-8601"},
+        "verification_type": {"key": "verificationType", "type": "VerificationType"},
     }
 
-    def __init__(self, *, node_agent_sku_id: str, image_reference, os_type, verification_type, capabilities=None, batch_support_end_of_life=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        node_agent_sku_id: str,
+        image_reference,
+        os_type,
+        verification_type,
+        capabilities=None,
+        batch_support_end_of_life=None,
+        **kwargs
+    ) -> None:
         super(ImageInformation, self).__init__(**kwargs)
         self.node_agent_sku_id = node_agent_sku_id
         self.image_reference = image_reference
@@ -3471,19 +4019,28 @@ class ImageReference(Model):
     """
 
     _validation = {
-        'exact_version': {'readonly': True},
+        "exact_version": {"readonly": True},
     }
 
     _attribute_map = {
-        'publisher': {'key': 'publisher', 'type': 'str'},
-        'offer': {'key': 'offer', 'type': 'str'},
-        'sku': {'key': 'sku', 'type': 'str'},
-        'version': {'key': 'version', 'type': 'str'},
-        'virtual_machine_image_id': {'key': 'virtualMachineImageId', 'type': 'str'},
-        'exact_version': {'key': 'exactVersion', 'type': 'str'},
+        "publisher": {"key": "publisher", "type": "str"},
+        "offer": {"key": "offer", "type": "str"},
+        "sku": {"key": "sku", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+        "virtual_machine_image_id": {"key": "virtualMachineImageId", "type": "str"},
+        "exact_version": {"key": "exactVersion", "type": "str"},
     }
 
-    def __init__(self, *, publisher: str=None, offer: str=None, sku: str=None, version: str=None, virtual_machine_image_id: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        publisher: str = None,
+        offer: str = None,
+        sku: str = None,
+        version: str = None,
+        virtual_machine_image_id: str = None,
+        **kwargs
+    ) -> None:
         super(ImageReference, self).__init__(**kwargs)
         self.publisher = publisher
         self.offer = offer
@@ -3514,24 +4071,34 @@ class InboundEndpoint(Model):
     """
 
     _validation = {
-        'name': {'required': True},
-        'protocol': {'required': True},
-        'public_ip_address': {'required': True},
-        'public_fqdn': {'required': True},
-        'frontend_port': {'required': True},
-        'backend_port': {'required': True},
+        "name": {"required": True},
+        "protocol": {"required": True},
+        "public_ip_address": {"required": True},
+        "public_fqdn": {"required": True},
+        "frontend_port": {"required": True},
+        "backend_port": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'protocol': {'key': 'protocol', 'type': 'InboundEndpointProtocol'},
-        'public_ip_address': {'key': 'publicIPAddress', 'type': 'str'},
-        'public_fqdn': {'key': 'publicFQDN', 'type': 'str'},
-        'frontend_port': {'key': 'frontendPort', 'type': 'int'},
-        'backend_port': {'key': 'backendPort', 'type': 'int'},
+        "name": {"key": "name", "type": "str"},
+        "protocol": {"key": "protocol", "type": "InboundEndpointProtocol"},
+        "public_ip_address": {"key": "publicIPAddress", "type": "str"},
+        "public_fqdn": {"key": "publicFQDN", "type": "str"},
+        "frontend_port": {"key": "frontendPort", "type": "int"},
+        "backend_port": {"key": "backendPort", "type": "int"},
     }
 
-    def __init__(self, *, name: str, protocol, public_ip_address: str, public_fqdn: str, frontend_port: int, backend_port: int, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: str,
+        protocol,
+        public_ip_address: str,
+        public_fqdn: str,
+        frontend_port: int,
+        backend_port: int,
+        **kwargs
+    ) -> None:
         super(InboundEndpoint, self).__init__(**kwargs)
         self.name = name
         self.protocol = protocol
@@ -3588,23 +4155,33 @@ class InboundNATPool(Model):
     """
 
     _validation = {
-        'name': {'required': True},
-        'protocol': {'required': True},
-        'backend_port': {'required': True},
-        'frontend_port_range_start': {'required': True},
-        'frontend_port_range_end': {'required': True},
+        "name": {"required": True},
+        "protocol": {"required": True},
+        "backend_port": {"required": True},
+        "frontend_port_range_start": {"required": True},
+        "frontend_port_range_end": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'protocol': {'key': 'protocol', 'type': 'InboundEndpointProtocol'},
-        'backend_port': {'key': 'backendPort', 'type': 'int'},
-        'frontend_port_range_start': {'key': 'frontendPortRangeStart', 'type': 'int'},
-        'frontend_port_range_end': {'key': 'frontendPortRangeEnd', 'type': 'int'},
-        'network_security_group_rules': {'key': 'networkSecurityGroupRules', 'type': '[NetworkSecurityGroupRule]'},
+        "name": {"key": "name", "type": "str"},
+        "protocol": {"key": "protocol", "type": "InboundEndpointProtocol"},
+        "backend_port": {"key": "backendPort", "type": "int"},
+        "frontend_port_range_start": {"key": "frontendPortRangeStart", "type": "int"},
+        "frontend_port_range_end": {"key": "frontendPortRangeEnd", "type": "int"},
+        "network_security_group_rules": {"key": "networkSecurityGroupRules", "type": "[NetworkSecurityGroupRule]"},
     }
 
-    def __init__(self, *, name: str, protocol, backend_port: int, frontend_port_range_start: int, frontend_port_range_end: int, network_security_group_rules=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: str,
+        protocol,
+        backend_port: int,
+        frontend_port_range_start: int,
+        frontend_port_range_end: int,
+        network_security_group_rules=None,
+        **kwargs
+    ) -> None:
         super(InboundNATPool, self).__init__(**kwargs)
         self.name = name
         self.protocol = protocol
@@ -3630,14 +4207,23 @@ class InstanceViewStatus(Model):
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
-        'display_status': {'key': 'displayStatus', 'type': 'str'},
-        'level': {'key': 'level', 'type': 'StatusLevelTypes'},
-        'message': {'key': 'message', 'type': 'str'},
-        'time': {'key': 'time', 'type': 'str'},
+        "code": {"key": "code", "type": "str"},
+        "display_status": {"key": "displayStatus", "type": "str"},
+        "level": {"key": "level", "type": "StatusLevelTypes"},
+        "message": {"key": "message", "type": "str"},
+        "time": {"key": "time", "type": "str"},
     }
 
-    def __init__(self, *, code: str=None, display_status: str=None, level=None, message: str=None, time: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        code: str = None,
+        display_status: str = None,
+        level=None,
+        message: str = None,
+        time: str = None,
+        **kwargs
+    ) -> None:
         super(InstanceViewStatus, self).__init__(**kwargs)
         self.code = code
         self.display_status = display_status
@@ -3666,13 +4252,21 @@ class JobAddOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobAddOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3775,30 +4369,50 @@ class JobAddParameter(Model):
     """
 
     _validation = {
-        'id': {'required': True},
-        'pool_info': {'required': True},
+        "id": {"required": True},
+        "pool_info": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'priority': {'key': 'priority', 'type': 'int'},
-        'max_parallel_tasks': {'key': 'maxParallelTasks', 'type': 'int'},
-        'allow_task_preemption': {'key': 'allowTaskPreemption', 'type': 'bool'},
-        'constraints': {'key': 'constraints', 'type': 'JobConstraints'},
-        'job_manager_task': {'key': 'jobManagerTask', 'type': 'JobManagerTask'},
-        'job_preparation_task': {'key': 'jobPreparationTask', 'type': 'JobPreparationTask'},
-        'job_release_task': {'key': 'jobReleaseTask', 'type': 'JobReleaseTask'},
-        'common_environment_settings': {'key': 'commonEnvironmentSettings', 'type': '[EnvironmentSetting]'},
-        'pool_info': {'key': 'poolInfo', 'type': 'PoolInformation'},
-        'on_all_tasks_complete': {'key': 'onAllTasksComplete', 'type': 'OnAllTasksComplete'},
-        'on_task_failure': {'key': 'onTaskFailure', 'type': 'OnTaskFailure'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'uses_task_dependencies': {'key': 'usesTaskDependencies', 'type': 'bool'},
-        'network_configuration': {'key': 'networkConfiguration', 'type': 'JobNetworkConfiguration'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "priority": {"key": "priority", "type": "int"},
+        "max_parallel_tasks": {"key": "maxParallelTasks", "type": "int"},
+        "allow_task_preemption": {"key": "allowTaskPreemption", "type": "bool"},
+        "constraints": {"key": "constraints", "type": "JobConstraints"},
+        "job_manager_task": {"key": "jobManagerTask", "type": "JobManagerTask"},
+        "job_preparation_task": {"key": "jobPreparationTask", "type": "JobPreparationTask"},
+        "job_release_task": {"key": "jobReleaseTask", "type": "JobReleaseTask"},
+        "common_environment_settings": {"key": "commonEnvironmentSettings", "type": "[EnvironmentSetting]"},
+        "pool_info": {"key": "poolInfo", "type": "PoolInformation"},
+        "on_all_tasks_complete": {"key": "onAllTasksComplete", "type": "OnAllTasksComplete"},
+        "on_task_failure": {"key": "onTaskFailure", "type": "OnTaskFailure"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "uses_task_dependencies": {"key": "usesTaskDependencies", "type": "bool"},
+        "network_configuration": {"key": "networkConfiguration", "type": "JobNetworkConfiguration"},
     }
 
-    def __init__(self, *, id: str, pool_info, display_name: str=None, priority: int=None, max_parallel_tasks: int=-1, allow_task_preemption: bool=None, constraints=None, job_manager_task=None, job_preparation_task=None, job_release_task=None, common_environment_settings=None, on_all_tasks_complete=None, on_task_failure=None, metadata=None, uses_task_dependencies: bool=None, network_configuration=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str,
+        pool_info,
+        display_name: str = None,
+        priority: int = None,
+        max_parallel_tasks: int = -1,
+        allow_task_preemption: bool = None,
+        constraints=None,
+        job_manager_task=None,
+        job_preparation_task=None,
+        job_release_task=None,
+        common_environment_settings=None,
+        on_all_tasks_complete=None,
+        on_task_failure=None,
+        metadata=None,
+        uses_task_dependencies: bool = None,
+        network_configuration=None,
+        **kwargs
+    ) -> None:
         super(JobAddParameter, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -3840,11 +4454,11 @@ class JobConstraints(Model):
     """
 
     _attribute_map = {
-        'max_wall_clock_time': {'key': 'maxWallClockTime', 'type': 'duration'},
-        'max_task_retry_count': {'key': 'maxTaskRetryCount', 'type': 'int'},
+        "max_wall_clock_time": {"key": "maxWallClockTime", "type": "duration"},
+        "max_task_retry_count": {"key": "maxTaskRetryCount", "type": "int"},
     }
 
-    def __init__(self, *, max_wall_clock_time=None, max_task_retry_count: int=None, **kwargs) -> None:
+    def __init__(self, *, max_wall_clock_time=None, max_task_retry_count: int = None, **kwargs) -> None:
         super(JobConstraints, self).__init__(**kwargs)
         self.max_wall_clock_time = max_wall_clock_time
         self.max_task_retry_count = max_task_retry_count
@@ -3889,17 +4503,29 @@ class JobDeleteOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobDeleteOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3950,17 +4576,29 @@ class JobDisableOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobDisableOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -3983,11 +4621,11 @@ class JobDisableParameter(Model):
     """
 
     _validation = {
-        'disable_tasks': {'required': True},
+        "disable_tasks": {"required": True},
     }
 
     _attribute_map = {
-        'disable_tasks': {'key': 'disableTasks', 'type': 'DisableJobOption'},
+        "disable_tasks": {"key": "disableTasks", "type": "DisableJobOption"},
     }
 
     def __init__(self, *, disable_tasks, **kwargs) -> None:
@@ -4034,17 +4672,29 @@ class JobEnableOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobEnableOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -4096,18 +4746,27 @@ class JobExecutionInformation(Model):
     """
 
     _validation = {
-        'start_time': {'required': True},
+        "start_time": {"required": True},
     }
 
     _attribute_map = {
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'pool_id': {'key': 'poolId', 'type': 'str'},
-        'scheduling_error': {'key': 'schedulingError', 'type': 'JobSchedulingError'},
-        'terminate_reason': {'key': 'terminateReason', 'type': 'str'},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "pool_id": {"key": "poolId", "type": "str"},
+        "scheduling_error": {"key": "schedulingError", "type": "JobSchedulingError"},
+        "terminate_reason": {"key": "terminateReason", "type": "str"},
     }
 
-    def __init__(self, *, start_time, end_time=None, pool_id: str=None, scheduling_error=None, terminate_reason: str=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        start_time,
+        end_time=None,
+        pool_id: str = None,
+        scheduling_error=None,
+        terminate_reason: str = None,
+        **kwargs
+    ) -> None:
         super(JobExecutionInformation, self).__init__(**kwargs)
         self.start_time = start_time
         self.end_time = end_time
@@ -4159,19 +4818,33 @@ class JobGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, expand: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        expand: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobGetOptions, self).__init__(**kwargs)
         self.select = select
         self.expand = expand
@@ -4205,13 +4878,21 @@ class JobGetTaskCountsOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobGetTaskCountsOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -4250,17 +4931,29 @@ class JobListFromJobScheduleOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, expand: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        expand: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobListFromJobScheduleOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -4303,17 +4996,29 @@ class JobListOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, expand: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        expand: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobListOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -4355,16 +5060,27 @@ class JobListPreparationAndReleaseTaskStatusOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobListPreparationAndReleaseTaskStatusOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -4506,29 +5222,51 @@ class JobManagerTask(Model):
     """
 
     _validation = {
-        'id': {'required': True},
-        'command_line': {'required': True},
+        "id": {"required": True},
+        "command_line": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'command_line': {'key': 'commandLine', 'type': 'str'},
-        'container_settings': {'key': 'containerSettings', 'type': 'TaskContainerSettings'},
-        'resource_files': {'key': 'resourceFiles', 'type': '[ResourceFile]'},
-        'output_files': {'key': 'outputFiles', 'type': '[OutputFile]'},
-        'environment_settings': {'key': 'environmentSettings', 'type': '[EnvironmentSetting]'},
-        'constraints': {'key': 'constraints', 'type': 'TaskConstraints'},
-        'required_slots': {'key': 'requiredSlots', 'type': 'int'},
-        'kill_job_on_completion': {'key': 'killJobOnCompletion', 'type': 'bool'},
-        'user_identity': {'key': 'userIdentity', 'type': 'UserIdentity'},
-        'run_exclusive': {'key': 'runExclusive', 'type': 'bool'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'authentication_token_settings': {'key': 'authenticationTokenSettings', 'type': 'AuthenticationTokenSettings'},
-        'allow_low_priority_node': {'key': 'allowLowPriorityNode', 'type': 'bool'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "command_line": {"key": "commandLine", "type": "str"},
+        "container_settings": {"key": "containerSettings", "type": "TaskContainerSettings"},
+        "resource_files": {"key": "resourceFiles", "type": "[ResourceFile]"},
+        "output_files": {"key": "outputFiles", "type": "[OutputFile]"},
+        "environment_settings": {"key": "environmentSettings", "type": "[EnvironmentSetting]"},
+        "constraints": {"key": "constraints", "type": "TaskConstraints"},
+        "required_slots": {"key": "requiredSlots", "type": "int"},
+        "kill_job_on_completion": {"key": "killJobOnCompletion", "type": "bool"},
+        "user_identity": {"key": "userIdentity", "type": "UserIdentity"},
+        "run_exclusive": {"key": "runExclusive", "type": "bool"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "authentication_token_settings": {"key": "authenticationTokenSettings", "type": "AuthenticationTokenSettings"},
+        "allow_low_priority_node": {"key": "allowLowPriorityNode", "type": "bool"},
     }
 
-    def __init__(self, *, id: str, command_line: str, display_name: str=None, container_settings=None, resource_files=None, output_files=None, environment_settings=None, constraints=None, required_slots: int=None, kill_job_on_completion: bool=None, user_identity=None, run_exclusive: bool=None, application_package_references=None, authentication_token_settings=None, allow_low_priority_node: bool=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str,
+        command_line: str,
+        display_name: str = None,
+        container_settings=None,
+        resource_files=None,
+        output_files=None,
+        environment_settings=None,
+        constraints=None,
+        required_slots: int = None,
+        kill_job_on_completion: bool = None,
+        user_identity=None,
+        run_exclusive: bool = None,
+        application_package_references=None,
+        authentication_token_settings=None,
+        allow_low_priority_node: bool = None,
+        **kwargs
+    ) -> None:
         super(JobManagerTask, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -4576,11 +5314,11 @@ class JobNetworkConfiguration(Model):
     """
 
     _validation = {
-        'subnet_id': {'required': True},
+        "subnet_id": {"required": True},
     }
 
     _attribute_map = {
-        'subnet_id': {'key': 'subnetId', 'type': 'str'},
+        "subnet_id": {"key": "subnetId", "type": "str"},
     }
 
     def __init__(self, *, subnet_id: str, **kwargs) -> None:
@@ -4627,17 +5365,29 @@ class JobPatchOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobPatchOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -4695,16 +5445,27 @@ class JobPatchParameter(Model):
     """
 
     _attribute_map = {
-        'priority': {'key': 'priority', 'type': 'int'},
-        'max_parallel_tasks': {'key': 'maxParallelTasks', 'type': 'int'},
-        'allow_task_preemption': {'key': 'allowTaskPreemption', 'type': 'bool'},
-        'on_all_tasks_complete': {'key': 'onAllTasksComplete', 'type': 'OnAllTasksComplete'},
-        'constraints': {'key': 'constraints', 'type': 'JobConstraints'},
-        'pool_info': {'key': 'poolInfo', 'type': 'PoolInformation'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
+        "priority": {"key": "priority", "type": "int"},
+        "max_parallel_tasks": {"key": "maxParallelTasks", "type": "int"},
+        "allow_task_preemption": {"key": "allowTaskPreemption", "type": "bool"},
+        "on_all_tasks_complete": {"key": "onAllTasksComplete", "type": "OnAllTasksComplete"},
+        "constraints": {"key": "constraints", "type": "JobConstraints"},
+        "pool_info": {"key": "poolInfo", "type": "PoolInformation"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
     }
 
-    def __init__(self, *, priority: int=None, max_parallel_tasks: int=None, allow_task_preemption: bool=None, on_all_tasks_complete=None, constraints=None, pool_info=None, metadata=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        priority: int = None,
+        max_parallel_tasks: int = None,
+        allow_task_preemption: bool = None,
+        on_all_tasks_complete=None,
+        constraints=None,
+        pool_info=None,
+        metadata=None,
+        **kwargs
+    ) -> None:
         super(JobPatchParameter, self).__init__(**kwargs)
         self.priority = priority
         self.max_parallel_tasks = max_parallel_tasks
@@ -4736,14 +5497,29 @@ class JobPreparationAndReleaseTaskExecutionInformation(Model):
     """
 
     _attribute_map = {
-        'pool_id': {'key': 'poolId', 'type': 'str'},
-        'node_id': {'key': 'nodeId', 'type': 'str'},
-        'node_url': {'key': 'nodeUrl', 'type': 'str'},
-        'job_preparation_task_execution_info': {'key': 'jobPreparationTaskExecutionInfo', 'type': 'JobPreparationTaskExecutionInformation'},
-        'job_release_task_execution_info': {'key': 'jobReleaseTaskExecutionInfo', 'type': 'JobReleaseTaskExecutionInformation'},
+        "pool_id": {"key": "poolId", "type": "str"},
+        "node_id": {"key": "nodeId", "type": "str"},
+        "node_url": {"key": "nodeUrl", "type": "str"},
+        "job_preparation_task_execution_info": {
+            "key": "jobPreparationTaskExecutionInfo",
+            "type": "JobPreparationTaskExecutionInformation",
+        },
+        "job_release_task_execution_info": {
+            "key": "jobReleaseTaskExecutionInfo",
+            "type": "JobReleaseTaskExecutionInformation",
+        },
     }
 
-    def __init__(self, *, pool_id: str=None, node_id: str=None, node_url: str=None, job_preparation_task_execution_info=None, job_release_task_execution_info=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        pool_id: str = None,
+        node_id: str = None,
+        node_url: str = None,
+        job_preparation_task_execution_info=None,
+        job_release_task_execution_info=None,
+        **kwargs
+    ) -> None:
         super(JobPreparationAndReleaseTaskExecutionInformation, self).__init__(**kwargs)
         self.pool_id = pool_id
         self.node_id = node_id
@@ -4855,22 +5631,35 @@ class JobPreparationTask(Model):
     """
 
     _validation = {
-        'command_line': {'required': True},
+        "command_line": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'command_line': {'key': 'commandLine', 'type': 'str'},
-        'container_settings': {'key': 'containerSettings', 'type': 'TaskContainerSettings'},
-        'resource_files': {'key': 'resourceFiles', 'type': '[ResourceFile]'},
-        'environment_settings': {'key': 'environmentSettings', 'type': '[EnvironmentSetting]'},
-        'constraints': {'key': 'constraints', 'type': 'TaskConstraints'},
-        'wait_for_success': {'key': 'waitForSuccess', 'type': 'bool'},
-        'user_identity': {'key': 'userIdentity', 'type': 'UserIdentity'},
-        'rerun_on_node_reboot_after_success': {'key': 'rerunOnNodeRebootAfterSuccess', 'type': 'bool'},
+        "id": {"key": "id", "type": "str"},
+        "command_line": {"key": "commandLine", "type": "str"},
+        "container_settings": {"key": "containerSettings", "type": "TaskContainerSettings"},
+        "resource_files": {"key": "resourceFiles", "type": "[ResourceFile]"},
+        "environment_settings": {"key": "environmentSettings", "type": "[EnvironmentSetting]"},
+        "constraints": {"key": "constraints", "type": "TaskConstraints"},
+        "wait_for_success": {"key": "waitForSuccess", "type": "bool"},
+        "user_identity": {"key": "userIdentity", "type": "UserIdentity"},
+        "rerun_on_node_reboot_after_success": {"key": "rerunOnNodeRebootAfterSuccess", "type": "bool"},
     }
 
-    def __init__(self, *, command_line: str, id: str=None, container_settings=None, resource_files=None, environment_settings=None, constraints=None, wait_for_success: bool=None, user_identity=None, rerun_on_node_reboot_after_success: bool=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        command_line: str,
+        id: str = None,
+        container_settings=None,
+        resource_files=None,
+        environment_settings=None,
+        constraints=None,
+        wait_for_success: bool = None,
+        user_identity=None,
+        rerun_on_node_reboot_after_success: bool = None,
+        **kwargs
+    ) -> None:
         super(JobPreparationTask, self).__init__(**kwargs)
         self.id = id
         self.command_line = command_line
@@ -4941,26 +5730,41 @@ class JobPreparationTaskExecutionInformation(Model):
     """
 
     _validation = {
-        'start_time': {'required': True},
-        'state': {'required': True},
-        'retry_count': {'required': True},
+        "start_time": {"required": True},
+        "state": {"required": True},
+        "retry_count": {"required": True},
     }
 
     _attribute_map = {
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'state': {'key': 'state', 'type': 'JobPreparationTaskState'},
-        'task_root_directory': {'key': 'taskRootDirectory', 'type': 'str'},
-        'task_root_directory_url': {'key': 'taskRootDirectoryUrl', 'type': 'str'},
-        'exit_code': {'key': 'exitCode', 'type': 'int'},
-        'container_info': {'key': 'containerInfo', 'type': 'TaskContainerExecutionInformation'},
-        'failure_info': {'key': 'failureInfo', 'type': 'TaskFailureInformation'},
-        'retry_count': {'key': 'retryCount', 'type': 'int'},
-        'last_retry_time': {'key': 'lastRetryTime', 'type': 'iso-8601'},
-        'result': {'key': 'result', 'type': 'TaskExecutionResult'},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "state": {"key": "state", "type": "JobPreparationTaskState"},
+        "task_root_directory": {"key": "taskRootDirectory", "type": "str"},
+        "task_root_directory_url": {"key": "taskRootDirectoryUrl", "type": "str"},
+        "exit_code": {"key": "exitCode", "type": "int"},
+        "container_info": {"key": "containerInfo", "type": "TaskContainerExecutionInformation"},
+        "failure_info": {"key": "failureInfo", "type": "TaskFailureInformation"},
+        "retry_count": {"key": "retryCount", "type": "int"},
+        "last_retry_time": {"key": "lastRetryTime", "type": "iso-8601"},
+        "result": {"key": "result", "type": "TaskExecutionResult"},
     }
 
-    def __init__(self, *, start_time, state, retry_count: int, end_time=None, task_root_directory: str=None, task_root_directory_url: str=None, exit_code: int=None, container_info=None, failure_info=None, last_retry_time=None, result=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        start_time,
+        state,
+        retry_count: int,
+        end_time=None,
+        task_root_directory: str = None,
+        task_root_directory_url: str = None,
+        exit_code: int = None,
+        container_info=None,
+        failure_info=None,
+        last_retry_time=None,
+        result=None,
+        **kwargs
+    ) -> None:
         super(JobPreparationTaskExecutionInformation, self).__init__(**kwargs)
         self.start_time = start_time
         self.end_time = end_time
@@ -5044,21 +5848,33 @@ class JobReleaseTask(Model):
     """
 
     _validation = {
-        'command_line': {'required': True},
+        "command_line": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'command_line': {'key': 'commandLine', 'type': 'str'},
-        'container_settings': {'key': 'containerSettings', 'type': 'TaskContainerSettings'},
-        'resource_files': {'key': 'resourceFiles', 'type': '[ResourceFile]'},
-        'environment_settings': {'key': 'environmentSettings', 'type': '[EnvironmentSetting]'},
-        'max_wall_clock_time': {'key': 'maxWallClockTime', 'type': 'duration'},
-        'retention_time': {'key': 'retentionTime', 'type': 'duration'},
-        'user_identity': {'key': 'userIdentity', 'type': 'UserIdentity'},
+        "id": {"key": "id", "type": "str"},
+        "command_line": {"key": "commandLine", "type": "str"},
+        "container_settings": {"key": "containerSettings", "type": "TaskContainerSettings"},
+        "resource_files": {"key": "resourceFiles", "type": "[ResourceFile]"},
+        "environment_settings": {"key": "environmentSettings", "type": "[EnvironmentSetting]"},
+        "max_wall_clock_time": {"key": "maxWallClockTime", "type": "duration"},
+        "retention_time": {"key": "retentionTime", "type": "duration"},
+        "user_identity": {"key": "userIdentity", "type": "UserIdentity"},
     }
 
-    def __init__(self, *, command_line: str, id: str=None, container_settings=None, resource_files=None, environment_settings=None, max_wall_clock_time=None, retention_time=None, user_identity=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        command_line: str,
+        id: str = None,
+        container_settings=None,
+        resource_files=None,
+        environment_settings=None,
+        max_wall_clock_time=None,
+        retention_time=None,
+        user_identity=None,
+        **kwargs
+    ) -> None:
         super(JobReleaseTask, self).__init__(**kwargs)
         self.id = id
         self.command_line = command_line
@@ -5113,23 +5929,36 @@ class JobReleaseTaskExecutionInformation(Model):
     """
 
     _validation = {
-        'start_time': {'required': True},
-        'state': {'required': True},
+        "start_time": {"required": True},
+        "state": {"required": True},
     }
 
     _attribute_map = {
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'state': {'key': 'state', 'type': 'JobReleaseTaskState'},
-        'task_root_directory': {'key': 'taskRootDirectory', 'type': 'str'},
-        'task_root_directory_url': {'key': 'taskRootDirectoryUrl', 'type': 'str'},
-        'exit_code': {'key': 'exitCode', 'type': 'int'},
-        'container_info': {'key': 'containerInfo', 'type': 'TaskContainerExecutionInformation'},
-        'failure_info': {'key': 'failureInfo', 'type': 'TaskFailureInformation'},
-        'result': {'key': 'result', 'type': 'TaskExecutionResult'},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "state": {"key": "state", "type": "JobReleaseTaskState"},
+        "task_root_directory": {"key": "taskRootDirectory", "type": "str"},
+        "task_root_directory_url": {"key": "taskRootDirectoryUrl", "type": "str"},
+        "exit_code": {"key": "exitCode", "type": "int"},
+        "container_info": {"key": "containerInfo", "type": "TaskContainerExecutionInformation"},
+        "failure_info": {"key": "failureInfo", "type": "TaskFailureInformation"},
+        "result": {"key": "result", "type": "TaskExecutionResult"},
     }
 
-    def __init__(self, *, start_time, state, end_time=None, task_root_directory: str=None, task_root_directory_url: str=None, exit_code: int=None, container_info=None, failure_info=None, result=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        start_time,
+        state,
+        end_time=None,
+        task_root_directory: str = None,
+        task_root_directory_url: str = None,
+        exit_code: int = None,
+        container_info=None,
+        failure_info=None,
+        result=None,
+        **kwargs
+    ) -> None:
         super(JobReleaseTaskExecutionInformation, self).__init__(**kwargs)
         self.start_time = start_time
         self.end_time = end_time
@@ -5162,13 +5991,21 @@ class JobScheduleAddOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleAddOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5203,20 +6040,22 @@ class JobScheduleAddParameter(Model):
     """
 
     _validation = {
-        'id': {'required': True},
-        'schedule': {'required': True},
-        'job_specification': {'required': True},
+        "id": {"required": True},
+        "schedule": {"required": True},
+        "job_specification": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'schedule': {'key': 'schedule', 'type': 'Schedule'},
-        'job_specification': {'key': 'jobSpecification', 'type': 'JobSpecification'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "schedule": {"key": "schedule", "type": "Schedule"},
+        "job_specification": {"key": "jobSpecification", "type": "JobSpecification"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
     }
 
-    def __init__(self, *, id: str, schedule, job_specification, display_name: str=None, metadata=None, **kwargs) -> None:
+    def __init__(
+        self, *, id: str, schedule, job_specification, display_name: str = None, metadata=None, **kwargs
+    ) -> None:
         super(JobScheduleAddParameter, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -5264,17 +6103,29 @@ class JobScheduleDeleteOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleDeleteOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5325,17 +6176,29 @@ class JobScheduleDisableOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleDisableOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5386,17 +6249,29 @@ class JobScheduleEnableOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleEnableOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5427,9 +6302,9 @@ class JobScheduleExecutionInformation(Model):
     """
 
     _attribute_map = {
-        'next_run_time': {'key': 'nextRunTime', 'type': 'iso-8601'},
-        'recent_job': {'key': 'recentJob', 'type': 'RecentJob'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
+        "next_run_time": {"key": "nextRunTime", "type": "iso-8601"},
+        "recent_job": {"key": "recentJob", "type": "RecentJob"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
     }
 
     def __init__(self, *, next_run_time=None, recent_job=None, end_time=None, **kwargs) -> None:
@@ -5478,17 +6353,29 @@ class JobScheduleExistsOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleExistsOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5543,19 +6430,33 @@ class JobScheduleGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, expand: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        expand: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleGetOptions, self).__init__(**kwargs)
         self.select = select
         self.expand = expand
@@ -5600,17 +6501,29 @@ class JobScheduleListOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, expand: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        expand: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleListOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -5661,17 +6574,29 @@ class JobSchedulePatchOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobSchedulePatchOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5702,9 +6627,9 @@ class JobSchedulePatchParameter(Model):
     """
 
     _attribute_map = {
-        'schedule': {'key': 'schedule', 'type': 'Schedule'},
-        'job_specification': {'key': 'jobSpecification', 'type': 'JobSpecification'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
+        "schedule": {"key": "schedule", "type": "Schedule"},
+        "job_specification": {"key": "jobSpecification", "type": "JobSpecification"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
     }
 
     def __init__(self, *, schedule=None, job_specification=None, metadata=None, **kwargs) -> None:
@@ -5765,40 +6690,58 @@ class JobScheduleStatistics(Model):
     """
 
     _validation = {
-        'url': {'required': True},
-        'start_time': {'required': True},
-        'last_update_time': {'required': True},
-        'user_cpu_time': {'required': True},
-        'kernel_cpu_time': {'required': True},
-        'wall_clock_time': {'required': True},
-        'read_iops': {'required': True},
-        'write_iops': {'required': True},
-        'read_io_gi_b': {'required': True},
-        'write_io_gi_b': {'required': True},
-        'num_succeeded_tasks': {'required': True},
-        'num_failed_tasks': {'required': True},
-        'num_task_retries': {'required': True},
-        'wait_time': {'required': True},
+        "url": {"required": True},
+        "start_time": {"required": True},
+        "last_update_time": {"required": True},
+        "user_cpu_time": {"required": True},
+        "kernel_cpu_time": {"required": True},
+        "wall_clock_time": {"required": True},
+        "read_iops": {"required": True},
+        "write_iops": {"required": True},
+        "read_io_gi_b": {"required": True},
+        "write_io_gi_b": {"required": True},
+        "num_succeeded_tasks": {"required": True},
+        "num_failed_tasks": {"required": True},
+        "num_task_retries": {"required": True},
+        "wait_time": {"required": True},
     }
 
     _attribute_map = {
-        'url': {'key': 'url', 'type': 'str'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
-        'user_cpu_time': {'key': 'userCPUTime', 'type': 'duration'},
-        'kernel_cpu_time': {'key': 'kernelCPUTime', 'type': 'duration'},
-        'wall_clock_time': {'key': 'wallClockTime', 'type': 'duration'},
-        'read_iops': {'key': 'readIOps', 'type': 'long'},
-        'write_iops': {'key': 'writeIOps', 'type': 'long'},
-        'read_io_gi_b': {'key': 'readIOGiB', 'type': 'float'},
-        'write_io_gi_b': {'key': 'writeIOGiB', 'type': 'float'},
-        'num_succeeded_tasks': {'key': 'numSucceededTasks', 'type': 'long'},
-        'num_failed_tasks': {'key': 'numFailedTasks', 'type': 'long'},
-        'num_task_retries': {'key': 'numTaskRetries', 'type': 'long'},
-        'wait_time': {'key': 'waitTime', 'type': 'duration'},
+        "url": {"key": "url", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
+        "user_cpu_time": {"key": "userCPUTime", "type": "duration"},
+        "kernel_cpu_time": {"key": "kernelCPUTime", "type": "duration"},
+        "wall_clock_time": {"key": "wallClockTime", "type": "duration"},
+        "read_iops": {"key": "readIOps", "type": "long"},
+        "write_iops": {"key": "writeIOps", "type": "long"},
+        "read_io_gi_b": {"key": "readIOGiB", "type": "float"},
+        "write_io_gi_b": {"key": "writeIOGiB", "type": "float"},
+        "num_succeeded_tasks": {"key": "numSucceededTasks", "type": "long"},
+        "num_failed_tasks": {"key": "numFailedTasks", "type": "long"},
+        "num_task_retries": {"key": "numTaskRetries", "type": "long"},
+        "wait_time": {"key": "waitTime", "type": "duration"},
     }
 
-    def __init__(self, *, url: str, start_time, last_update_time, user_cpu_time, kernel_cpu_time, wall_clock_time, read_iops: int, write_iops: int, read_io_gi_b: float, write_io_gi_b: float, num_succeeded_tasks: int, num_failed_tasks: int, num_task_retries: int, wait_time, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        url: str,
+        start_time,
+        last_update_time,
+        user_cpu_time,
+        kernel_cpu_time,
+        wall_clock_time,
+        read_iops: int,
+        write_iops: int,
+        read_io_gi_b: float,
+        write_io_gi_b: float,
+        num_succeeded_tasks: int,
+        num_failed_tasks: int,
+        num_task_retries: int,
+        wait_time,
+        **kwargs
+    ) -> None:
         super(JobScheduleStatistics, self).__init__(**kwargs)
         self.url = url
         self.start_time = start_time
@@ -5855,17 +6798,29 @@ class JobScheduleTerminateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleTerminateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5916,17 +6871,29 @@ class JobScheduleUpdateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobScheduleUpdateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -5960,14 +6927,14 @@ class JobScheduleUpdateParameter(Model):
     """
 
     _validation = {
-        'schedule': {'required': True},
-        'job_specification': {'required': True},
+        "schedule": {"required": True},
+        "job_specification": {"required": True},
     }
 
     _attribute_map = {
-        'schedule': {'key': 'schedule', 'type': 'Schedule'},
-        'job_specification': {'key': 'jobSpecification', 'type': 'JobSpecification'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
+        "schedule": {"key": "schedule", "type": "Schedule"},
+        "job_specification": {"key": "jobSpecification", "type": "JobSpecification"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
     }
 
     def __init__(self, *, schedule, job_specification, metadata=None, **kwargs) -> None:
@@ -5994,17 +6961,17 @@ class JobSchedulingError(Model):
     """
 
     _validation = {
-        'category': {'required': True},
+        "category": {"required": True},
     }
 
     _attribute_map = {
-        'category': {'key': 'category', 'type': 'ErrorCategory'},
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'str'},
-        'details': {'key': 'details', 'type': '[NameValuePair]'},
+        "category": {"key": "category", "type": "ErrorCategory"},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "details": {"key": "details", "type": "[NameValuePair]"},
     }
 
-    def __init__(self, *, category, code: str=None, message: str=None, details=None, **kwargs) -> None:
+    def __init__(self, *, category, code: str = None, message: str = None, details=None, **kwargs) -> None:
         super(JobSchedulingError, self).__init__(**kwargs)
         self.category = category
         self.code = code
@@ -6101,28 +7068,47 @@ class JobSpecification(Model):
     """
 
     _validation = {
-        'pool_info': {'required': True},
+        "pool_info": {"required": True},
     }
 
     _attribute_map = {
-        'priority': {'key': 'priority', 'type': 'int'},
-        'allow_task_preemption': {'key': 'allowTaskPreemption', 'type': 'bool'},
-        'max_parallel_tasks': {'key': 'maxParallelTasks', 'type': 'int'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'uses_task_dependencies': {'key': 'usesTaskDependencies', 'type': 'bool'},
-        'on_all_tasks_complete': {'key': 'onAllTasksComplete', 'type': 'OnAllTasksComplete'},
-        'on_task_failure': {'key': 'onTaskFailure', 'type': 'OnTaskFailure'},
-        'network_configuration': {'key': 'networkConfiguration', 'type': 'JobNetworkConfiguration'},
-        'constraints': {'key': 'constraints', 'type': 'JobConstraints'},
-        'job_manager_task': {'key': 'jobManagerTask', 'type': 'JobManagerTask'},
-        'job_preparation_task': {'key': 'jobPreparationTask', 'type': 'JobPreparationTask'},
-        'job_release_task': {'key': 'jobReleaseTask', 'type': 'JobReleaseTask'},
-        'common_environment_settings': {'key': 'commonEnvironmentSettings', 'type': '[EnvironmentSetting]'},
-        'pool_info': {'key': 'poolInfo', 'type': 'PoolInformation'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
+        "priority": {"key": "priority", "type": "int"},
+        "allow_task_preemption": {"key": "allowTaskPreemption", "type": "bool"},
+        "max_parallel_tasks": {"key": "maxParallelTasks", "type": "int"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "uses_task_dependencies": {"key": "usesTaskDependencies", "type": "bool"},
+        "on_all_tasks_complete": {"key": "onAllTasksComplete", "type": "OnAllTasksComplete"},
+        "on_task_failure": {"key": "onTaskFailure", "type": "OnTaskFailure"},
+        "network_configuration": {"key": "networkConfiguration", "type": "JobNetworkConfiguration"},
+        "constraints": {"key": "constraints", "type": "JobConstraints"},
+        "job_manager_task": {"key": "jobManagerTask", "type": "JobManagerTask"},
+        "job_preparation_task": {"key": "jobPreparationTask", "type": "JobPreparationTask"},
+        "job_release_task": {"key": "jobReleaseTask", "type": "JobReleaseTask"},
+        "common_environment_settings": {"key": "commonEnvironmentSettings", "type": "[EnvironmentSetting]"},
+        "pool_info": {"key": "poolInfo", "type": "PoolInformation"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
     }
 
-    def __init__(self, *, pool_info, priority: int=None, allow_task_preemption: bool=None, max_parallel_tasks: int=-1, display_name: str=None, uses_task_dependencies: bool=None, on_all_tasks_complete=None, on_task_failure=None, network_configuration=None, constraints=None, job_manager_task=None, job_preparation_task=None, job_release_task=None, common_environment_settings=None, metadata=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        pool_info,
+        priority: int = None,
+        allow_task_preemption: bool = None,
+        max_parallel_tasks: int = -1,
+        display_name: str = None,
+        uses_task_dependencies: bool = None,
+        on_all_tasks_complete=None,
+        on_task_failure=None,
+        network_configuration=None,
+        constraints=None,
+        job_manager_task=None,
+        job_preparation_task=None,
+        job_release_task=None,
+        common_environment_settings=None,
+        metadata=None,
+        **kwargs
+    ) -> None:
         super(JobSpecification, self).__init__(**kwargs)
         self.priority = priority
         self.allow_task_preemption = allow_task_preemption
@@ -6194,40 +7180,58 @@ class JobStatistics(Model):
     """
 
     _validation = {
-        'url': {'required': True},
-        'start_time': {'required': True},
-        'last_update_time': {'required': True},
-        'user_cpu_time': {'required': True},
-        'kernel_cpu_time': {'required': True},
-        'wall_clock_time': {'required': True},
-        'read_iops': {'required': True},
-        'write_iops': {'required': True},
-        'read_io_gi_b': {'required': True},
-        'write_io_gi_b': {'required': True},
-        'num_succeeded_tasks': {'required': True},
-        'num_failed_tasks': {'required': True},
-        'num_task_retries': {'required': True},
-        'wait_time': {'required': True},
+        "url": {"required": True},
+        "start_time": {"required": True},
+        "last_update_time": {"required": True},
+        "user_cpu_time": {"required": True},
+        "kernel_cpu_time": {"required": True},
+        "wall_clock_time": {"required": True},
+        "read_iops": {"required": True},
+        "write_iops": {"required": True},
+        "read_io_gi_b": {"required": True},
+        "write_io_gi_b": {"required": True},
+        "num_succeeded_tasks": {"required": True},
+        "num_failed_tasks": {"required": True},
+        "num_task_retries": {"required": True},
+        "wait_time": {"required": True},
     }
 
     _attribute_map = {
-        'url': {'key': 'url', 'type': 'str'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
-        'user_cpu_time': {'key': 'userCPUTime', 'type': 'duration'},
-        'kernel_cpu_time': {'key': 'kernelCPUTime', 'type': 'duration'},
-        'wall_clock_time': {'key': 'wallClockTime', 'type': 'duration'},
-        'read_iops': {'key': 'readIOps', 'type': 'long'},
-        'write_iops': {'key': 'writeIOps', 'type': 'long'},
-        'read_io_gi_b': {'key': 'readIOGiB', 'type': 'float'},
-        'write_io_gi_b': {'key': 'writeIOGiB', 'type': 'float'},
-        'num_succeeded_tasks': {'key': 'numSucceededTasks', 'type': 'long'},
-        'num_failed_tasks': {'key': 'numFailedTasks', 'type': 'long'},
-        'num_task_retries': {'key': 'numTaskRetries', 'type': 'long'},
-        'wait_time': {'key': 'waitTime', 'type': 'duration'},
+        "url": {"key": "url", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
+        "user_cpu_time": {"key": "userCPUTime", "type": "duration"},
+        "kernel_cpu_time": {"key": "kernelCPUTime", "type": "duration"},
+        "wall_clock_time": {"key": "wallClockTime", "type": "duration"},
+        "read_iops": {"key": "readIOps", "type": "long"},
+        "write_iops": {"key": "writeIOps", "type": "long"},
+        "read_io_gi_b": {"key": "readIOGiB", "type": "float"},
+        "write_io_gi_b": {"key": "writeIOGiB", "type": "float"},
+        "num_succeeded_tasks": {"key": "numSucceededTasks", "type": "long"},
+        "num_failed_tasks": {"key": "numFailedTasks", "type": "long"},
+        "num_task_retries": {"key": "numTaskRetries", "type": "long"},
+        "wait_time": {"key": "waitTime", "type": "duration"},
     }
 
-    def __init__(self, *, url: str, start_time, last_update_time, user_cpu_time, kernel_cpu_time, wall_clock_time, read_iops: int, write_iops: int, read_io_gi_b: float, write_io_gi_b: float, num_succeeded_tasks: int, num_failed_tasks: int, num_task_retries: int, wait_time, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        url: str,
+        start_time,
+        last_update_time,
+        user_cpu_time,
+        kernel_cpu_time,
+        wall_clock_time,
+        read_iops: int,
+        write_iops: int,
+        read_io_gi_b: float,
+        write_io_gi_b: float,
+        num_succeeded_tasks: int,
+        num_failed_tasks: int,
+        num_task_retries: int,
+        wait_time,
+        **kwargs
+    ) -> None:
         super(JobStatistics, self).__init__(**kwargs)
         self.url = url
         self.start_time = start_time
@@ -6284,17 +7288,29 @@ class JobTerminateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobTerminateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -6314,10 +7330,10 @@ class JobTerminateParameter(Model):
     """
 
     _attribute_map = {
-        'terminate_reason': {'key': 'terminateReason', 'type': 'str'},
+        "terminate_reason": {"key": "terminateReason", "type": "str"},
     }
 
-    def __init__(self, *, terminate_reason: str=None, **kwargs) -> None:
+    def __init__(self, *, terminate_reason: str = None, **kwargs) -> None:
         super(JobTerminateParameter, self).__init__(**kwargs)
         self.terminate_reason = terminate_reason
 
@@ -6361,17 +7377,29 @@ class JobUpdateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(JobUpdateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -6436,20 +7464,31 @@ class JobUpdateParameter(Model):
     """
 
     _validation = {
-        'pool_info': {'required': True},
+        "pool_info": {"required": True},
     }
 
     _attribute_map = {
-        'priority': {'key': 'priority', 'type': 'int'},
-        'max_parallel_tasks': {'key': 'maxParallelTasks', 'type': 'int'},
-        'allow_task_preemption': {'key': 'allowTaskPreemption', 'type': 'bool'},
-        'constraints': {'key': 'constraints', 'type': 'JobConstraints'},
-        'pool_info': {'key': 'poolInfo', 'type': 'PoolInformation'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'on_all_tasks_complete': {'key': 'onAllTasksComplete', 'type': 'OnAllTasksComplete'},
+        "priority": {"key": "priority", "type": "int"},
+        "max_parallel_tasks": {"key": "maxParallelTasks", "type": "int"},
+        "allow_task_preemption": {"key": "allowTaskPreemption", "type": "bool"},
+        "constraints": {"key": "constraints", "type": "JobConstraints"},
+        "pool_info": {"key": "poolInfo", "type": "PoolInformation"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "on_all_tasks_complete": {"key": "onAllTasksComplete", "type": "OnAllTasksComplete"},
     }
 
-    def __init__(self, *, pool_info, priority: int=None, max_parallel_tasks: int=-1, allow_task_preemption: bool=None, constraints=None, metadata=None, on_all_tasks_complete=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        pool_info,
+        priority: int = None,
+        max_parallel_tasks: int = -1,
+        allow_task_preemption: bool = None,
+        constraints=None,
+        metadata=None,
+        on_all_tasks_complete=None,
+        **kwargs
+    ) -> None:
         super(JobUpdateParameter, self).__init__(**kwargs)
         self.priority = priority
         self.max_parallel_tasks = max_parallel_tasks
@@ -6483,12 +7522,12 @@ class LinuxUserConfiguration(Model):
     """
 
     _attribute_map = {
-        'uid': {'key': 'uid', 'type': 'int'},
-        'gid': {'key': 'gid', 'type': 'int'},
-        'ssh_private_key': {'key': 'sshPrivateKey', 'type': 'str'},
+        "uid": {"key": "uid", "type": "int"},
+        "gid": {"key": "gid", "type": "int"},
+        "ssh_private_key": {"key": "sshPrivateKey", "type": "str"},
     }
 
-    def __init__(self, *, uid: int=None, gid: int=None, ssh_private_key: str=None, **kwargs) -> None:
+    def __init__(self, *, uid: int = None, gid: int = None, ssh_private_key: str = None, **kwargs) -> None:
         super(LinuxUserConfiguration, self).__init__(**kwargs)
         self.uid = uid
         self.gid = gid
@@ -6504,7 +7543,7 @@ class ManagedDisk(Model):
     """
 
     _attribute_map = {
-        'storage_account_type': {'key': 'storageAccountType', 'type': 'StorageAccountType'},
+        "storage_account_type": {"key": "storageAccountType", "type": "StorageAccountType"},
     }
 
     def __init__(self, *, storage_account_type=None, **kwargs) -> None:
@@ -6527,13 +7566,13 @@ class MetadataItem(Model):
     """
 
     _validation = {
-        'name': {'required': True},
-        'value': {'required': True},
+        "name": {"required": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'value': {'key': 'value', 'type': 'str'},
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
     }
 
     def __init__(self, *, name: str, value: str, **kwargs) -> None:
@@ -6563,13 +7602,24 @@ class MountConfiguration(Model):
     """
 
     _attribute_map = {
-        'azure_blob_file_system_configuration': {'key': 'azureBlobFileSystemConfiguration', 'type': 'AzureBlobFileSystemConfiguration'},
-        'nfs_mount_configuration': {'key': 'nfsMountConfiguration', 'type': 'NFSMountConfiguration'},
-        'cifs_mount_configuration': {'key': 'cifsMountConfiguration', 'type': 'CIFSMountConfiguration'},
-        'azure_file_share_configuration': {'key': 'azureFileShareConfiguration', 'type': 'AzureFileShareConfiguration'},
+        "azure_blob_file_system_configuration": {
+            "key": "azureBlobFileSystemConfiguration",
+            "type": "AzureBlobFileSystemConfiguration",
+        },
+        "nfs_mount_configuration": {"key": "nfsMountConfiguration", "type": "NFSMountConfiguration"},
+        "cifs_mount_configuration": {"key": "cifsMountConfiguration", "type": "CIFSMountConfiguration"},
+        "azure_file_share_configuration": {"key": "azureFileShareConfiguration", "type": "AzureFileShareConfiguration"},
     }
 
-    def __init__(self, *, azure_blob_file_system_configuration=None, nfs_mount_configuration=None, cifs_mount_configuration=None, azure_file_share_configuration=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        azure_blob_file_system_configuration=None,
+        nfs_mount_configuration=None,
+        cifs_mount_configuration=None,
+        azure_file_share_configuration=None,
+        **kwargs
+    ) -> None:
         super(MountConfiguration, self).__init__(**kwargs)
         self.azure_blob_file_system_configuration = azure_blob_file_system_configuration
         self.nfs_mount_configuration = nfs_mount_configuration
@@ -6609,16 +7659,18 @@ class MultiInstanceSettings(Model):
     """
 
     _validation = {
-        'coordination_command_line': {'required': True},
+        "coordination_command_line": {"required": True},
     }
 
     _attribute_map = {
-        'number_of_instances': {'key': 'numberOfInstances', 'type': 'int'},
-        'coordination_command_line': {'key': 'coordinationCommandLine', 'type': 'str'},
-        'common_resource_files': {'key': 'commonResourceFiles', 'type': '[ResourceFile]'},
+        "number_of_instances": {"key": "numberOfInstances", "type": "int"},
+        "coordination_command_line": {"key": "coordinationCommandLine", "type": "str"},
+        "common_resource_files": {"key": "commonResourceFiles", "type": "[ResourceFile]"},
     }
 
-    def __init__(self, *, coordination_command_line: str, number_of_instances: int=None, common_resource_files=None, **kwargs) -> None:
+    def __init__(
+        self, *, coordination_command_line: str, number_of_instances: int = None, common_resource_files=None, **kwargs
+    ) -> None:
         super(MultiInstanceSettings, self).__init__(**kwargs)
         self.number_of_instances = number_of_instances
         self.coordination_command_line = coordination_command_line
@@ -6635,11 +7687,11 @@ class NameValuePair(Model):
     """
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'value': {'key': 'value', 'type': 'str'},
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: str=None, value: str=None, **kwargs) -> None:
+    def __init__(self, *, name: str = None, value: str = None, **kwargs) -> None:
         super(NameValuePair, self).__init__(**kwargs)
         self.name = name
         self.value = value
@@ -6696,14 +7748,26 @@ class NetworkConfiguration(Model):
     """
 
     _attribute_map = {
-        'subnet_id': {'key': 'subnetId', 'type': 'str'},
-        'dynamic_vnet_assignment_scope': {'key': 'dynamicVNetAssignmentScope', 'type': 'DynamicVNetAssignmentScope'},
-        'endpoint_configuration': {'key': 'endpointConfiguration', 'type': 'PoolEndpointConfiguration'},
-        'public_ip_address_configuration': {'key': 'publicIPAddressConfiguration', 'type': 'PublicIPAddressConfiguration'},
-        'enable_accelerated_networking': {'key': 'enableAcceleratedNetworking', 'type': 'bool'},
+        "subnet_id": {"key": "subnetId", "type": "str"},
+        "dynamic_vnet_assignment_scope": {"key": "dynamicVNetAssignmentScope", "type": "DynamicVNetAssignmentScope"},
+        "endpoint_configuration": {"key": "endpointConfiguration", "type": "PoolEndpointConfiguration"},
+        "public_ip_address_configuration": {
+            "key": "publicIPAddressConfiguration",
+            "type": "PublicIPAddressConfiguration",
+        },
+        "enable_accelerated_networking": {"key": "enableAcceleratedNetworking", "type": "bool"},
     }
 
-    def __init__(self, *, subnet_id: str=None, dynamic_vnet_assignment_scope=None, endpoint_configuration=None, public_ip_address_configuration=None, enable_accelerated_networking: bool=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        subnet_id: str = None,
+        dynamic_vnet_assignment_scope=None,
+        endpoint_configuration=None,
+        public_ip_address_configuration=None,
+        enable_accelerated_networking: bool = None,
+        **kwargs
+    ) -> None:
         super(NetworkConfiguration, self).__init__(**kwargs)
         self.subnet_id = subnet_id
         self.dynamic_vnet_assignment_scope = dynamic_vnet_assignment_scope
@@ -6742,16 +7806,16 @@ class NetworkSecurityGroupRule(Model):
     """
 
     _validation = {
-        'priority': {'required': True},
-        'access': {'required': True},
-        'source_address_prefix': {'required': True},
+        "priority": {"required": True},
+        "access": {"required": True},
+        "source_address_prefix": {"required": True},
     }
 
     _attribute_map = {
-        'priority': {'key': 'priority', 'type': 'int'},
-        'access': {'key': 'access', 'type': 'NetworkSecurityGroupRuleAccess'},
-        'source_address_prefix': {'key': 'sourceAddressPrefix', 'type': 'str'},
-        'source_port_ranges': {'key': 'sourcePortRanges', 'type': '[str]'},
+        "priority": {"key": "priority", "type": "int"},
+        "access": {"key": "access", "type": "NetworkSecurityGroupRuleAccess"},
+        "source_address_prefix": {"key": "sourceAddressPrefix", "type": "str"},
+        "source_port_ranges": {"key": "sourcePortRanges", "type": "[str]"},
     }
 
     def __init__(self, *, priority: int, access, source_address_prefix: str, source_port_ranges=None, **kwargs) -> None:
@@ -6779,17 +7843,17 @@ class NFSMountConfiguration(Model):
     """
 
     _validation = {
-        'source': {'required': True},
-        'relative_mount_path': {'required': True},
+        "source": {"required": True},
+        "relative_mount_path": {"required": True},
     }
 
     _attribute_map = {
-        'source': {'key': 'source', 'type': 'str'},
-        'relative_mount_path': {'key': 'relativeMountPath', 'type': 'str'},
-        'mount_options': {'key': 'mountOptions', 'type': 'str'},
+        "source": {"key": "source", "type": "str"},
+        "relative_mount_path": {"key": "relativeMountPath", "type": "str"},
+        "mount_options": {"key": "mountOptions", "type": "str"},
     }
 
-    def __init__(self, *, source: str, relative_mount_path: str, mount_options: str=None, **kwargs) -> None:
+    def __init__(self, *, source: str, relative_mount_path: str, mount_options: str = None, **kwargs) -> None:
         super(NFSMountConfiguration, self).__init__(**kwargs)
         self.source = source
         self.relative_mount_path = relative_mount_path
@@ -6814,13 +7878,13 @@ class NodeAgentInformation(Model):
     """
 
     _validation = {
-        'version': {'required': True},
-        'last_update_time': {'required': True},
+        "version": {"required": True},
+        "last_update_time": {"required": True},
     }
 
     _attribute_map = {
-        'version': {'key': 'version', 'type': 'str'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
+        "version": {"key": "version", "type": "str"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
     }
 
     def __init__(self, *, version: str, last_update_time, **kwargs) -> None:
@@ -6877,40 +7941,58 @@ class NodeCounts(Model):
     """
 
     _validation = {
-        'creating': {'required': True},
-        'idle': {'required': True},
-        'offline': {'required': True},
-        'preempted': {'required': True},
-        'rebooting': {'required': True},
-        'reimaging': {'required': True},
-        'running': {'required': True},
-        'starting': {'required': True},
-        'start_task_failed': {'required': True},
-        'leaving_pool': {'required': True},
-        'unknown': {'required': True},
-        'unusable': {'required': True},
-        'waiting_for_start_task': {'required': True},
-        'total': {'required': True},
+        "creating": {"required": True},
+        "idle": {"required": True},
+        "offline": {"required": True},
+        "preempted": {"required": True},
+        "rebooting": {"required": True},
+        "reimaging": {"required": True},
+        "running": {"required": True},
+        "starting": {"required": True},
+        "start_task_failed": {"required": True},
+        "leaving_pool": {"required": True},
+        "unknown": {"required": True},
+        "unusable": {"required": True},
+        "waiting_for_start_task": {"required": True},
+        "total": {"required": True},
     }
 
     _attribute_map = {
-        'creating': {'key': 'creating', 'type': 'int'},
-        'idle': {'key': 'idle', 'type': 'int'},
-        'offline': {'key': 'offline', 'type': 'int'},
-        'preempted': {'key': 'preempted', 'type': 'int'},
-        'rebooting': {'key': 'rebooting', 'type': 'int'},
-        'reimaging': {'key': 'reimaging', 'type': 'int'},
-        'running': {'key': 'running', 'type': 'int'},
-        'starting': {'key': 'starting', 'type': 'int'},
-        'start_task_failed': {'key': 'startTaskFailed', 'type': 'int'},
-        'leaving_pool': {'key': 'leavingPool', 'type': 'int'},
-        'unknown': {'key': 'unknown', 'type': 'int'},
-        'unusable': {'key': 'unusable', 'type': 'int'},
-        'waiting_for_start_task': {'key': 'waitingForStartTask', 'type': 'int'},
-        'total': {'key': 'total', 'type': 'int'},
+        "creating": {"key": "creating", "type": "int"},
+        "idle": {"key": "idle", "type": "int"},
+        "offline": {"key": "offline", "type": "int"},
+        "preempted": {"key": "preempted", "type": "int"},
+        "rebooting": {"key": "rebooting", "type": "int"},
+        "reimaging": {"key": "reimaging", "type": "int"},
+        "running": {"key": "running", "type": "int"},
+        "starting": {"key": "starting", "type": "int"},
+        "start_task_failed": {"key": "startTaskFailed", "type": "int"},
+        "leaving_pool": {"key": "leavingPool", "type": "int"},
+        "unknown": {"key": "unknown", "type": "int"},
+        "unusable": {"key": "unusable", "type": "int"},
+        "waiting_for_start_task": {"key": "waitingForStartTask", "type": "int"},
+        "total": {"key": "total", "type": "int"},
     }
 
-    def __init__(self, *, creating: int, idle: int, offline: int, preempted: int, rebooting: int, reimaging: int, running: int, starting: int, start_task_failed: int, leaving_pool: int, unknown: int, unusable: int, waiting_for_start_task: int, total: int, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        creating: int,
+        idle: int,
+        offline: int,
+        preempted: int,
+        rebooting: int,
+        reimaging: int,
+        running: int,
+        starting: int,
+        start_task_failed: int,
+        leaving_pool: int,
+        unknown: int,
+        unusable: int,
+        waiting_for_start_task: int,
+        total: int,
+        **kwargs
+    ) -> None:
         super(NodeCounts, self).__init__(**kwargs)
         self.creating = creating
         self.idle = idle
@@ -6938,7 +8020,10 @@ class NodeDisableSchedulingParameter(Model):
     """
 
     _attribute_map = {
-        'node_disable_scheduling_option': {'key': 'nodeDisableSchedulingOption', 'type': 'DisableComputeNodeSchedulingOption'},
+        "node_disable_scheduling_option": {
+            "key": "nodeDisableSchedulingOption",
+            "type": "DisableComputeNodeSchedulingOption",
+        },
     }
 
     def __init__(self, *, node_disable_scheduling_option=None, **kwargs) -> None:
@@ -6960,13 +8045,15 @@ class NodeFile(Model):
     """
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
-        'is_directory': {'key': 'isDirectory', 'type': 'bool'},
-        'properties': {'key': 'properties', 'type': 'FileProperties'},
+        "name": {"key": "name", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "is_directory": {"key": "isDirectory", "type": "bool"},
+        "properties": {"key": "properties", "type": "FileProperties"},
     }
 
-    def __init__(self, *, name: str=None, url: str=None, is_directory: bool=None, properties=None, **kwargs) -> None:
+    def __init__(
+        self, *, name: str = None, url: str = None, is_directory: bool = None, properties=None, **kwargs
+    ) -> None:
         super(NodeFile, self).__init__(**kwargs)
         self.name = name
         self.url = url
@@ -6989,7 +8076,7 @@ class NodePlacementConfiguration(Model):
     """
 
     _attribute_map = {
-        'policy': {'key': 'policy', 'type': 'NodePlacementPolicyType'},
+        "policy": {"key": "policy", "type": "NodePlacementPolicyType"},
     }
 
     def __init__(self, *, policy=None, **kwargs) -> None:
@@ -7007,7 +8094,7 @@ class NodeRebootParameter(Model):
     """
 
     _attribute_map = {
-        'node_reboot_option': {'key': 'nodeRebootOption', 'type': 'ComputeNodeRebootOption'},
+        "node_reboot_option": {"key": "nodeRebootOption", "type": "ComputeNodeRebootOption"},
     }
 
     def __init__(self, *, node_reboot_option=None, **kwargs) -> None:
@@ -7025,7 +8112,7 @@ class NodeReimageParameter(Model):
     """
 
     _attribute_map = {
-        'node_reimage_option': {'key': 'nodeReimageOption', 'type': 'ComputeNodeReimageOption'},
+        "node_reimage_option": {"key": "nodeReimageOption", "type": "ComputeNodeReimageOption"},
     }
 
     def __init__(self, *, node_reimage_option=None, **kwargs) -> None:
@@ -7055,13 +8142,13 @@ class NodeRemoveParameter(Model):
     """
 
     _validation = {
-        'node_list': {'required': True},
+        "node_list": {"required": True},
     }
 
     _attribute_map = {
-        'node_list': {'key': 'nodeList', 'type': '[str]'},
-        'resize_timeout': {'key': 'resizeTimeout', 'type': 'duration'},
-        'node_deallocation_option': {'key': 'nodeDeallocationOption', 'type': 'ComputeNodeDeallocationOption'},
+        "node_list": {"key": "nodeList", "type": "[str]"},
+        "resize_timeout": {"key": "resizeTimeout", "type": "duration"},
+        "node_deallocation_option": {"key": "nodeDeallocationOption", "type": "ComputeNodeDeallocationOption"},
     }
 
     def __init__(self, *, node_list, resize_timeout=None, node_deallocation_option=None, **kwargs) -> None:
@@ -7093,12 +8180,12 @@ class NodeUpdateUserParameter(Model):
     """
 
     _attribute_map = {
-        'password': {'key': 'password', 'type': 'str'},
-        'expiry_time': {'key': 'expiryTime', 'type': 'iso-8601'},
-        'ssh_public_key': {'key': 'sshPublicKey', 'type': 'str'},
+        "password": {"key": "password", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "ssh_public_key": {"key": "sshPublicKey", "type": "str"},
     }
 
-    def __init__(self, *, password: str=None, expiry_time=None, ssh_public_key: str=None, **kwargs) -> None:
+    def __init__(self, *, password: str = None, expiry_time=None, ssh_public_key: str = None, **kwargs) -> None:
         super(NodeUpdateUserParameter, self).__init__(**kwargs)
         self.password = password
         self.expiry_time = expiry_time
@@ -7117,12 +8204,12 @@ class NodeVMExtension(Model):
     """
 
     _attribute_map = {
-        'provisioning_state': {'key': 'provisioningState', 'type': 'str'},
-        'vm_extension': {'key': 'vmExtension', 'type': 'VMExtension'},
-        'instance_view': {'key': 'instanceView', 'type': 'VMExtensionInstanceView'},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "vm_extension": {"key": "vmExtension", "type": "VMExtension"},
+        "instance_view": {"key": "instanceView", "type": "VMExtensionInstanceView"},
     }
 
-    def __init__(self, *, provisioning_state: str=None, vm_extension=None, instance_view=None, **kwargs) -> None:
+    def __init__(self, *, provisioning_state: str = None, vm_extension=None, instance_view=None, **kwargs) -> None:
         super(NodeVMExtension, self).__init__(**kwargs)
         self.provisioning_state = provisioning_state
         self.vm_extension = vm_extension
@@ -7151,14 +8238,23 @@ class OSDisk(Model):
     """
 
     _attribute_map = {
-        'ephemeral_os_disk_settings': {'key': 'ephemeralOSDiskSettings', 'type': 'DiffDiskSettings'},
-        'caching': {'key': 'caching', 'type': 'CachingType'},
-        'managed_disk': {'key': 'managedDisk', 'type': 'ManagedDisk'},
-        'disk_size_gb': {'key': 'diskSizeGB', 'type': 'int'},
-        'write_accelerator_enabled': {'key': 'writeAcceleratorEnabled', 'type': 'bool'},
+        "ephemeral_os_disk_settings": {"key": "ephemeralOSDiskSettings", "type": "DiffDiskSettings"},
+        "caching": {"key": "caching", "type": "CachingType"},
+        "managed_disk": {"key": "managedDisk", "type": "ManagedDisk"},
+        "disk_size_gb": {"key": "diskSizeGB", "type": "int"},
+        "write_accelerator_enabled": {"key": "writeAcceleratorEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, ephemeral_os_disk_settings=None, caching=None, managed_disk=None, disk_size_gb: int=None, write_accelerator_enabled: bool=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        ephemeral_os_disk_settings=None,
+        caching=None,
+        managed_disk=None,
+        disk_size_gb: int = None,
+        write_accelerator_enabled: bool = None,
+        **kwargs
+    ) -> None:
         super(OSDisk, self).__init__(**kwargs)
         self.ephemeral_os_disk_settings = ephemeral_os_disk_settings
         self.caching = caching
@@ -7204,15 +8300,15 @@ class OutputFile(Model):
     """
 
     _validation = {
-        'file_pattern': {'required': True},
-        'destination': {'required': True},
-        'upload_options': {'required': True},
+        "file_pattern": {"required": True},
+        "destination": {"required": True},
+        "upload_options": {"required": True},
     }
 
     _attribute_map = {
-        'file_pattern': {'key': 'filePattern', 'type': 'str'},
-        'destination': {'key': 'destination', 'type': 'OutputFileDestination'},
-        'upload_options': {'key': 'uploadOptions', 'type': 'OutputFileUploadOptions'},
+        "file_pattern": {"key": "filePattern", "type": "str"},
+        "destination": {"key": "destination", "type": "OutputFileDestination"},
+        "upload_options": {"key": "uploadOptions", "type": "OutputFileUploadOptions"},
     }
 
     def __init__(self, *, file_pattern: str, destination, upload_options, **kwargs) -> None:
@@ -7251,17 +8347,19 @@ class OutputFileBlobContainerDestination(Model):
     """
 
     _validation = {
-        'container_url': {'required': True},
+        "container_url": {"required": True},
     }
 
     _attribute_map = {
-        'path': {'key': 'path', 'type': 'str'},
-        'container_url': {'key': 'containerUrl', 'type': 'str'},
-        'identity_reference': {'key': 'identityReference', 'type': 'ComputeNodeIdentityReference'},
-        'upload_headers': {'key': 'uploadHeaders', 'type': '[HttpHeader]'},
+        "path": {"key": "path", "type": "str"},
+        "container_url": {"key": "containerUrl", "type": "str"},
+        "identity_reference": {"key": "identityReference", "type": "ComputeNodeIdentityReference"},
+        "upload_headers": {"key": "uploadHeaders", "type": "[HttpHeader]"},
     }
 
-    def __init__(self, *, container_url: str, path: str=None, identity_reference=None, upload_headers=None, **kwargs) -> None:
+    def __init__(
+        self, *, container_url: str, path: str = None, identity_reference=None, upload_headers=None, **kwargs
+    ) -> None:
         super(OutputFileBlobContainerDestination, self).__init__(**kwargs)
         self.path = path
         self.container_url = container_url
@@ -7278,7 +8376,7 @@ class OutputFileDestination(Model):
     """
 
     _attribute_map = {
-        'container': {'key': 'container', 'type': 'OutputFileBlobContainerDestination'},
+        "container": {"key": "container", "type": "OutputFileBlobContainerDestination"},
     }
 
     def __init__(self, *, container=None, **kwargs) -> None:
@@ -7301,11 +8399,11 @@ class OutputFileUploadOptions(Model):
     """
 
     _validation = {
-        'upload_condition': {'required': True},
+        "upload_condition": {"required": True},
     }
 
     _attribute_map = {
-        'upload_condition': {'key': 'uploadCondition', 'type': 'OutputFileUploadCondition'},
+        "upload_condition": {"key": "uploadCondition", "type": "OutputFileUploadCondition"},
     }
 
     def __init__(self, *, upload_condition, **kwargs) -> None:
@@ -7333,13 +8431,21 @@ class PoolAddOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(PoolAddOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -7491,38 +8597,69 @@ class PoolAddParameter(Model):
     """
 
     _validation = {
-        'id': {'required': True},
-        'vm_size': {'required': True},
+        "id": {"required": True},
+        "vm_size": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'vm_size': {'key': 'vmSize', 'type': 'str'},
-        'cloud_service_configuration': {'key': 'cloudServiceConfiguration', 'type': 'CloudServiceConfiguration'},
-        'virtual_machine_configuration': {'key': 'virtualMachineConfiguration', 'type': 'VirtualMachineConfiguration'},
-        'resize_timeout': {'key': 'resizeTimeout', 'type': 'duration'},
-        'target_dedicated_nodes': {'key': 'targetDedicatedNodes', 'type': 'int'},
-        'target_low_priority_nodes': {'key': 'targetLowPriorityNodes', 'type': 'int'},
-        'enable_auto_scale': {'key': 'enableAutoScale', 'type': 'bool'},
-        'auto_scale_formula': {'key': 'autoScaleFormula', 'type': 'str'},
-        'auto_scale_evaluation_interval': {'key': 'autoScaleEvaluationInterval', 'type': 'duration'},
-        'enable_inter_node_communication': {'key': 'enableInterNodeCommunication', 'type': 'bool'},
-        'network_configuration': {'key': 'networkConfiguration', 'type': 'NetworkConfiguration'},
-        'start_task': {'key': 'startTask', 'type': 'StartTask'},
-        'certificate_references': {'key': 'certificateReferences', 'type': '[CertificateReference]'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'application_licenses': {'key': 'applicationLicenses', 'type': '[str]'},
-        'task_slots_per_node': {'key': 'taskSlotsPerNode', 'type': 'int'},
-        'task_scheduling_policy': {'key': 'taskSchedulingPolicy', 'type': 'TaskSchedulingPolicy'},
-        'user_accounts': {'key': 'userAccounts', 'type': '[UserAccount]'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'mount_configuration': {'key': 'mountConfiguration', 'type': '[MountConfiguration]'},
-        'target_node_communication_mode': {'key': 'targetNodeCommunicationMode', 'type': 'NodeCommunicationMode'},
-        'resource_tags': {'key': 'resourceTags', 'type': '{str}'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "vm_size": {"key": "vmSize", "type": "str"},
+        "cloud_service_configuration": {"key": "cloudServiceConfiguration", "type": "CloudServiceConfiguration"},
+        "virtual_machine_configuration": {"key": "virtualMachineConfiguration", "type": "VirtualMachineConfiguration"},
+        "resize_timeout": {"key": "resizeTimeout", "type": "duration"},
+        "target_dedicated_nodes": {"key": "targetDedicatedNodes", "type": "int"},
+        "target_low_priority_nodes": {"key": "targetLowPriorityNodes", "type": "int"},
+        "enable_auto_scale": {"key": "enableAutoScale", "type": "bool"},
+        "auto_scale_formula": {"key": "autoScaleFormula", "type": "str"},
+        "auto_scale_evaluation_interval": {"key": "autoScaleEvaluationInterval", "type": "duration"},
+        "enable_inter_node_communication": {"key": "enableInterNodeCommunication", "type": "bool"},
+        "network_configuration": {"key": "networkConfiguration", "type": "NetworkConfiguration"},
+        "start_task": {"key": "startTask", "type": "StartTask"},
+        "certificate_references": {"key": "certificateReferences", "type": "[CertificateReference]"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "application_licenses": {"key": "applicationLicenses", "type": "[str]"},
+        "task_slots_per_node": {"key": "taskSlotsPerNode", "type": "int"},
+        "task_scheduling_policy": {"key": "taskSchedulingPolicy", "type": "TaskSchedulingPolicy"},
+        "user_accounts": {"key": "userAccounts", "type": "[UserAccount]"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "mount_configuration": {"key": "mountConfiguration", "type": "[MountConfiguration]"},
+        "target_node_communication_mode": {"key": "targetNodeCommunicationMode", "type": "NodeCommunicationMode"},
+        "resource_tags": {"key": "resourceTags", "type": "{str}"},
     }
 
-    def __init__(self, *, id: str, vm_size: str, display_name: str=None, cloud_service_configuration=None, virtual_machine_configuration=None, resize_timeout=None, target_dedicated_nodes: int=None, target_low_priority_nodes: int=None, enable_auto_scale: bool=None, auto_scale_formula: str=None, auto_scale_evaluation_interval=None, enable_inter_node_communication: bool=None, network_configuration=None, start_task=None, certificate_references=None, application_package_references=None, application_licenses=None, task_slots_per_node: int=None, task_scheduling_policy=None, user_accounts=None, metadata=None, mount_configuration=None, target_node_communication_mode=None, resource_tags=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str,
+        vm_size: str,
+        display_name: str = None,
+        cloud_service_configuration=None,
+        virtual_machine_configuration=None,
+        resize_timeout=None,
+        target_dedicated_nodes: int = None,
+        target_low_priority_nodes: int = None,
+        enable_auto_scale: bool = None,
+        auto_scale_formula: str = None,
+        auto_scale_evaluation_interval=None,
+        enable_inter_node_communication: bool = None,
+        network_configuration=None,
+        start_task=None,
+        certificate_references=None,
+        application_package_references=None,
+        application_licenses=None,
+        task_slots_per_node: int = None,
+        task_scheduling_policy=None,
+        user_accounts=None,
+        metadata=None,
+        mount_configuration=None,
+        target_node_communication_mode=None,
+        resource_tags=None,
+        **kwargs
+    ) -> None:
         super(PoolAddParameter, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -7589,17 +8726,29 @@ class PoolDeleteOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolDeleteOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -7631,13 +8780,21 @@ class PoolDisableAutoScaleOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(PoolDisableAutoScaleOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -7684,17 +8841,29 @@ class PoolEnableAutoScaleOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolEnableAutoScaleOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -7729,11 +8898,11 @@ class PoolEnableAutoScaleParameter(Model):
     """
 
     _attribute_map = {
-        'auto_scale_formula': {'key': 'autoScaleFormula', 'type': 'str'},
-        'auto_scale_evaluation_interval': {'key': 'autoScaleEvaluationInterval', 'type': 'duration'},
+        "auto_scale_formula": {"key": "autoScaleFormula", "type": "str"},
+        "auto_scale_evaluation_interval": {"key": "autoScaleEvaluationInterval", "type": "duration"},
     }
 
-    def __init__(self, *, auto_scale_formula: str=None, auto_scale_evaluation_interval=None, **kwargs) -> None:
+    def __init__(self, *, auto_scale_formula: str = None, auto_scale_evaluation_interval=None, **kwargs) -> None:
         super(PoolEnableAutoScaleParameter, self).__init__(**kwargs)
         self.auto_scale_formula = auto_scale_formula
         self.auto_scale_evaluation_interval = auto_scale_evaluation_interval
@@ -7752,11 +8921,11 @@ class PoolEndpointConfiguration(Model):
     """
 
     _validation = {
-        'inbound_nat_pools': {'required': True},
+        "inbound_nat_pools": {"required": True},
     }
 
     _attribute_map = {
-        'inbound_nat_pools': {'key': 'inboundNATPools', 'type': '[InboundNATPool]'},
+        "inbound_nat_pools": {"key": "inboundNATPools", "type": "[InboundNATPool]"},
     }
 
     def __init__(self, *, inbound_nat_pools, **kwargs) -> None:
@@ -7784,13 +8953,21 @@ class PoolEvaluateAutoScaleOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(PoolEvaluateAutoScaleOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -7813,11 +8990,11 @@ class PoolEvaluateAutoScaleParameter(Model):
     """
 
     _validation = {
-        'auto_scale_formula': {'required': True},
+        "auto_scale_formula": {"required": True},
     }
 
     _attribute_map = {
-        'auto_scale_formula': {'key': 'autoScaleFormula', 'type': 'str'},
+        "auto_scale_formula": {"key": "autoScaleFormula", "type": "str"},
     }
 
     def __init__(self, *, auto_scale_formula: str, **kwargs) -> None:
@@ -7864,17 +9041,29 @@ class PoolExistsOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolExistsOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -7929,19 +9118,33 @@ class PoolGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, expand: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        expand: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolGetOptions, self).__init__(**kwargs)
         self.select = select
         self.expand = expand
@@ -7978,11 +9181,11 @@ class PoolInformation(Model):
     """
 
     _attribute_map = {
-        'pool_id': {'key': 'poolId', 'type': 'str'},
-        'auto_pool_specification': {'key': 'autoPoolSpecification', 'type': 'AutoPoolSpecification'},
+        "pool_id": {"key": "poolId", "type": "str"},
+        "auto_pool_specification": {"key": "autoPoolSpecification", "type": "AutoPoolSpecification"},
     }
 
-    def __init__(self, *, pool_id: str=None, auto_pool_specification=None, **kwargs) -> None:
+    def __init__(self, *, pool_id: str = None, auto_pool_specification=None, **kwargs) -> None:
         super(PoolInformation, self).__init__(**kwargs)
         self.pool_id = pool_id
         self.auto_pool_specification = auto_pool_specification
@@ -8019,17 +9222,29 @@ class PoolListOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, expand: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        expand: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(PoolListOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -8078,17 +9293,29 @@ class PoolListUsageMetricsOptions(Model):
     """
 
     _attribute_map = {
-        'start_time': {'key': '', 'type': 'iso-8601'},
-        'end_time': {'key': '', 'type': 'iso-8601'},
-        'filter': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "start_time": {"key": "", "type": "iso-8601"},
+        "end_time": {"key": "", "type": "iso-8601"},
+        "filter": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, start_time=None, end_time=None, filter: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        start_time=None,
+        end_time=None,
+        filter: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(PoolListUsageMetricsOptions, self).__init__(**kwargs)
         self.start_time = start_time
         self.end_time = end_time
@@ -8115,13 +9342,13 @@ class PoolNodeCounts(Model):
     """
 
     _validation = {
-        'pool_id': {'required': True},
+        "pool_id": {"required": True},
     }
 
     _attribute_map = {
-        'pool_id': {'key': 'poolId', 'type': 'str'},
-        'dedicated': {'key': 'dedicated', 'type': 'NodeCounts'},
-        'low_priority': {'key': 'lowPriority', 'type': 'NodeCounts'},
+        "pool_id": {"key": "poolId", "type": "str"},
+        "dedicated": {"key": "dedicated", "type": "NodeCounts"},
+        "low_priority": {"key": "lowPriority", "type": "NodeCounts"},
     }
 
     def __init__(self, *, pool_id: str, dedicated=None, low_priority=None, **kwargs) -> None:
@@ -8170,17 +9397,29 @@ class PoolPatchOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolPatchOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -8239,14 +9478,26 @@ class PoolPatchParameter(Model):
     """
 
     _attribute_map = {
-        'start_task': {'key': 'startTask', 'type': 'StartTask'},
-        'certificate_references': {'key': 'certificateReferences', 'type': '[CertificateReference]'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'target_node_communication_mode': {'key': 'targetNodeCommunicationMode', 'type': 'NodeCommunicationMode'},
+        "start_task": {"key": "startTask", "type": "StartTask"},
+        "certificate_references": {"key": "certificateReferences", "type": "[CertificateReference]"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "target_node_communication_mode": {"key": "targetNodeCommunicationMode", "type": "NodeCommunicationMode"},
     }
 
-    def __init__(self, *, start_task=None, certificate_references=None, application_package_references=None, metadata=None, target_node_communication_mode=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        start_task=None,
+        certificate_references=None,
+        application_package_references=None,
+        metadata=None,
+        target_node_communication_mode=None,
+        **kwargs
+    ) -> None:
         super(PoolPatchParameter, self).__init__(**kwargs)
         self.start_task = start_task
         self.certificate_references = certificate_references
@@ -8294,17 +9545,29 @@ class PoolRemoveNodesOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolRemoveNodesOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -8355,17 +9618,29 @@ class PoolResizeOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolResizeOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -8400,13 +9675,21 @@ class PoolResizeParameter(Model):
     """
 
     _attribute_map = {
-        'target_dedicated_nodes': {'key': 'targetDedicatedNodes', 'type': 'int'},
-        'target_low_priority_nodes': {'key': 'targetLowPriorityNodes', 'type': 'int'},
-        'resize_timeout': {'key': 'resizeTimeout', 'type': 'duration'},
-        'node_deallocation_option': {'key': 'nodeDeallocationOption', 'type': 'ComputeNodeDeallocationOption'},
+        "target_dedicated_nodes": {"key": "targetDedicatedNodes", "type": "int"},
+        "target_low_priority_nodes": {"key": "targetLowPriorityNodes", "type": "int"},
+        "resize_timeout": {"key": "resizeTimeout", "type": "duration"},
+        "node_deallocation_option": {"key": "nodeDeallocationOption", "type": "ComputeNodeDeallocationOption"},
     }
 
-    def __init__(self, *, target_dedicated_nodes: int=None, target_low_priority_nodes: int=None, resize_timeout=None, node_deallocation_option=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        target_dedicated_nodes: int = None,
+        target_low_priority_nodes: int = None,
+        resize_timeout=None,
+        node_deallocation_option=None,
+        **kwargs
+    ) -> None:
         super(PoolResizeParameter, self).__init__(**kwargs)
         self.target_dedicated_nodes = target_dedicated_nodes
         self.target_low_priority_nodes = target_low_priority_nodes
@@ -8550,36 +9833,66 @@ class PoolSpecification(Model):
     """
 
     _validation = {
-        'vm_size': {'required': True},
+        "vm_size": {"required": True},
     }
 
     _attribute_map = {
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'vm_size': {'key': 'vmSize', 'type': 'str'},
-        'cloud_service_configuration': {'key': 'cloudServiceConfiguration', 'type': 'CloudServiceConfiguration'},
-        'virtual_machine_configuration': {'key': 'virtualMachineConfiguration', 'type': 'VirtualMachineConfiguration'},
-        'task_slots_per_node': {'key': 'taskSlotsPerNode', 'type': 'int'},
-        'task_scheduling_policy': {'key': 'taskSchedulingPolicy', 'type': 'TaskSchedulingPolicy'},
-        'resize_timeout': {'key': 'resizeTimeout', 'type': 'duration'},
-        'target_dedicated_nodes': {'key': 'targetDedicatedNodes', 'type': 'int'},
-        'target_low_priority_nodes': {'key': 'targetLowPriorityNodes', 'type': 'int'},
-        'enable_auto_scale': {'key': 'enableAutoScale', 'type': 'bool'},
-        'auto_scale_formula': {'key': 'autoScaleFormula', 'type': 'str'},
-        'auto_scale_evaluation_interval': {'key': 'autoScaleEvaluationInterval', 'type': 'duration'},
-        'enable_inter_node_communication': {'key': 'enableInterNodeCommunication', 'type': 'bool'},
-        'network_configuration': {'key': 'networkConfiguration', 'type': 'NetworkConfiguration'},
-        'start_task': {'key': 'startTask', 'type': 'StartTask'},
-        'certificate_references': {'key': 'certificateReferences', 'type': '[CertificateReference]'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'application_licenses': {'key': 'applicationLicenses', 'type': '[str]'},
-        'user_accounts': {'key': 'userAccounts', 'type': '[UserAccount]'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'mount_configuration': {'key': 'mountConfiguration', 'type': '[MountConfiguration]'},
-        'target_node_communication_mode': {'key': 'targetNodeCommunicationMode', 'type': 'NodeCommunicationMode'},
-        'resource_tags': {'key': 'resourceTags', 'type': '{str}'},
+        "display_name": {"key": "displayName", "type": "str"},
+        "vm_size": {"key": "vmSize", "type": "str"},
+        "cloud_service_configuration": {"key": "cloudServiceConfiguration", "type": "CloudServiceConfiguration"},
+        "virtual_machine_configuration": {"key": "virtualMachineConfiguration", "type": "VirtualMachineConfiguration"},
+        "task_slots_per_node": {"key": "taskSlotsPerNode", "type": "int"},
+        "task_scheduling_policy": {"key": "taskSchedulingPolicy", "type": "TaskSchedulingPolicy"},
+        "resize_timeout": {"key": "resizeTimeout", "type": "duration"},
+        "target_dedicated_nodes": {"key": "targetDedicatedNodes", "type": "int"},
+        "target_low_priority_nodes": {"key": "targetLowPriorityNodes", "type": "int"},
+        "enable_auto_scale": {"key": "enableAutoScale", "type": "bool"},
+        "auto_scale_formula": {"key": "autoScaleFormula", "type": "str"},
+        "auto_scale_evaluation_interval": {"key": "autoScaleEvaluationInterval", "type": "duration"},
+        "enable_inter_node_communication": {"key": "enableInterNodeCommunication", "type": "bool"},
+        "network_configuration": {"key": "networkConfiguration", "type": "NetworkConfiguration"},
+        "start_task": {"key": "startTask", "type": "StartTask"},
+        "certificate_references": {"key": "certificateReferences", "type": "[CertificateReference]"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "application_licenses": {"key": "applicationLicenses", "type": "[str]"},
+        "user_accounts": {"key": "userAccounts", "type": "[UserAccount]"},
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "mount_configuration": {"key": "mountConfiguration", "type": "[MountConfiguration]"},
+        "target_node_communication_mode": {"key": "targetNodeCommunicationMode", "type": "NodeCommunicationMode"},
+        "resource_tags": {"key": "resourceTags", "type": "{str}"},
     }
 
-    def __init__(self, *, vm_size: str, display_name: str=None, cloud_service_configuration=None, virtual_machine_configuration=None, task_slots_per_node: int=None, task_scheduling_policy=None, resize_timeout=None, target_dedicated_nodes: int=None, target_low_priority_nodes: int=None, enable_auto_scale: bool=None, auto_scale_formula: str=None, auto_scale_evaluation_interval=None, enable_inter_node_communication: bool=None, network_configuration=None, start_task=None, certificate_references=None, application_package_references=None, application_licenses=None, user_accounts=None, metadata=None, mount_configuration=None, target_node_communication_mode=None, resource_tags=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        vm_size: str,
+        display_name: str = None,
+        cloud_service_configuration=None,
+        virtual_machine_configuration=None,
+        task_slots_per_node: int = None,
+        task_scheduling_policy=None,
+        resize_timeout=None,
+        target_dedicated_nodes: int = None,
+        target_low_priority_nodes: int = None,
+        enable_auto_scale: bool = None,
+        auto_scale_formula: str = None,
+        auto_scale_evaluation_interval=None,
+        enable_inter_node_communication: bool = None,
+        network_configuration=None,
+        start_task=None,
+        certificate_references=None,
+        application_package_references=None,
+        application_licenses=None,
+        user_accounts=None,
+        metadata=None,
+        mount_configuration=None,
+        target_node_communication_mode=None,
+        resource_tags=None,
+        **kwargs
+    ) -> None:
         super(PoolSpecification, self).__init__(**kwargs)
         self.display_name = display_name
         self.vm_size = vm_size
@@ -8627,20 +9940,22 @@ class PoolStatistics(Model):
     """
 
     _validation = {
-        'url': {'required': True},
-        'start_time': {'required': True},
-        'last_update_time': {'required': True},
+        "url": {"required": True},
+        "start_time": {"required": True},
+        "last_update_time": {"required": True},
     }
 
     _attribute_map = {
-        'url': {'key': 'url', 'type': 'str'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
-        'usage_stats': {'key': 'usageStats', 'type': 'UsageStatistics'},
-        'resource_stats': {'key': 'resourceStats', 'type': 'ResourceStatistics'},
+        "url": {"key": "url", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
+        "usage_stats": {"key": "usageStats", "type": "UsageStatistics"},
+        "resource_stats": {"key": "resourceStats", "type": "ResourceStatistics"},
     }
 
-    def __init__(self, *, url: str, start_time, last_update_time, usage_stats=None, resource_stats=None, **kwargs) -> None:
+    def __init__(
+        self, *, url: str, start_time, last_update_time, usage_stats=None, resource_stats=None, **kwargs
+    ) -> None:
         super(PoolStatistics, self).__init__(**kwargs)
         self.url = url
         self.start_time = start_time
@@ -8688,17 +10003,29 @@ class PoolStopResizeOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(PoolStopResizeOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -8730,13 +10057,21 @@ class PoolUpdatePropertiesOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(PoolUpdatePropertiesOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -8796,20 +10131,32 @@ class PoolUpdatePropertiesParameter(Model):
     """
 
     _validation = {
-        'certificate_references': {'required': True},
-        'application_package_references': {'required': True},
-        'metadata': {'required': True},
+        "certificate_references": {"required": True},
+        "application_package_references": {"required": True},
+        "metadata": {"required": True},
     }
 
     _attribute_map = {
-        'start_task': {'key': 'startTask', 'type': 'StartTask'},
-        'certificate_references': {'key': 'certificateReferences', 'type': '[CertificateReference]'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'metadata': {'key': 'metadata', 'type': '[MetadataItem]'},
-        'target_node_communication_mode': {'key': 'targetNodeCommunicationMode', 'type': 'NodeCommunicationMode'},
+        "start_task": {"key": "startTask", "type": "StartTask"},
+        "certificate_references": {"key": "certificateReferences", "type": "[CertificateReference]"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "metadata": {"key": "metadata", "type": "[MetadataItem]"},
+        "target_node_communication_mode": {"key": "targetNodeCommunicationMode", "type": "NodeCommunicationMode"},
     }
 
-    def __init__(self, *, certificate_references, application_package_references, metadata, start_task=None, target_node_communication_mode=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        certificate_references,
+        application_package_references,
+        metadata,
+        start_task=None,
+        target_node_communication_mode=None,
+        **kwargs
+    ) -> None:
         super(PoolUpdatePropertiesParameter, self).__init__(**kwargs)
         self.start_task = start_task
         self.certificate_references = certificate_references
@@ -8839,19 +10186,19 @@ class PoolUsageMetrics(Model):
     """
 
     _validation = {
-        'pool_id': {'required': True},
-        'start_time': {'required': True},
-        'end_time': {'required': True},
-        'vm_size': {'required': True},
-        'total_core_hours': {'required': True},
+        "pool_id": {"required": True},
+        "start_time": {"required": True},
+        "end_time": {"required": True},
+        "vm_size": {"required": True},
+        "total_core_hours": {"required": True},
     }
 
     _attribute_map = {
-        'pool_id': {'key': 'poolId', 'type': 'str'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'vm_size': {'key': 'vmSize', 'type': 'str'},
-        'total_core_hours': {'key': 'totalCoreHours', 'type': 'float'},
+        "pool_id": {"key": "poolId", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "vm_size": {"key": "vmSize", "type": "str"},
+        "total_core_hours": {"key": "totalCoreHours", "type": "float"},
     }
 
     def __init__(self, *, pool_id: str, start_time, end_time, vm_size: str, total_core_hours: float, **kwargs) -> None:
@@ -8881,8 +10228,8 @@ class PublicIPAddressConfiguration(Model):
     """
 
     _attribute_map = {
-        'provision': {'key': 'provision', 'type': 'IPAddressProvisioningType'},
-        'ip_address_ids': {'key': 'ipAddressIds', 'type': '[str]'},
+        "provision": {"key": "provision", "type": "IPAddressProvisioningType"},
+        "ip_address_ids": {"key": "ipAddressIds", "type": "[str]"},
     }
 
     def __init__(self, *, provision=None, ip_address_ids=None, **kwargs) -> None:
@@ -8901,11 +10248,11 @@ class RecentJob(Model):
     """
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'url': {'key': 'url', 'type': 'str'},
+        "id": {"key": "id", "type": "str"},
+        "url": {"key": "url", "type": "str"},
     }
 
-    def __init__(self, *, id: str=None, url: str=None, **kwargs) -> None:
+    def __init__(self, *, id: str = None, url: str = None, **kwargs) -> None:
         super(RecentJob, self).__init__(**kwargs)
         self.id = id
         self.url = url
@@ -8923,12 +10270,12 @@ class ResizeError(Model):
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'str'},
-        'values': {'key': 'values', 'type': '[NameValuePair]'},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "values": {"key": "values", "type": "[NameValuePair]"},
     }
 
-    def __init__(self, *, code: str=None, message: str=None, values=None, **kwargs) -> None:
+    def __init__(self, *, code: str = None, message: str = None, values=None, **kwargs) -> None:
         super(ResizeError, self).__init__(**kwargs)
         self.code = code
         self.message = message
@@ -8986,16 +10333,27 @@ class ResourceFile(Model):
     """
 
     _attribute_map = {
-        'auto_storage_container_name': {'key': 'autoStorageContainerName', 'type': 'str'},
-        'storage_container_url': {'key': 'storageContainerUrl', 'type': 'str'},
-        'http_url': {'key': 'httpUrl', 'type': 'str'},
-        'blob_prefix': {'key': 'blobPrefix', 'type': 'str'},
-        'file_path': {'key': 'filePath', 'type': 'str'},
-        'file_mode': {'key': 'fileMode', 'type': 'str'},
-        'identity_reference': {'key': 'identityReference', 'type': 'ComputeNodeIdentityReference'},
+        "auto_storage_container_name": {"key": "autoStorageContainerName", "type": "str"},
+        "storage_container_url": {"key": "storageContainerUrl", "type": "str"},
+        "http_url": {"key": "httpUrl", "type": "str"},
+        "blob_prefix": {"key": "blobPrefix", "type": "str"},
+        "file_path": {"key": "filePath", "type": "str"},
+        "file_mode": {"key": "fileMode", "type": "str"},
+        "identity_reference": {"key": "identityReference", "type": "ComputeNodeIdentityReference"},
     }
 
-    def __init__(self, *, auto_storage_container_name: str=None, storage_container_url: str=None, http_url: str=None, blob_prefix: str=None, file_path: str=None, file_mode: str=None, identity_reference=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        auto_storage_container_name: str = None,
+        storage_container_url: str = None,
+        http_url: str = None,
+        blob_prefix: str = None,
+        file_path: str = None,
+        file_mode: str = None,
+        identity_reference=None,
+        **kwargs
+    ) -> None:
         super(ResourceFile, self).__init__(**kwargs)
         self.auto_storage_container_name = auto_storage_container_name
         self.storage_container_url = storage_container_url
@@ -9051,38 +10409,55 @@ class ResourceStatistics(Model):
     """
 
     _validation = {
-        'start_time': {'required': True},
-        'last_update_time': {'required': True},
-        'avg_cpu_percentage': {'required': True},
-        'avg_memory_gi_b': {'required': True},
-        'peak_memory_gi_b': {'required': True},
-        'avg_disk_gi_b': {'required': True},
-        'peak_disk_gi_b': {'required': True},
-        'disk_read_iops': {'required': True},
-        'disk_write_iops': {'required': True},
-        'disk_read_gi_b': {'required': True},
-        'disk_write_gi_b': {'required': True},
-        'network_read_gi_b': {'required': True},
-        'network_write_gi_b': {'required': True},
+        "start_time": {"required": True},
+        "last_update_time": {"required": True},
+        "avg_cpu_percentage": {"required": True},
+        "avg_memory_gi_b": {"required": True},
+        "peak_memory_gi_b": {"required": True},
+        "avg_disk_gi_b": {"required": True},
+        "peak_disk_gi_b": {"required": True},
+        "disk_read_iops": {"required": True},
+        "disk_write_iops": {"required": True},
+        "disk_read_gi_b": {"required": True},
+        "disk_write_gi_b": {"required": True},
+        "network_read_gi_b": {"required": True},
+        "network_write_gi_b": {"required": True},
     }
 
     _attribute_map = {
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
-        'avg_cpu_percentage': {'key': 'avgCPUPercentage', 'type': 'float'},
-        'avg_memory_gi_b': {'key': 'avgMemoryGiB', 'type': 'float'},
-        'peak_memory_gi_b': {'key': 'peakMemoryGiB', 'type': 'float'},
-        'avg_disk_gi_b': {'key': 'avgDiskGiB', 'type': 'float'},
-        'peak_disk_gi_b': {'key': 'peakDiskGiB', 'type': 'float'},
-        'disk_read_iops': {'key': 'diskReadIOps', 'type': 'long'},
-        'disk_write_iops': {'key': 'diskWriteIOps', 'type': 'long'},
-        'disk_read_gi_b': {'key': 'diskReadGiB', 'type': 'float'},
-        'disk_write_gi_b': {'key': 'diskWriteGiB', 'type': 'float'},
-        'network_read_gi_b': {'key': 'networkReadGiB', 'type': 'float'},
-        'network_write_gi_b': {'key': 'networkWriteGiB', 'type': 'float'},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
+        "avg_cpu_percentage": {"key": "avgCPUPercentage", "type": "float"},
+        "avg_memory_gi_b": {"key": "avgMemoryGiB", "type": "float"},
+        "peak_memory_gi_b": {"key": "peakMemoryGiB", "type": "float"},
+        "avg_disk_gi_b": {"key": "avgDiskGiB", "type": "float"},
+        "peak_disk_gi_b": {"key": "peakDiskGiB", "type": "float"},
+        "disk_read_iops": {"key": "diskReadIOps", "type": "long"},
+        "disk_write_iops": {"key": "diskWriteIOps", "type": "long"},
+        "disk_read_gi_b": {"key": "diskReadGiB", "type": "float"},
+        "disk_write_gi_b": {"key": "diskWriteGiB", "type": "float"},
+        "network_read_gi_b": {"key": "networkReadGiB", "type": "float"},
+        "network_write_gi_b": {"key": "networkWriteGiB", "type": "float"},
     }
 
-    def __init__(self, *, start_time, last_update_time, avg_cpu_percentage: float, avg_memory_gi_b: float, peak_memory_gi_b: float, avg_disk_gi_b: float, peak_disk_gi_b: float, disk_read_iops: int, disk_write_iops: int, disk_read_gi_b: float, disk_write_gi_b: float, network_read_gi_b: float, network_write_gi_b: float, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        start_time,
+        last_update_time,
+        avg_cpu_percentage: float,
+        avg_memory_gi_b: float,
+        peak_memory_gi_b: float,
+        avg_disk_gi_b: float,
+        peak_disk_gi_b: float,
+        disk_read_iops: int,
+        disk_write_iops: int,
+        disk_read_gi_b: float,
+        disk_write_gi_b: float,
+        network_read_gi_b: float,
+        network_write_gi_b: float,
+        **kwargs
+    ) -> None:
         super(ResourceStatistics, self).__init__(**kwargs)
         self.start_time = start_time
         self.last_update_time = last_update_time
@@ -9140,13 +10515,15 @@ class Schedule(Model):
     """
 
     _attribute_map = {
-        'do_not_run_until': {'key': 'doNotRunUntil', 'type': 'iso-8601'},
-        'do_not_run_after': {'key': 'doNotRunAfter', 'type': 'iso-8601'},
-        'start_window': {'key': 'startWindow', 'type': 'duration'},
-        'recurrence_interval': {'key': 'recurrenceInterval', 'type': 'duration'},
+        "do_not_run_until": {"key": "doNotRunUntil", "type": "iso-8601"},
+        "do_not_run_after": {"key": "doNotRunAfter", "type": "iso-8601"},
+        "start_window": {"key": "startWindow", "type": "duration"},
+        "recurrence_interval": {"key": "recurrenceInterval", "type": "duration"},
     }
 
-    def __init__(self, *, do_not_run_until=None, do_not_run_after=None, start_window=None, recurrence_interval=None, **kwargs) -> None:
+    def __init__(
+        self, *, do_not_run_until=None, do_not_run_after=None, start_window=None, recurrence_interval=None, **kwargs
+    ) -> None:
         super(Schedule, self).__init__(**kwargs)
         self.do_not_run_until = do_not_run_until
         self.do_not_run_after = do_not_run_after
@@ -9173,12 +10550,12 @@ class SecurityProfile(Model):
     """
 
     _attribute_map = {
-        'security_type': {'key': 'securityType', 'type': 'SecurityTypes'},
-        'encryption_at_host': {'key': 'encryptionAtHost', 'type': 'bool'},
-        'uefi_settings': {'key': 'uefiSettings', 'type': 'UefiSettings'},
+        "security_type": {"key": "securityType", "type": "SecurityTypes"},
+        "encryption_at_host": {"key": "encryptionAtHost", "type": "bool"},
+        "uefi_settings": {"key": "uefiSettings", "type": "UefiSettings"},
     }
 
-    def __init__(self, *, security_type=None, encryption_at_host: bool=None, uefi_settings=None, **kwargs) -> None:
+    def __init__(self, *, security_type=None, encryption_at_host: bool = None, uefi_settings=None, **kwargs) -> None:
         super(SecurityProfile, self).__init__(**kwargs)
         self.security_type = security_type
         self.encryption_at_host = encryption_at_host
@@ -9198,11 +10575,11 @@ class ServiceArtifactReference(Model):
     """
 
     _validation = {
-        'id': {'required': True},
+        "id": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
+        "id": {"key": "id", "type": "str"},
     }
 
     def __init__(self, *, id: str, **kwargs) -> None:
@@ -9285,20 +10662,31 @@ class StartTask(Model):
     """
 
     _validation = {
-        'command_line': {'required': True},
+        "command_line": {"required": True},
     }
 
     _attribute_map = {
-        'command_line': {'key': 'commandLine', 'type': 'str'},
-        'container_settings': {'key': 'containerSettings', 'type': 'TaskContainerSettings'},
-        'resource_files': {'key': 'resourceFiles', 'type': '[ResourceFile]'},
-        'environment_settings': {'key': 'environmentSettings', 'type': '[EnvironmentSetting]'},
-        'user_identity': {'key': 'userIdentity', 'type': 'UserIdentity'},
-        'max_task_retry_count': {'key': 'maxTaskRetryCount', 'type': 'int'},
-        'wait_for_success': {'key': 'waitForSuccess', 'type': 'bool'},
+        "command_line": {"key": "commandLine", "type": "str"},
+        "container_settings": {"key": "containerSettings", "type": "TaskContainerSettings"},
+        "resource_files": {"key": "resourceFiles", "type": "[ResourceFile]"},
+        "environment_settings": {"key": "environmentSettings", "type": "[EnvironmentSetting]"},
+        "user_identity": {"key": "userIdentity", "type": "UserIdentity"},
+        "max_task_retry_count": {"key": "maxTaskRetryCount", "type": "int"},
+        "wait_for_success": {"key": "waitForSuccess", "type": "bool"},
     }
 
-    def __init__(self, *, command_line: str, container_settings=None, resource_files=None, environment_settings=None, user_identity=None, max_task_retry_count: int=None, wait_for_success: bool=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        command_line: str,
+        container_settings=None,
+        resource_files=None,
+        environment_settings=None,
+        user_identity=None,
+        max_task_retry_count: int = None,
+        wait_for_success: bool = None,
+        **kwargs
+    ) -> None:
         super(StartTask, self).__init__(**kwargs)
         self.command_line = command_line
         self.container_settings = container_settings
@@ -9364,24 +10752,37 @@ class StartTaskInformation(Model):
     """
 
     _validation = {
-        'state': {'required': True},
-        'start_time': {'required': True},
-        'retry_count': {'required': True},
+        "state": {"required": True},
+        "start_time": {"required": True},
+        "retry_count": {"required": True},
     }
 
     _attribute_map = {
-        'state': {'key': 'state', 'type': 'StartTaskState'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'exit_code': {'key': 'exitCode', 'type': 'int'},
-        'container_info': {'key': 'containerInfo', 'type': 'TaskContainerExecutionInformation'},
-        'failure_info': {'key': 'failureInfo', 'type': 'TaskFailureInformation'},
-        'retry_count': {'key': 'retryCount', 'type': 'int'},
-        'last_retry_time': {'key': 'lastRetryTime', 'type': 'iso-8601'},
-        'result': {'key': 'result', 'type': 'TaskExecutionResult'},
+        "state": {"key": "state", "type": "StartTaskState"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "exit_code": {"key": "exitCode", "type": "int"},
+        "container_info": {"key": "containerInfo", "type": "TaskContainerExecutionInformation"},
+        "failure_info": {"key": "failureInfo", "type": "TaskFailureInformation"},
+        "retry_count": {"key": "retryCount", "type": "int"},
+        "last_retry_time": {"key": "lastRetryTime", "type": "iso-8601"},
+        "result": {"key": "result", "type": "TaskExecutionResult"},
     }
 
-    def __init__(self, *, state, start_time, retry_count: int, end_time=None, exit_code: int=None, container_info=None, failure_info=None, last_retry_time=None, result=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        state,
+        start_time,
+        retry_count: int,
+        end_time=None,
+        exit_code: int = None,
+        container_info=None,
+        failure_info=None,
+        last_retry_time=None,
+        result=None,
+        **kwargs
+    ) -> None:
         super(StartTaskInformation, self).__init__(**kwargs)
         self.state = state
         self.start_time = start_time
@@ -9445,21 +10846,37 @@ class SubtaskInformation(Model):
     """
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'int'},
-        'node_info': {'key': 'nodeInfo', 'type': 'ComputeNodeInformation'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'exit_code': {'key': 'exitCode', 'type': 'int'},
-        'container_info': {'key': 'containerInfo', 'type': 'TaskContainerExecutionInformation'},
-        'failure_info': {'key': 'failureInfo', 'type': 'TaskFailureInformation'},
-        'state': {'key': 'state', 'type': 'SubtaskState'},
-        'state_transition_time': {'key': 'stateTransitionTime', 'type': 'iso-8601'},
-        'previous_state': {'key': 'previousState', 'type': 'SubtaskState'},
-        'previous_state_transition_time': {'key': 'previousStateTransitionTime', 'type': 'iso-8601'},
-        'result': {'key': 'result', 'type': 'TaskExecutionResult'},
+        "id": {"key": "id", "type": "int"},
+        "node_info": {"key": "nodeInfo", "type": "ComputeNodeInformation"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "exit_code": {"key": "exitCode", "type": "int"},
+        "container_info": {"key": "containerInfo", "type": "TaskContainerExecutionInformation"},
+        "failure_info": {"key": "failureInfo", "type": "TaskFailureInformation"},
+        "state": {"key": "state", "type": "SubtaskState"},
+        "state_transition_time": {"key": "stateTransitionTime", "type": "iso-8601"},
+        "previous_state": {"key": "previousState", "type": "SubtaskState"},
+        "previous_state_transition_time": {"key": "previousStateTransitionTime", "type": "iso-8601"},
+        "result": {"key": "result", "type": "TaskExecutionResult"},
     }
 
-    def __init__(self, *, id: int=None, node_info=None, start_time=None, end_time=None, exit_code: int=None, container_info=None, failure_info=None, state=None, state_transition_time=None, previous_state=None, previous_state_transition_time=None, result=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: int = None,
+        node_info=None,
+        start_time=None,
+        end_time=None,
+        exit_code: int = None,
+        container_info=None,
+        failure_info=None,
+        state=None,
+        state_transition_time=None,
+        previous_state=None,
+        previous_state_transition_time=None,
+        result=None,
+        **kwargs
+    ) -> None:
         super(SubtaskInformation, self).__init__(**kwargs)
         self.id = id
         self.node_info = node_info
@@ -9495,13 +10912,21 @@ class TaskAddCollectionOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(TaskAddCollectionOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -9523,11 +10948,11 @@ class TaskAddCollectionParameter(Model):
     """
 
     _validation = {
-        'value': {'required': True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
-        'value': {'key': 'value', 'type': '[TaskAddParameter]'},
+        "value": {"key": "value", "type": "[TaskAddParameter]"},
     }
 
     def __init__(self, *, value, **kwargs) -> None:
@@ -9543,7 +10968,7 @@ class TaskAddCollectionResult(Model):
     """
 
     _attribute_map = {
-        'value': {'key': 'value', 'type': '[TaskAddResult]'},
+        "value": {"key": "value", "type": "[TaskAddResult]"},
     }
 
     def __init__(self, *, value=None, **kwargs) -> None:
@@ -9571,13 +10996,21 @@ class TaskAddOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(TaskAddOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -9698,30 +11131,53 @@ class TaskAddParameter(Model):
     """
 
     _validation = {
-        'id': {'required': True},
-        'command_line': {'required': True},
+        "id": {"required": True},
+        "command_line": {"required": True},
     }
 
     _attribute_map = {
-        'id': {'key': 'id', 'type': 'str'},
-        'display_name': {'key': 'displayName', 'type': 'str'},
-        'command_line': {'key': 'commandLine', 'type': 'str'},
-        'container_settings': {'key': 'containerSettings', 'type': 'TaskContainerSettings'},
-        'exit_conditions': {'key': 'exitConditions', 'type': 'ExitConditions'},
-        'resource_files': {'key': 'resourceFiles', 'type': '[ResourceFile]'},
-        'output_files': {'key': 'outputFiles', 'type': '[OutputFile]'},
-        'environment_settings': {'key': 'environmentSettings', 'type': '[EnvironmentSetting]'},
-        'affinity_info': {'key': 'affinityInfo', 'type': 'AffinityInformation'},
-        'constraints': {'key': 'constraints', 'type': 'TaskConstraints'},
-        'required_slots': {'key': 'requiredSlots', 'type': 'int'},
-        'user_identity': {'key': 'userIdentity', 'type': 'UserIdentity'},
-        'multi_instance_settings': {'key': 'multiInstanceSettings', 'type': 'MultiInstanceSettings'},
-        'depends_on': {'key': 'dependsOn', 'type': 'TaskDependencies'},
-        'application_package_references': {'key': 'applicationPackageReferences', 'type': '[ApplicationPackageReference]'},
-        'authentication_token_settings': {'key': 'authenticationTokenSettings', 'type': 'AuthenticationTokenSettings'},
+        "id": {"key": "id", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "command_line": {"key": "commandLine", "type": "str"},
+        "container_settings": {"key": "containerSettings", "type": "TaskContainerSettings"},
+        "exit_conditions": {"key": "exitConditions", "type": "ExitConditions"},
+        "resource_files": {"key": "resourceFiles", "type": "[ResourceFile]"},
+        "output_files": {"key": "outputFiles", "type": "[OutputFile]"},
+        "environment_settings": {"key": "environmentSettings", "type": "[EnvironmentSetting]"},
+        "affinity_info": {"key": "affinityInfo", "type": "AffinityInformation"},
+        "constraints": {"key": "constraints", "type": "TaskConstraints"},
+        "required_slots": {"key": "requiredSlots", "type": "int"},
+        "user_identity": {"key": "userIdentity", "type": "UserIdentity"},
+        "multi_instance_settings": {"key": "multiInstanceSettings", "type": "MultiInstanceSettings"},
+        "depends_on": {"key": "dependsOn", "type": "TaskDependencies"},
+        "application_package_references": {
+            "key": "applicationPackageReferences",
+            "type": "[ApplicationPackageReference]",
+        },
+        "authentication_token_settings": {"key": "authenticationTokenSettings", "type": "AuthenticationTokenSettings"},
     }
 
-    def __init__(self, *, id: str, command_line: str, display_name: str=None, container_settings=None, exit_conditions=None, resource_files=None, output_files=None, environment_settings=None, affinity_info=None, constraints=None, required_slots: int=None, user_identity=None, multi_instance_settings=None, depends_on=None, application_package_references=None, authentication_token_settings=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: str,
+        command_line: str,
+        display_name: str = None,
+        container_settings=None,
+        exit_conditions=None,
+        resource_files=None,
+        output_files=None,
+        environment_settings=None,
+        affinity_info=None,
+        constraints=None,
+        required_slots: int = None,
+        user_identity=None,
+        multi_instance_settings=None,
+        depends_on=None,
+        application_package_references=None,
+        authentication_token_settings=None,
+        **kwargs
+    ) -> None:
         super(TaskAddParameter, self).__init__(**kwargs)
         self.id = id
         self.display_name = display_name
@@ -9765,20 +11221,22 @@ class TaskAddResult(Model):
     """
 
     _validation = {
-        'status': {'required': True},
-        'task_id': {'required': True},
+        "status": {"required": True},
+        "task_id": {"required": True},
     }
 
     _attribute_map = {
-        'status': {'key': 'status', 'type': 'TaskAddStatus'},
-        'task_id': {'key': 'taskId', 'type': 'str'},
-        'e_tag': {'key': 'eTag', 'type': 'str'},
-        'last_modified': {'key': 'lastModified', 'type': 'iso-8601'},
-        'location': {'key': 'location', 'type': 'str'},
-        'error': {'key': 'error', 'type': 'BatchError'},
+        "status": {"key": "status", "type": "TaskAddStatus"},
+        "task_id": {"key": "taskId", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "last_modified": {"key": "lastModified", "type": "iso-8601"},
+        "location": {"key": "location", "type": "str"},
+        "error": {"key": "error", "type": "BatchError"},
     }
 
-    def __init__(self, *, status, task_id: str, e_tag: str=None, last_modified=None, location: str=None, error=None, **kwargs) -> None:
+    def __init__(
+        self, *, status, task_id: str, e_tag: str = None, last_modified=None, location: str = None, error=None, **kwargs
+    ) -> None:
         super(TaskAddResult, self).__init__(**kwargs)
         self.status = status
         self.task_id = task_id
@@ -9813,12 +11271,14 @@ class TaskConstraints(Model):
     """
 
     _attribute_map = {
-        'max_wall_clock_time': {'key': 'maxWallClockTime', 'type': 'duration'},
-        'retention_time': {'key': 'retentionTime', 'type': 'duration'},
-        'max_task_retry_count': {'key': 'maxTaskRetryCount', 'type': 'int'},
+        "max_wall_clock_time": {"key": "maxWallClockTime", "type": "duration"},
+        "retention_time": {"key": "retentionTime", "type": "duration"},
+        "max_task_retry_count": {"key": "maxTaskRetryCount", "type": "int"},
     }
 
-    def __init__(self, *, max_wall_clock_time=None, retention_time=None, max_task_retry_count: int=None, **kwargs) -> None:
+    def __init__(
+        self, *, max_wall_clock_time=None, retention_time=None, max_task_retry_count: int = None, **kwargs
+    ) -> None:
         super(TaskConstraints, self).__init__(**kwargs)
         self.max_wall_clock_time = max_wall_clock_time
         self.retention_time = retention_time
@@ -9841,12 +11301,12 @@ class TaskContainerExecutionInformation(Model):
     """
 
     _attribute_map = {
-        'container_id': {'key': 'containerId', 'type': 'str'},
-        'state': {'key': 'state', 'type': 'str'},
-        'error': {'key': 'error', 'type': 'str'},
+        "container_id": {"key": "containerId", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "error": {"key": "error", "type": "str"},
     }
 
-    def __init__(self, *, container_id: str=None, state: str=None, error: str=None, **kwargs) -> None:
+    def __init__(self, *, container_id: str = None, state: str = None, error: str = None, **kwargs) -> None:
         super(TaskContainerExecutionInformation, self).__init__(**kwargs)
         self.container_id = container_id
         self.state = state
@@ -9876,17 +11336,19 @@ class TaskContainerSettings(Model):
     """
 
     _validation = {
-        'image_name': {'required': True},
+        "image_name": {"required": True},
     }
 
     _attribute_map = {
-        'container_run_options': {'key': 'containerRunOptions', 'type': 'str'},
-        'image_name': {'key': 'imageName', 'type': 'str'},
-        'registry': {'key': 'registry', 'type': 'ContainerRegistry'},
-        'working_directory': {'key': 'workingDirectory', 'type': 'ContainerWorkingDirectory'},
+        "container_run_options": {"key": "containerRunOptions", "type": "str"},
+        "image_name": {"key": "imageName", "type": "str"},
+        "registry": {"key": "registry", "type": "ContainerRegistry"},
+        "working_directory": {"key": "workingDirectory", "type": "ContainerWorkingDirectory"},
     }
 
-    def __init__(self, *, image_name: str, container_run_options: str=None, registry=None, working_directory=None, **kwargs) -> None:
+    def __init__(
+        self, *, image_name: str, container_run_options: str = None, registry=None, working_directory=None, **kwargs
+    ) -> None:
         super(TaskContainerSettings, self).__init__(**kwargs)
         self.container_run_options = container_run_options
         self.image_name = image_name
@@ -9915,19 +11377,19 @@ class TaskCounts(Model):
     """
 
     _validation = {
-        'active': {'required': True},
-        'running': {'required': True},
-        'completed': {'required': True},
-        'succeeded': {'required': True},
-        'failed': {'required': True},
+        "active": {"required": True},
+        "running": {"required": True},
+        "completed": {"required": True},
+        "succeeded": {"required": True},
+        "failed": {"required": True},
     }
 
     _attribute_map = {
-        'active': {'key': 'active', 'type': 'int'},
-        'running': {'key': 'running', 'type': 'int'},
-        'completed': {'key': 'completed', 'type': 'int'},
-        'succeeded': {'key': 'succeeded', 'type': 'int'},
-        'failed': {'key': 'failed', 'type': 'int'},
+        "active": {"key": "active", "type": "int"},
+        "running": {"key": "running", "type": "int"},
+        "completed": {"key": "completed", "type": "int"},
+        "succeeded": {"key": "succeeded", "type": "int"},
+        "failed": {"key": "failed", "type": "int"},
     }
 
     def __init__(self, *, active: int, running: int, completed: int, succeeded: int, failed: int, **kwargs) -> None:
@@ -9952,13 +11414,13 @@ class TaskCountsResult(Model):
     """
 
     _validation = {
-        'task_counts': {'required': True},
-        'task_slot_counts': {'required': True},
+        "task_counts": {"required": True},
+        "task_slot_counts": {"required": True},
     }
 
     _attribute_map = {
-        'task_counts': {'key': 'taskCounts', 'type': 'TaskCounts'},
-        'task_slot_counts': {'key': 'taskSlotCounts', 'type': 'TaskSlotCounts'},
+        "task_counts": {"key": "taskCounts", "type": "TaskCounts"},
+        "task_slot_counts": {"key": "taskSlotCounts", "type": "TaskSlotCounts"},
     }
 
     def __init__(self, *, task_counts, task_slot_counts, **kwargs) -> None:
@@ -10006,17 +11468,29 @@ class TaskDeleteOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(TaskDeleteOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -10044,8 +11518,8 @@ class TaskDependencies(Model):
     """
 
     _attribute_map = {
-        'task_ids': {'key': 'taskIds', 'type': '[str]'},
-        'task_id_ranges': {'key': 'taskIdRanges', 'type': '[TaskIdRange]'},
+        "task_ids": {"key": "taskIds", "type": "[str]"},
+        "task_id_ranges": {"key": "taskIdRanges", "type": "[TaskIdRange]"},
     }
 
     def __init__(self, *, task_ids=None, task_id_ranges=None, **kwargs) -> None:
@@ -10118,24 +11592,38 @@ class TaskExecutionInformation(Model):
     """
 
     _validation = {
-        'retry_count': {'required': True},
-        'requeue_count': {'required': True},
+        "retry_count": {"required": True},
+        "requeue_count": {"required": True},
     }
 
     _attribute_map = {
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'exit_code': {'key': 'exitCode', 'type': 'int'},
-        'container_info': {'key': 'containerInfo', 'type': 'TaskContainerExecutionInformation'},
-        'failure_info': {'key': 'failureInfo', 'type': 'TaskFailureInformation'},
-        'retry_count': {'key': 'retryCount', 'type': 'int'},
-        'last_retry_time': {'key': 'lastRetryTime', 'type': 'iso-8601'},
-        'requeue_count': {'key': 'requeueCount', 'type': 'int'},
-        'last_requeue_time': {'key': 'lastRequeueTime', 'type': 'iso-8601'},
-        'result': {'key': 'result', 'type': 'TaskExecutionResult'},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "exit_code": {"key": "exitCode", "type": "int"},
+        "container_info": {"key": "containerInfo", "type": "TaskContainerExecutionInformation"},
+        "failure_info": {"key": "failureInfo", "type": "TaskFailureInformation"},
+        "retry_count": {"key": "retryCount", "type": "int"},
+        "last_retry_time": {"key": "lastRetryTime", "type": "iso-8601"},
+        "requeue_count": {"key": "requeueCount", "type": "int"},
+        "last_requeue_time": {"key": "lastRequeueTime", "type": "iso-8601"},
+        "result": {"key": "result", "type": "TaskExecutionResult"},
     }
 
-    def __init__(self, *, retry_count: int, requeue_count: int, start_time=None, end_time=None, exit_code: int=None, container_info=None, failure_info=None, last_retry_time=None, last_requeue_time=None, result=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        retry_count: int,
+        requeue_count: int,
+        start_time=None,
+        end_time=None,
+        exit_code: int = None,
+        container_info=None,
+        failure_info=None,
+        last_retry_time=None,
+        last_requeue_time=None,
+        result=None,
+        **kwargs
+    ) -> None:
         super(TaskExecutionInformation, self).__init__(**kwargs)
         self.start_time = start_time
         self.end_time = end_time
@@ -10166,17 +11654,17 @@ class TaskFailureInformation(Model):
     """
 
     _validation = {
-        'category': {'required': True},
+        "category": {"required": True},
     }
 
     _attribute_map = {
-        'category': {'key': 'category', 'type': 'ErrorCategory'},
-        'code': {'key': 'code', 'type': 'str'},
-        'message': {'key': 'message', 'type': 'str'},
-        'details': {'key': 'details', 'type': '[NameValuePair]'},
+        "category": {"key": "category", "type": "ErrorCategory"},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "details": {"key": "details", "type": "[NameValuePair]"},
     }
 
-    def __init__(self, *, category, code: str=None, message: str=None, details=None, **kwargs) -> None:
+    def __init__(self, *, category, code: str = None, message: str = None, details=None, **kwargs) -> None:
         super(TaskFailureInformation, self).__init__(**kwargs)
         self.category = category
         self.code = code
@@ -10227,19 +11715,33 @@ class TaskGetOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, expand: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        expand: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(TaskGetOptions, self).__init__(**kwargs)
         self.select = select
         self.expand = expand
@@ -10270,13 +11772,13 @@ class TaskIdRange(Model):
     """
 
     _validation = {
-        'start': {'required': True},
-        'end': {'required': True},
+        "start": {"required": True},
+        "end": {"required": True},
     }
 
     _attribute_map = {
-        'start': {'key': 'start', 'type': 'int'},
-        'end': {'key': 'end', 'type': 'int'},
+        "start": {"key": "start", "type": "int"},
+        "end": {"key": "end", "type": "int"},
     }
 
     def __init__(self, *, start: int, end: int, **kwargs) -> None:
@@ -10307,19 +11809,29 @@ class TaskInformation(Model):
     """
 
     _validation = {
-        'task_state': {'required': True},
+        "task_state": {"required": True},
     }
 
     _attribute_map = {
-        'task_url': {'key': 'taskUrl', 'type': 'str'},
-        'job_id': {'key': 'jobId', 'type': 'str'},
-        'task_id': {'key': 'taskId', 'type': 'str'},
-        'subtask_id': {'key': 'subtaskId', 'type': 'int'},
-        'task_state': {'key': 'taskState', 'type': 'TaskState'},
-        'execution_info': {'key': 'executionInfo', 'type': 'TaskExecutionInformation'},
+        "task_url": {"key": "taskUrl", "type": "str"},
+        "job_id": {"key": "jobId", "type": "str"},
+        "task_id": {"key": "taskId", "type": "str"},
+        "subtask_id": {"key": "subtaskId", "type": "int"},
+        "task_state": {"key": "taskState", "type": "TaskState"},
+        "execution_info": {"key": "executionInfo", "type": "TaskExecutionInformation"},
     }
 
-    def __init__(self, *, task_state, task_url: str=None, job_id: str=None, task_id: str=None, subtask_id: int=None, execution_info=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        task_state,
+        task_url: str = None,
+        job_id: str = None,
+        task_id: str = None,
+        subtask_id: int = None,
+        execution_info=None,
+        **kwargs
+    ) -> None:
         super(TaskInformation, self).__init__(**kwargs)
         self.task_url = task_url
         self.job_id = job_id
@@ -10360,17 +11872,29 @@ class TaskListOptions(Model):
     """
 
     _attribute_map = {
-        'filter': {'key': '', 'type': 'str'},
-        'select': {'key': '', 'type': 'str'},
-        'expand': {'key': '', 'type': 'str'},
-        'max_results': {'key': '', 'type': 'int'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "filter": {"key": "", "type": "str"},
+        "select": {"key": "", "type": "str"},
+        "expand": {"key": "", "type": "str"},
+        "max_results": {"key": "", "type": "int"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, filter: str=None, select: str=None, expand: str=None, max_results: int=1000, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        filter: str = None,
+        select: str = None,
+        expand: str = None,
+        max_results: int = 1000,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(TaskListOptions, self).__init__(**kwargs)
         self.filter = filter
         self.select = select
@@ -10404,14 +11928,23 @@ class TaskListSubtasksOptions(Model):
     """
 
     _attribute_map = {
-        'select': {'key': '', 'type': 'str'},
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
+        "select": {"key": "", "type": "str"},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, select: str=None, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        select: str = None,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        **kwargs
+    ) -> None:
         super(TaskListSubtasksOptions, self).__init__(**kwargs)
         self.select = select
         self.timeout = timeout
@@ -10459,17 +11992,29 @@ class TaskReactivateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(TaskReactivateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -10492,11 +12037,11 @@ class TaskSchedulingPolicy(Model):
     """
 
     _validation = {
-        'node_fill_type': {'required': True},
+        "node_fill_type": {"required": True},
     }
 
     _attribute_map = {
-        'node_fill_type': {'key': 'nodeFillType', 'type': 'ComputeNodeFillType'},
+        "node_fill_type": {"key": "nodeFillType", "type": "ComputeNodeFillType"},
     }
 
     def __init__(self, *, node_fill_type, **kwargs) -> None:
@@ -10522,19 +12067,19 @@ class TaskSlotCounts(Model):
     """
 
     _validation = {
-        'active': {'required': True},
-        'running': {'required': True},
-        'completed': {'required': True},
-        'succeeded': {'required': True},
-        'failed': {'required': True},
+        "active": {"required": True},
+        "running": {"required": True},
+        "completed": {"required": True},
+        "succeeded": {"required": True},
+        "failed": {"required": True},
     }
 
     _attribute_map = {
-        'active': {'key': 'active', 'type': 'int'},
-        'running': {'key': 'running', 'type': 'int'},
-        'completed': {'key': 'completed', 'type': 'int'},
-        'succeeded': {'key': 'succeeded', 'type': 'int'},
-        'failed': {'key': 'failed', 'type': 'int'},
+        "active": {"key": "active", "type": "int"},
+        "running": {"key": "running", "type": "int"},
+        "completed": {"key": "completed", "type": "int"},
+        "succeeded": {"key": "succeeded", "type": "int"},
+        "failed": {"key": "failed", "type": "int"},
     }
 
     def __init__(self, *, active: int, running: int, completed: int, succeeded: int, failed: int, **kwargs) -> None:
@@ -10584,34 +12129,49 @@ class TaskStatistics(Model):
     """
 
     _validation = {
-        'url': {'required': True},
-        'start_time': {'required': True},
-        'last_update_time': {'required': True},
-        'user_cpu_time': {'required': True},
-        'kernel_cpu_time': {'required': True},
-        'wall_clock_time': {'required': True},
-        'read_iops': {'required': True},
-        'write_iops': {'required': True},
-        'read_io_gi_b': {'required': True},
-        'write_io_gi_b': {'required': True},
-        'wait_time': {'required': True},
+        "url": {"required": True},
+        "start_time": {"required": True},
+        "last_update_time": {"required": True},
+        "user_cpu_time": {"required": True},
+        "kernel_cpu_time": {"required": True},
+        "wall_clock_time": {"required": True},
+        "read_iops": {"required": True},
+        "write_iops": {"required": True},
+        "read_io_gi_b": {"required": True},
+        "write_io_gi_b": {"required": True},
+        "wait_time": {"required": True},
     }
 
     _attribute_map = {
-        'url': {'key': 'url', 'type': 'str'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
-        'user_cpu_time': {'key': 'userCPUTime', 'type': 'duration'},
-        'kernel_cpu_time': {'key': 'kernelCPUTime', 'type': 'duration'},
-        'wall_clock_time': {'key': 'wallClockTime', 'type': 'duration'},
-        'read_iops': {'key': 'readIOps', 'type': 'long'},
-        'write_iops': {'key': 'writeIOps', 'type': 'long'},
-        'read_io_gi_b': {'key': 'readIOGiB', 'type': 'float'},
-        'write_io_gi_b': {'key': 'writeIOGiB', 'type': 'float'},
-        'wait_time': {'key': 'waitTime', 'type': 'duration'},
+        "url": {"key": "url", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
+        "user_cpu_time": {"key": "userCPUTime", "type": "duration"},
+        "kernel_cpu_time": {"key": "kernelCPUTime", "type": "duration"},
+        "wall_clock_time": {"key": "wallClockTime", "type": "duration"},
+        "read_iops": {"key": "readIOps", "type": "long"},
+        "write_iops": {"key": "writeIOps", "type": "long"},
+        "read_io_gi_b": {"key": "readIOGiB", "type": "float"},
+        "write_io_gi_b": {"key": "writeIOGiB", "type": "float"},
+        "wait_time": {"key": "waitTime", "type": "duration"},
     }
 
-    def __init__(self, *, url: str, start_time, last_update_time, user_cpu_time, kernel_cpu_time, wall_clock_time, read_iops: int, write_iops: int, read_io_gi_b: float, write_io_gi_b: float, wait_time, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        url: str,
+        start_time,
+        last_update_time,
+        user_cpu_time,
+        kernel_cpu_time,
+        wall_clock_time,
+        read_iops: int,
+        write_iops: int,
+        read_io_gi_b: float,
+        write_io_gi_b: float,
+        wait_time,
+        **kwargs
+    ) -> None:
         super(TaskStatistics, self).__init__(**kwargs)
         self.url = url
         self.start_time = start_time
@@ -10665,17 +12225,29 @@ class TaskTerminateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(TaskTerminateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -10726,17 +12298,29 @@ class TaskUpdateOptions(Model):
     """
 
     _attribute_map = {
-        'timeout': {'key': '', 'type': 'int'},
-        'client_request_id': {'key': '', 'type': 'str'},
-        'return_client_request_id': {'key': '', 'type': 'bool'},
-        'ocp_date': {'key': '', 'type': 'rfc-1123'},
-        'if_match': {'key': '', 'type': 'str'},
-        'if_none_match': {'key': '', 'type': 'str'},
-        'if_modified_since': {'key': '', 'type': 'rfc-1123'},
-        'if_unmodified_since': {'key': '', 'type': 'rfc-1123'},
+        "timeout": {"key": "", "type": "int"},
+        "client_request_id": {"key": "", "type": "str"},
+        "return_client_request_id": {"key": "", "type": "bool"},
+        "ocp_date": {"key": "", "type": "rfc-1123"},
+        "if_match": {"key": "", "type": "str"},
+        "if_none_match": {"key": "", "type": "str"},
+        "if_modified_since": {"key": "", "type": "rfc-1123"},
+        "if_unmodified_since": {"key": "", "type": "rfc-1123"},
     }
 
-    def __init__(self, *, timeout: int=30, client_request_id: str=None, return_client_request_id: bool=False, ocp_date=None, if_match: str=None, if_none_match: str=None, if_modified_since=None, if_unmodified_since=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: int = 30,
+        client_request_id: str = None,
+        return_client_request_id: bool = False,
+        ocp_date=None,
+        if_match: str = None,
+        if_none_match: str = None,
+        if_modified_since=None,
+        if_unmodified_since=None,
+        **kwargs
+    ) -> None:
         super(TaskUpdateOptions, self).__init__(**kwargs)
         self.timeout = timeout
         self.client_request_id = client_request_id
@@ -10758,7 +12342,7 @@ class TaskUpdateParameter(Model):
     """
 
     _attribute_map = {
-        'constraints': {'key': 'constraints', 'type': 'TaskConstraints'},
+        "constraints": {"key": "constraints", "type": "TaskConstraints"},
     }
 
     def __init__(self, *, constraints=None, **kwargs) -> None:
@@ -10779,11 +12363,11 @@ class UefiSettings(Model):
     """
 
     _attribute_map = {
-        'secure_boot_enabled': {'key': 'secureBootEnabled', 'type': 'bool'},
-        'v_tpm_enabled': {'key': 'vTpmEnabled', 'type': 'bool'},
+        "secure_boot_enabled": {"key": "secureBootEnabled", "type": "bool"},
+        "v_tpm_enabled": {"key": "vTpmEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, secure_boot_enabled: bool=None, v_tpm_enabled: bool=None, **kwargs) -> None:
+    def __init__(self, *, secure_boot_enabled: bool = None, v_tpm_enabled: bool = None, **kwargs) -> None:
         super(UefiSettings, self).__init__(**kwargs)
         self.secure_boot_enabled = secure_boot_enabled
         self.v_tpm_enabled = v_tpm_enabled
@@ -10819,15 +12403,15 @@ class UploadBatchServiceLogsConfiguration(Model):
     """
 
     _validation = {
-        'container_url': {'required': True},
-        'start_time': {'required': True},
+        "container_url": {"required": True},
+        "start_time": {"required": True},
     }
 
     _attribute_map = {
-        'container_url': {'key': 'containerUrl', 'type': 'str'},
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'end_time': {'key': 'endTime', 'type': 'iso-8601'},
-        'identity_reference': {'key': 'identityReference', 'type': 'ComputeNodeIdentityReference'},
+        "container_url": {"key": "containerUrl", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "identity_reference": {"key": "identityReference", "type": "ComputeNodeIdentityReference"},
     }
 
     def __init__(self, *, container_url: str, start_time, end_time=None, identity_reference=None, **kwargs) -> None:
@@ -10854,13 +12438,13 @@ class UploadBatchServiceLogsResult(Model):
     """
 
     _validation = {
-        'virtual_directory_name': {'required': True},
-        'number_of_files_uploaded': {'required': True},
+        "virtual_directory_name": {"required": True},
+        "number_of_files_uploaded": {"required": True},
     }
 
     _attribute_map = {
-        'virtual_directory_name': {'key': 'virtualDirectoryName', 'type': 'str'},
-        'number_of_files_uploaded': {'key': 'numberOfFilesUploaded', 'type': 'int'},
+        "virtual_directory_name": {"key": "virtualDirectoryName", "type": "str"},
+        "number_of_files_uploaded": {"key": "numberOfFilesUploaded", "type": "int"},
     }
 
     def __init__(self, *, virtual_directory_name: str, number_of_files_uploaded: int, **kwargs) -> None:
@@ -10883,15 +12467,15 @@ class UsageStatistics(Model):
     """
 
     _validation = {
-        'start_time': {'required': True},
-        'last_update_time': {'required': True},
-        'dedicated_core_time': {'required': True},
+        "start_time": {"required": True},
+        "last_update_time": {"required": True},
+        "dedicated_core_time": {"required": True},
     }
 
     _attribute_map = {
-        'start_time': {'key': 'startTime', 'type': 'iso-8601'},
-        'last_update_time': {'key': 'lastUpdateTime', 'type': 'iso-8601'},
-        'dedicated_core_time': {'key': 'dedicatedCoreTime', 'type': 'duration'},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "last_update_time": {"key": "lastUpdateTime", "type": "iso-8601"},
+        "dedicated_core_time": {"key": "dedicatedCoreTime", "type": "duration"},
     }
 
     def __init__(self, *, start_time, last_update_time, dedicated_core_time, **kwargs) -> None:
@@ -10927,19 +12511,28 @@ class UserAccount(Model):
     """
 
     _validation = {
-        'name': {'required': True},
-        'password': {'required': True},
+        "name": {"required": True},
+        "password": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'password': {'key': 'password', 'type': 'str'},
-        'elevation_level': {'key': 'elevationLevel', 'type': 'ElevationLevel'},
-        'linux_user_configuration': {'key': 'linuxUserConfiguration', 'type': 'LinuxUserConfiguration'},
-        'windows_user_configuration': {'key': 'windowsUserConfiguration', 'type': 'WindowsUserConfiguration'},
+        "name": {"key": "name", "type": "str"},
+        "password": {"key": "password", "type": "str"},
+        "elevation_level": {"key": "elevationLevel", "type": "ElevationLevel"},
+        "linux_user_configuration": {"key": "linuxUserConfiguration", "type": "LinuxUserConfiguration"},
+        "windows_user_configuration": {"key": "windowsUserConfiguration", "type": "WindowsUserConfiguration"},
     }
 
-    def __init__(self, *, name: str, password: str, elevation_level=None, linux_user_configuration=None, windows_user_configuration=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: str,
+        password: str,
+        elevation_level=None,
+        linux_user_configuration=None,
+        windows_user_configuration=None,
+        **kwargs
+    ) -> None:
         super(UserAccount, self).__init__(**kwargs)
         self.name = name
         self.password = password
@@ -10966,15 +12559,15 @@ class UserAssignedIdentity(Model):
     """
 
     _validation = {
-        'resource_id': {'required': True},
-        'client_id': {'readonly': True},
-        'principal_id': {'readonly': True},
+        "resource_id": {"required": True},
+        "client_id": {"readonly": True},
+        "principal_id": {"readonly": True},
     }
 
     _attribute_map = {
-        'resource_id': {'key': 'resourceId', 'type': 'str'},
-        'client_id': {'key': 'clientId', 'type': 'str'},
-        'principal_id': {'key': 'principalId', 'type': 'str'},
+        "resource_id": {"key": "resourceId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+        "principal_id": {"key": "principalId", "type": "str"},
     }
 
     def __init__(self, *, resource_id: str, **kwargs) -> None:
@@ -10999,11 +12592,11 @@ class UserIdentity(Model):
     """
 
     _attribute_map = {
-        'user_name': {'key': 'username', 'type': 'str'},
-        'auto_user': {'key': 'autoUser', 'type': 'AutoUserSpecification'},
+        "user_name": {"key": "username", "type": "str"},
+        "auto_user": {"key": "autoUser", "type": "AutoUserSpecification"},
     }
 
-    def __init__(self, *, user_name: str=None, auto_user=None, **kwargs) -> None:
+    def __init__(self, *, user_name: str = None, auto_user=None, **kwargs) -> None:
         super(UserIdentity, self).__init__(**kwargs)
         self.user_name = user_name
         self.auto_user = auto_user
@@ -11085,26 +12678,42 @@ class VirtualMachineConfiguration(Model):
     """
 
     _validation = {
-        'image_reference': {'required': True},
-        'node_agent_sku_id': {'required': True},
+        "image_reference": {"required": True},
+        "node_agent_sku_id": {"required": True},
     }
 
     _attribute_map = {
-        'image_reference': {'key': 'imageReference', 'type': 'ImageReference'},
-        'node_agent_sku_id': {'key': 'nodeAgentSKUId', 'type': 'str'},
-        'windows_configuration': {'key': 'windowsConfiguration', 'type': 'WindowsConfiguration'},
-        'data_disks': {'key': 'dataDisks', 'type': '[DataDisk]'},
-        'license_type': {'key': 'licenseType', 'type': 'str'},
-        'container_configuration': {'key': 'containerConfiguration', 'type': 'ContainerConfiguration'},
-        'disk_encryption_configuration': {'key': 'diskEncryptionConfiguration', 'type': 'DiskEncryptionConfiguration'},
-        'node_placement_configuration': {'key': 'nodePlacementConfiguration', 'type': 'NodePlacementConfiguration'},
-        'extensions': {'key': 'extensions', 'type': '[VMExtension]'},
-        'os_disk': {'key': 'osDisk', 'type': 'OSDisk'},
-        'security_profile': {'key': 'securityProfile', 'type': 'SecurityProfile'},
-        'service_artifact_reference': {'key': 'serviceArtifactReference', 'type': 'ServiceArtifactReference'},
+        "image_reference": {"key": "imageReference", "type": "ImageReference"},
+        "node_agent_sku_id": {"key": "nodeAgentSKUId", "type": "str"},
+        "windows_configuration": {"key": "windowsConfiguration", "type": "WindowsConfiguration"},
+        "data_disks": {"key": "dataDisks", "type": "[DataDisk]"},
+        "license_type": {"key": "licenseType", "type": "str"},
+        "container_configuration": {"key": "containerConfiguration", "type": "ContainerConfiguration"},
+        "disk_encryption_configuration": {"key": "diskEncryptionConfiguration", "type": "DiskEncryptionConfiguration"},
+        "node_placement_configuration": {"key": "nodePlacementConfiguration", "type": "NodePlacementConfiguration"},
+        "extensions": {"key": "extensions", "type": "[VMExtension]"},
+        "os_disk": {"key": "osDisk", "type": "OSDisk"},
+        "security_profile": {"key": "securityProfile", "type": "SecurityProfile"},
+        "service_artifact_reference": {"key": "serviceArtifactReference", "type": "ServiceArtifactReference"},
     }
 
-    def __init__(self, *, image_reference, node_agent_sku_id: str, windows_configuration=None, data_disks=None, license_type: str=None, container_configuration=None, disk_encryption_configuration=None, node_placement_configuration=None, extensions=None, os_disk=None, security_profile=None, service_artifact_reference=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        image_reference,
+        node_agent_sku_id: str,
+        windows_configuration=None,
+        data_disks=None,
+        license_type: str = None,
+        container_configuration=None,
+        disk_encryption_configuration=None,
+        node_placement_configuration=None,
+        extensions=None,
+        os_disk=None,
+        security_profile=None,
+        service_artifact_reference=None,
+        **kwargs
+    ) -> None:
         super(VirtualMachineConfiguration, self).__init__(**kwargs)
         self.image_reference = image_reference
         self.node_agent_sku_id = node_agent_sku_id
@@ -11131,11 +12740,11 @@ class VirtualMachineInfo(Model):
     """
 
     _attribute_map = {
-        'image_reference': {'key': 'imageReference', 'type': 'ImageReference'},
-        'scale_set_vm_resource_id': {'key': 'scaleSetVmResourceId', 'type': 'str'},
+        "image_reference": {"key": "imageReference", "type": "ImageReference"},
+        "scale_set_vm_resource_id": {"key": "scaleSetVmResourceId", "type": "str"},
     }
 
-    def __init__(self, *, image_reference=None, scale_set_vm_resource_id: str=None, **kwargs) -> None:
+    def __init__(self, *, image_reference=None, scale_set_vm_resource_id: str = None, **kwargs) -> None:
         super(VirtualMachineInfo, self).__init__(**kwargs)
         self.image_reference = image_reference
         self.scale_set_vm_resource_id = scale_set_vm_resource_id
@@ -11175,24 +12784,37 @@ class VMExtension(Model):
     """
 
     _validation = {
-        'name': {'required': True},
-        'publisher': {'required': True},
-        'type': {'required': True},
+        "name": {"required": True},
+        "publisher": {"required": True},
+        "type": {"required": True},
     }
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'publisher': {'key': 'publisher', 'type': 'str'},
-        'type': {'key': 'type', 'type': 'str'},
-        'type_handler_version': {'key': 'typeHandlerVersion', 'type': 'str'},
-        'auto_upgrade_minor_version': {'key': 'autoUpgradeMinorVersion', 'type': 'bool'},
-        'enable_automatic_upgrade': {'key': 'enableAutomaticUpgrade', 'type': 'bool'},
-        'settings': {'key': 'settings', 'type': 'object'},
-        'protected_settings': {'key': 'protectedSettings', 'type': 'object'},
-        'provision_after_extensions': {'key': 'provisionAfterExtensions', 'type': '[str]'},
+        "name": {"key": "name", "type": "str"},
+        "publisher": {"key": "publisher", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "type_handler_version": {"key": "typeHandlerVersion", "type": "str"},
+        "auto_upgrade_minor_version": {"key": "autoUpgradeMinorVersion", "type": "bool"},
+        "enable_automatic_upgrade": {"key": "enableAutomaticUpgrade", "type": "bool"},
+        "settings": {"key": "settings", "type": "object"},
+        "protected_settings": {"key": "protectedSettings", "type": "object"},
+        "provision_after_extensions": {"key": "provisionAfterExtensions", "type": "[str]"},
     }
 
-    def __init__(self, *, name: str, publisher: str, type: str, type_handler_version: str=None, auto_upgrade_minor_version: bool=None, enable_automatic_upgrade: bool=None, settings=None, protected_settings=None, provision_after_extensions=None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: str,
+        publisher: str,
+        type: str,
+        type_handler_version: str = None,
+        auto_upgrade_minor_version: bool = None,
+        enable_automatic_upgrade: bool = None,
+        settings=None,
+        protected_settings=None,
+        provision_after_extensions=None,
+        **kwargs
+    ) -> None:
         super(VMExtension, self).__init__(**kwargs)
         self.name = name
         self.publisher = publisher
@@ -11217,12 +12839,12 @@ class VMExtensionInstanceView(Model):
     """
 
     _attribute_map = {
-        'name': {'key': 'name', 'type': 'str'},
-        'statuses': {'key': 'statuses', 'type': '[InstanceViewStatus]'},
-        'sub_statuses': {'key': 'subStatuses', 'type': '[InstanceViewStatus]'},
+        "name": {"key": "name", "type": "str"},
+        "statuses": {"key": "statuses", "type": "[InstanceViewStatus]"},
+        "sub_statuses": {"key": "subStatuses", "type": "[InstanceViewStatus]"},
     }
 
-    def __init__(self, *, name: str=None, statuses=None, sub_statuses=None, **kwargs) -> None:
+    def __init__(self, *, name: str = None, statuses=None, sub_statuses=None, **kwargs) -> None:
         super(VMExtensionInstanceView, self).__init__(**kwargs)
         self.name = name
         self.statuses = statuses
@@ -11238,10 +12860,10 @@ class WindowsConfiguration(Model):
     """
 
     _attribute_map = {
-        'enable_automatic_updates': {'key': 'enableAutomaticUpdates', 'type': 'bool'},
+        "enable_automatic_updates": {"key": "enableAutomaticUpdates", "type": "bool"},
     }
 
-    def __init__(self, *, enable_automatic_updates: bool=None, **kwargs) -> None:
+    def __init__(self, *, enable_automatic_updates: bool = None, **kwargs) -> None:
         super(WindowsConfiguration, self).__init__(**kwargs)
         self.enable_automatic_updates = enable_automatic_updates
 
@@ -11256,7 +12878,7 @@ class WindowsUserConfiguration(Model):
     """
 
     _attribute_map = {
-        'login_mode': {'key': 'loginMode', 'type': 'LoginMode'},
+        "login_mode": {"key": "loginMode", "type": "LoginMode"},
     }
 
     def __init__(self, *, login_mode=None, **kwargs) -> None:
