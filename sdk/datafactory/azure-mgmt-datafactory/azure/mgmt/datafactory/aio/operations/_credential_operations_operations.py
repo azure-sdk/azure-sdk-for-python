@@ -62,7 +62,7 @@ class CredentialOperationsOperations:
     @distributed_trace
     def list_by_factory(
         self, resource_group_name: str, factory_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.ManagedIdentityCredentialResource"]:
+    ) -> AsyncIterable["_models.CredentialResource"]:
         """List credentials.
 
         :param resource_group_name: The resource group name. Required.
@@ -70,10 +70,9 @@ class CredentialOperationsOperations:
         :param factory_name: The factory name. Required.
         :type factory_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either ManagedIdentityCredentialResource or the result of
-         cls(response)
+        :return: An iterator like instance of either CredentialResource or the result of cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.datafactory.models.CredentialResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -157,12 +156,12 @@ class CredentialOperationsOperations:
         resource_group_name: str,
         factory_name: str,
         credential_name: str,
-        credential: _models.ManagedIdentityCredentialResource,
+        credential: _models.CredentialResource,
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.ManagedIdentityCredentialResource:
+    ) -> _models.CredentialResource:
         """Creates or updates a credential.
 
         :param resource_group_name: The resource group name. Required.
@@ -172,7 +171,7 @@ class CredentialOperationsOperations:
         :param credential_name: Credential name. Required.
         :type credential_name: str
         :param credential: Credential resource definition. Required.
-        :type credential: ~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource
+        :type credential: ~azure.mgmt.datafactory.models.CredentialResource
         :param if_match: ETag of the credential entity. Should only be specified for update, for which
          it should match existing entity or can be * for unconditional update. Default value is None.
         :type if_match: str
@@ -180,8 +179,8 @@ class CredentialOperationsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ManagedIdentityCredentialResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource
+        :return: CredentialResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.CredentialResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -196,7 +195,7 @@ class CredentialOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.ManagedIdentityCredentialResource:
+    ) -> _models.CredentialResource:
         """Creates or updates a credential.
 
         :param resource_group_name: The resource group name. Required.
@@ -214,8 +213,8 @@ class CredentialOperationsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ManagedIdentityCredentialResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource
+        :return: CredentialResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.CredentialResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -225,10 +224,10 @@ class CredentialOperationsOperations:
         resource_group_name: str,
         factory_name: str,
         credential_name: str,
-        credential: Union[_models.ManagedIdentityCredentialResource, IO],
+        credential: Union[_models.CredentialResource, IO],
         if_match: Optional[str] = None,
         **kwargs: Any
-    ) -> _models.ManagedIdentityCredentialResource:
+    ) -> _models.CredentialResource:
         """Creates or updates a credential.
 
         :param resource_group_name: The resource group name. Required.
@@ -237,9 +236,9 @@ class CredentialOperationsOperations:
         :type factory_name: str
         :param credential_name: Credential name. Required.
         :type credential_name: str
-        :param credential: Credential resource definition. Is either a
-         ManagedIdentityCredentialResource type or a IO type. Required.
-        :type credential: ~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource or IO
+        :param credential: Credential resource definition. Is either a CredentialResource type or a IO
+         type. Required.
+        :type credential: ~azure.mgmt.datafactory.models.CredentialResource or IO
         :param if_match: ETag of the credential entity. Should only be specified for update, for which
          it should match existing entity or can be * for unconditional update. Default value is None.
         :type if_match: str
@@ -247,8 +246,8 @@ class CredentialOperationsOperations:
          Default value is None.
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ManagedIdentityCredentialResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource
+        :return: CredentialResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.CredentialResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -264,7 +263,7 @@ class CredentialOperationsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ManagedIdentityCredentialResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.CredentialResource] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -272,7 +271,7 @@ class CredentialOperationsOperations:
         if isinstance(credential, (IOBase, bytes)):
             _content = credential
         else:
-            _json = self._serialize.body(credential, "ManagedIdentityCredentialResource")
+            _json = self._serialize.body(credential, "CredentialResource")
 
         request = build_create_or_update_request(
             resource_group_name=resource_group_name,
@@ -302,7 +301,7 @@ class CredentialOperationsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ManagedIdentityCredentialResource", pipeline_response)
+        deserialized = self._deserialize("CredentialResource", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -321,7 +320,7 @@ class CredentialOperationsOperations:
         credential_name: str,
         if_none_match: Optional[str] = None,
         **kwargs: Any
-    ) -> Optional[_models.ManagedIdentityCredentialResource]:
+    ) -> Optional[_models.CredentialResource]:
         """Gets a credential.
 
         :param resource_group_name: The resource group name. Required.
@@ -335,8 +334,8 @@ class CredentialOperationsOperations:
          Default value is None.
         :type if_none_match: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ManagedIdentityCredentialResource or None or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.ManagedIdentityCredentialResource or None
+        :return: CredentialResource or None or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.CredentialResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -351,7 +350,7 @@ class CredentialOperationsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.ManagedIdentityCredentialResource]] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.CredentialResource]] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
@@ -380,7 +379,7 @@ class CredentialOperationsOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("ManagedIdentityCredentialResource", pipeline_response)
+            deserialized = self._deserialize("CredentialResource", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
