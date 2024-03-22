@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -73,7 +73,6 @@ class VNetPeeringOperations:
         :type workspace_name: str
         :param peering_name: The name of the workspace vNet peering. Required.
         :type peering_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VirtualNetworkPeering or None or the result of cls(response)
         :rtype: ~azure.mgmt.databricks.models.VirtualNetworkPeering or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -89,25 +88,24 @@ class VNetPeeringOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
         cls: ClsType[Optional[_models.VirtualNetworkPeering]] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             peering_name=peering_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -122,13 +120,9 @@ class VNetPeeringOperations:
             deserialized = self._deserialize("VirtualNetworkPeering", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}"
-    }
+        return deserialized  # type: ignore
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, workspace_name: str, peering_name: str, **kwargs: Any
@@ -144,25 +138,24 @@ class VNetPeeringOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             peering_name=peering_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -173,11 +166,7 @@ class VNetPeeringOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -192,14 +181,6 @@ class VNetPeeringOperations:
         :type workspace_name: str
         :param peering_name: The name of the workspace vNet peering. Required.
         :type peering_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -207,7 +188,7 @@ class VNetPeeringOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -227,7 +208,7 @@ class VNetPeeringOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -236,24 +217,20 @@ class VNetPeeringOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
         workspace_name: str,
         peering_name: str,
-        virtual_network_peering_parameters: Union[_models.VirtualNetworkPeering, IO],
+        virtual_network_peering_parameters: Union[_models.VirtualNetworkPeering, IO[bytes]],
         **kwargs: Any
     ) -> _models.VirtualNetworkPeering:
         error_map = {
@@ -267,7 +244,7 @@ class VNetPeeringOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.VirtualNetworkPeering] = kwargs.pop("cls", None)
 
@@ -279,7 +256,7 @@ class VNetPeeringOperations:
         else:
             _json = self._serialize.body(virtual_network_peering_parameters, "VirtualNetworkPeering")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             peering_name=peering_name,
@@ -288,16 +265,15 @@ class VNetPeeringOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -317,10 +293,6 @@ class VNetPeeringOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -348,14 +320,6 @@ class VNetPeeringOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either VirtualNetworkPeering or the result
          of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.databricks.models.VirtualNetworkPeering]
@@ -368,7 +332,7 @@ class VNetPeeringOperations:
         resource_group_name: str,
         workspace_name: str,
         peering_name: str,
-        virtual_network_peering_parameters: IO,
+        virtual_network_peering_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -384,18 +348,10 @@ class VNetPeeringOperations:
         :type peering_name: str
         :param virtual_network_peering_parameters: Parameters supplied to the create workspace vNet
          Peering. Required.
-        :type virtual_network_peering_parameters: IO
+        :type virtual_network_peering_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either VirtualNetworkPeering or the result
          of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.databricks.models.VirtualNetworkPeering]
@@ -408,7 +364,7 @@ class VNetPeeringOperations:
         resource_group_name: str,
         workspace_name: str,
         peering_name: str,
-        virtual_network_peering_parameters: Union[_models.VirtualNetworkPeering, IO],
+        virtual_network_peering_parameters: Union[_models.VirtualNetworkPeering, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.VirtualNetworkPeering]:
         """Creates vNet Peering for workspace.
@@ -421,20 +377,9 @@ class VNetPeeringOperations:
         :param peering_name: The name of the workspace vNet peering. Required.
         :type peering_name: str
         :param virtual_network_peering_parameters: Parameters supplied to the create workspace vNet
-         Peering. Is either a VirtualNetworkPeering type or a IO type. Required.
+         Peering. Is either a VirtualNetworkPeering type or a IO[bytes] type. Required.
         :type virtual_network_peering_parameters: ~azure.mgmt.databricks.models.VirtualNetworkPeering
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either VirtualNetworkPeering or the result
          of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.databricks.models.VirtualNetworkPeering]
@@ -443,7 +388,7 @@ class VNetPeeringOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.VirtualNetworkPeering] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -467,7 +412,7 @@ class VNetPeeringOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("VirtualNetworkPeering", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -477,17 +422,15 @@ class VNetPeeringOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.VirtualNetworkPeering].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}"
-    }
+        return AsyncLROPoller[_models.VirtualNetworkPeering](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_by_workspace(
@@ -500,7 +443,6 @@ class VNetPeeringOperations:
         :type resource_group_name: str
         :param workspace_name: The name of the workspace. Required.
         :type workspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either VirtualNetworkPeering or the result of
          cls(response)
         :rtype:
@@ -510,7 +452,7 @@ class VNetPeeringOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
         cls: ClsType[_models.VirtualNetworkPeeringList] = kwargs.pop("cls", None)
 
         error_map = {
@@ -524,24 +466,23 @@ class VNetPeeringOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_workspace_request(
+                _request = build_list_by_workspace_request(
                     resource_group_name=resource_group_name,
                     workspace_name=workspace_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_workspace.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = HttpRequest("GET", next_link)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("VirtualNetworkPeeringList", pipeline_response)
@@ -551,11 +492,11 @@ class VNetPeeringOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -567,7 +508,3 @@ class VNetPeeringOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_workspace.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings"
-    }
