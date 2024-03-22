@@ -38,8 +38,7 @@ class CertificateOperations(object):
 
         self.config = config
 
-    def add(
-            self, certificate, certificate_add_options=None, custom_headers=None, raw=False, **operation_config):
+    def add(self, certificate, certificate_add_options=None, custom_headers=None, raw=False, **operation_config):
         """Adds a Certificate to the specified Account.
 
         Warning: This operation is deprecated and will be removed after
@@ -77,36 +76,42 @@ class CertificateOperations(object):
             ocp_date = certificate_add_options.ocp_date
 
         # Construct URL
-        url = self.add.metadata['url']
+        url = self.add.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True)
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct body
-        body_content = self._serialize.body(certificate, 'CertificateAddParameter')
+        body_content = self._serialize.body(certificate, "CertificateAddParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -117,18 +122,20 @@ class CertificateOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    add.metadata = {'url': '/certificates'}
 
-    def list(
-            self, certificate_list_options=None, custom_headers=None, raw=False, **operation_config):
+    add.metadata = {"url": "/certificates"}
+
+    def list(self, certificate_list_options=None, custom_headers=None, raw=False, **operation_config):
         """Lists all of the Certificates that have been added to the specified
         Account.
 
@@ -177,23 +184,27 @@ class CertificateOperations(object):
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list.metadata['url']
+                url = self.list.metadata["url"]
                 path_format_arguments = {
-                    'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+                    "batchUrl": self._serialize.url(
+                        "self.config.batch_url", self.config.batch_url, "str", skip_quote=True
+                    )
                 }
                 url = self._client.format_url(url, **path_format_arguments)
 
                 # Construct parameters
                 query_parameters = {}
-                query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+                query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
                 if filter is not None:
-                    query_parameters['$filter'] = self._serialize.query("filter", filter, 'str')
+                    query_parameters["$filter"] = self._serialize.query("filter", filter, "str")
                 if select is not None:
-                    query_parameters['$select'] = self._serialize.query("select", select, 'str')
+                    query_parameters["$select"] = self._serialize.query("select", select, "str")
                 if max_results is not None:
-                    query_parameters['maxresults'] = self._serialize.query("max_results", max_results, 'int', maximum=1000, minimum=1)
+                    query_parameters["maxresults"] = self._serialize.query(
+                        "max_results", max_results, "int", maximum=1000, minimum=1
+                    )
                 if timeout is not None:
-                    query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+                    query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
             else:
                 url = next_link
@@ -201,19 +212,25 @@ class CertificateOperations(object):
 
             # Construct headers
             header_parameters = {}
-            header_parameters['Accept'] = 'application/json'
+            header_parameters["Accept"] = "application/json"
             if self.config.generate_client_request_id:
-                header_parameters['client-request-id'] = str(uuid.uuid1())
+                header_parameters["client-request-id"] = str(uuid.uuid1())
             if custom_headers:
                 header_parameters.update(custom_headers)
             if self.config.accept_language is not None:
-                header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+                header_parameters["accept-language"] = self._serialize.header(
+                    "self.config.accept_language", self.config.accept_language, "str"
+                )
             if client_request_id is not None:
-                header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+                header_parameters["client-request-id"] = self._serialize.header(
+                    "client_request_id", client_request_id, "str"
+                )
             if return_client_request_id is not None:
-                header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+                header_parameters["return-client-request-id"] = self._serialize.header(
+                    "return_client_request_id", return_client_request_id, "bool"
+                )
             if ocp_date is not None:
-                header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+                header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
             # Construct and send request
             request = self._client.get(url, query_parameters, header_parameters)
@@ -236,10 +253,18 @@ class CertificateOperations(object):
         deserialized = models.CertificatePaged(internal_paging, self._deserialize.dependencies, header_dict)
 
         return deserialized
-    list.metadata = {'url': '/certificates'}
+
+    list.metadata = {"url": "/certificates"}
 
     def cancel_deletion(
-            self, thumbprint_algorithm, thumbprint, certificate_cancel_deletion_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        thumbprint_algorithm,
+        thumbprint,
+        certificate_cancel_deletion_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Cancels a failed deletion of a Certificate from the specified Account.
 
         If you try to delete a Certificate that is being used by a Pool or
@@ -288,34 +313,40 @@ class CertificateOperations(object):
             ocp_date = certificate_cancel_deletion_options.ocp_date
 
         # Construct URL
-        url = self.cancel_deletion.metadata['url']
+        url = self.cancel_deletion.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'thumbprintAlgorithm': self._serialize.url("thumbprint_algorithm", thumbprint_algorithm, 'str'),
-            'thumbprint': self._serialize.url("thumbprint", thumbprint, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "thumbprintAlgorithm": self._serialize.url("thumbprint_algorithm", thumbprint_algorithm, "str"),
+            "thumbprint": self._serialize.url("thumbprint", thumbprint, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters)
@@ -326,18 +357,30 @@ class CertificateOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    cancel_deletion.metadata = {'url': '/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete'}
+
+    cancel_deletion.metadata = {
+        "url": "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete"
+    }
 
     def delete(
-            self, thumbprint_algorithm, thumbprint, certificate_delete_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        thumbprint_algorithm,
+        thumbprint,
+        certificate_delete_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Deletes a Certificate from the specified Account.
 
         You cannot delete a Certificate if a resource (Pool or Compute Node) is
@@ -388,34 +431,40 @@ class CertificateOperations(object):
             ocp_date = certificate_delete_options.ocp_date
 
         # Construct URL
-        url = self.delete.metadata['url']
+        url = self.delete.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'thumbprintAlgorithm': self._serialize.url("thumbprint_algorithm", thumbprint_algorithm, 'str'),
-            'thumbprint': self._serialize.url("thumbprint", thumbprint, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "thumbprintAlgorithm": self._serialize.url("thumbprint_algorithm", thumbprint_algorithm, "str"),
+            "thumbprint": self._serialize.url("thumbprint", thumbprint, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct and send request
         request = self._client.delete(url, query_parameters, header_parameters)
@@ -426,17 +475,27 @@ class CertificateOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                }
+            )
             return client_raw_response
-    delete.metadata = {'url': '/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})'}
+
+    delete.metadata = {"url": "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})"}
 
     def get(
-            self, thumbprint_algorithm, thumbprint, certificate_get_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        thumbprint_algorithm,
+        thumbprint,
+        certificate_get_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Gets information about the specified Certificate.
 
         Warning: This operation is deprecated and will be removed after
@@ -481,37 +540,43 @@ class CertificateOperations(object):
             ocp_date = certificate_get_options.ocp_date
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'thumbprintAlgorithm': self._serialize.url("thumbprint_algorithm", thumbprint_algorithm, 'str'),
-            'thumbprint': self._serialize.url("thumbprint", thumbprint, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "thumbprintAlgorithm": self._serialize.url("thumbprint_algorithm", thumbprint_algorithm, "str"),
+            "thumbprint": self._serialize.url("thumbprint", thumbprint, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if select is not None:
-            query_parameters['$select'] = self._serialize.query("select", select, 'str')
+            query_parameters["$select"] = self._serialize.query("select", select, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
@@ -523,12 +588,12 @@ class CertificateOperations(object):
         header_dict = {}
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize('Certificate', response)
+            deserialized = self._deserialize("Certificate", response)
             header_dict = {
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
+                "client-request-id": "str",
+                "request-id": "str",
+                "ETag": "str",
+                "Last-Modified": "rfc-1123",
             }
 
         if raw:
@@ -537,4 +602,5 @@ class CertificateOperations(object):
             return client_raw_response
 
         return deserialized
-    get.metadata = {'url': '/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})'}
+
+    get.metadata = {"url": "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})"}
