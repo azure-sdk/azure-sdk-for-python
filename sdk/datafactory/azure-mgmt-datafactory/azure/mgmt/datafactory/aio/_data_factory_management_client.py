@@ -52,10 +52,10 @@ class DataFactoryManagementClient:  # pylint: disable=client-accepts-api-version
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.datafactory.aio.operations.Operations
-    :ivar factories: FactoriesOperations operations
-    :vartype factories: azure.mgmt.datafactory.aio.operations.FactoriesOperations
     :ivar exposure_control: ExposureControlOperations operations
     :vartype exposure_control: azure.mgmt.datafactory.aio.operations.ExposureControlOperations
+    :ivar factories: FactoriesOperations operations
+    :vartype factories: azure.mgmt.datafactory.aio.operations.FactoriesOperations
     :ivar integration_runtimes: IntegrationRuntimesOperations operations
     :vartype integration_runtimes:
      azure.mgmt.datafactory.aio.operations.IntegrationRuntimesOperations
@@ -137,10 +137,10 @@ class DataFactoryManagementClient:  # pylint: disable=client-accepts-api-version
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.factories = FactoriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.exposure_control = ExposureControlOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.factories = FactoriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.integration_runtimes = IntegrationRuntimesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )

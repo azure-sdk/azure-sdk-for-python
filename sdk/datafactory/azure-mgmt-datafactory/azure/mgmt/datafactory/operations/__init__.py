@@ -7,8 +7,8 @@
 # --------------------------------------------------------------------------
 
 from ._operations import Operations
-from ._factories_operations import FactoriesOperations
 from ._exposure_control_operations import ExposureControlOperations
+from ._factories_operations import FactoriesOperations
 from ._integration_runtimes_operations import IntegrationRuntimesOperations
 from ._integration_runtime_object_metadata_operations import IntegrationRuntimeObjectMetadataOperations
 from ._integration_runtime_nodes_operations import IntegrationRuntimeNodesOperations
@@ -36,8 +36,8 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Operations",
-    "FactoriesOperations",
     "ExposureControlOperations",
+    "FactoriesOperations",
     "IntegrationRuntimesOperations",
     "IntegrationRuntimeObjectMetadataOperations",
     "IntegrationRuntimeNodesOperations",
