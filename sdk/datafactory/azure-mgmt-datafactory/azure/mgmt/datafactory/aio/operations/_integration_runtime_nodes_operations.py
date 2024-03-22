@@ -28,7 +28,6 @@ from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._integration_runtime_nodes_operations import (
     build_delete_request,
-    build_get_ip_address_request,
     build_get_request,
     build_update_request,
 )
@@ -351,73 +350,4 @@ class IntegrationRuntimeNodesOperations:
 
     update.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}"
-    }
-
-    @distributed_trace_async
-    async def get_ip_address(
-        self, resource_group_name: str, factory_name: str, integration_runtime_name: str, node_name: str, **kwargs: Any
-    ) -> _models.IntegrationRuntimeNodeIpAddress:
-        """Get the IP address of self-hosted integration runtime node.
-
-        :param resource_group_name: The resource group name. Required.
-        :type resource_group_name: str
-        :param factory_name: The factory name. Required.
-        :type factory_name: str
-        :param integration_runtime_name: The integration runtime name. Required.
-        :type integration_runtime_name: str
-        :param node_name: The integration runtime node name. Required.
-        :type node_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: IntegrationRuntimeNodeIpAddress or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.IntegrationRuntimeNodeIpAddress
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.IntegrationRuntimeNodeIpAddress] = kwargs.pop("cls", None)
-
-        request = build_get_ip_address_request(
-            resource_group_name=resource_group_name,
-            factory_name=factory_name,
-            integration_runtime_name=integration_runtime_name,
-            node_name=node_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_ip_address.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("IntegrationRuntimeNodeIpAddress", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_ip_address.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress"
     }
