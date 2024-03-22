@@ -39,7 +39,8 @@ class JobScheduleOperations(object):
         self.config = config
 
     def exists(
-            self, job_schedule_id, job_schedule_exists_options=None, custom_headers=None, raw=False, **operation_config):
+        self, job_schedule_id, job_schedule_exists_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Checks the specified Job Schedule exists.
 
         :param job_schedule_id: The ID of the Job Schedule which you want to
@@ -85,41 +86,51 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_exists_options.if_unmodified_since
 
         # Construct URL
-        url = self.exists.metadata['url']
+        url = self.exists.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.head(url, query_parameters, header_parameters)
@@ -128,21 +139,25 @@ class JobScheduleOperations(object):
         if response.status_code not in [200, 404]:
             raise models.BatchErrorException(self._deserialize, response)
 
-        deserialized = (response.status_code == 200)
+        deserialized = response.status_code == 200
         if raw:
             client_raw_response = ClientRawResponse(deserialized, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                }
+            )
             return client_raw_response
         return deserialized
-    exists.metadata = {'url': '/jobschedules/{jobScheduleId}'}
+
+    exists.metadata = {"url": "/jobschedules/{jobScheduleId}"}
 
     def delete(
-            self, job_schedule_id, job_schedule_delete_options=None, custom_headers=None, raw=False, **operation_config):
+        self, job_schedule_id, job_schedule_delete_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Deletes a Job Schedule from the specified Account.
 
         When you delete a Job Schedule, this also deletes all Jobs and Tasks
@@ -194,41 +209,51 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_delete_options.if_unmodified_since
 
         # Construct URL
-        url = self.delete.metadata['url']
+        url = self.delete.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.delete(url, query_parameters, header_parameters)
@@ -239,15 +264,17 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                }
+            )
             return client_raw_response
-    delete.metadata = {'url': '/jobschedules/{jobScheduleId}'}
 
-    def get(
-            self, job_schedule_id, job_schedule_get_options=None, custom_headers=None, raw=False, **operation_config):
+    delete.metadata = {"url": "/jobschedules/{jobScheduleId}"}
+
+    def get(self, job_schedule_id, job_schedule_get_options=None, custom_headers=None, raw=False, **operation_config):
         """Gets information about the specified Job Schedule.
 
         :param job_schedule_id: The ID of the Job Schedule to get.
@@ -299,46 +326,56 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_get_options.if_unmodified_since
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if select is not None:
-            query_parameters['$select'] = self._serialize.query("select", select, 'str')
+            query_parameters["$select"] = self._serialize.query("select", select, "str")
         if expand is not None:
-            query_parameters['$expand'] = self._serialize.query("expand", expand, 'str')
+            query_parameters["$expand"] = self._serialize.query("expand", expand, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
@@ -350,12 +387,12 @@ class JobScheduleOperations(object):
         header_dict = {}
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize('CloudJobSchedule', response)
+            deserialized = self._deserialize("CloudJobSchedule", response)
             header_dict = {
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
+                "client-request-id": "str",
+                "request-id": "str",
+                "ETag": "str",
+                "Last-Modified": "rfc-1123",
             }
 
         if raw:
@@ -364,10 +401,18 @@ class JobScheduleOperations(object):
             return client_raw_response
 
         return deserialized
-    get.metadata = {'url': '/jobschedules/{jobScheduleId}'}
+
+    get.metadata = {"url": "/jobschedules/{jobScheduleId}"}
 
     def patch(
-            self, job_schedule_id, job_schedule_patch_parameter, job_schedule_patch_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        job_schedule_id,
+        job_schedule_patch_parameter,
+        job_schedule_patch_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Updates the properties of the specified Job Schedule.
 
         This replaces only the Job Schedule properties specified in the
@@ -422,45 +467,55 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_patch_options.if_unmodified_since
 
         # Construct URL
-        url = self.patch.metadata['url']
+        url = self.patch.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct body
-        body_content = self._serialize.body(job_schedule_patch_parameter, 'JobSchedulePatchParameter')
+        body_content = self._serialize.body(job_schedule_patch_parameter, "JobSchedulePatchParameter")
 
         # Construct and send request
         request = self._client.patch(url, query_parameters, header_parameters, body_content)
@@ -471,18 +526,28 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    patch.metadata = {'url': '/jobschedules/{jobScheduleId}'}
+
+    patch.metadata = {"url": "/jobschedules/{jobScheduleId}"}
 
     def update(
-            self, job_schedule_id, job_schedule_update_parameter, job_schedule_update_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        job_schedule_id,
+        job_schedule_update_parameter,
+        job_schedule_update_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Updates the properties of the specified Job Schedule.
 
         This fully replaces all the updatable properties of the Job Schedule.
@@ -537,45 +602,55 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_update_options.if_unmodified_since
 
         # Construct URL
-        url = self.update.metadata['url']
+        url = self.update.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct body
-        body_content = self._serialize.body(job_schedule_update_parameter, 'JobScheduleUpdateParameter')
+        body_content = self._serialize.body(job_schedule_update_parameter, "JobScheduleUpdateParameter")
 
         # Construct and send request
         request = self._client.put(url, query_parameters, header_parameters, body_content)
@@ -586,18 +661,22 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    update.metadata = {'url': '/jobschedules/{jobScheduleId}'}
+
+    update.metadata = {"url": "/jobschedules/{jobScheduleId}"}
 
     def disable(
-            self, job_schedule_id, job_schedule_disable_options=None, custom_headers=None, raw=False, **operation_config):
+        self, job_schedule_id, job_schedule_disable_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Disables a Job Schedule.
 
         No new Jobs will be created until the Job Schedule is enabled again.
@@ -644,41 +723,51 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_disable_options.if_unmodified_since
 
         # Construct URL
-        url = self.disable.metadata['url']
+        url = self.disable.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters)
@@ -689,18 +778,22 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    disable.metadata = {'url': '/jobschedules/{jobScheduleId}/disable'}
+
+    disable.metadata = {"url": "/jobschedules/{jobScheduleId}/disable"}
 
     def enable(
-            self, job_schedule_id, job_schedule_enable_options=None, custom_headers=None, raw=False, **operation_config):
+        self, job_schedule_id, job_schedule_enable_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Enables a Job Schedule.
 
         :param job_schedule_id: The ID of the Job Schedule to enable.
@@ -745,41 +838,51 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_enable_options.if_unmodified_since
 
         # Construct URL
-        url = self.enable.metadata['url']
+        url = self.enable.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters)
@@ -790,18 +893,22 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    enable.metadata = {'url': '/jobschedules/{jobScheduleId}/enable'}
+
+    enable.metadata = {"url": "/jobschedules/{jobScheduleId}/enable"}
 
     def terminate(
-            self, job_schedule_id, job_schedule_terminate_options=None, custom_headers=None, raw=False, **operation_config):
+        self, job_schedule_id, job_schedule_terminate_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Terminates a Job Schedule.
 
         :param job_schedule_id: The ID of the Job Schedule to terminates.
@@ -846,41 +953,51 @@ class JobScheduleOperations(object):
             if_unmodified_since = job_schedule_terminate_options.if_unmodified_since
 
         # Construct URL
-        url = self.terminate.metadata['url']
+        url = self.terminate.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'jobScheduleId': self._serialize.url("job_schedule_id", job_schedule_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "jobScheduleId": self._serialize.url("job_schedule_id", job_schedule_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters)
@@ -891,18 +1008,22 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    terminate.metadata = {'url': '/jobschedules/{jobScheduleId}/terminate'}
+
+    terminate.metadata = {"url": "/jobschedules/{jobScheduleId}/terminate"}
 
     def add(
-            self, cloud_job_schedule, job_schedule_add_options=None, custom_headers=None, raw=False, **operation_config):
+        self, cloud_job_schedule, job_schedule_add_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Adds a Job Schedule to the specified Account.
 
         :param cloud_job_schedule: The Job Schedule to be added.
@@ -935,36 +1056,42 @@ class JobScheduleOperations(object):
             ocp_date = job_schedule_add_options.ocp_date
 
         # Construct URL
-        url = self.add.metadata['url']
+        url = self.add.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True)
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct body
-        body_content = self._serialize.body(cloud_job_schedule, 'JobScheduleAddParameter')
+        body_content = self._serialize.body(cloud_job_schedule, "JobScheduleAddParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -975,18 +1102,20 @@ class JobScheduleOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    add.metadata = {'url': '/jobschedules'}
 
-    def list(
-            self, job_schedule_list_options=None, custom_headers=None, raw=False, **operation_config):
+    add.metadata = {"url": "/jobschedules"}
+
+    def list(self, job_schedule_list_options=None, custom_headers=None, raw=False, **operation_config):
         """Lists all of the Job Schedules in the specified Account.
 
         :param job_schedule_list_options: Additional parameters for the
@@ -1032,25 +1161,29 @@ class JobScheduleOperations(object):
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list.metadata['url']
+                url = self.list.metadata["url"]
                 path_format_arguments = {
-                    'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+                    "batchUrl": self._serialize.url(
+                        "self.config.batch_url", self.config.batch_url, "str", skip_quote=True
+                    )
                 }
                 url = self._client.format_url(url, **path_format_arguments)
 
                 # Construct parameters
                 query_parameters = {}
-                query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+                query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
                 if filter is not None:
-                    query_parameters['$filter'] = self._serialize.query("filter", filter, 'str')
+                    query_parameters["$filter"] = self._serialize.query("filter", filter, "str")
                 if select is not None:
-                    query_parameters['$select'] = self._serialize.query("select", select, 'str')
+                    query_parameters["$select"] = self._serialize.query("select", select, "str")
                 if expand is not None:
-                    query_parameters['$expand'] = self._serialize.query("expand", expand, 'str')
+                    query_parameters["$expand"] = self._serialize.query("expand", expand, "str")
                 if max_results is not None:
-                    query_parameters['maxresults'] = self._serialize.query("max_results", max_results, 'int', maximum=1000, minimum=1)
+                    query_parameters["maxresults"] = self._serialize.query(
+                        "max_results", max_results, "int", maximum=1000, minimum=1
+                    )
                 if timeout is not None:
-                    query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+                    query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
             else:
                 url = next_link
@@ -1058,19 +1191,25 @@ class JobScheduleOperations(object):
 
             # Construct headers
             header_parameters = {}
-            header_parameters['Accept'] = 'application/json'
+            header_parameters["Accept"] = "application/json"
             if self.config.generate_client_request_id:
-                header_parameters['client-request-id'] = str(uuid.uuid1())
+                header_parameters["client-request-id"] = str(uuid.uuid1())
             if custom_headers:
                 header_parameters.update(custom_headers)
             if self.config.accept_language is not None:
-                header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+                header_parameters["accept-language"] = self._serialize.header(
+                    "self.config.accept_language", self.config.accept_language, "str"
+                )
             if client_request_id is not None:
-                header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+                header_parameters["client-request-id"] = self._serialize.header(
+                    "client_request_id", client_request_id, "str"
+                )
             if return_client_request_id is not None:
-                header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+                header_parameters["return-client-request-id"] = self._serialize.header(
+                    "return_client_request_id", return_client_request_id, "bool"
+                )
             if ocp_date is not None:
-                header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+                header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
             # Construct and send request
             request = self._client.get(url, query_parameters, header_parameters)
@@ -1093,4 +1232,5 @@ class JobScheduleOperations(object):
         deserialized = models.CloudJobSchedulePaged(internal_paging, self._deserialize.dependencies, header_dict)
 
         return deserialized
-    list.metadata = {'url': '/jobschedules'}
+
+    list.metadata = {"url": "/jobschedules"}
