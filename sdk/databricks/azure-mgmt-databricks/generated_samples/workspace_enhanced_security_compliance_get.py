@@ -15,7 +15,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
     pip install azure-identity
     pip install azure-mgmt-databricks
 # USAGE
-    python outbound_network_dependencies_endpoints_list.py
+    python workspace_enhanced_security_compliance_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,16 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11111111-1111-1111-1111-111111111111",
+        subscription_id="subid",
     )
 
-    response = client.outbound_network_dependencies_endpoints.list(
-        resource_group_name="myResourceGroup",
+    response = client.workspaces.get(
+        resource_group_name="rg",
         workspace_name="myWorkspace",
     )
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/OutboundNetworkDependenciesEndpointsList.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceEnhancedSecurityComplianceGet.json
 if __name__ == "__main__":
     main()

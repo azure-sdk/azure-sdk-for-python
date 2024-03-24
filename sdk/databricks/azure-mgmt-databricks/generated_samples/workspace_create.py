@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -34,12 +37,20 @@ def main():
         workspace_name="myWorkspace",
         parameters={
             "location": "westus",
-            "properties": {"managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"},
+            "properties": {
+                "accessConnector": {
+                    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/adbrg/providers/Microsoft.Databricks/accessConnectors/myAccessConnector",
+                    "identityType": "SystemAssigned",
+                },
+                "defaultCatalog": {"initialName": "", "initialType": "UnityCatalog"},
+                "defaultStorageFirewall": "Enabled",
+                "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+            },
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreate.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceCreate.json
 if __name__ == "__main__":
     main()
