@@ -8,6 +8,7 @@
 
 from ._models_py3 import Catalog
 from ._models_py3 import CatalogListResult
+from ._models_py3 import CatalogProperties
 from ._models_py3 import CatalogUpdate
 from ._models_py3 import Certificate
 from ._models_py3 import CertificateChainResponse
@@ -15,24 +16,30 @@ from ._models_py3 import CertificateListResult
 from ._models_py3 import CertificateProperties
 from ._models_py3 import ClaimDevicesRequest
 from ._models_py3 import CountDeviceResponse
+from ._models_py3 import CountDevicesResponse
 from ._models_py3 import CountElementsResponse
 from ._models_py3 import Deployment
 from ._models_py3 import DeploymentListResult
+from ._models_py3 import DeploymentProperties
 from ._models_py3 import Device
 from ._models_py3 import DeviceGroup
 from ._models_py3 import DeviceGroupListResult
+from ._models_py3 import DeviceGroupProperties
 from ._models_py3 import DeviceGroupUpdate
+from ._models_py3 import DeviceGroupUpdateProperties
 from ._models_py3 import DeviceInsight
 from ._models_py3 import DeviceListResult
 from ._models_py3 import DevicePatchProperties
+from ._models_py3 import DeviceProperties
 from ._models_py3 import DeviceUpdate
+from ._models_py3 import DeviceUpdateProperties
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import GenerateCapabilityImageRequest
 from ._models_py3 import Image
 from ._models_py3 import ImageListResult
-from ._models_py3 import ImageUploadRequestBody
+from ._models_py3 import ImageProperties
 from ._models_py3 import ListDeviceGroupsRequest
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -40,7 +47,9 @@ from ._models_py3 import OperationListResult
 from ._models_py3 import PagedDeviceInsight
 from ._models_py3 import Product
 from ._models_py3 import ProductListResult
+from ._models_py3 import ProductProperties
 from ._models_py3 import ProductUpdate
+from ._models_py3 import ProductUpdateProperties
 from ._models_py3 import ProofOfPossessionNonceRequest
 from ._models_py3 import ProofOfPossessionNonceResponse
 from ._models_py3 import ProxyResource
@@ -60,6 +69,7 @@ from ._azure_sphere_mgmt_client_enums import Origin
 from ._azure_sphere_mgmt_client_enums import ProvisioningState
 from ._azure_sphere_mgmt_client_enums import RegionalDataBoundary
 from ._azure_sphere_mgmt_client_enums import UpdatePolicy
+from ._azure_sphere_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -67,6 +77,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "Catalog",
     "CatalogListResult",
+    "CatalogProperties",
     "CatalogUpdate",
     "Certificate",
     "CertificateChainResponse",
@@ -74,24 +85,30 @@ __all__ = [
     "CertificateProperties",
     "ClaimDevicesRequest",
     "CountDeviceResponse",
+    "CountDevicesResponse",
     "CountElementsResponse",
     "Deployment",
     "DeploymentListResult",
+    "DeploymentProperties",
     "Device",
     "DeviceGroup",
     "DeviceGroupListResult",
+    "DeviceGroupProperties",
     "DeviceGroupUpdate",
+    "DeviceGroupUpdateProperties",
     "DeviceInsight",
     "DeviceListResult",
     "DevicePatchProperties",
+    "DeviceProperties",
     "DeviceUpdate",
+    "DeviceUpdateProperties",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
     "GenerateCapabilityImageRequest",
     "Image",
     "ImageListResult",
-    "ImageUploadRequestBody",
+    "ImageProperties",
     "ListDeviceGroupsRequest",
     "Operation",
     "OperationDisplay",
@@ -99,7 +116,9 @@ __all__ = [
     "PagedDeviceInsight",
     "Product",
     "ProductListResult",
+    "ProductProperties",
     "ProductUpdate",
+    "ProductUpdateProperties",
     "ProofOfPossessionNonceRequest",
     "ProofOfPossessionNonceResponse",
     "ProxyResource",
@@ -118,6 +137,7 @@ __all__ = [
     "ProvisioningState",
     "RegionalDataBoundary",
     "UpdatePolicy",
+    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
