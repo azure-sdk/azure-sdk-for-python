@@ -15,6 +15,7 @@ from ._models_py3 import CertificateListResult
 from ._models_py3 import CertificateProperties
 from ._models_py3 import ClaimDevicesRequest
 from ._models_py3 import CountDeviceResponse
+from ._models_py3 import CountDevicesResponse
 from ._models_py3 import CountElementsResponse
 from ._models_py3 import Deployment
 from ._models_py3 import DeploymentListResult
@@ -24,7 +25,6 @@ from ._models_py3 import DeviceGroupListResult
 from ._models_py3 import DeviceGroupUpdate
 from ._models_py3 import DeviceInsight
 from ._models_py3 import DeviceListResult
-from ._models_py3 import DevicePatchProperties
 from ._models_py3 import DeviceUpdate
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
@@ -32,7 +32,6 @@ from ._models_py3 import ErrorResponse
 from ._models_py3 import GenerateCapabilityImageRequest
 from ._models_py3 import Image
 from ._models_py3 import ImageListResult
-from ._models_py3 import ImageUploadRequestBody
 from ._models_py3 import ListDeviceGroupsRequest
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -74,6 +73,7 @@ __all__ = [
     "CertificateProperties",
     "ClaimDevicesRequest",
     "CountDeviceResponse",
+    "CountDevicesResponse",
     "CountElementsResponse",
     "Deployment",
     "DeploymentListResult",
@@ -83,7 +83,6 @@ __all__ = [
     "DeviceGroupUpdate",
     "DeviceInsight",
     "DeviceListResult",
-    "DevicePatchProperties",
     "DeviceUpdate",
     "ErrorAdditionalInfo",
     "ErrorDetail",
@@ -91,7 +90,6 @@ __all__ = [
     "GenerateCapabilityImageRequest",
     "Image",
     "ImageListResult",
-    "ImageUploadRequestBody",
     "ListDeviceGroupsRequest",
     "Operation",
     "OperationDisplay",
