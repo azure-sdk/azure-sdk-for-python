@@ -25,6 +25,7 @@ def patch_sdk():
     https://aka.ms/azsdk/python/dpcodegen/python/customize
     """
 
+
 class AsyncTranslatorAADCredential:
     """Credential for Translator Service when using AAD authentication.
 
@@ -40,6 +41,7 @@ class AsyncTranslatorAADCredential:
         self.resourceId = resourceId
         self.region = region
 
+
 class AsyncTranslatorAADAuthenticationPolicy(AsyncBearerTokenCredentialPolicy):
     """Translator AAD Authentication Policy. Adds headers that are required by Translator Service
     when global endpoint is used with AAD policy.
@@ -50,8 +52,10 @@ class AsyncTranslatorAADAuthenticationPolicy(AsyncBearerTokenCredentialPolicy):
     :type credential: ~azure.ai.translation.text.AsyncTranslatorAADCredential
     """
 
-    def __init__(self, credential: AsyncTranslatorAADCredential, **kwargs: Any)-> None:
-        super(AsyncTranslatorAADAuthenticationPolicy, self).__init__(credential.tokenCredential, "https://cognitiveservices.azure.com/.default", **kwargs)
+    def __init__(self, credential: AsyncTranslatorAADCredential, **kwargs: Any) -> None:
+        super(AsyncTranslatorAADAuthenticationPolicy, self).__init__(
+            credential.tokenCredential, "https://cognitiveservices.azure.com/.default", **kwargs
+        )
         self.translatorCredential = credential
 
     async def on_request(self, request: PipelineRequest) -> None:
