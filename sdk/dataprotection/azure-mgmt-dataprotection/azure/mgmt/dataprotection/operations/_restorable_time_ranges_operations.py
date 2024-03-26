@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -41,7 +41,7 @@ def build_find_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -116,7 +116,6 @@ class RestorableTimeRangesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AzureBackupFindRestorableTimeRangesResponseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.AzureBackupFindRestorableTimeRangesResponseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -128,7 +127,7 @@ class RestorableTimeRangesOperations:
         resource_group_name: str,
         vault_name: str,
         backup_instance_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -143,11 +142,10 @@ class RestorableTimeRangesOperations:
         :param backup_instance_name: The name of the backup instance. Required.
         :type backup_instance_name: str
         :param parameters: Request body for operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AzureBackupFindRestorableTimeRangesResponseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.AzureBackupFindRestorableTimeRangesResponseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -159,7 +157,7 @@ class RestorableTimeRangesOperations:
         resource_group_name: str,
         vault_name: str,
         backup_instance_name: str,
-        parameters: Union[_models.AzureBackupFindRestorableTimeRangesRequest, IO],
+        parameters: Union[_models.AzureBackupFindRestorableTimeRangesRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.AzureBackupFindRestorableTimeRangesResponseResource:
         """find.
@@ -172,13 +170,9 @@ class RestorableTimeRangesOperations:
         :param backup_instance_name: The name of the backup instance. Required.
         :type backup_instance_name: str
         :param parameters: Request body for operation. Is either a
-         AzureBackupFindRestorableTimeRangesRequest type or a IO type. Required.
+         AzureBackupFindRestorableTimeRangesRequest type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.dataprotection.models.AzureBackupFindRestorableTimeRangesRequest
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or IO[bytes]
         :return: AzureBackupFindRestorableTimeRangesResponseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.AzureBackupFindRestorableTimeRangesResponseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -206,7 +200,7 @@ class RestorableTimeRangesOperations:
         else:
             _json = self._serialize.body(parameters, "AzureBackupFindRestorableTimeRangesRequest")
 
-        request = build_find_request(
+        _request = build_find_request(
             resource_group_name=resource_group_name,
             vault_name=vault_name,
             backup_instance_name=backup_instance_name,
@@ -215,16 +209,15 @@ class RestorableTimeRangesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.find.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -236,10 +229,6 @@ class RestorableTimeRangesOperations:
         deserialized = self._deserialize("AzureBackupFindRestorableTimeRangesResponseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    find.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/findRestorableTimeRanges"
-    }
+        return deserialized  # type: ignore

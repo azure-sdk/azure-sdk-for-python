@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -73,7 +73,6 @@ class DppResourceGuardProxyOperations:
         :type resource_group_name: str
         :param vault_name: The name of the backup vault. Required.
         :type vault_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceGuardProxyBaseResource or the result of
          cls(response)
         :rtype:
@@ -97,17 +96,16 @@ class DppResourceGuardProxyOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     vault_name=vault_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -119,13 +117,13 @@ class DppResourceGuardProxyOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceGuardProxyBaseResourceList", pipeline_response)
@@ -135,11 +133,11 @@ class DppResourceGuardProxyOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -150,10 +148,6 @@ class DppResourceGuardProxyOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies"
-    }
 
     @distributed_trace_async
     async def get(
@@ -172,7 +166,6 @@ class DppResourceGuardProxyOperations:
         :type vault_name: str
         :param resource_guard_proxy_name: name of the resource guard proxy. Required.
         :type resource_guard_proxy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardProxyBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardProxyBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -191,22 +184,21 @@ class DppResourceGuardProxyOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ResourceGuardProxyBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             vault_name=vault_name,
             resource_guard_proxy_name=resource_guard_proxy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -218,13 +210,9 @@ class DppResourceGuardProxyOperations:
         deserialized = self._deserialize("ResourceGuardProxyBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create_or_update(
@@ -253,7 +241,6 @@ class DppResourceGuardProxyOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardProxyBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardProxyBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -265,7 +252,7 @@ class DppResourceGuardProxyOperations:
         resource_group_name: str,
         vault_name: str,
         resource_guard_proxy_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -282,11 +269,10 @@ class DppResourceGuardProxyOperations:
         :param resource_guard_proxy_name: name of the resource guard proxy. Required.
         :type resource_guard_proxy_name: str
         :param parameters: Request body for operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardProxyBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardProxyBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -298,7 +284,7 @@ class DppResourceGuardProxyOperations:
         resource_group_name: str,
         vault_name: str,
         resource_guard_proxy_name: str,
-        parameters: Union[_models.ResourceGuardProxyBaseResource, IO],
+        parameters: Union[_models.ResourceGuardProxyBaseResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.ResourceGuardProxyBaseResource:
         """Creates or Updates a ResourceGuardProxy.
@@ -313,12 +299,8 @@ class DppResourceGuardProxyOperations:
         :param resource_guard_proxy_name: name of the resource guard proxy. Required.
         :type resource_guard_proxy_name: str
         :param parameters: Request body for operation. Is either a ResourceGuardProxyBaseResource type
-         or a IO type. Required.
-        :type parameters: ~azure.mgmt.dataprotection.models.ResourceGuardProxyBaseResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.dataprotection.models.ResourceGuardProxyBaseResource or IO[bytes]
         :return: ResourceGuardProxyBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardProxyBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -346,7 +328,7 @@ class DppResourceGuardProxyOperations:
         else:
             _json = self._serialize.body(parameters, "ResourceGuardProxyBaseResource")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             vault_name=vault_name,
             resource_guard_proxy_name=resource_guard_proxy_name,
@@ -355,16 +337,15 @@ class DppResourceGuardProxyOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -376,13 +357,9 @@ class DppResourceGuardProxyOperations:
         deserialized = self._deserialize("ResourceGuardProxyBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
@@ -399,7 +376,6 @@ class DppResourceGuardProxyOperations:
         :type vault_name: str
         :param resource_guard_proxy_name: name of the resource guard proxy. Required.
         :type resource_guard_proxy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -418,22 +394,21 @@ class DppResourceGuardProxyOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             vault_name=vault_name,
             resource_guard_proxy_name=resource_guard_proxy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -443,11 +418,7 @@ class DppResourceGuardProxyOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def unlock_delete(
@@ -476,7 +447,6 @@ class DppResourceGuardProxyOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: UnlockDeleteResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.UnlockDeleteResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -488,7 +458,7 @@ class DppResourceGuardProxyOperations:
         resource_group_name: str,
         vault_name: str,
         resource_guard_proxy_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -505,11 +475,10 @@ class DppResourceGuardProxyOperations:
         :param resource_guard_proxy_name: name of the resource guard proxy. Required.
         :type resource_guard_proxy_name: str
         :param parameters: Request body for operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: UnlockDeleteResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.UnlockDeleteResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -521,7 +490,7 @@ class DppResourceGuardProxyOperations:
         resource_group_name: str,
         vault_name: str,
         resource_guard_proxy_name: str,
-        parameters: Union[_models.UnlockDeleteRequest, IO],
+        parameters: Union[_models.UnlockDeleteRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.UnlockDeleteResponse:
         """UnlockDelete call for ResourceGuardProxy, executed before one can delete it.
@@ -535,13 +504,9 @@ class DppResourceGuardProxyOperations:
         :type vault_name: str
         :param resource_guard_proxy_name: name of the resource guard proxy. Required.
         :type resource_guard_proxy_name: str
-        :param parameters: Request body for operation. Is either a UnlockDeleteRequest type or a IO
-         type. Required.
-        :type parameters: ~azure.mgmt.dataprotection.models.UnlockDeleteRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: Request body for operation. Is either a UnlockDeleteRequest type or a
+         IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.dataprotection.models.UnlockDeleteRequest or IO[bytes]
         :return: UnlockDeleteResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.UnlockDeleteResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -569,7 +534,7 @@ class DppResourceGuardProxyOperations:
         else:
             _json = self._serialize.body(parameters, "UnlockDeleteRequest")
 
-        request = build_unlock_delete_request(
+        _request = build_unlock_delete_request(
             resource_group_name=resource_group_name,
             vault_name=vault_name,
             resource_guard_proxy_name=resource_guard_proxy_name,
@@ -578,16 +543,15 @@ class DppResourceGuardProxyOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.unlock_delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -599,10 +563,6 @@ class DppResourceGuardProxyOperations:
         deserialized = self._deserialize("UnlockDeleteResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    unlock_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete"
-    }
+        return deserialized  # type: ignore

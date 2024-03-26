@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -60,7 +60,6 @@ class OperationResultOperations:
         :type operation_id: str
         :param location: Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OperationJobExtendedInfo or None or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.OperationJobExtendedInfo or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -79,21 +78,20 @@ class OperationResultOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.OperationJobExtendedInfo]] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             operation_id=operation_id,
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -115,10 +113,6 @@ class OperationResultOperations:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/operationResults/{operationId}"
-    }
+        return deserialized  # type: ignore

@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -37,11 +37,13 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_resources_in_subscription_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_get_resources_in_subscription_request(  # pylint: disable=name-too-long
+    subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -63,13 +65,13 @@ def build_get_resources_in_subscription_request(subscription_id: str, **kwargs: 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_resources_in_resource_group_request(
+def build_get_resources_in_resource_group_request(  # pylint: disable=name-too-long
     resource_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -101,7 +103,7 @@ def build_put_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -137,7 +139,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -170,7 +172,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -203,7 +205,7 @@ def build_patch_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -233,13 +235,13 @@ def build_patch_request(
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_disable_soft_delete_requests_objects_request(
+def build_get_disable_soft_delete_requests_objects_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -266,13 +268,13 @@ def build_get_disable_soft_delete_requests_objects_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_delete_resource_guard_proxy_requests_objects_request(
+def build_get_delete_resource_guard_proxy_requests_objects_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -299,13 +301,13 @@ def build_get_delete_resource_guard_proxy_requests_objects_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_backup_security_pin_requests_objects_request(
+def build_get_backup_security_pin_requests_objects_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -332,13 +334,13 @@ def build_get_backup_security_pin_requests_objects_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_delete_protected_item_requests_objects_request(
+def build_get_delete_protected_item_requests_objects_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -365,13 +367,13 @@ def build_get_delete_protected_item_requests_objects_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_update_protection_policy_requests_objects_request(
+def build_get_update_protection_policy_requests_objects_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -398,13 +400,13 @@ def build_get_update_protection_policy_requests_objects_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_update_protected_item_requests_objects_request(
+def build_get_update_protected_item_requests_objects_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -431,13 +433,13 @@ def build_get_update_protected_item_requests_objects_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_default_disable_soft_delete_requests_object_request(
+def build_get_default_disable_soft_delete_requests_object_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, request_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -465,13 +467,13 @@ def build_get_default_disable_soft_delete_requests_object_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_default_delete_resource_guard_proxy_requests_object_request(
+def build_get_default_delete_resource_guard_proxy_requests_object_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, request_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -499,13 +501,13 @@ def build_get_default_delete_resource_guard_proxy_requests_object_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_default_backup_security_pin_requests_object_request(
+def build_get_default_backup_security_pin_requests_object_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, request_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -533,13 +535,13 @@ def build_get_default_backup_security_pin_requests_object_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_default_delete_protected_item_requests_object_request(
+def build_get_default_delete_protected_item_requests_object_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, request_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -567,13 +569,13 @@ def build_get_default_delete_protected_item_requests_object_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_default_update_protection_policy_requests_object_request(
+def build_get_default_update_protection_policy_requests_object_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, request_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -601,13 +603,13 @@ def build_get_default_update_protection_policy_requests_object_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_default_update_protected_item_requests_object_request(
+def build_get_default_update_protected_item_requests_object_request(  # pylint: disable=name-too-long
     resource_group_name: str, resource_guards_name: str, request_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -660,7 +662,6 @@ class ResourceGuardsOperations:
 
         Returns ResourceGuards collection belonging to a subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceGuardResource or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.ResourceGuardResource]
@@ -683,15 +684,14 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_resources_in_subscription_request(
+                _request = build_get_resources_in_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_resources_in_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -703,13 +703,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceGuardResourceList", pipeline_response)
@@ -719,11 +719,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -734,10 +734,6 @@ class ResourceGuardsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    get_resources_in_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/resourceGuards"
-    }
 
     @distributed_trace
     def get_resources_in_resource_group(
@@ -750,7 +746,6 @@ class ResourceGuardsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceGuardResource or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.ResourceGuardResource]
@@ -773,16 +768,15 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_resources_in_resource_group_request(
+                _request = build_get_resources_in_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_resources_in_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -794,13 +788,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceGuardResourceList", pipeline_response)
@@ -810,11 +804,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -825,10 +819,6 @@ class ResourceGuardsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    get_resources_in_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards"
-    }
 
     @overload
     def put(
@@ -854,7 +844,6 @@ class ResourceGuardsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -865,7 +854,7 @@ class ResourceGuardsOperations:
         self,
         resource_group_name: str,
         resource_guards_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -880,11 +869,10 @@ class ResourceGuardsOperations:
         :param resource_guards_name: The name of ResourceGuard. Required.
         :type resource_guards_name: str
         :param parameters: Request body for operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -895,7 +883,7 @@ class ResourceGuardsOperations:
         self,
         resource_group_name: str,
         resource_guards_name: str,
-        parameters: Union[_models.ResourceGuardResource, IO],
+        parameters: Union[_models.ResourceGuardResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.ResourceGuardResource:
         """Creates or updates a ResourceGuard resource belonging to a resource group.
@@ -907,13 +895,9 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: The name of ResourceGuard. Required.
         :type resource_guards_name: str
-        :param parameters: Request body for operation. Is either a ResourceGuardResource type or a IO
-         type. Required.
-        :type parameters: ~azure.mgmt.dataprotection.models.ResourceGuardResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: Request body for operation. Is either a ResourceGuardResource type or a
+         IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.dataprotection.models.ResourceGuardResource or IO[bytes]
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -941,7 +925,7 @@ class ResourceGuardsOperations:
         else:
             _json = self._serialize.body(parameters, "ResourceGuardResource")
 
-        request = build_put_request(
+        _request = build_put_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             subscription_id=self._config.subscription_id,
@@ -949,16 +933,15 @@ class ResourceGuardsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.put.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -978,10 +961,6 @@ class ResourceGuardsOperations:
 
         return deserialized  # type: ignore
 
-    put.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}"
-    }
-
     @distributed_trace
     def get(self, resource_group_name: str, resource_guards_name: str, **kwargs: Any) -> _models.ResourceGuardResource:
         """Returns a ResourceGuard belonging to a resource group.
@@ -993,7 +972,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: The name of ResourceGuard. Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1012,21 +990,20 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ResourceGuardResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1038,13 +1015,9 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("ResourceGuardResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -1059,7 +1032,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: The name of ResourceGuard. Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1078,21 +1050,20 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1102,11 +1073,7 @@ class ResourceGuardsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def patch(
@@ -1134,7 +1101,6 @@ class ResourceGuardsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1145,7 +1111,7 @@ class ResourceGuardsOperations:
         self,
         resource_group_name: str,
         resource_guards_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1162,11 +1128,10 @@ class ResourceGuardsOperations:
         :param resource_guards_name: The name of ResourceGuard. Required.
         :type resource_guards_name: str
         :param parameters: Request body for operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1177,7 +1142,7 @@ class ResourceGuardsOperations:
         self,
         resource_group_name: str,
         resource_guards_name: str,
-        parameters: Union[_models.PatchResourceGuardInput, IO],
+        parameters: Union[_models.PatchResourceGuardInput, IO[bytes]],
         **kwargs: Any
     ) -> _models.ResourceGuardResource:
         """Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for
@@ -1191,13 +1156,9 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: The name of ResourceGuard. Required.
         :type resource_guards_name: str
-        :param parameters: Request body for operation. Is either a PatchResourceGuardInput type or a IO
-         type. Required.
-        :type parameters: ~azure.mgmt.dataprotection.models.PatchResourceGuardInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: Request body for operation. Is either a PatchResourceGuardInput type or a
+         IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.dataprotection.models.PatchResourceGuardInput or IO[bytes]
         :return: ResourceGuardResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.ResourceGuardResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1225,7 +1186,7 @@ class ResourceGuardsOperations:
         else:
             _json = self._serialize.body(parameters, "PatchResourceGuardInput")
 
-        request = build_patch_request(
+        _request = build_patch_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             subscription_id=self._config.subscription_id,
@@ -1233,16 +1194,15 @@ class ResourceGuardsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.patch.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1254,13 +1214,9 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("ResourceGuardResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    patch.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get_disable_soft_delete_requests_objects(
@@ -1277,7 +1233,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DppBaseResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.DppBaseResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1299,17 +1254,16 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_disable_soft_delete_requests_objects_request(
+                _request = build_get_disable_soft_delete_requests_objects_request(
                     resource_group_name=resource_group_name,
                     resource_guards_name=resource_guards_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_disable_soft_delete_requests_objects.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1321,13 +1275,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DppBaseResourceList", pipeline_response)
@@ -1337,11 +1291,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1353,12 +1307,8 @@ class ResourceGuardsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    get_disable_soft_delete_requests_objects.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests"
-    }
-
     @distributed_trace
-    def get_delete_resource_guard_proxy_requests_objects(
+    def get_delete_resource_guard_proxy_requests_objects(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, **kwargs: Any
     ) -> Iterable["_models.DppBaseResource"]:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1372,7 +1322,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DppBaseResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.DppBaseResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1394,17 +1343,16 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_delete_resource_guard_proxy_requests_objects_request(
+                _request = build_get_delete_resource_guard_proxy_requests_objects_request(
                     resource_group_name=resource_group_name,
                     resource_guards_name=resource_guards_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_delete_resource_guard_proxy_requests_objects.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1416,13 +1364,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DppBaseResourceList", pipeline_response)
@@ -1432,11 +1380,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1447,10 +1395,6 @@ class ResourceGuardsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    get_delete_resource_guard_proxy_requests_objects.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests"
-    }
 
     @distributed_trace
     def get_backup_security_pin_requests_objects(
@@ -1467,7 +1411,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DppBaseResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.DppBaseResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1489,17 +1432,16 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_backup_security_pin_requests_objects_request(
+                _request = build_get_backup_security_pin_requests_objects_request(
                     resource_group_name=resource_group_name,
                     resource_guards_name=resource_guards_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_backup_security_pin_requests_objects.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1511,13 +1453,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DppBaseResourceList", pipeline_response)
@@ -1527,11 +1469,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1543,12 +1485,8 @@ class ResourceGuardsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    get_backup_security_pin_requests_objects.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests"
-    }
-
     @distributed_trace
-    def get_delete_protected_item_requests_objects(
+    def get_delete_protected_item_requests_objects(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, **kwargs: Any
     ) -> Iterable["_models.DppBaseResource"]:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1562,7 +1500,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DppBaseResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.DppBaseResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1584,17 +1521,16 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_delete_protected_item_requests_objects_request(
+                _request = build_get_delete_protected_item_requests_objects_request(
                     resource_group_name=resource_group_name,
                     resource_guards_name=resource_guards_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_delete_protected_item_requests_objects.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1606,13 +1542,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DppBaseResourceList", pipeline_response)
@@ -1622,11 +1558,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1638,12 +1574,8 @@ class ResourceGuardsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    get_delete_protected_item_requests_objects.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests"
-    }
-
     @distributed_trace
-    def get_update_protection_policy_requests_objects(
+    def get_update_protection_policy_requests_objects(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, **kwargs: Any
     ) -> Iterable["_models.DppBaseResource"]:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1657,7 +1589,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DppBaseResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.DppBaseResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1679,17 +1610,16 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_update_protection_policy_requests_objects_request(
+                _request = build_get_update_protection_policy_requests_objects_request(
                     resource_group_name=resource_group_name,
                     resource_guards_name=resource_guards_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_update_protection_policy_requests_objects.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1701,13 +1631,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DppBaseResourceList", pipeline_response)
@@ -1717,11 +1647,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1733,12 +1663,8 @@ class ResourceGuardsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    get_update_protection_policy_requests_objects.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests"
-    }
-
     @distributed_trace
-    def get_update_protected_item_requests_objects(
+    def get_update_protected_item_requests_objects(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, **kwargs: Any
     ) -> Iterable["_models.DppBaseResource"]:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1752,7 +1678,6 @@ class ResourceGuardsOperations:
         :type resource_group_name: str
         :param resource_guards_name: Required.
         :type resource_guards_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DppBaseResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dataprotection.models.DppBaseResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1774,17 +1699,16 @@ class ResourceGuardsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_update_protected_item_requests_objects_request(
+                _request = build_get_update_protected_item_requests_objects_request(
                     resource_group_name=resource_group_name,
                     resource_guards_name=resource_guards_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_update_protected_item_requests_objects.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1796,13 +1720,13 @@ class ResourceGuardsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DppBaseResourceList", pipeline_response)
@@ -1812,11 +1736,11 @@ class ResourceGuardsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1828,12 +1752,8 @@ class ResourceGuardsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    get_update_protected_item_requests_objects.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests"
-    }
-
     @distributed_trace
-    def get_default_disable_soft_delete_requests_object(
+    def get_default_disable_soft_delete_requests_object(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, request_name: str, **kwargs: Any
     ) -> _models.DppBaseResource:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1849,7 +1769,6 @@ class ResourceGuardsOperations:
         :type resource_guards_name: str
         :param request_name: Required.
         :type request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DppBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.DppBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1868,22 +1787,21 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DppBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_default_disable_soft_delete_requests_object_request(
+        _request = build_get_default_disable_soft_delete_requests_object_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             request_name=request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_default_disable_soft_delete_requests_object.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1895,16 +1813,12 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("DppBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_default_disable_soft_delete_requests_object.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests/{requestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_default_delete_resource_guard_proxy_requests_object(
+    def get_default_delete_resource_guard_proxy_requests_object(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, request_name: str, **kwargs: Any
     ) -> _models.DppBaseResource:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1920,7 +1834,6 @@ class ResourceGuardsOperations:
         :type resource_guards_name: str
         :param request_name: Required.
         :type request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DppBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.DppBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1939,22 +1852,21 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DppBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_default_delete_resource_guard_proxy_requests_object_request(
+        _request = build_get_default_delete_resource_guard_proxy_requests_object_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             request_name=request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_default_delete_resource_guard_proxy_requests_object.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1966,16 +1878,12 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("DppBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_default_delete_resource_guard_proxy_requests_object.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests/{requestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_default_backup_security_pin_requests_object(
+    def get_default_backup_security_pin_requests_object(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, request_name: str, **kwargs: Any
     ) -> _models.DppBaseResource:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -1991,7 +1899,6 @@ class ResourceGuardsOperations:
         :type resource_guards_name: str
         :param request_name: Required.
         :type request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DppBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.DppBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2010,22 +1917,21 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DppBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_default_backup_security_pin_requests_object_request(
+        _request = build_get_default_backup_security_pin_requests_object_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             request_name=request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_default_backup_security_pin_requests_object.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2037,16 +1943,12 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("DppBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_default_backup_security_pin_requests_object.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests/{requestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_default_delete_protected_item_requests_object(
+    def get_default_delete_protected_item_requests_object(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, request_name: str, **kwargs: Any
     ) -> _models.DppBaseResource:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -2062,7 +1964,6 @@ class ResourceGuardsOperations:
         :type resource_guards_name: str
         :param request_name: Required.
         :type request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DppBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.DppBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2081,22 +1982,21 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DppBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_default_delete_protected_item_requests_object_request(
+        _request = build_get_default_delete_protected_item_requests_object_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             request_name=request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_default_delete_protected_item_requests_object.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2108,16 +2008,12 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("DppBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_default_delete_protected_item_requests_object.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests/{requestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_default_update_protection_policy_requests_object(
+    def get_default_update_protection_policy_requests_object(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, request_name: str, **kwargs: Any
     ) -> _models.DppBaseResource:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -2133,7 +2029,6 @@ class ResourceGuardsOperations:
         :type resource_guards_name: str
         :param request_name: Required.
         :type request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DppBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.DppBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2152,22 +2047,21 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DppBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_default_update_protection_policy_requests_object_request(
+        _request = build_get_default_update_protection_policy_requests_object_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             request_name=request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_default_update_protection_policy_requests_object.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2179,16 +2073,12 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("DppBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_default_update_protection_policy_requests_object.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests/{requestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_default_update_protected_item_requests_object(
+    def get_default_update_protected_item_requests_object(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_guards_name: str, request_name: str, **kwargs: Any
     ) -> _models.DppBaseResource:
         """Returns collection of operation request objects for a critical operation protected by the given
@@ -2204,7 +2094,6 @@ class ResourceGuardsOperations:
         :type resource_guards_name: str
         :param request_name: Required.
         :type request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DppBaseResource or the result of cls(response)
         :rtype: ~azure.mgmt.dataprotection.models.DppBaseResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2223,22 +2112,21 @@ class ResourceGuardsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DppBaseResource] = kwargs.pop("cls", None)
 
-        request = build_get_default_update_protected_item_requests_object_request(
+        _request = build_get_default_update_protected_item_requests_object_request(
             resource_group_name=resource_group_name,
             resource_guards_name=resource_guards_name,
             request_name=request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_default_update_protected_item_requests_object.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2250,10 +2138,6 @@ class ResourceGuardsOperations:
         deserialized = self._deserialize("DppBaseResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_default_update_protected_item_requests_object.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests/{requestName}"
-    }
+        return deserialized  # type: ignore

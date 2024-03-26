@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.dataprotection import DataProtectionMgmtClient
@@ -15,7 +17,7 @@ from azure.mgmt.dataprotection import DataProtectionMgmtClient
     pip install azure-identity
     pip install azure-mgmt-dataprotection
 # USAGE
-    python get_default_backup_security_pin_requests.py
+    python patch_backup_vault_with_cmk.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +32,31 @@ def main():
         subscription_id="0b352192-dcac-4cc7-992e-a96190ccc68c",
     )
 
-    response = client.resource_guards.get_default_backup_security_pin_requests_object(
+    response = client.backup_vaults.begin_update(
         resource_group_name="SampleResourceGroup",
-        resource_guards_name="swaggerExample",
-        request_name="default",
-    )
+        vault_name="swaggerExample",
+        parameters={
+            "properties": {
+                "monitoringSettings": {"azureMonitorAlertSettings": {"alertsForAllJobFailures": "Enabled"}},
+                "securitySettings": {
+                    "encryptionSettings": {
+                        "infrastructureEncryption": "Enabled",
+                        "kekIdentity": {"identityType": "SystemAssigned"},
+                        "keyVaultProperties": {
+                            "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+                        },
+                        "state": "Enabled",
+                    },
+                    "immutabilitySettings": {"state": "Disabled"},
+                    "softDeleteSettings": {"retentionDurationInDays": 90, "state": "On"},
+                },
+            },
+            "tags": {"newKey": "newVal"},
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-03-01/examples/ResourceGuardCRUD/GetDefaultBackupSecurityPINRequests.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-03-01/examples/VaultCRUD/PatchBackupVaultWithCMK.json
 if __name__ == "__main__":
     main()

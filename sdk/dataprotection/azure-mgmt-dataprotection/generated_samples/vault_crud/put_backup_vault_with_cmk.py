@@ -17,7 +17,7 @@ from azure.mgmt.dataprotection import DataProtectionMgmtClient
     pip install azure-identity
     pip install azure-mgmt-dataprotection
 # USAGE
-    python put_backup_vault.py
+    python put_backup_vault_with_cmk.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -39,9 +39,22 @@ def main():
             "identity": {"type": "None"},
             "location": "WestUS",
             "properties": {
-                "featureSettings": {"crossRegionRestoreSettings": {"state": "Enabled"}},
                 "monitoringSettings": {"azureMonitorAlertSettings": {"alertsForAllJobFailures": "Enabled"}},
-                "securitySettings": {"softDeleteSettings": {"retentionDurationInDays": 14, "state": "Enabled"}},
+                "securitySettings": {
+                    "encryptionSettings": {
+                        "infrastructureEncryption": "Enabled",
+                        "kekIdentity": {
+                            "identityId": "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+                            "identityType": "UserAssigned",
+                        },
+                        "keyVaultProperties": {
+                            "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+                        },
+                        "state": "Enabled",
+                    },
+                    "immutabilitySettings": {"state": "Disabled"},
+                    "softDeleteSettings": {"retentionDurationInDays": 0, "state": "Off"},
+                },
                 "storageSettings": [{"datastoreType": "VaultStore", "type": "LocallyRedundant"}],
             },
             "tags": {"key1": "val1"},
@@ -50,6 +63,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-03-01/examples/VaultCRUD/PutBackupVault.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-03-01/examples/VaultCRUD/PutBackupVaultWithCMK.json
 if __name__ == "__main__":
     main()
