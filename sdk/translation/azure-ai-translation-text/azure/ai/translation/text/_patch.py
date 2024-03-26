@@ -56,6 +56,7 @@ class TranslatorAuthenticationPolicy(SansIOHTTPPolicy):
         request.http_request.headers["Ocp-Apim-Subscription-Key"] = self.credential.key
         request.http_request.headers["Ocp-Apim-Subscription-Region"] = self.credential.region
 
+
 class TranslatorAADCredential:
     """Credential for Translator Service when using AAD authentication.
 
@@ -71,6 +72,7 @@ class TranslatorAADCredential:
         self.resourceId = resourceId
         self.region = region
 
+
 class TranslatorAADAuthenticationPolicy(BearerTokenCredentialPolicy):
     """Translator AAD Authentication Policy. Adds headers that are required by Translator Service
     when global endpoint is used with AAD policy.
@@ -81,14 +83,17 @@ class TranslatorAADAuthenticationPolicy(BearerTokenCredentialPolicy):
     :type credential: ~azure.ai.translation.text.TranslatorAADCredential
     """
 
-    def __init__(self, credential: TranslatorAADCredential, **kwargs: Any)-> None:
-        super(TranslatorAADAuthenticationPolicy, self).__init__(credential.tokenCredential, "https://cognitiveservices.azure.com/.default", **kwargs)
+    def __init__(self, credential: TranslatorAADCredential, **kwargs: Any) -> None:
+        super(TranslatorAADAuthenticationPolicy, self).__init__(
+            credential.tokenCredential, "https://cognitiveservices.azure.com/.default", **kwargs
+        )
         self.translatorCredential = credential
 
     def on_request(self, request: PipelineRequest) -> None:
         request.http_request.headers["Ocp-Apim-ResourceId"] = self.translatorCredential.resourceId
         request.http_request.headers["Ocp-Apim-Subscription-Region"] = self.translatorCredential.region
         super().on_request(request)
+
 
 def get_translation_endpoint(endpoint, api_version):
     if not endpoint:
@@ -167,7 +172,9 @@ class TextTranslationClient(ServiceClientGenerated):
     def __init__(
         self,
         *,
-        credential: Optional[Union[AzureKeyCredential, TokenCredential, TranslatorCredential, TranslatorAADCredential]] = None,
+        credential: Optional[
+            Union[AzureKeyCredential, TokenCredential, TranslatorCredential, TranslatorAADCredential]
+        ] = None,
         endpoint: Optional[str] = None,
         api_version="3.0",
         **kwargs
