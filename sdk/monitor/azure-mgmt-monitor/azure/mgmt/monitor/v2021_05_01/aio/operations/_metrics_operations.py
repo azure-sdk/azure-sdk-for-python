@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
+from io import IOBase
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -54,6 +55,7 @@ class MetricsOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def list_at_subscription_scope(
@@ -121,7 +123,6 @@ class MetricsOperations:
          When set to true, an error is returned for invalid filter parameters. Defaults to true. Default
          value is None.
         :type validate_dimensions: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SubscriptionScopeMetricResponse or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -137,10 +138,10 @@ class MetricsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-05-01"))
         cls: ClsType[_models.SubscriptionScopeMetricResponse] = kwargs.pop("cls", None)
 
-        request = build_list_at_subscription_scope_request(
+        _request = build_list_at_subscription_scope_request(
             subscription_id=self._config.subscription_id,
             region=region,
             timespan=timespan,
@@ -155,16 +156,15 @@ class MetricsOperations:
             auto_adjust_timegrain=auto_adjust_timegrain,
             validate_dimensions=validate_dimensions,
             api_version=api_version,
-            template_url=self.list_at_subscription_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -177,13 +177,9 @@ class MetricsOperations:
         deserialized = self._deserialize("SubscriptionScopeMetricResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_at_subscription_scope.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metrics"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_at_subscription_scope_post(
@@ -261,7 +257,6 @@ class MetricsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SubscriptionScopeMetricResponse or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -282,7 +277,7 @@ class MetricsOperations:
         metricnamespace: Optional[str] = None,
         auto_adjust_timegrain: Optional[bool] = None,
         validate_dimensions: Optional[bool] = None,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -338,11 +333,10 @@ class MetricsOperations:
          value is None.
         :type validate_dimensions: bool
         :param body: Parameters serialized in the body. Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SubscriptionScopeMetricResponse or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -363,7 +357,7 @@ class MetricsOperations:
         metricnamespace: Optional[str] = None,
         auto_adjust_timegrain: Optional[bool] = None,
         validate_dimensions: Optional[bool] = None,
-        body: Optional[Union[_models.SubscriptionScopeMetricsRequestBodyParameters, IO]] = None,
+        body: Optional[Union[_models.SubscriptionScopeMetricsRequestBodyParameters, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.SubscriptionScopeMetricResponse:
         """**Lists the metric data for a subscription**. Parameters can be specified on either query
@@ -417,13 +411,10 @@ class MetricsOperations:
          value is None.
         :type validate_dimensions: bool
         :param body: Parameters serialized in the body. Is either a
-         SubscriptionScopeMetricsRequestBodyParameters type or a IO type. Default value is None.
+         SubscriptionScopeMetricsRequestBodyParameters type or a IO[bytes] type. Default value is None.
         :type body:
-         ~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricsRequestBodyParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricsRequestBodyParameters or
+         IO[bytes]
         :return: SubscriptionScopeMetricResponse or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -439,14 +430,14 @@ class MetricsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SubscriptionScopeMetricResponse] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(body, (IO, bytes)):
+        if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
             if body is not None:
@@ -454,7 +445,7 @@ class MetricsOperations:
             else:
                 _json = None
 
-        request = build_list_at_subscription_scope_post_request(
+        _request = build_list_at_subscription_scope_post_request(
             subscription_id=self._config.subscription_id,
             region=region,
             timespan=timespan,
@@ -472,16 +463,15 @@ class MetricsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_at_subscription_scope_post.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -494,13 +484,9 @@ class MetricsOperations:
         deserialized = self._deserialize("SubscriptionScopeMetricResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_at_subscription_scope_post.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metrics"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def list(
@@ -568,7 +554,6 @@ class MetricsOperations:
          When set to true, an error is returned for invalid filter parameters. Defaults to true. Default
          value is None.
         :type validate_dimensions: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Response or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2021_05_01.models.Response
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -584,10 +569,10 @@ class MetricsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-05-01"))
         cls: ClsType[_models.Response] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             resource_uri=resource_uri,
             timespan=timespan,
             interval=interval,
@@ -601,16 +586,15 @@ class MetricsOperations:
             auto_adjust_timegrain=auto_adjust_timegrain,
             validate_dimensions=validate_dimensions,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -623,8 +607,6 @@ class MetricsOperations:
         deserialized = self._deserialize("Response", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {"url": "/{resourceUri}/providers/Microsoft.Insights/metrics"}
+        return deserialized  # type: ignore
