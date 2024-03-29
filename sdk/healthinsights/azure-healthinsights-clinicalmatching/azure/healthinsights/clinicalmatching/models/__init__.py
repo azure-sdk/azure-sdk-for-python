@@ -51,7 +51,7 @@ from ._enums import GeoJsonPropertiesSubType
 from ._enums import GeoJsonType
 from ._enums import JobStatus
 from ._enums import PatientInfoSex
-from ._enums import RepeatabilityResultType
+from ._enums import RepeatabilityResult
 from ._enums import TrialMatcherInferenceType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -102,7 +102,7 @@ __all__ = [
     "GeoJsonType",
     "JobStatus",
     "PatientInfoSex",
-    "RepeatabilityResultType",
+    "RepeatabilityResult",
     "TrialMatcherInferenceType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

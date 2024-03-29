@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 class AcceptedAge(_model_base.Model):
     """A person's age, given as a number (value) and a unit (e.g. years, months).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar unit: Possible units for a person's age. Required. Known values are: "years", "months",
      and "days".
@@ -31,9 +31,10 @@ class AcceptedAge(_model_base.Model):
     """
 
     unit: Union[str, "_models.AgeUnit"] = rest_field()
-    """Possible units for a person's age. Required. Known values are: \"years\", \"months\", and \"days\"."""
+    """Possible units for a person's age. Required. Known values are: \"years\", \"months\", and
+     \"days\"."""
     value: float = rest_field()
-    """The number of years/months/days that represents the person's age. Required. """
+    """The number of years/months/days that represents the person's age. Required."""
 
     @overload
     def __init__(
@@ -66,9 +67,9 @@ class AcceptedAgeRange(_model_base.Model):
     """
 
     minimum_age: Optional["_models.AcceptedAge"] = rest_field(name="minimumAge")
-    """A person's age, given as a number (value) and a unit (e.g. years, months). """
+    """A person's age, given as a number (value) and a unit (e.g. years, months)."""
     maximum_age: Optional["_models.AcceptedAge"] = rest_field(name="maximumAge")
-    """A person's age, given as a number (value) and a unit (e.g. years, months). """
+    """A person's age, given as a number (value) and a unit (e.g. years, months)."""
 
     @overload
     def __init__(
@@ -93,7 +94,7 @@ class AcceptedAgeRange(_model_base.Model):
 class AreaGeometry(_model_base.Model):
     """``GeoJSON`` geometry, representing the area circle's center.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: ``GeoJSON`` geometry type. Required. "Point"
     :vartype type: str or ~azure.healthinsights.clinicalmatching.models.GeoJsonGeometryType
@@ -108,13 +109,14 @@ class AreaGeometry(_model_base.Model):
     """``GeoJSON`` geometry type. Required. \"Point\""""
     coordinates: List[float] = rest_field()
     """Coordinates of the area circle's center, represented according to the ``GeoJSON`` standard.
-This is an array of 2 decimal numbers, longitude and latitude (precisely in this order). Required. """
+     This is an array of 2 decimal numbers, longitude and latitude (precisely in this order).
+     Required."""
 
     @overload
     def __init__(
         self,
         *,
-        type: Union[str, "_models.GeoJsonGeometryType"], # pylint: disable=redefined-builtin
+        type: Union[str, "_models.GeoJsonGeometryType"],
         coordinates: List[float],
     ):
         ...
@@ -133,7 +135,7 @@ This is an array of 2 decimal numbers, longitude and latitude (precisely in this
 class AreaProperties(_model_base.Model):
     """``GeoJSON`` object properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sub_type: ``GeoJSON`` object sub-type. Required. "Circle"
     :vartype sub_type: str or
@@ -145,7 +147,7 @@ class AreaProperties(_model_base.Model):
     sub_type: Union[str, "_models.GeoJsonPropertiesSubType"] = rest_field(name="subType")
     """``GeoJSON`` object sub-type. Required. \"Circle\""""
     radius: float = rest_field()
-    """The radius of the area's circle, in meters. Required. """
+    """The radius of the area's circle, in meters. Required."""
 
     @overload
     def __init__(
@@ -170,7 +172,7 @@ class AreaProperties(_model_base.Model):
 class ClinicalCodedElement(_model_base.Model):
     """A piece of clinical information, expressed as a code in a clinical coding system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar system: The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required.
     :vartype system: str
@@ -183,13 +185,13 @@ class ClinicalCodedElement(_model_base.Model):
     """
 
     system: str = rest_field()
-    """The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required. """
+    """The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required."""
     code: str = rest_field()
-    """The code within the given clinical coding system. Required. """
+    """The code within the given clinical coding system. Required."""
     name: Optional[str] = rest_field()
-    """The name of this coded concept in the coding system. """
+    """The name of this coded concept in the coding system."""
     value: Optional[str] = rest_field()
-    """A value associated with the code within the given clinical coding system. """
+    """A value associated with the code within the given clinical coding system."""
 
     @overload
     def __init__(
@@ -216,7 +218,7 @@ class ClinicalCodedElement(_model_base.Model):
 class ClinicalNoteEvidence(_model_base.Model):
     """A piece of evidence from a clinical note (text document).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The identifier of the document containing the evidence. Required.
     :vartype id: str
@@ -229,13 +231,13 @@ class ClinicalNoteEvidence(_model_base.Model):
     """
 
     id: str = rest_field()
-    """The identifier of the document containing the evidence. Required. """
+    """The identifier of the document containing the evidence. Required."""
     text: Optional[str] = rest_field()
-    """The actual text span which is evidence for the inference. """
+    """The actual text span which is evidence for the inference."""
     offset: int = rest_field()
-    """The start index of the evidence text span in the document (0 based). Required. """
+    """The start index of the evidence text span in the document (0 based). Required."""
     length: int = rest_field()
-    """The length of the evidence text span. Required. """
+    """The length of the evidence text span. Required."""
 
     @overload
     def __init__(
@@ -272,10 +274,11 @@ class ClinicalTrialDemographics(_model_base.Model):
     """
 
     accepted_sex: Optional[Union[str, "_models.ClinicalTrialAcceptedSex"]] = rest_field(name="acceptedSex")
-    """Indication of the sex of people who may participate in the clinical trial. Known values are: \"all\",
-    \"female\", and \"male\". """
+    """Indication of the sex of people who may participate in the clinical trial. Known values are:
+     \"all\", \"female\", and \"male\"."""
     accepted_age_range: Optional["_models.AcceptedAgeRange"] = rest_field(name="acceptedAgeRange")
-    """A definition of the range of ages accepted by a clinical trial. Contains a minimum age and/or a maximum age. """
+    """A definition of the range of ages accepted by a clinical trial. Contains a minimum age and/or a
+     maximum age."""
 
     @overload
     def __init__(
@@ -300,7 +303,7 @@ class ClinicalTrialDemographics(_model_base.Model):
 class ClinicalTrialDetails(_model_base.Model):
     """A description of a clinical trial.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: A given identifier for the clinical trial. Has to be unique within a list of clinical
      trials. Required.
@@ -315,13 +318,14 @@ class ClinicalTrialDetails(_model_base.Model):
     """
 
     id: str = rest_field()
-    """A given identifier for the clinical trial. Has to be unique within a list of clinical trials. Required. """
+    """A given identifier for the clinical trial. Has to be unique within a list of clinical trials.
+     Required."""
     eligibility_criteria_text: Optional[str] = rest_field(name="eligibilityCriteriaText")
-    """The eligibility criteria of the clinical trial (inclusion and exclusion), given as text. """
+    """The eligibility criteria of the clinical trial (inclusion and exclusion), given as text."""
     demographics: Optional["_models.ClinicalTrialDemographics"] = rest_field()
-    """Demographic criteria for a clinical trial. """
+    """Demographic criteria for a clinical trial."""
     metadata: "_models.ClinicalTrialMetadata" = rest_field()
-    """Trial data which is of interest to the potential participant. Required. """
+    """Trial data which is of interest to the potential participant. Required."""
 
     @overload
     def __init__(
@@ -348,7 +352,7 @@ class ClinicalTrialDetails(_model_base.Model):
 class ClinicalTrialMetadata(_model_base.Model):
     """Trial data which is of interest to the potential participant.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar phases: Phases which are relevant for the clinical trial.
      Each clinical trial can be in a certain phase or in multiple phases.
@@ -376,23 +380,25 @@ class ClinicalTrialMetadata(_model_base.Model):
 
     phases: Optional[List[Union[str, "_models.ClinicalTrialPhase"]]] = rest_field()
     """Phases which are relevant for the clinical trial.
-Each clinical trial can be in a certain phase or in multiple phases. """
+     Each clinical trial can be in a certain phase or in multiple phases."""
     study_type: Optional[Union[str, "_models.ClinicalTrialStudyType"]] = rest_field(name="studyType")
-    """Possible study types of a clinical trial. Known values are: \"interventional\", \"observational\",
-    \"expandedAccess\", and \"patientRegistries\". """
+    """Possible study types of a clinical trial. Known values are: \"interventional\",
+     \"observational\", \"expandedAccess\", and \"patientRegistries\"."""
     recruitment_status: Optional[Union[str, "_models.ClinicalTrialRecruitmentStatus"]] = rest_field(
         name="recruitmentStatus"
     )
-    """Possible recruitment status of a clinical trial. Known values are: \"unknownStatus\", \"notYetRecruiting\",
-    \"recruiting\", and \"enrollingByInvitation\". """
+    """Possible recruitment status of a clinical trial. Known values are: \"unknownStatus\",
+     \"notYetRecruiting\", \"recruiting\", and \"enrollingByInvitation\"."""
     conditions: List[str] = rest_field()
-    """Medical conditions and their synonyms which are relevant for the clinical trial, given as strings. Required. """
+    """Medical conditions and their synonyms which are relevant for the clinical trial, given as
+     strings. Required."""
     sponsors: Optional[List[str]] = rest_field()
-    """Sponsors/collaborators involved with the trial. """
+    """Sponsors/collaborators involved with the trial."""
     contacts: Optional[List["_models.ContactDetails"]] = rest_field()
-    """Contact details of the trial administrators, for patients that want to participate in the trial. """
+    """Contact details of the trial administrators, for patients that want to participate in the
+     trial."""
     facilities: Optional[List["_models.ClinicalTrialResearchFacility"]] = rest_field()
-    """Research facilities where the clinical trial is conducted. """
+    """Research facilities where the clinical trial is conducted."""
 
     @overload
     def __init__(
@@ -475,40 +481,51 @@ class ClinicalTrialRegistryFilter(_model_base.Model):  # pylint: disable=too-man
     """
 
     conditions: Optional[List[str]] = rest_field()
-    """Trials with any of the given medical conditions will be included in the selection (provided that other
-    limitations are satisfied). Leaving this list empty will not limit the medical conditions. """
+    """Trials with any of the given medical conditions will be included in the selection (provided
+     that other limitations are satisfied).
+     Leaving this list empty will not limit the medical conditions."""
     study_types: Optional[List[Union[str, "_models.ClinicalTrialStudyType"]]] = rest_field(name="studyTypes")
-    """Trials with any of the given study types will be included in the selection (provided that other limitations
-    are satisfied). Leaving this list empty will not limit the study types. """
+    """Trials with any of the given study types will be included in the selection (provided that other
+     limitations are satisfied).
+     Leaving this list empty will not limit the study types."""
     recruitment_statuses: Optional[List[Union[str, "_models.ClinicalTrialRecruitmentStatus"]]] = rest_field(
         name="recruitmentStatuses"
     )
-    """Trials with any of the given recruitment statuses will be included in the selection (provided that other
-    limitations are satisfied). Leaving this list empty will not limit the recruitment statuses. """
+    """Trials with any of the given recruitment statuses will be included in the selection (provided
+     that other limitations are satisfied).
+     Leaving this list empty will not limit the recruitment statuses."""
     sponsors: Optional[List[str]] = rest_field()
-    """Trials with any of the given sponsors will be included in the selection (provided that other limitations are
-    satisfied). Leaving this list empty will not limit the sponsors. """
+    """Trials with any of the given sponsors will be included in the selection (provided that other
+     limitations are satisfied).
+     Leaving this list empty will not limit the sponsors."""
     phases: Optional[List[Union[str, "_models.ClinicalTrialPhase"]]] = rest_field()
-    """Trials with any of the given phases will be included in the selection (provided that other limitations are
-    satisfied). Leaving this list empty will not limit the phases. """
+    """Trials with any of the given phases will be included in the selection (provided that other
+     limitations are satisfied).
+     Leaving this list empty will not limit the phases."""
     purposes: Optional[List[Union[str, "_models.ClinicalTrialPurpose"]]] = rest_field()
-    """Trials with any of the given purposes will be included in the selection (provided that other limitations are
-    satisfied). Leaving this list empty will not limit the purposes. """
+    """Trials with any of the given purposes will be included in the selection (provided that other
+     limitations are satisfied).
+     Leaving this list empty will not limit the purposes."""
     ids: Optional[List[str]] = rest_field()
-    """Trials with any of the given identifiers will be included in the selection (provided that other limitations
-    are satisfied). Leaving this list empty will not limit the trial identifiers. """
+    """Trials with any of the given identifiers will be included in the selection (provided that other
+     limitations are satisfied).
+     Leaving this list empty will not limit the trial identifiers."""
     sources: Optional[List[Union[str, "_models.ClinicalTrialSource"]]] = rest_field()
-    """Trials with any of the given sources will be included in the selection (provided that other limitations are
-    satisfied). Leaving this list empty will not limit the sources. """
+    """Trials with any of the given sources will be included in the selection (provided that other
+     limitations are satisfied).
+     Leaving this list empty will not limit the sources."""
     facility_names: Optional[List[str]] = rest_field(name="facilityNames")
-    """Trials with any of the given facility names will be included in the selection (provided that other limitations
-    are satisfied). Leaving this list empty will not limit the trial facility names. """
+    """Trials with any of the given facility names will be included in the selection (provided that
+     other limitations are satisfied).
+     Leaving this list empty will not limit the trial facility names."""
     facility_locations: Optional[List["_models.GeographicLocation"]] = rest_field(name="facilityLocations")
-    """Trials with any of the given facility locations will be included in the selection (provided that other
-    limitations are satisfied). Leaving this list empty will not limit the trial facility locations. """
+    """Trials with any of the given facility locations will be included in the selection (provided
+     that other limitations are satisfied).
+     Leaving this list empty will not limit the trial facility locations."""
     facility_areas: Optional[List["_models.GeographicArea"]] = rest_field(name="facilityAreas")
-    """Trials with any of the given facility area boundaries will be included in the selection (provided that other
-    limitations are satisfied). Leaving this list empty will not limit the trial facility area boundaries. """
+    """Trials with any of the given facility area boundaries will be included in the selection
+     (provided that other limitations are satisfied).
+     Leaving this list empty will not limit the trial facility area boundaries."""
 
     @overload
     def __init__(
@@ -542,7 +559,7 @@ class ClinicalTrialRegistryFilter(_model_base.Model):  # pylint: disable=too-man
 class ClinicalTrialResearchFacility(_model_base.Model):
     """Details of a research facility where a clinical trial is conducted.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The facility's name. Required.
     :vartype name: str
@@ -555,13 +572,13 @@ class ClinicalTrialResearchFacility(_model_base.Model):
     """
 
     name: str = rest_field()
-    """The facility's name. Required. """
+    """The facility's name. Required."""
     city: Optional[str] = rest_field()
-    """City name. """
+    """City name."""
     state: Optional[str] = rest_field()
-    """State name. """
+    """State name."""
     country_or_region: str = rest_field(name="countryOrRegion")
-    """Country/region name. Required. """
+    """Country/region name. Required."""
 
     @overload
     def __init__(
@@ -601,10 +618,10 @@ class ClinicalTrials(_model_base.Model):
     """
 
     custom_trials: Optional[List["_models.ClinicalTrialDetails"]] = rest_field(name="customTrials")
-    """A list of clinical trials. """
+    """A list of clinical trials."""
     registry_filters: Optional[List["_models.ClinicalTrialRegistryFilter"]] = rest_field(name="registryFilters")
     """A list of filters, each one creating a selection of trials from a given
-clinical trial registry. """
+     clinical trial registry."""
 
     @overload
     def __init__(
@@ -638,11 +655,11 @@ class ContactDetails(_model_base.Model):
     """
 
     name: Optional[str] = rest_field()
-    """The person's name. """
+    """The person's name."""
     email: Optional[str] = rest_field()
-    """The person's email. """
+    """The person's email."""
     phone: Optional[str] = rest_field()
-    """A person's phone number. """
+    """A person's phone number."""
 
     @overload
     def __init__(
@@ -668,7 +685,7 @@ class ContactDetails(_model_base.Model):
 class DocumentContent(_model_base.Model):
     """The content of the patient document.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_type: The type of the content's source.
      In case the source type is 'inline', the content is given as a string (for instance, text).
@@ -682,11 +699,13 @@ class DocumentContent(_model_base.Model):
     """
 
     source_type: Union[str, "_models.DocumentContentSourceType"] = rest_field(name="sourceType")
-    """The type of the content's source. In case the source type is 'inline', the content is given as a string (for
-    instance, text). In case the source type is 'reference', the content is given as a URI. Required. Known values
-    are: \"inline\" and \"reference\". """
+    """The type of the content's source.
+     In case the source type is 'inline', the content is given as a string (for instance, text).
+     In case the source type is 'reference', the content is given as a URI. Required. Known values
+     are: \"inline\" and \"reference\"."""
     value: str = rest_field()
-    """The content of the document, given either inline (as a string) or as a reference (URI). Required. """
+    """The content of the document, given either inline (as a string) or as a reference (URI).
+     Required."""
 
     @overload
     def __init__(
@@ -711,7 +730,7 @@ class DocumentContent(_model_base.Model):
 class Error(_model_base.Model):
     """The error object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: One of a server-defined set of error codes. Required.
     :vartype code: str
@@ -720,7 +739,6 @@ class Error(_model_base.Model):
     :ivar target: The target of the error.
     :vartype target: str
     :ivar details: An array of details about specific errors that led to this reported error.
-     Required.
     :vartype details: list[~azure.healthinsights.clinicalmatching.models.Error]
     :ivar innererror: An object containing more specific information than the current object about
      the error.
@@ -728,15 +746,15 @@ class Error(_model_base.Model):
     """
 
     code: str = rest_field()
-    """One of a server-defined set of error codes. Required. """
+    """One of a server-defined set of error codes. Required."""
     message: str = rest_field()
-    """A human-readable representation of the error. Required. """
+    """A human-readable representation of the error. Required."""
     target: Optional[str] = rest_field()
-    """The target of the error. """
-    details: List["_models.Error"] = rest_field()
-    """An array of details about specific errors that led to this reported error. Required. """
+    """The target of the error."""
+    details: Optional[List["_models.Error"]] = rest_field()
+    """An array of details about specific errors that led to this reported error."""
     innererror: Optional["_models.InnerError"] = rest_field()
-    """An object containing more specific information than the current object about the error. """
+    """An object containing more specific information than the current object about the error."""
 
     @overload
     def __init__(
@@ -744,8 +762,8 @@ class Error(_model_base.Model):
         *,
         code: str,
         message: str,
-        details: List["_models.Error"],
         target: Optional[str] = None,
+        details: Optional[List["_models.Error"]] = None,
         innererror: Optional["_models.InnerError"] = None,
     ):
         ...
@@ -765,7 +783,7 @@ class ExtendedClinicalCodedElement(_model_base.Model):
     """A piece of clinical information, expressed as a code in a clinical coding system, extended by
     semantic information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar system: The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required.
     :vartype system: str
@@ -785,18 +803,20 @@ class ExtendedClinicalCodedElement(_model_base.Model):
     """
 
     system: str = rest_field()
-    """The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required. """
+    """The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required."""
     code: str = rest_field()
-    """The code within the given clinical coding system. Required. """
+    """The code within the given clinical coding system. Required."""
     name: Optional[str] = rest_field()
-    """The name of this coded concept in the coding system. """
+    """The name of this coded concept in the coding system."""
     value: Optional[str] = rest_field()
-    """A value associated with the code within the given clinical coding system. """
+    """A value associated with the code within the given clinical coding system."""
     semantic_type: Optional[str] = rest_field(name="semanticType")
-    """The `UMLS semantic type <https://www.nlm.nih.gov/research/umls/META3_current_semantic_types.html>`_ associated
-    with the coded concept. """
+    """The `UMLS semantic type
+     <https://www.nlm.nih.gov/research/umls/META3_current_semantic_types.html>`_ associated with the
+     coded concept."""
     category: Optional[str] = rest_field()
-    """The bio-medical category related to the coded concept, e.g. Diagnosis, Symptom, Medication, Examination. """
+    """The bio-medical category related to the coded concept, e.g. Diagnosis, Symptom, Medication,
+     Examination."""
 
     @overload
     def __init__(
@@ -824,9 +844,9 @@ class ExtendedClinicalCodedElement(_model_base.Model):
 
 class GeographicArea(_model_base.Model):
     """A geographic area, expressed as a ``Circle`` geometry represented using a ``GeoJSON Feature``
-    (see `GeoJSON spec <https://tools.ietf.org/html/rfc7946>`_ ).
+    (see `GeoJSON spec <https://tools.ietf.org/html/rfc7946>`_\ ).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: ``GeoJSON`` type. Required. "Feature"
     :vartype type: str or ~azure.healthinsights.clinicalmatching.models.GeoJsonType
@@ -836,18 +856,18 @@ class GeographicArea(_model_base.Model):
     :vartype properties: ~azure.healthinsights.clinicalmatching.models.AreaProperties
     """
 
-    type: Union[str, "_models.GeoJsonType"] = rest_field() # pylint: disable=redefined-builtin
+    type: Union[str, "_models.GeoJsonType"] = rest_field()
     """``GeoJSON`` type. Required. \"Feature\""""
     geometry: "_models.AreaGeometry" = rest_field()
-    """``GeoJSON`` geometry, representing the area circle's center. Required. """
+    """``GeoJSON`` geometry, representing the area circle's center. Required."""
     properties: "_models.AreaProperties" = rest_field()
-    """``GeoJSON`` object properties. Required. """
+    """``GeoJSON`` object properties. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        type: Union[str, "_models.GeoJsonType"], # pylint: disable=redefined-builtin
+        type: Union[str, "_models.GeoJsonType"],
         geometry: "_models.AreaGeometry",
         properties: "_models.AreaProperties",
     ):
@@ -871,7 +891,7 @@ class GeographicLocation(_model_base.Model):
     countries/regions where there are no states) should be added.
     In case a state is specified (without a city), country/region should be added.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar city: City name.
     :vartype city: str
@@ -882,11 +902,11 @@ class GeographicLocation(_model_base.Model):
     """
 
     city: Optional[str] = rest_field()
-    """City name. """
+    """City name."""
     state: Optional[str] = rest_field()
-    """State name. """
+    """State name."""
     country_or_region: str = rest_field(name="countryOrRegion")
-    """Country/region name. Required. """
+    """Country/region name. Required."""
 
     @overload
     def __init__(
@@ -914,24 +934,22 @@ class InnerError(_model_base.Model):
     guidelines -
     https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar code: One of a server-defined set of error codes. Required.
+    :ivar code: One of a server-defined set of error codes.
     :vartype code: str
     :ivar innererror: Inner error.
     :vartype innererror: ~azure.healthinsights.clinicalmatching.models.InnerError
     """
 
-    code: str = rest_field()
-    """One of a server-defined set of error codes. Required. """
+    code: Optional[str] = rest_field()
+    """One of a server-defined set of error codes."""
     innererror: Optional["_models.InnerError"] = rest_field()
-    """Inner error. """
+    """Inner error."""
 
     @overload
     def __init__(
         self,
         *,
-        code: str,
+        code: Optional[str] = None,
         innererror: Optional["_models.InnerError"] = None,
     ):
         ...
@@ -951,7 +969,7 @@ class PatientDocument(_model_base.Model):
     """A clinical document related to a patient. Document here is in the wide sense - not just a text
     document (note).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of the patient document, such as 'note' (text document) or 'fhirBundle'
      (FHIR JSON document). Required. Known values are: "note", "fhirBundle", "dicom", and
@@ -973,26 +991,29 @@ class PatientDocument(_model_base.Model):
     :vartype content: ~azure.healthinsights.clinicalmatching.models.DocumentContent
     """
 
-    type: Union[str, "_models.DocumentType"] = rest_field() # pylint: disable=redefined-builtin
-    """The type of the patient document, such as 'note' (text document) or 'fhirBundle' (FHIR JSON document).
-    Required. Known values are: \"note\", \"fhirBundle\", \"dicom\", and \"genomicSequencing\". """
+    type: Union[str, "_models.DocumentType"] = rest_field()
+    """The type of the patient document, such as 'note' (text document) or 'fhirBundle' (FHIR JSON
+     document). Required. Known values are: \"note\", \"fhirBundle\", \"dicom\", and
+     \"genomicSequencing\"."""
     clinical_type: Optional[Union[str, "_models.ClinicalDocumentType"]] = rest_field(name="clinicalType")
     """The type of the clinical document. Known values are: \"consultation\", \"dischargeSummary\",
-    \"historyAndPhysical\", \"procedure\", \"progress\", \"imaging\", \"laboratory\", and \"pathology\". """
+     \"historyAndPhysical\", \"procedure\", \"progress\", \"imaging\", \"laboratory\", and
+     \"pathology\"."""
     id: str = rest_field()
-    """A given identifier for the document. Has to be unique across all documents for a single patient. Required. """
+    """A given identifier for the document. Has to be unique across all documents for a single
+     patient. Required."""
     language: Optional[str] = rest_field()
-    """A 2 letter ISO 639-1 representation of the language of the document. """
-    created_date_time: Optional[datetime.datetime] = rest_field(name="createdDateTime")
-    """The date and time when the document was created. """
+    """A 2 letter ISO 639-1 representation of the language of the document."""
+    created_date_time: Optional[datetime.datetime] = rest_field(name="createdDateTime", format="rfc3339")
+    """The date and time when the document was created."""
     content: "_models.DocumentContent" = rest_field()
-    """The content of the patient document. Required. """
+    """The content of the patient document. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        type: Union[str, "_models.DocumentType"], # pylint: disable=redefined-builtin
+        type: Union[str, "_models.DocumentType"],
         id: str,  # pylint: disable=redefined-builtin
         content: "_models.DocumentContent",
         clinical_type: Optional[Union[str, "_models.ClinicalDocumentType"]] = None,
@@ -1028,9 +1049,9 @@ class PatientInfo(_model_base.Model):
     sex: Optional[Union[str, "_models.PatientInfoSex"]] = rest_field()
     """The patient's sex. Known values are: \"female\", \"male\", and \"unspecified\"."""
     birth_date: Optional[datetime.date] = rest_field(name="birthDate")
-    """The patient's date of birth. """
+    """The patient's date of birth."""
     clinical_info: Optional[List["_models.ClinicalCodedElement"]] = rest_field(name="clinicalInfo")
-    """Known clinical information for the patient, structured. """
+    """Known clinical information for the patient, structured."""
 
     @overload
     def __init__(
@@ -1056,7 +1077,7 @@ class PatientInfo(_model_base.Model):
 class PatientRecord(_model_base.Model):
     """A patient record, including their clinical information and data.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: A given identifier for the patient. Has to be unique across all patients in a single
      request. Required.
@@ -1069,11 +1090,13 @@ class PatientRecord(_model_base.Model):
     """
 
     id: str = rest_field()
-    """A given identifier for the patient. Has to be unique across all patients in a single request. Required. """
+    """A given identifier for the patient. Has to be unique across all patients in a single request.
+     Required."""
     info: Optional["_models.PatientInfo"] = rest_field()
-    """Patient structured information, including demographics and known structured clinical information. """
+    """Patient structured information, including demographics and known structured clinical
+     information."""
     data: Optional[List["_models.PatientDocument"]] = rest_field()
-    """Patient unstructured clinical data, given as documents. """
+    """Patient unstructured clinical data, given as documents."""
 
     @overload
     def __init__(
@@ -1097,9 +1120,9 @@ class PatientRecord(_model_base.Model):
 
 
 class TrialMatcherData(_model_base.Model):
-    """TrialMatcherData.
+    """The body of the Trial Matcher request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar patients: The list of patients, including their clinical information and data. Required.
     :vartype patients: list[~azure.healthinsights.clinicalmatching.models.PatientRecord]
@@ -1109,9 +1132,9 @@ class TrialMatcherData(_model_base.Model):
     """
 
     patients: List["_models.PatientRecord"] = rest_field()
-    """The list of patients, including their clinical information and data. Required. """
+    """The list of patients, including their clinical information and data. Required."""
     configuration: Optional["_models.TrialMatcherModelConfiguration"] = rest_field()
-    """Configuration affecting the Trial Matcher model's inference. """
+    """Configuration affecting the Trial Matcher model's inference."""
 
     @overload
     def __init__(
@@ -1136,7 +1159,7 @@ class TrialMatcherData(_model_base.Model):
 class TrialMatcherInference(_model_base.Model):
     """An inference made by the Trial Matcher model regarding a patient.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of the Trial Matcher inference. Required. "trialEligibility"
     :vartype type: str or ~azure.healthinsights.clinicalmatching.models.TrialMatcherInferenceType
@@ -1158,28 +1181,28 @@ class TrialMatcherInference(_model_base.Model):
     :vartype metadata: ~azure.healthinsights.clinicalmatching.models.ClinicalTrialMetadata
     """
 
-    type: Union[str, "_models.TrialMatcherInferenceType"] = rest_field() # pylint: disable=redefined-builtin
+    type: Union[str, "_models.TrialMatcherInferenceType"] = rest_field()
     """The type of the Trial Matcher inference. Required. \"trialEligibility\""""
     value: str = rest_field()
-    """The value of the inference, as relevant for the given inference type. Required. """
+    """The value of the inference, as relevant for the given inference type. Required."""
     description: Optional[str] = rest_field()
-    """The description corresponding to the inference value. """
+    """The description corresponding to the inference value."""
     confidence_score: Optional[float] = rest_field(name="confidenceScore")
-    """Confidence score for this inference. """
+    """Confidence score for this inference."""
     evidence: Optional[List["_models.TrialMatcherInferenceEvidence"]] = rest_field()
-    """The evidence corresponding to the inference value. """
+    """The evidence corresponding to the inference value."""
     id: Optional[str] = rest_field()
-    """The identifier of the clinical trial. """
+    """The identifier of the clinical trial."""
     source: Optional[Union[str, "_models.ClinicalTrialSource"]] = rest_field()
     """Possible sources of a clinical trial. Known values are: \"custom\" and \"clinicaltrials.gov\"."""
     metadata: Optional["_models.ClinicalTrialMetadata"] = rest_field()
-    """Trial data which is of interest to the potential participant. """
+    """Trial data which is of interest to the potential participant."""
 
     @overload
     def __init__(
         self,
         *,
-        type: Union[str, "_models.TrialMatcherInferenceType"], # pylint: disable=redefined-builtin
+        type: Union[str, "_models.TrialMatcherInferenceType"],
         value: str,
         description: Optional[str] = None,
         confidence_score: Optional[float] = None,
@@ -1220,14 +1243,14 @@ class TrialMatcherInferenceEvidence(_model_base.Model):
     """
 
     eligibility_criteria_evidence: Optional[str] = rest_field(name="eligibilityCriteriaEvidence")
-    """A piece of evidence from the eligibility criteria text of a clinical trial. """
+    """A piece of evidence from the eligibility criteria text of a clinical trial."""
     patient_data_evidence: Optional["_models.ClinicalNoteEvidence"] = rest_field(name="patientDataEvidence")
-    """A piece of evidence from a clinical note (text document). """
+    """A piece of evidence from a clinical note (text document)."""
     patient_info_evidence: Optional["_models.ClinicalCodedElement"] = rest_field(name="patientInfoEvidence")
     """A piece of clinical information, expressed as a code in a clinical coding
-system. """
+     system."""
     importance: Optional[float] = rest_field()
-    """A value indicating how important this piece of evidence is for the inference. """
+    """A value indicating how important this piece of evidence is for the inference."""
 
     @overload
     def __init__(
@@ -1254,7 +1277,7 @@ system. """
 class TrialMatcherModelConfiguration(_model_base.Model):
     """Configuration affecting the Trial Matcher model's inference.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar verbose: An indication whether the model should produce verbose output.
     :vartype verbose: bool
@@ -1269,23 +1292,23 @@ class TrialMatcherModelConfiguration(_model_base.Model):
     :vartype clinical_trials: ~azure.healthinsights.clinicalmatching.models.ClinicalTrials
     """
 
-    verbose: bool = rest_field(default=False)
-    """An indication whether the model should produce verbose output. """
-    include_evidence: bool = rest_field(name="includeEvidence", default=True)
-    """An indication whether the model's output should include evidence for the inferences. """
+    verbose: Optional[bool] = rest_field()
+    """An indication whether the model should produce verbose output."""
+    include_evidence: Optional[bool] = rest_field(name="includeEvidence")
+    """An indication whether the model's output should include evidence for the inferences."""
     clinical_trials: "_models.ClinicalTrials" = rest_field(name="clinicalTrials")
     """The clinical trials that the patient(s) should be matched to. :code:`<br />`The trial
-selection can be given as a list of custom clinical trials and/or a list of
-filters to known clinical trial registries. In case both are given, the
-resulting trial set is a union of the two sets. Required. """
+     selection can be given as a list of custom clinical trials and/or a list of
+     filters to known clinical trial registries. In case both are given, the
+     resulting trial set is a union of the two sets. Required."""
 
     @overload
     def __init__(
         self,
         *,
         clinical_trials: "_models.ClinicalTrials",
-        verbose: bool = False,
-        include_evidence: bool = True,
+        verbose: Optional[bool] = None,
+        include_evidence: Optional[bool] = None,
     ):
         ...
 
@@ -1303,26 +1326,24 @@ resulting trial set is a union of the two sets. Required. """
 class TrialMatcherPatientResult(_model_base.Model):
     """The results of the model's work for a single patient.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The identifier given for the patient in the request. Required.
     :vartype id: str
     :ivar inferences: The model's inferences for the given patient. Required.
     :vartype inferences: list[~azure.healthinsights.clinicalmatching.models.TrialMatcherInference]
     :ivar needed_clinical_info: Clinical information which is needed to provide better trial
-     matching results for the patient. Clinical information which is needed to provide better trial
      matching results for the patient.
     :vartype needed_clinical_info:
      list[~azure.healthinsights.clinicalmatching.models.ExtendedClinicalCodedElement]
     """
 
     id: str = rest_field()
-    """The identifier given for the patient in the request. Required. """
+    """The identifier given for the patient in the request. Required."""
     inferences: List["_models.TrialMatcherInference"] = rest_field()
-    """The model's inferences for the given patient. Required. """
+    """The model's inferences for the given patient. Required."""
     needed_clinical_info: Optional[List["_models.ExtendedClinicalCodedElement"]] = rest_field(name="neededClinicalInfo")
-    """Clinical information which is needed to provide better trial matching results for the patient. Clinical
-    information which is needed to provide better trial matching results for the patient. """
+    """Clinical information which is needed to provide better trial matching results for the patient."""
 
     @overload
     def __init__(
@@ -1350,7 +1371,7 @@ class TrialMatcherResult(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_id: A processing job identifier. Required.
     :vartype job_id: str
@@ -1371,27 +1392,31 @@ class TrialMatcherResult(_model_base.Model):
     :vartype results: ~azure.healthinsights.clinicalmatching.models.TrialMatcherResults
     """
 
-    job_id: str = rest_field(name="jobId", readonly=True)
-    """A processing job identifier. Required. """
-    created_date_time: datetime.datetime = rest_field(name="createdDateTime", readonly=True)
-    """The date and time when the processing job was created. Required. """
-    expiration_date_time: datetime.datetime = rest_field(name="expirationDateTime", readonly=True)
-    """The date and time when the processing job is set to expire. Required. """
-    last_update_date_time: datetime.datetime = rest_field(name="lastUpdateDateTime", readonly=True)
-    """The date and time when the processing job was last updated. Required. """
-    status: Union[str, "_models.JobStatus"] = rest_field(readonly=True)
-    """The status of the processing job. Required. Known values are: \"notStarted\", \"running\", \"succeeded\",
-    \"failed\", and \"partiallyCompleted\". """
-    errors: Optional[List["_models.Error"]] = rest_field(readonly=True)
-    """An array of errors, if any errors occurred during the processing job. """
-    results: Optional["_models.TrialMatcherResults"] = rest_field(readonly=True)
-    """The inference results for the Trial Matcher request. """
+    job_id: str = rest_field(name="jobId", visibility=["read"])
+    """A processing job identifier. Required."""
+    created_date_time: datetime.datetime = rest_field(name="createdDateTime", visibility=["read"], format="rfc3339")
+    """The date and time when the processing job was created. Required."""
+    expiration_date_time: datetime.datetime = rest_field(
+        name="expirationDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job is set to expire. Required."""
+    last_update_date_time: datetime.datetime = rest_field(
+        name="lastUpdateDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job was last updated. Required."""
+    status: Union[str, "_models.JobStatus"] = rest_field(visibility=["read"])
+    """The status of the processing job. Required. Known values are: \"notStarted\", \"running\",
+     \"succeeded\", \"failed\", and \"partiallyCompleted\"."""
+    errors: Optional[List["_models.Error"]] = rest_field(visibility=["read"])
+    """An array of errors, if any errors occurred during the processing job."""
+    results: Optional["_models.TrialMatcherResults"] = rest_field(visibility=["read"])
+    """The inference results for the Trial Matcher request."""
 
 
 class TrialMatcherResults(_model_base.Model):
     """The inference results for the Trial Matcher request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar patients: Results for the patients given in the request. Required.
     :vartype patients:
@@ -1405,11 +1430,11 @@ class TrialMatcherResults(_model_base.Model):
     """
 
     patients: List["_models.TrialMatcherPatientResult"] = rest_field()
-    """Results for the patients given in the request. Required. """
+    """Results for the patients given in the request. Required."""
     model_version: str = rest_field(name="modelVersion")
-    """The version of the model used for inference, expressed as the model date. Required. """
+    """The version of the model used for inference, expressed as the model date. Required."""
     knowledge_graph_last_update_date: Optional[datetime.date] = rest_field(name="knowledgeGraphLastUpdateDate")
-    """The date when the clinical trials knowledge graph was last updated. """
+    """The date when the clinical trials knowledge graph was last updated."""
 
     @overload
     def __init__(

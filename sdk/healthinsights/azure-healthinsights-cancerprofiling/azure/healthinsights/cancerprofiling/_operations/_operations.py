@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,9 +7,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
+from io import IOBase
 import json
 import sys
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import uuid
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -20,15 +22,14 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
 from azure.core.polling.base_polling import LROBasePolling
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
 from .. import models as _models
-from .._model_base import AzureJSONEncoder, _deserialize
+from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
 from .._vendor import CancerProfilingClientMixinABC
 
@@ -36,10 +37,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -48,21 +45,12 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_cancer_profiling_infer_cancer_profile_request(  # pylint: disable=name-too-long
-    *,
-    repeatability_request_id: Optional[str] = None,
-    repeatability_first_sent: Optional[datetime.datetime] = None,
-    **kwargs: Any
-) -> HttpRequest:
+def build_cancer_profiling_infer_cancer_profile_request(**kwargs: Any) -> HttpRequest:  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: Literal["2023-03-01-preview"] = kwargs.pop(
-        "api_version", _params.pop("api-version", "2023-03-01-preview")
-    )
-    accept = _headers.pop("Accept", "application/json")
-
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
     # Construct URL
     _url = "/oncophenotype/jobs"
 
@@ -70,15 +58,12 @@ def build_cancer_profiling_infer_cancer_profile_request(  # pylint: disable=name
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    if repeatability_request_id is not None:
-        _headers["Repeatability-Request-ID"] = _SERIALIZER.header(
-            "repeatability_request_id", repeatability_request_id, "str"
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
         )
-    if repeatability_first_sent is not None:
-        _headers["Repeatability-First-Sent"] = _SERIALIZER.header(
-            "repeatability_first_sent", repeatability_first_sent, "iso-8601"
-        )
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
 
@@ -87,13 +72,8 @@ def build_cancer_profiling_infer_cancer_profile_request(  # pylint: disable=name
 
 class CancerProfilingClientOperationsMixin(CancerProfilingClientMixinABC):
     def _infer_cancer_profile_initial(
-        self,
-        body: Union[_models.OncoPhenotypeData, JSON, IO],
-        *,
-        repeatability_request_id: Optional[str] = None,
-        repeatability_first_sent: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> Optional[_models.OncoPhenotypeResult]:
+        self, body: Union[_models.OncoPhenotypeData, JSON, IO[bytes]], **kwargs: Any
+    ) -> Optional[JSON]:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -106,18 +86,16 @@ class CancerProfilingClientOperationsMixin(CancerProfilingClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.OncoPhenotypeResult]] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[JSON]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(body, (IO, bytes)):
+        if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _content = json.dumps(body, cls=AzureJSONEncoder)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        request = build_cancer_profiling_infer_cancer_profile_request(
-            repeatability_request_id=repeatability_request_id,
-            repeatability_first_sent=repeatability_first_sent,
+        _request = build_cancer_profiling_infer_cancer_profile_request(
             content_type=content_type,
             api_version=self._config.api_version,
             content=_content,
@@ -127,23 +105,25 @@ class CancerProfilingClientOperationsMixin(CancerProfilingClientMixinABC):
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            if _stream:
+                response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         deserialized = None
         response_headers = {}
         if response.status_code == 200:
-            deserialized = _deserialize(_models.OncoPhenotypeResult, response.json())
+            deserialized = _deserialize(JSON, response.json())
 
         if response.status_code == 202:
             response_headers["Operation-Location"] = self._deserialize(
@@ -155,182 +135,891 @@ class CancerProfilingClientOperationsMixin(CancerProfilingClientMixinABC):
             )
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
     @overload
     def begin_infer_cancer_profile(
-        self,
-        body: _models.OncoPhenotypeData,
-        *,
-        repeatability_request_id: Optional[str] = None,
-        repeatability_first_sent: Optional[datetime.datetime] = None,
-        content_type: str = "application/json",
-        **kwargs: Any
+        self, body: _models.OncoPhenotypeData, *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.OncoPhenotypeResult]:
+        # pylint: disable=line-too-long
         """Create Onco Phenotype job.
 
         Creates an Onco Phenotype job with the given request body.
 
         :param body: Required.
         :type body: ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeData
-        :keyword repeatability_request_id: An opaque, globally-unique, client-generated string
-         identifier for the request. Default value is None.
-        :paramtype repeatability_request_id: str
-        :keyword repeatability_first_sent: Specifies the date and time at which the request was first
-         created. Default value is None.
-        :paramtype repeatability_first_sent: ~datetime.datetime
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of LROPoller that returns OncoPhenotypeResult. The OncoPhenotypeResult is
-         compatible with MutableMapping
+        :return: An instance of LROPoller that returns OncoPhenotypeResults or An instance of LROPoller
+         that returns OncoPhenotypeResult. The OncoPhenotypeResults is compatible with MutableMapping
         :rtype:
+         ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResults]
+         or
          ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResult]
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                body = {
+                    "patients": [
+                        {
+                            "id": "str",  # A given identifier for the patient. Has to be
+                              unique across all patients in a single request. Required.
+                            "data": [
+                                {
+                                    "content": {
+                                        "sourceType": "str",  # The type of
+                                          the content's source. In case the source type is 'inline',
+                                          the content is given as a string (for instance, text). In
+                                          case the source type is 'reference', the content is given as
+                                          a URI. Required. Known values are: "inline" and "reference".
+                                        "value": "str"  # The content of the
+                                          document, given either inline (as a string) or as a reference
+                                          (URI). Required.
+                                    },
+                                    "id": "str",  # A given identifier for the
+                                      document. Has to be unique across all documents for a single
+                                      patient. Required.
+                                    "type": "str",  # The type of the patient
+                                      document, such as 'note' (text document) or 'fhirBundle' (FHIR
+                                      JSON document). Required. Known values are: "note", "fhirBundle",
+                                      "dicom", and "genomicSequencing".
+                                    "clinicalType": "str",  # Optional. The type
+                                      of the clinical document. Known values are: "consultation",
+                                      "dischargeSummary", "historyAndPhysical", "procedure",
+                                      "progress", "imaging", "laboratory", and "pathology".
+                                    "createdDateTime": "2020-02-20 00:00:00",  #
+                                      Optional. The date and time when the document was created.
+                                    "language": "str"  # Optional. A 2 letter ISO
+                                      639-1 representation of the language of the document.
+                                }
+                            ],
+                            "info": {
+                                "birthDate": "2020-02-20",  # Optional. The patient's
+                                  date of birth.
+                                "clinicalInfo": [
+                                    {
+                                        "code": "str",  # The code within the
+                                          given clinical coding system. Required.
+                                        "system": "str",  # The clinical
+                                          coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required.
+                                        "name": "str",  # Optional. The name
+                                          of this coded concept in the coding system.
+                                        "value": "str"  # Optional. A value
+                                          associated with the code within the given clinical coding
+                                          system.
+                                    }
+                                ],
+                                "sex": "str"  # Optional. The patient's sex. Known
+                                  values are: "female", "male", and "unspecified".
+                            }
+                        }
+                    ],
+                    "configuration": {
+                        "checkForCancerCase": bool,  # Optional. An indication whether to
+                          perform a preliminary step on the patient's documents to determine whether
+                          they relate to a Cancer case.
+                        "includeEvidence": bool,  # Optional. An indication whether the
+                          model's output should include evidence for the inferences.
+                        "inferenceTypes": [
+                            "str"  # Optional. A list of inference types to be inferred
+                              for the current request. This could be used if only part of the Onco
+                              Phenotype inferences are required. If this list is omitted or empty, the
+                              model will return all the inference types.
+                        ],
+                        "verbose": bool  # Optional. An indication whether the model should
+                          produce verbose output.
+                    }
+                }
+
+                # response body for status code(s): 202
+                response == {
+                    "modelVersion": "str",  # The version of the model used for inference,
+                      expressed as the model date. Required.
+                    "patients": [
+                        {
+                            "id": "str",  # The identifier given for the patient in the
+                              request. Required.
+                            "inferences": [
+                                {
+                                    "type": "str",  # The type of the Onco
+                                      Phenotype inference. Required. Known values are: "tumorSite",
+                                      "histology", "clinicalStageT", "clinicalStageN",
+                                      "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                      "pathologicStageM".
+                                    "value": "str",  # The value of the
+                                      inference, as relevant for the given inference type. Required.
+                                    "caseId": "str",  # Optional. An identifier
+                                      for a clinical case, if there are multiple clinical cases
+                                      regarding the same patient.
+                                    "confidenceScore": 0.0,  # Optional.
+                                      Confidence score for this inference.
+                                    "description": "str",  # Optional. The
+                                      description corresponding to the inference value.
+                                    "evidence": [
+                                        {
+                                            "importance": 0.0,  #
+                                              Optional. A value indicating how important this piece of
+                                              evidence is for the inference.
+                                            "patientDataEvidence": {
+                                                "id": "str",  # The
+                                                  identifier of the document containing the evidence.
+                                                  Required.
+                                                "length": 0,  # The
+                                                  length of the evidence text span. Required.
+                                                "offset": 0,  # The
+                                                  start index of the evidence text span in the document
+                                                  (0 based). Required.
+                                                "text": "str"  #
+                                                  Optional. The actual text span which is evidence for
+                                                  the inference.
+                                            },
+                                            "patientInfoEvidence": {
+                                                "code": "str",  # The
+                                                  code within the given clinical coding system.
+                                                  Required.
+                                                "system": "str",  #
+                                                  The clinical coding system, e.g. ICD-10, SNOMED-CT,
+                                                  UMLS. Required.
+                                                "name": "str",  #
+                                                  Optional. The name of this coded concept in the
+                                                  coding system.
+                                                "value": "str"  #
+                                                  Optional. A value associated with the code within the
+                                                  given clinical coding system.
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+                # response body for status code(s): 200
+                response == {
+                    "createdDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was created. Required.
+                    "expirationDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job is set to expire. Required.
+                    "jobId": "str",  # A processing job identifier. Required.
+                    "lastUpdateDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was last updated. Required.
+                    "status": "str",  # The status of the processing job. Required. Known values
+                      are: "notStarted", "running", "succeeded", "failed", and "partiallyCompleted".
+                    "errors": [
+                        {
+                            "code": "str",  # One of a server-defined set of error codes.
+                              Required.
+                            "message": "str",  # A human-readable representation of the
+                              error. Required.
+                            "details": [
+                                ...
+                            ],
+                            "innererror": {
+                                "code": "str",  # Optional. One of a server-defined
+                                  set of error codes.
+                                "innererror": ...
+                            },
+                            "target": "str"  # Optional. The target of the error.
+                        }
+                    ],
+                    "results": {
+                        "modelVersion": "str",  # The version of the model used for
+                          inference, expressed as the model date. Required.
+                        "patients": [
+                            {
+                                "id": "str",  # The identifier given for the patient
+                                  in the request. Required.
+                                "inferences": [
+                                    {
+                                        "type": "str",  # The type of the
+                                          Onco Phenotype inference. Required. Known values are:
+                                          "tumorSite", "histology", "clinicalStageT", "clinicalStageN",
+                                          "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                          "pathologicStageM".
+                                        "value": "str",  # The value of the
+                                          inference, as relevant for the given inference type.
+                                          Required.
+                                        "caseId": "str",  # Optional. An
+                                          identifier for a clinical case, if there are multiple
+                                          clinical cases regarding the same patient.
+                                        "confidenceScore": 0.0,  # Optional.
+                                          Confidence score for this inference.
+                                        "description": "str",  # Optional.
+                                          The description corresponding to the inference value.
+                                        "evidence": [
+                                            {
+                                                "importance": 0.0,  #
+                                                  Optional. A value indicating how important this piece
+                                                  of evidence is for the inference.
+                "patientDataEvidence": {
+                                                    "id": "str",
+                                                      # The identifier of the document containing the
+                                                      evidence. Required.
+                                                    "length": 0,
+                                                      # The length of the evidence text span. Required.
+                                                    "offset": 0,
+                                                      # The start index of the evidence text span in
+                                                      the document (0 based). Required.
+                                                    "text": "str"
+                                                      # Optional. The actual text span which is
+                                                      evidence for the inference.
+                                                },
+                "patientInfoEvidence": {
+                                                    "code":
+                                                      "str",  # The code within the given clinical
+                                                      coding system. Required.
+                                                    "system":
+                                                      "str",  # The clinical coding system, e.g.
+                                                      ICD-10, SNOMED-CT, UMLS. Required.
+                                                    "name":
+                                                      "str",  # Optional. The name of this coded
+                                                      concept in the coding system.
+                                                    "value":
+                                                      "str"  # Optional. A value associated with the
+                                                      code within the given clinical coding system.
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
         """
 
     @overload
     def begin_infer_cancer_profile(
-        self,
-        body: JSON,
-        *,
-        repeatability_request_id: Optional[str] = None,
-        repeatability_first_sent: Optional[datetime.datetime] = None,
-        content_type: str = "application/json",
-        **kwargs: Any
+        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.OncoPhenotypeResult]:
+        # pylint: disable=line-too-long
         """Create Onco Phenotype job.
 
         Creates an Onco Phenotype job with the given request body.
 
         :param body: Required.
         :type body: JSON
-        :keyword repeatability_request_id: An opaque, globally-unique, client-generated string
-         identifier for the request. Default value is None.
-        :paramtype repeatability_request_id: str
-        :keyword repeatability_first_sent: Specifies the date and time at which the request was first
-         created. Default value is None.
-        :paramtype repeatability_first_sent: ~datetime.datetime
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of LROPoller that returns OncoPhenotypeResult. The OncoPhenotypeResult is
-         compatible with MutableMapping
+        :return: An instance of LROPoller that returns OncoPhenotypeResults or An instance of LROPoller
+         that returns OncoPhenotypeResult. The OncoPhenotypeResults is compatible with MutableMapping
         :rtype:
+         ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResults]
+         or
          ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResult]
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 202
+                response == {
+                    "modelVersion": "str",  # The version of the model used for inference,
+                      expressed as the model date. Required.
+                    "patients": [
+                        {
+                            "id": "str",  # The identifier given for the patient in the
+                              request. Required.
+                            "inferences": [
+                                {
+                                    "type": "str",  # The type of the Onco
+                                      Phenotype inference. Required. Known values are: "tumorSite",
+                                      "histology", "clinicalStageT", "clinicalStageN",
+                                      "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                      "pathologicStageM".
+                                    "value": "str",  # The value of the
+                                      inference, as relevant for the given inference type. Required.
+                                    "caseId": "str",  # Optional. An identifier
+                                      for a clinical case, if there are multiple clinical cases
+                                      regarding the same patient.
+                                    "confidenceScore": 0.0,  # Optional.
+                                      Confidence score for this inference.
+                                    "description": "str",  # Optional. The
+                                      description corresponding to the inference value.
+                                    "evidence": [
+                                        {
+                                            "importance": 0.0,  #
+                                              Optional. A value indicating how important this piece of
+                                              evidence is for the inference.
+                                            "patientDataEvidence": {
+                                                "id": "str",  # The
+                                                  identifier of the document containing the evidence.
+                                                  Required.
+                                                "length": 0,  # The
+                                                  length of the evidence text span. Required.
+                                                "offset": 0,  # The
+                                                  start index of the evidence text span in the document
+                                                  (0 based). Required.
+                                                "text": "str"  #
+                                                  Optional. The actual text span which is evidence for
+                                                  the inference.
+                                            },
+                                            "patientInfoEvidence": {
+                                                "code": "str",  # The
+                                                  code within the given clinical coding system.
+                                                  Required.
+                                                "system": "str",  #
+                                                  The clinical coding system, e.g. ICD-10, SNOMED-CT,
+                                                  UMLS. Required.
+                                                "name": "str",  #
+                                                  Optional. The name of this coded concept in the
+                                                  coding system.
+                                                "value": "str"  #
+                                                  Optional. A value associated with the code within the
+                                                  given clinical coding system.
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+                # response body for status code(s): 200
+                response == {
+                    "createdDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was created. Required.
+                    "expirationDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job is set to expire. Required.
+                    "jobId": "str",  # A processing job identifier. Required.
+                    "lastUpdateDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was last updated. Required.
+                    "status": "str",  # The status of the processing job. Required. Known values
+                      are: "notStarted", "running", "succeeded", "failed", and "partiallyCompleted".
+                    "errors": [
+                        {
+                            "code": "str",  # One of a server-defined set of error codes.
+                              Required.
+                            "message": "str",  # A human-readable representation of the
+                              error. Required.
+                            "details": [
+                                ...
+                            ],
+                            "innererror": {
+                                "code": "str",  # Optional. One of a server-defined
+                                  set of error codes.
+                                "innererror": ...
+                            },
+                            "target": "str"  # Optional. The target of the error.
+                        }
+                    ],
+                    "results": {
+                        "modelVersion": "str",  # The version of the model used for
+                          inference, expressed as the model date. Required.
+                        "patients": [
+                            {
+                                "id": "str",  # The identifier given for the patient
+                                  in the request. Required.
+                                "inferences": [
+                                    {
+                                        "type": "str",  # The type of the
+                                          Onco Phenotype inference. Required. Known values are:
+                                          "tumorSite", "histology", "clinicalStageT", "clinicalStageN",
+                                          "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                          "pathologicStageM".
+                                        "value": "str",  # The value of the
+                                          inference, as relevant for the given inference type.
+                                          Required.
+                                        "caseId": "str",  # Optional. An
+                                          identifier for a clinical case, if there are multiple
+                                          clinical cases regarding the same patient.
+                                        "confidenceScore": 0.0,  # Optional.
+                                          Confidence score for this inference.
+                                        "description": "str",  # Optional.
+                                          The description corresponding to the inference value.
+                                        "evidence": [
+                                            {
+                                                "importance": 0.0,  #
+                                                  Optional. A value indicating how important this piece
+                                                  of evidence is for the inference.
+                "patientDataEvidence": {
+                                                    "id": "str",
+                                                      # The identifier of the document containing the
+                                                      evidence. Required.
+                                                    "length": 0,
+                                                      # The length of the evidence text span. Required.
+                                                    "offset": 0,
+                                                      # The start index of the evidence text span in
+                                                      the document (0 based). Required.
+                                                    "text": "str"
+                                                      # Optional. The actual text span which is
+                                                      evidence for the inference.
+                                                },
+                "patientInfoEvidence": {
+                                                    "code":
+                                                      "str",  # The code within the given clinical
+                                                      coding system. Required.
+                                                    "system":
+                                                      "str",  # The clinical coding system, e.g.
+                                                      ICD-10, SNOMED-CT, UMLS. Required.
+                                                    "name":
+                                                      "str",  # Optional. The name of this coded
+                                                      concept in the coding system.
+                                                    "value":
+                                                      "str"  # Optional. A value associated with the
+                                                      code within the given clinical coding system.
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
         """
 
     @overload
     def begin_infer_cancer_profile(
-        self,
-        body: IO,
-        *,
-        repeatability_request_id: Optional[str] = None,
-        repeatability_first_sent: Optional[datetime.datetime] = None,
-        content_type: str = "application/json",
-        **kwargs: Any
+        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.OncoPhenotypeResult]:
+        # pylint: disable=line-too-long
         """Create Onco Phenotype job.
 
         Creates an Onco Phenotype job with the given request body.
 
         :param body: Required.
-        :type body: IO
-        :keyword repeatability_request_id: An opaque, globally-unique, client-generated string
-         identifier for the request. Default value is None.
-        :paramtype repeatability_request_id: str
-        :keyword repeatability_first_sent: Specifies the date and time at which the request was first
-         created. Default value is None.
-        :paramtype repeatability_first_sent: ~datetime.datetime
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of LROPoller that returns OncoPhenotypeResult. The OncoPhenotypeResult is
-         compatible with MutableMapping
+        :return: An instance of LROPoller that returns OncoPhenotypeResults or An instance of LROPoller
+         that returns OncoPhenotypeResult. The OncoPhenotypeResults is compatible with MutableMapping
         :rtype:
+         ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResults]
+         or
          ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResult]
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 202
+                response == {
+                    "modelVersion": "str",  # The version of the model used for inference,
+                      expressed as the model date. Required.
+                    "patients": [
+                        {
+                            "id": "str",  # The identifier given for the patient in the
+                              request. Required.
+                            "inferences": [
+                                {
+                                    "type": "str",  # The type of the Onco
+                                      Phenotype inference. Required. Known values are: "tumorSite",
+                                      "histology", "clinicalStageT", "clinicalStageN",
+                                      "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                      "pathologicStageM".
+                                    "value": "str",  # The value of the
+                                      inference, as relevant for the given inference type. Required.
+                                    "caseId": "str",  # Optional. An identifier
+                                      for a clinical case, if there are multiple clinical cases
+                                      regarding the same patient.
+                                    "confidenceScore": 0.0,  # Optional.
+                                      Confidence score for this inference.
+                                    "description": "str",  # Optional. The
+                                      description corresponding to the inference value.
+                                    "evidence": [
+                                        {
+                                            "importance": 0.0,  #
+                                              Optional. A value indicating how important this piece of
+                                              evidence is for the inference.
+                                            "patientDataEvidence": {
+                                                "id": "str",  # The
+                                                  identifier of the document containing the evidence.
+                                                  Required.
+                                                "length": 0,  # The
+                                                  length of the evidence text span. Required.
+                                                "offset": 0,  # The
+                                                  start index of the evidence text span in the document
+                                                  (0 based). Required.
+                                                "text": "str"  #
+                                                  Optional. The actual text span which is evidence for
+                                                  the inference.
+                                            },
+                                            "patientInfoEvidence": {
+                                                "code": "str",  # The
+                                                  code within the given clinical coding system.
+                                                  Required.
+                                                "system": "str",  #
+                                                  The clinical coding system, e.g. ICD-10, SNOMED-CT,
+                                                  UMLS. Required.
+                                                "name": "str",  #
+                                                  Optional. The name of this coded concept in the
+                                                  coding system.
+                                                "value": "str"  #
+                                                  Optional. A value associated with the code within the
+                                                  given clinical coding system.
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+                # response body for status code(s): 200
+                response == {
+                    "createdDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was created. Required.
+                    "expirationDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job is set to expire. Required.
+                    "jobId": "str",  # A processing job identifier. Required.
+                    "lastUpdateDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was last updated. Required.
+                    "status": "str",  # The status of the processing job. Required. Known values
+                      are: "notStarted", "running", "succeeded", "failed", and "partiallyCompleted".
+                    "errors": [
+                        {
+                            "code": "str",  # One of a server-defined set of error codes.
+                              Required.
+                            "message": "str",  # A human-readable representation of the
+                              error. Required.
+                            "details": [
+                                ...
+                            ],
+                            "innererror": {
+                                "code": "str",  # Optional. One of a server-defined
+                                  set of error codes.
+                                "innererror": ...
+                            },
+                            "target": "str"  # Optional. The target of the error.
+                        }
+                    ],
+                    "results": {
+                        "modelVersion": "str",  # The version of the model used for
+                          inference, expressed as the model date. Required.
+                        "patients": [
+                            {
+                                "id": "str",  # The identifier given for the patient
+                                  in the request. Required.
+                                "inferences": [
+                                    {
+                                        "type": "str",  # The type of the
+                                          Onco Phenotype inference. Required. Known values are:
+                                          "tumorSite", "histology", "clinicalStageT", "clinicalStageN",
+                                          "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                          "pathologicStageM".
+                                        "value": "str",  # The value of the
+                                          inference, as relevant for the given inference type.
+                                          Required.
+                                        "caseId": "str",  # Optional. An
+                                          identifier for a clinical case, if there are multiple
+                                          clinical cases regarding the same patient.
+                                        "confidenceScore": 0.0,  # Optional.
+                                          Confidence score for this inference.
+                                        "description": "str",  # Optional.
+                                          The description corresponding to the inference value.
+                                        "evidence": [
+                                            {
+                                                "importance": 0.0,  #
+                                                  Optional. A value indicating how important this piece
+                                                  of evidence is for the inference.
+                "patientDataEvidence": {
+                                                    "id": "str",
+                                                      # The identifier of the document containing the
+                                                      evidence. Required.
+                                                    "length": 0,
+                                                      # The length of the evidence text span. Required.
+                                                    "offset": 0,
+                                                      # The start index of the evidence text span in
+                                                      the document (0 based). Required.
+                                                    "text": "str"
+                                                      # Optional. The actual text span which is
+                                                      evidence for the inference.
+                                                },
+                "patientInfoEvidence": {
+                                                    "code":
+                                                      "str",  # The code within the given clinical
+                                                      coding system. Required.
+                                                    "system":
+                                                      "str",  # The clinical coding system, e.g.
+                                                      ICD-10, SNOMED-CT, UMLS. Required.
+                                                    "name":
+                                                      "str",  # Optional. The name of this coded
+                                                      concept in the coding system.
+                                                    "value":
+                                                      "str"  # Optional. A value associated with the
+                                                      code within the given clinical coding system.
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
         """
 
     @distributed_trace
     def begin_infer_cancer_profile(
-        self,
-        body: Union[_models.OncoPhenotypeData, JSON, IO],
-        *,
-        repeatability_request_id: Optional[str] = None,
-        repeatability_first_sent: Optional[datetime.datetime] = None,
-        **kwargs: Any
+        self, body: Union[_models.OncoPhenotypeData, JSON, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.OncoPhenotypeResult]:
+        # pylint: disable=line-too-long
         """Create Onco Phenotype job.
 
         Creates an Onco Phenotype job with the given request body.
 
-        :param body: Is one of the following types: OncoPhenotypeData, JSON, IO Required.
-        :type body: ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeData or JSON or IO
-        :keyword repeatability_request_id: An opaque, globally-unique, client-generated string
-         identifier for the request. Default value is None.
-        :paramtype repeatability_request_id: str
-        :keyword repeatability_first_sent: Specifies the date and time at which the request was first
-         created. Default value is None.
-        :paramtype repeatability_first_sent: ~datetime.datetime
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of LROPoller that returns OncoPhenotypeResult. The OncoPhenotypeResult is
-         compatible with MutableMapping
+        :param body: Is one of the following types: OncoPhenotypeData, JSON, IO[bytes] Required.
+        :type body: ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeData or JSON or IO[bytes]
+        :return: An instance of LROPoller that returns OncoPhenotypeResults or An instance of LROPoller
+         that returns OncoPhenotypeResult. The OncoPhenotypeResults is compatible with MutableMapping
         :rtype:
+         ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResults]
+         or
          ~azure.core.polling.LROPoller[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResult]
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                body = {
+                    "patients": [
+                        {
+                            "id": "str",  # A given identifier for the patient. Has to be
+                              unique across all patients in a single request. Required.
+                            "data": [
+                                {
+                                    "content": {
+                                        "sourceType": "str",  # The type of
+                                          the content's source. In case the source type is 'inline',
+                                          the content is given as a string (for instance, text). In
+                                          case the source type is 'reference', the content is given as
+                                          a URI. Required. Known values are: "inline" and "reference".
+                                        "value": "str"  # The content of the
+                                          document, given either inline (as a string) or as a reference
+                                          (URI). Required.
+                                    },
+                                    "id": "str",  # A given identifier for the
+                                      document. Has to be unique across all documents for a single
+                                      patient. Required.
+                                    "type": "str",  # The type of the patient
+                                      document, such as 'note' (text document) or 'fhirBundle' (FHIR
+                                      JSON document). Required. Known values are: "note", "fhirBundle",
+                                      "dicom", and "genomicSequencing".
+                                    "clinicalType": "str",  # Optional. The type
+                                      of the clinical document. Known values are: "consultation",
+                                      "dischargeSummary", "historyAndPhysical", "procedure",
+                                      "progress", "imaging", "laboratory", and "pathology".
+                                    "createdDateTime": "2020-02-20 00:00:00",  #
+                                      Optional. The date and time when the document was created.
+                                    "language": "str"  # Optional. A 2 letter ISO
+                                      639-1 representation of the language of the document.
+                                }
+                            ],
+                            "info": {
+                                "birthDate": "2020-02-20",  # Optional. The patient's
+                                  date of birth.
+                                "clinicalInfo": [
+                                    {
+                                        "code": "str",  # The code within the
+                                          given clinical coding system. Required.
+                                        "system": "str",  # The clinical
+                                          coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required.
+                                        "name": "str",  # Optional. The name
+                                          of this coded concept in the coding system.
+                                        "value": "str"  # Optional. A value
+                                          associated with the code within the given clinical coding
+                                          system.
+                                    }
+                                ],
+                                "sex": "str"  # Optional. The patient's sex. Known
+                                  values are: "female", "male", and "unspecified".
+                            }
+                        }
+                    ],
+                    "configuration": {
+                        "checkForCancerCase": bool,  # Optional. An indication whether to
+                          perform a preliminary step on the patient's documents to determine whether
+                          they relate to a Cancer case.
+                        "includeEvidence": bool,  # Optional. An indication whether the
+                          model's output should include evidence for the inferences.
+                        "inferenceTypes": [
+                            "str"  # Optional. A list of inference types to be inferred
+                              for the current request. This could be used if only part of the Onco
+                              Phenotype inferences are required. If this list is omitted or empty, the
+                              model will return all the inference types.
+                        ],
+                        "verbose": bool  # Optional. An indication whether the model should
+                          produce verbose output.
+                    }
+                }
+
+                # response body for status code(s): 202
+                response == {
+                    "modelVersion": "str",  # The version of the model used for inference,
+                      expressed as the model date. Required.
+                    "patients": [
+                        {
+                            "id": "str",  # The identifier given for the patient in the
+                              request. Required.
+                            "inferences": [
+                                {
+                                    "type": "str",  # The type of the Onco
+                                      Phenotype inference. Required. Known values are: "tumorSite",
+                                      "histology", "clinicalStageT", "clinicalStageN",
+                                      "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                      "pathologicStageM".
+                                    "value": "str",  # The value of the
+                                      inference, as relevant for the given inference type. Required.
+                                    "caseId": "str",  # Optional. An identifier
+                                      for a clinical case, if there are multiple clinical cases
+                                      regarding the same patient.
+                                    "confidenceScore": 0.0,  # Optional.
+                                      Confidence score for this inference.
+                                    "description": "str",  # Optional. The
+                                      description corresponding to the inference value.
+                                    "evidence": [
+                                        {
+                                            "importance": 0.0,  #
+                                              Optional. A value indicating how important this piece of
+                                              evidence is for the inference.
+                                            "patientDataEvidence": {
+                                                "id": "str",  # The
+                                                  identifier of the document containing the evidence.
+                                                  Required.
+                                                "length": 0,  # The
+                                                  length of the evidence text span. Required.
+                                                "offset": 0,  # The
+                                                  start index of the evidence text span in the document
+                                                  (0 based). Required.
+                                                "text": "str"  #
+                                                  Optional. The actual text span which is evidence for
+                                                  the inference.
+                                            },
+                                            "patientInfoEvidence": {
+                                                "code": "str",  # The
+                                                  code within the given clinical coding system.
+                                                  Required.
+                                                "system": "str",  #
+                                                  The clinical coding system, e.g. ICD-10, SNOMED-CT,
+                                                  UMLS. Required.
+                                                "name": "str",  #
+                                                  Optional. The name of this coded concept in the
+                                                  coding system.
+                                                "value": "str"  #
+                                                  Optional. A value associated with the code within the
+                                                  given clinical coding system.
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+                # response body for status code(s): 200
+                response == {
+                    "createdDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was created. Required.
+                    "expirationDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job is set to expire. Required.
+                    "jobId": "str",  # A processing job identifier. Required.
+                    "lastUpdateDateTime": "2020-02-20 00:00:00",  # The date and time when the
+                      processing job was last updated. Required.
+                    "status": "str",  # The status of the processing job. Required. Known values
+                      are: "notStarted", "running", "succeeded", "failed", and "partiallyCompleted".
+                    "errors": [
+                        {
+                            "code": "str",  # One of a server-defined set of error codes.
+                              Required.
+                            "message": "str",  # A human-readable representation of the
+                              error. Required.
+                            "details": [
+                                ...
+                            ],
+                            "innererror": {
+                                "code": "str",  # Optional. One of a server-defined
+                                  set of error codes.
+                                "innererror": ...
+                            },
+                            "target": "str"  # Optional. The target of the error.
+                        }
+                    ],
+                    "results": {
+                        "modelVersion": "str",  # The version of the model used for
+                          inference, expressed as the model date. Required.
+                        "patients": [
+                            {
+                                "id": "str",  # The identifier given for the patient
+                                  in the request. Required.
+                                "inferences": [
+                                    {
+                                        "type": "str",  # The type of the
+                                          Onco Phenotype inference. Required. Known values are:
+                                          "tumorSite", "histology", "clinicalStageT", "clinicalStageN",
+                                          "clinicalStageM", "pathologicStageT", "pathologicStageN", and
+                                          "pathologicStageM".
+                                        "value": "str",  # The value of the
+                                          inference, as relevant for the given inference type.
+                                          Required.
+                                        "caseId": "str",  # Optional. An
+                                          identifier for a clinical case, if there are multiple
+                                          clinical cases regarding the same patient.
+                                        "confidenceScore": 0.0,  # Optional.
+                                          Confidence score for this inference.
+                                        "description": "str",  # Optional.
+                                          The description corresponding to the inference value.
+                                        "evidence": [
+                                            {
+                                                "importance": 0.0,  #
+                                                  Optional. A value indicating how important this piece
+                                                  of evidence is for the inference.
+                "patientDataEvidence": {
+                                                    "id": "str",
+                                                      # The identifier of the document containing the
+                                                      evidence. Required.
+                                                    "length": 0,
+                                                      # The length of the evidence text span. Required.
+                                                    "offset": 0,
+                                                      # The start index of the evidence text span in
+                                                      the document (0 based). Required.
+                                                    "text": "str"
+                                                      # Optional. The actual text span which is
+                                                      evidence for the inference.
+                                                },
+                "patientInfoEvidence": {
+                                                    "code":
+                                                      "str",  # The code within the given clinical
+                                                      coding system. Required.
+                                                    "system":
+                                                      "str",  # The clinical coding system, e.g.
+                                                      ICD-10, SNOMED-CT, UMLS. Required.
+                                                    "name":
+                                                      "str",  # Optional. The name of this coded
+                                                      concept in the coding system.
+                                                    "value":
+                                                      "str"  # Optional. A value associated with the
+                                                      code within the given clinical coding system.
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.OncoPhenotypeResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OncoPhenotypeResults] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
             raw_result = self._infer_cancer_profile_initial(
-                body=body,
-                repeatability_request_id=repeatability_request_id,
-                repeatability_first_sent=repeatability_first_sent,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
+                body=body, content_type=content_type, cls=lambda x, y, z: x, headers=_headers, params=_params, **kwargs
             )
         kwargs.pop("error_map", None)
 
@@ -354,10 +1043,12 @@ class CancerProfilingClientOperationsMixin(CancerProfilingClientMixinABC):
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.OncoPhenotypeResult].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.OncoPhenotypeResult](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
