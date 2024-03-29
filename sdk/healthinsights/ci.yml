@@ -42,3 +42,5 @@ extends:
       safeName: azurehealthinsightsradiologyinsights
       skipVerifyChangeLog: true
 
+    - name: azure-healthinsights-patienttimeline
+      safeName: azurehealthinsightspatienttimeline

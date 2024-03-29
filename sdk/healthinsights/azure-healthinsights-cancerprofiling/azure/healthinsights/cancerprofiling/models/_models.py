@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 class ClinicalCodedElement(_model_base.Model):
     """A piece of clinical information, expressed as a code in a clinical coding system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar system: The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required.
     :vartype system: str
@@ -34,13 +34,13 @@ class ClinicalCodedElement(_model_base.Model):
     """
 
     system: str = rest_field()
-    """The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required. """
+    """The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. Required."""
     code: str = rest_field()
-    """The code within the given clinical coding system. Required. """
+    """The code within the given clinical coding system. Required."""
     name: Optional[str] = rest_field()
-    """The name of this coded concept in the coding system. """
+    """The name of this coded concept in the coding system."""
     value: Optional[str] = rest_field()
-    """A value associated with the code within the given clinical coding system. """
+    """A value associated with the code within the given clinical coding system."""
 
     @overload
     def __init__(
@@ -67,7 +67,7 @@ class ClinicalCodedElement(_model_base.Model):
 class ClinicalNoteEvidence(_model_base.Model):
     """A piece of evidence from a clinical note (text document).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The identifier of the document containing the evidence. Required.
     :vartype id: str
@@ -80,13 +80,13 @@ class ClinicalNoteEvidence(_model_base.Model):
     """
 
     id: str = rest_field()
-    """The identifier of the document containing the evidence. Required. """
+    """The identifier of the document containing the evidence. Required."""
     text: Optional[str] = rest_field()
-    """The actual text span which is evidence for the inference. """
+    """The actual text span which is evidence for the inference."""
     offset: int = rest_field()
-    """The start index of the evidence text span in the document (0 based). Required. """
+    """The start index of the evidence text span in the document (0 based). Required."""
     length: int = rest_field()
-    """The length of the evidence text span. Required. """
+    """The length of the evidence text span. Required."""
 
     @overload
     def __init__(
@@ -110,10 +110,200 @@ class ClinicalNoteEvidence(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class Element(_model_base.Model):
+    """The base definition for all elements contained inside a resource.
+    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`_.
+
+    :ivar id: Unique id for inter-element referencing.
+    :vartype id: str
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.cancerprofiling.models.Extension]
+    """
+
+    id: Optional[str] = rest_field()
+    """Unique id for inter-element referencing."""
+    extension: Optional[List["_models.Extension"]] = rest_field()
+    """Additional Content defined by implementations."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        extension: Optional[List["_models.Extension"]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class CodeableConcept(Element):
+    """Concept - reference to a terminology or just text
+    Based on `FHIR CodeableConcept <https://www.hl7.org/fhir/R4/datatypes.html#CodeableConcept>`_.
+
+    :ivar coding: Code defined by a terminology system.
+    :vartype coding: list[~azure.healthinsights.cancerprofiling.models.Coding]
+    :ivar text: Plain text representation of the concept.
+    :vartype text: str
+    """
+
+    coding: Optional[List["_models.Coding"]] = rest_field()
+    """Code defined by a terminology system."""
+    text: Optional[str] = rest_field()
+    """Plain text representation of the concept."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        coding: Optional[List["_models.Coding"]] = None,
+        text: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Coding(Element):
+    """A Coding is a representation of a defined concept using a symbol from a defined "code system".
+    Based on `FHIR Coding <https://www.hl7.org/fhir/R4/datatypes.html#Coding>`_.
+
+    :ivar id: Unique id for inter-element referencing.
+    :vartype id: str
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.cancerprofiling.models.Extension]
+    :ivar system: Identity of the terminology system.
+    :vartype system: str
+    :ivar version: Version of the system - if relevant.
+    :vartype version: str
+    :ivar code: Symbol in syntax defined by the system.
+    :vartype code: str
+    :ivar display: Representation defined by the system.
+    :vartype display: str
+    """
+
+    system: Optional[str] = rest_field()
+    """Identity of the terminology system."""
+    version: Optional[str] = rest_field()
+    """Version of the system - if relevant."""
+    code: Optional[str] = rest_field()
+    """Symbol in syntax defined by the system."""
+    display: Optional[str] = rest_field()
+    """Representation defined by the system."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        extension: Optional[List["_models.Extension"]] = None,
+        system: Optional[str] = None,
+        version: Optional[str] = None,
+        code: Optional[str] = None,
+        display: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class DocumentAdministrativeMetadata(_model_base.Model):
+    """Document administrative metadata.
+
+    :ivar ordered_procedures: List of procedure information associated with the document.
+    :vartype ordered_procedures:
+     list[~azure.healthinsights.cancerprofiling.models.OrderedProcedure]
+    :ivar encounter_id: Reference to the encounter associated with the document.
+    :vartype encounter_id: str
+    """
+
+    ordered_procedures: Optional[List["_models.OrderedProcedure"]] = rest_field(name="orderedProcedures")
+    """List of procedure information associated with the document."""
+    encounter_id: Optional[str] = rest_field(name="encounterId")
+    """Reference to the encounter associated with the document."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        ordered_procedures: Optional[List["_models.OrderedProcedure"]] = None,
+        encounter_id: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class DocumentAuthor(_model_base.Model):
+    """Document author.
+
+    :ivar id: author id.
+    :vartype id: str
+    :ivar full_name: Text representation of the full name.
+    :vartype full_name: str
+    """
+
+    id: Optional[str] = rest_field()
+    """author id."""
+    full_name: Optional[str] = rest_field(name="fullName")
+    """Text representation of the full name."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        full_name: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class DocumentContent(_model_base.Model):
     """The content of the patient document.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_type: The type of the content's source.
      In case the source type is 'inline', the content is given as a string (for instance, text).
@@ -127,11 +317,13 @@ class DocumentContent(_model_base.Model):
     """
 
     source_type: Union[str, "_models.DocumentContentSourceType"] = rest_field(name="sourceType")
-    """The type of the content's source. In case the source type is 'inline', the content is given as a string (for
-    instance, text). In case the source type is 'reference', the content is given as a URI. Required. Known values
-    are: \"inline\" and \"reference\". """
+    """The type of the content's source.
+     In case the source type is 'inline', the content is given as a string (for instance, text).
+     In case the source type is 'reference', the content is given as a URI. Required. Known values
+     are: \"inline\" and \"reference\"."""
     value: str = rest_field()
-    """The content of the document, given either inline (as a string) or as a reference (URI). Required. """
+    """The content of the document, given either inline (as a string) or as a reference (URI).
+     Required."""
 
     @overload
     def __init__(
@@ -153,10 +345,57 @@ class DocumentContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class Encounter(_model_base.Model):
+    """visit/encounter information.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The id of the visit. Required.
+    :vartype id: str
+    :ivar period: Time period of the visit.
+     In case of admission, use timePeriod.start to indicate the admission time and timePeriod.end
+     to indicate the discharge time.
+    :vartype period: ~azure.healthinsights.cancerprofiling.models.TimePeriod
+    :ivar class_property: The class of the encounter. Known values are: "inpatient", "ambulatory",
+     "observation", "emergency", "virtual", and "healthHome".
+    :vartype class_property: str or ~azure.healthinsights.cancerprofiling.models.EncounterClass
+    """
+
+    id: str = rest_field()
+    """The id of the visit. Required."""
+    period: Optional["_models.TimePeriod"] = rest_field()
+    """Time period of the visit.
+     In case of admission, use timePeriod.start to indicate the admission time and timePeriod.end to
+     indicate the discharge time."""
+    class_property: Optional[Union[str, "_models.EncounterClass"]] = rest_field(name="class")
+    """The class of the encounter. Known values are: \"inpatient\", \"ambulatory\", \"observation\",
+     \"emergency\", \"virtual\", and \"healthHome\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        period: Optional["_models.TimePeriod"] = None,
+        class_property: Optional[Union[str, "_models.EncounterClass"]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class Error(_model_base.Model):
     """The error object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: One of a server-defined set of error codes. Required.
     :vartype code: str
@@ -165,7 +404,6 @@ class Error(_model_base.Model):
     :ivar target: The target of the error.
     :vartype target: str
     :ivar details: An array of details about specific errors that led to this reported error.
-     Required.
     :vartype details: list[~azure.healthinsights.cancerprofiling.models.Error]
     :ivar innererror: An object containing more specific information than the current object about
      the error.
@@ -173,15 +411,15 @@ class Error(_model_base.Model):
     """
 
     code: str = rest_field()
-    """One of a server-defined set of error codes. Required. """
+    """One of a server-defined set of error codes. Required."""
     message: str = rest_field()
-    """A human-readable representation of the error. Required. """
+    """A human-readable representation of the error. Required."""
     target: Optional[str] = rest_field()
-    """The target of the error. """
-    details: List["_models.Error"] = rest_field()
-    """An array of details about specific errors that led to this reported error. Required. """
+    """The target of the error."""
+    details: Optional[List["_models.Error"]] = rest_field()
+    """An array of details about specific errors that led to this reported error."""
     innererror: Optional["_models.InnerError"] = rest_field()
-    """An object containing more specific information than the current object about the error. """
+    """An object containing more specific information than the current object about the error."""
 
     @overload
     def __init__(
@@ -189,9 +427,222 @@ class Error(_model_base.Model):
         *,
         code: str,
         message: str,
-        details: List["_models.Error"],
         target: Optional[str] = None,
+        details: Optional[List["_models.Error"]] = None,
         innererror: Optional["_models.InnerError"] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Extension(Element):  # pylint: disable=too-many-instance-attributes
+    """Base for all elements
+    Based on `FHIR Element <https://www.hl7.org/fhir/datatypes.html#Element>`_.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar url: Source of the definition for the extension code - a logical name or a URL. Required.
+    :vartype url: str
+    :ivar value_quantity: Value as Quantity.
+    :vartype value_quantity: ~azure.healthinsights.cancerprofiling.models.Quantity
+    :ivar value_codeable_concept: Value as CodeableConcept.
+    :vartype value_codeable_concept: ~azure.healthinsights.cancerprofiling.models.CodeableConcept
+    :ivar value_string: Value as string.
+    :vartype value_string: str
+    :ivar value_boolean: Value as boolean.
+    :vartype value_boolean: bool
+    :ivar value_integer: Value as integer.
+    :vartype value_integer: int
+    :ivar value_range: Value as Range.
+    :vartype value_range: ~azure.healthinsights.cancerprofiling.models.Range
+    :ivar value_ratio: Value as Ratio.
+    :vartype value_ratio: ~azure.healthinsights.cancerprofiling.models.Ratio
+    :ivar value_sampled_data: Value as SampledData.
+    :vartype value_sampled_data: ~azure.healthinsights.cancerprofiling.models.SampledData
+    :ivar value_time: Value as time (hh:mm:ss).
+    :vartype value_time: ~datetime.time
+    :ivar value_date_time: Value as dateTime.
+    :vartype value_date_time: str
+    :ivar value_period: Value as Period.
+    :vartype value_period: ~azure.healthinsights.cancerprofiling.models.Period
+    :ivar value_reference: Value as reference.
+    :vartype value_reference: ~azure.healthinsights.cancerprofiling.models.Reference
+    """
+
+    url: str = rest_field()
+    """Source of the definition for the extension code - a logical name or a URL. Required."""
+    value_quantity: Optional["_models.Quantity"] = rest_field(name="valueQuantity")
+    """Value as Quantity."""
+    value_codeable_concept: Optional["_models.CodeableConcept"] = rest_field(name="valueCodeableConcept")
+    """Value as CodeableConcept."""
+    value_string: Optional[str] = rest_field(name="valueString")
+    """Value as string."""
+    value_boolean: Optional[bool] = rest_field(name="valueBoolean")
+    """Value as boolean."""
+    value_integer: Optional[int] = rest_field(name="valueInteger")
+    """Value as integer."""
+    value_range: Optional["_models.Range"] = rest_field(name="valueRange")
+    """Value as Range."""
+    value_ratio: Optional["_models.Ratio"] = rest_field(name="valueRatio")
+    """Value as Ratio."""
+    value_sampled_data: Optional["_models.SampledData"] = rest_field(name="valueSampledData")
+    """Value as SampledData."""
+    value_time: Optional[datetime.time] = rest_field(name="valueTime")
+    """Value as time (hh:mm:ss)."""
+    value_date_time: Optional[str] = rest_field(name="valueDateTime")
+    """Value as dateTime."""
+    value_period: Optional["_models.Period"] = rest_field(name="valuePeriod")
+    """Value as Period."""
+    value_reference: Optional["_models.Reference"] = rest_field(name="valueReference")
+    """Value as reference."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        url: str,
+        value_quantity: Optional["_models.Quantity"] = None,
+        value_codeable_concept: Optional["_models.CodeableConcept"] = None,
+        value_string: Optional[str] = None,
+        value_boolean: Optional[bool] = None,
+        value_integer: Optional[int] = None,
+        value_range: Optional["_models.Range"] = None,
+        value_ratio: Optional["_models.Ratio"] = None,
+        value_sampled_data: Optional["_models.SampledData"] = None,
+        value_time: Optional[datetime.time] = None,
+        value_date_time: Optional[str] = None,
+        value_period: Optional["_models.Period"] = None,
+        value_reference: Optional["_models.Reference"] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class HealthInsightsOperationStatus(_model_base.Model):
+    """Provides status details for long running operations.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The unique ID of the operation. Required.
+    :vartype id: str
+    :ivar status: The status of the operation. Required. Known values are: "notStarted", "running",
+     "succeeded", "failed", and "canceled".
+    :vartype status: str or ~azure.healthinsights.cancerprofiling.models.JobStatus
+    :ivar created_date_time: The date and time when the processing job was created.
+    :vartype created_date_time: ~datetime.datetime
+    :ivar expiration_date_time: The date and time when the processing job is set to expire.
+    :vartype expiration_date_time: ~datetime.datetime
+    :ivar last_update_date_time: The date and time when the processing job was last updated.
+    :vartype last_update_date_time: ~datetime.datetime
+    :ivar error: Error object that describes the error when status is "Failed".
+    :vartype error: ~azure.healthinsights.cancerprofiling.models.Error
+    :ivar result: The result of the operation.
+    :vartype result: ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeInferenceResult
+    """
+
+    id: str = rest_field(visibility=["read"])
+    """The unique ID of the operation. Required."""
+    status: Union[str, "_models.JobStatus"] = rest_field(visibility=["read"])
+    """The status of the operation. Required. Known values are: \"notStarted\", \"running\",
+     \"succeeded\", \"failed\", and \"canceled\"."""
+    created_date_time: Optional[datetime.datetime] = rest_field(
+        name="createdDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job was created."""
+    expiration_date_time: Optional[datetime.datetime] = rest_field(
+        name="expirationDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job is set to expire."""
+    last_update_date_time: Optional[datetime.datetime] = rest_field(
+        name="lastUpdateDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job was last updated."""
+    error: Optional["_models.Error"] = rest_field()
+    """Error object that describes the error when status is \"Failed\"."""
+    result: Optional["_models.OncoPhenotypeInferenceResult"] = rest_field()
+    """The result of the operation."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        error: Optional["_models.Error"] = None,
+        result: Optional["_models.OncoPhenotypeInferenceResult"] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Identifier(Element):
+    """An identifier intended for computation
+    Based on `FHIR Identifier <https://www.hl7.org/fhir/R4/identifier.html>`_.
+
+    :ivar use: usual | official | temp | secondary | old (If known).
+    :vartype use: str
+    :ivar type: Description of identifier.
+    :vartype type: ~azure.healthinsights.cancerprofiling.models.CodeableConcept
+    :ivar system: The namespace for the identifier value.
+    :vartype system: str
+    :ivar value: The value that is unique.
+    :vartype value: str
+    :ivar period: Time period when id is/was valid for use.
+    :vartype period: ~azure.healthinsights.cancerprofiling.models.Period
+    :ivar assigner: Organization that issued id (may be just text).
+    :vartype assigner: ~azure.healthinsights.cancerprofiling.models.Reference
+    """
+
+    use: Optional[str] = rest_field()
+    """usual | official | temp | secondary | old (If known)."""
+    type: Optional["_models.CodeableConcept"] = rest_field()
+    """Description of identifier."""
+    system: Optional[str] = rest_field()
+    """The namespace for the identifier value."""
+    value: Optional[str] = rest_field()
+    """The value that is unique."""
+    period: Optional["_models.Period"] = rest_field()
+    """Time period when id is/was valid for use."""
+    assigner: Optional["_models.Reference"] = rest_field()
+    """Organization that issued id (may be just text)."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        use: Optional[str] = None,
+        type: Optional["_models.CodeableConcept"] = None,
+        system: Optional[str] = None,
+        value: Optional[str] = None,
+        period: Optional["_models.Period"] = None,
+        assigner: Optional["_models.Reference"] = None,
     ):
         ...
 
@@ -222,12 +673,12 @@ class InferenceEvidence(_model_base.Model):
     """
 
     patient_data_evidence: Optional["_models.ClinicalNoteEvidence"] = rest_field(name="patientDataEvidence")
-    """A piece of evidence from a clinical note (text document). """
+    """A piece of evidence from a clinical note (text document)."""
     patient_info_evidence: Optional["_models.ClinicalCodedElement"] = rest_field(name="patientInfoEvidence")
     """A piece of clinical information, expressed as a code in a clinical coding
-system. """
+     system."""
     importance: Optional[float] = rest_field()
-    """A value indicating how important this piece of evidence is for the inference. """
+    """A value indicating how important this piece of evidence is for the inference."""
 
     @overload
     def __init__(
@@ -255,24 +706,22 @@ class InnerError(_model_base.Model):
     guidelines -
     https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar code: One of a server-defined set of error codes. Required.
+    :ivar code: One of a server-defined set of error codes.
     :vartype code: str
     :ivar innererror: Inner error.
     :vartype innererror: ~azure.healthinsights.cancerprofiling.models.InnerError
     """
 
-    code: str = rest_field()
-    """One of a server-defined set of error codes. Required. """
+    code: Optional[str] = rest_field()
+    """One of a server-defined set of error codes."""
     innererror: Optional["_models.InnerError"] = rest_field()
-    """Inner error. """
+    """Inner error."""
 
     @overload
     def __init__(
         self,
         *,
-        code: str,
+        code: Optional[str] = None,
         innererror: Optional["_models.InnerError"] = None,
     ):
         ...
@@ -288,10 +737,84 @@ class InnerError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OncoPhenotypeData(_model_base.Model):
-    """OncoPhenotypeData.
+class Meta(_model_base.Model):
+    """Metadata about a resource
+    Based on `FHIR Meta <https://www.hl7.org/fhir/R4/resource.html#Meta>`_.
 
-    All required parameters must be populated in order to send to Azure.
+    :ivar version_id: The version specific identifier, as it appears in the version portion of the
+     URL. This value changes when the resource is created, updated, or deleted.
+    :vartype version_id: str
+    :ivar last_updated: When the resource last changed - e.g. when the version changed.
+    :vartype last_updated: str
+    :ivar source: A uri that identifies the source system of the resource. This provides a minimal
+     amount of Provenance information that can be used to track or differentiate the source of
+     information in the resource. The source may identify another FHIR server, document, message,
+     database, etc.
+    :vartype source: str
+    :ivar profile: A list of profiles (references to `StructureDefinition
+     <https://www.hl7.org/fhir/structuredefinition.html>`_ resources) that this resource claims to
+     conform to. The URL is a reference to `StructureDefinition.url
+     <https://www.hl7.org/fhir/structuredefinition-definitions.html#StructureDefinition.url>`_.
+    :vartype profile: list[str]
+    :ivar security: Security labels applied to this resource. These tags connect specific resources
+     to the overall security policy and infrastructure.
+    :vartype security: list[~azure.healthinsights.cancerprofiling.models.Coding]
+    :ivar tag: Tags applied to this resource. Tags are intended to be used to identify and relate
+     resources to process and workflow, and applications are not required to consider the tags when
+     interpreting the meaning of a resource.
+    :vartype tag: list[~azure.healthinsights.cancerprofiling.models.Coding]
+    """
+
+    version_id: Optional[str] = rest_field(name="versionId")
+    """The version specific identifier, as it appears in the version portion of the URL. This value
+     changes when the resource is created, updated, or deleted."""
+    last_updated: Optional[str] = rest_field(name="lastUpdated")
+    """When the resource last changed - e.g. when the version changed."""
+    source: Optional[str] = rest_field()
+    """A uri that identifies the source system of the resource. This provides a minimal amount of
+     Provenance information that can be used to track or differentiate the source of information in
+     the resource. The source may identify another FHIR server, document, message, database, etc."""
+    profile: Optional[List[str]] = rest_field()
+    """A list of profiles (references to `StructureDefinition
+     <https://www.hl7.org/fhir/structuredefinition.html>`_ resources) that this resource claims to
+     conform to. The URL is a reference to `StructureDefinition.url
+     <https://www.hl7.org/fhir/structuredefinition-definitions.html#StructureDefinition.url>`_."""
+    security: Optional[List["_models.Coding"]] = rest_field()
+    """Security labels applied to this resource. These tags connect specific resources to the overall
+     security policy and infrastructure."""
+    tag: Optional[List["_models.Coding"]] = rest_field()
+    """Tags applied to this resource. Tags are intended to be used to identify and relate resources to
+     process and workflow, and applications are not required to consider the tags when interpreting
+     the meaning of a resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        version_id: Optional[str] = None,
+        last_updated: Optional[str] = None,
+        source: Optional[str] = None,
+        profile: Optional[List[str]] = None,
+        security: Optional[List["_models.Coding"]] = None,
+        tag: Optional[List["_models.Coding"]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class OncoPhenotypeData(_model_base.Model):
+    """The body of the Onco Phenotype request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar patients: The list of patients, including their clinical information and data. Required.
     :vartype patients: list[~azure.healthinsights.cancerprofiling.models.PatientRecord]
@@ -301,9 +824,9 @@ class OncoPhenotypeData(_model_base.Model):
     """
 
     patients: List["_models.PatientRecord"] = rest_field()
-    """The list of patients, including their clinical information and data. Required. """
+    """The list of patients, including their clinical information and data. Required."""
     configuration: Optional["_models.OncoPhenotypeModelConfiguration"] = rest_field()
-    """Configuration affecting the Onco Phenotype model's inference. """
+    """Configuration affecting the Onco Phenotype model's inference."""
 
     @overload
     def __init__(
@@ -328,11 +851,11 @@ class OncoPhenotypeData(_model_base.Model):
 class OncoPhenotypeInference(_model_base.Model):
     """An inference made by the Onco Phenotype model regarding a patient.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of the Onco Phenotype inference. Required. Known values are: "tumorSite",
      "histology", "clinicalStageT", "clinicalStageN", "clinicalStageM", "pathologicStageT",
-     "pathologicStageN", and "pathologicStageM".
+     "pathologicStageN", "pathologicStageM", and "diagnosisDate".
     :vartype type: str or ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeInferenceType
     :ivar value: The value of the inference, as relevant for the given inference type. Required.
     :vartype value: str
@@ -347,31 +870,70 @@ class OncoPhenotypeInference(_model_base.Model):
     :vartype case_id: str
     """
 
-    type: Union[str, "_models.OncoPhenotypeInferenceType"] = rest_field() # pylint: disable=redefined-builtin
-    """The type of the Onco Phenotype inference. Required. Known values are: \"tumorSite\", \"histology\",
-    \"clinicalStageT\", \"clinicalStageN\", \"clinicalStageM\", \"pathologicStageT\", \"pathologicStageN\",
-    and \"pathologicStageM\". """
+    type: Union[str, "_models.OncoPhenotypeInferenceType"] = rest_field()
+    """The type of the Onco Phenotype inference. Required. Known values are: \"tumorSite\",
+     \"histology\", \"clinicalStageT\", \"clinicalStageN\", \"clinicalStageM\",
+     \"pathologicStageT\", \"pathologicStageN\", \"pathologicStageM\", and \"diagnosisDate\"."""
     value: str = rest_field()
-    """The value of the inference, as relevant for the given inference type. Required. """
+    """The value of the inference, as relevant for the given inference type. Required."""
     description: Optional[str] = rest_field()
-    """The description corresponding to the inference value. """
+    """The description corresponding to the inference value."""
     confidence_score: Optional[float] = rest_field(name="confidenceScore")
-    """Confidence score for this inference. """
+    """Confidence score for this inference."""
     evidence: Optional[List["_models.InferenceEvidence"]] = rest_field()
-    """The evidence corresponding to the inference value. """
+    """The evidence corresponding to the inference value."""
     case_id: Optional[str] = rest_field(name="caseId")
-    """An identifier for a clinical case, if there are multiple clinical cases regarding the same patient. """
+    """An identifier for a clinical case, if there are multiple clinical cases regarding the same
+     patient."""
 
     @overload
     def __init__(
         self,
         *,
-        type: Union[str, "_models.OncoPhenotypeInferenceType"], # pylint: disable=redefined-builtin
+        type: Union[str, "_models.OncoPhenotypeInferenceType"],
         value: str,
         description: Optional[str] = None,
         confidence_score: Optional[float] = None,
         evidence: Optional[List["_models.InferenceEvidence"]] = None,
         case_id: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class OncoPhenotypeInferenceResult(_model_base.Model):
+    """The inference results for the Onco Phenotype request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar patient_results: Results for the patients given in the request. Required.
+    :vartype patient_results:
+     list[~azure.healthinsights.cancerprofiling.models.OncoPhenotypePatientResult]
+    :ivar model_version: The version of the model used for inference, expressed as the model date.
+     Required.
+    :vartype model_version: str
+    """
+
+    patient_results: List["_models.OncoPhenotypePatientResult"] = rest_field(name="patientResults")
+    """Results for the patients given in the request. Required."""
+    model_version: str = rest_field(name="modelVersion")
+    """The version of the model used for inference, expressed as the model date. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        patient_results: List["_models.OncoPhenotypePatientResult"],
+        model_version: str,
     ):
         ...
 
@@ -404,28 +966,28 @@ class OncoPhenotypeModelConfiguration(_model_base.Model):
     :vartype check_for_cancer_case: bool
     """
 
-    verbose: bool = rest_field(default=False)
-    """An indication whether the model should produce verbose output. """
-    include_evidence: bool = rest_field(name="includeEvidence", default=True)
-    """An indication whether the model's output should include evidence for the inferences. """
+    verbose: Optional[bool] = rest_field()
+    """An indication whether the model should produce verbose output."""
+    include_evidence: Optional[bool] = rest_field(name="includeEvidence")
+    """An indication whether the model's output should include evidence for the inferences."""
     inference_types: Optional[List[Union[str, "_models.OncoPhenotypeInferenceType"]]] = rest_field(
         name="inferenceTypes"
     )
     """A list of inference types to be inferred for the current request.
-This could be used if only part of the Onco Phenotype inferences are required.
-If this list is omitted or empty, the model will return all the inference types. """
-    check_for_cancer_case: bool = rest_field(name="checkForCancerCase", default=False)
-    """An indication whether to perform a preliminary step on the patient's documents to determine whether they
-    relate to a Cancer case. """
+     This could be used if only part of the Onco Phenotype inferences are required.
+     If this list is omitted or empty, the model will return all the inference types."""
+    check_for_cancer_case: Optional[bool] = rest_field(name="checkForCancerCase")
+    """An indication whether to perform a preliminary step on the patient's documents to determine
+     whether they relate to a Cancer case."""
 
     @overload
     def __init__(
         self,
         *,
-        verbose: bool = False,
-        include_evidence: bool = True,
+        verbose: Optional[bool] = None,
+        include_evidence: Optional[bool] = None,
         inference_types: Optional[List[Union[str, "_models.OncoPhenotypeInferenceType"]]] = None,
-        check_for_cancer_case: bool = False,
+        check_for_cancer_case: Optional[bool] = None,
     ):
         ...
 
@@ -443,24 +1005,24 @@ If this list is omitted or empty, the model will return all the inference types.
 class OncoPhenotypePatientResult(_model_base.Model):
     """The results of the model's work for a single patient.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The identifier given for the patient in the request. Required.
-    :vartype id: str
+    :ivar patient_id: The identifier given for the patient in the request. Required.
+    :vartype patient_id: str
     :ivar inferences: The model's inferences for the given patient. Required.
     :vartype inferences: list[~azure.healthinsights.cancerprofiling.models.OncoPhenotypeInference]
     """
 
-    id: str = rest_field()
-    """The identifier given for the patient in the request. Required. """
+    patient_id: str = rest_field(name="patientId")
+    """The identifier given for the patient in the request. Required."""
     inferences: List["_models.OncoPhenotypeInference"] = rest_field()
-    """The model's inferences for the given patient. Required. """
+    """The model's inferences for the given patient. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        id: str,  # pylint: disable=redefined-builtin
+        patient_id: str,
         inferences: List["_models.OncoPhenotypeInference"],
     ):
         ...
@@ -481,68 +1043,132 @@ class OncoPhenotypeResult(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar job_id: A processing job identifier. Required.
-    :vartype job_id: str
-    :ivar created_date_time: The date and time when the processing job was created. Required.
+    :ivar id: The unique ID of the operation. Required.
+    :vartype id: str
+    :ivar status: The status of the operation. Required. Known values are: "notStarted", "running",
+     "succeeded", "failed", and "canceled".
+    :vartype status: str or ~azure.healthinsights.cancerprofiling.models.JobStatus
+    :ivar created_date_time: The date and time when the processing job was created.
     :vartype created_date_time: ~datetime.datetime
     :ivar expiration_date_time: The date and time when the processing job is set to expire.
-     Required.
     :vartype expiration_date_time: ~datetime.datetime
     :ivar last_update_date_time: The date and time when the processing job was last updated.
-     Required.
     :vartype last_update_date_time: ~datetime.datetime
-    :ivar status: The status of the processing job. Required. Known values are: "notStarted",
-     "running", "succeeded", "failed", and "partiallyCompleted".
-    :vartype status: str or ~azure.healthinsights.cancerprofiling.models.JobStatus
-    :ivar errors: An array of errors, if any errors occurred during the processing job.
-    :vartype errors: list[~azure.healthinsights.cancerprofiling.models.Error]
-    :ivar results: The inference results for the Onco Phenotype request.
-    :vartype results: ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeResults
+    :ivar error: Error object that describes the error when status is "Failed".
+    :vartype error: ~azure.healthinsights.cancerprofiling.models.Error
+    :ivar result: The result of the operation.
+    :vartype result: ~azure.healthinsights.cancerprofiling.models.OncoPhenotypeInferenceResult
     """
 
-    job_id: str = rest_field(name="jobId", readonly=True)
-    """A processing job identifier. Required. """
-    created_date_time: datetime.datetime = rest_field(name="createdDateTime", readonly=True)
-    """The date and time when the processing job was created. Required. """
-    expiration_date_time: datetime.datetime = rest_field(name="expirationDateTime", readonly=True)
-    """The date and time when the processing job is set to expire. Required. """
-    last_update_date_time: datetime.datetime = rest_field(name="lastUpdateDateTime", readonly=True)
-    """The date and time when the processing job was last updated. Required. """
-    status: Union[str, "_models.JobStatus"] = rest_field(readonly=True)
-    """The status of the processing job. Required. Known values are: \"notStarted\", \"running\", \"succeeded\",
-    \"failed\", and \"partiallyCompleted\". """
-    errors: Optional[List["_models.Error"]] = rest_field(readonly=True)
-    """An array of errors, if any errors occurred during the processing job. """
-    results: Optional["_models.OncoPhenotypeResults"] = rest_field(readonly=True)
-    """The inference results for the Onco Phenotype request. """
-
-
-class OncoPhenotypeResults(_model_base.Model):
-    """The inference results for the Onco Phenotype request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar patients: Results for the patients given in the request. Required.
-    :vartype patients:
-     list[~azure.healthinsights.cancerprofiling.models.OncoPhenotypePatientResult]
-    :ivar model_version: The version of the model used for inference, expressed as the model date.
-     Required.
-    :vartype model_version: str
-    """
-
-    patients: List["_models.OncoPhenotypePatientResult"] = rest_field()
-    """Results for the patients given in the request. Required. """
-    model_version: str = rest_field(name="modelVersion")
-    """The version of the model used for inference, expressed as the model date. Required. """
+    id: str = rest_field(visibility=["read"])
+    """The unique ID of the operation. Required."""
+    status: Union[str, "_models.JobStatus"] = rest_field(visibility=["read"])
+    """The status of the operation. Required. Known values are: \"notStarted\", \"running\",
+     \"succeeded\", \"failed\", and \"canceled\"."""
+    created_date_time: Optional[datetime.datetime] = rest_field(
+        name="createdDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job was created."""
+    expiration_date_time: Optional[datetime.datetime] = rest_field(
+        name="expirationDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job is set to expire."""
+    last_update_date_time: Optional[datetime.datetime] = rest_field(
+        name="lastUpdateDateTime", visibility=["read"], format="rfc3339"
+    )
+    """The date and time when the processing job was last updated."""
+    error: Optional["_models.Error"] = rest_field()
+    """Error object that describes the error when status is \"Failed\"."""
+    result: Optional["_models.OncoPhenotypeInferenceResult"] = rest_field()
+    """The result of the operation."""
 
     @overload
     def __init__(
         self,
         *,
-        patients: List["_models.OncoPhenotypePatientResult"],
-        model_version: str,
+        error: Optional["_models.Error"] = None,
+        result: Optional["_models.OncoPhenotypeInferenceResult"] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class OrderedProcedure(_model_base.Model):
+    """Procedure information.
+
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.cancerprofiling.models.Extension]
+    :ivar code: Procedure code.
+    :vartype code: ~azure.healthinsights.cancerprofiling.models.CodeableConcept
+    :ivar description: Procedure description.
+    :vartype description: str
+    """
+
+    extension: Optional[List["_models.Extension"]] = rest_field()
+    """Additional Content defined by implementations."""
+    code: Optional["_models.CodeableConcept"] = rest_field()
+    """Procedure code."""
+    description: Optional[str] = rest_field()
+    """Procedure description."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        extension: Optional[List["_models.Extension"]] = None,
+        code: Optional["_models.CodeableConcept"] = None,
+        description: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class PatientDetails(_model_base.Model):
+    """Patient structured information, including demographics and known structured clinical
+    information.
+
+    :ivar sex: The patient's sex. Known values are: "female", "male", and "unspecified".
+    :vartype sex: str or ~azure.healthinsights.cancerprofiling.models.PatientSex
+    :ivar birth_date: The patient's date of birth.
+    :vartype birth_date: ~datetime.date
+    :ivar clinical_info: Known clinical information for the patient, structured.
+    :vartype clinical_info: list[~azure.healthinsights.cancerprofiling.models.Resource]
+    """
+
+    sex: Optional[Union[str, "_models.PatientSex"]] = rest_field()
+    """The patient's sex. Known values are: \"female\", \"male\", and \"unspecified\"."""
+    birth_date: Optional[datetime.date] = rest_field(name="birthDate")
+    """The patient's date of birth."""
+    clinical_info: Optional[List["_models.Resource"]] = rest_field(name="clinicalInfo")
+    """Known clinical information for the patient, structured."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        sex: Optional[Union[str, "_models.PatientSex"]] = None,
+        birth_date: Optional[datetime.date] = None,
+        clinical_info: Optional[List["_models.Resource"]] = None,
     ):
         ...
 
@@ -561,15 +1187,15 @@ class PatientDocument(_model_base.Model):
     """A clinical document related to a patient. Document here is in the wide sense - not just a text
     document (note).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of the patient document, such as 'note' (text document) or 'fhirBundle'
      (FHIR JSON document). Required. Known values are: "note", "fhirBundle", "dicom", and
      "genomicSequencing".
     :vartype type: str or ~azure.healthinsights.cancerprofiling.models.DocumentType
     :ivar clinical_type: The type of the clinical document. Known values are: "consultation",
-     "dischargeSummary", "historyAndPhysical", "procedure", "progress", "imaging", "laboratory", and
-     "pathology".
+     "dischargeSummary", "historyAndPhysical", "radiologyReport", "procedure", "progress",
+     "laboratory", and "pathologyReport".
     :vartype clinical_type: str or
      ~azure.healthinsights.cancerprofiling.models.ClinicalDocumentType
     :ivar id: A given identifier for the document. Has to be unique across all documents for a
@@ -579,75 +1205,57 @@ class PatientDocument(_model_base.Model):
     :vartype language: str
     :ivar created_date_time: The date and time when the document was created.
     :vartype created_date_time: ~datetime.datetime
+    :ivar authors: Document author(s).
+    :vartype authors: list[~azure.healthinsights.cancerprofiling.models.DocumentAuthor]
+    :ivar specialty_type: specialty type the document. Known values are: "pathology" and
+     "radiology".
+    :vartype specialty_type: str or ~azure.healthinsights.cancerprofiling.models.SpecialtyType
+    :ivar administrative_metadata: Administrative metadata for the document.
+    :vartype administrative_metadata:
+     ~azure.healthinsights.cancerprofiling.models.DocumentAdministrativeMetadata
     :ivar content: The content of the patient document. Required.
     :vartype content: ~azure.healthinsights.cancerprofiling.models.DocumentContent
     """
 
-    type: Union[str, "_models.DocumentType"] = rest_field() # pylint: disable=redefined-builtin
-    """The type of the patient document, such as 'note' (text document) or 'fhirBundle' (FHIR JSON document).
-    Required. Known values are: \"note\", \"fhirBundle\", \"dicom\", and \"genomicSequencing\". """
+    type: Union[str, "_models.DocumentType"] = rest_field()
+    """The type of the patient document, such as 'note' (text document) or 'fhirBundle' (FHIR JSON
+     document). Required. Known values are: \"note\", \"fhirBundle\", \"dicom\", and
+     \"genomicSequencing\"."""
     clinical_type: Optional[Union[str, "_models.ClinicalDocumentType"]] = rest_field(name="clinicalType")
     """The type of the clinical document. Known values are: \"consultation\", \"dischargeSummary\",
-    \"historyAndPhysical\", \"procedure\", \"progress\", \"imaging\", \"laboratory\", and \"pathology\". """
+     \"historyAndPhysical\", \"radiologyReport\", \"procedure\", \"progress\", \"laboratory\", and
+     \"pathologyReport\"."""
     id: str = rest_field()
-    """A given identifier for the document. Has to be unique across all documents for a single patient. Required. """
+    """A given identifier for the document. Has to be unique across all documents for a single
+     patient. Required."""
     language: Optional[str] = rest_field()
-    """A 2 letter ISO 639-1 representation of the language of the document. """
-    created_date_time: Optional[datetime.datetime] = rest_field(name="createdDateTime")
-    """The date and time when the document was created. """
+    """A 2 letter ISO 639-1 representation of the language of the document."""
+    created_date_time: Optional[datetime.datetime] = rest_field(name="createdDateTime", format="rfc3339")
+    """The date and time when the document was created."""
+    authors: Optional[List["_models.DocumentAuthor"]] = rest_field()
+    """Document author(s)."""
+    specialty_type: Optional[Union[str, "_models.SpecialtyType"]] = rest_field(name="specialtyType")
+    """specialty type the document. Known values are: \"pathology\" and \"radiology\"."""
+    administrative_metadata: Optional["_models.DocumentAdministrativeMetadata"] = rest_field(
+        name="administrativeMetadata"
+    )
+    """Administrative metadata for the document."""
     content: "_models.DocumentContent" = rest_field()
-    """The content of the patient document. Required. """
+    """The content of the patient document. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        type: Union[str, "_models.DocumentType"], # pylint: disable=redefined-builtin
+        type: Union[str, "_models.DocumentType"],
         id: str,  # pylint: disable=redefined-builtin
         content: "_models.DocumentContent",
         clinical_type: Optional[Union[str, "_models.ClinicalDocumentType"]] = None,
         language: Optional[str] = None,
         created_date_time: Optional[datetime.datetime] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class PatientInfo(_model_base.Model):
-    """Patient structured information, including demographics and known structured clinical
-    information.
-
-    :ivar sex: The patient's sex. Known values are: "female", "male", and "unspecified".
-    :vartype sex: str or ~azure.healthinsights.cancerprofiling.models.PatientInfoSex
-    :ivar birth_date: The patient's date of birth.
-    :vartype birth_date: ~datetime.date
-    :ivar clinical_info: Known clinical information for the patient, structured.
-    :vartype clinical_info: list[~azure.healthinsights.cancerprofiling.models.ClinicalCodedElement]
-    """
-
-    sex: Optional[Union[str, "_models.PatientInfoSex"]] = rest_field()
-    """The patient's sex. Known values are: \"female\", \"male\", and \"unspecified\"."""
-    birth_date: Optional[datetime.date] = rest_field(name="birthDate")
-    """The patient's date of birth. """
-    clinical_info: Optional[List["_models.ClinicalCodedElement"]] = rest_field(name="clinicalInfo")
-    """Known clinical information for the patient, structured. """
-
-    @overload
-    def __init__(
-        self,
-        *,
-        sex: Optional[Union[str, "_models.PatientInfoSex"]] = None,
-        birth_date: Optional[datetime.date] = None,
-        clinical_info: Optional[List["_models.ClinicalCodedElement"]] = None,
+        authors: Optional[List["_models.DocumentAuthor"]] = None,
+        specialty_type: Optional[Union[str, "_models.SpecialtyType"]] = None,
+        administrative_metadata: Optional["_models.DocumentAdministrativeMetadata"] = None,
     ):
         ...
 
@@ -665,32 +1273,388 @@ class PatientInfo(_model_base.Model):
 class PatientRecord(_model_base.Model):
     """A patient record, including their clinical information and data.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: A given identifier for the patient. Has to be unique across all patients in a single
      request. Required.
     :vartype id: str
     :ivar info: Patient structured information, including demographics and known structured
      clinical information.
-    :vartype info: ~azure.healthinsights.cancerprofiling.models.PatientInfo
-    :ivar data: Patient unstructured clinical data, given as documents.
-    :vartype data: list[~azure.healthinsights.cancerprofiling.models.PatientDocument]
+    :vartype info: ~azure.healthinsights.cancerprofiling.models.PatientDetails
+    :ivar encounters: Patient encounters/visits.
+    :vartype encounters: list[~azure.healthinsights.cancerprofiling.models.Encounter]
+    :ivar patient_documents: Patient unstructured clinical data, given as documents.
+    :vartype patient_documents: list[~azure.healthinsights.cancerprofiling.models.PatientDocument]
     """
 
     id: str = rest_field()
-    """A given identifier for the patient. Has to be unique across all patients in a single request. Required. """
-    info: Optional["_models.PatientInfo"] = rest_field()
-    """Patient structured information, including demographics and known structured clinical information. """
-    data: Optional[List["_models.PatientDocument"]] = rest_field()
-    """Patient unstructured clinical data, given as documents. """
+    """A given identifier for the patient. Has to be unique across all patients in a single request.
+     Required."""
+    info: Optional["_models.PatientDetails"] = rest_field()
+    """Patient structured information, including demographics and known structured clinical
+     information."""
+    encounters: Optional[List["_models.Encounter"]] = rest_field()
+    """Patient encounters/visits."""
+    patient_documents: Optional[List["_models.PatientDocument"]] = rest_field(name="patientDocuments")
+    """Patient unstructured clinical data, given as documents."""
 
     @overload
     def __init__(
         self,
         *,
         id: str,  # pylint: disable=redefined-builtin
-        info: Optional["_models.PatientInfo"] = None,
-        data: Optional[List["_models.PatientDocument"]] = None,
+        info: Optional["_models.PatientDetails"] = None,
+        encounters: Optional[List["_models.Encounter"]] = None,
+        patient_documents: Optional[List["_models.PatientDocument"]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Period(Element):
+    """A time period defined by a start and end date and optionally time
+    Based on `FHIR Period <https://www.hl7.org/fhir/R4/datatypes.html#Period>`_.
+
+    :ivar start: Starting time with inclusive boundary.
+    :vartype start: str
+    :ivar end: End time with inclusive boundary, if not ongoing.
+    :vartype end: str
+    """
+
+    start: Optional[str] = rest_field()
+    """Starting time with inclusive boundary."""
+    end: Optional[str] = rest_field()
+    """End time with inclusive boundary, if not ongoing."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        start: Optional[str] = None,
+        end: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Quantity(Element):
+    """A measured or measurable amount
+    Based on `FHIR Quantity <https://www.hl7.org/fhir/R4/datatypes.html#Quantity>`_.
+
+    :ivar value: Numerical value (with implicit precision).
+    :vartype value: float
+    :ivar comparator: < | <= | >= | > - how to understand the value.
+    :vartype comparator: str
+    :ivar unit: Unit representation.
+    :vartype unit: str
+    :ivar system: System that defines coded unit form.
+    :vartype system: str
+    :ivar code: Coded form of the unit.
+    :vartype code: str
+    """
+
+    value: Optional[float] = rest_field()
+    """Numerical value (with implicit precision)."""
+    comparator: Optional[str] = rest_field()
+    """< | <= | >= | > - how to understand the value."""
+    unit: Optional[str] = rest_field()
+    """Unit representation."""
+    system: Optional[str] = rest_field()
+    """System that defines coded unit form."""
+    code: Optional[str] = rest_field()
+    """Coded form of the unit."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        value: Optional[float] = None,
+        comparator: Optional[str] = None,
+        unit: Optional[str] = None,
+        system: Optional[str] = None,
+        code: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Range(Element):
+    """A set of ordered Quantities defined by a low and high limit
+    Based on `FHIR Range <https://www.hl7.org/fhir/R4/datatypes.html#Range>`_.
+
+    :ivar low: Low limit.
+    :vartype low: ~azure.healthinsights.cancerprofiling.models.Quantity
+    :ivar high: High limit.
+    :vartype high: ~azure.healthinsights.cancerprofiling.models.Quantity
+    """
+
+    low: Optional["_models.Quantity"] = rest_field()
+    """Low limit."""
+    high: Optional["_models.Quantity"] = rest_field()
+    """High limit."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        low: Optional["_models.Quantity"] = None,
+        high: Optional["_models.Quantity"] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Ratio(Element):
+    """A ratio of two Quantity values - a numerator and a denominator
+    Based on `FHIR Ratio <https://www.hl7.org/fhir/R4/datatypes.html#Ratio>`_.
+
+    :ivar numerator: Numerator value.
+    :vartype numerator: ~azure.healthinsights.cancerprofiling.models.Quantity
+    :ivar denominator: Denominator value.
+    :vartype denominator: ~azure.healthinsights.cancerprofiling.models.Quantity
+    """
+
+    numerator: Optional["_models.Quantity"] = rest_field()
+    """Numerator value."""
+    denominator: Optional["_models.Quantity"] = rest_field()
+    """Denominator value."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        numerator: Optional["_models.Quantity"] = None,
+        denominator: Optional["_models.Quantity"] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Reference(Element):
+    """A reference from one resource to another
+    Based on `FHIR Reference <https://www.hl7.org/fhir/R4/references.html>`_.
+
+    :ivar reference: Literal reference, Relative, internal or absolute URL.
+    :vartype reference: str
+    :ivar type: Type the reference refers to (e.g. "Patient").
+    :vartype type: str
+    :ivar identifier: Logical reference, when literal reference is not known.
+    :vartype identifier: ~azure.healthinsights.cancerprofiling.models.Identifier
+    :ivar display: Text alternative for the resource.
+    :vartype display: str
+    """
+
+    reference: Optional[str] = rest_field()
+    """Literal reference, Relative, internal or absolute URL."""
+    type: Optional[str] = rest_field()
+    """Type the reference refers to (e.g. \"Patient\")."""
+    identifier: Optional["_models.Identifier"] = rest_field()
+    """Logical reference, when literal reference is not known."""
+    display: Optional[str] = rest_field()
+    """Text alternative for the resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        reference: Optional[str] = None,
+        type: Optional[str] = None,
+        identifier: Optional["_models.Identifier"] = None,
+        display: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class Resource(_model_base.Model):
+    """Resource is the ancestor of DomainResource from which most resources are derived. Bundle,
+    Parameters, and Binary extend Resource directly.
+    Based on [FHIR Resource](https://www.hl7.org/fhir/r4/resource.html.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar resource_type: The type of resource. Required.
+    :vartype resource_type: str
+    :ivar id: Resource Id.
+    :vartype id: str
+    :ivar meta: Metadata about the resource.
+    :vartype meta: ~azure.healthinsights.cancerprofiling.models.Meta
+    :ivar implicit_rules: A set of rules under which this content was created.
+    :vartype implicit_rules: str
+    :ivar language: Language of the resource content.
+    :vartype language: str
+    """
+
+    resource_type: str = rest_field(name="resourceType")
+    """The type of resource. Required."""
+    id: Optional[str] = rest_field()
+    """Resource Id."""
+    meta: Optional["_models.Meta"] = rest_field()
+    """Metadata about the resource."""
+    implicit_rules: Optional[str] = rest_field(name="implicitRules")
+    """A set of rules under which this content was created."""
+    language: Optional[str] = rest_field()
+    """Language of the resource content."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        resource_type: str,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        meta: Optional["_models.Meta"] = None,
+        implicit_rules: Optional[str] = None,
+        language: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class SampledData(Element):
+    """A series of measurements taken by a device
+    Based on `FHIR SampledData <https://www.hl7.org/fhir/R4/datatypes.html#SampledData>`_.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar origin: Zero value and units. Required.
+    :vartype origin: ~azure.healthinsights.cancerprofiling.models.Quantity
+    :ivar period: Number of milliseconds between samples. Required.
+    :vartype period: float
+    :ivar factor: Multiply data by this before adding to origin.
+    :vartype factor: float
+    :ivar lower_limit: Lower limit of detection.
+    :vartype lower_limit: float
+    :ivar upper_limit: Upper limit of detection.
+    :vartype upper_limit: float
+    :ivar dimensions: Number of sample points at each time point. Required.
+    :vartype dimensions: int
+    :ivar data: Decimal values with spaces, or "E" | "U" | "L".
+    :vartype data: str
+    """
+
+    origin: "_models.Quantity" = rest_field()
+    """Zero value and units. Required."""
+    period: float = rest_field()
+    """Number of milliseconds between samples. Required."""
+    factor: Optional[float] = rest_field()
+    """Multiply data by this before adding to origin."""
+    lower_limit: Optional[float] = rest_field(name="lowerLimit")
+    """Lower limit of detection."""
+    upper_limit: Optional[float] = rest_field(name="upperLimit")
+    """Upper limit of detection."""
+    dimensions: int = rest_field()
+    """Number of sample points at each time point. Required."""
+    data: Optional[str] = rest_field()
+    """Decimal values with spaces, or \"E\" | \"U\" | \"L\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        origin: "_models.Quantity",
+        period: float,
+        dimensions: int,
+        factor: Optional[float] = None,
+        lower_limit: Optional[float] = None,
+        upper_limit: Optional[float] = None,
+        data: Optional[str] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class TimePeriod(_model_base.Model):
+    """A duration of time during which an event is happening.
+
+    :ivar start: Starting time with inclusive boundary.
+    :vartype start: ~datetime.datetime
+    :ivar end: End time with inclusive boundary, if not ongoing.
+    :vartype end: ~datetime.datetime
+    """
+
+    start: Optional[datetime.datetime] = rest_field(format="rfc3339")
+    """Starting time with inclusive boundary."""
+    end: Optional[datetime.datetime] = rest_field(format="rfc3339")
+    """End time with inclusive boundary, if not ongoing."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        start: Optional[datetime.datetime] = None,
+        end: Optional[datetime.datetime] = None,
     ):
         ...
 
