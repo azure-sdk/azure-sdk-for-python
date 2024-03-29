@@ -1,0 +1,7 @@
+{
+  "commit": "466d0ed5d7b79aaafb34d6def9e0f1c74bf16a93",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/HealthInsights/HealthInsights.TrialMatcher",
+  "@azure-tools/typespec-python": "0.22.5",
+  "@autorest/python": "6.13.8"
+}
