@@ -27,6 +27,8 @@ from ._models_py3 import Capacity
 from ._models_py3 import CassandraClusterDataCenterNodeItem
 from ._models_py3 import CassandraClusterPublicStatus
 from ._models_py3 import CassandraClusterPublicStatusDataCentersItem
+from ._models_py3 import CassandraClusterRestoreInfo
+from ._models_py3 import CassandraClusterRestoreResult
 from ._models_py3 import CassandraError
 from ._models_py3 import CassandraKeyspaceCreateUpdateParameters
 from ._models_py3 import CassandraKeyspaceGetPropertiesOptions
@@ -425,6 +427,8 @@ __all__ = [
     "CassandraClusterDataCenterNodeItem",
     "CassandraClusterPublicStatus",
     "CassandraClusterPublicStatusDataCentersItem",
+    "CassandraClusterRestoreInfo",
+    "CassandraClusterRestoreResult",
     "CassandraError",
     "CassandraKeyspaceCreateUpdateParameters",
     "CassandraKeyspaceGetPropertiesOptions",

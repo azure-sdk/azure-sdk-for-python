@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
@@ -17,7 +15,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_gremlin_graph_throughput_update.py
+    python cosmos_db_managed_cassandra_get_restore.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,20 +30,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.gremlin_resources.begin_update_gremlin_graph_throughput(
-        resource_group_name="rg1",
-        account_name="ddb1",
-        database_name="databaseName",
-        graph_name="graphName",
-        update_throughput_parameters={
-            "location": "West US",
-            "properties": {"resource": {"throughput": 400}},
-            "tags": {},
-        },
-    ).result()
+    response = client.cassandra_clusters.get_restore(
+        resource_group_name="cassandra-prod-rg",
+        cluster_name="cassandra-prod",
+        backup_id="2517222701827037570",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBGremlinGraphThroughputUpdate.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraGetRestore.json
 if __name__ == "__main__":
     main()
