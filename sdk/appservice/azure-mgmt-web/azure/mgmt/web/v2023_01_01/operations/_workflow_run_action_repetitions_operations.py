@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -217,7 +217,6 @@ class WorkflowRunActionRepetitionsOperations:
         :type run_name: str
         :param action_name: The workflow action name. Required.
         :type action_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either WorkflowRunActionRepetitionDefinition or the
          result of cls(response)
         :rtype:
@@ -241,7 +240,7 @@ class WorkflowRunActionRepetitionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     workflow_name=workflow_name,
@@ -249,12 +248,11 @@ class WorkflowRunActionRepetitionsOperations:
                     action_name=action_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -265,14 +263,14 @@ class WorkflowRunActionRepetitionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("WorkflowRunActionRepetitionDefinitionCollection", pipeline_response)
@@ -282,11 +280,11 @@ class WorkflowRunActionRepetitionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -298,10 +296,6 @@ class WorkflowRunActionRepetitionsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions"
-    }
 
     @distributed_trace
     def get(
@@ -328,7 +322,6 @@ class WorkflowRunActionRepetitionsOperations:
         :type action_name: str
         :param repetition_name: The workflow repetition. Required.
         :type repetition_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkflowRunActionRepetitionDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2023_01_01.models.WorkflowRunActionRepetitionDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -347,7 +340,7 @@ class WorkflowRunActionRepetitionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-01-01"))
         cls: ClsType[_models.WorkflowRunActionRepetitionDefinition] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             name=name,
             workflow_name=workflow_name,
@@ -356,16 +349,15 @@ class WorkflowRunActionRepetitionsOperations:
             repetition_name=repetition_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -378,13 +370,9 @@ class WorkflowRunActionRepetitionsOperations:
         deserialized = self._deserialize("WorkflowRunActionRepetitionDefinition", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_expression_traces(
@@ -411,7 +399,6 @@ class WorkflowRunActionRepetitionsOperations:
         :type action_name: str
         :param repetition_name: The workflow repetition. Required.
         :type repetition_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ExpressionRoot or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2023_01_01.models.ExpressionRoot]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -433,7 +420,7 @@ class WorkflowRunActionRepetitionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_expression_traces_request(
+                _request = build_list_expression_traces_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     workflow_name=workflow_name,
@@ -442,12 +429,11 @@ class WorkflowRunActionRepetitionsOperations:
                     repetition_name=repetition_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_expression_traces.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -458,14 +444,14 @@ class WorkflowRunActionRepetitionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ExpressionTraces", pipeline_response)
@@ -475,11 +461,11 @@ class WorkflowRunActionRepetitionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -491,7 +477,3 @@ class WorkflowRunActionRepetitionsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_expression_traces.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/listExpressionTraces"
-    }
