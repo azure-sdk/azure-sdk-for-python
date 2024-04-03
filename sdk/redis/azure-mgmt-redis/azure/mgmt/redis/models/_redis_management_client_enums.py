@@ -170,3 +170,17 @@ class UpdateChannel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     STABLE = "Stable"
     PREVIEW = "Preview"
+
+
+class ZonalAllocation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Optional: Specifies the method in which zones are allocated to the Redis cache. 'Automatic'
+    refers to allocation of zones automatically by the Azure based on the availability zones
+    support in the region and number of instances. 'UserDefined' refers to usage of zones passed in
+    by you for allocation. 'NoZones' refers to the non-zonal cache. If 'zonalAllocation' is not
+    passed, it will be set to 'UserDefined' when zones are passed in, otherwise, will be set to
+    'NoZones'.
+    """
+
+    AUTOMATIC = "Automatic"
+    USER_DEFINED = "UserDefined"
+    NO_ZONES = "NoZones"
