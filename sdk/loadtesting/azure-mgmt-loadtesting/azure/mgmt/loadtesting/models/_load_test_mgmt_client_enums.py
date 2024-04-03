@@ -49,14 +49,20 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resources provisioning states."""
 
-    SUCCEEDED = "Succeeded"
-    FAILED = "Failed"
-    CANCELED = "Canceled"
     DELETED = "Deleted"
+    """Deleted state."""
+    SUCCEEDED = "Succeeded"
+    """Resource has been created."""
+    FAILED = "Failed"
+    """Resource creation failed."""
+    CANCELED = "Canceled"
+    """Resource creation was canceled."""
 
 
 class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Managed identity type to use for accessing encryption key Url."""
 
     SYSTEM_ASSIGNED = "SystemAssigned"
+    """System assigned identity."""
     USER_ASSIGNED = "UserAssigned"
+    """User assigned identity."""
