@@ -26,6 +26,7 @@ from .operations import ComputeNodeExtensionOperations
 from . import models
 from .custom.patch import patch_client
 
+
 class BatchServiceClient(SDKClient):
     """A client for issuing REST requests to the Azure Batch service.
 
@@ -60,36 +61,28 @@ class BatchServiceClient(SDKClient):
     :type batch_url: str
     """
 
-    def __init__(
-            self, credentials, batch_url):
+    def __init__(self, credentials, batch_url):
 
         self.config = BatchServiceClientConfiguration(credentials, batch_url)
         super(BatchServiceClient, self).__init__(self.config.credentials, self.config)
 
         client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
-        self.api_version = '2024-02-01.19.0'
+        self.api_version = "2024-02-01.19.0"
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
 
-        self.application = ApplicationOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.pool = PoolOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.account = AccountOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.certificate = CertificateOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.file = FileOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.job_schedule = JobScheduleOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.job = JobOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.task = TaskOperations(
-            self._client, self.config, self._serialize, self._deserialize)
-        self.compute_node = ComputeNodeOperations(
-            self._client, self.config, self._serialize, self._deserialize)
+        self.application = ApplicationOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.pool = PoolOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.account = AccountOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.certificate = CertificateOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.file = FileOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.job_schedule = JobScheduleOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.job = JobOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.task = TaskOperations(self._client, self.config, self._serialize, self._deserialize)
+        self.compute_node = ComputeNodeOperations(self._client, self.config, self._serialize, self._deserialize)
         self.compute_node_extension = ComputeNodeExtensionOperations(
-            self._client, self.config, self._serialize, self._deserialize)
+            self._client, self.config, self._serialize, self._deserialize
+        )
+
 
 patch_client()
