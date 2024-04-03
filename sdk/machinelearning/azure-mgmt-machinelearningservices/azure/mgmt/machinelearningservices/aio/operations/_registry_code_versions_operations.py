@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -91,7 +91,6 @@ class RegistryCodeVersionsOperations:
         :type top: int
         :param skip: Continuation token for pagination. Default value is None.
         :type skip: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either CodeVersion or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.machinelearningservices.models.CodeVersion]
@@ -114,7 +113,7 @@ class RegistryCodeVersionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     registry_name=registry_name,
                     code_name=code_name,
@@ -123,12 +122,11 @@ class RegistryCodeVersionsOperations:
                     top=top,
                     skip=skip,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -140,13 +138,13 @@ class RegistryCodeVersionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("CodeVersionResourceArmPaginatedResult", pipeline_response)
@@ -156,11 +154,11 @@ class RegistryCodeVersionsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -172,10 +170,6 @@ class RegistryCodeVersionsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions"
-    }
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, registry_name: str, code_name: str, version: str, **kwargs: Any
@@ -194,23 +188,22 @@ class RegistryCodeVersionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             registry_name=registry_name,
             code_name=code_name,
             version=version,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -229,11 +222,7 @@ class RegistryCodeVersionsOperations:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -253,14 +242,6 @@ class RegistryCodeVersionsOperations:
         :type code_name: str
         :param version: Version identifier. Required.
         :type version: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -289,7 +270,7 @@ class RegistryCodeVersionsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -300,17 +281,13 @@ class RegistryCodeVersionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace_async
     async def get(
@@ -330,7 +307,6 @@ class RegistryCodeVersionsOperations:
         :type code_name: str
         :param version: Version identifier. Required.
         :type version: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CodeVersion or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.CodeVersion
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -349,23 +325,22 @@ class RegistryCodeVersionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CodeVersion] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             registry_name=registry_name,
             code_name=code_name,
             version=version,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -378,13 +353,9 @@ class RegistryCodeVersionsOperations:
         deserialized = self._deserialize("CodeVersion", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
@@ -392,7 +363,7 @@ class RegistryCodeVersionsOperations:
         registry_name: str,
         code_name: str,
         version: str,
-        body: Union[_models.CodeVersion, IO],
+        body: Union[_models.CodeVersion, IO[bytes]],
         **kwargs: Any
     ) -> _models.CodeVersion:
         error_map = {
@@ -418,7 +389,7 @@ class RegistryCodeVersionsOperations:
         else:
             _json = self._serialize.body(body, "CodeVersion")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             registry_name=registry_name,
             code_name=code_name,
@@ -428,16 +399,15 @@ class RegistryCodeVersionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -465,10 +435,6 @@ class RegistryCodeVersionsOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -501,14 +467,6 @@ class RegistryCodeVersionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either CodeVersion or the result of
          cls(response)
         :rtype:
@@ -523,7 +481,7 @@ class RegistryCodeVersionsOperations:
         registry_name: str,
         code_name: str,
         version: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -543,18 +501,10 @@ class RegistryCodeVersionsOperations:
         :param version: Version identifier. Required.
         :type version: str
         :param body: Version entity to create or update. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either CodeVersion or the result of
          cls(response)
         :rtype:
@@ -569,7 +519,7 @@ class RegistryCodeVersionsOperations:
         registry_name: str,
         code_name: str,
         version: str,
-        body: Union[_models.CodeVersion, IO],
+        body: Union[_models.CodeVersion, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.CodeVersion]:
         """Create or update version.
@@ -586,20 +536,9 @@ class RegistryCodeVersionsOperations:
         :type code_name: str
         :param version: Version identifier. Required.
         :type version: str
-        :param body: Version entity to create or update. Is either a CodeVersion type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.machinelearningservices.models.CodeVersion or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Version entity to create or update. Is either a CodeVersion type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.CodeVersion or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either CodeVersion or the result of
          cls(response)
         :rtype:
@@ -634,7 +573,7 @@ class RegistryCodeVersionsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CodeVersion", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -647,17 +586,15 @@ class RegistryCodeVersionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.CodeVersion].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}"
-    }
+        return AsyncLROPoller[_models.CodeVersion](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def create_or_get_start_pending_upload(
@@ -690,7 +627,6 @@ class RegistryCodeVersionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: PendingUploadResponseDto or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.PendingUploadResponseDto
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -703,7 +639,7 @@ class RegistryCodeVersionsOperations:
         registry_name: str,
         code_name: str,
         version: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -723,11 +659,10 @@ class RegistryCodeVersionsOperations:
         :param version: Version identifier. This is case-sensitive. Required.
         :type version: str
         :param body: Pending upload request object. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: PendingUploadResponseDto or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.PendingUploadResponseDto
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -740,7 +675,7 @@ class RegistryCodeVersionsOperations:
         registry_name: str,
         code_name: str,
         version: str,
-        body: Union[_models.PendingUploadRequestDto, IO],
+        body: Union[_models.PendingUploadRequestDto, IO[bytes]],
         **kwargs: Any
     ) -> _models.PendingUploadResponseDto:
         """Generate a storage location and credential for the client to upload a code asset to.
@@ -757,13 +692,9 @@ class RegistryCodeVersionsOperations:
         :type code_name: str
         :param version: Version identifier. This is case-sensitive. Required.
         :type version: str
-        :param body: Pending upload request object. Is either a PendingUploadRequestDto type or a IO
-         type. Required.
-        :type body: ~azure.mgmt.machinelearningservices.models.PendingUploadRequestDto or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Pending upload request object. Is either a PendingUploadRequestDto type or a
+         IO[bytes] type. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.PendingUploadRequestDto or IO[bytes]
         :return: PendingUploadResponseDto or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.PendingUploadResponseDto
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -791,7 +722,7 @@ class RegistryCodeVersionsOperations:
         else:
             _json = self._serialize.body(body, "PendingUploadRequestDto")
 
-        request = build_create_or_get_start_pending_upload_request(
+        _request = build_create_or_get_start_pending_upload_request(
             resource_group_name=resource_group_name,
             registry_name=registry_name,
             code_name=code_name,
@@ -801,16 +732,15 @@ class RegistryCodeVersionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_get_start_pending_upload.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -823,10 +753,6 @@ class RegistryCodeVersionsOperations:
         deserialized = self._deserialize("PendingUploadResponseDto", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_or_get_start_pending_upload.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}/startPendingUpload"
-    }
+        return deserialized  # type: ignore
