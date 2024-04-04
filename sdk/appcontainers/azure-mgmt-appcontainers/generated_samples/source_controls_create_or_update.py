@@ -50,6 +50,7 @@ def main():
                     "contextPath": "./",
                     "githubPersonalAccessToken": "test",
                     "image": "image/tag",
+                    "label": "staging",
                     "registryInfo": {
                         "registryPassword": "<registrypassword>",
                         "registryUrl": "test-registry.azurecr.io",
@@ -63,6 +64,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/SourceControls_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/SourceControls_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
