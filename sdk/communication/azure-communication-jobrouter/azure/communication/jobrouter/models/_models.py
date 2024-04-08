@@ -1,5 +1,5 @@
 # coding=utf-8
-# pylint: disable=too-many-lines,anomalous-backslash-in-string,name-too-long
+# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -1527,7 +1527,7 @@ class RouterChannel(_model_base.Model):
      will consume of the total worker capacity. Required.
     :vartype capacity_cost_per_job: int
     :ivar max_number_of_jobs: The maximum number of jobs that can be supported concurrently for
-     this channel.
+     this channel. Value must be greater than zero.
     :vartype max_number_of_jobs: int
     """
 
@@ -1537,7 +1537,8 @@ class RouterChannel(_model_base.Model):
     """The amount of capacity that an instance of a job of this channel will consume of the total
      worker capacity. Required."""
     max_number_of_jobs: Optional[int] = rest_field(name="maxNumberOfJobs")
-    """The maximum number of jobs that can be supported concurrently for this channel."""
+    """The maximum number of jobs that can be supported concurrently for this channel. Value must be
+     greater than zero."""
 
     @overload
     def __init__(
@@ -1585,7 +1586,7 @@ class RouterJob(_model_base.Model):  # pylint: disable=too-many-instance-attribu
     :vartype classification_policy_id: str
     :ivar queue_id: Id of a queue that this job is queued to.
     :vartype queue_id: str
-    :ivar priority: Priority of this job.
+    :ivar priority: Priority of this job. Value must be between -100 to 100.
     :vartype priority: int
     :ivar disposition_code: Reason code for cancelled or closed jobs.
     :vartype disposition_code: str
@@ -1633,7 +1634,7 @@ class RouterJob(_model_base.Model):  # pylint: disable=too-many-instance-attribu
     queue_id: Optional[str] = rest_field(name="queueId")
     """Id of a queue that this job is queued to."""
     priority: Optional[int] = rest_field()
-    """Priority of this job."""
+    """Priority of this job. Value must be between -100 to 100."""
     disposition_code: Optional[str] = rest_field(name="dispositionCode")
     """Reason code for cancelled or closed jobs."""
     requested_worker_selectors: Optional[List["_models.RouterWorkerSelector"]] = rest_field(
