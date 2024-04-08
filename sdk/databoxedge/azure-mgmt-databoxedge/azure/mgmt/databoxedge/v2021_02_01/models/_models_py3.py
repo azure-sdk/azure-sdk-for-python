@@ -58,7 +58,7 @@ class Addon(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -128,7 +128,7 @@ class AddonList(_serialization.Model):
 class Address(_serialization.Model):
     """The shipping address of the customer.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar address_line1: The address line1.
     :vartype address_line1: str
@@ -335,7 +335,7 @@ class ArcAddon(Addon):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -434,7 +434,7 @@ class ArcAddon(Addon):  # pylint: disable=too-many-instance-attributes
 class AsymmetricEncryptedSecret(_serialization.Model):
     """Represent the secrets intended for encryption with asymmetric key pair.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The value of the secret. Required.
     :vartype value: str
@@ -506,7 +506,7 @@ class Authentication(_serialization.Model):
 class AzureContainerInfo(_serialization.Model):
     """Azure container mapping of the endpoint.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_account_credential_id: ID of the storage account credential used to access
      storage. Required.
@@ -563,7 +563,7 @@ class BandwidthSchedule(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -657,7 +657,7 @@ class BandwidthSchedulesList(_serialization.Model):
 class ClientAccessRight(_serialization.Model):
     """The mapping between a particular client IP and the type of access client has on the NFS share.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar client: IP of the client. Required.
     :vartype client: str
@@ -701,7 +701,7 @@ class Role(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -759,7 +759,7 @@ class CloudEdgeManagementRole(Role):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -898,7 +898,7 @@ class CniConfig(_serialization.Model):
 class ComputeResource(_serialization.Model):
     """Compute infrastructure Resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar processor_count: Processor count. Required.
     :vartype processor_count: int
@@ -931,7 +931,7 @@ class ComputeResource(_serialization.Model):
 class ContactDetails(_serialization.Model):
     """Contains all the contact details of the customer.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar contact_person: The contact person name. Required.
     :vartype contact_person: str
@@ -982,7 +982,7 @@ class Container(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -1075,7 +1075,7 @@ class DataBoxEdgeDevice(ARMBaseModel):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -1507,7 +1507,7 @@ class DataBoxEdgeDevicePatch(_serialization.Model):
 class DataBoxEdgeMoveRequest(_serialization.Model):
     """Resource Move details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar target_resource_group: Target resource group ARMId. Required.
     :vartype target_resource_group: str
@@ -1713,7 +1713,7 @@ class DiagnosticProactiveLogCollectionSettings(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -1997,7 +1997,7 @@ class Trigger(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -2041,7 +2041,7 @@ class FileEventTrigger(Trigger):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -2113,7 +2113,7 @@ class FileEventTrigger(Trigger):
 class FileSourceInfo(_serialization.Model):
     """File source details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar share_id: File share ID. Required.
     :vartype share_id: str
@@ -2182,7 +2182,7 @@ class GenerateCertResponse(_serialization.Model):
 class ImageRepositoryCredential(_serialization.Model):
     """Image repository credential.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar image_repository_url: Image repository url (e.g.: mcr.microsoft.com). Required.
     :vartype image_repository_url: str
@@ -2230,7 +2230,7 @@ class IoTAddon(Addon):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -2317,7 +2317,7 @@ class IoTAddon(Addon):  # pylint: disable=too-many-instance-attributes
 class IoTDeviceInfo(_serialization.Model):
     """Metadata of IoT device/IoT Edge device to be configured.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar device_id: ID of the IoT device/edge device. Required.
     :vartype device_id: str
@@ -2371,7 +2371,7 @@ class IoTEdgeAgentInfo(_serialization.Model):
     """IoT edge agent details is optional, this will be used for download system Agent module while
     bootstrapping IoT Role if specified.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar image_name: Name of the IoT edge agent image. Required.
     :vartype image_name: str
@@ -2420,7 +2420,7 @@ class IoTRole(Role):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -2770,7 +2770,7 @@ class KubernetesClusterInfo(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar etcd_info: Etcd configuration.
     :vartype etcd_info: ~azure.mgmt.databoxedge.v2021_02_01.models.EtcdInfo
@@ -2853,7 +2853,7 @@ class KubernetesRole(Role):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -2946,7 +2946,7 @@ class KubernetesRoleCompute(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar vm_profile: VM profile. Required.
     :vartype vm_profile: str
@@ -3012,7 +3012,7 @@ class KubernetesRoleResources(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage: Kubernetes role storage resource.
     :vartype storage: ~azure.mgmt.databoxedge.v2021_02_01.models.KubernetesRoleStorage
@@ -3151,7 +3151,7 @@ class MECRole(Role):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -3226,7 +3226,7 @@ class MECRole(Role):
 class MetricConfiguration(_serialization.Model):
     """Metric configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_id: The Resource ID on which the metrics should be pushed. Required.
     :vartype resource_id: str
@@ -3281,7 +3281,7 @@ class MetricConfiguration(_serialization.Model):
 class MetricCounter(_serialization.Model):
     """The metric counter.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The counter name. Required.
     :vartype name: str
@@ -3335,7 +3335,7 @@ class MetricCounter(_serialization.Model):
 class MetricCounterSet(_serialization.Model):
     """The metric counter set.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar counters: The counters that should be collected in this set. Required.
     :vartype counters: list[~azure.mgmt.databoxedge.v2021_02_01.models.MetricCounter]
@@ -3361,7 +3361,7 @@ class MetricCounterSet(_serialization.Model):
 class MetricDimension(_serialization.Model):
     """The metric dimension.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_type: The dimension type. Required.
     :vartype source_type: str
@@ -3540,7 +3540,7 @@ class MonitoringMetricConfiguration(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -3615,7 +3615,7 @@ class MountPointMap(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar share_id: ID of the share mounted to the role VM. Required.
     :vartype share_id: str
@@ -4078,7 +4078,7 @@ class OperationDisplay(_serialization.Model):
 class OperationsList(_serialization.Model):
     """The list of operations used for the discovery of available provider operations.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The value. Required.
     :vartype value: list[~azure.mgmt.databoxedge.v2021_02_01.models.Operation]
@@ -4230,7 +4230,7 @@ class OrderStatus(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: Status of the order as per the allowed status types. Required. Known values are:
      "Untracked", "AwaitingFulfillment", "AwaitingPreparation", "AwaitingShipment", "Shipped",
@@ -4290,7 +4290,7 @@ class PeriodicTimerEventTrigger(Trigger):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -4362,7 +4362,7 @@ class PeriodicTimerEventTrigger(Trigger):
 class PeriodicTimerSourceInfo(_serialization.Model):
     """Periodic timer event source.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The time of the day that results in a valid trigger. Schedule is computed
      with reference to the time specified upto seconds. If timezone is not specified the time will
@@ -4643,7 +4643,7 @@ class RoleList(_serialization.Model):
 class RoleSinkInfo(_serialization.Model):
     """Compute role against which events will be raised.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar role_id: Compute role ID. Required.
     :vartype role_id: str
@@ -4706,7 +4706,7 @@ class SecuritySettings(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -4778,7 +4778,7 @@ class Share(ARMBaseModel):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -4904,7 +4904,7 @@ class ShareAccessRight(_serialization.Model):
     """Specifies the mapping between this particular user and the type of access he has on shares on
     this device.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar share_id: The share ID. Required.
     :vartype share_id: str
@@ -5194,7 +5194,7 @@ class StorageAccount(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -5282,7 +5282,7 @@ class StorageAccountCredential(ARMBaseModel):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -6082,7 +6082,7 @@ class UpdateSummary(ARMBaseModel):  # pylint: disable=too-many-instance-attribut
 class UploadCertificateRequest(_serialization.Model):
     """The upload certificate request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar authentication_type: The authentication type. Known values are: "Invalid" and
      "AzureActiveDirectory".
@@ -6189,7 +6189,7 @@ class User(ARMBaseModel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The path ID that uniquely identifies the object.
     :vartype id: str
@@ -6254,7 +6254,7 @@ class User(ARMBaseModel):
 class UserAccessRight(_serialization.Model):
     """The mapping between a particular user and the access type on the SMB share.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar user_id: User ID (already existing in the device). Required.
     :vartype user_id: str

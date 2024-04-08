@@ -11,7 +11,9 @@
 
 from typing import Any, Optional, TYPE_CHECKING
 
+from azure.core.pipeline import policies
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 from azure.profiles import KnownProfiles, ProfileDefinition
 from azure.profiles.multiapiclient import MultiApiClientMixin
 
@@ -72,8 +74,28 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         profile: KnownProfiles=KnownProfiles.default,
         **kwargs: Any
     ):
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = DataBoxEdgeManagementClientConfiguration(credential, subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
         super(DataBoxEdgeManagementClient, self).__init__(
             api_version=api_version,
             profile=profile
@@ -157,7 +179,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'addons'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def alerts(self):
@@ -198,7 +220,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'alerts'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def available_skus(self):
@@ -230,7 +252,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'available_skus'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def bandwidth_schedules(self):
@@ -271,7 +293,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'bandwidth_schedules'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def containers(self):
@@ -306,7 +328,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'containers'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def device_capacity_check(self):
@@ -320,7 +342,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'device_capacity_check'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def device_capacity_info(self):
@@ -334,7 +356,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'device_capacity_info'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def devices(self):
@@ -375,7 +397,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'devices'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def diagnostic_settings(self):
@@ -392,7 +414,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'diagnostic_settings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def jobs(self):
@@ -433,7 +455,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'jobs'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def monitoring_config(self):
@@ -462,7 +484,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'monitoring_config'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def nodes(self):
@@ -500,7 +522,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'nodes'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
@@ -541,7 +563,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations_status(self):
@@ -582,7 +604,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'operations_status'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def orders(self):
@@ -623,7 +645,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'orders'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def roles(self):
@@ -664,7 +686,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'roles'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def shares(self):
@@ -705,7 +727,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'shares'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def skus(self):
@@ -722,7 +744,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'skus'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def storage_account_credentials(self):
@@ -763,7 +785,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'storage_account_credentials'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def storage_accounts(self):
@@ -798,7 +820,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'storage_accounts'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def support_packages(self):
@@ -815,7 +837,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'support_packages'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def triggers(self):
@@ -856,7 +878,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'triggers'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def users(self):
@@ -897,7 +919,7 @@ class DataBoxEdgeManagementClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'users'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     def close(self):
         self._client.close()
