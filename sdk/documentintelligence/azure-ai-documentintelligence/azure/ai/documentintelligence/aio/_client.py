@@ -36,7 +36,7 @@ class DocumentIntelligenceClient(
 
     :param endpoint: The Document Intelligence service endpoint. Required.
     :type endpoint: str
-    :param credential: Credential needed for the client to connect to Azure. Is either a
+    :param credential: Credential used to authenticate requests to the service. Is either a
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
@@ -98,7 +98,7 @@ class DocumentIntelligenceClient(
 
         request_copy = deepcopy(request)
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
 
         request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
@@ -122,7 +122,7 @@ class DocumentIntelligenceAdministrationClient(
 
     :param endpoint: The Document Intelligence service endpoint. Required.
     :type endpoint: str
-    :param credential: Credential needed for the client to connect to Azure. Is either a
+    :param credential: Credential used to authenticate requests to the service. Is either a
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
@@ -186,7 +186,7 @@ class DocumentIntelligenceAdministrationClient(
 
         request_copy = deepcopy(request)
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
 
         request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
