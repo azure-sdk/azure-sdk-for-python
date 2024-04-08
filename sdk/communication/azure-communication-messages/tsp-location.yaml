@@ -1,4 +1,5 @@
-directory: specification/communication/Communication.Messages
-commit: 392938969db1bb682734600b9a5c0f0a30a95f58
+commit: 2882aa313192a189596d8bb1f8a1089ada8475b8
 repo: Azure/azure-rest-api-specs
 additionalDirectories: []
+directory: specification/communication/Communication.Messages
+
