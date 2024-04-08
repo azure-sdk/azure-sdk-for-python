@@ -25,14 +25,13 @@ class RadiologyInsightsClientConfiguration:  # pylint: disable=too-many-instance
     :type endpoint: str
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2023-09-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Default value is "2024-04-01".
+     Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(self, endpoint: str, credential: AzureKeyCredential, **kwargs: Any) -> None:
-        api_version: str = kwargs.pop("api_version", "2023-09-01-preview")
+        api_version: str = kwargs.pop("api_version", "2024-04-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")

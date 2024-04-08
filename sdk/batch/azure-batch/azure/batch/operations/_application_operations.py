@@ -38,8 +38,7 @@ class ApplicationOperations(object):
 
         self.config = config
 
-    def list(
-            self, application_list_options=None, custom_headers=None, raw=False, **operation_config):
+    def list(self, application_list_options=None, custom_headers=None, raw=False, **operation_config):
         """Lists all of the applications available in the specified Account.
 
         This operation returns only Applications and versions that are
@@ -82,19 +81,23 @@ class ApplicationOperations(object):
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list.metadata['url']
+                url = self.list.metadata["url"]
                 path_format_arguments = {
-                    'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+                    "batchUrl": self._serialize.url(
+                        "self.config.batch_url", self.config.batch_url, "str", skip_quote=True
+                    )
                 }
                 url = self._client.format_url(url, **path_format_arguments)
 
                 # Construct parameters
                 query_parameters = {}
-                query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+                query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
                 if max_results is not None:
-                    query_parameters['maxresults'] = self._serialize.query("max_results", max_results, 'int', maximum=1000, minimum=1)
+                    query_parameters["maxresults"] = self._serialize.query(
+                        "max_results", max_results, "int", maximum=1000, minimum=1
+                    )
                 if timeout is not None:
-                    query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+                    query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
             else:
                 url = next_link
@@ -102,19 +105,25 @@ class ApplicationOperations(object):
 
             # Construct headers
             header_parameters = {}
-            header_parameters['Accept'] = 'application/json'
+            header_parameters["Accept"] = "application/json"
             if self.config.generate_client_request_id:
-                header_parameters['client-request-id'] = str(uuid.uuid1())
+                header_parameters["client-request-id"] = str(uuid.uuid1())
             if custom_headers:
                 header_parameters.update(custom_headers)
             if self.config.accept_language is not None:
-                header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+                header_parameters["accept-language"] = self._serialize.header(
+                    "self.config.accept_language", self.config.accept_language, "str"
+                )
             if client_request_id is not None:
-                header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+                header_parameters["client-request-id"] = self._serialize.header(
+                    "client_request_id", client_request_id, "str"
+                )
             if return_client_request_id is not None:
-                header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+                header_parameters["return-client-request-id"] = self._serialize.header(
+                    "return_client_request_id", return_client_request_id, "bool"
+                )
             if ocp_date is not None:
-                header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+                header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
             # Construct and send request
             request = self._client.get(url, query_parameters, header_parameters)
@@ -137,10 +146,10 @@ class ApplicationOperations(object):
         deserialized = models.ApplicationSummaryPaged(internal_paging, self._deserialize.dependencies, header_dict)
 
         return deserialized
-    list.metadata = {'url': '/applications'}
 
-    def get(
-            self, application_id, application_get_options=None, custom_headers=None, raw=False, **operation_config):
+    list.metadata = {"url": "/applications"}
+
+    def get(self, application_id, application_get_options=None, custom_headers=None, raw=False, **operation_config):
         """Gets information about the specified Application.
 
         This operation returns only Applications and versions that are
@@ -180,34 +189,40 @@ class ApplicationOperations(object):
             ocp_date = application_get_options.ocp_date
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'applicationId': self._serialize.url("application_id", application_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "applicationId": self._serialize.url("application_id", application_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
@@ -219,12 +234,12 @@ class ApplicationOperations(object):
         header_dict = {}
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize('ApplicationSummary', response)
+            deserialized = self._deserialize("ApplicationSummary", response)
             header_dict = {
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
+                "client-request-id": "str",
+                "request-id": "str",
+                "ETag": "str",
+                "Last-Modified": "rfc-1123",
             }
 
         if raw:
@@ -233,4 +248,5 @@ class ApplicationOperations(object):
             return client_raw_response
 
         return deserialized
-    get.metadata = {'url': '/applications/{applicationId}'}
+
+    get.metadata = {"url": "/applications/{applicationId}"}

@@ -59,8 +59,8 @@ class SchemaProperties(object):
     def __init__(
         self,
         *,
-        id: str,    # pylint: disable=redefined-builtin
-        format: "SchemaFormat", # pylint: disable=redefined-builtin
+        id: str,  # pylint: disable=redefined-builtin
+        format: "SchemaFormat",  # pylint: disable=redefined-builtin
         group_name: str,
         name: str,
         version: int,
@@ -74,9 +74,7 @@ class SchemaProperties(object):
     def __repr__(self) -> str:
         return (
             f"SchemaProperties(id={self.id}, format={self.format}, "
-            f"group_name={self.group_name}, name={self.name}, version={self.version})"[
-                :1024
-            ]
+            f"group_name={self.group_name}, name={self.name}, version={self.version})"[:1024]
         )
 
 
