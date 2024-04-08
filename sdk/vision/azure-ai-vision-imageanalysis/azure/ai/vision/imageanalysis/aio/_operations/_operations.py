@@ -9,7 +9,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, List, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -45,7 +45,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @distributed_trace_async
     async def _analyze_from_image_data(
         self,
-        image_content: bytes,
+        image_data: bytes,
         *,
         visual_features: List[Union[str, _models.VisualFeatures]],
         language: Optional[str] = None,
@@ -57,8 +57,8 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         # pylint: disable=line-too-long
         """Performs a single Image Analysis operation.
 
-        :param image_content: The image to be analyzed. Required.
-        :type image_content: bytes
+        :param image_data: The image to be analyzed. Required.
+        :type image_data: bytes
         :keyword visual_features: A list of visual features to analyze.
          Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects,
          SmartCrops, and People.
@@ -255,7 +255,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -269,7 +269,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         content_type: str = kwargs.pop("content_type", _headers.pop("content-type", "application/octet-stream"))
         cls: ClsType[_models.ImageAnalysisResult] = kwargs.pop("cls", None)
 
-        _content = image_content
+        _content = image_data
 
         _request = build_image_analysis_analyze_from_image_data_request(
             visual_features=visual_features,
@@ -314,7 +314,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @overload
     async def _analyze_from_url(  # pylint: disable=protected-access
         self,
-        image_content: _models._models.ImageUrl,
+        image_url: _models._models.ImageUrl,
         *,
         visual_features: List[Union[str, _models.VisualFeatures]],
         content_type: str = "application/json",
@@ -329,7 +329,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @overload
     async def _analyze_from_url(
         self,
-        image_content: JSON,
+        image_url: JSON,
         *,
         visual_features: List[Union[str, _models.VisualFeatures]],
         content_type: str = "application/json",
@@ -344,7 +344,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @overload
     async def _analyze_from_url(
         self,
-        image_content: IO[bytes],
+        image_url: IO[bytes],
         *,
         visual_features: List[Union[str, _models.VisualFeatures]],
         content_type: str = "application/json",
@@ -359,7 +359,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @distributed_trace_async
     async def _analyze_from_url(
         self,
-        image_content: Union[_models._models.ImageUrl, JSON, IO[bytes]],
+        image_url: Union[_models._models.ImageUrl, JSON, IO[bytes]],
         *,
         visual_features: List[Union[str, _models.VisualFeatures]],
         language: Optional[str] = None,
@@ -371,9 +371,9 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         # pylint: disable=line-too-long
         """Performs a single Image Analysis operation.
 
-        :param image_content: The image to be analyzed. Is one of the following types: ImageUrl, JSON,
+        :param image_url: The image to be analyzed. Is one of the following types: ImageUrl, JSON,
          IO[bytes] Required.
-        :type image_content: ~azure.ai.vision.imageanalysis.models.ImageUrl or JSON or IO[bytes]
+        :type image_url: ~azure.ai.vision.imageanalysis.models.ImageUrl or JSON or IO[bytes]
         :keyword visual_features: A list of visual features to analyze.
          Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects,
          SmartCrops, and People.
@@ -412,7 +412,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
             .. code-block:: python
 
                 # JSON input template you can fill out and use as your body input.
-                image_content = {
+                image_url = {
                     "url": "str"  # Publicly reachable URL of an image to analyze. Required.
                 }
 
@@ -575,7 +575,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -591,10 +591,10 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(image_content, (IOBase, bytes)):
-            _content = image_content
+        if isinstance(image_url, (IOBase, bytes)):
+            _content = image_url
         else:
-            _content = json.dumps(image_content, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(image_url, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_image_analysis_analyze_from_url_request(
             visual_features=visual_features,
