@@ -12,6 +12,7 @@ from ..operations._task_operations import TaskOperations
 MAX_TASKS_PER_REQUEST = 100
 _LOGGER = logging.getLogger(__name__)
 
+
 class _TaskWorkflowManager(object):
     """Worker class for one add_collection request
 
@@ -31,15 +32,16 @@ class _TaskWorkflowManager(object):
     """
 
     def __init__(
-            self,
-            client,
-            original_add_collection,
-            job_id,
-            tasks_to_add,
-            task_add_collection_options=None,
-            custom_headers=None,
-            raw=False,
-            **kwargs):
+        self,
+        client,
+        original_add_collection,
+        job_id,
+        tasks_to_add,
+        task_add_collection_options=None,
+        custom_headers=None,
+        raw=False,
+        **kwargs
+    ):
         # Append operations thread safe - Only read once all threads have completed
         # List of tasks which failed to add due to a returned client error
         self.failure_tasks = collections.deque()
@@ -82,7 +84,8 @@ class _TaskWorkflowManager(object):
                 chunk_tasks_to_add,
                 self._task_add_collection_options,
                 self._custom_headers,
-                self._raw)
+                self._raw,
+            )
         except BatchErrorException as e:
             # In case of a chunk exceeding the MaxMessageSize split chunk in half
             # and resubmit smaller chunk requests
@@ -95,8 +98,10 @@ class _TaskWorkflowManager(object):
                 if len(chunk_tasks_to_add) == 1:
                     failed_task = chunk_tasks_to_add.pop()
                     self.errors.appendleft(e)
-                    _LOGGER.error("Failed to add task with ID %s due to the body"
-                                  " exceeding the maximum request size", failed_task.id)
+                    _LOGGER.error(
+                        "Failed to add task with ID %s due to the body" " exceeding the maximum request size",
+                        failed_task.id,
+                    )
                 else:
                     # Assumption: Tasks are relatively close in size therefore if one batch exceeds size limit
                     # we should decrease the initial task collection size to avoid repeating the error
@@ -107,9 +112,12 @@ class _TaskWorkflowManager(object):
                     with self._max_tasks_lock:
                         if midpoint < self._max_tasks_per_request:
                             self._max_tasks_per_request = midpoint
-                            _LOGGER.info("Amount of tasks per request reduced from %s to %s due to the"
-                                         " request body being too large", str(self._max_tasks_per_request),
-                                         str(midpoint))
+                            _LOGGER.info(
+                                "Amount of tasks per request reduced from %s to %s due to the"
+                                " request body being too large",
+                                str(self._max_tasks_per_request),
+                                str(midpoint),
+                            )
 
                     # Not the most efficient solution for all cases, but the goal of this is to handle this
                     # exception and have it work in all cases where tasks are well behaved
@@ -143,8 +151,7 @@ class _TaskWorkflowManager(object):
                         for task in chunk_tasks_to_add:
                             if task.id == task_result.task_id:
                                 self.tasks_to_add.appendleft(task)
-                elif (task_result.status == TaskAddStatus.client_error
-                        and not task_result.error.code == "TaskExists"):
+                elif task_result.status == TaskAddStatus.client_error and not task_result.error.code == "TaskExists":
                     # Client error will be recorded unless Task already exists
                     self.failure_tasks.appendleft(task_result)
                 else:
@@ -188,14 +195,15 @@ def _handle_output(results_queue):
 
 def build_new_add_collection(original_add_collection):
     def bulk_add_collection(
-            self,
-            job_id,
-            value,
-            task_add_collection_options=None,
-            custom_headers=None,
-            raw=False,
-            threads=0,
-            **operation_config):
+        self,
+        job_id,
+        value,
+        task_add_collection_options=None,
+        custom_headers=None,
+        raw=False,
+        threads=0,
+        **operation_config
+    ):
         """Adds a collection of tasks to the specified job.
 
         Note that each task must have a unique ID. The Batch service may not
@@ -209,7 +217,7 @@ def build_new_add_collection(original_add_collection):
         will not create extra tasks unexpectedly. If the response contains any
         tasks which failed to add, a client can retry the request. In a retry,
         it is most efficient to resubmit only tasks that failed to add, and to
-        omit tasks that were successfully added on the first attempt. The 
+        omit tasks that were successfully added on the first attempt. The
         maximum lifetime of a task from addition to completion is 180 days.
         If a task has not completed within 180 days of being added it will be
         terminated by the Batch service and left in whatever state it was in at
@@ -255,7 +263,8 @@ def build_new_add_collection(original_add_collection):
             task_add_collection_options,
             custom_headers,
             raw,
-            **operation_config)
+            **operation_config
+        )
 
         # multi-threaded behavior
         if threads:
@@ -264,9 +273,9 @@ def build_new_add_collection(original_add_collection):
 
             active_threads = []
             for i in range(threads):
-                active_threads.append(threading.Thread(
-                    target=task_workflow_manager.task_collection_thread_handler,
-                    args=(results_queue,)))
+                active_threads.append(
+                    threading.Thread(target=task_workflow_manager.task_collection_thread_handler, args=(results_queue,))
+                )
                 active_threads[-1].start()
             for thread in active_threads:
                 thread.join()
@@ -277,20 +286,18 @@ def build_new_add_collection(original_add_collection):
         # Only define error if all threads have finished and there were failures
         if task_workflow_manager.failure_tasks or task_workflow_manager.errors:
             raise CreateTasksErrorException(
-                    task_workflow_manager.tasks_to_add,
-                    task_workflow_manager.failure_tasks,
-                    task_workflow_manager.errors)
+                task_workflow_manager.tasks_to_add, task_workflow_manager.failure_tasks, task_workflow_manager.errors
+            )
         else:
             submitted_tasks = _handle_output(results_queue)
             return TaskAddCollectionResult(value=submitted_tasks)
-    bulk_add_collection.metadata = {'url': '/jobs/{jobId}/addtaskcollection'}
+
+    bulk_add_collection.metadata = {"url": "/jobs/{jobId}/addtaskcollection"}
     return bulk_add_collection
 
 
 def batch_error_exception_string(self):
-    ret = "Request encountered an exception.\nCode: {}\nMessage: {}\n".format(
-        self.error.code,
-        self.error.message)
+    ret = "Request encountered an exception.\nCode: {}\nMessage: {}\n".format(self.error.code, self.error.message)
     if self.error.values:
         for error_detail in self.error.values:
             ret += "{}: {}\n".format(error_detail.key, error_detail.value)
@@ -299,13 +306,15 @@ def batch_error_exception_string(self):
 
 def patch_client():
     try:
-        models = sys.modules['azure.batch.models']
+        models = sys.modules["azure.batch.models"]
     except KeyError:
-        models = importlib.import_module('azure.batch.models')
-    setattr(models, 'CreateTasksErrorException', CreateTasksErrorException)
-    sys.modules['azure.batch.models'] = models
+        models = importlib.import_module("azure.batch.models")
+    setattr(models, "CreateTasksErrorException", CreateTasksErrorException)
+    sys.modules["azure.batch.models"] = models
 
-    operations_modules = importlib.import_module('azure.batch.operations')
-    operations_modules.TaskOperations.add_collection = build_new_add_collection(operations_modules.TaskOperations.add_collection)
-    models = importlib.import_module('azure.batch.models')
+    operations_modules = importlib.import_module("azure.batch.operations")
+    operations_modules.TaskOperations.add_collection = build_new_add_collection(
+        operations_modules.TaskOperations.add_collection
+    )
+    models = importlib.import_module("azure.batch.models")
     models.BatchErrorException.__str__ = batch_error_exception_string
