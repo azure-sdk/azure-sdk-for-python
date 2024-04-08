@@ -29,9 +29,8 @@ class RadiologyInsightsClient(
     :type endpoint: str
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2023-09-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Default value is "2024-04-01".
+     Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
