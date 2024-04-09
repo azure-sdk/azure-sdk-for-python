@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hybridcompute import HybridComputeManagementClient
 
 """
@@ -32,11 +35,21 @@ def main():
     response = client.license_profiles.begin_update(
         resource_group_name="myResourceGroup",
         machine_name="myMachine",
-        parameters={"properties": {"esuProfile": {"assignedLicense": "{LicenseResourceId}"}}},
+        parameters={
+            "properties": {
+                "esuProfile": {"assignedLicense": "{LicenseResourceId}"},
+                "productProfile": {
+                    "productFeatures": [{"name": "HotPatching", "subscriptionStatus": "Enable"}],
+                    "productType": "WindowsServer",
+                    "subscriptionStatus": "Enable",
+                },
+                "softwareAssurance": {"softwareAssuranceCustomer": True},
+            }
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/licenseProfile/LicenseProfile_Update.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-04-09-preview/examples/licenseProfile/LicenseProfile_Update.json
 if __name__ == "__main__":
     main()
