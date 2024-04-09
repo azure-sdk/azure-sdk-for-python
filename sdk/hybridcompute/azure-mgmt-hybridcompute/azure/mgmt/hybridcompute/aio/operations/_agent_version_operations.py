@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -57,7 +57,6 @@ class AgentVersionOperations:
 
         :param os_type: Defines the os type. Required.
         :type os_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AgentVersionsList or the result of cls(response)
         :rtype: ~azure.mgmt.hybridcompute.models.AgentVersionsList
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -76,19 +75,18 @@ class AgentVersionOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AgentVersionsList] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             os_type=os_type,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -101,11 +99,9 @@ class AgentVersionOperations:
         deserialized = self._deserialize("AgentVersionsList", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {"url": "/providers/Microsoft.HybridCompute/osType/{osType}/agentVersions"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(self, os_type: str, version: str, **kwargs: Any) -> _models.AgentVersion:
@@ -116,7 +112,6 @@ class AgentVersionOperations:
         :param version: Defines the agent version. To get latest, use latest or else a specific agent
          version. Required.
         :type version: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AgentVersion or the result of cls(response)
         :rtype: ~azure.mgmt.hybridcompute.models.AgentVersion
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -135,20 +130,19 @@ class AgentVersionOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AgentVersion] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             os_type=os_type,
             version=version,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -161,8 +155,6 @@ class AgentVersionOperations:
         deserialized = self._deserialize("AgentVersion", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/providers/Microsoft.HybridCompute/osType/{osType}/agentVersions/{version}"}
+        return deserialized  # type: ignore
