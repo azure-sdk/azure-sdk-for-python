@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -158,7 +158,6 @@ class BackupResourceVaultConfigsOperations:
         :param resource_group_name: The name of the resource group where the recovery services vault is
          present. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -177,21 +176,20 @@ class BackupResourceVaultConfigsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BackupResourceVaultConfigResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -204,13 +202,9 @@ class BackupResourceVaultConfigsOperations:
         deserialized = self._deserialize("BackupResourceVaultConfigResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def update(
@@ -235,7 +229,6 @@ class BackupResourceVaultConfigsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -246,7 +239,7 @@ class BackupResourceVaultConfigsOperations:
         self,
         vault_name: str,
         resource_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -259,11 +252,10 @@ class BackupResourceVaultConfigsOperations:
          present. Required.
         :type resource_group_name: str
         :param parameters: resource config request. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -274,7 +266,7 @@ class BackupResourceVaultConfigsOperations:
         self,
         vault_name: str,
         resource_group_name: str,
-        parameters: Union[_models.BackupResourceVaultConfigResource, IO],
+        parameters: Union[_models.BackupResourceVaultConfigResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.BackupResourceVaultConfigResource:
         """Updates vault security config.
@@ -285,13 +277,10 @@ class BackupResourceVaultConfigsOperations:
          present. Required.
         :type resource_group_name: str
         :param parameters: resource config request. Is either a BackupResourceVaultConfigResource type
-         or a IO type. Required.
+         or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource or
+         IO[bytes]
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -319,7 +308,7 @@ class BackupResourceVaultConfigsOperations:
         else:
             _json = self._serialize.body(parameters, "BackupResourceVaultConfigResource")
 
-        request = build_update_request(
+        _request = build_update_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
@@ -327,16 +316,15 @@ class BackupResourceVaultConfigsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -349,13 +337,9 @@ class BackupResourceVaultConfigsOperations:
         deserialized = self._deserialize("BackupResourceVaultConfigResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def put(
@@ -380,7 +364,6 @@ class BackupResourceVaultConfigsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -391,7 +374,7 @@ class BackupResourceVaultConfigsOperations:
         self,
         vault_name: str,
         resource_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -404,11 +387,10 @@ class BackupResourceVaultConfigsOperations:
          present. Required.
         :type resource_group_name: str
         :param parameters: resource config request. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -419,7 +401,7 @@ class BackupResourceVaultConfigsOperations:
         self,
         vault_name: str,
         resource_group_name: str,
-        parameters: Union[_models.BackupResourceVaultConfigResource, IO],
+        parameters: Union[_models.BackupResourceVaultConfigResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.BackupResourceVaultConfigResource:
         """Updates vault security config.
@@ -430,13 +412,10 @@ class BackupResourceVaultConfigsOperations:
          present. Required.
         :type resource_group_name: str
         :param parameters: resource config request. Is either a BackupResourceVaultConfigResource type
-         or a IO type. Required.
+         or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource or
+         IO[bytes]
         :return: BackupResourceVaultConfigResource or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.BackupResourceVaultConfigResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -464,7 +443,7 @@ class BackupResourceVaultConfigsOperations:
         else:
             _json = self._serialize.body(parameters, "BackupResourceVaultConfigResource")
 
-        request = build_put_request(
+        _request = build_put_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
@@ -472,16 +451,15 @@ class BackupResourceVaultConfigsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.put.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -494,10 +472,6 @@ class BackupResourceVaultConfigsOperations:
         deserialized = self._deserialize("BackupResourceVaultConfigResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    put.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig"
-    }
+        return deserialized  # type: ignore
