@@ -15,7 +15,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python private_endpoint_connections_get.py
+    python usages_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,12 @@ def main():
         subscription_id="12345678-1234-1234-12345678abc",
     )
 
-    response = client.private_endpoint_connections.get(
-        resource_group_name="SampleResourceGroup",
-        account_name="account1",
-        private_endpoint_connection_name="privateEndpointConnection1",
+    response = client.usages.get(
+        location="West US 2",
     )
     print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/PrivateEndpointConnections_Get.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Usages_Get.json
 if __name__ == "__main__":
     main()
