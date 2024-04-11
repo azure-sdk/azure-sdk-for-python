@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -96,7 +96,6 @@ class MHSMPrivateLinkResourcesOperations:
         :type resource_group_name: str
         :param name: Name of the managed HSM Pool. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MHSMPrivateLinkResourceListResult or the result of cls(response)
         :rtype: ~azure.mgmt.keyvault.v2023_02_01.models.MHSMPrivateLinkResourceListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -115,21 +114,20 @@ class MHSMPrivateLinkResourcesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-02-01"))
         cls: ClsType[_models.MHSMPrivateLinkResourceListResult] = kwargs.pop("cls", None)
 
-        request = build_list_by_mhsm_resource_request(
+        _request = build_list_by_mhsm_resource_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_by_mhsm_resource.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -141,10 +139,6 @@ class MHSMPrivateLinkResourcesOperations:
         deserialized = self._deserialize("MHSMPrivateLinkResourceListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_by_mhsm_resource.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources"
-    }
+        return deserialized  # type: ignore
