@@ -184,6 +184,14 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class DetectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the patch detection."""
+
+    SUCCEEDED = "Succeeded"
+    REGISTRY_LOGIN_FAILED = "RegistryLoginFailed"
+    FAILED = "Failed"
+
+
 class DnsVerificationTestResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """DNS verification test result."""
 
@@ -206,7 +214,6 @@ class DotNetComponentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of the .NET Component."""
 
     ASPIRE_DASHBOARD = "AspireDashboard"
-    ASPIRE_RESOURCE_SERVER_API = "AspireResourceServerApi"
 
 
 class EnvironmentProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -236,6 +243,15 @@ class ForwardProxyConvention(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NO_PROXY = "NoProxy"
     STANDARD = "Standard"
     CUSTOM = "Custom"
+
+
+class ImageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the image. Set to CloudBuild to let the system manages the image, where user will
+    not be able to update image through image field. Set to ContainerImage for user provided image.
+    """
+
+    CLOUD_BUILD = "CloudBuild"
+    CONTAINER_IMAGE = "ContainerImage"
 
 
 class IngressClientCertificateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -281,6 +297,7 @@ class JavaComponentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SPRING_BOOT_ADMIN = "SpringBootAdmin"
     SPRING_CLOUD_EUREKA = "SpringCloudEureka"
     SPRING_CLOUD_CONFIG = "SpringCloudConfig"
+    NACOS = "Nacos"
 
 
 class JobExecutionRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -303,6 +320,26 @@ class JobProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FAILED = "Failed"
     CANCELED = "Canceled"
     DELETING = "Deleting"
+
+
+class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Metadata used to render different experiences for resources of the same type; e.g. WorkflowApp
+    is a kind of Microsoft.App/ContainerApps type. If supported, the resource provider must
+    validate and persist this value.
+    """
+
+    WORKFLOWAPP = "workflowapp"
+
+
+class Level(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The specified logger's log level."""
+
+    OFF = "off"
+    ERROR = "error"
+    INFO = "info"
+    DEBUG = "debug"
+    TRACE = "trace"
+    WARN = "warn"
 
 
 class LogLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -333,6 +370,41 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class PatchApplyStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the patch once it has been provisioned."""
+
+    NOT_STARTED = "NotStarted"
+    REBASE_IN_PROGRESS = "RebaseInProgress"
+    CREATING_REVISION = "CreatingRevision"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    REBASE_FAILED = "RebaseFailed"
+    REVISION_CREATION_FAILED = "RevisionCreationFailed"
+    IMAGE_PUSH_PULL_FAILED = "ImagePushPullFailed"
+    MANUALLY_SKIPPED = "ManuallySkipped"
+
+
+class PatchingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Patching mode for the container app. Null or default in this field will be interpreted as
+    Automatic by RP. Automatic mode will automatically apply available patches. Manual mode will
+    require the user to manually apply patches. Disabled mode will stop patch detection and auto
+    patching.
+    """
+
+    AUTOMATIC = "Automatic"
+    MANUAL = "Manual"
+    DISABLED = "Disabled"
+
+
+class PatchType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type for the patch."""
+
+    FRAMEWORK_SECURITY = "FrameworkSecurity"
+    OS_SECURITY = "OSSecurity"
+    FRAMEWORK_AND_OS_SECURITY = "FrameworkAndOSSecurity"
+    OTHER = "Other"
 
 
 class RevisionHealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
