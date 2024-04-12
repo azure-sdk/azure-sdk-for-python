@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -67,7 +67,7 @@ class DatastoresOperations:
         self,
         resource_group_name: str,
         datastore_name: str,
-        body: Optional[Union[_models.Datastore, IO]] = None,
+        body: Optional[Union[_models.Datastore, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.Datastore:
         error_map = {
@@ -96,7 +96,7 @@ class DatastoresOperations:
             else:
                 _json = None
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             datastore_name=datastore_name,
             subscription_id=self._config.subscription_id,
@@ -104,16 +104,15 @@ class DatastoresOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -133,10 +132,6 @@ class DatastoresOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores/{datastoreName}"
-    }
 
     @overload
     async def begin_create(
@@ -161,14 +156,6 @@ class DatastoresOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Datastore or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.connectedvmware.models.Datastore]
@@ -180,7 +167,7 @@ class DatastoresOperations:
         self,
         resource_group_name: str,
         datastore_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -194,18 +181,10 @@ class DatastoresOperations:
         :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
         :param body: Request payload. Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Datastore or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.connectedvmware.models.Datastore]
@@ -217,7 +196,7 @@ class DatastoresOperations:
         self,
         resource_group_name: str,
         datastore_name: str,
-        body: Optional[Union[_models.Datastore, IO]] = None,
+        body: Optional[Union[_models.Datastore, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Datastore]:
         """Implements datastore PUT method.
@@ -228,19 +207,9 @@ class DatastoresOperations:
         :type resource_group_name: str
         :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
-        :param body: Request payload. Is either a Datastore type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.connectedvmware.models.Datastore or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Request payload. Is either a Datastore type or a IO[bytes] type. Default value is
+         None.
+        :type body: ~azure.mgmt.connectedvmware.models.Datastore or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Datastore or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.connectedvmware.models.Datastore]
@@ -272,7 +241,7 @@ class DatastoresOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Datastore", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -285,17 +254,15 @@ class DatastoresOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Datastore].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores/{datastoreName}"
-    }
+        return AsyncLROPoller[_models.Datastore](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, datastore_name: str, **kwargs: Any) -> _models.Datastore:
@@ -307,7 +274,6 @@ class DatastoresOperations:
         :type resource_group_name: str
         :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -326,21 +292,20 @@ class DatastoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Datastore] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             datastore_name=datastore_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -353,13 +318,9 @@ class DatastoresOperations:
         deserialized = self._deserialize("Datastore", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores/{datastoreName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def update(
@@ -384,7 +345,6 @@ class DatastoresOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -395,7 +355,7 @@ class DatastoresOperations:
         self,
         resource_group_name: str,
         datastore_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -409,11 +369,10 @@ class DatastoresOperations:
         :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
         :param body: Resource properties to update. Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -424,7 +383,7 @@ class DatastoresOperations:
         self,
         resource_group_name: str,
         datastore_name: str,
-        body: Optional[Union[_models.ResourcePatch, IO]] = None,
+        body: Optional[Union[_models.ResourcePatch, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.Datastore:
         """Updates a datastore.
@@ -435,13 +394,9 @@ class DatastoresOperations:
         :type resource_group_name: str
         :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
-        :param body: Resource properties to update. Is either a ResourcePatch type or a IO type.
+        :param body: Resource properties to update. Is either a ResourcePatch type or a IO[bytes] type.
          Default value is None.
-        :type body: ~azure.mgmt.connectedvmware.models.ResourcePatch or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type body: ~azure.mgmt.connectedvmware.models.ResourcePatch or IO[bytes]
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -472,7 +427,7 @@ class DatastoresOperations:
             else:
                 _json = None
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             datastore_name=datastore_name,
             subscription_id=self._config.subscription_id,
@@ -480,16 +435,15 @@ class DatastoresOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -502,13 +456,9 @@ class DatastoresOperations:
         deserialized = self._deserialize("Datastore", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores/{datastoreName}"
-    }
+        return deserialized  # type: ignore
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, datastore_name: str, force: Optional[bool] = None, **kwargs: Any
@@ -527,22 +477,21 @@ class DatastoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             datastore_name=datastore_name,
             subscription_id=self._config.subscription_id,
             force=force,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -557,11 +506,7 @@ class DatastoresOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores/{datastoreName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -577,14 +522,6 @@ class DatastoresOperations:
         :type datastore_name: str
         :param force: Whether force delete was specified. Default value is None.
         :type force: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -612,7 +549,7 @@ class DatastoresOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -621,17 +558,13 @@ class DatastoresOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores/{datastoreName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.Datastore"]:
@@ -639,7 +572,6 @@ class DatastoresOperations:
 
         List of datastores in a subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Datastore or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.connectedvmware.models.Datastore]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -661,15 +593,14 @@ class DatastoresOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -681,13 +612,13 @@ class DatastoresOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("DatastoresList", pipeline_response)
@@ -697,11 +628,11 @@ class DatastoresOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -713,8 +644,6 @@ class DatastoresOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedVMwarevSphere/datastores"}
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.Datastore"]:
@@ -724,7 +653,6 @@ class DatastoresOperations:
 
         :param resource_group_name: The Resource Group Name. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Datastore or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.connectedvmware.models.Datastore]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -746,16 +674,15 @@ class DatastoresOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -767,13 +694,13 @@ class DatastoresOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("DatastoresList", pipeline_response)
@@ -783,11 +710,11 @@ class DatastoresOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -799,7 +726,3 @@ class DatastoresOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/datastores"
-    }
