@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -90,7 +90,7 @@ def build_list_request(resource_uri: str, **kwargs: Any) -> HttpRequest:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class VmInstanceHybridIdentityMetadataOperations:
+class VmInstanceHybridIdentityMetadataOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -118,7 +118,6 @@ class VmInstanceHybridIdentityMetadataOperations:
         :param resource_uri: The fully qualified Azure Resource manager identifier of the Hybrid
          Compute machine resource to be extended. Required.
         :type resource_uri: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VmInstanceHybridIdentityMetadata or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.VmInstanceHybridIdentityMetadata
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -137,19 +136,18 @@ class VmInstanceHybridIdentityMetadataOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VmInstanceHybridIdentityMetadata] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_uri=resource_uri,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -162,13 +160,9 @@ class VmInstanceHybridIdentityMetadataOperations:
         deserialized = self._deserialize("VmInstanceHybridIdentityMetadata", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata/default"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list(self, resource_uri: str, **kwargs: Any) -> Iterable["_models.VmInstanceHybridIdentityMetadata"]:
@@ -179,7 +173,6 @@ class VmInstanceHybridIdentityMetadataOperations:
         :param resource_uri: The fully qualified Azure Resource manager identifier of the Hybrid
          Compute machine resource to be extended. Required.
         :type resource_uri: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either VmInstanceHybridIdentityMetadata or the result of
          cls(response)
         :rtype:
@@ -203,15 +196,14 @@ class VmInstanceHybridIdentityMetadataOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_uri=resource_uri,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -223,13 +215,13 @@ class VmInstanceHybridIdentityMetadataOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("VmInstanceHybridIdentityMetadataList", pipeline_response)
@@ -239,11 +231,11 @@ class VmInstanceHybridIdentityMetadataOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -255,7 +247,3 @@ class VmInstanceHybridIdentityMetadataOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata"
-    }

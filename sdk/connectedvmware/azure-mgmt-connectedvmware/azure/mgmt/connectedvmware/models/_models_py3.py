@@ -22,7 +22,7 @@ class Cluster(_serialization.Model):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -184,7 +184,7 @@ class InventoryItemProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -258,7 +258,7 @@ class ClusterInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -314,7 +314,7 @@ class ClusterInventoryItem(InventoryItemProperties):
 class ClustersList(_serialization.Model):
     """List of Clusters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of Clusters.
     :vartype next_link: str
@@ -386,7 +386,7 @@ class Datastore(_serialization.Model):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -525,7 +525,7 @@ class DatastoreInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -595,7 +595,7 @@ class DatastoreInventoryItem(InventoryItemProperties):
 class DatastoresList(_serialization.Model):
     """List of Datastores.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of Datastores.
     :vartype next_link: str
@@ -748,7 +748,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -790,7 +790,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -802,24 +802,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.connectedvmware.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Defines the GuestAgent.
@@ -827,7 +809,7 @@ class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -924,7 +906,7 @@ class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
 class GuestAgentList(_serialization.Model):
     """List of GuestAgent.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of GuestAgent.
     :vartype next_link: str
@@ -1048,7 +1030,7 @@ class Host(_serialization.Model):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -1204,7 +1186,7 @@ class HostInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -1267,7 +1249,7 @@ class HostInventoryItem(InventoryItemProperties):
 class HostsList(_serialization.Model):
     """List of Hosts.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of Hosts.
     :vartype next_link: str
@@ -1409,10 +1391,10 @@ class InventoryItem(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1541,7 +1523,7 @@ class InventoryItemDetails(_serialization.Model):
 class InventoryItemsList(_serialization.Model):
     """List of InventoryItems.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of InventoryItems.
     :vartype next_link: str
@@ -1973,7 +1955,7 @@ class OperationDisplay(_serialization.Model):
 class OperationsList(_serialization.Model):
     """Lists the operations available.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of operations.
     :vartype next_link: str
@@ -2163,7 +2145,7 @@ class ResourcePool(_serialization.Model):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -2362,7 +2344,7 @@ class ResourcePoolInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -2425,7 +2407,7 @@ class ResourcePoolInventoryItem(InventoryItemProperties):
 class ResourcePoolsList(_serialization.Model):
     """List of ResourcePools.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of ResourcePools.
     :vartype next_link: str
@@ -2690,7 +2672,7 @@ class VCenter(_serialization.Model):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -2825,7 +2807,7 @@ class VCenter(_serialization.Model):  # pylint: disable=too-many-instance-attrib
 class VCentersList(_serialization.Model):
     """List of VCenters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VCenters.
     :vartype next_link: str
@@ -3057,7 +3039,7 @@ class VirtualMachineInstance(ProxyResource):  # pylint: disable=too-many-instanc
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3173,7 +3155,7 @@ class VirtualMachineInstance(ProxyResource):  # pylint: disable=too-many-instanc
 class VirtualMachineInstancesList(_serialization.Model):
     """List of VirtualMachineInstances.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VirtualMachines.
     :vartype next_link: str
@@ -3248,7 +3230,7 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -3393,7 +3375,7 @@ class VirtualMachineTemplate(_serialization.Model):  # pylint: disable=too-many-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -3583,7 +3565,7 @@ class VirtualMachineTemplateInventoryItem(InventoryItemProperties):  # pylint: d
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -3696,7 +3678,7 @@ class VirtualMachineTemplateInventoryItem(InventoryItemProperties):  # pylint: d
 class VirtualMachineTemplatesList(_serialization.Model):
     """List of VirtualMachineTemplates.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VirtualMachineTemplates.
     :vartype next_link: str
@@ -3732,7 +3714,7 @@ class VirtualNetwork(_serialization.Model):  # pylint: disable=too-many-instance
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -3861,7 +3843,7 @@ class VirtualNetworkInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -3917,7 +3899,7 @@ class VirtualNetworkInventoryItem(InventoryItemProperties):
 class VirtualNetworksList(_serialization.Model):
     """List of VirtualNetworks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VirtualNetworks.
     :vartype next_link: str
@@ -4012,7 +3994,7 @@ class VmInstanceHybridIdentityMetadata(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4065,7 +4047,7 @@ class VmInstanceHybridIdentityMetadata(ProxyResource):
 class VmInstanceHybridIdentityMetadataList(_serialization.Model):
     """List of HybridIdentityMetadata.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of HybridIdentityMetadata.
     :vartype next_link: str

@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -212,7 +212,6 @@ class InventoryItemsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: InventoryItem or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.InventoryItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -224,7 +223,7 @@ class InventoryItemsOperations:
         resource_group_name: str,
         vcenter_name: str,
         inventory_item_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -240,11 +239,10 @@ class InventoryItemsOperations:
         :param inventory_item_name: Name of the inventoryItem. Required.
         :type inventory_item_name: str
         :param body: Request payload. Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: InventoryItem or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.InventoryItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -256,7 +254,7 @@ class InventoryItemsOperations:
         resource_group_name: str,
         vcenter_name: str,
         inventory_item_name: str,
-        body: Optional[Union[_models.InventoryItem, IO]] = None,
+        body: Optional[Union[_models.InventoryItem, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.InventoryItem:
         """Implements InventoryItem PUT method.
@@ -269,13 +267,9 @@ class InventoryItemsOperations:
         :type vcenter_name: str
         :param inventory_item_name: Name of the inventoryItem. Required.
         :type inventory_item_name: str
-        :param body: Request payload. Is either a InventoryItem type or a IO type. Default value is
-         None.
-        :type body: ~azure.mgmt.connectedvmware.models.InventoryItem or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Request payload. Is either a InventoryItem type or a IO[bytes] type. Default value
+         is None.
+        :type body: ~azure.mgmt.connectedvmware.models.InventoryItem or IO[bytes]
         :return: InventoryItem or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.InventoryItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -306,7 +300,7 @@ class InventoryItemsOperations:
             else:
                 _json = None
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             vcenter_name=vcenter_name,
             inventory_item_name=inventory_item_name,
@@ -315,16 +309,15 @@ class InventoryItemsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -337,13 +330,9 @@ class InventoryItemsOperations:
         deserialized = self._deserialize("InventoryItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get(
@@ -359,7 +348,6 @@ class InventoryItemsOperations:
         :type vcenter_name: str
         :param inventory_item_name: Name of the inventoryItem. Required.
         :type inventory_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: InventoryItem or the result of cls(response)
         :rtype: ~azure.mgmt.connectedvmware.models.InventoryItem
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -378,22 +366,21 @@ class InventoryItemsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.InventoryItem] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             vcenter_name=vcenter_name,
             inventory_item_name=inventory_item_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -406,13 +393,9 @@ class InventoryItemsOperations:
         deserialized = self._deserialize("InventoryItem", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -428,7 +411,6 @@ class InventoryItemsOperations:
         :type vcenter_name: str
         :param inventory_item_name: Name of the inventoryItem. Required.
         :type inventory_item_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -447,22 +429,21 @@ class InventoryItemsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             vcenter_name=vcenter_name,
             inventory_item_name=inventory_item_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -473,11 +454,7 @@ class InventoryItemsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list_by_v_center(
@@ -491,7 +468,6 @@ class InventoryItemsOperations:
         :type resource_group_name: str
         :param vcenter_name: Name of the vCenter. Required.
         :type vcenter_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either InventoryItem or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.connectedvmware.models.InventoryItem]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -513,17 +489,16 @@ class InventoryItemsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_v_center_request(
+                _request = build_list_by_v_center_request(
                     resource_group_name=resource_group_name,
                     vcenter_name=vcenter_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_v_center.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -535,13 +510,13 @@ class InventoryItemsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("InventoryItemsList", pipeline_response)
@@ -551,11 +526,11 @@ class InventoryItemsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -567,7 +542,3 @@ class InventoryItemsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_v_center.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems"
-    }
