@@ -82,7 +82,7 @@ class ManagementGroupProxyOnlyResource(_serialization.Model):
         self.location = location
 
 
-class ManagementGroupDiagnosticSettingsResource(ManagementGroupProxyOnlyResource):
+class ManagementGroupDiagnosticSettingsResource(ManagementGroupProxyOnlyResource):  # pylint: disable=name-too-long
     """The management group diagnostic setting resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -110,7 +110,7 @@ class ManagementGroupDiagnosticSettingsResource(ManagementGroupProxyOnlyResource
     :vartype logs: list[~azure.mgmt.monitor.v2020_01_01_preview.models.ManagementGroupLogSettings]
     :ivar workspace_id: The full ARM resource ID of the Log Analytics workspace to which you would
      like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     """
 
@@ -164,7 +164,7 @@ class ManagementGroupDiagnosticSettingsResource(ManagementGroupProxyOnlyResource
          list[~azure.mgmt.monitor.v2020_01_01_preview.models.ManagementGroupLogSettings]
         :keyword workspace_id: The full ARM resource ID of the Log Analytics workspace to which you
          would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         """
         super().__init__(location=location, **kwargs)
@@ -176,7 +176,7 @@ class ManagementGroupDiagnosticSettingsResource(ManagementGroupProxyOnlyResource
         self.workspace_id = workspace_id
 
 
-class ManagementGroupDiagnosticSettingsResourceCollection(_serialization.Model):
+class ManagementGroupDiagnosticSettingsResourceCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents a collection of management group diagnostic settings resources.
 
     :ivar value: The collection of management group diagnostic settings resources.
@@ -203,7 +203,7 @@ class ManagementGroupDiagnosticSettingsResourceCollection(_serialization.Model):
 class ManagementGroupLogSettings(_serialization.Model):
     """Part of Management Group diagnostic setting. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Management Group Diagnostic Log category for a resource type this
      setting is applied to. Required.
