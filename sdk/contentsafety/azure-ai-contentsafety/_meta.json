@@ -1,0 +1,7 @@
+{
+  "commit": "46b936e9b31b90a53e1ee715c2d845d769ba06ce",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/ContentSafety",
+  "@azure-tools/typespec-python": "0.23.1",
+  "@autorest/python": "6.13.11"
+}
