@@ -48,7 +48,7 @@ def build_list_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/availableUpgrades",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/upgradeHistories",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -69,14 +69,14 @@ def build_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class ClusterPoolAvailableUpgradesOperations:
+class ClusterPoolUpgradeHistoriesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.hdinsightcontainers.HDInsightContainersMgmtClient`'s
-        :attr:`cluster_pool_available_upgrades` attribute.
+        :attr:`cluster_pool_upgrade_histories` attribute.
     """
 
     models = _models
@@ -91,25 +91,25 @@ class ClusterPoolAvailableUpgradesOperations:
     @distributed_trace
     def list(
         self, resource_group_name: str, cluster_pool_name: str, **kwargs: Any
-    ) -> Iterable["_models.ClusterPoolAvailableUpgrade"]:
-        """List a cluster pool available upgrade.
+    ) -> Iterable["_models.ClusterPoolUpgradeHistory"]:
+        """Returns a list of upgrade history.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param cluster_pool_name: The name of the cluster pool. Required.
         :type cluster_pool_name: str
-        :return: An iterator like instance of either ClusterPoolAvailableUpgrade or the result of
+        :return: An iterator like instance of either ClusterPoolUpgradeHistory or the result of
          cls(response)
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterPoolAvailableUpgrade]
+         ~azure.core.paging.ItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterPoolUpgradeHistory]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ClusterPoolAvailableUpgradeList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ClusterPoolUpgradeHistoryListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -152,7 +152,7 @@ class ClusterPoolAvailableUpgradesOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("ClusterPoolAvailableUpgradeList", pipeline_response)
+            deserialized = self._deserialize("ClusterPoolUpgradeHistoryListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
