@@ -24,6 +24,7 @@ from ._models_py3 import BackupSchedule
 from ._models_py3 import BaseCosmosDataTransferDataSourceSink
 from ._models_py3 import Capability
 from ._models_py3 import Capacity
+from ._models_py3 import CapacityModeChangeTransitionState
 from ._models_py3 import CassandraClusterDataCenterNodeItem
 from ._models_py3 import CassandraClusterPublicStatus
 from ._models_py3 import CassandraClusterPublicStatusDataCentersItem
@@ -49,8 +50,6 @@ from ._models_py3 import CassandraViewGetResults
 from ._models_py3 import CassandraViewListResult
 from ._models_py3 import CassandraViewResource
 from ._models_py3 import Certificate
-from ._models_py3 import CheckNameAvailabilityRequest
-from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import ClientEncryptionIncludedPath
 from ._models_py3 import ClientEncryptionKeyCreateUpdateParameters
 from ._models_py3 import ClientEncryptionKeyGetPropertiesResource
@@ -69,7 +68,6 @@ from ._models_py3 import CompositePath
 from ._models_py3 import ComputedProperty
 from ._models_py3 import ConflictResolutionPolicy
 from ._models_py3 import ConnectionError
-from ._models_py3 import ConnectionString
 from ._models_py3 import ConsistencyPolicy
 from ._models_py3 import ContainerPartitionKey
 from ._models_py3 import ContinuousBackupInformation
@@ -111,8 +109,6 @@ from ._models_py3 import ExcludedPath
 from ._models_py3 import ExtendedResourceProperties
 from ._models_py3 import FailoverPolicies
 from ._models_py3 import FailoverPolicy
-from ._models_py3 import FirewallRule
-from ._models_py3 import FirewallRuleListResult
 from ._models_py3 import GraphAPIComputeRegionalServiceResource
 from ._models_py3 import GraphAPIComputeServiceResource
 from ._models_py3 import GraphAPIComputeServiceResourceProperties
@@ -143,7 +139,6 @@ from ._models_py3 import KeyWrapMetadata
 from ._models_py3 import ListBackups
 from ._models_py3 import ListClusters
 from ._models_py3 import ListCommands
-from ._models_py3 import ListConnectionStringsResult
 from ._models_py3 import ListDataCenters
 from ._models_py3 import Location
 from ._models_py3 import LocationGetResult
@@ -166,10 +161,6 @@ from ._models_py3 import MetricDefinitionsListResult
 from ._models_py3 import MetricListResult
 from ._models_py3 import MetricName
 from ._models_py3 import MetricValue
-from ._models_py3 import MongoCluster
-from ._models_py3 import MongoClusterListResult
-from ._models_py3 import MongoClusterRestoreParameters
-from ._models_py3 import MongoClusterUpdate
 from ._models_py3 import MongoDBCollectionCreateUpdateParameters
 from ._models_py3 import MongoDBCollectionGetPropertiesOptions
 from ._models_py3 import MongoDBCollectionGetPropertiesResource
@@ -191,8 +182,6 @@ from ._models_py3 import MongoRoleDefinitionListResult
 from ._models_py3 import MongoUserDefinitionCreateUpdateParameters
 from ._models_py3 import MongoUserDefinitionGetResults
 from ._models_py3 import MongoUserDefinitionListResult
-from ._models_py3 import NodeGroupProperties
-from ._models_py3 import NodeGroupSpec
 from ._models_py3 import NotebookWorkspace
 from ._models_py3 import NotebookWorkspaceConnectionInfoResult
 from ._models_py3 import NotebookWorkspaceCreateUpdateParameters
@@ -348,7 +337,8 @@ from ._cosmos_db_management_client_enums import BackupPolicyMigrationStatus
 from ._cosmos_db_management_client_enums import BackupPolicyType
 from ._cosmos_db_management_client_enums import BackupState
 from ._cosmos_db_management_client_enums import BackupStorageRedundancy
-from ._cosmos_db_management_client_enums import CheckNameAvailabilityReason
+from ._cosmos_db_management_client_enums import CapacityMode
+from ._cosmos_db_management_client_enums import CapacityModeTransitionStatus
 from ._cosmos_db_management_client_enums import ClusterType
 from ._cosmos_db_management_client_enums import CommandStatus
 from ._cosmos_db_management_client_enums import CompositePathSortOrder
@@ -372,17 +362,14 @@ from ._cosmos_db_management_client_enums import Kind
 from ._cosmos_db_management_client_enums import ManagedCassandraProvisioningState
 from ._cosmos_db_management_client_enums import ManagedCassandraResourceIdentityType
 from ._cosmos_db_management_client_enums import MinimalTlsVersion
-from ._cosmos_db_management_client_enums import MongoClusterStatus
 from ._cosmos_db_management_client_enums import MongoRoleDefinitionType
 from ._cosmos_db_management_client_enums import NetworkAclBypass
-from ._cosmos_db_management_client_enums import NodeKind
 from ._cosmos_db_management_client_enums import NodeState
 from ._cosmos_db_management_client_enums import NodeStatus
 from ._cosmos_db_management_client_enums import NotebookWorkspaceName
 from ._cosmos_db_management_client_enums import OperationType
 from ._cosmos_db_management_client_enums import PartitionKind
 from ._cosmos_db_management_client_enums import PrimaryAggregationType
-from ._cosmos_db_management_client_enums import ProvisioningState
 from ._cosmos_db_management_client_enums import PublicNetworkAccess
 from ._cosmos_db_management_client_enums import ResourceIdentityType
 from ._cosmos_db_management_client_enums import RestoreMode
@@ -422,6 +409,7 @@ __all__ = [
     "BaseCosmosDataTransferDataSourceSink",
     "Capability",
     "Capacity",
+    "CapacityModeChangeTransitionState",
     "CassandraClusterDataCenterNodeItem",
     "CassandraClusterPublicStatus",
     "CassandraClusterPublicStatusDataCentersItem",
@@ -447,8 +435,6 @@ __all__ = [
     "CassandraViewListResult",
     "CassandraViewResource",
     "Certificate",
-    "CheckNameAvailabilityRequest",
-    "CheckNameAvailabilityResponse",
     "ClientEncryptionIncludedPath",
     "ClientEncryptionKeyCreateUpdateParameters",
     "ClientEncryptionKeyGetPropertiesResource",
@@ -467,7 +453,6 @@ __all__ = [
     "ComputedProperty",
     "ConflictResolutionPolicy",
     "ConnectionError",
-    "ConnectionString",
     "ConsistencyPolicy",
     "ContainerPartitionKey",
     "ContinuousBackupInformation",
@@ -509,8 +494,6 @@ __all__ = [
     "ExtendedResourceProperties",
     "FailoverPolicies",
     "FailoverPolicy",
-    "FirewallRule",
-    "FirewallRuleListResult",
     "GraphAPIComputeRegionalServiceResource",
     "GraphAPIComputeServiceResource",
     "GraphAPIComputeServiceResourceProperties",
@@ -541,7 +524,6 @@ __all__ = [
     "ListBackups",
     "ListClusters",
     "ListCommands",
-    "ListConnectionStringsResult",
     "ListDataCenters",
     "Location",
     "LocationGetResult",
@@ -564,10 +546,6 @@ __all__ = [
     "MetricListResult",
     "MetricName",
     "MetricValue",
-    "MongoCluster",
-    "MongoClusterListResult",
-    "MongoClusterRestoreParameters",
-    "MongoClusterUpdate",
     "MongoDBCollectionCreateUpdateParameters",
     "MongoDBCollectionGetPropertiesOptions",
     "MongoDBCollectionGetPropertiesResource",
@@ -589,8 +567,6 @@ __all__ = [
     "MongoUserDefinitionCreateUpdateParameters",
     "MongoUserDefinitionGetResults",
     "MongoUserDefinitionListResult",
-    "NodeGroupProperties",
-    "NodeGroupSpec",
     "NotebookWorkspace",
     "NotebookWorkspaceConnectionInfoResult",
     "NotebookWorkspaceCreateUpdateParameters",
@@ -745,7 +721,8 @@ __all__ = [
     "BackupPolicyType",
     "BackupState",
     "BackupStorageRedundancy",
-    "CheckNameAvailabilityReason",
+    "CapacityMode",
+    "CapacityModeTransitionStatus",
     "ClusterType",
     "CommandStatus",
     "CompositePathSortOrder",
@@ -769,17 +746,14 @@ __all__ = [
     "ManagedCassandraProvisioningState",
     "ManagedCassandraResourceIdentityType",
     "MinimalTlsVersion",
-    "MongoClusterStatus",
     "MongoRoleDefinitionType",
     "NetworkAclBypass",
-    "NodeKind",
     "NodeState",
     "NodeStatus",
     "NotebookWorkspaceName",
     "OperationType",
     "PartitionKind",
     "PrimaryAggregationType",
-    "ProvisioningState",
     "PublicNetworkAccess",
     "ResourceIdentityType",
     "RestoreMode",
