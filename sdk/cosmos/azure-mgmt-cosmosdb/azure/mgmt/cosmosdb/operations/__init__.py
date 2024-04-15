@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._network_security_perimeter_configurations_operations import NetworkSecurityPerimeterConfigurationsOperations
 from ._database_accounts_operations import DatabaseAccountsOperations
 from ._operations import Operations
 from ._database_operations import DatabaseOperations
@@ -56,6 +57,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "NetworkSecurityPerimeterConfigurationsOperations",
     "DatabaseAccountsOperations",
     "Operations",
     "DatabaseOperations",

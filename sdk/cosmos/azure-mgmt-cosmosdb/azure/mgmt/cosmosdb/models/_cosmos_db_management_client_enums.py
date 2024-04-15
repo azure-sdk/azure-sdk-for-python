@@ -87,6 +87,24 @@ class BackupStorageRedundancy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ZONE = "Zone"
 
 
+class CapacityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates the capacity mode of the account."""
+
+    NONE = "None"
+    PROVISIONED = "Provisioned"
+    SERVERLESS = "Serverless"
+
+
+class CapacityModeTransitionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The transition status of capacity mode."""
+
+    INVALID = "Invalid"
+    INITIALIZED = "Initialized"
+    IN_PROGRESS = "InProgress"
+    COMPLETED = "Completed"
+    FAILED = "Failed"
+
+
 class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The reason why the given name is not available."""
 
@@ -243,6 +261,13 @@ class IndexKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SPATIAL = "Spatial"
 
 
+class IssueType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of issue."""
+
+    UNKNOWN = "Unknown"
+    CONFIGURATION_PROPAGATION_FAILURE = "ConfigurationPropagationFailure"
+
+
 class KeyKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The access key to regenerate."""
 
@@ -315,6 +340,16 @@ class NetworkAclBypass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE_SERVICES = "AzureServices"
 
 
+class NetworkSecurityPerimeterConfigurationProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of Network Security Perimeter configuration propagation."""
+
+    ACCEPTED = "Accepted"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    DELETING = "Deleting"
+    CANCELED = "Canceled"
+
+
 class NodeKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The kind of a node in the mongo cluster."""
 
@@ -342,6 +377,13 @@ class NotebookWorkspaceName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """NotebookWorkspaceName."""
 
     DEFAULT = "default"
+
+
+class NspAccessRuleDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Direction of Access Rule."""
+
+    INBOUND = "Inbound"
+    OUTBOUND = "Outbound"
 
 
 class OperationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -394,6 +436,14 @@ class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SECURED_BY_PERIMETER = "SecuredByPerimeter"
 
 
+class ResourceAssociationAccessMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Access Mode of the resource association."""
+
+    ENFORCED = "Enforced"
+    LEARNING = "Learning"
+    AUDIT = "Audit"
+
+
 class ResourceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes
     both an implicitly created identity and a set of user assigned identities. The type 'None' will
@@ -434,6 +484,8 @@ class ServerVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     THREE6 = "3.6"
     FOUR0 = "4.0"
     FOUR2 = "4.2"
+    FIVE0 = "5.0"
+    SIX0 = "6.0"
 
 
 class ServiceSize(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -462,6 +514,13 @@ class ServiceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DATA_TRANSFER = "DataTransfer"
     GRAPH_API_COMPUTE = "GraphAPICompute"
     MATERIALIZED_VIEWS_BUILDER = "MaterializedViewsBuilder"
+
+
+class Severity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Severity of the issue."""
+
+    WARNING = "Warning"
+    ERROR = "Error"
 
 
 class SpatialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
