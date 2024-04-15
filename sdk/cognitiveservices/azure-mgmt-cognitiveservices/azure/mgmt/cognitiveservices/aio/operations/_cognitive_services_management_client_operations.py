@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -35,7 +35,9 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManagementClientMixinABC):
+class CognitiveServicesManagementClientOperationsMixin(  # pylint: disable=name-too-long
+    CognitiveServicesManagementClientMixinABC
+):
     @distributed_trace_async
     async def check_sku_availability(
         self, location: str, skus: List[str], kind: str, type: str, **kwargs: Any
@@ -50,7 +52,6 @@ class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManageme
         :type kind: str
         :param type: The Type of the resource. Required.
         :type type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SkuAvailabilityListResult or the result of cls(response)
         :rtype: ~azure.mgmt.cognitiveservices.models.SkuAvailabilityListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -73,22 +74,21 @@ class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManageme
         _parameters = _models.CheckSkuAvailabilityParameter(kind=kind, skus=skus, type=type)
         _json = self._serialize.body(_parameters, "CheckSkuAvailabilityParameter")
 
-        request = build_check_sku_availability_request(
+        _request = build_check_sku_availability_request(
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
-            template_url=self.check_sku_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -101,13 +101,9 @@ class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManageme
         deserialized = self._deserialize("SkuAvailabilityListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_sku_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def check_domain_availability(
@@ -121,7 +117,6 @@ class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManageme
         :type type: str
         :param kind: The Kind of the resource. Default value is None.
         :type kind: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DomainAvailability or the result of cls(response)
         :rtype: ~azure.mgmt.cognitiveservices.models.DomainAvailability
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -144,21 +139,20 @@ class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManageme
         _parameters = _models.CheckDomainAvailabilityParameter(kind=kind, subdomain_name=subdomain_name, type=type)
         _json = self._serialize.body(_parameters, "CheckDomainAvailabilityParameter")
 
-        request = build_check_domain_availability_request(
+        _request = build_check_domain_availability_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
-            template_url=self.check_domain_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -171,10 +165,6 @@ class CognitiveServicesManagementClientOperationsMixin(CognitiveServicesManageme
         deserialized = self._deserialize("DomainAvailability", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_domain_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability"
-    }
+        return deserialized  # type: ignore
