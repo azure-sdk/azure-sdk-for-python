@@ -22,8 +22,8 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -63,8 +63,8 @@ class AllowedEnvironmentType(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -141,8 +141,8 @@ class AttachedNetworkConnection(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -166,7 +166,7 @@ class AttachedNetworkConnection(Resource):
      "Running", "Passed", "Warning", and "Failed".
     :vartype health_check_status: str or ~azure.mgmt.devcenter.models.HealthCheckStatus
     :ivar domain_join_type: AAD Join type of the network. This is populated based on the referenced
-     Network Connection. Known values are: "HybridAzureADJoin" and "AzureADJoin".
+     Network Connection. Known values are: "HybridAzureADJoin", "AzureADJoin", and "None".
     :vartype domain_join_type: str or ~azure.mgmt.devcenter.models.DomainJoinType
     """
 
@@ -267,8 +267,8 @@ class Catalog(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -285,6 +285,8 @@ class Catalog(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar sync_type: Indicates the type of sync that is configured for the catalog. Known values
      are: "Manual" and "Scheduled".
     :vartype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -325,6 +327,7 @@ class Catalog(Resource):  # pylint: disable=too-many-instance-attributes
         "git_hub": {"key": "properties.gitHub", "type": "GitCatalog"},
         "ado_git": {"key": "properties.adoGit", "type": "GitCatalog"},
         "sync_type": {"key": "properties.syncType", "type": "str"},
+        "tags": {"key": "properties.tags", "type": "{str}"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "sync_state": {"key": "properties.syncState", "type": "str"},
         "last_sync_stats": {"key": "properties.lastSyncStats", "type": "SyncStats"},
@@ -339,6 +342,7 @@ class Catalog(Resource):  # pylint: disable=too-many-instance-attributes
         git_hub: Optional["_models.GitCatalog"] = None,
         ado_git: Optional["_models.GitCatalog"] = None,
         sync_type: Optional[Union[str, "_models.CatalogSyncType"]] = None,
+        tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -349,11 +353,14 @@ class Catalog(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword sync_type: Indicates the type of sync that is configured for the catalog. Known values
          are: "Manual" and "Scheduled".
         :paramtype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.git_hub = git_hub
         self.ado_git = ado_git
         self.sync_type = sync_type
+        self.tags = tags
         self.provisioning_state = None
         self.sync_state = None
         self.last_sync_stats = None
@@ -454,12 +461,15 @@ class CatalogUpdateProperties(_serialization.Model):
     :ivar sync_type: Indicates the type of sync that is configured for the catalog. Known values
      are: "Manual" and "Scheduled".
     :vartype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
     """
 
     _attribute_map = {
         "git_hub": {"key": "gitHub", "type": "GitCatalog"},
         "ado_git": {"key": "adoGit", "type": "GitCatalog"},
         "sync_type": {"key": "syncType", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
     }
 
     def __init__(
@@ -468,6 +478,7 @@ class CatalogUpdateProperties(_serialization.Model):
         git_hub: Optional["_models.GitCatalog"] = None,
         ado_git: Optional["_models.GitCatalog"] = None,
         sync_type: Optional[Union[str, "_models.CatalogSyncType"]] = None,
+        tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -478,11 +489,14 @@ class CatalogUpdateProperties(_serialization.Model):
         :keyword sync_type: Indicates the type of sync that is configured for the catalog. Known values
          are: "Manual" and "Scheduled".
         :paramtype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.git_hub = git_hub
         self.ado_git = ado_git
         self.sync_type = sync_type
+        self.tags = tags
 
 
 class CatalogProperties(CatalogUpdateProperties):
@@ -497,6 +511,8 @@ class CatalogProperties(CatalogUpdateProperties):
     :ivar sync_type: Indicates the type of sync that is configured for the catalog. Known values
      are: "Manual" and "Scheduled".
     :vartype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -529,6 +545,7 @@ class CatalogProperties(CatalogUpdateProperties):
         "git_hub": {"key": "gitHub", "type": "GitCatalog"},
         "ado_git": {"key": "adoGit", "type": "GitCatalog"},
         "sync_type": {"key": "syncType", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "sync_state": {"key": "syncState", "type": "str"},
         "last_sync_stats": {"key": "lastSyncStats", "type": "SyncStats"},
@@ -543,6 +560,7 @@ class CatalogProperties(CatalogUpdateProperties):
         git_hub: Optional["_models.GitCatalog"] = None,
         ado_git: Optional["_models.GitCatalog"] = None,
         sync_type: Optional[Union[str, "_models.CatalogSyncType"]] = None,
+        tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -553,8 +571,10 @@ class CatalogProperties(CatalogUpdateProperties):
         :keyword sync_type: Indicates the type of sync that is configured for the catalog. Known values
          are: "Manual" and "Scheduled".
         :paramtype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
         """
-        super().__init__(git_hub=git_hub, ado_git=ado_git, sync_type=sync_type, **kwargs)
+        super().__init__(git_hub=git_hub, ado_git=ado_git, sync_type=sync_type, tags=tags, **kwargs)
         self.provisioning_state = None
         self.sync_state = None
         self.last_sync_stats = None
@@ -619,8 +639,6 @@ class CatalogUpdate(_serialization.Model):
     """The catalog's properties for partial update. Properties not provided in the update request will
     not be changed.
 
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     :ivar git_hub: Properties for a GitHub catalog type.
     :vartype git_hub: ~azure.mgmt.devcenter.models.GitCatalog
     :ivar ado_git: Properties for an Azure DevOps catalog type.
@@ -628,27 +646,27 @@ class CatalogUpdate(_serialization.Model):
     :ivar sync_type: Indicates the type of sync that is configured for the catalog. Known values
      are: "Manual" and "Scheduled".
     :vartype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
     """
 
     _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
         "git_hub": {"key": "properties.gitHub", "type": "GitCatalog"},
         "ado_git": {"key": "properties.adoGit", "type": "GitCatalog"},
         "sync_type": {"key": "properties.syncType", "type": "str"},
+        "tags": {"key": "properties.tags", "type": "{str}"},
     }
 
     def __init__(
         self,
         *,
-        tags: Optional[Dict[str, str]] = None,
         git_hub: Optional["_models.GitCatalog"] = None,
         ado_git: Optional["_models.GitCatalog"] = None,
         sync_type: Optional[Union[str, "_models.CatalogSyncType"]] = None,
+        tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         :keyword git_hub: Properties for a GitHub catalog type.
         :paramtype git_hub: ~azure.mgmt.devcenter.models.GitCatalog
         :keyword ado_git: Properties for an Azure DevOps catalog type.
@@ -656,12 +674,14 @@ class CatalogUpdate(_serialization.Model):
         :keyword sync_type: Indicates the type of sync that is configured for the catalog. Known values
          are: "Manual" and "Scheduled".
         :paramtype sync_type: str or ~azure.mgmt.devcenter.models.CatalogSyncType
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.git_hub = git_hub
         self.ado_git = ado_git
         self.sync_type = sync_type
+        self.tags = tags
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -731,63 +751,38 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         self.message = message
 
 
-class CloudErrorBody(_serialization.Model):
-    """An error response from the DevCenter service.
+class CheckScopedNameAvailabilityRequest(_serialization.Model):
+    """The scoped name check availability request body.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar code: An identifier for the error. Codes are invariant and are intended to be consumed
-     programmatically. Required.
-    :vartype code: str
-    :ivar message: A message describing the error, intended to be suitable for display in a user
-     interface. Required.
-    :vartype message: str
-    :ivar target: The target of the particular error. For example, the name of the property in
-     error.
-    :vartype target: str
-    :ivar details: A list of additional details about the error.
-    :vartype details: list[~azure.mgmt.devcenter.models.CloudErrorBody]
+    :ivar name: The name of the resource for which availability needs to be checked.
+    :vartype name: str
+    :ivar type: The resource type.
+    :vartype type: str
+    :ivar scope: The resource id to scope the name check.
+    :vartype scope: str
     """
 
-    _validation = {
-        "code": {"required": True},
-        "message": {"required": True},
-    }
-
     _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[CloudErrorBody]"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "scope": {"key": "scope", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        code: str,
-        message: str,
-        target: Optional[str] = None,
-        details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs: Any
+        self, *, name: Optional[str] = None, type: Optional[str] = None, scope: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
-         programmatically. Required.
-        :paramtype code: str
-        :keyword message: A message describing the error, intended to be suitable for display in a user
-         interface. Required.
-        :paramtype message: str
-        :keyword target: The target of the particular error. For example, the name of the property in
-         error.
-        :paramtype target: str
-        :keyword details: A list of additional details about the error.
-        :paramtype details: list[~azure.mgmt.devcenter.models.CloudErrorBody]
+        :keyword name: The name of the resource for which availability needs to be checked.
+        :paramtype name: str
+        :keyword type: The resource type.
+        :paramtype type: str
+        :keyword scope: The resource id to scope the name check.
+        :paramtype scope: str
         """
         super().__init__(**kwargs)
-        self.code = code
-        self.message = message
-        self.target = target
-        self.details = details
+        self.name = name
+        self.type = type
+        self.scope = scope
 
 
 class CustomerManagedKeyEncryption(_serialization.Model):
@@ -896,8 +891,8 @@ class ProxyResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -909,32 +904,14 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class CustomizationTask(ProxyResource):
     """Represents a Task to be used in customizing a Dev Box.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1048,10 +1025,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1101,10 +1078,10 @@ class DevBoxDefinition(TrackedResource):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1486,15 +1463,48 @@ class DevBoxDefinitionUpdate(TrackedResourceUpdate):
         self.hibernate_support = hibernate_support
 
 
+class DevBoxProvisioningSettings(_serialization.Model):
+    """Provisioning settings that apply to all Dev Boxes created in this dev center.
+
+    :ivar install_azure_monitor_agent_enable_status: Whether project catalogs associated with
+     projects in this dev center can be configured to sync catalog items. Known values are:
+     "Enabled" and "Disabled".
+    :vartype install_azure_monitor_agent_enable_status: str or
+     ~azure.mgmt.devcenter.models.InstallAzureMonitorAgentEnableStatus
+    """
+
+    _attribute_map = {
+        "install_azure_monitor_agent_enable_status": {"key": "installAzureMonitorAgentEnableStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        install_azure_monitor_agent_enable_status: Optional[
+            Union[str, "_models.InstallAzureMonitorAgentEnableStatus"]
+        ] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword install_azure_monitor_agent_enable_status: Whether project catalogs associated with
+         projects in this dev center can be configured to sync catalog items. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype install_azure_monitor_agent_enable_status: str or
+         ~azure.mgmt.devcenter.models.InstallAzureMonitorAgentEnableStatus
+        """
+        super().__init__(**kwargs)
+        self.install_azure_monitor_agent_enable_status = install_azure_monitor_agent_enable_status
+
+
 class DevCenter(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Represents a devcenter resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1510,11 +1520,22 @@ class DevCenter(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype location: str
     :ivar identity: Managed identity properties.
     :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+    :ivar plan_id: Resource Id of an associated Plan.
+    :vartype plan_id: str
     :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
      content (such as catalogs, logs, customizations).
     :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
     :ivar display_name: The display name of the devcenter.
     :vartype display_name: str
+    :ivar project_catalog_settings: Dev Center settings to be used when associating a project with
+     a catalog.
+    :vartype project_catalog_settings: ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+    :ivar network_settings: Network settings that will be enforced on network resources associated
+     with the Dev Center.
+    :vartype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+    :ivar dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev Boxes
+     that belong to this dev center.
+    :vartype dev_box_provisioning_settings: ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -1542,8 +1563,18 @@ class DevCenter(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "plan_id": {"key": "properties.planId", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "Encryption"},
         "display_name": {"key": "properties.displayName", "type": "str"},
+        "project_catalog_settings": {
+            "key": "properties.projectCatalogSettings",
+            "type": "DevCenterProjectCatalogSettings",
+        },
+        "network_settings": {"key": "properties.networkSettings", "type": "DevCenterNetworkSettings"},
+        "dev_box_provisioning_settings": {
+            "key": "properties.devBoxProvisioningSettings",
+            "type": "DevBoxProvisioningSettings",
+        },
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "dev_center_uri": {"key": "properties.devCenterUri", "type": "str"},
     }
@@ -1554,8 +1585,12 @@ class DevCenter(TrackedResource):  # pylint: disable=too-many-instance-attribute
         location: str,
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        plan_id: Optional[str] = None,
         encryption: Optional["_models.Encryption"] = None,
         display_name: Optional[str] = None,
+        project_catalog_settings: Optional["_models.DevCenterProjectCatalogSettings"] = None,
+        network_settings: Optional["_models.DevCenterNetworkSettings"] = None,
+        dev_box_provisioning_settings: Optional["_models.DevBoxProvisioningSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1565,18 +1600,231 @@ class DevCenter(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype location: str
         :keyword identity: Managed identity properties.
         :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+        :keyword plan_id: Resource Id of an associated Plan.
+        :paramtype plan_id: str
         :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
          content (such as catalogs, logs, customizations).
         :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
         :keyword display_name: The display name of the devcenter.
         :paramtype display_name: str
+        :keyword project_catalog_settings: Dev Center settings to be used when associating a project
+         with a catalog.
+        :paramtype project_catalog_settings:
+         ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+        :keyword network_settings: Network settings that will be enforced on network resources
+         associated with the Dev Center.
+        :paramtype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+        :keyword dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev
+         Boxes that belong to this dev center.
+        :paramtype dev_box_provisioning_settings:
+         ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
+        self.plan_id = plan_id
         self.encryption = encryption
         self.display_name = display_name
+        self.project_catalog_settings = project_catalog_settings
+        self.network_settings = network_settings
+        self.dev_box_provisioning_settings = dev_box_provisioning_settings
         self.provisioning_state = None
         self.dev_center_uri = None
+
+
+class DevCenterEncryptionSet(TrackedResource):
+    """Represents a devcenter encryption set resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar identity: Managed identity properties.
+    :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+    :ivar devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable status.
+     Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known values are:
+     "Enabled" and "Disabled".
+    :vartype devbox_disks_encryption_enable_status: str or
+     ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+    :ivar key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+     https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+     https://contosovault.vault.azure.net/keys/contosokek.
+    :vartype key_encryption_key_url: str
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
+     "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
+     "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
+    :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "devbox_disks_encryption_enable_status": {"key": "properties.devboxDisksEncryptionEnableStatus", "type": "str"},
+        "key_encryption_key_url": {"key": "properties.keyEncryptionKeyUrl", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        devbox_disks_encryption_enable_status: Optional[Union[str, "_models.DevboxDisksEncryptionEnableStatus"]] = None,
+        key_encryption_key_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword identity: Managed identity properties.
+        :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+        :keyword devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable
+         status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype devbox_disks_encryption_enable_status: str or
+         ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+        :keyword key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+         https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+         https://contosovault.vault.azure.net/keys/contosokek.
+        :paramtype key_encryption_key_url: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.devbox_disks_encryption_enable_status = devbox_disks_encryption_enable_status
+        self.key_encryption_key_url = key_encryption_key_url
+        self.provisioning_state = None
+
+
+class DevCenterEncryptionSetUpdateProperties(_serialization.Model):
+    """Properties of the devcenter encryption set. These properties can be updated after the resource
+    has been created.
+
+    :ivar devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable status.
+     Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known values are:
+     "Enabled" and "Disabled".
+    :vartype devbox_disks_encryption_enable_status: str or
+     ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+    :ivar key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+     https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+     https://contosovault.vault.azure.net/keys/contosokek.
+    :vartype key_encryption_key_url: str
+    """
+
+    _attribute_map = {
+        "devbox_disks_encryption_enable_status": {"key": "devboxDisksEncryptionEnableStatus", "type": "str"},
+        "key_encryption_key_url": {"key": "keyEncryptionKeyUrl", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        devbox_disks_encryption_enable_status: Optional[Union[str, "_models.DevboxDisksEncryptionEnableStatus"]] = None,
+        key_encryption_key_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable
+         status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype devbox_disks_encryption_enable_status: str or
+         ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+        :keyword key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+         https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+         https://contosovault.vault.azure.net/keys/contosokek.
+        :paramtype key_encryption_key_url: str
+        """
+        super().__init__(**kwargs)
+        self.devbox_disks_encryption_enable_status = devbox_disks_encryption_enable_status
+        self.key_encryption_key_url = key_encryption_key_url
+
+
+class DevCenterEncryptionSetProperties(DevCenterEncryptionSetUpdateProperties):
+    """Properties of the devcenter encryption set.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable status.
+     Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known values are:
+     "Enabled" and "Disabled".
+    :vartype devbox_disks_encryption_enable_status: str or
+     ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+    :ivar key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+     https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+     https://contosovault.vault.azure.net/keys/contosokek.
+    :vartype key_encryption_key_url: str
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
+     "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
+     "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
+    :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "devbox_disks_encryption_enable_status": {"key": "devboxDisksEncryptionEnableStatus", "type": "str"},
+        "key_encryption_key_url": {"key": "keyEncryptionKeyUrl", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        devbox_disks_encryption_enable_status: Optional[Union[str, "_models.DevboxDisksEncryptionEnableStatus"]] = None,
+        key_encryption_key_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable
+         status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype devbox_disks_encryption_enable_status: str or
+         ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+        :keyword key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+         https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+         https://contosovault.vault.azure.net/keys/contosokek.
+        :paramtype key_encryption_key_url: str
+        """
+        super().__init__(
+            devbox_disks_encryption_enable_status=devbox_disks_encryption_enable_status,
+            key_encryption_key_url=key_encryption_key_url,
+            **kwargs
+        )
+        self.provisioning_state = None
 
 
 class DevCenterListResult(_serialization.Model):
@@ -1607,35 +1855,290 @@ class DevCenterListResult(_serialization.Model):
         self.next_link = None
 
 
+class DevCenterNetworkSettings(_serialization.Model):
+    """Network settings for the Dev Center.
+
+    :ivar microsoft_hosted_network_enable_status: Indicates whether pools in this Dev Center can
+     use Microsoft Hosted Networks. Defaults to Enabled if not set. Known values are: "Enabled" and
+     "Disabled".
+    :vartype microsoft_hosted_network_enable_status: str or
+     ~azure.mgmt.devcenter.models.MicrosoftHostedNetworkEnableStatus
+    """
+
+    _attribute_map = {
+        "microsoft_hosted_network_enable_status": {"key": "microsoftHostedNetworkEnableStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        microsoft_hosted_network_enable_status: Optional[
+            Union[str, "_models.MicrosoftHostedNetworkEnableStatus"]
+        ] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword microsoft_hosted_network_enable_status: Indicates whether pools in this Dev Center can
+         use Microsoft Hosted Networks. Defaults to Enabled if not set. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype microsoft_hosted_network_enable_status: str or
+         ~azure.mgmt.devcenter.models.MicrosoftHostedNetworkEnableStatus
+        """
+        super().__init__(**kwargs)
+        self.microsoft_hosted_network_enable_status = microsoft_hosted_network_enable_status
+
+
+class DevCenterPlan(TrackedResource):
+    """Represents a devcenter plan resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar sku: The SKU for DevCenters created using this definition.
+    :vartype sku: ~azure.mgmt.devcenter.models.Sku
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
+     "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
+     "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
+    :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "sku": {"key": "sku", "type": "Sku"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        sku: Optional["_models.Sku"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword sku: The SKU for DevCenters created using this definition.
+        :paramtype sku: ~azure.mgmt.devcenter.models.Sku
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.sku = sku
+        self.provisioning_state = None
+
+
+class DevCenterPlanMember(Resource):
+    """Represents a devcenter plan member resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar member_id: The unique id of the member.
+    :vartype member_id: str
+    :ivar member_type: The type of the member (user, group). Known values are: "User" and "Group".
+    :vartype member_type: str or ~azure.mgmt.devcenter.models.PlanMemberType
+    :ivar tags_properties_tags: Resource tags.
+    :vartype tags_properties_tags: dict[str, str]
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
+     "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
+     "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
+    :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "member_id": {"key": "properties.memberId", "type": "str"},
+        "member_type": {"key": "properties.memberType", "type": "str"},
+        "tags_properties_tags": {"key": "properties.tags", "type": "{str}"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        member_id: Optional[str] = None,
+        member_type: Optional[Union[str, "_models.PlanMemberType"]] = None,
+        tags_properties_tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword member_id: The unique id of the member.
+        :paramtype member_id: str
+        :keyword member_type: The type of the member (user, group). Known values are: "User" and
+         "Group".
+        :paramtype member_type: str or ~azure.mgmt.devcenter.models.PlanMemberType
+        :keyword tags_properties_tags: Resource tags.
+        :paramtype tags_properties_tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.member_id = member_id
+        self.member_type = member_type
+        self.tags_properties_tags = tags_properties_tags
+        self.provisioning_state = None
+
+
+class DevCenterProjectCatalogSettings(_serialization.Model):
+    """Project catalog settings for project catalogs under a project associated to this dev center.
+
+    :ivar catalog_item_sync_enable_status: Whether project catalogs associated with projects in
+     this dev center can be configured to sync catalog items. Known values are: "Enabled" and
+     "Disabled".
+    :vartype catalog_item_sync_enable_status: str or
+     ~azure.mgmt.devcenter.models.CatalogItemSyncEnableStatus
+    """
+
+    _attribute_map = {
+        "catalog_item_sync_enable_status": {"key": "catalogItemSyncEnableStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        catalog_item_sync_enable_status: Optional[Union[str, "_models.CatalogItemSyncEnableStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword catalog_item_sync_enable_status: Whether project catalogs associated with projects in
+         this dev center can be configured to sync catalog items. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype catalog_item_sync_enable_status: str or
+         ~azure.mgmt.devcenter.models.CatalogItemSyncEnableStatus
+        """
+        super().__init__(**kwargs)
+        self.catalog_item_sync_enable_status = catalog_item_sync_enable_status
+
+
 class DevCenterUpdateProperties(_serialization.Model):
     """Properties of the devcenter. These properties can be updated after the resource has been
     created.
 
+    :ivar plan_id: Resource Id of an associated Plan.
+    :vartype plan_id: str
     :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
      content (such as catalogs, logs, customizations).
     :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
     :ivar display_name: The display name of the devcenter.
     :vartype display_name: str
+    :ivar project_catalog_settings: Dev Center settings to be used when associating a project with
+     a catalog.
+    :vartype project_catalog_settings: ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+    :ivar network_settings: Network settings that will be enforced on network resources associated
+     with the Dev Center.
+    :vartype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+    :ivar dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev Boxes
+     that belong to this dev center.
+    :vartype dev_box_provisioning_settings: ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
     """
 
     _attribute_map = {
+        "plan_id": {"key": "planId", "type": "str"},
         "encryption": {"key": "encryption", "type": "Encryption"},
         "display_name": {"key": "displayName", "type": "str"},
+        "project_catalog_settings": {"key": "projectCatalogSettings", "type": "DevCenterProjectCatalogSettings"},
+        "network_settings": {"key": "networkSettings", "type": "DevCenterNetworkSettings"},
+        "dev_box_provisioning_settings": {"key": "devBoxProvisioningSettings", "type": "DevBoxProvisioningSettings"},
     }
 
     def __init__(
-        self, *, encryption: Optional["_models.Encryption"] = None, display_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        plan_id: Optional[str] = None,
+        encryption: Optional["_models.Encryption"] = None,
+        display_name: Optional[str] = None,
+        project_catalog_settings: Optional["_models.DevCenterProjectCatalogSettings"] = None,
+        network_settings: Optional["_models.DevCenterNetworkSettings"] = None,
+        dev_box_provisioning_settings: Optional["_models.DevBoxProvisioningSettings"] = None,
+        **kwargs: Any
     ) -> None:
         """
+        :keyword plan_id: Resource Id of an associated Plan.
+        :paramtype plan_id: str
         :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
          content (such as catalogs, logs, customizations).
         :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
         :keyword display_name: The display name of the devcenter.
         :paramtype display_name: str
+        :keyword project_catalog_settings: Dev Center settings to be used when associating a project
+         with a catalog.
+        :paramtype project_catalog_settings:
+         ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+        :keyword network_settings: Network settings that will be enforced on network resources
+         associated with the Dev Center.
+        :paramtype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+        :keyword dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev
+         Boxes that belong to this dev center.
+        :paramtype dev_box_provisioning_settings:
+         ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
         """
         super().__init__(**kwargs)
+        self.plan_id = plan_id
         self.encryption = encryption
         self.display_name = display_name
+        self.project_catalog_settings = project_catalog_settings
+        self.network_settings = network_settings
+        self.dev_box_provisioning_settings = dev_box_provisioning_settings
 
 
 class DevCenterProperties(DevCenterUpdateProperties):
@@ -1643,11 +2146,22 @@ class DevCenterProperties(DevCenterUpdateProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar plan_id: Resource Id of an associated Plan.
+    :vartype plan_id: str
     :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
      content (such as catalogs, logs, customizations).
     :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
     :ivar display_name: The display name of the devcenter.
     :vartype display_name: str
+    :ivar project_catalog_settings: Dev Center settings to be used when associating a project with
+     a catalog.
+    :vartype project_catalog_settings: ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+    :ivar network_settings: Network settings that will be enforced on network resources associated
+     with the Dev Center.
+    :vartype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+    :ivar dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev Boxes
+     that belong to this dev center.
+    :vartype dev_box_provisioning_settings: ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -1663,23 +2177,56 @@ class DevCenterProperties(DevCenterUpdateProperties):
     }
 
     _attribute_map = {
+        "plan_id": {"key": "planId", "type": "str"},
         "encryption": {"key": "encryption", "type": "Encryption"},
         "display_name": {"key": "displayName", "type": "str"},
+        "project_catalog_settings": {"key": "projectCatalogSettings", "type": "DevCenterProjectCatalogSettings"},
+        "network_settings": {"key": "networkSettings", "type": "DevCenterNetworkSettings"},
+        "dev_box_provisioning_settings": {"key": "devBoxProvisioningSettings", "type": "DevBoxProvisioningSettings"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "dev_center_uri": {"key": "devCenterUri", "type": "str"},
     }
 
     def __init__(
-        self, *, encryption: Optional["_models.Encryption"] = None, display_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        plan_id: Optional[str] = None,
+        encryption: Optional["_models.Encryption"] = None,
+        display_name: Optional[str] = None,
+        project_catalog_settings: Optional["_models.DevCenterProjectCatalogSettings"] = None,
+        network_settings: Optional["_models.DevCenterNetworkSettings"] = None,
+        dev_box_provisioning_settings: Optional["_models.DevBoxProvisioningSettings"] = None,
+        **kwargs: Any
     ) -> None:
         """
+        :keyword plan_id: Resource Id of an associated Plan.
+        :paramtype plan_id: str
         :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
          content (such as catalogs, logs, customizations).
         :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
         :keyword display_name: The display name of the devcenter.
         :paramtype display_name: str
+        :keyword project_catalog_settings: Dev Center settings to be used when associating a project
+         with a catalog.
+        :paramtype project_catalog_settings:
+         ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+        :keyword network_settings: Network settings that will be enforced on network resources
+         associated with the Dev Center.
+        :paramtype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+        :keyword dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev
+         Boxes that belong to this dev center.
+        :paramtype dev_box_provisioning_settings:
+         ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
         """
-        super().__init__(encryption=encryption, display_name=display_name, **kwargs)
+        super().__init__(
+            plan_id=plan_id,
+            encryption=encryption,
+            display_name=display_name,
+            project_catalog_settings=project_catalog_settings,
+            network_settings=network_settings,
+            dev_box_provisioning_settings=dev_box_provisioning_settings,
+            **kwargs
+        )
         self.provisioning_state = None
         self.dev_center_uri = None
 
@@ -1687,9 +2234,9 @@ class DevCenterProperties(DevCenterUpdateProperties):
 class Sku(_serialization.Model):
     """The resource model definition representing SKU.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+    :ivar name: The name of the SKU. E.g. P3. It is typically a letter+number code. Required.
     :vartype name: str
     :ivar tier: This field is required to be implemented by the Resource Provider if the service
      has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
@@ -1729,7 +2276,7 @@ class Sku(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+        :keyword name: The name of the SKU. E.g. P3. It is typically a letter+number code. Required.
         :paramtype name: str
         :keyword tier: This field is required to be implemented by the Resource Provider if the service
          has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
@@ -1758,9 +2305,9 @@ class DevCenterSku(Sku):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+    :ivar name: The name of the SKU. E.g. P3. It is typically a letter+number code. Required.
     :vartype name: str
     :ivar tier: This field is required to be implemented by the Resource Provider if the service
      has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
@@ -1812,7 +2359,7 @@ class DevCenterSku(Sku):
         **kwargs: Any
     ) -> None:
         """
-        :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+        :keyword name: The name of the SKU. E.g. P3. It is typically a letter+number code. Required.
         :paramtype name: str
         :keyword tier: This field is required to be implemented by the Resource Provider if the service
          has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
@@ -1844,19 +2391,40 @@ class DevCenterUpdate(TrackedResourceUpdate):
     :vartype location: str
     :ivar identity: Managed identity properties.
     :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+    :ivar plan_id: Resource Id of an associated Plan.
+    :vartype plan_id: str
     :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
      content (such as catalogs, logs, customizations).
     :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
     :ivar display_name: The display name of the devcenter.
     :vartype display_name: str
+    :ivar project_catalog_settings: Dev Center settings to be used when associating a project with
+     a catalog.
+    :vartype project_catalog_settings: ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+    :ivar network_settings: Network settings that will be enforced on network resources associated
+     with the Dev Center.
+    :vartype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+    :ivar dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev Boxes
+     that belong to this dev center.
+    :vartype dev_box_provisioning_settings: ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "plan_id": {"key": "properties.planId", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "Encryption"},
         "display_name": {"key": "properties.displayName", "type": "str"},
+        "project_catalog_settings": {
+            "key": "properties.projectCatalogSettings",
+            "type": "DevCenterProjectCatalogSettings",
+        },
+        "network_settings": {"key": "properties.networkSettings", "type": "DevCenterNetworkSettings"},
+        "dev_box_provisioning_settings": {
+            "key": "properties.devBoxProvisioningSettings",
+            "type": "DevBoxProvisioningSettings",
+        },
     }
 
     def __init__(
@@ -1865,8 +2433,12 @@ class DevCenterUpdate(TrackedResourceUpdate):
         tags: Optional[Dict[str, str]] = None,
         location: Optional[str] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        plan_id: Optional[str] = None,
         encryption: Optional["_models.Encryption"] = None,
         display_name: Optional[str] = None,
+        project_catalog_settings: Optional["_models.DevCenterProjectCatalogSettings"] = None,
+        network_settings: Optional["_models.DevCenterNetworkSettings"] = None,
+        dev_box_provisioning_settings: Optional["_models.DevBoxProvisioningSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1876,16 +2448,33 @@ class DevCenterUpdate(TrackedResourceUpdate):
         :paramtype location: str
         :keyword identity: Managed identity properties.
         :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+        :keyword plan_id: Resource Id of an associated Plan.
+        :paramtype plan_id: str
         :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
          content (such as catalogs, logs, customizations).
         :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
         :keyword display_name: The display name of the devcenter.
         :paramtype display_name: str
+        :keyword project_catalog_settings: Dev Center settings to be used when associating a project
+         with a catalog.
+        :paramtype project_catalog_settings:
+         ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+        :keyword network_settings: Network settings that will be enforced on network resources
+         associated with the Dev Center.
+        :paramtype network_settings: ~azure.mgmt.devcenter.models.DevCenterNetworkSettings
+        :keyword dev_box_provisioning_settings: Settings to be used in the provisioning of all Dev
+         Boxes that belong to this dev center.
+        :paramtype dev_box_provisioning_settings:
+         ~azure.mgmt.devcenter.models.DevBoxProvisioningSettings
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
+        self.plan_id = plan_id
         self.encryption = encryption
         self.display_name = display_name
+        self.project_catalog_settings = project_catalog_settings
+        self.network_settings = network_settings
+        self.dev_box_provisioning_settings = dev_box_provisioning_settings
 
 
 class Encryption(_serialization.Model):
@@ -1915,6 +2504,96 @@ class Encryption(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.customer_managed_key_encryption = customer_managed_key_encryption
+
+
+class EncryptionSetListResult(_serialization.Model):
+    """Result of the list devcenter encryption set operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Current page of results.
+    :vartype value: list[~azure.mgmt.devcenter.models.DevCenterEncryptionSet]
+    :ivar next_link: URL to get the next set of results if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DevCenterEncryptionSet]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class EncryptionSetUpdate(TrackedResourceUpdate):
+    """The devcenter encryption set resource for partial updates. Properties not provided in the
+    update request will not be changed.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
+    :ivar identity: Managed identity properties.
+    :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+    :ivar devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable status.
+     Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known values are:
+     "Enabled" and "Disabled".
+    :vartype devbox_disks_encryption_enable_status: str or
+     ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+    :ivar key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+     https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+     https://contosovault.vault.azure.net/keys/contosokek.
+    :vartype key_encryption_key_url: str
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "devbox_disks_encryption_enable_status": {"key": "properties.devboxDisksEncryptionEnableStatus", "type": "str"},
+        "key_encryption_key_url": {"key": "properties.keyEncryptionKeyUrl", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        location: Optional[str] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        devbox_disks_encryption_enable_status: Optional[Union[str, "_models.DevboxDisksEncryptionEnableStatus"]] = None,
+        key_encryption_key_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
+        :keyword identity: Managed identity properties.
+        :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+        :keyword devbox_disks_encryption_enable_status: Devbox disk encryption enable or disable
+         status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype devbox_disks_encryption_enable_status: str or
+         ~azure.mgmt.devcenter.models.DevboxDisksEncryptionEnableStatus
+        :keyword key_encryption_key_url: Key encryption key Url, versioned or non-versioned. Ex:
+         https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+         https://contosovault.vault.azure.net/keys/contosokek.
+        :paramtype key_encryption_key_url: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.devbox_disks_encryption_enable_status = devbox_disks_encryption_enable_status
+        self.key_encryption_key_url = key_encryption_key_url
 
 
 class EndpointDependency(_serialization.Model):
@@ -1980,8 +2659,8 @@ class EnvironmentDefinition(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2145,8 +2824,8 @@ class EnvironmentType(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2407,8 +3086,8 @@ class Gallery(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2589,8 +3268,8 @@ class HealthCheckStatusDetails(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2698,8 +3377,8 @@ class Image(ProxyResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2867,8 +3546,8 @@ class ImageVersion(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2956,6 +3635,35 @@ class ImageVersionListResult(_serialization.Model):
         self.next_link = None
 
 
+class InheritedSettingsForProject(_serialization.Model):
+    """Applicable inherited settings for a project.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar project_catalog_settings: Dev Center settings to be used when associating a project with
+     a catalog.
+    :vartype project_catalog_settings: ~azure.mgmt.devcenter.models.DevCenterProjectCatalogSettings
+    :ivar network_settings: Network settings that will be enforced on this project.
+    :vartype network_settings: ~azure.mgmt.devcenter.models.ProjectNetworkSettings
+    """
+
+    _validation = {
+        "project_catalog_settings": {"readonly": True},
+        "network_settings": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "project_catalog_settings": {"key": "projectCatalogSettings", "type": "DevCenterProjectCatalogSettings"},
+        "network_settings": {"key": "networkSettings", "type": "ProjectNetworkSettings"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.project_catalog_settings = None
+        self.network_settings = None
+
+
 class ListUsagesResult(_serialization.Model):
     """List of Core Usages.
 
@@ -2989,7 +3697,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -3003,7 +3711,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.devcenter.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str, ~azure.mgmt.devcenter.models.UserAssignedIdentity]
     """
@@ -3035,7 +3743,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.devcenter.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.devcenter.models.UserAssignedIdentity]
@@ -3052,10 +3760,10 @@ class NetworkConnection(TrackedResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3092,7 +3800,8 @@ class NetworkConnection(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype health_check_status: str or ~azure.mgmt.devcenter.models.HealthCheckStatus
     :ivar networking_resource_group_name: The name for resource group where NICs will be placed.
     :vartype networking_resource_group_name: str
-    :ivar domain_join_type: AAD Join type. Known values are: "HybridAzureADJoin" and "AzureADJoin".
+    :ivar domain_join_type: AAD Join type. Known values are: "HybridAzureADJoin", "AzureADJoin",
+     and "None".
     :vartype domain_join_type: str or ~azure.mgmt.devcenter.models.DomainJoinType
     """
 
@@ -3157,8 +3866,8 @@ class NetworkConnection(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype domain_password: str
         :keyword networking_resource_group_name: The name for resource group where NICs will be placed.
         :paramtype networking_resource_group_name: str
-        :keyword domain_join_type: AAD Join type. Known values are: "HybridAzureADJoin" and
-         "AzureADJoin".
+        :keyword domain_join_type: AAD Join type. Known values are: "HybridAzureADJoin", "AzureADJoin",
+         and "None".
         :paramtype domain_join_type: str or ~azure.mgmt.devcenter.models.DomainJoinType
         """
         super().__init__(tags=tags, location=location, **kwargs)
@@ -3334,7 +4043,7 @@ class NetworkProperties(NetworkConnectionUpdateProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subnet_id: The subnet to attach Virtual Machines to.
     :vartype subnet_id: str
@@ -3359,8 +4068,8 @@ class NetworkProperties(NetworkConnectionUpdateProperties):
     :vartype health_check_status: str or ~azure.mgmt.devcenter.models.HealthCheckStatus
     :ivar networking_resource_group_name: The name for resource group where NICs will be placed.
     :vartype networking_resource_group_name: str
-    :ivar domain_join_type: AAD Join type. Required. Known values are: "HybridAzureADJoin" and
-     "AzureADJoin".
+    :ivar domain_join_type: AAD Join type. Required. Known values are: "HybridAzureADJoin",
+     "AzureADJoin", and "None".
     :vartype domain_join_type: str or ~azure.mgmt.devcenter.models.DomainJoinType
     """
 
@@ -3409,8 +4118,8 @@ class NetworkProperties(NetworkConnectionUpdateProperties):
         :paramtype domain_password: str
         :keyword networking_resource_group_name: The name for resource group where NICs will be placed.
         :paramtype networking_resource_group_name: str
-        :keyword domain_join_type: AAD Join type. Required. Known values are: "HybridAzureADJoin" and
-         "AzureADJoin".
+        :keyword domain_join_type: AAD Join type. Required. Known values are: "HybridAzureADJoin",
+         "AzureADJoin", and "None".
         :paramtype domain_join_type: str or ~azure.mgmt.devcenter.models.DomainJoinType
         """
         super().__init__(
@@ -3551,10 +4260,15 @@ class OperationListResult(_serialization.Model):
 class OperationStatusResult(_serialization.Model):
     """The current status of an async operation.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
+    :ivar resource_id: Fully qualified ID of the resource against which the original async
+     operation was started.
+    :vartype resource_id: str
     :ivar name: Name of the async operation.
     :vartype name: str
     :ivar status: Operation status. Required.
@@ -3572,12 +4286,14 @@ class OperationStatusResult(_serialization.Model):
     """
 
     _validation = {
+        "resource_id": {"readonly": True},
         "status": {"required": True},
         "percent_complete": {"maximum": 100, "minimum": 0},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "resource_id": {"key": "resourceId", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "status": {"key": "status", "type": "str"},
         "percent_complete": {"key": "percentComplete", "type": "float"},
@@ -3620,6 +4336,7 @@ class OperationStatusResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
+        self.resource_id = None
         self.name = name
         self.status = status
         self.percent_complete = percent_complete
@@ -3634,10 +4351,13 @@ class OperationStatus(OperationStatusResult):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
+    :ivar resource_id: Fully qualified ID of the resource against which the original async
+     operation was started.
+    :vartype resource_id: str
     :ivar name: Name of the async operation.
     :vartype name: str
     :ivar status: Operation status. Required.
@@ -3652,21 +4372,20 @@ class OperationStatus(OperationStatusResult):
     :vartype operations: list[~azure.mgmt.devcenter.models.OperationStatusResult]
     :ivar error: If present, details of the operation error.
     :vartype error: ~azure.mgmt.devcenter.models.ErrorDetail
-    :ivar resource_id: The id of the resource.
-    :vartype resource_id: str
     :ivar properties: Custom operation properties, populated only for a successful operation.
     :vartype properties: JSON
     """
 
     _validation = {
+        "resource_id": {"readonly": True},
         "status": {"required": True},
         "percent_complete": {"maximum": 100, "minimum": 0},
-        "resource_id": {"readonly": True},
         "properties": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "resource_id": {"key": "resourceId", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "status": {"key": "status", "type": "str"},
         "percent_complete": {"key": "percentComplete", "type": "float"},
@@ -3674,7 +4393,6 @@ class OperationStatus(OperationStatusResult):
         "end_time": {"key": "endTime", "type": "iso-8601"},
         "operations": {"key": "operations", "type": "[OperationStatusResult]"},
         "error": {"key": "error", "type": "ErrorDetail"},
-        "resource_id": {"key": "resourceId", "type": "str"},
         "properties": {"key": "properties", "type": "object"},
     }
 
@@ -3720,7 +4438,6 @@ class OperationStatus(OperationStatusResult):
             error=error,
             **kwargs
         )
-        self.resource_id = None
         self.properties = None
 
 
@@ -3784,15 +4501,130 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
         self.next_link = next_link
 
 
+class PlanListResult(_serialization.Model):
+    """Result of the list devcenter plans operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Current page of results.
+    :vartype value: list[~azure.mgmt.devcenter.models.DevCenterPlan]
+    :ivar next_link: URL to get the next set of results if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DevCenterPlan]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class PlanMembersListResult(_serialization.Model):
+    """Result of the list devcenter plan members operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Current page of results.
+    :vartype value: list[~azure.mgmt.devcenter.models.DevCenterPlanMember]
+    :ivar next_link: URL to get the next set of results if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DevCenterPlanMember]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class PlanMemberUpdate(_serialization.Model):
+    """The devcenter plan member resource for partial updates. Properties not provided in the update
+    request will not be changed.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+
+
+class PlanUpdate(TrackedResourceUpdate):
+    """The devcenter plan resource for partial updates. Properties not provided in the update request
+    will not be changed.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
+    :ivar sku: The SKU for DevCenters created using this definition.
+    :vartype sku: ~azure.mgmt.devcenter.models.Sku
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "sku": {"key": "sku", "type": "Sku"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        location: Optional[str] = None,
+        sku: Optional["_models.Sku"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
+        :keyword sku: The SKU for DevCenters created using this definition.
+        :paramtype sku: ~azure.mgmt.devcenter.models.Sku
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.sku = sku
+
+
 class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """A pool of Virtual Machines.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4308,10 +5140,10 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4325,6 +5157,8 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
+    :ivar identity: Managed identity properties.
+    :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
     :ivar dev_center_id: Resource Id of an associated DevCenter.
     :vartype dev_center_id: str
     :ivar description: Description of the project.
@@ -4335,6 +5169,8 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype max_dev_boxes_per_user: int
     :ivar display_name: The display name of the project.
     :vartype display_name: str
+    :ivar catalog_settings: Settings to be used when associating a project with a catalog.
+    :vartype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -4362,10 +5198,12 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "dev_center_id": {"key": "properties.devCenterId", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
         "max_dev_boxes_per_user": {"key": "properties.maxDevBoxesPerUser", "type": "int"},
         "display_name": {"key": "properties.displayName", "type": "str"},
+        "catalog_settings": {"key": "properties.catalogSettings", "type": "ProjectCatalogSettings"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "dev_center_uri": {"key": "properties.devCenterUri", "type": "str"},
     }
@@ -4375,10 +5213,12 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         dev_center_id: Optional[str] = None,
         description: Optional[str] = None,
         max_dev_boxes_per_user: Optional[int] = None,
         display_name: Optional[str] = None,
+        catalog_settings: Optional["_models.ProjectCatalogSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4386,6 +5226,8 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword identity: Managed identity properties.
+        :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
         :keyword dev_center_id: Resource Id of an associated DevCenter.
         :paramtype dev_center_id: str
         :keyword description: Description of the project.
@@ -4396,14 +5238,40 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype max_dev_boxes_per_user: int
         :keyword display_name: The display name of the project.
         :paramtype display_name: str
+        :keyword catalog_settings: Settings to be used when associating a project with a catalog.
+        :paramtype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
         """
         super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
         self.dev_center_id = dev_center_id
         self.description = description
         self.max_dev_boxes_per_user = max_dev_boxes_per_user
         self.display_name = display_name
+        self.catalog_settings = catalog_settings
         self.provisioning_state = None
         self.dev_center_uri = None
+
+
+class ProjectCatalogSettings(_serialization.Model):
+    """Settings to be used when associating a project with a catalog.
+
+    :ivar catalog_item_sync_types: Indicates catalog item types that can be synced.
+    :vartype catalog_item_sync_types: list[str or ~azure.mgmt.devcenter.models.CatalogItemType]
+    """
+
+    _attribute_map = {
+        "catalog_item_sync_types": {"key": "catalogItemSyncTypes", "type": "[str]"},
+    }
+
+    def __init__(
+        self, *, catalog_item_sync_types: Optional[List[Union[str, "_models.CatalogItemType"]]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword catalog_item_sync_types: Indicates catalog item types that can be synced.
+        :paramtype catalog_item_sync_types: list[str or ~azure.mgmt.devcenter.models.CatalogItemType]
+        """
+        super().__init__(**kwargs)
+        self.catalog_item_sync_types = catalog_item_sync_types
 
 
 class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-attributes
@@ -4411,8 +5279,8 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4431,6 +5299,8 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
     :ivar deployment_target_id: Id of a subscription that the environment type will be mapped to.
      The environment's resources will be deployed into this subscription.
     :vartype deployment_target_id: str
+    :ivar display_name: The display name of the project environment type.
+    :vartype display_name: str
     :ivar status: Defines whether this Environment Type can be used in this Project. Known values
      are: "Enabled" and "Disabled".
     :vartype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4446,8 +5316,6 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
      "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
     :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
-    :ivar display_name: The display name of the project environment type.
-    :vartype display_name: str
     :ivar environment_count: The number of environments of this type.
     :vartype environment_count: int
     """
@@ -4470,6 +5338,7 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "location": {"key": "location", "type": "str"},
         "deployment_target_id": {"key": "properties.deploymentTargetId", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "creator_role_assignment": {
             "key": "properties.creatorRoleAssignment",
@@ -4477,7 +5346,6 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
         },
         "user_role_assignments": {"key": "properties.userRoleAssignments", "type": "{UserRoleAssignmentValue}"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "display_name": {"key": "properties.displayName", "type": "str"},
         "environment_count": {"key": "properties.environmentCount", "type": "int"},
     }
 
@@ -4488,10 +5356,10 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         location: Optional[str] = None,
         deployment_target_id: Optional[str] = None,
+        display_name: Optional[str] = None,
         status: Optional[Union[str, "_models.EnvironmentTypeEnableStatus"]] = None,
         creator_role_assignment: Optional["_models.ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment"] = None,
         user_role_assignments: Optional[Dict[str, "_models.UserRoleAssignmentValue"]] = None,
-        display_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4504,6 +5372,8 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
         :keyword deployment_target_id: Id of a subscription that the environment type will be mapped
          to. The environment's resources will be deployed into this subscription.
         :paramtype deployment_target_id: str
+        :keyword display_name: The display name of the project environment type.
+        :paramtype display_name: str
         :keyword status: Defines whether this Environment Type can be used in this Project. Known
          values are: "Enabled" and "Disabled".
         :paramtype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4515,19 +5385,17 @@ class ProjectEnvironmentType(Resource):  # pylint: disable=too-many-instance-att
          is a mapping from a user object ID to an object of role definition IDs.
         :paramtype user_role_assignments: dict[str,
          ~azure.mgmt.devcenter.models.UserRoleAssignmentValue]
-        :keyword display_name: The display name of the project environment type.
-        :paramtype display_name: str
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.identity = identity
         self.location = location
         self.deployment_target_id = deployment_target_id
+        self.display_name = display_name
         self.status = status
         self.creator_role_assignment = creator_role_assignment
         self.user_role_assignments = user_role_assignments
         self.provisioning_state = None
-        self.display_name = display_name
         self.environment_count = None
 
 
@@ -4566,6 +5434,8 @@ class ProjectEnvironmentTypeUpdateProperties(_serialization.Model):
     :ivar deployment_target_id: Id of a subscription that the environment type will be mapped to.
      The environment's resources will be deployed into this subscription.
     :vartype deployment_target_id: str
+    :ivar display_name: The display name of the project environment type.
+    :vartype display_name: str
     :ivar status: Defines whether this Environment Type can be used in this Project. Known values
      are: "Enabled" and "Disabled".
     :vartype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4580,6 +5450,7 @@ class ProjectEnvironmentTypeUpdateProperties(_serialization.Model):
 
     _attribute_map = {
         "deployment_target_id": {"key": "deploymentTargetId", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
         "status": {"key": "status", "type": "str"},
         "creator_role_assignment": {
             "key": "creatorRoleAssignment",
@@ -4592,6 +5463,7 @@ class ProjectEnvironmentTypeUpdateProperties(_serialization.Model):
         self,
         *,
         deployment_target_id: Optional[str] = None,
+        display_name: Optional[str] = None,
         status: Optional[Union[str, "_models.EnvironmentTypeEnableStatus"]] = None,
         creator_role_assignment: Optional["_models.ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment"] = None,
         user_role_assignments: Optional[Dict[str, "_models.UserRoleAssignmentValue"]] = None,
@@ -4601,6 +5473,8 @@ class ProjectEnvironmentTypeUpdateProperties(_serialization.Model):
         :keyword deployment_target_id: Id of a subscription that the environment type will be mapped
          to. The environment's resources will be deployed into this subscription.
         :paramtype deployment_target_id: str
+        :keyword display_name: The display name of the project environment type.
+        :paramtype display_name: str
         :keyword status: Defines whether this Environment Type can be used in this Project. Known
          values are: "Enabled" and "Disabled".
         :paramtype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4615,6 +5489,7 @@ class ProjectEnvironmentTypeUpdateProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.deployment_target_id = deployment_target_id
+        self.display_name = display_name
         self.status = status
         self.creator_role_assignment = creator_role_assignment
         self.user_role_assignments = user_role_assignments
@@ -4628,6 +5503,8 @@ class ProjectEnvironmentTypeProperties(ProjectEnvironmentTypeUpdateProperties):
     :ivar deployment_target_id: Id of a subscription that the environment type will be mapped to.
      The environment's resources will be deployed into this subscription.
     :vartype deployment_target_id: str
+    :ivar display_name: The display name of the project environment type.
+    :vartype display_name: str
     :ivar status: Defines whether this Environment Type can be used in this Project. Known values
      are: "Enabled" and "Disabled".
     :vartype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4643,8 +5520,6 @@ class ProjectEnvironmentTypeProperties(ProjectEnvironmentTypeUpdateProperties):
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
      "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
     :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
-    :ivar display_name: The display name of the project environment type.
-    :vartype display_name: str
     :ivar environment_count: The number of environments of this type.
     :vartype environment_count: int
     """
@@ -4656,6 +5531,7 @@ class ProjectEnvironmentTypeProperties(ProjectEnvironmentTypeUpdateProperties):
 
     _attribute_map = {
         "deployment_target_id": {"key": "deploymentTargetId", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
         "status": {"key": "status", "type": "str"},
         "creator_role_assignment": {
             "key": "creatorRoleAssignment",
@@ -4663,7 +5539,6 @@ class ProjectEnvironmentTypeProperties(ProjectEnvironmentTypeUpdateProperties):
         },
         "user_role_assignments": {"key": "userRoleAssignments", "type": "{UserRoleAssignmentValue}"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "display_name": {"key": "displayName", "type": "str"},
         "environment_count": {"key": "environmentCount", "type": "int"},
     }
 
@@ -4671,16 +5546,18 @@ class ProjectEnvironmentTypeProperties(ProjectEnvironmentTypeUpdateProperties):
         self,
         *,
         deployment_target_id: Optional[str] = None,
+        display_name: Optional[str] = None,
         status: Optional[Union[str, "_models.EnvironmentTypeEnableStatus"]] = None,
         creator_role_assignment: Optional["_models.ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment"] = None,
         user_role_assignments: Optional[Dict[str, "_models.UserRoleAssignmentValue"]] = None,
-        display_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword deployment_target_id: Id of a subscription that the environment type will be mapped
          to. The environment's resources will be deployed into this subscription.
         :paramtype deployment_target_id: str
+        :keyword display_name: The display name of the project environment type.
+        :paramtype display_name: str
         :keyword status: Defines whether this Environment Type can be used in this Project. Known
          values are: "Enabled" and "Disabled".
         :paramtype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4692,18 +5569,16 @@ class ProjectEnvironmentTypeProperties(ProjectEnvironmentTypeUpdateProperties):
          is a mapping from a user object ID to an object of role definition IDs.
         :paramtype user_role_assignments: dict[str,
          ~azure.mgmt.devcenter.models.UserRoleAssignmentValue]
-        :keyword display_name: The display name of the project environment type.
-        :paramtype display_name: str
         """
         super().__init__(
             deployment_target_id=deployment_target_id,
+            display_name=display_name,
             status=status,
             creator_role_assignment=creator_role_assignment,
             user_role_assignments=user_role_assignments,
             **kwargs
         )
         self.provisioning_state = None
-        self.display_name = display_name
         self.environment_count = None
 
 
@@ -4718,6 +5593,8 @@ class ProjectEnvironmentTypeUpdate(_serialization.Model):
     :ivar deployment_target_id: Id of a subscription that the environment type will be mapped to.
      The environment's resources will be deployed into this subscription.
     :vartype deployment_target_id: str
+    :ivar display_name: The display name of the project environment type.
+    :vartype display_name: str
     :ivar status: Defines whether this Environment Type can be used in this Project. Known values
      are: "Enabled" and "Disabled".
     :vartype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4734,6 +5611,7 @@ class ProjectEnvironmentTypeUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "deployment_target_id": {"key": "properties.deploymentTargetId", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "creator_role_assignment": {
             "key": "properties.creatorRoleAssignment",
@@ -4748,6 +5626,7 @@ class ProjectEnvironmentTypeUpdate(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         deployment_target_id: Optional[str] = None,
+        display_name: Optional[str] = None,
         status: Optional[Union[str, "_models.EnvironmentTypeEnableStatus"]] = None,
         creator_role_assignment: Optional["_models.ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment"] = None,
         user_role_assignments: Optional[Dict[str, "_models.UserRoleAssignmentValue"]] = None,
@@ -4761,6 +5640,8 @@ class ProjectEnvironmentTypeUpdate(_serialization.Model):
         :keyword deployment_target_id: Id of a subscription that the environment type will be mapped
          to. The environment's resources will be deployed into this subscription.
         :paramtype deployment_target_id: str
+        :keyword display_name: The display name of the project environment type.
+        :paramtype display_name: str
         :keyword status: Defines whether this Environment Type can be used in this Project. Known
          values are: "Enabled" and "Disabled".
         :paramtype status: str or ~azure.mgmt.devcenter.models.EnvironmentTypeEnableStatus
@@ -4777,12 +5658,15 @@ class ProjectEnvironmentTypeUpdate(_serialization.Model):
         self.tags = tags
         self.identity = identity
         self.deployment_target_id = deployment_target_id
+        self.display_name = display_name
         self.status = status
         self.creator_role_assignment = creator_role_assignment
         self.user_role_assignments = user_role_assignments
 
 
-class ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment(_serialization.Model):
+class ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """The role definition assigned to the environment creator on backing resources.
 
     :ivar roles: A map of roles to assign to the environment creator.
@@ -4830,6 +5714,32 @@ class ProjectListResult(_serialization.Model):
         self.next_link = None
 
 
+class ProjectNetworkSettings(_serialization.Model):
+    """Network settings for the project.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar microsoft_hosted_network_enable_status: Indicates whether pools in this Dev Center can
+     use Microsoft Hosted Networks. Defaults to Enabled if not set. Known values are: "Enabled" and
+     "Disabled".
+    :vartype microsoft_hosted_network_enable_status: str or
+     ~azure.mgmt.devcenter.models.MicrosoftHostedNetworkEnableStatus
+    """
+
+    _validation = {
+        "microsoft_hosted_network_enable_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "microsoft_hosted_network_enable_status": {"key": "microsoftHostedNetworkEnableStatus", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.microsoft_hosted_network_enable_status = None
+
+
 class ProjectUpdateProperties(_serialization.Model):
     """Properties of a project. These properties can be updated after the resource has been created.
 
@@ -4843,6 +5753,8 @@ class ProjectUpdateProperties(_serialization.Model):
     :vartype max_dev_boxes_per_user: int
     :ivar display_name: The display name of the project.
     :vartype display_name: str
+    :ivar catalog_settings: Settings to be used when associating a project with a catalog.
+    :vartype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
     """
 
     _validation = {
@@ -4854,6 +5766,7 @@ class ProjectUpdateProperties(_serialization.Model):
         "description": {"key": "description", "type": "str"},
         "max_dev_boxes_per_user": {"key": "maxDevBoxesPerUser", "type": "int"},
         "display_name": {"key": "displayName", "type": "str"},
+        "catalog_settings": {"key": "catalogSettings", "type": "ProjectCatalogSettings"},
     }
 
     def __init__(
@@ -4863,6 +5776,7 @@ class ProjectUpdateProperties(_serialization.Model):
         description: Optional[str] = None,
         max_dev_boxes_per_user: Optional[int] = None,
         display_name: Optional[str] = None,
+        catalog_settings: Optional["_models.ProjectCatalogSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4876,12 +5790,15 @@ class ProjectUpdateProperties(_serialization.Model):
         :paramtype max_dev_boxes_per_user: int
         :keyword display_name: The display name of the project.
         :paramtype display_name: str
+        :keyword catalog_settings: Settings to be used when associating a project with a catalog.
+        :paramtype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
         """
         super().__init__(**kwargs)
         self.dev_center_id = dev_center_id
         self.description = description
         self.max_dev_boxes_per_user = max_dev_boxes_per_user
         self.display_name = display_name
+        self.catalog_settings = catalog_settings
 
 
 class ProjectProperties(ProjectUpdateProperties):
@@ -4899,6 +5816,8 @@ class ProjectProperties(ProjectUpdateProperties):
     :vartype max_dev_boxes_per_user: int
     :ivar display_name: The display name of the project.
     :vartype display_name: str
+    :ivar catalog_settings: Settings to be used when associating a project with a catalog.
+    :vartype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -4919,6 +5838,7 @@ class ProjectProperties(ProjectUpdateProperties):
         "description": {"key": "description", "type": "str"},
         "max_dev_boxes_per_user": {"key": "maxDevBoxesPerUser", "type": "int"},
         "display_name": {"key": "displayName", "type": "str"},
+        "catalog_settings": {"key": "catalogSettings", "type": "ProjectCatalogSettings"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "dev_center_uri": {"key": "devCenterUri", "type": "str"},
     }
@@ -4930,6 +5850,7 @@ class ProjectProperties(ProjectUpdateProperties):
         description: Optional[str] = None,
         max_dev_boxes_per_user: Optional[int] = None,
         display_name: Optional[str] = None,
+        catalog_settings: Optional["_models.ProjectCatalogSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4943,12 +5864,15 @@ class ProjectProperties(ProjectUpdateProperties):
         :paramtype max_dev_boxes_per_user: int
         :keyword display_name: The display name of the project.
         :paramtype display_name: str
+        :keyword catalog_settings: Settings to be used when associating a project with a catalog.
+        :paramtype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
         """
         super().__init__(
             dev_center_id=dev_center_id,
             description=description,
             max_dev_boxes_per_user=max_dev_boxes_per_user,
             display_name=display_name,
+            catalog_settings=catalog_settings,
             **kwargs
         )
         self.provisioning_state = None
@@ -4963,6 +5887,8 @@ class ProjectUpdate(TrackedResourceUpdate):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives.
     :vartype location: str
+    :ivar identity: Managed identity properties.
+    :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
     :ivar dev_center_id: Resource Id of an associated DevCenter.
     :vartype dev_center_id: str
     :ivar description: Description of the project.
@@ -4973,6 +5899,8 @@ class ProjectUpdate(TrackedResourceUpdate):
     :vartype max_dev_boxes_per_user: int
     :ivar display_name: The display name of the project.
     :vartype display_name: str
+    :ivar catalog_settings: Settings to be used when associating a project with a catalog.
+    :vartype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
     """
 
     _validation = {
@@ -4982,10 +5910,12 @@ class ProjectUpdate(TrackedResourceUpdate):
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "dev_center_id": {"key": "properties.devCenterId", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
         "max_dev_boxes_per_user": {"key": "properties.maxDevBoxesPerUser", "type": "int"},
         "display_name": {"key": "properties.displayName", "type": "str"},
+        "catalog_settings": {"key": "properties.catalogSettings", "type": "ProjectCatalogSettings"},
     }
 
     def __init__(
@@ -4993,10 +5923,12 @@ class ProjectUpdate(TrackedResourceUpdate):
         *,
         tags: Optional[Dict[str, str]] = None,
         location: Optional[str] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         dev_center_id: Optional[str] = None,
         description: Optional[str] = None,
         max_dev_boxes_per_user: Optional[int] = None,
         display_name: Optional[str] = None,
+        catalog_settings: Optional["_models.ProjectCatalogSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -5004,6 +5936,8 @@ class ProjectUpdate(TrackedResourceUpdate):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives.
         :paramtype location: str
+        :keyword identity: Managed identity properties.
+        :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
         :keyword dev_center_id: Resource Id of an associated DevCenter.
         :paramtype dev_center_id: str
         :keyword description: Description of the project.
@@ -5014,12 +5948,16 @@ class ProjectUpdate(TrackedResourceUpdate):
         :paramtype max_dev_boxes_per_user: int
         :keyword display_name: The display name of the project.
         :paramtype display_name: str
+        :keyword catalog_settings: Settings to be used when associating a project with a catalog.
+        :paramtype catalog_settings: ~azure.mgmt.devcenter.models.ProjectCatalogSettings
         """
         super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
         self.dev_center_id = dev_center_id
         self.description = description
         self.max_dev_boxes_per_user = max_dev_boxes_per_user
         self.display_name = display_name
+        self.catalog_settings = catalog_settings
 
 
 class RecommendedMachineConfiguration(_serialization.Model):
@@ -5078,13 +6016,13 @@ class ResourceRange(_serialization.Model):
         self.max = None
 
 
-class Schedule(Resource):
+class Schedule(Resource):  # pylint: disable=too-many-instance-attributes
     """Represents a Schedule to execute a task.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5094,6 +6032,10 @@ class Schedule(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
     :ivar type_properties_type: Supported type this scheduled task represents. "StopDevBox"
     :vartype type_properties_type: str or ~azure.mgmt.devcenter.models.ScheduledType
     :ivar frequency: The frequency of this scheduled task. "Daily"
@@ -5125,6 +6067,8 @@ class Schedule(Resource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "properties.tags", "type": "{str}"},
+        "location": {"key": "properties.location", "type": "str"},
         "type_properties_type": {"key": "properties.type", "type": "str"},
         "frequency": {"key": "properties.frequency", "type": "str"},
         "time": {"key": "properties.time", "type": "str"},
@@ -5136,6 +6080,8 @@ class Schedule(Resource):
     def __init__(
         self,
         *,
+        tags: Optional[Dict[str, str]] = None,
+        location: Optional[str] = None,
         type_properties_type: Optional[Union[str, "_models.ScheduledType"]] = None,
         frequency: Optional[Union[str, "_models.ScheduledFrequency"]] = None,
         time: Optional[str] = None,
@@ -5144,6 +6090,10 @@ class Schedule(Resource):
         **kwargs: Any
     ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
         :keyword type_properties_type: Supported type this scheduled task represents. "StopDevBox"
         :paramtype type_properties_type: str or ~azure.mgmt.devcenter.models.ScheduledType
         :keyword frequency: The frequency of this scheduled task. "Daily"
@@ -5157,6 +6107,8 @@ class Schedule(Resource):
         :paramtype state: str or ~azure.mgmt.devcenter.models.ScheduleEnableStatus
         """
         super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
         self.type_properties_type = type_properties_type
         self.frequency = frequency
         self.time = time
@@ -5193,9 +6145,13 @@ class ScheduleListResult(_serialization.Model):
         self.next_link = None
 
 
-class ScheduleUpdateProperties(_serialization.Model):
+class ScheduleUpdateProperties(TrackedResourceUpdate):
     """Updatable properties of a Schedule.
 
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
     :ivar type: Supported type this scheduled task represents. "StopDevBox"
     :vartype type: str or ~azure.mgmt.devcenter.models.ScheduledType
     :ivar frequency: The frequency of this scheduled task. "Daily"
@@ -5210,6 +6166,8 @@ class ScheduleUpdateProperties(_serialization.Model):
     """
 
     _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "frequency": {"key": "frequency", "type": "str"},
         "time": {"key": "time", "type": "str"},
@@ -5220,6 +6178,8 @@ class ScheduleUpdateProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        tags: Optional[Dict[str, str]] = None,
+        location: Optional[str] = None,
         type: Optional[Union[str, "_models.ScheduledType"]] = None,
         frequency: Optional[Union[str, "_models.ScheduledFrequency"]] = None,
         time: Optional[str] = None,
@@ -5228,6 +6188,10 @@ class ScheduleUpdateProperties(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
         :keyword type: Supported type this scheduled task represents. "StopDevBox"
         :paramtype type: str or ~azure.mgmt.devcenter.models.ScheduledType
         :keyword frequency: The frequency of this scheduled task. "Daily"
@@ -5240,7 +6204,7 @@ class ScheduleUpdateProperties(_serialization.Model):
          "Enabled" and "Disabled".
         :paramtype state: str or ~azure.mgmt.devcenter.models.ScheduleEnableStatus
         """
-        super().__init__(**kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
         self.type = type
         self.frequency = frequency
         self.time = time
@@ -5253,6 +6217,10 @@ class ScheduleProperties(ScheduleUpdateProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
     :ivar type: Supported type this scheduled task represents. "StopDevBox"
     :vartype type: str or ~azure.mgmt.devcenter.models.ScheduledType
     :ivar frequency: The frequency of this scheduled task. "Daily"
@@ -5276,6 +6244,8 @@ class ScheduleProperties(ScheduleUpdateProperties):
     }
 
     _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "frequency": {"key": "frequency", "type": "str"},
         "time": {"key": "time", "type": "str"},
@@ -5287,6 +6257,8 @@ class ScheduleProperties(ScheduleUpdateProperties):
     def __init__(
         self,
         *,
+        tags: Optional[Dict[str, str]] = None,
+        location: Optional[str] = None,
         type: Optional[Union[str, "_models.ScheduledType"]] = None,
         frequency: Optional[Union[str, "_models.ScheduledFrequency"]] = None,
         time: Optional[str] = None,
@@ -5295,6 +6267,10 @@ class ScheduleProperties(ScheduleUpdateProperties):
         **kwargs: Any
     ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
         :keyword type: Supported type this scheduled task represents. "StopDevBox"
         :paramtype type: str or ~azure.mgmt.devcenter.models.ScheduledType
         :keyword frequency: The frequency of this scheduled task. "Daily"
@@ -5307,11 +6283,20 @@ class ScheduleProperties(ScheduleUpdateProperties):
          "Enabled" and "Disabled".
         :paramtype state: str or ~azure.mgmt.devcenter.models.ScheduleEnableStatus
         """
-        super().__init__(type=type, frequency=frequency, time=time, time_zone=time_zone, state=state, **kwargs)
+        super().__init__(
+            tags=tags,
+            location=location,
+            type=type,
+            frequency=frequency,
+            time=time,
+            time_zone=time_zone,
+            state=state,
+            **kwargs
+        )
         self.provisioning_state = None
 
 
-class ScheduleUpdate(TrackedResourceUpdate):
+class ScheduleUpdate(_serialization.Model):
     """The schedule properties for partial update. Properties not provided in the update request will
     not be changed.
 
@@ -5333,8 +6318,8 @@ class ScheduleUpdate(TrackedResourceUpdate):
     """
 
     _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
+        "tags": {"key": "properties.tags", "type": "{str}"},
+        "location": {"key": "properties.location", "type": "str"},
         "type": {"key": "properties.type", "type": "str"},
         "frequency": {"key": "properties.frequency", "type": "str"},
         "time": {"key": "properties.time", "type": "str"},
@@ -5371,7 +6356,9 @@ class ScheduleUpdate(TrackedResourceUpdate):
          "Enabled" and "Disabled".
         :paramtype state: str or ~azure.mgmt.devcenter.models.ScheduleEnableStatus
         """
-        super().__init__(tags=tags, location=location, **kwargs)
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
         self.type = type
         self.frequency = frequency
         self.time = time
@@ -5495,6 +6482,8 @@ class SyncStats(_serialization.Model):
     :ivar synchronization_errors: Count of synchronization errors that occured during
      synchronization.
     :vartype synchronization_errors: int
+    :ivar synced_catalog_item_types: Indicates catalog item types that were synced.
+    :vartype synced_catalog_item_types: list[str or ~azure.mgmt.devcenter.models.CatalogItemType]
     """
 
     _validation = {
@@ -5513,10 +6502,16 @@ class SyncStats(_serialization.Model):
         "removed": {"key": "removed", "type": "int"},
         "validation_errors": {"key": "validationErrors", "type": "int"},
         "synchronization_errors": {"key": "synchronizationErrors", "type": "int"},
+        "synced_catalog_item_types": {"key": "syncedCatalogItemTypes", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self, *, synced_catalog_item_types: Optional[List[Union[str, "_models.CatalogItemType"]]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword synced_catalog_item_types: Indicates catalog item types that were synced.
+        :paramtype synced_catalog_item_types: list[str or ~azure.mgmt.devcenter.models.CatalogItemType]
+        """
         super().__init__(**kwargs)
         self.added = None
         self.updated = None
@@ -5524,6 +6519,7 @@ class SyncStats(_serialization.Model):
         self.removed = None
         self.validation_errors = None
         self.synchronization_errors = None
+        self.synced_catalog_item_types = synced_catalog_item_types
 
 
 class SystemData(_serialization.Model):

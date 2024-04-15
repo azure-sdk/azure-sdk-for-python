@@ -22,7 +22,7 @@ from ._models_py3 import CatalogUpdate
 from ._models_py3 import CatalogUpdateProperties
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResponse
-from ._models_py3 import CloudErrorBody
+from ._models_py3 import CheckScopedNameAvailabilityRequest
 from ._models_py3 import CustomerManagedKeyEncryption
 from ._models_py3 import CustomerManagedKeyEncryptionKeyIdentity
 from ._models_py3 import CustomizationTask
@@ -33,13 +33,23 @@ from ._models_py3 import DevBoxDefinitionListResult
 from ._models_py3 import DevBoxDefinitionProperties
 from ._models_py3 import DevBoxDefinitionUpdate
 from ._models_py3 import DevBoxDefinitionUpdateProperties
+from ._models_py3 import DevBoxProvisioningSettings
 from ._models_py3 import DevCenter
+from ._models_py3 import DevCenterEncryptionSet
+from ._models_py3 import DevCenterEncryptionSetProperties
+from ._models_py3 import DevCenterEncryptionSetUpdateProperties
 from ._models_py3 import DevCenterListResult
+from ._models_py3 import DevCenterNetworkSettings
+from ._models_py3 import DevCenterPlan
+from ._models_py3 import DevCenterPlanMember
+from ._models_py3 import DevCenterProjectCatalogSettings
 from ._models_py3 import DevCenterProperties
 from ._models_py3 import DevCenterSku
 from ._models_py3 import DevCenterUpdate
 from ._models_py3 import DevCenterUpdateProperties
 from ._models_py3 import Encryption
+from ._models_py3 import EncryptionSetListResult
+from ._models_py3 import EncryptionSetUpdate
 from ._models_py3 import EndpointDependency
 from ._models_py3 import EndpointDetail
 from ._models_py3 import EnvironmentDefinition
@@ -67,6 +77,7 @@ from ._models_py3 import ImageReference
 from ._models_py3 import ImageValidationErrorDetails
 from ._models_py3 import ImageVersion
 from ._models_py3 import ImageVersionListResult
+from ._models_py3 import InheritedSettingsForProject
 from ._models_py3 import ListUsagesResult
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import NetworkConnection
@@ -81,12 +92,17 @@ from ._models_py3 import OperationStatus
 from ._models_py3 import OperationStatusResult
 from ._models_py3 import OutboundEnvironmentEndpoint
 from ._models_py3 import OutboundEnvironmentEndpointCollection
+from ._models_py3 import PlanListResult
+from ._models_py3 import PlanMemberUpdate
+from ._models_py3 import PlanMembersListResult
+from ._models_py3 import PlanUpdate
 from ._models_py3 import Pool
 from ._models_py3 import PoolListResult
 from ._models_py3 import PoolProperties
 from ._models_py3 import PoolUpdate
 from ._models_py3 import PoolUpdateProperties
 from ._models_py3 import Project
+from ._models_py3 import ProjectCatalogSettings
 from ._models_py3 import ProjectEnvironmentType
 from ._models_py3 import ProjectEnvironmentTypeListResult
 from ._models_py3 import ProjectEnvironmentTypeProperties
@@ -94,6 +110,7 @@ from ._models_py3 import ProjectEnvironmentTypeUpdate
 from ._models_py3 import ProjectEnvironmentTypeUpdateProperties
 from ._models_py3 import ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment
 from ._models_py3 import ProjectListResult
+from ._models_py3 import ProjectNetworkSettings
 from ._models_py3 import ProjectProperties
 from ._models_py3 import ProjectUpdate
 from ._models_py3 import ProjectUpdateProperties
@@ -121,12 +138,15 @@ from ._models_py3 import UserRoleAssignmentValue
 
 from ._dev_center_mgmt_client_enums import ActionType
 from ._dev_center_mgmt_client_enums import CatalogConnectionState
+from ._dev_center_mgmt_client_enums import CatalogItemSyncEnableStatus
+from ._dev_center_mgmt_client_enums import CatalogItemType
 from ._dev_center_mgmt_client_enums import CatalogResourceValidationStatus
 from ._dev_center_mgmt_client_enums import CatalogSyncState
 from ._dev_center_mgmt_client_enums import CatalogSyncType
 from ._dev_center_mgmt_client_enums import CheckNameAvailabilityReason
 from ._dev_center_mgmt_client_enums import CreatedByType
 from ._dev_center_mgmt_client_enums import CustomizationTaskInputType
+from ._dev_center_mgmt_client_enums import DevboxDisksEncryptionEnableStatus
 from ._dev_center_mgmt_client_enums import DomainJoinType
 from ._dev_center_mgmt_client_enums import EnvironmentTypeEnableStatus
 from ._dev_center_mgmt_client_enums import HealthCheckStatus
@@ -134,11 +154,14 @@ from ._dev_center_mgmt_client_enums import HealthStatus
 from ._dev_center_mgmt_client_enums import HibernateSupport
 from ._dev_center_mgmt_client_enums import IdentityType
 from ._dev_center_mgmt_client_enums import ImageValidationStatus
+from ._dev_center_mgmt_client_enums import InstallAzureMonitorAgentEnableStatus
 from ._dev_center_mgmt_client_enums import LicenseType
 from ._dev_center_mgmt_client_enums import LocalAdminStatus
 from ._dev_center_mgmt_client_enums import ManagedServiceIdentityType
+from ._dev_center_mgmt_client_enums import MicrosoftHostedNetworkEnableStatus
 from ._dev_center_mgmt_client_enums import Origin
 from ._dev_center_mgmt_client_enums import ParameterType
+from ._dev_center_mgmt_client_enums import PlanMemberType
 from ._dev_center_mgmt_client_enums import ProvisioningState
 from ._dev_center_mgmt_client_enums import ScheduleEnableStatus
 from ._dev_center_mgmt_client_enums import ScheduledFrequency
@@ -169,7 +192,7 @@ __all__ = [
     "CatalogUpdateProperties",
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResponse",
-    "CloudErrorBody",
+    "CheckScopedNameAvailabilityRequest",
     "CustomerManagedKeyEncryption",
     "CustomerManagedKeyEncryptionKeyIdentity",
     "CustomizationTask",
@@ -180,13 +203,23 @@ __all__ = [
     "DevBoxDefinitionProperties",
     "DevBoxDefinitionUpdate",
     "DevBoxDefinitionUpdateProperties",
+    "DevBoxProvisioningSettings",
     "DevCenter",
+    "DevCenterEncryptionSet",
+    "DevCenterEncryptionSetProperties",
+    "DevCenterEncryptionSetUpdateProperties",
     "DevCenterListResult",
+    "DevCenterNetworkSettings",
+    "DevCenterPlan",
+    "DevCenterPlanMember",
+    "DevCenterProjectCatalogSettings",
     "DevCenterProperties",
     "DevCenterSku",
     "DevCenterUpdate",
     "DevCenterUpdateProperties",
     "Encryption",
+    "EncryptionSetListResult",
+    "EncryptionSetUpdate",
     "EndpointDependency",
     "EndpointDetail",
     "EnvironmentDefinition",
@@ -214,6 +247,7 @@ __all__ = [
     "ImageValidationErrorDetails",
     "ImageVersion",
     "ImageVersionListResult",
+    "InheritedSettingsForProject",
     "ListUsagesResult",
     "ManagedServiceIdentity",
     "NetworkConnection",
@@ -228,12 +262,17 @@ __all__ = [
     "OperationStatusResult",
     "OutboundEnvironmentEndpoint",
     "OutboundEnvironmentEndpointCollection",
+    "PlanListResult",
+    "PlanMemberUpdate",
+    "PlanMembersListResult",
+    "PlanUpdate",
     "Pool",
     "PoolListResult",
     "PoolProperties",
     "PoolUpdate",
     "PoolUpdateProperties",
     "Project",
+    "ProjectCatalogSettings",
     "ProjectEnvironmentType",
     "ProjectEnvironmentTypeListResult",
     "ProjectEnvironmentTypeProperties",
@@ -241,6 +280,7 @@ __all__ = [
     "ProjectEnvironmentTypeUpdateProperties",
     "ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment",
     "ProjectListResult",
+    "ProjectNetworkSettings",
     "ProjectProperties",
     "ProjectUpdate",
     "ProjectUpdateProperties",
@@ -267,12 +307,15 @@ __all__ = [
     "UserRoleAssignmentValue",
     "ActionType",
     "CatalogConnectionState",
+    "CatalogItemSyncEnableStatus",
+    "CatalogItemType",
     "CatalogResourceValidationStatus",
     "CatalogSyncState",
     "CatalogSyncType",
     "CheckNameAvailabilityReason",
     "CreatedByType",
     "CustomizationTaskInputType",
+    "DevboxDisksEncryptionEnableStatus",
     "DomainJoinType",
     "EnvironmentTypeEnableStatus",
     "HealthCheckStatus",
@@ -280,11 +323,14 @@ __all__ = [
     "HibernateSupport",
     "IdentityType",
     "ImageValidationStatus",
+    "InstallAzureMonitorAgentEnableStatus",
     "LicenseType",
     "LocalAdminStatus",
     "ManagedServiceIdentityType",
+    "MicrosoftHostedNetworkEnableStatus",
     "Origin",
     "ParameterType",
+    "PlanMemberType",
     "ProvisioningState",
     "ScheduleEnableStatus",
     "ScheduledFrequency",

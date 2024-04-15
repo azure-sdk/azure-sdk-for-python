@@ -6,9 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._plans_operations import PlansOperations
+from ._plan_members_operations import PlanMembersOperations
 from ._dev_centers_operations import DevCentersOperations
+from ._encryption_sets_operations import EncryptionSetsOperations
 from ._projects_operations import ProjectsOperations
 from ._attached_networks_operations import AttachedNetworksOperations
+from ._project_catalogs_operations import ProjectCatalogsOperations
+from ._environment_definitions_operations import EnvironmentDefinitionsOperations
+from ._project_catalog_environment_definitions_operations import ProjectCatalogEnvironmentDefinitionsOperations
 from ._galleries_operations import GalleriesOperations
 from ._images_operations import ImagesOperations
 from ._image_versions_operations import ImageVersionsOperations
@@ -21,9 +27,8 @@ from ._operations import Operations
 from ._operation_statuses_operations import OperationStatusesOperations
 from ._usages_operations import UsagesOperations
 from ._check_name_availability_operations import CheckNameAvailabilityOperations
-from ._catalog_dev_box_definitions_operations import CatalogDevBoxDefinitionsOperations
+from ._check_scoped_name_availability_operations import CheckScopedNameAvailabilityOperations
 from ._customization_tasks_operations import CustomizationTasksOperations
-from ._environment_definitions_operations import EnvironmentDefinitionsOperations
 from ._skus_operations import SkusOperations
 from ._pools_operations import PoolsOperations
 from ._schedules_operations import SchedulesOperations
@@ -34,9 +39,15 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "PlansOperations",
+    "PlanMembersOperations",
     "DevCentersOperations",
+    "EncryptionSetsOperations",
     "ProjectsOperations",
     "AttachedNetworksOperations",
+    "ProjectCatalogsOperations",
+    "EnvironmentDefinitionsOperations",
+    "ProjectCatalogEnvironmentDefinitionsOperations",
     "GalleriesOperations",
     "ImagesOperations",
     "ImageVersionsOperations",
@@ -49,9 +60,8 @@ __all__ = [
     "OperationStatusesOperations",
     "UsagesOperations",
     "CheckNameAvailabilityOperations",
-    "CatalogDevBoxDefinitionsOperations",
+    "CheckScopedNameAvailabilityOperations",
     "CustomizationTasksOperations",
-    "EnvironmentDefinitionsOperations",
     "SkusOperations",
     "PoolsOperations",
     "SchedulesOperations",

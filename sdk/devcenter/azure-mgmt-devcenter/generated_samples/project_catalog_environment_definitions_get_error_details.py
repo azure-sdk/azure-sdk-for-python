@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.devcenter import DevCenterMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.devcenter import DevCenterMgmtClient
     pip install azure-identity
     pip install azure-mgmt-devcenter
 # USAGE
-    python catalog_dev_box_definitions_get.py
+    python project_catalog_environment_definitions_get_error_details.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +30,15 @@ def main():
         subscription_id="0ac520ee-14c0-480f-b6c9-0a90c58ffff",
     )
 
-    response = client.catalog_dev_box_definitions.get(
+    response = client.project_catalog_environment_definitions.get_error_details(
         resource_group_name="rg1",
-        dev_center_name="Contoso",
-        catalog_name="CentralCatalog",
-        dev_box_definition_name="WebDevBox",
+        project_name="DevProject",
+        catalog_name="myCatalog",
+        environment_definition_name="myEnvironmentDefinition",
     )
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2023-10-01-preview/examples/CatalogDevBoxDefinitions_Get.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2024-05-01-preview/examples/ProjectCatalogEnvironmentDefinitions_GetErrorDetails.json
 if __name__ == "__main__":
     main()

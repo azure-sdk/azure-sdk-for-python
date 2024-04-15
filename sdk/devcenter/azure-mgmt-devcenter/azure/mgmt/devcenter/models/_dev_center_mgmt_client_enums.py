@@ -23,6 +23,21 @@ class CatalogConnectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISCONNECTED = "Disconnected"
 
 
+class CatalogItemSyncEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Catalog item sync types enable or disable status. Indicates whether project catalogs are
+    allowed to sync catalog items under projects associated to this dev center.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class CatalogItemType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates catalog item types."""
+
+    ENVIRONMENT_DEFINITION = "EnvironmentDefinition"
+
+
 class CatalogResourceValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Catalog resource validation status."""
 
@@ -72,11 +87,21 @@ class CustomizationTaskInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BOOLEAN = "boolean"
 
 
+class DevboxDisksEncryptionEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption is
+    enabled or not.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class DomainJoinType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Active Directory join type."""
 
     HYBRID_AZURE_AD_JOIN = "HybridAzureADJoin"
     AZURE_AD_JOIN = "AzureADJoin"
+    NONE = "None"
 
 
 class EnvironmentTypeEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -132,6 +157,15 @@ class ImageValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TIMED_OUT = "TimedOut"
 
 
+class InstallAzureMonitorAgentEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Setting to be used when determining whether to install the Azure Monitor Agent service on Dev
+    Boxes that belong to this dev center.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class LicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """License Types."""
 
@@ -156,6 +190,15 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
+
+
+class MicrosoftHostedNetworkEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to
+    Enabled if not set.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -183,6 +226,13 @@ class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The parameter accepts an object value."""
     STRING = "string"
     """The parameter accepts a string value."""
+
+
+class PlanMemberType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the member (user, group)."""
+
+    USER = "User"
+    GROUP = "Group"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
