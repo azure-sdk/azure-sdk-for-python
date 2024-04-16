@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.communication import CommunicationServiceManagementClient
 
 """
@@ -32,11 +35,11 @@ def main():
     response = client.communication_services.update(
         resource_group_name="MyResourceGroup",
         communication_service_name="MyCommunicationResource",
-        parameters={"identity": {"type": "None"}, "tags": {"newTag": "newVal"}},
+        parameters={"identity": {"type": "None"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateRemoveSystemIdentity.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/updateRemoveSystemIdentity.json
 if __name__ == "__main__":
     main()
