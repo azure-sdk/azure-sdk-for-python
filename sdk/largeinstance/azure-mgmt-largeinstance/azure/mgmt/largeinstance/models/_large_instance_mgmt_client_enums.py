@@ -209,6 +209,15 @@ class AzureLargeInstanceSizeNamesEnum(str, Enum, metaclass=CaseInsensitiveEnumMe
     HPEMc990x hardware type"""
 
 
+class AzureLargeStorageInstanceIdentityTypesEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum of the hardware options (vendor and/or their product name) for an Azure Large Instance."""
+
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    """Refers to an implicitly created identity"""
+    NONE = "None"
+    """Any identities from the Azure Large Storage Instance will be removed"""
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -254,3 +263,5 @@ class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     V2023_07_20_PREVIEW = "2023-07-20-preview"
     """Azure Large Instance api version 2023-07-20-preview."""
+    V2024_03_20_PREVIEW = "2024-03-20-preview"
+    """Azure Large Instance api version 2024-03-20-preview."""

@@ -41,6 +41,7 @@ from ._large_instance_mgmt_client_enums import AzureLargeInstanceHardwareTypeNam
 from ._large_instance_mgmt_client_enums import AzureLargeInstancePowerStateEnum
 from ._large_instance_mgmt_client_enums import AzureLargeInstanceProvisioningStatesEnum
 from ._large_instance_mgmt_client_enums import AzureLargeInstanceSizeNamesEnum
+from ._large_instance_mgmt_client_enums import AzureLargeStorageInstanceIdentityTypesEnum
 from ._large_instance_mgmt_client_enums import CreatedByType
 from ._large_instance_mgmt_client_enums import Origin
 from ._large_instance_mgmt_client_enums import ProvisioningState
@@ -84,6 +85,7 @@ __all__ = [
     "AzureLargeInstancePowerStateEnum",
     "AzureLargeInstanceProvisioningStatesEnum",
     "AzureLargeInstanceSizeNamesEnum",
+    "AzureLargeStorageInstanceIdentityTypesEnum",
     "CreatedByType",
     "Origin",
     "ProvisioningState",
