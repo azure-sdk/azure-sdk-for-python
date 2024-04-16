@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
@@ -15,7 +17,7 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hdinsightcontainers
 # USAGE
-    python delete_cluster.py
+    python uninstall_existing_cluster_libraries.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +29,25 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
 def main():
     client = HDInsightContainersMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="10e32bab-26da-4cc4-a441-52b318f824e6",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.clusters.begin_delete(
-        resource_group_name="rg1",
-        cluster_pool_name="clusterpool1",
-        cluster_name="cluster1",
+    client.cluster_libraries.begin_manage_libraries(
+        resource_group_name="hiloResourceGroup",
+        cluster_pool_name="clusterPool",
+        cluster_name="cluster",
+        operation={
+            "properties": {
+                "action": "Uninstall",
+                "libraries": [
+                    {"properties": {"name": "tensorflow", "type": "pypi"}},
+                    {"properties": {"groupId": "org.apache.flink", "name": "flink-connector-hudi", "type": "maven"}},
+                ],
+            }
+        },
     ).result()
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/stable/2024-05-01/examples/DeleteCluster.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/stable/2024-05-01/examples/UninstallExistingClusterLibraries.json
 if __name__ == "__main__":
     main()
