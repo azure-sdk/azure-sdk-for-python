@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class CheckNameAvailabilityParameters(_serialization.Model):
     """Parameters body to pass for resource name availability check.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Resource name. Required.
     :vartype name: str
@@ -147,7 +147,7 @@ class ErrorResponse(_serialization.Model):
 class ExportRDBParameters(_serialization.Model):
     """Parameters for Redis export operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar format: File format.
     :vartype format: str
@@ -211,7 +211,7 @@ class ExportRDBParameters(_serialization.Model):
 class ImportRDBParameters(_serialization.Model):
     """Parameters for Redis import operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar format: File format.
     :vartype format: str
@@ -269,7 +269,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -283,7 +283,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.redis.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str, ~azure.mgmt.redis.models.UserAssignedIdentity]
     """
@@ -315,7 +315,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.redis.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.redis.models.UserAssignedIdentity]
         """
@@ -464,7 +464,7 @@ class OperationListResult(_serialization.Model):
 class OperationStatusResult(_serialization.Model):
     """The current status of an async operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -545,7 +545,7 @@ class OperationStatusResult(_serialization.Model):
 class OperationStatus(OperationStatusResult):
     """Asynchronous operation status.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -661,7 +661,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -696,7 +696,7 @@ class PrivateEndpointConnection(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -781,7 +781,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -895,7 +895,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -903,22 +903,6 @@ class ProxyResource(Resource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class RedisAccessKeys(_serialization.Model):
@@ -957,7 +941,7 @@ class RedisCacheAccessPolicy(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1010,7 +994,7 @@ class RedisCacheAccessPolicyAssignment(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1138,7 +1122,7 @@ class RedisCommonProperties(_serialization.Model):
     """Create/Update/Get common properties of the redis cache.
 
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -1200,7 +1184,7 @@ class RedisCommonProperties(_serialization.Model):
     ) -> None:
         """
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -1284,6 +1268,8 @@ class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: 
     :vartype maxmemory_delta: str
     :ivar maxclients: The max clients config.
     :vartype maxclients: str
+    :ivar notify_keyspace_events: The keyspace events which should be monitored.
+    :vartype notify_keyspace_events: str
     :ivar preferred_data_archive_auth_method: Preferred auth method to communicate to storage
      account used for data archive, specify SAS or ManagedIdentity, default value is SAS.
     :vartype preferred_data_archive_auth_method: str
@@ -1323,6 +1309,7 @@ class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: 
         "maxmemory_reserved": {"key": "maxmemory-reserved", "type": "str"},
         "maxmemory_delta": {"key": "maxmemory-delta", "type": "str"},
         "maxclients": {"key": "maxclients", "type": "str"},
+        "notify_keyspace_events": {"key": "notify-keyspace-events", "type": "str"},
         "preferred_data_archive_auth_method": {"key": "preferred-data-archive-auth-method", "type": "str"},
         "preferred_data_persistence_auth_method": {"key": "preferred-data-persistence-auth-method", "type": "str"},
         "zonal_configuration": {"key": "zonal-configuration", "type": "str"},
@@ -1346,6 +1333,7 @@ class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: 
         maxmemory_policy: Optional[str] = None,
         maxmemory_reserved: Optional[str] = None,
         maxmemory_delta: Optional[str] = None,
+        notify_keyspace_events: Optional[str] = None,
         preferred_data_persistence_auth_method: Optional[str] = None,
         authnotrequired: Optional[str] = None,
         storage_subscription_id: Optional[str] = None,
@@ -1385,6 +1373,8 @@ class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: 
         :keyword maxmemory_delta: Value in megabytes reserved for non-cache usage per shard e.g.
          failover.
         :paramtype maxmemory_delta: str
+        :keyword notify_keyspace_events: The keyspace events which should be monitored.
+        :paramtype notify_keyspace_events: str
         :keyword preferred_data_persistence_auth_method: Preferred auth method to communicate to
          storage account used for data persistence, specify SAS or ManagedIdentity, default value is
          SAS.
@@ -1413,6 +1403,7 @@ class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: 
         self.maxmemory_reserved = maxmemory_reserved
         self.maxmemory_delta = maxmemory_delta
         self.maxclients = None
+        self.notify_keyspace_events = notify_keyspace_events
         self.preferred_data_archive_auth_method = None
         self.preferred_data_persistence_auth_method = preferred_data_persistence_auth_method
         self.zonal_configuration = None
@@ -1424,7 +1415,7 @@ class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: 
 class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Parameters supplied to the Create Redis operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar zones: A list of availability zones denoting where the resource needs to come from.
     :vartype zones: list[str]
@@ -1435,7 +1426,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.redis.models.ManagedServiceIdentity
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -1469,7 +1460,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
      cache in. Example format:
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
     :vartype subnet_id: str
     :ivar static_ip: Static IP address. Optionally, may be specified when deploying a Redis cache
      inside an existing Azure Virtual Network; auto assigned by default.
@@ -1540,7 +1531,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
         :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.redis.models.ManagedServiceIdentity
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -1576,7 +1567,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
          cache in. Example format:
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
         :paramtype subnet_id: str
         :keyword static_ip: Static IP address. Optionally, may be specified when deploying a Redis
          cache inside an existing Azure Virtual Network; auto assigned by default.
@@ -1605,10 +1596,10 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
 class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-instance-attributes
     """Properties supplied to Create Redis operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -1642,7 +1633,7 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
      cache in. Example format:
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
     :vartype subnet_id: str
     :ivar static_ip: Static IP address. Optionally, may be specified when deploying a Redis cache
      inside an existing Azure Virtual Network; auto assigned by default.
@@ -1693,7 +1684,7 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
     ) -> None:
         """
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -1729,7 +1720,7 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
          cache in. Example format:
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
         :paramtype subnet_id: str
         :keyword static_ip: Static IP address. Optionally, may be specified when deploying a Redis
          cache inside an existing Azure Virtual Network; auto assigned by default.
@@ -1759,10 +1750,10 @@ class RedisFirewallRule(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1809,10 +1800,10 @@ class RedisFirewallRuleCreateParameters(RedisFirewallRule):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1824,31 +1815,6 @@ class RedisFirewallRuleCreateParameters(RedisFirewallRule):
     :ivar end_ip: highest IP address included in the range. Required.
     :vartype end_ip: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "start_ip": {"required": True},
-        "end_ip": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "start_ip": {"key": "properties.startIP", "type": "str"},
-        "end_ip": {"key": "properties.endIP", "type": "str"},
-    }
-
-    def __init__(self, *, start_ip: str, end_ip: str, **kwargs: Any) -> None:
-        """
-        :keyword start_ip: lowest IP address included in the range. Required.
-        :paramtype start_ip: str
-        :keyword end_ip: highest IP address included in the range. Required.
-        :paramtype end_ip: str
-        """
-        super().__init__(start_ip=start_ip, end_ip=end_ip, **kwargs)
 
 
 class RedisFirewallRuleListResult(_serialization.Model):
@@ -1981,7 +1947,7 @@ class RedisLinkedServerCreateParameters(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar linked_redis_cache_id: Fully qualified resourceId of the linked redis cache. Required.
     :vartype linked_redis_cache_id: str
@@ -2044,7 +2010,7 @@ class RedisLinkedServerCreateProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar linked_redis_cache_id: Fully qualified resourceId of the linked redis cache. Required.
     :vartype linked_redis_cache_id: str
@@ -2107,7 +2073,7 @@ class RedisLinkedServerProperties(RedisLinkedServerCreateProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar linked_redis_cache_id: Fully qualified resourceId of the linked redis cache. Required.
     :vartype linked_redis_cache_id: str
@@ -2176,7 +2142,7 @@ class RedisLinkedServerWithProperties(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2312,10 +2278,10 @@ class RedisPatchSchedule(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2389,10 +2355,10 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -2426,7 +2392,7 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
      cache in. Example format:
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
     :vartype subnet_id: str
     :ivar static_ip: Static IP address. Optionally, may be specified when deploying a Redis cache
      inside an existing Azure Virtual Network; auto assigned by default.
@@ -2513,7 +2479,7 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
     ) -> None:
         """
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -2549,7 +2515,7 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
          cache in. Example format:
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
         :paramtype subnet_id: str
         :keyword static_ip: Static IP address. Optionally, may be specified when deploying a Redis
          cache inside an existing Azure Virtual Network; auto assigned by default.
@@ -2627,7 +2593,7 @@ class RedisRebootParameters(_serialization.Model):
 class RedisRegenerateKeyParameters(_serialization.Model):
     """Specifies which Redis access keys to reset.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_type: The Redis access key to regenerate. Required. Known values are: "Primary" and
      "Secondary".
@@ -2658,10 +2624,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2706,10 +2672,10 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2725,7 +2691,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.redis.models.ManagedServiceIdentity
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -2759,7 +2725,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
      cache in. Example format:
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
     :vartype subnet_id: str
     :ivar static_ip: Static IP address. Optionally, may be specified when deploying a Redis cache
      inside an existing Azure Virtual Network; auto assigned by default.
@@ -2875,7 +2841,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.redis.models.ManagedServiceIdentity
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -2911,7 +2877,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
          cache in. Example format:
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1.  # pylint: disable=line-too-long
         :paramtype subnet_id: str
         :keyword static_ip: Static IP address. Optionally, may be specified when deploying a Redis
          cache inside an existing Azure Virtual Network; auto assigned by default.
@@ -2951,7 +2917,7 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.redis.models.ManagedServiceIdentity
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -3028,7 +2994,7 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
         :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.redis.models.ManagedServiceIdentity
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -3083,7 +3049,7 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
     """Patchable properties of the redis cache.
 
     :ivar redis_configuration: All Redis Settings. Few possible keys:
-     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+     rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
      etc.
     :vartype redis_configuration: ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
     :ivar redis_version: Redis version. This should be in the form 'major[.minor]' (only 'major' is
@@ -3149,7 +3115,7 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
     ) -> None:
         """
         :keyword redis_configuration: All Redis Settings. Few possible keys:
-         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+         rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value  # pylint: disable=line-too-long
          etc.
         :paramtype redis_configuration:
          ~azure.mgmt.redis.models.RedisCommonPropertiesRedisConfiguration
@@ -3203,7 +3169,7 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
 class ScheduleEntry(_serialization.Model):
     """Patch schedule entry for a Premium Redis Cache.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar day_of_week: Day of the week when a cache can be patched. Required. Known values are:
      "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Everyday", and
@@ -3253,7 +3219,7 @@ class ScheduleEntry(_serialization.Model):
 class Sku(_serialization.Model):
     """SKU parameters supplied to the create Redis operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
      Required. Known values are: "Basic", "Standard", and "Premium".
