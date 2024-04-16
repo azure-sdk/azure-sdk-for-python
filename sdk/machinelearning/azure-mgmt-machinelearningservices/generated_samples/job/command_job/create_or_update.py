@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -35,8 +38,10 @@ def main():
         id="string",
         body={
             "properties": {
+                "autologgerSettings": {"mlflowAutologger": "Disabled"},
                 "codeId": "string",
                 "command": "string",
+                "componentId": "string",
                 "computeId": "string",
                 "description": "string",
                 "displayName": "string",
@@ -46,26 +51,35 @@ def main():
                 "experimentName": "string",
                 "identity": {"identityType": "AMLToken"},
                 "inputs": {"string": {"description": "string", "jobInputType": "literal", "value": "string"}},
+                "isArchived": False,
                 "jobType": "Command",
                 "limits": {"jobLimitsType": "Command", "timeout": "PT5M"},
+                "notificationSetting": {"emailOn": ["JobCancelled"], "emails": ["string"]},
                 "outputs": {
                     "string": {
+                        "assetName": "string",
+                        "assetVersion": "string",
                         "description": "string",
                         "jobOutputType": "uri_file",
-                        "mode": "ReadWriteMount",
+                        "mode": "Upload",
                         "uri": "string",
                     }
                 },
                 "properties": {"string": "string"},
+                "queueSettings": {"jobTier": "Basic", "priority": 1},
                 "resources": {
+                    "dockerArgs": "string",
                     "instanceCount": 1,
                     "instanceType": "string",
-                    "properties": {"string": {"e6b6493e-7d5e-4db3-be1e-306ec641327e": None}},
+                    "locations": ["string"],
+                    "properties": {"string": {"c9ac10d0-915b-4de5-afe8-a4c78a37a558": None}},
+                    "shmSize": "2g",
                 },
                 "services": {
                     "string": {
                         "endpoint": "string",
                         "jobServiceType": "string",
+                        "nodes": {"nodesValueType": "All"},
                         "port": 1,
                         "properties": {"string": "string"},
                     }
@@ -77,6 +91,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Job/CommandJob/createOrUpdate.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-01-01-preview/examples/Job/CommandJob/createOrUpdate.json
 if __name__ == "__main__":
     main()

@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -34,11 +37,11 @@ def main():
         registry_name="registryName",
         code_name="string",
         version="string",
-        body={"pendingUploadId": "string", "pendingUploadType": "TemporaryBlobReference"},
+        body={"pendingUploadId": "string", "pendingUploadType": "None"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registry/CodeVersion/createOrGetStartPendingUpload.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-01-01-preview/examples/Registry/CodeVersion/createOrGetStartPendingUpload.json
 if __name__ == "__main__":
     main()
