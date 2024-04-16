@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
 
 """
@@ -29,7 +30,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.cassandra_clusters.get_command_async(
+    response = client.cassandra_clusters.get_async_command(
         resource_group_name="cassandra-prod-rg",
         cluster_name="cassandra-prod",
         command_id="318653d0-3da5-4814-b8f6-429f2af0b2a4",
@@ -37,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraCommandResult.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraCommandResult.json
 if __name__ == "__main__":
     main()
