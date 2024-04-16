@@ -155,6 +155,70 @@ class AnalyzeImageResult(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class AnalyzeTextJailbreakOptions(_model_base.Model):
+    """The text jailbreak analysis request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar text: The text needs to be analyzed if it attempt to jailbreak. We support a maximum of
+     1k Unicode characters (Unicode code points) in the text of one request. Required.
+    :vartype text: str
+    """
+
+    text: str = rest_field()
+    """The text needs to be analyzed if it attempt to jailbreak. We support a maximum of 1k Unicode
+     characters (Unicode code points) in the text of one request. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        text: str,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class AnalyzeTextJailbreakResult(_model_base.Model):
+    """The text jailbreak analysis request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar jailbreak_analysis: Analysis result for jailbreak. Required.
+    :vartype jailbreak_analysis: ~azure.ai.contentsafety.models.JailbreakAnalysisResult
+    """
+
+    jailbreak_analysis: "_models.JailbreakAnalysisResult" = rest_field(name="jailbreakAnalysis")
+    """Analysis result for jailbreak. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        jailbreak_analysis: "_models.JailbreakAnalysisResult",
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class AnalyzeTextOptions(_model_base.Model):
     """The text analysis request.
 
@@ -204,6 +268,73 @@ class AnalyzeTextOptions(_model_base.Model):
         blocklist_names: Optional[List[str]] = None,
         halt_on_blocklist_hit: Optional[bool] = None,
         output_type: Optional[Union[str, "_models.AnalyzeTextOutputType"]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class AnalyzeTextProtectedMaterialOptions(_model_base.Model):
+    """The protected material analysis request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar text: The text needs to be analyzed. We support a maximum of 1k Unicode characters
+     (Unicode code points) in the text of one request. Required.
+    :vartype text: str
+    """
+
+    text: str = rest_field()
+    """The text needs to be analyzed. We support a maximum of 1k Unicode characters (Unicode code
+     points) in the text of one request. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        text: str,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class AnalyzeTextProtectedMaterialResult(_model_base.Model):
+    """The protected material analysis response.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar protected_material_analysis: Analysis result for protected material. Required.
+    :vartype protected_material_analysis:
+     ~azure.ai.contentsafety.models.ProtectedMaterialAnalysisResult
+    """
+
+    protected_material_analysis: "_models.ProtectedMaterialAnalysisResult" = rest_field(
+        name="protectedMaterialAnalysis"
+    )
+    """Analysis result for protected material. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        protected_material_analysis: "_models.ProtectedMaterialAnalysisResult",
     ):
         ...
 
@@ -332,6 +463,68 @@ class ImageData(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class JailbreakAnalysisResult(_model_base.Model):
+    """The text jailbreak analysis response.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar detected: Analysis result for jailbreak. Required.
+    :vartype detected: bool
+    """
+
+    detected: bool = rest_field()
+    """Analysis result for jailbreak. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        detected: bool,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class ProtectedMaterialAnalysisResult(_model_base.Model):
+    """The text protected material analysis response.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar detected: Analysis result for protected material.. Required.
+    :vartype detected: bool
+    """
+
+    detected: bool = rest_field()
+    """Analysis result for protected material.. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        detected: bool,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class RemoveTextBlocklistItemsOptions(_model_base.Model):
     """The request to remove blocklistItems from a text blocklist.
 
@@ -413,6 +606,9 @@ class TextBlocklistItem(_model_base.Model):
     :vartype description: str
     :ivar text: BlocklistItem content. Required.
     :vartype text: str
+    :ivar is_regex: Optional setting. true means this item is a regex matched term, false means
+     this item is an exact matched term. Default value is false.
+    :vartype is_regex: bool
     """
 
     blocklist_item_id: str = rest_field(name="blocklistItemId", visibility=["read"])
@@ -421,6 +617,9 @@ class TextBlocklistItem(_model_base.Model):
     """BlocklistItem description."""
     text: str = rest_field()
     """BlocklistItem content. Required."""
+    is_regex: Optional[bool] = rest_field(name="isRegex")
+    """Optional setting. true means this item is a regex matched term, false means this item is an
+     exact matched term. Default value is false."""
 
     @overload
     def __init__(
@@ -428,6 +627,7 @@ class TextBlocklistItem(_model_base.Model):
         *,
         text: str,
         description: Optional[str] = None,
+        is_regex: Optional[bool] = None,
     ):
         ...
 
