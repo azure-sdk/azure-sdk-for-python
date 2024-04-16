@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -72,7 +72,6 @@ class JitRequestsOperations:
         :type resource_group_name: str
         :param jit_request_name: The name of the JIT request. Required.
         :type jit_request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JitRequestDefinition or None or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.JitRequestDefinition or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -91,21 +90,20 @@ class JitRequestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.JitRequestDefinition]] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             jit_request_name=jit_request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -120,19 +118,15 @@ class JitRequestsOperations:
             deserialized = self._deserialize("JitRequestDefinition", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/jitRequests/{jitRequestName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
         jit_request_name: str,
-        parameters: Union[_models.JitRequestDefinition, IO],
+        parameters: Union[_models.JitRequestDefinition, IO[bytes]],
         **kwargs: Any
     ) -> _models.JitRequestDefinition:
         error_map = {
@@ -158,7 +152,7 @@ class JitRequestsOperations:
         else:
             _json = self._serialize.body(parameters, "JitRequestDefinition")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             jit_request_name=jit_request_name,
             subscription_id=self._config.subscription_id,
@@ -166,16 +160,15 @@ class JitRequestsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -195,10 +188,6 @@ class JitRequestsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/jitRequests/{jitRequestName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -222,14 +211,6 @@ class JitRequestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either JitRequestDefinition or the result
          of cls(response)
         :rtype:
@@ -242,7 +223,7 @@ class JitRequestsOperations:
         self,
         resource_group_name: str,
         jit_request_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -255,18 +236,10 @@ class JitRequestsOperations:
         :param jit_request_name: The name of the JIT request. Required.
         :type jit_request_name: str
         :param parameters: Parameters supplied to the update JIT request. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either JitRequestDefinition or the result
          of cls(response)
         :rtype:
@@ -279,7 +252,7 @@ class JitRequestsOperations:
         self,
         resource_group_name: str,
         jit_request_name: str,
-        parameters: Union[_models.JitRequestDefinition, IO],
+        parameters: Union[_models.JitRequestDefinition, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.JitRequestDefinition]:
         """Creates or updates the JIT request.
@@ -290,19 +263,8 @@ class JitRequestsOperations:
         :param jit_request_name: The name of the JIT request. Required.
         :type jit_request_name: str
         :param parameters: Parameters supplied to the update JIT request. Is either a
-         JitRequestDefinition type or a IO type. Required.
-        :type parameters: ~azure.mgmt.managedapplications.models.JitRequestDefinition or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         JitRequestDefinition type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.managedapplications.models.JitRequestDefinition or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either JitRequestDefinition or the result
          of cls(response)
         :rtype:
@@ -335,7 +297,7 @@ class JitRequestsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("JitRequestDefinition", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -348,17 +310,15 @@ class JitRequestsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.JitRequestDefinition].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/jitRequests/{jitRequestName}"
-    }
+        return AsyncLROPoller[_models.JitRequestDefinition](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def update(
@@ -382,7 +342,6 @@ class JitRequestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JitRequestDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.JitRequestDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -393,7 +352,7 @@ class JitRequestsOperations:
         self,
         resource_group_name: str,
         jit_request_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -406,11 +365,10 @@ class JitRequestsOperations:
         :param jit_request_name: The name of the JIT request. Required.
         :type jit_request_name: str
         :param parameters: Parameters supplied to the update JIT request. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JitRequestDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.JitRequestDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -421,7 +379,7 @@ class JitRequestsOperations:
         self,
         resource_group_name: str,
         jit_request_name: str,
-        parameters: Union[_models.JitRequestPatchable, IO],
+        parameters: Union[_models.JitRequestPatchable, IO[bytes]],
         **kwargs: Any
     ) -> _models.JitRequestDefinition:
         """Updates the JIT request.
@@ -432,12 +390,8 @@ class JitRequestsOperations:
         :param jit_request_name: The name of the JIT request. Required.
         :type jit_request_name: str
         :param parameters: Parameters supplied to the update JIT request. Is either a
-         JitRequestPatchable type or a IO type. Required.
-        :type parameters: ~azure.mgmt.managedapplications.models.JitRequestPatchable or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         JitRequestPatchable type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.managedapplications.models.JitRequestPatchable or IO[bytes]
         :return: JitRequestDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.JitRequestDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -465,7 +419,7 @@ class JitRequestsOperations:
         else:
             _json = self._serialize.body(parameters, "JitRequestPatchable")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             jit_request_name=jit_request_name,
             subscription_id=self._config.subscription_id,
@@ -473,16 +427,15 @@ class JitRequestsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -495,13 +448,9 @@ class JitRequestsOperations:
         deserialized = self._deserialize("JitRequestDefinition", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/jitRequests/{jitRequestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
@@ -514,7 +463,6 @@ class JitRequestsOperations:
         :type resource_group_name: str
         :param jit_request_name: The name of the JIT request. Required.
         :type jit_request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -533,21 +481,20 @@ class JitRequestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             jit_request_name=jit_request_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -558,17 +505,12 @@ class JitRequestsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/jitRequests/{jitRequestName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def list_by_subscription(self, **kwargs: Any) -> _models.JitRequestDefinitionListResult:
         """Lists all JIT requests within the subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JitRequestDefinitionListResult or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.JitRequestDefinitionListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -587,19 +529,18 @@ class JitRequestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.JitRequestDefinitionListResult] = kwargs.pop("cls", None)
 
-        request = build_list_by_subscription_request(
+        _request = build_list_by_subscription_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_by_subscription.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -612,11 +553,9 @@ class JitRequestsOperations:
         deserialized = self._deserialize("JitRequestDefinitionListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_by_subscription.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Solutions/jitRequests"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def list_by_resource_group(
@@ -627,7 +566,6 @@ class JitRequestsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JitRequestDefinitionListResult or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.JitRequestDefinitionListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -646,20 +584,19 @@ class JitRequestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.JitRequestDefinitionListResult] = kwargs.pop("cls", None)
 
-        request = build_list_by_resource_group_request(
+        _request = build_list_by_resource_group_request(
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_by_resource_group.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -672,10 +609,6 @@ class JitRequestsOperations:
         deserialized = self._deserialize("JitRequestDefinitionListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/jitRequests"
-    }
+        return deserialized  # type: ignore

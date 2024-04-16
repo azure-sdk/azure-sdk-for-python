@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -499,7 +499,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param application_name: The name of the managed application. Required.
         :type application_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Application or None or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.Application or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -518,21 +517,20 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.Application]] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -547,13 +545,9 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("Application", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
+        return deserialized  # type: ignore
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, application_name: str, **kwargs: Any
@@ -572,21 +566,20 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -597,11 +590,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, application_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -612,14 +601,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param application_name: The name of the managed application. Required.
         :type application_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -646,7 +627,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -657,20 +638,20 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _create_or_update_initial(
-        self, resource_group_name: str, application_name: str, parameters: Union[_models.Application, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        application_name: str,
+        parameters: Union[_models.Application, IO[bytes]],
+        **kwargs: Any
     ) -> _models.Application:
         error_map = {
             401: ClientAuthenticationError,
@@ -695,7 +676,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "Application")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
@@ -703,16 +684,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -732,10 +712,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -759,14 +735,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Application or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.managedapplications.models.Application]
@@ -778,7 +746,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -791,18 +759,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Parameters supplied to the create or update a managed application. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Application or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.managedapplications.models.Application]
@@ -811,7 +771,11 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
     @distributed_trace
     def begin_create_or_update(
-        self, resource_group_name: str, application_name: str, parameters: Union[_models.Application, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        application_name: str,
+        parameters: Union[_models.Application, IO[bytes]],
+        **kwargs: Any
     ) -> LROPoller[_models.Application]:
         """Creates or updates a managed application.
 
@@ -821,19 +785,8 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Parameters supplied to the create or update a managed application. Is either
-         a Application type or a IO type. Required.
-        :type parameters: ~azure.mgmt.managedapplications.models.Application or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a Application type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.managedapplications.models.Application or IO[bytes]
         :return: An instance of LROPoller that returns either Application or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.managedapplications.models.Application]
@@ -865,7 +818,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Application", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -877,23 +830,21 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Application].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
+        return LROPoller[_models.Application](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_initial(
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: Optional[Union[_models.ApplicationPatchable, IO]] = None,
+        parameters: Optional[Union[_models.ApplicationPatchable, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.ApplicationPatchable:
         error_map = {
@@ -922,7 +873,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             else:
                 _json = None
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
@@ -930,16 +881,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -959,10 +909,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
 
     @overload
     def begin_update(
@@ -987,14 +933,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ApplicationPatchable or the result of
          cls(response)
         :rtype:
@@ -1007,7 +945,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: Optional[IO] = None,
+        parameters: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1021,18 +959,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :type application_name: str
         :param parameters: Parameters supplied to update an existing managed application. Default value
          is None.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ApplicationPatchable or the result of
          cls(response)
         :rtype:
@@ -1045,7 +975,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: Optional[Union[_models.ApplicationPatchable, IO]] = None,
+        parameters: Optional[Union[_models.ApplicationPatchable, IO[bytes]]] = None,
         **kwargs: Any
     ) -> LROPoller[_models.ApplicationPatchable]:
         """Updates an existing managed application.
@@ -1056,19 +986,8 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Parameters supplied to update an existing managed application. Is either a
-         ApplicationPatchable type or a IO type. Default value is None.
-        :type parameters: ~azure.mgmt.managedapplications.models.ApplicationPatchable or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ApplicationPatchable type or a IO[bytes] type. Default value is None.
+        :type parameters: ~azure.mgmt.managedapplications.models.ApplicationPatchable or IO[bytes]
         :return: An instance of LROPoller that returns either ApplicationPatchable or the result of
          cls(response)
         :rtype:
@@ -1101,7 +1020,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ApplicationPatchable", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1113,17 +1032,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ApplicationPatchable].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}"
-    }
+        return LROPoller[_models.ApplicationPatchable](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.Application"]:
@@ -1132,7 +1049,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Application or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.managedapplications.models.Application]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1154,16 +1070,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1175,13 +1090,13 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ApplicationListResult", pipeline_response)
@@ -1191,11 +1106,11 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1207,16 +1122,11 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications"
-    }
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.Application"]:
         """Lists all the applications within a subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Application or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.managedapplications.models.Application]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1238,15 +1148,14 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1258,13 +1167,13 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ApplicationListResult", pipeline_response)
@@ -1274,11 +1183,11 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1290,10 +1199,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Solutions/applications"
-    }
 
     @distributed_trace
     def get_by_id(self, application_id: str, **kwargs: Any) -> Optional[_models.Application]:
@@ -1304,7 +1209,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
          /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}.
          Required.
         :type application_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Application or None or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.Application or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1323,19 +1227,18 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.Application]] = kwargs.pop("cls", None)
 
-        request = build_get_by_id_request(
+        _request = build_get_by_id_request(
             application_id=application_id,
             api_version=api_version,
-            template_url=self.get_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1350,11 +1253,9 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("Application", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_id.metadata = {"url": "/{applicationId}"}
+        return deserialized  # type: ignore
 
     def _delete_by_id_initial(  # pylint: disable=inconsistent-return-statements
         self, application_id: str, **kwargs: Any
@@ -1373,19 +1274,18 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_by_id_request(
+        _request = build_delete_by_id_request(
             application_id=application_id,
             api_version=api_version,
-            template_url=self._delete_by_id_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1396,9 +1296,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_by_id_initial.metadata = {"url": "/{applicationId}"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete_by_id(self, application_id: str, **kwargs: Any) -> LROPoller[None]:
@@ -1409,14 +1307,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
          /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}.
          Required.
         :type application_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1442,7 +1332,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1453,18 +1343,16 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_by_id.metadata = {"url": "/{applicationId}"}
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _create_or_update_by_id_initial(
-        self, application_id: str, parameters: Union[_models.Application, IO], **kwargs: Any
+        self, application_id: str, parameters: Union[_models.Application, IO[bytes]], **kwargs: Any
     ) -> _models.Application:
         error_map = {
             401: ClientAuthenticationError,
@@ -1489,22 +1377,21 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "Application")
 
-        request = build_create_or_update_by_id_request(
+        _request = build_create_or_update_by_id_request(
             application_id=application_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_by_id_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1524,8 +1411,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_by_id_initial.metadata = {"url": "/{applicationId}"}
 
     @overload
     def begin_create_or_update_by_id(
@@ -1548,14 +1433,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Application or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.managedapplications.models.Application]
@@ -1564,7 +1441,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
     @overload
     def begin_create_or_update_by_id(
-        self, application_id: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, application_id: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.Application]:
         """Creates or updates a managed application.
 
@@ -1574,18 +1451,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
          Required.
         :type application_id: str
         :param parameters: Parameters supplied to the create or update a managed application. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Application or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.managedapplications.models.Application]
@@ -1594,7 +1463,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
     @distributed_trace
     def begin_create_or_update_by_id(
-        self, application_id: str, parameters: Union[_models.Application, IO], **kwargs: Any
+        self, application_id: str, parameters: Union[_models.Application, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Application]:
         """Creates or updates a managed application.
 
@@ -1604,19 +1473,8 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
          Required.
         :type application_id: str
         :param parameters: Parameters supplied to the create or update a managed application. Is either
-         a Application type or a IO type. Required.
-        :type parameters: ~azure.mgmt.managedapplications.models.Application or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a Application type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.managedapplications.models.Application or IO[bytes]
         :return: An instance of LROPoller that returns either Application or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.managedapplications.models.Application]
@@ -1647,7 +1505,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Application", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1659,18 +1517,21 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Application].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update_by_id.metadata = {"url": "/{applicationId}"}
+        return LROPoller[_models.Application](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_by_id_initial(
-        self, application_id: str, parameters: Optional[Union[_models.ApplicationPatchable, IO]] = None, **kwargs: Any
+        self,
+        application_id: str,
+        parameters: Optional[Union[_models.ApplicationPatchable, IO[bytes]]] = None,
+        **kwargs: Any
     ) -> _models.ApplicationPatchable:
         error_map = {
             401: ClientAuthenticationError,
@@ -1698,22 +1559,21 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             else:
                 _json = None
 
-        request = build_update_by_id_request(
+        _request = build_update_by_id_request(
             application_id=application_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_by_id_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1733,8 +1593,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _update_by_id_initial.metadata = {"url": "/{applicationId}"}
 
     @overload
     def begin_update_by_id(
@@ -1758,14 +1616,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ApplicationPatchable or the result of
          cls(response)
         :rtype:
@@ -1777,7 +1627,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
     def begin_update_by_id(
         self,
         application_id: str,
-        parameters: Optional[IO] = None,
+        parameters: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1791,18 +1641,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :type application_id: str
         :param parameters: Parameters supplied to update an existing managed application. Default value
          is None.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ApplicationPatchable or the result of
          cls(response)
         :rtype:
@@ -1812,7 +1654,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
     @distributed_trace
     def begin_update_by_id(
-        self, application_id: str, parameters: Optional[Union[_models.ApplicationPatchable, IO]] = None, **kwargs: Any
+        self,
+        application_id: str,
+        parameters: Optional[Union[_models.ApplicationPatchable, IO[bytes]]] = None,
+        **kwargs: Any
     ) -> LROPoller[_models.ApplicationPatchable]:
         """Updates an existing managed application.
 
@@ -1822,19 +1667,8 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
          Required.
         :type application_id: str
         :param parameters: Parameters supplied to update an existing managed application. Is either a
-         ApplicationPatchable type or a IO type. Default value is None.
-        :type parameters: ~azure.mgmt.managedapplications.models.ApplicationPatchable or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ApplicationPatchable type or a IO[bytes] type. Default value is None.
+        :type parameters: ~azure.mgmt.managedapplications.models.ApplicationPatchable or IO[bytes]
         :return: An instance of LROPoller that returns either ApplicationPatchable or the result of
          cls(response)
         :rtype:
@@ -1866,7 +1700,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ApplicationPatchable", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1878,15 +1712,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ApplicationPatchable].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_by_id.metadata = {"url": "/{applicationId}"}
+        return LROPoller[_models.ApplicationPatchable](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _refresh_permissions_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, application_name: str, **kwargs: Any
@@ -1905,21 +1739,20 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_refresh_permissions_request(
+        _request = build_refresh_permissions_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._refresh_permissions_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1930,11 +1763,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _refresh_permissions_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/refreshPermissions"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_refresh_permissions(
@@ -1947,14 +1776,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param application_name: The name of the managed application. Required.
         :type application_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1981,7 +1802,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1992,17 +1813,13 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_refresh_permissions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/refreshPermissions"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_allowed_upgrade_plans(
@@ -2015,7 +1832,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param application_name: The name of the managed application. Required.
         :type application_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AllowedUpgradePlansResult or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.AllowedUpgradePlansResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2034,21 +1850,20 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AllowedUpgradePlansResult] = kwargs.pop("cls", None)
 
-        request = build_list_allowed_upgrade_plans_request(
+        _request = build_list_allowed_upgrade_plans_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_allowed_upgrade_plans.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2061,19 +1876,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("AllowedUpgradePlansResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_allowed_upgrade_plans.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/listAllowedUpgradePlans"
-    }
+        return deserialized  # type: ignore
 
     def _update_access_initial(
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: Union[_models.UpdateAccessDefinition, IO],
+        parameters: Union[_models.UpdateAccessDefinition, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.UpdateAccessDefinition]:
         error_map = {
@@ -2099,7 +1910,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "UpdateAccessDefinition")
 
-        request = build_update_access_request(
+        _request = build_update_access_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
@@ -2107,16 +1918,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_access_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2131,13 +1941,9 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("UpdateAccessDefinition", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_access_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/updateAccess"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_access(
@@ -2161,14 +1967,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either UpdateAccessDefinition or the result of
          cls(response)
         :rtype:
@@ -2181,7 +1979,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2194,18 +1992,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Request body parameters to list tokens. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either UpdateAccessDefinition or the result of
          cls(response)
         :rtype:
@@ -2218,7 +2008,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: Union[_models.UpdateAccessDefinition, IO],
+        parameters: Union[_models.UpdateAccessDefinition, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.UpdateAccessDefinition]:
         """Update access for application.
@@ -2229,19 +2019,8 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Request body parameters to list tokens. Is either a UpdateAccessDefinition
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.managedapplications.models.UpdateAccessDefinition or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.managedapplications.models.UpdateAccessDefinition or IO[bytes]
         :return: An instance of LROPoller that returns either UpdateAccessDefinition or the result of
          cls(response)
         :rtype:
@@ -2274,7 +2053,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("UpdateAccessDefinition", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2286,17 +2065,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.UpdateAccessDefinition].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_access.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/updateAccess"
-    }
+        return LROPoller[_models.UpdateAccessDefinition](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     def list_tokens(
@@ -2320,7 +2097,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedIdentityTokenResult or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.ManagedIdentityTokenResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2331,7 +2107,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2344,11 +2120,10 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Request body parameters to list tokens. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedIdentityTokenResult or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.ManagedIdentityTokenResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2359,7 +2134,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         application_name: str,
-        parameters: Union[_models.ListTokenRequest, IO],
+        parameters: Union[_models.ListTokenRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.ManagedIdentityTokenResult:
         """List tokens for application.
@@ -2370,12 +2145,8 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         :param application_name: The name of the managed application. Required.
         :type application_name: str
         :param parameters: Request body parameters to list tokens. Is either a ListTokenRequest type or
-         a IO type. Required.
-        :type parameters: ~azure.mgmt.managedapplications.models.ListTokenRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.managedapplications.models.ListTokenRequest or IO[bytes]
         :return: ManagedIdentityTokenResult or the result of cls(response)
         :rtype: ~azure.mgmt.managedapplications.models.ManagedIdentityTokenResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2403,7 +2174,7 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "ListTokenRequest")
 
-        request = build_list_tokens_request(
+        _request = build_list_tokens_request(
             resource_group_name=resource_group_name,
             application_name=application_name,
             subscription_id=self._config.subscription_id,
@@ -2411,16 +2182,15 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_tokens.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2433,10 +2203,6 @@ class ApplicationsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ManagedIdentityTokenResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_tokens.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/listTokens"
-    }
+        return deserialized  # type: ignore

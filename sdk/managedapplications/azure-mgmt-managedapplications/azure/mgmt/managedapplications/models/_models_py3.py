@@ -165,7 +165,7 @@ class Application(GenericResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -346,7 +346,7 @@ class Application(GenericResource):  # pylint: disable=too-many-instance-attribu
 class ApplicationArtifact(_serialization.Model):
     """Managed application artifact.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The managed application artifact name. Required. Known values are: "NotSpecified",
      "ViewDefinition", "Authorizations", and "CustomRoleDefinition".
@@ -397,7 +397,7 @@ class ApplicationArtifact(_serialization.Model):
 class ApplicationAuthorization(_serialization.Model):
     """The managed application provider authorization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The provider's principal identifier. This is the identity that the provider
      will use to call ARM to manage the managed application resources. Required.
@@ -497,7 +497,7 @@ class ApplicationDefinition(GenericResource):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -687,7 +687,7 @@ class ApplicationDefinition(GenericResource):  # pylint: disable=too-many-instan
 class ApplicationDefinitionArtifact(_serialization.Model):
     """Application definition artifact.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The managed application definition artifact name. Required. Known values are:
      "NotSpecified", "ApplicationResourceTemplate", "CreateUiDefinition", and
@@ -793,7 +793,7 @@ class ApplicationDefinitionPatchable(_serialization.Model):
 class ApplicationDeploymentPolicy(_serialization.Model):
     """Managed application deployment policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_mode: The managed application deployment mode. Required. Known values are:
      "NotSpecified", "Incremental", and "Complete".
@@ -821,7 +821,7 @@ class ApplicationDeploymentPolicy(_serialization.Model):
 class ApplicationJitAccessPolicy(_serialization.Model):
     """Managed application Jit access policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar jit_access_enabled: Whether the JIT access is enabled. Required.
     :vartype jit_access_enabled: bool
@@ -929,7 +929,7 @@ class ApplicationManagementPolicy(_serialization.Model):
 class ApplicationNotificationEndpoint(_serialization.Model):
     """Managed application notification endpoint.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar uri: The managed application notification endpoint uri. Required.
     :vartype uri: str
@@ -955,7 +955,7 @@ class ApplicationNotificationEndpoint(_serialization.Model):
 class ApplicationNotificationPolicy(_serialization.Model):
     """Managed application notification policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar notification_endpoints: The managed application notification endpoint. Required.
     :vartype notification_endpoints:
@@ -985,7 +985,7 @@ class ApplicationNotificationPolicy(_serialization.Model):
 class ApplicationPackageContact(_serialization.Model):
     """The application package contact information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar contact_name: The contact name.
     :vartype contact_name: str
@@ -1021,7 +1021,7 @@ class ApplicationPackageContact(_serialization.Model):
         self.phone = phone
 
 
-class ApplicationPackageLockingPolicyDefinition(_serialization.Model):
+class ApplicationPackageLockingPolicyDefinition(_serialization.Model):  # pylint: disable=name-too-long
     """Managed application locking policy.
 
     :ivar allowed_actions: The deny assignment excluded actions.
@@ -1407,7 +1407,7 @@ class Identity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.managedapplications.models.ResourceIdentityType
     :ivar user_assigned_identities: The list of user identities associated with the resource. The
      user identity dictionary key references will be resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.managedapplications.models.UserAssignedResourceIdentity]
     """
@@ -1437,7 +1437,7 @@ class Identity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.managedapplications.models.ResourceIdentityType
         :keyword user_assigned_identities: The list of user identities associated with the resource.
          The user identity dictionary key references will be resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.managedapplications.models.UserAssignedResourceIdentity]
         """
@@ -1451,7 +1451,7 @@ class Identity(_serialization.Model):
 class JitApproverDefinition(_serialization.Model):
     """JIT approver definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The approver service principal Id. Required.
     :vartype id: str
@@ -1496,7 +1496,7 @@ class JitApproverDefinition(_serialization.Model):
 class JitAuthorizationPolicies(_serialization.Model):
     """The JIT authorization policies.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The the principal id that will be granted JIT access. Required.
     :vartype principal_id: str
@@ -1734,7 +1734,7 @@ class JitRequestPatchable(_serialization.Model):
 class JitSchedulingPolicy(_serialization.Model):
     """The JIT scheduling policies.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of JIT schedule. Required. Known values are: "NotSpecified", "Once", and
      "Recurring".
@@ -2031,7 +2031,7 @@ class OperationListResult(_serialization.Model):
 class Plan(_serialization.Model):
     """Plan for the managed application.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The plan name. Required.
     :vartype name: str
@@ -2146,7 +2146,7 @@ class PlanPatchable(_serialization.Model):
 class Sku(_serialization.Model):
     """SKU for the resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The SKU name. Required.
     :vartype name: str
@@ -2276,7 +2276,7 @@ class SystemData(_serialization.Model):
 class UpdateAccessDefinition(_serialization.Model):
     """Update access request definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar approver: The approver name.
     :vartype approver: str
