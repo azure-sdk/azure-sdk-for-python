@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.sqlvirtualmachine import SqlVirtualMachineManagementClient
 
 """
@@ -42,6 +45,7 @@ def main():
                     "clusterOperatorAccount": "testrp@testdomain.com",
                     "clusterSubnetType": "MultiSubnet",
                     "domainFqdn": "testdomain.com",
+                    "isSqlServiceAccountGmsa": False,
                     "ouPath": "OU=WSCluster,DC=testdomain,DC=com",
                     "sqlServiceAccount": "sqlservice@testdomain.com",
                     "storageAccountPrimaryKey": "<primary storage access key>",
@@ -54,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
+# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/stable/2023-10-01/examples/CreateOrUpdateSqlVirtualMachineGroup.json
 if __name__ == "__main__":
     main()

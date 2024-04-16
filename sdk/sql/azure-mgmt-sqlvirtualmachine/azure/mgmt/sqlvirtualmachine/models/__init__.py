@@ -15,6 +15,7 @@ from ._models_py3 import AutoBackupSettings
 from ._models_py3 import AutoPatchingSettings
 from ._models_py3 import AvailabilityGroupListener
 from ._models_py3 import AvailabilityGroupListenerListResult
+from ._models_py3 import DiskConfigAssessmentRequest
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -49,9 +50,12 @@ from ._models_py3 import TrackedResource
 from ._models_py3 import TroubleshootingAdditionalProperties
 from ._models_py3 import TroubleshootingStatus
 from ._models_py3 import UnhealthyReplicaInfo
+from ._models_py3 import VirtualMachineIdentity
 from ._models_py3 import WsfcDomainCredentials
 from ._models_py3 import WsfcDomainProfile
 
+from ._sql_virtual_machine_management_client_enums import AdditionalOsPatch
+from ._sql_virtual_machine_management_client_enums import AdditionalVmPatch
 from ._sql_virtual_machine_management_client_enums import AssessmentDayOfWeek
 from ._sql_virtual_machine_management_client_enums import AutoBackupDaysOfWeek
 from ._sql_virtual_machine_management_client_enums import BackupScheduleType
@@ -68,6 +72,7 @@ from ._sql_virtual_machine_management_client_enums import FullBackupFrequencyTyp
 from ._sql_virtual_machine_management_client_enums import IdentityType
 from ._sql_virtual_machine_management_client_enums import LeastPrivilegeMode
 from ._sql_virtual_machine_management_client_enums import OperationOrigin
+from ._sql_virtual_machine_management_client_enums import OsType
 from ._sql_virtual_machine_management_client_enums import ReadableSecondary
 from ._sql_virtual_machine_management_client_enums import Role
 from ._sql_virtual_machine_management_client_enums import ScaleType
@@ -78,6 +83,7 @@ from ._sql_virtual_machine_management_client_enums import SqlVmGroupImageSku
 from ._sql_virtual_machine_management_client_enums import SqlWorkloadType
 from ._sql_virtual_machine_management_client_enums import StorageWorkloadType
 from ._sql_virtual_machine_management_client_enums import TroubleshootingScenario
+from ._sql_virtual_machine_management_client_enums import VmIdentityType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -92,6 +98,7 @@ __all__ = [
     "AutoPatchingSettings",
     "AvailabilityGroupListener",
     "AvailabilityGroupListenerListResult",
+    "DiskConfigAssessmentRequest",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -126,8 +133,11 @@ __all__ = [
     "TroubleshootingAdditionalProperties",
     "TroubleshootingStatus",
     "UnhealthyReplicaInfo",
+    "VirtualMachineIdentity",
     "WsfcDomainCredentials",
     "WsfcDomainProfile",
+    "AdditionalOsPatch",
+    "AdditionalVmPatch",
     "AssessmentDayOfWeek",
     "AutoBackupDaysOfWeek",
     "BackupScheduleType",
@@ -144,6 +154,7 @@ __all__ = [
     "IdentityType",
     "LeastPrivilegeMode",
     "OperationOrigin",
+    "OsType",
     "ReadableSecondary",
     "Role",
     "ScaleType",
@@ -154,6 +165,7 @@ __all__ = [
     "SqlWorkloadType",
     "StorageWorkloadType",
     "TroubleshootingScenario",
+    "VmIdentityType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
