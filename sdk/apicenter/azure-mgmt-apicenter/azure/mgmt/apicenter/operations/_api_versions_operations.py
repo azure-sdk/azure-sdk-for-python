@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -50,7 +50,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +99,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -144,12 +144,14 @@ def build_create_or_update_request(
     api_name: str,
     version_name: str,
     subscription_id: str,
+    *,
+    if_match: Optional[str] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -183,6 +185,8 @@ def build_create_or_update_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    if if_match is not None:
+        _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -202,7 +206,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -252,7 +256,7 @@ def build_head_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -332,7 +336,6 @@ class ApiVersionsOperations:
         :type api_name: str
         :param filter: OData filter parameter. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ApiVersion or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.apicenter.models.ApiVersion]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -354,7 +357,7 @@ class ApiVersionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     service_name=service_name,
                     workspace_name=workspace_name,
@@ -362,12 +365,11 @@ class ApiVersionsOperations:
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -379,13 +381,13 @@ class ApiVersionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ApiVersionListResult", pipeline_response)
@@ -395,11 +397,11 @@ class ApiVersionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -411,10 +413,6 @@ class ApiVersionsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions"
-    }
 
     @distributed_trace
     def get(
@@ -439,7 +437,6 @@ class ApiVersionsOperations:
         :type api_name: str
         :param version_name: The name of the API version. Required.
         :type version_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApiVersion or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.ApiVersion
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -458,7 +455,7 @@ class ApiVersionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ApiVersion] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
@@ -466,16 +463,15 @@ class ApiVersionsOperations:
             version_name=version_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -491,13 +487,9 @@ class ApiVersionsOperations:
         deserialized = self._deserialize("ApiVersion", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -508,6 +500,7 @@ class ApiVersionsOperations:
         api_name: str,
         version_name: str,
         resource: _models.ApiVersion,
+        if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -527,10 +520,12 @@ class ApiVersionsOperations:
         :type version_name: str
         :param resource: Resource create parameters. Required.
         :type resource: ~azure.mgmt.apicenter.models.ApiVersion
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApiVersion or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.ApiVersion
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -544,7 +539,8 @@ class ApiVersionsOperations:
         workspace_name: str,
         api_name: str,
         version_name: str,
-        resource: IO,
+        resource: IO[bytes],
+        if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -563,11 +559,13 @@ class ApiVersionsOperations:
         :param version_name: The name of the API version. Required.
         :type version_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApiVersion or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.ApiVersion
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -581,7 +579,8 @@ class ApiVersionsOperations:
         workspace_name: str,
         api_name: str,
         version_name: str,
-        resource: Union[_models.ApiVersion, IO],
+        resource: Union[_models.ApiVersion, IO[bytes]],
+        if_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.ApiVersion:
         """Creates new or updates existing API version.
@@ -597,13 +596,12 @@ class ApiVersionsOperations:
         :type api_name: str
         :param version_name: The name of the API version. Required.
         :type version_name: str
-        :param resource: Resource create parameters. Is either a ApiVersion type or a IO type.
+        :param resource: Resource create parameters. Is either a ApiVersion type or a IO[bytes] type.
          Required.
-        :type resource: ~azure.mgmt.apicenter.models.ApiVersion or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type resource: ~azure.mgmt.apicenter.models.ApiVersion or IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
         :return: ApiVersion or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.ApiVersion
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -631,27 +629,27 @@ class ApiVersionsOperations:
         else:
             _json = self._serialize.body(resource, "ApiVersion")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
             api_name=api_name,
             version_name=version_name,
             subscription_id=self._config.subscription_id,
+            if_match=if_match,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -677,10 +675,6 @@ class ApiVersionsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self,
@@ -704,7 +698,6 @@ class ApiVersionsOperations:
         :type api_name: str
         :param version_name: The name of the API version. Required.
         :type version_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -723,7 +716,7 @@ class ApiVersionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
@@ -731,16 +724,15 @@ class ApiVersionsOperations:
             version_name=version_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -751,11 +743,7 @@ class ApiVersionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def head(
@@ -780,7 +768,6 @@ class ApiVersionsOperations:
         :type api_name: str
         :param version_name: The name of the API version. Required.
         :type version_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: bool or the result of cls(response)
         :rtype: bool
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -799,7 +786,7 @@ class ApiVersionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_head_request(
+        _request = build_head_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
@@ -807,16 +794,15 @@ class ApiVersionsOperations:
             version_name=version_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.head.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -827,9 +813,5 @@ class ApiVersionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})  # type: ignore
         return 200 <= response.status_code <= 299
-
-    head.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}"
-    }

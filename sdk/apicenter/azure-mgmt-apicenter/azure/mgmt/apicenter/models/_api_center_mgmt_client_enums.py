@@ -49,7 +49,7 @@ class ApiSpecImportSourceFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The inlined content of a specification document."""
     LINK = "link"
     """The link to a specification document hosted on a publicly accessible internet
-    #: address."""
+    address."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -178,3 +178,7 @@ class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     V2024_03_01 = "2024-03-01"
     """The initial service version"""
+    V2024_03_15_PREVIEW = "2024-03-15-preview"
+    """Azure API Center 2024-03-15-preview"""
+    V2024_05_01 = "2024-05-01"
+    """Azure API Center 2024-05-01"""
