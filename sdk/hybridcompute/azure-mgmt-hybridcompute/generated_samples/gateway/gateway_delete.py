@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hybridcompute import HybridComputeManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.hybridcompute import HybridComputeManagementClient
     pip install azure-identity
     pip install azure-mgmt-hybridcompute
 # USAGE
-    python agent_version_get_latest.py
+    python gateway_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +27,15 @@ from azure.mgmt.hybridcompute import HybridComputeManagementClient
 def main():
     client = HybridComputeManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="ffd506c8-3415-42d3-9612-fdb423fb17df",
     )
 
-    response = client.agent_version.get(
-        os_type="myOsType",
-        version="1.27",
-    )
-    print(response)
+    client.gateways.begin_delete(
+        resource_group_name="myResourceGroup",
+        gateway_name="{gatewayName}",
+    ).result()
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/AgentVersion_GetLatest.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/gateway/Gateway_Delete.json
 if __name__ == "__main__":
     main()

@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hybridcompute import HybridComputeManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.hybridcompute import HybridComputeManagementClient
     pip install azure-identity
     pip install azure-mgmt-hybridcompute
 # USAGE
-    python license_profile_create_or_update.py
+    python run_commands_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,17 +30,14 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.license_profiles.begin_create_or_update(
+    response = client.machine_run_commands.get(
         resource_group_name="myResourceGroup",
         machine_name="myMachine",
-        parameters={
-            "location": "eastus2euap",
-            "properties": {"esuProfile": {"assignedLicense": "{LicenseResourceId}"}},
-        },
-    ).result()
+        run_command_name="myRunCommand",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/licenseProfile/LicenseProfile_CreateOrUpdate.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/runCommand/RunCommands_Get.json
 if __name__ == "__main__":
     main()
