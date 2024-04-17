@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.costmanagement import CostManagementClient
 
 """
@@ -52,6 +55,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/preview/2024-04-15-preview/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
 if __name__ == "__main__":
     main()

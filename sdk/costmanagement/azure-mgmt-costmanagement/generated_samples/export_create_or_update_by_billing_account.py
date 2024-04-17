@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.costmanagement import CostManagementClient
 
 """
@@ -32,12 +35,13 @@ def main():
         scope="providers/Microsoft.Billing/billingAccounts/123456",
         export_name="TestExport",
         parameters={
+            "identity": {"type": "SystemAssigned"},
+            "location": "centralus",
             "properties": {
+                "compressionMode": "gzip",
+                "dataOverwriteBehavior": "OverwritePreviousReport",
                 "definition": {
-                    "dataSet": {
-                        "configuration": {"columns": ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"]},
-                        "granularity": "Daily",
-                    },
+                    "dataSet": {"configuration": {"dataVersion": "2023-05-01"}, "granularity": "Daily"},
                     "timeframe": "MonthToDate",
                     "type": "ActualCost",
                 },
@@ -46,20 +50,23 @@ def main():
                         "container": "exports",
                         "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
                         "rootFolderPath": "ad-hoc",
+                        "type": "AzureBlob",
                     }
                 },
+                "exportDescription": "This is a test export.",
                 "format": "Csv",
+                "partitionData": True,
                 "schedule": {
-                    "recurrence": "Weekly",
+                    "recurrence": "Daily",
                     "recurrencePeriod": {"from": "2020-06-01T00:00:00Z", "to": "2020-10-31T00:00:00Z"},
                     "status": "Active",
                 },
-            }
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByBillingAccount.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/preview/2024-04-15-preview/examples/ExportCreateOrUpdateByBillingAccount.json
 if __name__ == "__main__":
     main()
