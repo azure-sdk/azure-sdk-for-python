@@ -67,7 +67,7 @@ class AzureResourceBase(_serialization.Model):
 class DenySettings(_serialization.Model):
     """Defines how resources deployed by the deployment stack are locked.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: denySettings Mode. Required. Known values are: "denyDelete", "denyWriteAndDelete",
      and "none".
@@ -415,7 +415,7 @@ class DeploymentStackProperties(DeploymentStacksError):  # pylint: disable=too-m
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar error: Common error response for all Azure Resource Manager APIs to return error details
      for failed operations. (This also follows the OData error response format.).
@@ -599,10 +599,10 @@ class DeploymentStackProperties(DeploymentStacksError):  # pylint: disable=too-m
         self.duration = None
 
 
-class DeploymentStackPropertiesActionOnUnmanage(_serialization.Model):
+class DeploymentStackPropertiesActionOnUnmanage(_serialization.Model):  # pylint: disable=name-too-long
     """Defines the behavior of resources that are not managed immediately after the stack is updated.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resources: Specifies the action that should be taken on the resource when the deployment
      stack is deleted. Delete will attempt to delete the resource from Azure. Detach will leave the
@@ -695,7 +695,7 @@ class DeploymentStacksDebugSetting(_serialization.Model):
 class DeploymentStacksParametersLink(_serialization.Model):
     """Entity representing the reference to the deployment parameters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar uri: The URI of the parameters file. Required.
     :vartype uri: str
