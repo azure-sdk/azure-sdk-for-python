@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.healthbot import HealthBotMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.healthbot import HealthBotMgmtClient
     pip install azure-identity
     pip install azure-mgmt-healthbot
 # USAGE
-    python bot_regenerate_api_jwt_secret.py
+    python regenerate_api_jwt_secret.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -36,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2022-08-08/examples/RegenerateApiJwtSecret.json
+# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2023-05-01/examples/RegenerateApiJwtSecret.json
 if __name__ == "__main__":
     main()
