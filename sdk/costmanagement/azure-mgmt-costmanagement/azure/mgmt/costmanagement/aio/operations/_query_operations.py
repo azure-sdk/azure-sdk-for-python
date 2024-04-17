@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -82,7 +82,6 @@ class QueryOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueryResult or None or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.QueryResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -90,7 +89,7 @@ class QueryOperations:
 
     @overload
     async def usage(
-        self, scope: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, scope: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> Optional[_models.QueryResult]:
         """Query the usage data for scope defined.
 
@@ -115,11 +114,10 @@ class QueryOperations:
          specific for partners. Required.
         :type scope: str
         :param parameters: Parameters supplied to the CreateOrUpdate Query Config operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueryResult or None or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.QueryResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -127,7 +125,7 @@ class QueryOperations:
 
     @distributed_trace_async
     async def usage(
-        self, scope: str, parameters: Union[_models.QueryDefinition, IO], **kwargs: Any
+        self, scope: str, parameters: Union[_models.QueryDefinition, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.QueryResult]:
         """Query the usage data for scope defined.
 
@@ -152,12 +150,8 @@ class QueryOperations:
          specific for partners. Required.
         :type scope: str
         :param parameters: Parameters supplied to the CreateOrUpdate Query Config operation. Is either
-         a QueryDefinition type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.QueryDefinition or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         a QueryDefinition type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.QueryDefinition or IO[bytes]
         :return: QueryResult or None or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.QueryResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -185,22 +179,21 @@ class QueryOperations:
         else:
             _json = self._serialize.body(parameters, "QueryDefinition")
 
-        request = build_usage_request(
+        _request = build_usage_request(
             scope=scope,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.usage.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -215,11 +208,9 @@ class QueryOperations:
             deserialized = self._deserialize("QueryResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    usage.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/query"}
+        return deserialized  # type: ignore
 
     @overload
     async def usage_by_external_cloud_provider_type(
@@ -251,7 +242,6 @@ class QueryOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueryResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.QueryResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -262,7 +252,7 @@ class QueryOperations:
         self,
         external_cloud_provider_type: Union[str, _models.ExternalCloudProviderType],
         external_cloud_provider_id: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -283,11 +273,10 @@ class QueryOperations:
          Required.
         :type external_cloud_provider_id: str
         :param parameters: Parameters supplied to the CreateOrUpdate Query Config operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueryResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.QueryResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -298,7 +287,7 @@ class QueryOperations:
         self,
         external_cloud_provider_type: Union[str, _models.ExternalCloudProviderType],
         external_cloud_provider_id: str,
-        parameters: Union[_models.QueryDefinition, IO],
+        parameters: Union[_models.QueryDefinition, IO[bytes]],
         **kwargs: Any
     ) -> _models.QueryResult:
         """Query the usage data for external cloud provider type defined.
@@ -317,12 +306,8 @@ class QueryOperations:
          Required.
         :type external_cloud_provider_id: str
         :param parameters: Parameters supplied to the CreateOrUpdate Query Config operation. Is either
-         a QueryDefinition type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.QueryDefinition or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         a QueryDefinition type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.QueryDefinition or IO[bytes]
         :return: QueryResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.QueryResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -350,23 +335,22 @@ class QueryOperations:
         else:
             _json = self._serialize.body(parameters, "QueryDefinition")
 
-        request = build_usage_by_external_cloud_provider_type_request(
+        _request = build_usage_by_external_cloud_provider_type_request(
             external_cloud_provider_type=external_cloud_provider_type,
             external_cloud_provider_id=external_cloud_provider_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.usage_by_external_cloud_provider_type.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -379,10 +363,6 @@ class QueryOperations:
         deserialized = self._deserialize("QueryResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    usage_by_external_cloud_provider_type.metadata = {
-        "url": "/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query"
-    }
+        return deserialized  # type: ignore

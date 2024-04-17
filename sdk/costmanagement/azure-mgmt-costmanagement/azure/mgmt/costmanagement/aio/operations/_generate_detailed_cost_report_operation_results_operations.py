@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -33,7 +33,7 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class GenerateDetailedCostReportOperationResultsOperations:
+class GenerateDetailedCostReportOperationResultsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -69,20 +69,19 @@ class GenerateDetailedCostReportOperationResultsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.GenerateDetailedCostReportOperationResult]] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             operation_id=operation_id,
             scope=scope,
             api_version=api_version,
-            template_url=self._get_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -97,11 +96,9 @@ class GenerateDetailedCostReportOperationResultsOperations:
             deserialized = self._deserialize("GenerateDetailedCostReportOperationResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _get_initial.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/operationResults/{operationId}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_get(
@@ -115,14 +112,6 @@ class GenerateDetailedCostReportOperationResultsOperations:
         :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
          billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either
          GenerateDetailedCostReportOperationResult or the result of cls(response)
         :rtype:
@@ -152,7 +141,7 @@ class GenerateDetailedCostReportOperationResultsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("GenerateDetailedCostReportOperationResult", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -162,12 +151,12 @@ class GenerateDetailedCostReportOperationResultsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.GenerateDetailedCostReportOperationResult].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_get.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/operationResults/{operationId}"}
+        return AsyncLROPoller[_models.GenerateDetailedCostReportOperationResult](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

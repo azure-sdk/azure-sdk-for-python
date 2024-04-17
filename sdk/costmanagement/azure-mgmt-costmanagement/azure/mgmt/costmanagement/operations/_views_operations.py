@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -28,7 +28,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -41,7 +41,7 @@ def build_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -60,7 +60,7 @@ def build_list_by_scope_request(scope: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -69,7 +69,7 @@ def build_list_by_scope_request(scope: str, **kwargs: Any) -> HttpRequest:
         "scope": _SERIALIZER.url("scope", scope, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -84,7 +84,7 @@ def build_get_request(view_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -93,7 +93,7 @@ def build_get_request(view_name: str, **kwargs: Any) -> HttpRequest:
         "viewName": _SERIALIZER.url("view_name", view_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -108,7 +108,7 @@ def build_create_or_update_request(view_name: str, **kwargs: Any) -> HttpRequest
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -118,7 +118,7 @@ def build_create_or_update_request(view_name: str, **kwargs: Any) -> HttpRequest
         "viewName": _SERIALIZER.url("view_name", view_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -135,7 +135,7 @@ def build_delete_request(view_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -144,7 +144,7 @@ def build_delete_request(view_name: str, **kwargs: Any) -> HttpRequest:
         "viewName": _SERIALIZER.url("view_name", view_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -159,7 +159,7 @@ def build_get_by_scope_request(scope: str, view_name: str, **kwargs: Any) -> Htt
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -169,7 +169,7 @@ def build_get_by_scope_request(scope: str, view_name: str, **kwargs: Any) -> Htt
         "viewName": _SERIALIZER.url("view_name", view_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -184,7 +184,7 @@ def build_create_or_update_by_scope_request(scope: str, view_name: str, **kwargs
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -195,7 +195,7 @@ def build_create_or_update_by_scope_request(scope: str, view_name: str, **kwargs
         "viewName": _SERIALIZER.url("view_name", view_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -212,7 +212,7 @@ def build_delete_by_scope_request(scope: str, view_name: str, **kwargs: Any) -> 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -222,7 +222,7 @@ def build_delete_by_scope_request(scope: str, view_name: str, **kwargs: Any) -> 
         "viewName": _SERIALIZER.url("view_name", view_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -259,7 +259,6 @@ class ViewsOperations:
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either View or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.costmanagement.models.View]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -281,14 +280,13 @@ class ViewsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -300,13 +298,13 @@ class ViewsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ViewListResult", pipeline_response)
@@ -316,11 +314,11 @@ class ViewsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -332,8 +330,6 @@ class ViewsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/providers/Microsoft.CostManagement/views"}
 
     @distributed_trace
     def list_by_scope(self, scope: str, **kwargs: Any) -> Iterable["_models.View"]:
@@ -360,7 +356,6 @@ class ViewsOperations:
          'providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for
          External Subscription scope. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either View or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.costmanagement.models.View]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -382,15 +377,14 @@ class ViewsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_scope_request(
+                _request = build_list_by_scope_request(
                     scope=scope,
                     api_version=api_version,
-                    template_url=self.list_by_scope.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -402,13 +396,13 @@ class ViewsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ViewListResult", pipeline_response)
@@ -418,11 +412,11 @@ class ViewsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -435,8 +429,6 @@ class ViewsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/views"}
-
     @distributed_trace
     def get(self, view_name: str, **kwargs: Any) -> _models.View:
         """Gets the view by view name.
@@ -446,7 +438,6 @@ class ViewsOperations:
 
         :param view_name: View name. Required.
         :type view_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -465,19 +456,18 @@ class ViewsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.View] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             view_name=view_name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -490,11 +480,9 @@ class ViewsOperations:
         deserialized = self._deserialize("View", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/providers/Microsoft.CostManagement/views/{viewName}"}
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -514,7 +502,6 @@ class ViewsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -522,7 +509,7 @@ class ViewsOperations:
 
     @overload
     def create_or_update(
-        self, view_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, view_name: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.View:
         """The operation to create or update a view. Update operation requires latest eTag to be set in
         the request. You may obtain the latest eTag by performing a get operation. Create operation
@@ -534,18 +521,19 @@ class ViewsOperations:
         :param view_name: View name. Required.
         :type view_name: str
         :param parameters: Parameters supplied to the CreateOrUpdate View operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    def create_or_update(self, view_name: str, parameters: Union[_models.View, IO], **kwargs: Any) -> _models.View:
+    def create_or_update(
+        self, view_name: str, parameters: Union[_models.View, IO[bytes]], **kwargs: Any
+    ) -> _models.View:
         """The operation to create or update a view. Update operation requires latest eTag to be set in
         the request. You may obtain the latest eTag by performing a get operation. Create operation
         does not require eTag.
@@ -556,12 +544,8 @@ class ViewsOperations:
         :param view_name: View name. Required.
         :type view_name: str
         :param parameters: Parameters supplied to the CreateOrUpdate View operation. Is either a View
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.View or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.View or IO[bytes]
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -589,22 +573,21 @@ class ViewsOperations:
         else:
             _json = self._serialize.body(parameters, "View")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             view_name=view_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -625,8 +608,6 @@ class ViewsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {"url": "/providers/Microsoft.CostManagement/views/{viewName}"}
-
     @distributed_trace
     def delete(self, view_name: str, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
         """The operation to delete a view.
@@ -636,7 +617,6 @@ class ViewsOperations:
 
         :param view_name: View name. Required.
         :type view_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -655,19 +635,18 @@ class ViewsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             view_name=view_name,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -678,9 +657,7 @@ class ViewsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {"url": "/providers/Microsoft.CostManagement/views/{viewName}"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def get_by_scope(self, scope: str, view_name: str, **kwargs: Any) -> _models.View:
@@ -709,7 +686,6 @@ class ViewsOperations:
         :type scope: str
         :param view_name: View name. Required.
         :type view_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -728,20 +704,19 @@ class ViewsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.View] = kwargs.pop("cls", None)
 
-        request = build_get_by_scope_request(
+        _request = build_get_by_scope_request(
             scope=scope,
             view_name=view_name,
             api_version=api_version,
-            template_url=self.get_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -754,11 +729,9 @@ class ViewsOperations:
         deserialized = self._deserialize("View", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/views/{viewName}"}
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update_by_scope(
@@ -802,7 +775,6 @@ class ViewsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -810,7 +782,13 @@ class ViewsOperations:
 
     @overload
     def create_or_update_by_scope(
-        self, scope: str, view_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        scope: str,
+        view_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.View:
         """The operation to create or update a view. Update operation requires latest eTag to be set in
         the request. You may obtain the latest eTag by performing a get operation. Create operation
@@ -840,11 +818,10 @@ class ViewsOperations:
         :param view_name: View name. Required.
         :type view_name: str
         :param parameters: Parameters supplied to the CreateOrUpdate View operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -852,7 +829,7 @@ class ViewsOperations:
 
     @distributed_trace
     def create_or_update_by_scope(
-        self, scope: str, view_name: str, parameters: Union[_models.View, IO], **kwargs: Any
+        self, scope: str, view_name: str, parameters: Union[_models.View, IO[bytes]], **kwargs: Any
     ) -> _models.View:
         """The operation to create or update a view. Update operation requires latest eTag to be set in
         the request. You may obtain the latest eTag by performing a get operation. Create operation
@@ -882,12 +859,8 @@ class ViewsOperations:
         :param view_name: View name. Required.
         :type view_name: str
         :param parameters: Parameters supplied to the CreateOrUpdate View operation. Is either a View
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.View or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.View or IO[bytes]
         :return: View or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.View
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -915,23 +888,22 @@ class ViewsOperations:
         else:
             _json = self._serialize.body(parameters, "View")
 
-        request = build_create_or_update_by_scope_request(
+        _request = build_create_or_update_by_scope_request(
             scope=scope,
             view_name=view_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -951,8 +923,6 @@ class ViewsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/views/{viewName}"}
 
     @distributed_trace
     def delete_by_scope(  # pylint: disable=inconsistent-return-statements
@@ -983,7 +953,6 @@ class ViewsOperations:
         :type scope: str
         :param view_name: View name. Required.
         :type view_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1002,20 +971,19 @@ class ViewsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_by_scope_request(
+        _request = build_delete_by_scope_request(
             scope=scope,
             view_name=view_name,
             api_version=api_version,
-            template_url=self.delete_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1026,6 +994,4 @@ class ViewsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/views/{viewName}"}
+            return cls(pipeline_response, None, {})  # type: ignore

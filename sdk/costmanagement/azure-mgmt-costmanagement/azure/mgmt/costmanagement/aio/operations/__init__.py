@@ -7,12 +7,13 @@
 # --------------------------------------------------------------------------
 
 from ._operations import Operations
-from ._views_operations import ViewsOperations
-from ._alerts_operations import AlertsOperations
-from ._forecast_operations import ForecastOperations
-from ._dimensions_operations import DimensionsOperations
-from ._query_operations import QueryOperations
-from ._generate_reservation_details_report_operations import GenerateReservationDetailsReportOperations
+from ._cost_allocation_rules_operations import CostAllocationRulesOperations
+from ._benefit_recommendations_operations import BenefitRecommendationsOperations
+from ._benefit_utilization_summaries_operations import BenefitUtilizationSummariesOperations
+from ._generate_benefit_utilization_summaries_report_operations import (
+    GenerateBenefitUtilizationSummariesReportOperations,
+)
+from ._budgets_operations import BudgetsOperations
 from ._exports_operations import ExportsOperations
 from ._generate_cost_details_report_operations import GenerateCostDetailsReportOperations
 from ._generate_detailed_cost_report_operations import GenerateDetailedCostReportOperations
@@ -22,10 +23,15 @@ from ._generate_detailed_cost_report_operation_results_operations import (
 from ._generate_detailed_cost_report_operation_status_operations import (
     GenerateDetailedCostReportOperationStatusOperations,
 )
+from ._views_operations import ViewsOperations
+from ._alerts_operations import AlertsOperations
+from ._forecast_operations import ForecastOperations
+from ._dimensions_operations import DimensionsOperations
+from ._query_operations import QueryOperations
+from ._generate_reservation_details_report_operations import GenerateReservationDetailsReportOperations
 from ._price_sheet_operations import PriceSheetOperations
 from ._scheduled_actions_operations import ScheduledActionsOperations
-from ._benefit_recommendations_operations import BenefitRecommendationsOperations
-from ._benefit_utilization_summaries_operations import BenefitUtilizationSummariesOperations
+from ._settings_operations import SettingsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -33,21 +39,25 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Operations",
+    "CostAllocationRulesOperations",
+    "BenefitRecommendationsOperations",
+    "BenefitUtilizationSummariesOperations",
+    "GenerateBenefitUtilizationSummariesReportOperations",
+    "BudgetsOperations",
+    "ExportsOperations",
+    "GenerateCostDetailsReportOperations",
+    "GenerateDetailedCostReportOperations",
+    "GenerateDetailedCostReportOperationResultsOperations",
+    "GenerateDetailedCostReportOperationStatusOperations",
     "ViewsOperations",
     "AlertsOperations",
     "ForecastOperations",
     "DimensionsOperations",
     "QueryOperations",
     "GenerateReservationDetailsReportOperations",
-    "ExportsOperations",
-    "GenerateCostDetailsReportOperations",
-    "GenerateDetailedCostReportOperations",
-    "GenerateDetailedCostReportOperationResultsOperations",
-    "GenerateDetailedCostReportOperationStatusOperations",
     "PriceSheetOperations",
     "ScheduledActionsOperations",
-    "BenefitRecommendationsOperations",
-    "BenefitUtilizationSummariesOperations",
+    "SettingsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
