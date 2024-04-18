@@ -1,12 +1,12 @@
 {
-  "commit": "00c060f44fcd93a6839a5aa7caa4af9a34d643d1",
+  "commit": "db3701eb7c8623904fa891ea0f1ad5def30c8af2",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.7",
   "use": [
-    "@autorest/python@6.7.1",
-    "@autorest/modelerfour@4.26.2"
+    "@autorest/python@6.13.7",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/web/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/web/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.13.7 --use=@autorest/modelerfour@4.27.0 --version=3.9.7 --version-tolerant=False",
   "readme": "specification/web/resource-manager/readme.md",
   "package-2023-01": "fatal: invalid object name 'from'. from: WebApps.json",
   "package-2022-09": "fatal: invalid object name 'from'. from: WebApps.json",
