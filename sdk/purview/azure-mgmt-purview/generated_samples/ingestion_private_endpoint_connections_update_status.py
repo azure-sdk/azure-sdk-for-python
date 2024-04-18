@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.purview import PurviewManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python private_endpoint_connections_delete.py
+    python ingestion_private_endpoint_connections_update_status.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +32,17 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    client.private_endpoint_connections.begin_delete(
+    response = client.ingestion_private_endpoint_connections.update_status(
         resource_group_name="SampleResourceGroup",
         account_name="account1",
-        private_endpoint_connection_name="privateEndpointConnection1",
-    ).result()
+        request={
+            "privateEndpointId": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1/privateEndpointConnections/privateEndpointConnection1",
+            "status": "Approved",
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2024-04-01-preview/examples/PrivateEndpointConnections_Delete.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2024-04-01-preview/examples/IngestionPrivateEndpointConnections_UpdateStatus.json
 if __name__ == "__main__":
     main()

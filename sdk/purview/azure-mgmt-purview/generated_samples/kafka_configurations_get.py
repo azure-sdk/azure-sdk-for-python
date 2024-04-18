@@ -15,7 +15,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python private_endpoint_connections_delete.py
+    python kafka_configurations_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,14 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    client.private_endpoint_connections.begin_delete(
-        resource_group_name="SampleResourceGroup",
+    response = client.kafka_configurations.get(
+        resource_group_name="rgpurview",
         account_name="account1",
-        private_endpoint_connection_name="privateEndpointConnection1",
-    ).result()
+        kafka_configuration_name="kafkaConfigName",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2024-04-01-preview/examples/PrivateEndpointConnections_Delete.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2024-04-01-preview/examples/KafkaConfigurations_Get.json
 if __name__ == "__main__":
     main()

@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.purview import PurviewManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python private_endpoint_connections_delete.py
+    python kafka_configurations_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +32,28 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    client.private_endpoint_connections.begin_delete(
-        resource_group_name="SampleResourceGroup",
+    response = client.kafka_configurations.create_or_update(
+        resource_group_name="rgpurview",
         account_name="account1",
-        private_endpoint_connection_name="privateEndpointConnection1",
-    ).result()
+        kafka_configuration_name="kafkaConfigName",
+        kafka_configuration={
+            "properties": {
+                "consumerGroup": "consumerGroup",
+                "credentials": {
+                    "identityId": "/subscriptions/47e8596d-ee73-4eb2-b6b4-cc13c2b87ssd/resourceGroups/testRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testId",
+                    "type": "UserAssigned",
+                },
+                "eventHubPartitionId": "partitionId",
+                "eventHubResourceId": "/subscriptions/225be6fe-ec1c-4d51-a368-f69348d2e6c5/resourceGroups/testRG/providers/Microsoft.EventHub/namespaces/eventHubNameSpaceName",
+                "eventHubType": "Notification",
+                "eventStreamingState": "Enabled",
+                "eventStreamingType": "Azure",
+            }
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2024-04-01-preview/examples/PrivateEndpointConnections_Delete.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2024-04-01-preview/examples/KafkaConfigurations_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
