@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -107,7 +107,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         Get all App Service Environments for a subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AppServiceEnvironmentResource or the result of
          cls(response)
         :rtype:
@@ -131,15 +130,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -150,14 +148,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("AppServiceEnvironmentCollection", pipeline_response)
@@ -167,11 +165,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -183,8 +181,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/hostingEnvironments"}
 
     @distributed_trace
     def list_by_resource_group(
@@ -196,7 +192,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         :param resource_group_name: Name of the resource group to which the resource belongs. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AppServiceEnvironmentResource or the result of
          cls(response)
         :rtype:
@@ -220,16 +215,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -240,14 +234,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("AppServiceEnvironmentCollection", pipeline_response)
@@ -257,11 +251,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -274,10 +268,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments"
-    }
-
     @distributed_trace_async
     async def get(self, resource_group_name: str, name: str, **kwargs: Any) -> _models.AppServiceEnvironmentResource:
         """Get the properties of an App Service Environment.
@@ -288,7 +278,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AppServiceEnvironmentResource or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -307,21 +296,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.AppServiceEnvironmentResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -334,19 +322,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("AppServiceEnvironmentResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
         name: str,
-        hosting_environment_envelope: Union[_models.AppServiceEnvironmentResource, IO],
+        hosting_environment_envelope: Union[_models.AppServiceEnvironmentResource, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.AppServiceEnvironmentResource]:
         error_map = {
@@ -372,7 +356,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(hosting_environment_envelope, "AppServiceEnvironmentResource")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -380,16 +364,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -406,13 +389,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             deserialized = self._deserialize("AppServiceEnvironmentResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_or_update(
@@ -439,14 +418,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AppServiceEnvironmentResource or the
          result of cls(response)
         :rtype:
@@ -459,7 +430,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        hosting_environment_envelope: IO,
+        hosting_environment_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -474,18 +445,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param hosting_environment_envelope: Configuration details of the App Service Environment.
          Required.
-        :type hosting_environment_envelope: IO
+        :type hosting_environment_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either AppServiceEnvironmentResource or the
          result of cls(response)
         :rtype:
@@ -498,7 +461,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        hosting_environment_envelope: Union[_models.AppServiceEnvironmentResource, IO],
+        hosting_environment_envelope: Union[_models.AppServiceEnvironmentResource, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.AppServiceEnvironmentResource]:
         """Create or update an App Service Environment.
@@ -510,20 +473,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param hosting_environment_envelope: Configuration details of the App Service Environment. Is
-         either a AppServiceEnvironmentResource type or a IO type. Required.
+         either a AppServiceEnvironmentResource type or a IO[bytes] type. Required.
         :type hosting_environment_envelope:
-         ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentResource or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either AppServiceEnvironmentResource or the
          result of cls(response)
         :rtype:
@@ -556,7 +508,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("AppServiceEnvironmentResource", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -566,17 +518,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.AppServiceEnvironmentResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}"
-    }
+        return AsyncLROPoller[_models.AppServiceEnvironmentResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, name: str, force_delete: Optional[bool] = None, **kwargs: Any
@@ -595,22 +545,21 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             force_delete=force_delete,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -620,11 +569,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -642,14 +587,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
          Service Environment contains resources. The default is :code:`<code>false</code>`. Default
          value is None.
         :type force_delete: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -677,7 +614,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -686,17 +623,13 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @overload
     async def update(
@@ -723,7 +656,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AppServiceEnvironmentResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -734,7 +666,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        hosting_environment_envelope: IO,
+        hosting_environment_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -749,11 +681,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param hosting_environment_envelope: Configuration details of the App Service Environment.
          Required.
-        :type hosting_environment_envelope: IO
+        :type hosting_environment_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AppServiceEnvironmentResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -764,7 +695,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        hosting_environment_envelope: Union[_models.AppServiceEnvironmentPatchResource, IO],
+        hosting_environment_envelope: Union[_models.AppServiceEnvironmentPatchResource, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.AppServiceEnvironmentResource]:
         """Create or update an App Service Environment.
@@ -776,13 +707,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param hosting_environment_envelope: Configuration details of the App Service Environment. Is
-         either a AppServiceEnvironmentPatchResource type or a IO type. Required.
+         either a AppServiceEnvironmentPatchResource type or a IO[bytes] type. Required.
         :type hosting_environment_envelope:
-         ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentPatchResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentPatchResource or IO[bytes]
         :return: AppServiceEnvironmentResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.AppServiceEnvironmentResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -810,7 +737,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(hosting_environment_envelope, "AppServiceEnvironmentPatchResource")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -818,16 +745,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -844,13 +770,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             deserialized = self._deserialize("AppServiceEnvironmentResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_capacities(
@@ -864,7 +786,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either StampCapacity or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.StampCapacity]
@@ -887,17 +808,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_capacities_request(
+                _request = build_list_capacities_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_capacities.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -908,14 +828,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("StampCapacityCollection", pipeline_response)
@@ -925,11 +845,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -942,10 +862,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_capacities.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/compute"
-    }
-
     @distributed_trace_async
     async def list_vips(self, resource_group_name: str, name: str, **kwargs: Any) -> _models.AddressResponse:
         """Get IP addresses assigned to an App Service Environment.
@@ -956,7 +872,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AddressResponse or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.AddressResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -975,21 +890,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.AddressResponse] = kwargs.pop("cls", None)
 
-        request = build_list_vips_request(
+        _request = build_list_vips_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_vips.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1002,16 +916,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("AddressResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_vips.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/virtualip"
-    }
+        return deserialized  # type: ignore
 
     async def _change_vnet_initial(
-        self, resource_group_name: str, name: str, vnet_info: Union[_models.VirtualNetworkProfile, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        name: str,
+        vnet_info: Union[_models.VirtualNetworkProfile, IO[bytes]],
+        **kwargs: Any
     ) -> _models.WebAppCollection:
         error_map = {
             401: ClientAuthenticationError,
@@ -1036,7 +950,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(vnet_info, "VirtualNetworkProfile")
 
-        request = build_change_vnet_request(
+        _request = build_change_vnet_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -1044,16 +958,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._change_vnet_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1073,10 +986,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _change_vnet_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork"
-    }
 
     @overload
     async def begin_change_vnet(
@@ -1101,14 +1010,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns an iterator like instance of either
          WebAppCollection or the result of cls(response)
         :rtype:
@@ -1121,7 +1022,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        vnet_info: IO,
+        vnet_info: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1135,18 +1036,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param vnet_info: Details for the new virtual network. Required.
-        :type vnet_info: IO
+        :type vnet_info: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns an iterator like instance of either
          WebAppCollection or the result of cls(response)
         :rtype:
@@ -1156,7 +1049,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
     @distributed_trace_async
     async def begin_change_vnet(
-        self, resource_group_name: str, name: str, vnet_info: Union[_models.VirtualNetworkProfile, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        name: str,
+        vnet_info: Union[_models.VirtualNetworkProfile, IO[bytes]],
+        **kwargs: Any
     ) -> AsyncLROPoller[AsyncIterable["_models.Site"]]:
         """Move an App Service Environment to a different VNET.
 
@@ -1167,19 +1064,8 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param vnet_info: Details for the new virtual network. Is either a VirtualNetworkProfile type
-         or a IO type. Required.
-        :type vnet_info: ~azure.mgmt.web.v2018_02_01.models.VirtualNetworkProfile or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or a IO[bytes] type. Required.
+        :type vnet_info: ~azure.mgmt.web.v2018_02_01.models.VirtualNetworkProfile or IO[bytes]
         :return: An instance of LROPoller that returns an iterator like instance of either
          WebAppCollection or the result of cls(response)
         :rtype:
@@ -1203,15 +1089,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         error_map.update(kwargs.pop("error_map", {}) or {})
         content_type = content_type or "application/json"
         _json = None
+        _content = None
         if isinstance(vnet_info, (IOBase, bytes)):
-            _json = vnet_info
+            _content = vnet_info
         else:
             _json = self._serialize.body(vnet_info, "VirtualNetworkProfile")
 
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_change_vnet_request(
+                _request = build_change_vnet_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
@@ -1219,12 +1106,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                     content_type=content_type,
                     json=_json,
                     content=_content,
-                    template_url=self.begin_change_vnet.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1235,14 +1121,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WebAppCollection", pipeline_response)
@@ -1252,11 +1138,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1299,17 +1185,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[AsyncIterable["_models.Site"]].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_change_vnet.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork"
-    }
+        return AsyncLROPoller[AsyncIterable["_models.Site"]](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def list_diagnostics(
@@ -1323,7 +1207,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: list of HostingEnvironmentDiagnostics or the result of cls(response)
         :rtype: list[~azure.mgmt.web.v2018_02_01.models.HostingEnvironmentDiagnostics]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1342,21 +1225,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[List[_models.HostingEnvironmentDiagnostics]] = kwargs.pop("cls", None)
 
-        request = build_list_diagnostics_request(
+        _request = build_list_diagnostics_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_diagnostics.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1369,13 +1251,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("[HostingEnvironmentDiagnostics]", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_diagnostics.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get_diagnostics_item(
@@ -1391,7 +1269,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param diagnostics_name: Name of the diagnostics item. Required.
         :type diagnostics_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: HostingEnvironmentDiagnostics or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.HostingEnvironmentDiagnostics
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1410,22 +1287,21 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.HostingEnvironmentDiagnostics] = kwargs.pop("cls", None)
 
-        request = build_get_diagnostics_item_request(
+        _request = build_get_diagnostics_item_request(
             resource_group_name=resource_group_name,
             name=name,
             diagnostics_name=diagnostics_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_diagnostics_item.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1438,16 +1314,12 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("HostingEnvironmentDiagnostics", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_diagnostics_item.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics/{diagnosticsName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_inbound_network_dependencies_endpoints(
+    def get_inbound_network_dependencies_endpoints(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> AsyncIterable["_models.InboundEnvironmentEndpoint"]:
         """Get the network endpoints of all inbound dependencies of an App Service Environment.
@@ -1458,7 +1330,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either InboundEnvironmentEndpoint or the result of
          cls(response)
         :rtype:
@@ -1482,17 +1353,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_inbound_network_dependencies_endpoints_request(
+                _request = build_get_inbound_network_dependencies_endpoints_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_inbound_network_dependencies_endpoints.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1503,14 +1373,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("InboundEnvironmentEndpointCollection", pipeline_response)
@@ -1520,11 +1390,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1536,10 +1406,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_inbound_network_dependencies_endpoints.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundNetworkDependenciesEndpoints"
-    }
 
     @distributed_trace_async
     async def list_metric_definitions(
@@ -1553,7 +1419,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetricDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.MetricDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1572,21 +1437,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.MetricDefinition] = kwargs.pop("cls", None)
 
-        request = build_list_metric_definitions_request(
+        _request = build_list_metric_definitions_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_metric_definitions.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1599,13 +1463,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("MetricDefinition", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_metric_definitions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metricdefinitions"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_metrics(
@@ -1632,7 +1492,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
          2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq
          duration'[Hour|Minute|Day]'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetric or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.ResourceMetric]
@@ -1655,19 +1514,18 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_metrics_request(
+                _request = build_list_metrics_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     details=details,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_metrics.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1678,14 +1536,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricCollection", pipeline_response)
@@ -1695,11 +1553,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1711,10 +1569,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_metrics.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metrics"
-    }
 
     @distributed_trace
     def list_multi_role_pools(
@@ -1728,7 +1582,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either WorkerPoolResource or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource]
@@ -1751,17 +1604,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_pools_request(
+                _request = build_list_multi_role_pools_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_multi_role_pools.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1772,14 +1624,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WorkerPoolCollection", pipeline_response)
@@ -1789,11 +1641,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1805,10 +1657,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_multi_role_pools.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools"
-    }
 
     @distributed_trace_async
     async def get_multi_role_pool(
@@ -1822,7 +1670,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkerPoolResource or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1841,21 +1688,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
-        request = build_get_multi_role_pool_request(
+        _request = build_get_multi_role_pool_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_multi_role_pool.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1868,19 +1714,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_multi_role_pool.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default"
-    }
-
-    async def _create_or_update_multi_role_pool_initial(
+    async def _create_or_update_multi_role_pool_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
-        multi_role_pool_envelope: Union[_models.WorkerPoolResource, IO],
+        multi_role_pool_envelope: Union[_models.WorkerPoolResource, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.WorkerPoolResource]:
         error_map = {
@@ -1906,7 +1748,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(multi_role_pool_envelope, "WorkerPoolResource")
 
-        request = build_create_or_update_multi_role_pool_request(
+        _request = build_create_or_update_multi_role_pool_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -1914,16 +1756,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_multi_role_pool_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1940,13 +1781,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_or_update_multi_role_pool_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_or_update_multi_role_pool(
@@ -1971,14 +1808,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either WorkerPoolResource or the result of
          cls(response)
         :rtype:
@@ -1991,7 +1820,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        multi_role_pool_envelope: IO,
+        multi_role_pool_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2005,18 +1834,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param multi_role_pool_envelope: Properties of the multi-role pool. Required.
-        :type multi_role_pool_envelope: IO
+        :type multi_role_pool_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either WorkerPoolResource or the result of
          cls(response)
         :rtype:
@@ -2029,7 +1850,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        multi_role_pool_envelope: Union[_models.WorkerPoolResource, IO],
+        multi_role_pool_envelope: Union[_models.WorkerPoolResource, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkerPoolResource]:
         """Create or update a multi-role pool.
@@ -2041,19 +1862,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param multi_role_pool_envelope: Properties of the multi-role pool. Is either a
-         WorkerPoolResource type or a IO type. Required.
-        :type multi_role_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         WorkerPoolResource type or a IO[bytes] type. Required.
+        :type multi_role_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or
+         IO[bytes]
         :return: An instance of AsyncLROPoller that returns either WorkerPoolResource or the result of
          cls(response)
         :rtype:
@@ -2086,7 +1897,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2096,17 +1907,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.WorkerPoolResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update_multi_role_pool.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default"
-    }
+        return AsyncLROPoller[_models.WorkerPoolResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def update_multi_role_pool(
@@ -2131,7 +1940,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkerPoolResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2142,7 +1950,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        multi_role_pool_envelope: IO,
+        multi_role_pool_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2156,11 +1964,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param multi_role_pool_envelope: Properties of the multi-role pool. Required.
-        :type multi_role_pool_envelope: IO
+        :type multi_role_pool_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkerPoolResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2171,7 +1978,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         self,
         resource_group_name: str,
         name: str,
-        multi_role_pool_envelope: Union[_models.WorkerPoolResource, IO],
+        multi_role_pool_envelope: Union[_models.WorkerPoolResource, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.WorkerPoolResource]:
         """Create or update a multi-role pool.
@@ -2183,12 +1990,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param name: Name of the App Service Environment. Required.
         :type name: str
         :param multi_role_pool_envelope: Properties of the multi-role pool. Is either a
-         WorkerPoolResource type or a IO type. Required.
-        :type multi_role_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         WorkerPoolResource type or a IO[bytes] type. Required.
+        :type multi_role_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or
+         IO[bytes]
         :return: WorkerPoolResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2216,7 +2020,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(multi_role_pool_envelope, "WorkerPoolResource")
 
-        request = build_update_multi_role_pool_request(
+        _request = build_update_multi_role_pool_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -2224,16 +2028,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update_multi_role_pool.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2250,16 +2053,12 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update_multi_role_pool.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def list_multi_role_pool_instance_metric_definitions(
+    def list_multi_role_pool_instance_metric_definitions(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, instance: str, **kwargs: Any
     ) -> AsyncIterable["_models.ResourceMetricDefinition"]:
         """Get metric definitions for a specific instance of a multi-role pool of an App Service
@@ -2274,7 +2073,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param instance: Name of the instance in the multi-role pool. Required.
         :type instance: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetricDefinition or the result of
          cls(response)
         :rtype:
@@ -2298,18 +2096,17 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_pool_instance_metric_definitions_request(
+                _request = build_list_multi_role_pool_instance_metric_definitions_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     instance=instance,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_multi_role_pool_instance_metric_definitions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2320,14 +2117,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricDefinitionCollection", pipeline_response)
@@ -2337,11 +2134,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2353,10 +2150,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_multi_role_pool_instance_metric_definitions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metricdefinitions"
-    }
 
     @distributed_trace
     def list_multi_role_pool_instance_metrics(
@@ -2375,7 +2168,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param details: Specify :code:`<code>true</code>` to include instance details. The default is
          :code:`<code>false</code>`. Default value is None.
         :type details: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetric or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.ResourceMetric]
@@ -2398,19 +2190,18 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_pool_instance_metrics_request(
+                _request = build_list_multi_role_pool_instance_metrics_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     instance=instance,
                     subscription_id=self._config.subscription_id,
                     details=details,
                     api_version=api_version,
-                    template_url=self.list_multi_role_pool_instance_metrics.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2421,14 +2212,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricCollection", pipeline_response)
@@ -2438,11 +2229,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2454,10 +2245,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_multi_role_pool_instance_metrics.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metrics"
-    }
 
     @distributed_trace
     def list_multi_role_metric_definitions(
@@ -2471,7 +2258,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetricDefinition or the result of
          cls(response)
         :rtype:
@@ -2495,17 +2281,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_metric_definitions_request(
+                _request = build_list_multi_role_metric_definitions_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_multi_role_metric_definitions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2516,14 +2301,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricDefinitionCollection", pipeline_response)
@@ -2533,11 +2318,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2549,10 +2334,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_multi_role_metric_definitions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metricdefinitions"
-    }
 
     @distributed_trace
     def list_multi_role_metrics(
@@ -2588,7 +2369,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
          2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq
          duration'[Hour|Minute|Day]'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetric or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.ResourceMetric]
@@ -2611,7 +2391,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_metrics_request(
+                _request = build_list_multi_role_metrics_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
@@ -2621,12 +2401,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                     details=details,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_multi_role_metrics.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2637,14 +2416,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricCollection", pipeline_response)
@@ -2654,11 +2433,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2670,10 +2449,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_multi_role_metrics.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metrics"
-    }
 
     @distributed_trace
     def list_multi_role_pool_skus(
@@ -2687,7 +2462,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SkuInfo or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.SkuInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2709,17 +2483,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_pool_skus_request(
+                _request = build_list_multi_role_pool_skus_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_multi_role_pool_skus.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2730,14 +2503,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("SkuInfoCollection", pipeline_response)
@@ -2747,11 +2520,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2763,10 +2536,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_multi_role_pool_skus.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/skus"
-    }
 
     @distributed_trace
     def list_multi_role_usages(
@@ -2780,7 +2549,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Usage or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.Usage]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2802,17 +2570,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_multi_role_usages_request(
+                _request = build_list_multi_role_usages_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_multi_role_usages.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2823,14 +2590,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("UsageCollection", pipeline_response)
@@ -2840,11 +2607,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2857,10 +2624,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_multi_role_usages.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/usages"
-    }
-
     @distributed_trace_async
     async def list_operations(self, resource_group_name: str, name: str, **kwargs: Any) -> List[_models.Operation]:
         """List all currently running operations on the App Service Environment.
@@ -2871,7 +2634,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: list of Operation or the result of cls(response)
         :rtype: list[~azure.mgmt.web.v2018_02_01.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2890,21 +2652,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
 
-        request = build_list_operations_request(
+        _request = build_list_operations_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_operations.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2917,16 +2678,12 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("[Operation]", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_operations.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/operations"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_outbound_network_dependencies_endpoints(
+    def get_outbound_network_dependencies_endpoints(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> AsyncIterable["_models.OutboundEnvironmentEndpoint"]:
         """Get the network endpoints of all outbound dependencies of an App Service Environment.
@@ -2937,7 +2694,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OutboundEnvironmentEndpoint or the result of
          cls(response)
         :rtype:
@@ -2961,17 +2717,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_outbound_network_dependencies_endpoints_request(
+                _request = build_get_outbound_network_dependencies_endpoints_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get_outbound_network_dependencies_endpoints.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2982,14 +2737,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("OutboundEnvironmentEndpointCollection", pipeline_response)
@@ -2999,11 +2754,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3015,10 +2770,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_outbound_network_dependencies_endpoints.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/outboundNetworkDependenciesEndpoints"
-    }
 
     @distributed_trace_async
     async def reboot(  # pylint: disable=inconsistent-return-statements
@@ -3032,7 +2783,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3051,21 +2801,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_reboot_request(
+        _request = build_reboot_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.reboot.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3075,11 +2824,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    reboot.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/reboot"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     async def _resume_initial(self, resource_group_name: str, name: str, **kwargs: Any) -> _models.WebAppCollection:
         error_map = {
@@ -3096,21 +2841,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
-        request = build_resume_request(
+        _request = build_resume_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._resume_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3131,10 +2875,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         return deserialized  # type: ignore
 
-    _resume_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/resume"
-    }
-
     @distributed_trace_async
     async def begin_resume(
         self, resource_group_name: str, name: str, **kwargs: Any
@@ -3147,14 +2887,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns an iterator like instance of either
          WebAppCollection or the result of cls(response)
         :rtype:
@@ -3179,17 +2911,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_resume_request(
+                _request = build_resume_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.begin_resume.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3200,14 +2931,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WebAppCollection", pipeline_response)
@@ -3217,11 +2948,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3262,17 +2993,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[AsyncIterable["_models.Site"]].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resume.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/resume"
-    }
+        return AsyncLROPoller[AsyncIterable["_models.Site"]](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_app_service_plans(
@@ -3286,7 +3015,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AppServicePlan or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.AppServicePlan]
@@ -3309,17 +3037,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_app_service_plans_request(
+                _request = build_list_app_service_plans_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_app_service_plans.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3330,14 +3057,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("AppServicePlanCollection", pipeline_response)
@@ -3347,11 +3074,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3363,10 +3090,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_app_service_plans.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms"
-    }
 
     @distributed_trace
     def list_web_apps(
@@ -3383,7 +3106,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param properties_to_include: Comma separated list of app properties to include. Default value
          is None.
         :type properties_to_include: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Site or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.Site]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3405,18 +3127,17 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_web_apps_request(
+                _request = build_list_web_apps_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     properties_to_include=properties_to_include,
                     api_version=api_version,
-                    template_url=self.list_web_apps.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3427,14 +3148,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WebAppCollection", pipeline_response)
@@ -3444,11 +3165,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3460,10 +3181,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_web_apps.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/sites"
-    }
 
     async def _suspend_initial(self, resource_group_name: str, name: str, **kwargs: Any) -> _models.WebAppCollection:
         error_map = {
@@ -3480,21 +3197,20 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
-        request = build_suspend_request(
+        _request = build_suspend_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._suspend_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3515,10 +3231,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
 
         return deserialized  # type: ignore
 
-    _suspend_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend"
-    }
-
     @distributed_trace_async
     async def begin_suspend(
         self, resource_group_name: str, name: str, **kwargs: Any
@@ -3531,14 +3243,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns an iterator like instance of either
          WebAppCollection or the result of cls(response)
         :rtype:
@@ -3563,17 +3267,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_suspend_request(
+                _request = build_suspend_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.begin_suspend.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3584,14 +3287,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WebAppCollection", pipeline_response)
@@ -3601,11 +3304,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3646,17 +3349,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[AsyncIterable["_models.Site"]].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_suspend.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend"
-    }
+        return AsyncLROPoller[AsyncIterable["_models.Site"]](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_usages(
@@ -3675,7 +3376,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
          2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq
          duration'[Hour|Minute|Day]'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either CsmUsageQuota or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.CsmUsageQuota]
@@ -3698,18 +3398,17 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_usages_request(
+                _request = build_list_usages_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_usages.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3720,14 +3419,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("CsmUsageQuotaCollection", pipeline_response)
@@ -3737,11 +3436,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3753,10 +3452,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_usages.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/usages"
-    }
 
     @distributed_trace
     def list_worker_pools(
@@ -3770,7 +3465,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type resource_group_name: str
         :param name: Name of the App Service Environment. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either WorkerPoolResource or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource]
@@ -3793,17 +3487,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_worker_pools_request(
+                _request = build_list_worker_pools_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_worker_pools.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3814,14 +3507,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WorkerPoolCollection", pipeline_response)
@@ -3831,11 +3524,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3847,10 +3540,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_worker_pools.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools"
-    }
 
     @distributed_trace_async
     async def get_worker_pool(
@@ -3866,7 +3555,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkerPoolResource or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3885,22 +3573,21 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-02-01"))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
-        request = build_get_worker_pool_request(
+        _request = build_get_worker_pool_request(
             resource_group_name=resource_group_name,
             name=name,
             worker_pool_name=worker_pool_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_worker_pool.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3913,20 +3600,16 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_worker_pool.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_worker_pool_initial(
         self,
         resource_group_name: str,
         name: str,
         worker_pool_name: str,
-        worker_pool_envelope: Union[_models.WorkerPoolResource, IO],
+        worker_pool_envelope: Union[_models.WorkerPoolResource, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.WorkerPoolResource]:
         error_map = {
@@ -3952,7 +3635,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(worker_pool_envelope, "WorkerPoolResource")
 
-        request = build_create_or_update_worker_pool_request(
+        _request = build_create_or_update_worker_pool_request(
             resource_group_name=resource_group_name,
             name=name,
             worker_pool_name=worker_pool_name,
@@ -3961,16 +3644,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_worker_pool_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3987,13 +3669,9 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_or_update_worker_pool_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_or_update_worker_pool(
@@ -4021,14 +3699,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either WorkerPoolResource or the result of
          cls(response)
         :rtype:
@@ -4042,7 +3712,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         resource_group_name: str,
         name: str,
         worker_pool_name: str,
-        worker_pool_envelope: IO,
+        worker_pool_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4058,18 +3728,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
         :param worker_pool_envelope: Properties of the worker pool. Required.
-        :type worker_pool_envelope: IO
+        :type worker_pool_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either WorkerPoolResource or the result of
          cls(response)
         :rtype:
@@ -4083,7 +3745,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         resource_group_name: str,
         name: str,
         worker_pool_name: str,
-        worker_pool_envelope: Union[_models.WorkerPoolResource, IO],
+        worker_pool_envelope: Union[_models.WorkerPoolResource, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkerPoolResource]:
         """Create or update a worker pool.
@@ -4097,19 +3759,8 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
         :param worker_pool_envelope: Properties of the worker pool. Is either a WorkerPoolResource type
-         or a IO type. Required.
-        :type worker_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or a IO[bytes] type. Required.
+        :type worker_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either WorkerPoolResource or the result of
          cls(response)
         :rtype:
@@ -4143,7 +3794,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4153,17 +3804,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.WorkerPoolResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update_worker_pool.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}"
-    }
+        return AsyncLROPoller[_models.WorkerPoolResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def update_worker_pool(
@@ -4191,7 +3840,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkerPoolResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4203,7 +3851,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         resource_group_name: str,
         name: str,
         worker_pool_name: str,
-        worker_pool_envelope: IO,
+        worker_pool_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4219,11 +3867,10 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
         :param worker_pool_envelope: Properties of the worker pool. Required.
-        :type worker_pool_envelope: IO
+        :type worker_pool_envelope: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkerPoolResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4235,7 +3882,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         resource_group_name: str,
         name: str,
         worker_pool_name: str,
-        worker_pool_envelope: Union[_models.WorkerPoolResource, IO],
+        worker_pool_envelope: Union[_models.WorkerPoolResource, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.WorkerPoolResource]:
         """Create or update a worker pool.
@@ -4249,12 +3896,8 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
         :param worker_pool_envelope: Properties of the worker pool. Is either a WorkerPoolResource type
-         or a IO type. Required.
-        :type worker_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or a IO[bytes] type. Required.
+        :type worker_pool_envelope: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or IO[bytes]
         :return: WorkerPoolResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2018_02_01.models.WorkerPoolResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4282,7 +3925,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         else:
             _json = self._serialize.body(worker_pool_envelope, "WorkerPoolResource")
 
-        request = build_update_worker_pool_request(
+        _request = build_update_worker_pool_request(
             resource_group_name=resource_group_name,
             name=name,
             worker_pool_name=worker_pool_name,
@@ -4291,16 +3934,15 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update_worker_pool.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4317,16 +3959,12 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             deserialized = self._deserialize("WorkerPoolResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update_worker_pool.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def list_worker_pool_instance_metric_definitions(
+    def list_worker_pool_instance_metric_definitions(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, worker_pool_name: str, instance: str, **kwargs: Any
     ) -> AsyncIterable["_models.ResourceMetricDefinition"]:
         """Get metric definitions for a specific instance of a worker pool of an App Service Environment.
@@ -4341,7 +3979,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type worker_pool_name: str
         :param instance: Name of the instance in the worker pool. Required.
         :type instance: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetricDefinition or the result of
          cls(response)
         :rtype:
@@ -4365,19 +4002,18 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_worker_pool_instance_metric_definitions_request(
+                _request = build_list_worker_pool_instance_metric_definitions_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     worker_pool_name=worker_pool_name,
                     instance=instance,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_worker_pool_instance_metric_definitions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4388,14 +4024,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricDefinitionCollection", pipeline_response)
@@ -4405,11 +4041,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4421,10 +4057,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_worker_pool_instance_metric_definitions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metricdefinitions"
-    }
 
     @distributed_trace
     def list_worker_pool_instance_metrics(
@@ -4457,7 +4089,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
          2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq
          duration'[Hour|Minute|Day]'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetric or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.ResourceMetric]
@@ -4480,7 +4111,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_worker_pool_instance_metrics_request(
+                _request = build_list_worker_pool_instance_metrics_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     worker_pool_name=worker_pool_name,
@@ -4489,12 +4120,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                     details=details,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_worker_pool_instance_metrics.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4505,14 +4135,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricCollection", pipeline_response)
@@ -4522,11 +4152,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4538,10 +4168,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_worker_pool_instance_metrics.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metrics"
-    }
 
     @distributed_trace
     def list_web_worker_metric_definitions(
@@ -4557,7 +4183,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetricDefinition or the result of
          cls(response)
         :rtype:
@@ -4581,18 +4206,17 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_web_worker_metric_definitions_request(
+                _request = build_list_web_worker_metric_definitions_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     worker_pool_name=worker_pool_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_web_worker_metric_definitions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4603,14 +4227,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricDefinitionCollection", pipeline_response)
@@ -4620,11 +4244,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4636,10 +4260,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_web_worker_metric_definitions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metricdefinitions"
-    }
 
     @distributed_trace
     def list_web_worker_metrics(
@@ -4669,7 +4289,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
          2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq
          duration'[Hour|Minute|Day]'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ResourceMetric or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.ResourceMetric]
@@ -4692,7 +4311,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_web_worker_metrics_request(
+                _request = build_list_web_worker_metrics_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     worker_pool_name=worker_pool_name,
@@ -4700,12 +4319,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                     details=details,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_web_worker_metrics.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4716,14 +4334,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ResourceMetricCollection", pipeline_response)
@@ -4733,11 +4351,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4749,10 +4367,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_web_worker_metrics.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics"
-    }
 
     @distributed_trace
     def list_worker_pool_skus(
@@ -4768,7 +4382,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SkuInfo or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.SkuInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4790,18 +4403,17 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_worker_pool_skus_request(
+                _request = build_list_worker_pool_skus_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     worker_pool_name=worker_pool_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_worker_pool_skus.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4812,14 +4424,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("SkuInfoCollection", pipeline_response)
@@ -4829,11 +4441,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4845,10 +4457,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_worker_pool_skus.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/skus"
-    }
 
     @distributed_trace
     def list_web_worker_usages(
@@ -4864,7 +4472,6 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         :type name: str
         :param worker_pool_name: Name of the worker pool. Required.
         :type worker_pool_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Usage or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.Usage]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4886,18 +4493,17 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_web_worker_usages_request(
+                _request = build_list_web_worker_usages_request(
                     resource_group_name=resource_group_name,
                     name=name,
                     worker_pool_name=worker_pool_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_web_worker_usages.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4908,14 +4514,14 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("UsageCollection", pipeline_response)
@@ -4925,11 +4531,11 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4941,7 +4547,3 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_web_worker_usages.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/usages"
-    }
