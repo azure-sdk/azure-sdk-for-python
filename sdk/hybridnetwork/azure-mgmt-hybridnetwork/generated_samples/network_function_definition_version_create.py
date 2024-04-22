@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hybridnetwork import HybridNetworkManagementClient
 
 """
@@ -63,8 +66,8 @@ def main():
                                 "helmMappingRuleProfile": {
                                     "helmPackageVersion": "2.1.3",
                                     "options": {
-                                        "installOptions": {"atomic": "true", "timeout": "30", "wait": "waitValue"},
-                                        "upgradeOptions": {"atomic": "true", "timeout": "30", "wait": "waitValue"},
+                                        "installOptions": {"atomic": "true", "timeout": "30", "wait": "true"},
+                                        "upgradeOptions": {"atomic": "true", "timeout": "30", "wait": "true"},
                                     },
                                     "releaseName": "{deployParameters.releaseName}",
                                     "releaseNamespace": "{deployParameters.namesapce}",

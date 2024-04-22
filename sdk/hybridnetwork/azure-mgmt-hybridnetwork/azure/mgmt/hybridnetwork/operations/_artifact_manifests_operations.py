@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -394,7 +394,6 @@ class ArtifactManifestsOperations:
         :type publisher_name: str
         :param artifact_store_name: The name of the artifact store. Required.
         :type artifact_store_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ArtifactManifest or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.hybridnetwork.models.ArtifactManifest]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -416,18 +415,17 @@ class ArtifactManifestsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_artifact_store_request(
+                _request = build_list_by_artifact_store_request(
                     resource_group_name=resource_group_name,
                     publisher_name=publisher_name,
                     artifact_store_name=artifact_store_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_artifact_store.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -439,13 +437,13 @@ class ArtifactManifestsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ArtifactManifestListResult", pipeline_response)
@@ -455,11 +453,11 @@ class ArtifactManifestsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -471,10 +469,6 @@ class ArtifactManifestsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_artifact_store.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests"
-    }
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self,
@@ -498,23 +492,22 @@ class ArtifactManifestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             artifact_store_name=artifact_store_name,
             artifact_manifest_name=artifact_manifest_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -529,11 +522,7 @@ class ArtifactManifestsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -555,14 +544,6 @@ class ArtifactManifestsOperations:
         :type artifact_store_name: str
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -591,7 +572,7 @@ class ArtifactManifestsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -602,17 +583,13 @@ class ArtifactManifestsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _create_or_update_initial(
         self,
@@ -620,7 +597,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: Union[_models.ArtifactManifest, IO],
+        parameters: Union[_models.ArtifactManifest, IO[bytes]],
         **kwargs: Any
     ) -> _models.ArtifactManifest:
         error_map = {
@@ -646,7 +623,7 @@ class ArtifactManifestsOperations:
         else:
             _json = self._serialize.body(parameters, "ArtifactManifest")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             artifact_store_name=artifact_store_name,
@@ -656,16 +633,15 @@ class ArtifactManifestsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -685,10 +661,6 @@ class ArtifactManifestsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -719,14 +691,6 @@ class ArtifactManifestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ArtifactManifest or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.hybridnetwork.models.ArtifactManifest]
@@ -740,7 +704,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -758,18 +722,10 @@ class ArtifactManifestsOperations:
         :type artifact_manifest_name: str
         :param parameters: Parameters supplied to the create or update artifact manifest operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ArtifactManifest or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.hybridnetwork.models.ArtifactManifest]
@@ -783,7 +739,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: Union[_models.ArtifactManifest, IO],
+        parameters: Union[_models.ArtifactManifest, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ArtifactManifest]:
         """Creates or updates a artifact manifest.
@@ -798,19 +754,8 @@ class ArtifactManifestsOperations:
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
         :param parameters: Parameters supplied to the create or update artifact manifest operation. Is
-         either a ArtifactManifest type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridnetwork.models.ArtifactManifest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         either a ArtifactManifest type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.hybridnetwork.models.ArtifactManifest or IO[bytes]
         :return: An instance of LROPoller that returns either ArtifactManifest or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.hybridnetwork.models.ArtifactManifest]
@@ -844,7 +789,7 @@ class ArtifactManifestsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ArtifactManifest", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -856,17 +801,15 @@ class ArtifactManifestsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ArtifactManifest].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}"
-    }
+        return LROPoller[_models.ArtifactManifest](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def get(
@@ -888,7 +831,6 @@ class ArtifactManifestsOperations:
         :type artifact_store_name: str
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ArtifactManifest or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ArtifactManifest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -907,23 +849,22 @@ class ArtifactManifestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ArtifactManifest] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             artifact_store_name=artifact_store_name,
             artifact_manifest_name=artifact_manifest_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -936,13 +877,9 @@ class ArtifactManifestsOperations:
         deserialized = self._deserialize("ArtifactManifest", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def update(
@@ -973,7 +910,6 @@ class ArtifactManifestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ArtifactManifest or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ArtifactManifest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -986,7 +922,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1004,11 +940,10 @@ class ArtifactManifestsOperations:
         :type artifact_manifest_name: str
         :param parameters: Parameters supplied to the create or update artifact manifest operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ArtifactManifest or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ArtifactManifest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1021,7 +956,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: Union[_models.TagsObject, IO],
+        parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
     ) -> _models.ArtifactManifest:
         """Updates a artifact manifest resource.
@@ -1036,12 +971,8 @@ class ArtifactManifestsOperations:
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
         :param parameters: Parameters supplied to the create or update artifact manifest operation. Is
-         either a TagsObject type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridnetwork.models.TagsObject or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         either a TagsObject type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.hybridnetwork.models.TagsObject or IO[bytes]
         :return: ArtifactManifest or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ArtifactManifest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1069,7 +1000,7 @@ class ArtifactManifestsOperations:
         else:
             _json = self._serialize.body(parameters, "TagsObject")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             artifact_store_name=artifact_store_name,
@@ -1079,16 +1010,15 @@ class ArtifactManifestsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1101,13 +1031,9 @@ class ArtifactManifestsOperations:
         deserialized = self._deserialize("ArtifactManifest", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_credential(
@@ -1129,7 +1055,6 @@ class ArtifactManifestsOperations:
         :type artifact_store_name: str
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ArtifactAccessCredential or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ArtifactAccessCredential
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1148,23 +1073,22 @@ class ArtifactManifestsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ArtifactAccessCredential] = kwargs.pop("cls", None)
 
-        request = build_list_credential_request(
+        _request = build_list_credential_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             artifact_store_name=artifact_store_name,
             artifact_manifest_name=artifact_manifest_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_credential.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1177,13 +1101,9 @@ class ArtifactManifestsOperations:
         deserialized = self._deserialize("ArtifactAccessCredential", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_credential.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/listCredential"
-    }
+        return deserialized  # type: ignore
 
     def _update_state_initial(
         self,
@@ -1191,7 +1111,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: Union[_models.ArtifactManifestUpdateState, IO],
+        parameters: Union[_models.ArtifactManifestUpdateState, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ArtifactManifestUpdateState]:
         error_map = {
@@ -1217,7 +1137,7 @@ class ArtifactManifestsOperations:
         else:
             _json = self._serialize.body(parameters, "ArtifactManifestUpdateState")
 
-        request = build_update_state_request(
+        _request = build_update_state_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             artifact_store_name=artifact_store_name,
@@ -1227,16 +1147,15 @@ class ArtifactManifestsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_state_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1255,13 +1174,9 @@ class ArtifactManifestsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_state_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/updateState"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_state(
@@ -1291,14 +1206,6 @@ class ArtifactManifestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ArtifactManifestUpdateState or the result
          of cls(response)
         :rtype:
@@ -1313,7 +1220,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1330,18 +1237,10 @@ class ArtifactManifestsOperations:
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
         :param parameters: Parameters supplied to update the state of artifact manifest. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ArtifactManifestUpdateState or the result
          of cls(response)
         :rtype:
@@ -1356,7 +1255,7 @@ class ArtifactManifestsOperations:
         publisher_name: str,
         artifact_store_name: str,
         artifact_manifest_name: str,
-        parameters: Union[_models.ArtifactManifestUpdateState, IO],
+        parameters: Union[_models.ArtifactManifestUpdateState, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ArtifactManifestUpdateState]:
         """Update state for artifact manifest.
@@ -1371,19 +1270,8 @@ class ArtifactManifestsOperations:
         :param artifact_manifest_name: The name of the artifact manifest. Required.
         :type artifact_manifest_name: str
         :param parameters: Parameters supplied to update the state of artifact manifest. Is either a
-         ArtifactManifestUpdateState type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridnetwork.models.ArtifactManifestUpdateState or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ArtifactManifestUpdateState type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.hybridnetwork.models.ArtifactManifestUpdateState or IO[bytes]
         :return: An instance of LROPoller that returns either ArtifactManifestUpdateState or the result
          of cls(response)
         :rtype:
@@ -1418,7 +1306,7 @@ class ArtifactManifestsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ArtifactManifestUpdateState", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1430,14 +1318,12 @@ class ArtifactManifestsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ArtifactManifestUpdateState].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_state.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/updateState"
-    }
+        return LROPoller[_models.ArtifactManifestUpdateState](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
