@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -25,7 +25,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -38,7 +38,7 @@ def build_get_request(operation_id: str, scope: str, **kwargs: Any) -> HttpReque
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -48,7 +48,7 @@ def build_get_request(operation_id: str, scope: str, **kwargs: Any) -> HttpReque
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -59,7 +59,7 @@ def build_get_request(operation_id: str, scope: str, **kwargs: Any) -> HttpReque
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class GenerateDetailedCostReportOperationStatusOperations:
+class GenerateDetailedCostReportOperationStatusOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -88,7 +88,6 @@ class GenerateDetailedCostReportOperationStatusOperations:
         :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
          billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GenerateDetailedCostReportOperationStatuses or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.GenerateDetailedCostReportOperationStatuses
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -107,20 +106,19 @@ class GenerateDetailedCostReportOperationStatusOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GenerateDetailedCostReportOperationStatuses] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             operation_id=operation_id,
             scope=scope,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -133,8 +131,6 @@ class GenerateDetailedCostReportOperationStatusOperations:
         deserialized = self._deserialize("GenerateDetailedCostReportOperationStatuses", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/operationStatus/{operationId}"}
+        return deserialized  # type: ignore

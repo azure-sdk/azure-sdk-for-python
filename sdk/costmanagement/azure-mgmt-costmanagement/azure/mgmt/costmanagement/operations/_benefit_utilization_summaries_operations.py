@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,7 +27,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -46,7 +46,7 @@ def build_list_by_billing_account_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -58,7 +58,7 @@ def build_list_by_billing_account_id_request(
         "billingAccountId": _SERIALIZER.url("billing_account_id", billing_account_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -84,7 +84,7 @@ def build_list_by_billing_profile_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -97,7 +97,7 @@ def build_list_by_billing_profile_id_request(
         "billingProfileId": _SERIALIZER.url("billing_profile_id", billing_profile_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -122,7 +122,7 @@ def build_list_by_savings_plan_order_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -134,7 +134,7 @@ def build_list_by_savings_plan_order_request(
         "savingsPlanOrderId": _SERIALIZER.url("savings_plan_order_id", savings_plan_order_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -160,7 +160,7 @@ def build_list_by_savings_plan_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -173,7 +173,7 @@ def build_list_by_savings_plan_id_request(
         "savingsPlanId": _SERIALIZER.url("savings_plan_id", savings_plan_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -229,7 +229,6 @@ class BenefitUtilizationSummariesOperations:
         :param filter: Supports filtering by properties/benefitId, properties/benefitOrderId and
          properties/usageDate. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BenefitUtilizationSummary or the result of
          cls(response)
         :rtype:
@@ -253,17 +252,16 @@ class BenefitUtilizationSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_billing_account_id_request(
+                _request = build_list_by_billing_account_id_request(
                     billing_account_id=billing_account_id,
                     grain_parameter=grain_parameter,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_billing_account_id.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -275,13 +273,13 @@ class BenefitUtilizationSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("BenefitUtilizationSummariesListResult", pipeline_response)
@@ -291,11 +289,11 @@ class BenefitUtilizationSummariesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -307,10 +305,6 @@ class BenefitUtilizationSummariesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_billing_account_id.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries"
-    }
 
     @distributed_trace
     def list_by_billing_profile_id(
@@ -337,7 +331,6 @@ class BenefitUtilizationSummariesOperations:
         :param filter: Supports filtering by properties/benefitId, properties/benefitOrderId and
          properties/usageDate. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BenefitUtilizationSummary or the result of
          cls(response)
         :rtype:
@@ -361,18 +354,17 @@ class BenefitUtilizationSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_billing_profile_id_request(
+                _request = build_list_by_billing_profile_id_request(
                     billing_account_id=billing_account_id,
                     billing_profile_id=billing_profile_id,
                     grain_parameter=grain_parameter,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_billing_profile_id.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -384,13 +376,13 @@ class BenefitUtilizationSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("BenefitUtilizationSummariesListResult", pipeline_response)
@@ -400,11 +392,11 @@ class BenefitUtilizationSummariesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -416,10 +408,6 @@ class BenefitUtilizationSummariesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_billing_profile_id.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries"
-    }
 
     @distributed_trace
     def list_by_savings_plan_order(
@@ -441,7 +429,6 @@ class BenefitUtilizationSummariesOperations:
         :param grain_parameter: Grain. Known values are: "Hourly", "Daily", and "Monthly". Default
          value is None.
         :type grain_parameter: str or ~azure.mgmt.costmanagement.models.GrainParameter
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BenefitUtilizationSummary or the result of
          cls(response)
         :rtype:
@@ -465,17 +452,16 @@ class BenefitUtilizationSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_savings_plan_order_request(
+                _request = build_list_by_savings_plan_order_request(
                     savings_plan_order_id=savings_plan_order_id,
                     filter=filter,
                     grain_parameter=grain_parameter,
                     api_version=api_version,
-                    template_url=self.list_by_savings_plan_order.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -487,13 +473,13 @@ class BenefitUtilizationSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("BenefitUtilizationSummariesListResult", pipeline_response)
@@ -503,11 +489,11 @@ class BenefitUtilizationSummariesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -519,10 +505,6 @@ class BenefitUtilizationSummariesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_savings_plan_order.metadata = {
-        "url": "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries"
-    }
 
     @distributed_trace
     def list_by_savings_plan_id(
@@ -547,7 +529,6 @@ class BenefitUtilizationSummariesOperations:
         :param grain_parameter: Grain. Known values are: "Hourly", "Daily", and "Monthly". Default
          value is None.
         :type grain_parameter: str or ~azure.mgmt.costmanagement.models.GrainParameter
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BenefitUtilizationSummary or the result of
          cls(response)
         :rtype:
@@ -571,18 +552,17 @@ class BenefitUtilizationSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_savings_plan_id_request(
+                _request = build_list_by_savings_plan_id_request(
                     savings_plan_order_id=savings_plan_order_id,
                     savings_plan_id=savings_plan_id,
                     filter=filter,
                     grain_parameter=grain_parameter,
                     api_version=api_version,
-                    template_url=self.list_by_savings_plan_id.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -594,13 +574,13 @@ class BenefitUtilizationSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("BenefitUtilizationSummariesListResult", pipeline_response)
@@ -610,11 +590,11 @@ class BenefitUtilizationSummariesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -626,7 +606,3 @@ class BenefitUtilizationSummariesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_savings_plan_id.metadata = {
-        "url": "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries"
-    }

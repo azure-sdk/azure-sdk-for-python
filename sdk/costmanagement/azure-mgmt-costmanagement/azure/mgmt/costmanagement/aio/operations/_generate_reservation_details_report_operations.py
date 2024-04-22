@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -36,7 +36,7 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class GenerateReservationDetailsReportOperations:
+class GenerateReservationDetailsReportOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -72,21 +72,20 @@ class GenerateReservationDetailsReportOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
 
-        request = build_by_billing_account_id_request(
+        _request = build_by_billing_account_id_request(
             billing_account_id=billing_account_id,
             start_date=start_date,
             end_date=end_date,
             api_version=api_version,
-            template_url=self._by_billing_account_id_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -106,13 +105,9 @@ class GenerateReservationDetailsReportOperations:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _by_billing_account_id_initial.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_by_billing_account_id(
@@ -121,7 +116,7 @@ class GenerateReservationDetailsReportOperations:
         """Generates the reservations details report for provided date range asynchronously based on
         enrollment id. The Reservation usage details can be viewed only by certain enterprise roles.
         For more details on the roles see,
-        https://docs.microsoft.com/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role.
+        https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -132,14 +127,6 @@ class GenerateReservationDetailsReportOperations:
         :type start_date: str
         :param end_date: End Date. Required.
         :type end_date: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.costmanagement.models.OperationStatus]
@@ -169,7 +156,7 @@ class GenerateReservationDetailsReportOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("OperationStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -181,17 +168,15 @@ class GenerateReservationDetailsReportOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_by_billing_account_id.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _by_billing_profile_id_initial(
         self, billing_account_id: str, billing_profile_id: str, start_date: str, end_date: str, **kwargs: Any
@@ -210,22 +195,21 @@ class GenerateReservationDetailsReportOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
 
-        request = build_by_billing_profile_id_request(
+        _request = build_by_billing_profile_id_request(
             billing_account_id=billing_account_id,
             billing_profile_id=billing_profile_id,
             start_date=start_date,
             end_date=end_date,
             api_version=api_version,
-            template_url=self._by_billing_profile_id_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -245,13 +229,9 @@ class GenerateReservationDetailsReportOperations:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _by_billing_profile_id_initial.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateReservationDetailsReport"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_by_billing_profile_id(
@@ -260,7 +240,7 @@ class GenerateReservationDetailsReportOperations:
         """Generates the reservations details report for provided date range asynchronously by billing
         profile. The Reservation usage details can be viewed by only certain enterprise roles by
         default. For more details on the roles see,
-        https://docs.microsoft.com/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access.
+        https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -273,14 +253,6 @@ class GenerateReservationDetailsReportOperations:
         :type start_date: str
         :param end_date: End Date. Required.
         :type end_date: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.costmanagement.models.OperationStatus]
@@ -311,7 +283,7 @@ class GenerateReservationDetailsReportOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("OperationStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -323,14 +295,12 @@ class GenerateReservationDetailsReportOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_by_billing_profile_id.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateReservationDetailsReport"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

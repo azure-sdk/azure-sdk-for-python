@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -80,7 +80,6 @@ class AlertsOperations:
          '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}'
          specific for partners. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AlertsResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.AlertsResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -99,19 +98,18 @@ class AlertsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AlertsResult] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             scope=scope,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -124,11 +122,9 @@ class AlertsOperations:
         deserialized = self._deserialize("AlertsResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/alerts"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(self, scope: str, alert_id: str, **kwargs: Any) -> _models.Alert:
@@ -156,7 +152,6 @@ class AlertsOperations:
         :type scope: str
         :param alert_id: Alert ID. Required.
         :type alert_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -175,20 +170,19 @@ class AlertsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Alert] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             scope=scope,
             alert_id=alert_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -201,11 +195,9 @@ class AlertsOperations:
         deserialized = self._deserialize("Alert", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/alerts/{alertId}"}
+        return deserialized  # type: ignore
 
     @overload
     async def dismiss(
@@ -246,7 +238,6 @@ class AlertsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -254,7 +245,7 @@ class AlertsOperations:
 
     @overload
     async def dismiss(
-        self, scope: str, alert_id: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, scope: str, alert_id: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Alert:
         """Dismisses the specified alert.
 
@@ -281,11 +272,10 @@ class AlertsOperations:
         :param alert_id: Alert ID. Required.
         :type alert_id: str
         :param parameters: Parameters supplied to the Dismiss Alert operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -293,7 +283,7 @@ class AlertsOperations:
 
     @distributed_trace_async
     async def dismiss(
-        self, scope: str, alert_id: str, parameters: Union[_models.DismissAlertPayload, IO], **kwargs: Any
+        self, scope: str, alert_id: str, parameters: Union[_models.DismissAlertPayload, IO[bytes]], **kwargs: Any
     ) -> _models.Alert:
         """Dismisses the specified alert.
 
@@ -320,12 +310,8 @@ class AlertsOperations:
         :param alert_id: Alert ID. Required.
         :type alert_id: str
         :param parameters: Parameters supplied to the Dismiss Alert operation. Is either a
-         DismissAlertPayload type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.DismissAlertPayload or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         DismissAlertPayload type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.DismissAlertPayload or IO[bytes]
         :return: Alert or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Alert
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -353,23 +339,22 @@ class AlertsOperations:
         else:
             _json = self._serialize.body(parameters, "DismissAlertPayload")
 
-        request = build_dismiss_request(
+        _request = build_dismiss_request(
             scope=scope,
             alert_id=alert_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.dismiss.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -382,11 +367,9 @@ class AlertsOperations:
         deserialized = self._deserialize("Alert", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    dismiss.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/alerts/{alertId}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def list_external(
@@ -410,7 +393,6 @@ class AlertsOperations:
          '{externalBillingAccountId}' for consolidated account used with dimension/query operations.
          Required.
         :type external_cloud_provider_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AlertsResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.AlertsResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -429,20 +411,19 @@ class AlertsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AlertsResult] = kwargs.pop("cls", None)
 
-        request = build_list_external_request(
+        _request = build_list_external_request(
             external_cloud_provider_type=external_cloud_provider_type,
             external_cloud_provider_id=external_cloud_provider_id,
             api_version=api_version,
-            template_url=self.list_external.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -455,10 +436,6 @@ class AlertsOperations:
         deserialized = self._deserialize("AlertsResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_external.metadata = {
-        "url": "/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/alerts"
-    }
+        return deserialized  # type: ignore
