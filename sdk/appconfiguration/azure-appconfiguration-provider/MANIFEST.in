@@ -1,9 +1,7 @@
-recursive-include tests *.py
 include *.md
 include LICENSE
+include azure/appconfiguration/provider/py.typed
+recursive-include tests *.py
+recursive-include samples *.py *.md
 include azure/__init__.py
 include azure/appconfiguration/__init__.py
-include azure/appconfiguration/provider/*.py
-recursive-include samples *.py *.md
-recursive-include doc *.rst
-include azure/appconfiguration/provider/py.typed
