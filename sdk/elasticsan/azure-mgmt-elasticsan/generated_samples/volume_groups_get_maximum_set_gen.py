@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
 """
@@ -26,17 +27,17 @@ from azure.mgmt.elasticsan import ElasticSanMgmtClient
 def main():
     client = ElasticSanMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionid",
+        subscription_id="6A3D9E72-4E5F-44D5-818D-99842AE75034",
     )
 
     response = client.volume_groups.get(
-        resource_group_name="resourcegroupname",
+        resource_group_name="rgelasticsan",
         elastic_san_name="elasticsanname",
         volume_group_name="volumegroupname",
     )
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Get_MaximumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Get_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

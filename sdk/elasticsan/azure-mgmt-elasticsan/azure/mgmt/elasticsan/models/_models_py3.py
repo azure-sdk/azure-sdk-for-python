@@ -17,13 +17,33 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class AutoScaleProperties(_serialization.Model):
+    """The auto scale settings on Elastic San Appliance..
+
+    :ivar scale_up_properties: Scale up settings on Elastic San Appliance.
+    :vartype scale_up_properties: ~azure.mgmt.elasticsan.models.ScaleUpProperties
+    """
+
+    _attribute_map = {
+        "scale_up_properties": {"key": "scaleUpProperties", "type": "ScaleUpProperties"},
+    }
+
+    def __init__(self, *, scale_up_properties: Optional["_models.ScaleUpProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword scale_up_properties: Scale up settings on Elastic San Appliance.
+        :paramtype scale_up_properties: ~azure.mgmt.elasticsan.models.ScaleUpProperties
+        """
+        super().__init__(**kwargs)
+        self.scale_up_properties = scale_up_properties
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -64,10 +84,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -117,10 +137,10 @@ class ElasticSan(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -212,7 +232,7 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sku: resource sku. Required.
     :vartype sku: ~azure.mgmt.elasticsan.models.Sku
@@ -242,6 +262,8 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
      optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
      "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
+    :ivar auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
+    :vartype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
     """
 
     _validation = {
@@ -270,6 +292,7 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
         "total_size_ti_b": {"key": "totalSizeTiB", "type": "int"},
         "private_endpoint_connections": {"key": "privateEndpointConnections", "type": "[PrivateEndpointConnection]"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "auto_scale_properties": {"key": "autoScaleProperties", "type": "AutoScaleProperties"},
     }
 
     def __init__(
@@ -280,6 +303,7 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
         extended_capacity_size_ti_b: int,
         availability_zones: Optional[List[str]] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        auto_scale_properties: Optional["_models.AutoScaleProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -296,6 +320,8 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
          optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
          "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
+        :keyword auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
+        :paramtype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -310,6 +336,7 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
         self.total_size_ti_b = None
         self.private_endpoint_connections = None
         self.public_network_access = public_network_access
+        self.auto_scale_properties = auto_scale_properties
 
 
 class ElasticSanUpdate(_serialization.Model):
@@ -355,12 +382,15 @@ class ElasticSanUpdateProperties(_serialization.Model):
      Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are:
      "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
+    :ivar auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
+    :vartype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
     """
 
     _attribute_map = {
         "base_size_ti_b": {"key": "baseSizeTiB", "type": "int"},
         "extended_capacity_size_ti_b": {"key": "extendedCapacitySizeTiB", "type": "int"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "auto_scale_properties": {"key": "autoScaleProperties", "type": "AutoScaleProperties"},
     }
 
     def __init__(
@@ -369,6 +399,7 @@ class ElasticSanUpdateProperties(_serialization.Model):
         base_size_ti_b: Optional[int] = None,
         extended_capacity_size_ti_b: Optional[int] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        auto_scale_properties: Optional["_models.AutoScaleProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -380,11 +411,14 @@ class ElasticSanUpdateProperties(_serialization.Model):
          Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are:
          "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
+        :keyword auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
+        :paramtype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
         """
         super().__init__(**kwargs)
         self.base_size_ti_b = base_size_ti_b
         self.extended_capacity_size_ti_b = extended_capacity_size_ti_b
         self.public_network_access = public_network_access
+        self.auto_scale_properties = auto_scale_properties
 
 
 class EncryptionIdentity(_serialization.Model):
@@ -538,7 +572,7 @@ class Identity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The principal ID of resource identity.
     :vartype principal_id: str
@@ -898,10 +932,10 @@ class PrivateEndpointConnection(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -975,7 +1009,7 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Provisioning State of Private Endpoint connection resource. Known
      values are: "Invalid", "Succeeded", "Failed", "Canceled", "Pending", "Creating", "Updating",
@@ -1036,7 +1070,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1189,7 +1223,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1201,29 +1235,61 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.elasticsan.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
+
+class ScaleUpProperties(_serialization.Model):
+    """Scale up properties on Elastic San Appliance.
+
+    :ivar unused_size_ti_b: Unused size on Elastic San appliance in TiB.
+    :vartype unused_size_ti_b: int
+    :ivar increase_capacity_unit_by_ti_b: Unit to increase Capacity Unit on Elastic San appliance
+     in TiB.
+    :vartype increase_capacity_unit_by_ti_b: int
+    :ivar max_scale_up_ti_b: Maximum scale up size on Elastic San appliance in TiB.
+    :vartype max_scale_up_ti_b: int
+    :ivar policy_enforcement: Enable or Disable scale up setting on Elastic San Appliance. Known
+     values are: "Enabled" and "Disabled".
+    :vartype policy_enforcement: str or ~azure.mgmt.elasticsan.models.PolicyEnforcement
+    """
 
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
+        "unused_size_ti_b": {"key": "unusedSizeTiB", "type": "int"},
+        "increase_capacity_unit_by_ti_b": {"key": "increaseCapacityUnitByTiB", "type": "int"},
+        "max_scale_up_ti_b": {"key": "maxScaleUpTiB", "type": "int"},
+        "policy_enforcement": {"key": "policyEnforcement", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        unused_size_ti_b: Optional[int] = None,
+        increase_capacity_unit_by_ti_b: Optional[int] = None,
+        max_scale_up_ti_b: Optional[int] = None,
+        policy_enforcement: Optional[Union[str, "_models.PolicyEnforcement"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword unused_size_ti_b: Unused size on Elastic San appliance in TiB.
+        :paramtype unused_size_ti_b: int
+        :keyword increase_capacity_unit_by_ti_b: Unit to increase Capacity Unit on Elastic San
+         appliance in TiB.
+        :paramtype increase_capacity_unit_by_ti_b: int
+        :keyword max_scale_up_ti_b: Maximum scale up size on Elastic San appliance in TiB.
+        :paramtype max_scale_up_ti_b: int
+        :keyword policy_enforcement: Enable or Disable scale up setting on Elastic San Appliance. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype policy_enforcement: str or ~azure.mgmt.elasticsan.models.PolicyEnforcement
+        """
         super().__init__(**kwargs)
+        self.unused_size_ti_b = unused_size_ti_b
+        self.increase_capacity_unit_by_ti_b = increase_capacity_unit_by_ti_b
+        self.max_scale_up_ti_b = max_scale_up_ti_b
+        self.policy_enforcement = policy_enforcement
 
 
 class Sku(_serialization.Model):
     """The SKU name. Required for account creation; optional for update.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The sku name. Required. Known values are: "Premium_LRS" and "Premium_ZRS".
     :vartype name: str or ~azure.mgmt.elasticsan.models.SkuName
@@ -1291,7 +1357,7 @@ class SkuInformation(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Sku Name. Required. Known values are: "Premium_LRS" and "Premium_ZRS".
     :vartype name: str or ~azure.mgmt.elasticsan.models.SkuName
@@ -1408,10 +1474,10 @@ class Snapshot(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1453,10 +1519,10 @@ class Snapshot(ProxyResource):
 class SnapshotCreationData(_serialization.Model):
     """Data used when creating a volume snapshot.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_id: Fully qualified resource ID of the volume. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".  # pylint: disable=line-too-long
      Required.
     :vartype source_id: str
     """
@@ -1472,7 +1538,7 @@ class SnapshotCreationData(_serialization.Model):
     def __init__(self, *, source_id: str, **kwargs: Any) -> None:
         """
         :keyword source_id: Fully qualified resource ID of the volume. E.g.
-         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".
+         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".  # pylint: disable=line-too-long
          Required.
         :paramtype source_id: str
         """
@@ -1515,7 +1581,7 @@ class SnapshotProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar creation_data: Data used when creating a volume snapshot. Required.
     :vartype creation_data: ~azure.mgmt.elasticsan.models.SnapshotCreationData
@@ -1561,7 +1627,7 @@ class SourceCreationData(_serialization.Model):
      are: "None", "VolumeSnapshot", "DiskSnapshot", "Disk", and "DiskRestorePoint".
     :vartype create_source: str or ~azure.mgmt.elasticsan.models.VolumeCreateOption
     :ivar source_id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype source_id: str
     """
 
@@ -1582,7 +1648,7 @@ class SourceCreationData(_serialization.Model):
          are: "None", "VolumeSnapshot", "DiskSnapshot", "Disk", and "DiskRestorePoint".
         :paramtype create_source: str or ~azure.mgmt.elasticsan.models.VolumeCreateOption
         :keyword source_id: Fully qualified resource ID for the resource. E.g.
-         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
         :paramtype source_id: str
         """
         super().__init__(**kwargs)
@@ -1685,10 +1751,10 @@ class UserAssignedIdentity(_serialization.Model):
 class VirtualNetworkRule(_serialization.Model):
     """Virtual Network rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar virtual_network_resource_id: Resource ID of a subnet, for example:
-     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
      Required.
     :vartype virtual_network_resource_id: str
     :ivar action: The action of virtual network rule. "Allow"
@@ -1709,7 +1775,7 @@ class VirtualNetworkRule(_serialization.Model):
     ) -> None:
         """
         :keyword virtual_network_resource_id: Resource ID of a subnet, for example:
-         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
          Required.
         :paramtype virtual_network_resource_id: str
         :keyword action: The action of virtual network rule. "Allow"
@@ -1725,10 +1791,10 @@ class Volume(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1773,7 +1839,7 @@ class VolumeGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2041,7 +2107,7 @@ class VolumeProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar volume_id: Unique Id of the volume in GUID format.
     :vartype volume_id: str
