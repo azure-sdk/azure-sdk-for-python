@@ -21,14 +21,14 @@ from ._compute_node_operations import ComputeNodeOperations
 from ._compute_node_extension_operations import ComputeNodeExtensionOperations
 
 __all__ = [
-    'ApplicationOperations',
-    'PoolOperations',
-    'AccountOperations',
-    'CertificateOperations',
-    'FileOperations',
-    'JobScheduleOperations',
-    'JobOperations',
-    'TaskOperations',
-    'ComputeNodeOperations',
-    'ComputeNodeExtensionOperations',
+    "ApplicationOperations",
+    "PoolOperations",
+    "AccountOperations",
+    "CertificateOperations",
+    "FileOperations",
+    "JobScheduleOperations",
+    "JobOperations",
+    "TaskOperations",
+    "ComputeNodeOperations",
+    "ComputeNodeExtensionOperations",
 ]
