@@ -38765,6 +38765,8 @@ class ManagedIdentityCredential(Credential):
     :vartype description: str
     :ivar annotations: List of tags that can be used for describing the Credential.
     :vartype annotations: list[JSON]
+    :ivar resource_id: The resource id of user assigned managed identity.
+    :vartype resource_id: str
     """
 
     _validation = {
@@ -38776,6 +38778,7 @@ class ManagedIdentityCredential(Credential):
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "resource_id": {"key": "typeProperties.resourceId", "type": "str"},
     }
 
     def __init__(
@@ -38784,6 +38787,7 @@ class ManagedIdentityCredential(Credential):
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
         annotations: Optional[List[JSON]] = None,
+        resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -38794,14 +38798,17 @@ class ManagedIdentityCredential(Credential):
         :paramtype description: str
         :keyword annotations: List of tags that can be used for describing the Credential.
         :paramtype annotations: list[JSON]
+        :keyword resource_id: The resource id of user assigned managed identity.
+        :paramtype resource_id: str
         """
         super().__init__(
             additional_properties=additional_properties, description=description, annotations=annotations, **kwargs
         )
         self.type: str = "ManagedIdentity"
+        self.resource_id = resource_id
 
 
-class ManagedIdentityCredentialResource(CredentialResource):
+class ManagedIdentityCredentialResource(SubResource):
     """Credential resource type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -57548,9 +57555,9 @@ class ScriptActivityScriptBlock(_serialization.Model):
 
     :ivar text: The query text. Type: string (or Expression with resultType string). Required.
     :vartype text: JSON
-    :ivar type: The type of the query. Type: string. Required. Known values are: "Query" and
-     "NonQuery".
-    :vartype type: str or ~azure.mgmt.datafactory.models.ScriptType
+    :ivar type: The type of the query. Please refer to the ScriptType for valid options. Type:
+     string (or Expression with resultType string). Required.
+    :vartype type: JSON
     :ivar parameters: Array of script parameters. Type: array.
     :vartype parameters: list[~azure.mgmt.datafactory.models.ScriptActivityParameter]
     """
@@ -57562,7 +57569,7 @@ class ScriptActivityScriptBlock(_serialization.Model):
 
     _attribute_map = {
         "text": {"key": "text", "type": "object"},
-        "type": {"key": "type", "type": "str"},
+        "type": {"key": "type", "type": "object"},
         "parameters": {"key": "parameters", "type": "[ScriptActivityParameter]"},
     }
 
@@ -57570,16 +57577,16 @@ class ScriptActivityScriptBlock(_serialization.Model):
         self,
         *,
         text: JSON,
-        type: Union[str, "_models.ScriptType"],
+        type: JSON,
         parameters: Optional[List["_models.ScriptActivityParameter"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword text: The query text. Type: string (or Expression with resultType string). Required.
         :paramtype text: JSON
-        :keyword type: The type of the query. Type: string. Required. Known values are: "Query" and
-         "NonQuery".
-        :paramtype type: str or ~azure.mgmt.datafactory.models.ScriptType
+        :keyword type: The type of the query. Please refer to the ScriptType for valid options. Type:
+         string (or Expression with resultType string). Required.
+        :paramtype type: JSON
         :keyword parameters: Array of script parameters. Type: array.
         :paramtype parameters: list[~azure.mgmt.datafactory.models.ScriptActivityParameter]
         """
@@ -58853,7 +58860,7 @@ class ServicePrincipalCredential(Credential):
         self.tenant = tenant
 
 
-class ServicePrincipalCredentialResource(CredentialResource):
+class ServicePrincipalCredentialResource(SubResource):
     """Credential resource type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
