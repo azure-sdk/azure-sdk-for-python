@@ -23,18 +23,20 @@ class DataMapClientConfiguration:  # pylint: disable=too-many-instance-attribute
     Note that all parameters used to create this instance are saved as instance
     attributes.
 
-    :param endpoint: Required.
+    :param endpoint: Purview Data Map Service is a fully managed cloud service whose users can
+     discover the data sources they need and understand the data sources they find. At the same
+     time, Data Map helps organizations get more value from their existing investments. Required.
     :type endpoint: str
-    :param credential: Credential needed for the client to connect to Azure. Required.
+    :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :keyword api_version: The API version to use for this operation. Known values are "2023-09-01"
-     and None. Default value is "2023-09-01". Note that overriding this default value may result in
-     unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-03-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
     def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
-        api_version: str = kwargs.pop("api_version", "2023-09-01")
+        api_version: str = kwargs.pop("api_version", "2024-03-01-preview")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")

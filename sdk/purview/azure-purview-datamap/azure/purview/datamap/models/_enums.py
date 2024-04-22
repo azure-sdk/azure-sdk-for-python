@@ -95,6 +95,15 @@ class LineageDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """both"""
 
 
+class NavigationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Navigation Mode."""
+
+    ASSET_TYPE = "assetType"
+    """The assetType mode enable navigation start from assetType."""
+    AZURE_RESOURCE_HIERARCHY = "azureResourceHierarchy"
+    """The azureResourceHierarchy mode enable navigation start from Azure Subscription."""
+
+
 class RelationshipCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Relationship Category."""
 

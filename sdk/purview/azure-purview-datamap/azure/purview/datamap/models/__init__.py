@@ -54,8 +54,12 @@ from ._models import ContactSearchResultValue
 from ._models import DateFormat
 from ._models import EntityMutationResult
 from ._models import ImportInfo
+from ._models import ItemPath
 from ._models import LineageRelation
 from ._models import MoveEntitiesOptions
+from ._models import NavigationElement
+from ._models import NavigationRequest
+from ._models import NavigationResult
 from ._models import NumberFormat
 from ._models import ParentRelation
 from ._models import PurviewObjectId
@@ -84,6 +88,7 @@ from ._enums import CardinalityValue
 from ._enums import EntityStatus
 from ._enums import ImportStatus
 from ._enums import LineageDirection
+from ._enums import NavigationMode
 from ._enums import RelationshipCategory
 from ._enums import RoundingMode
 from ._enums import SearchSortOrder
@@ -144,8 +149,12 @@ __all__ = [
     "DateFormat",
     "EntityMutationResult",
     "ImportInfo",
+    "ItemPath",
     "LineageRelation",
     "MoveEntitiesOptions",
+    "NavigationElement",
+    "NavigationRequest",
+    "NavigationResult",
     "NumberFormat",
     "ParentRelation",
     "PurviewObjectId",
@@ -173,6 +182,7 @@ __all__ = [
     "EntityStatus",
     "ImportStatus",
     "LineageDirection",
+    "NavigationMode",
     "RelationshipCategory",
     "RoundingMode",
     "SearchSortOrder",

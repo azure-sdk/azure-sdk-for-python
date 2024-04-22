@@ -9,7 +9,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterator, List, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -27,6 +27,7 @@ from azure.core.utils import case_insensitive_dict
 from .. import _model_base, models as _models
 from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
+from .._validation import api_version_validation
 from .._vendor import prepare_multipart_form_data
 
 if sys.version_info >= (3, 9):
@@ -51,7 +52,7 @@ def build_entity_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -68,9 +69,9 @@ def build_entity_create_or_update_request(
         _params["collectionId"] = _SERIALIZER.query("collection_id", collection_id, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -81,7 +82,7 @@ def build_entity_get_by_ids_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -112,7 +113,7 @@ def build_entity_batch_create_or_update_request(  # pylint: disable=name-too-lon
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -129,9 +130,9 @@ def build_entity_batch_create_or_update_request(  # pylint: disable=name-too-lon
         )
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -158,12 +159,15 @@ def build_entity_add_classification_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/bulk/classification"
 
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -202,7 +206,7 @@ def build_entity_update_attribute_by_id_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    content_type: str = kwargs.pop("content_type")
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -217,9 +221,8 @@ def build_entity_update_attribute_by_id_request(  # pylint: disable=name-too-lon
     _params["name"] = _SERIALIZER.query("name", name, "str")
 
     # Construct headers
+    _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -266,6 +269,10 @@ def build_entity_get_classification_request(guid: str, classification_name: str,
 def build_entity_remove_classification_request(  # pylint: disable=name-too-long
     guid: str, classification_name: str, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/classification/{classificationName}"
     path_format_arguments = {
@@ -275,7 +282,10 @@ def build_entity_remove_classification_request(  # pylint: disable=name-too-long
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    return HttpRequest(method="DELETE", url=_url, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
 
 def build_entity_get_classifications_request(guid: str, **kwargs: Any) -> HttpRequest:
@@ -301,6 +311,8 @@ def build_entity_add_classifications_request(guid: str, **kwargs: Any) -> HttpRe
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/classifications"
     path_format_arguments = {
@@ -312,6 +324,7 @@ def build_entity_add_classifications_request(guid: str, **kwargs: Any) -> HttpRe
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -322,6 +335,8 @@ def build_entity_update_classifications_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/classifications"
     path_format_arguments = {
@@ -333,6 +348,7 @@ def build_entity_update_classifications_request(  # pylint: disable=name-too-lon
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
@@ -394,9 +410,9 @@ def build_entity_update_by_unique_attribute_request(  # pylint: disable=name-too
         _params["attr:qualifiedName"] = _SERIALIZER.query("attribute", attribute, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -430,7 +446,10 @@ def build_entity_delete_by_unique_attribute_request(  # pylint: disable=name-too
 def build_entity_remove_classification_by_unique_attribute_request(  # pylint: disable=name-too-long
     type_name: str, classification_name: str, *, attribute: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}"
@@ -445,7 +464,10 @@ def build_entity_remove_classification_by_unique_attribute_request(  # pylint: d
     if attribute is not None:
         _params["attr:qualifiedName"] = _SERIALIZER.query("attribute", attribute, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_entity_add_classifications_by_unique_attribute_request(  # pylint: disable=name-too-long
@@ -455,6 +477,8 @@ def build_entity_add_classifications_by_unique_attribute_request(  # pylint: dis
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications"
     path_format_arguments = {
@@ -470,6 +494,7 @@ def build_entity_add_classifications_by_unique_attribute_request(  # pylint: dis
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -481,6 +506,8 @@ def build_entity_update_classifications_unique_by_attribute_request(  # pylint: 
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications"
     path_format_arguments = {
@@ -496,6 +523,7 @@ def build_entity_update_classifications_unique_by_attribute_request(  # pylint: 
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -510,9 +538,9 @@ def build_entity_batch_set_classifications_request(**kwargs: Any) -> HttpRequest
     _url = "/atlas/v2/entity/bulk/setClassifications"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -577,6 +605,8 @@ def build_entity_remove_business_metadata_request(  # pylint: disable=name-too-l
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/businessmetadata"
     path_format_arguments = {
@@ -588,6 +618,7 @@ def build_entity_remove_business_metadata_request(  # pylint: disable=name-too-l
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
@@ -599,6 +630,8 @@ def build_entity_add_or_update_business_metadata_request(  # pylint: disable=nam
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/businessmetadata"
     path_format_arguments = {
@@ -614,6 +647,7 @@ def build_entity_add_or_update_business_metadata_request(  # pylint: disable=nam
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -624,6 +658,8 @@ def build_entity_remove_business_metadata_attributes_request(  # pylint: disable
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/businessmetadata/{businessMetadataName}"
     path_format_arguments = {
@@ -636,6 +672,7 @@ def build_entity_remove_business_metadata_attributes_request(  # pylint: disable
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
@@ -646,6 +683,8 @@ def build_entity_add_or_update_business_metadata_attributes_request(  # pylint: 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/businessmetadata/{businessMetadataName}"
     path_format_arguments = {
@@ -658,6 +697,7 @@ def build_entity_add_or_update_business_metadata_attributes_request(  # pylint: 
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -694,6 +734,8 @@ def build_entity_remove_labels_request(guid: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/labels"
     path_format_arguments = {
@@ -705,6 +747,7 @@ def build_entity_remove_labels_request(guid: str, **kwargs: Any) -> HttpRequest:
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
@@ -713,6 +756,8 @@ def build_entity_set_labels_request(guid: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/labels"
     path_format_arguments = {
@@ -724,6 +769,7 @@ def build_entity_set_labels_request(guid: str, **kwargs: Any) -> HttpRequest:
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -732,6 +778,8 @@ def build_entity_add_label_request(guid: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/guid/{guid}/labels"
     path_format_arguments = {
@@ -743,6 +791,7 @@ def build_entity_add_label_request(guid: str, **kwargs: Any) -> HttpRequest:
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
@@ -754,6 +803,8 @@ def build_entity_remove_labels_by_unique_attribute_request(  # pylint: disable=n
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels"
     path_format_arguments = {
@@ -769,6 +820,7 @@ def build_entity_remove_labels_by_unique_attribute_request(  # pylint: disable=n
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -780,6 +832,8 @@ def build_entity_set_labels_by_unique_attribute_request(  # pylint: disable=name
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels"
     path_format_arguments = {
@@ -795,6 +849,7 @@ def build_entity_set_labels_by_unique_attribute_request(  # pylint: disable=name
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -806,6 +861,8 @@ def build_entity_add_labels_by_unique_attribute_request(  # pylint: disable=name
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels"
     path_format_arguments = {
@@ -821,6 +878,7 @@ def build_entity_add_labels_by_unique_attribute_request(  # pylint: disable=name
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -832,7 +890,7 @@ def build_entity_move_entities_to_collection_request(  # pylint: disable=name-to
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -843,9 +901,9 @@ def build_entity_move_entities_to_collection_request(  # pylint: disable=name-to
     _params["collectionId"] = _SERIALIZER.query("collection_id", collection_id, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -861,7 +919,7 @@ def build_glossary_batch_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -897,9 +955,9 @@ def build_glossary_create_request(**kwargs: Any) -> HttpRequest:
     _url = "/atlas/v2/glossary"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -914,9 +972,9 @@ def build_glossary_create_categories_request(**kwargs: Any) -> HttpRequest:
     _url = "/atlas/v2/glossary/categories"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -931,9 +989,9 @@ def build_glossary_create_category_request(**kwargs: Any) -> HttpRequest:
     _url = "/atlas/v2/glossary/category"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -972,14 +1030,18 @@ def build_glossary_update_category_request(category_id: str, **kwargs: Any) -> H
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
 
 def build_glossary_delete_category_request(category_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/glossary/category/{categoryId}"
     path_format_arguments = {
@@ -988,7 +1050,10 @@ def build_glossary_delete_category_request(category_id: str, **kwargs: Any) -> H
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    return HttpRequest(method="DELETE", url=_url, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
 
 def build_glossary_partial_update_category_request(  # pylint: disable=name-too-long
@@ -1008,9 +1073,9 @@ def build_glossary_partial_update_category_request(  # pylint: disable=name-too-
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
@@ -1100,9 +1165,9 @@ def build_glossary_create_term_request(*, include_term_hierarchy: Optional[bool]
         _params["includeTermHierarchy"] = _SERIALIZER.query("include_term_hierarchy", include_term_hierarchy, "bool")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1111,7 +1176,7 @@ def build_glossary_get_term_request(term_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1139,7 +1204,7 @@ def build_glossary_update_term_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1157,14 +1222,18 @@ def build_glossary_update_term_request(
         _params["includeTermHierarchy"] = _SERIALIZER.query("include_term_hierarchy", include_term_hierarchy, "bool")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_glossary_delete_term_request(term_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/glossary/term/{termId}"
     path_format_arguments = {
@@ -1173,7 +1242,10 @@ def build_glossary_delete_term_request(term_id: str, **kwargs: Any) -> HttpReque
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    return HttpRequest(method="DELETE", url=_url, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
 
 def build_glossary_partial_update_term_request(  # pylint: disable=name-too-long
@@ -1183,7 +1255,7 @@ def build_glossary_partial_update_term_request(  # pylint: disable=name-too-long
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1201,9 +1273,9 @@ def build_glossary_partial_update_term_request(  # pylint: disable=name-too-long
         _params["includeTermHierarchy"] = _SERIALIZER.query("include_term_hierarchy", include_term_hierarchy, "bool")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1213,7 +1285,7 @@ def build_glossary_create_terms_request(*, include_term_hierarchy: Optional[bool
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1226,9 +1298,9 @@ def build_glossary_create_terms_request(*, include_term_hierarchy: Optional[bool
         _params["includeTermHierarchy"] = _SERIALIZER.query("include_term_hierarchy", include_term_hierarchy, "bool")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1274,6 +1346,8 @@ def build_glossary_assign_term_to_entities_request(  # pylint: disable=name-too-
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/glossary/terms/{termId}/assignedEntities"
     path_format_arguments = {
@@ -1285,6 +1359,7 @@ def build_glossary_assign_term_to_entities_request(  # pylint: disable=name-too-
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -1295,6 +1370,8 @@ def build_glossary_delete_term_assignment_from_entities_request(  # pylint: disa
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/glossary/terms/{termId}/assignedEntities"
     path_format_arguments = {
@@ -1306,6 +1383,7 @@ def build_glossary_delete_term_assignment_from_entities_request(  # pylint: disa
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
@@ -1321,7 +1399,7 @@ def build_glossary_get_related_terms_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1374,7 +1452,7 @@ def build_glossary_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1394,14 +1472,18 @@ def build_glossary_update_request(
         )
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_glossary_delete_request(glossary_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/glossary/{glossaryId}"
     path_format_arguments = {
@@ -1410,7 +1492,10 @@ def build_glossary_delete_request(glossary_id: str, **kwargs: Any) -> HttpReques
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    return HttpRequest(method="DELETE", url=_url, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
 
 def build_glossary_get_categories_request(
@@ -1487,7 +1572,7 @@ def build_glossary_get_detailed_request(glossary_id: str, **kwargs: Any) -> Http
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1515,7 +1600,7 @@ def build_glossary_partial_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1535,9 +1620,9 @@ def build_glossary_partial_update_request(
         )
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1553,7 +1638,7 @@ def build_glossary_get_terms_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1620,7 +1705,7 @@ def build_discovery_query_request(**kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1630,9 +1715,9 @@ def build_discovery_query_request(**kwargs: Any) -> HttpRequest:
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1642,7 +1727,7 @@ def build_discovery_suggest_request(**kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1652,9 +1737,9 @@ def build_discovery_suggest_request(**kwargs: Any) -> HttpRequest:
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1664,7 +1749,7 @@ def build_discovery_auto_complete_request(**kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1674,9 +1759,31 @@ def build_discovery_auto_complete_request(**kwargs: Any) -> HttpRequest:
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_discovery_navigate_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/navigate"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -1719,7 +1826,7 @@ def build_lineage_get_next_page_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1788,9 +1895,9 @@ def build_relationship_create_request(**kwargs: Any) -> HttpRequest:
     _url = "/atlas/v2/relationship"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -1805,9 +1912,9 @@ def build_relationship_update_request(**kwargs: Any) -> HttpRequest:
     _url = "/atlas/v2/relationship"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
@@ -1837,6 +1944,10 @@ def build_relationship_get_request(guid: str, *, extended_info: Optional[bool] =
 
 
 def build_relationship_delete_request(guid: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/relationship/guid/{guid}"
     path_format_arguments = {
@@ -1845,7 +1956,10 @@ def build_relationship_delete_request(guid: str, **kwargs: Any) -> HttpRequest:
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    return HttpRequest(method="DELETE", url=_url, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
 
 def build_type_definition_get_business_metadata_by_id_request(  # pylint: disable=name-too-long
@@ -2139,6 +2253,10 @@ def build_type_definition_get_by_name_request(name: str, **kwargs: Any) -> HttpR
 
 
 def build_type_definition_delete_request(name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/types/typedef/name/{name}"
     path_format_arguments = {
@@ -2147,7 +2265,10 @@ def build_type_definition_delete_request(name: str, **kwargs: Any) -> HttpReques
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    return HttpRequest(method="DELETE", url=_url, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
 
 def build_type_definition_get_request(
@@ -2159,7 +2280,7 @@ def build_type_definition_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -2189,9 +2310,9 @@ def build_type_definition_batch_create_request(**kwargs: Any) -> HttpRequest:  #
     _url = "/atlas/v2/types/typedefs"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
@@ -2206,9 +2327,9 @@ def build_type_definition_batch_update_request(**kwargs: Any) -> HttpRequest:  #
     _url = "/atlas/v2/types/typedefs"
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
@@ -2217,12 +2338,15 @@ def build_type_definition_batch_delete_request(**kwargs: Any) -> HttpRequest:  #
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/atlas/v2/types/typedefs"
 
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, headers=_headers, **kwargs)
 
@@ -2236,7 +2360,7 @@ def build_type_definition_get_headers_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -2262,7 +2386,7 @@ def build_type_definition_get_term_template_by_id_request(  # pylint: disable=na
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -2288,7 +2412,7 @@ def build_type_definition_get_term_template_by_name_request(  # pylint: disable=
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -3574,7 +3698,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3605,7 +3729,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3875,7 +3999,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3897,7 +4021,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5200,7 +5324,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5231,7 +5355,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5445,7 +5569,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5464,7 +5588,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5621,7 +5745,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5649,7 +5773,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5900,7 +6024,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5921,7 +6045,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6142,7 +6266,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6167,7 +6291,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6380,7 +6504,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6399,7 +6523,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6467,7 +6591,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6487,7 +6611,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6529,7 +6653,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6549,7 +6673,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6597,7 +6721,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     "totalCount": 0  # Optional. The total count of items.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6616,7 +6740,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6731,7 +6855,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6760,7 +6884,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6868,7 +6992,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6897,7 +7021,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7166,7 +7290,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7188,7 +7312,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8489,7 +8613,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8519,7 +8643,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8749,7 +8873,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8769,7 +8893,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8816,7 +8940,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8837,7 +8961,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8969,7 +9093,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8999,7 +9123,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -9131,7 +9255,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9161,7 +9285,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -9442,7 +9566,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     "str"  # Optional.
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9470,7 +9594,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -9763,7 +9887,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9785,7 +9909,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -9897,7 +10021,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     "typeName": "str"  # Optional. The name of the type.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9916,7 +10040,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10005,7 +10129,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10034,7 +10158,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10142,7 +10266,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10172,7 +10296,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10270,7 +10394,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10300,7 +10424,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10398,7 +10522,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10428,7 +10552,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10450,14 +10574,14 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def get_business_metadata_template(self, **kwargs: Any) -> bytes:
+    def get_business_metadata_template(self, **kwargs: Any) -> Iterator[bytes]:
         """Get the sample Template for uploading/creating bulk BusinessMetaData.
 
-        :return: bytes
-        :rtype: bytes
+        :return: Iterator[bytes]
+        :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10468,14 +10592,14 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[bytes] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_entity_get_business_metadata_template_request(
             headers=_headers,
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10493,10 +10617,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             error = _deserialize(_models.AtlasErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = response.read()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -10624,7 +10745,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10649,7 +10770,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10736,7 +10857,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10768,7 +10889,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10848,7 +10969,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10880,7 +11001,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -10960,7 +11081,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10992,7 +11113,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -11137,7 +11258,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11170,7 +11291,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -11321,7 +11442,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11354,7 +11475,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -11505,7 +11626,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11538,7 +11659,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -12348,7 +12469,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -12378,7 +12499,7 @@ class EntityOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -12539,7 +12660,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -12562,7 +12683,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -13082,7 +13203,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "usage": "str"  # Optional. The usage of the glossary.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -13110,7 +13231,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -13567,7 +13688,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -13595,7 +13716,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -14191,7 +14312,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "updatedBy": "str"  # Optional. The user who updated the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -14219,7 +14340,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -14343,7 +14464,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "updatedBy": "str"  # Optional. The user who updated the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -14362,7 +14483,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -14971,7 +15092,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "updatedBy": "str"  # Optional. The user who updated the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -15000,7 +15121,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -15040,7 +15161,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -15059,7 +15180,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -15399,7 +15520,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "updatedBy": "str"  # Optional. The user who updated the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -15428,7 +15549,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -15500,7 +15621,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -15522,7 +15643,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -15593,7 +15714,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -15615,7 +15736,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -17744,7 +17865,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -17773,7 +17894,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -18148,7 +18269,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -18168,7 +18289,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -20309,7 +20430,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -20340,7 +20461,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -20378,7 +20499,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -20397,7 +20518,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -21513,7 +21634,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -21544,7 +21665,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -23133,7 +23254,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -23163,7 +23284,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -23247,7 +23368,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -23269,7 +23390,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -23402,7 +23523,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -23431,7 +23552,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -23541,7 +23662,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -23570,7 +23691,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -23639,7 +23760,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -23662,7 +23783,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -23774,7 +23895,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "usage": "str"  # Optional. The usage of the glossary.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -23793,7 +23914,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -24360,7 +24481,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "usage": "str"  # Optional. The usage of the glossary.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -24391,7 +24512,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -24430,7 +24551,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -24449,7 +24570,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -24592,7 +24713,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -24614,7 +24735,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -24683,7 +24804,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -24705,7 +24826,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -25338,7 +25459,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "usage": "str"  # Optional. The usage of the glossary.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -25358,7 +25479,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -25713,7 +25834,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     "usage": "str"  # Optional. The usage of the glossary.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -25744,7 +25865,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -26172,7 +26293,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -26195,7 +26316,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -26267,7 +26388,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -26289,7 +26410,7 @@ class GlossaryOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -27149,7 +27270,7 @@ class DiscoveryOperations:
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -27178,7 +27299,7 @@ class DiscoveryOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -27588,7 +27709,7 @@ class DiscoveryOperations:
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -27617,7 +27738,7 @@ class DiscoveryOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -27783,7 +27904,7 @@ class DiscoveryOperations:
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -27812,7 +27933,7 @@ class DiscoveryOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -27834,6 +27955,348 @@ class DiscoveryOperations:
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(_models.AutoCompleteResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={"2024-03-01-preview": ["accept"]},
+    )
+    def navigate(
+        self, body: _models.NavigationRequest, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.NavigationResult:
+        # pylint: disable=line-too-long
+        """Navigate entities by itemPath.
+
+        :param body: Required.
+        :type body: ~azure.purview.datamap.models.NavigationRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: NavigationResult. The NavigationResult is compatible with MutableMapping
+        :rtype: ~azure.purview.datamap.models.NavigationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                body = {
+                    "itemPath": {
+                        "path": "str",  # The identifier of the item. The path starts with an
+                          empty string or a single slash. To navigate further, you need to concatenate
+                          with a slash to form the full itemPath using the previous navigation
+                          response's relative item path. Required.
+                        "extendedProperties": {
+                            "str": {}  # Optional. The extended properties of the
+                              itemPath are typically obtained from the last navigation response. While
+                              not mandatory to provide, including them can enhance performance.
+                              Otherwise, there may be some impact on performance.
+                        }
+                    },
+                    "includeNextLevelAssetCount": bool,  # Optional. Whether to return the next
+                      level asset count.
+                    "navigationMode": "str",  # Optional. The enum of navigation mode. Known
+                      values are: "assetType" and "azureResourceHierarchy".
+                    "properties": {
+                        "str": {}  # Optional. The additional properties of the request.
+                    }
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "continuationToken": "str",  # Optional. The token used to get next batch of
+                      data. Absent if there's no more data.
+                    "items": [
+                        {
+                            "count": 0,  # Optional. The count of the top level asset.
+                              Won't return if request payload 'includeNextLevelAssetCount' is false.
+                            "isEntity": bool,  # Optional. Whether the item is Entity. If
+                              yes, can get complete definition of an entity given its itemPath.
+                            "isLeafNode": bool,  # Optional. Indicates whether the item
+                              is a leaf node. If it is, further navigation is not possible.
+                            "itemPath": {
+                                "path": "str",  # The identifier of the item. The
+                                  path starts with an empty string or a single slash. To navigate
+                                  further, you need to concatenate with a slash to form the full
+                                  itemPath using the previous navigation response's relative item path.
+                                  Required.
+                                "extendedProperties": {
+                                    "str": {}  # Optional. The extended
+                                      properties of the itemPath are typically obtained from the last
+                                      navigation response. While not mandatory to provide, including
+                                      them can enhance performance. Otherwise, there may be some impact
+                                      on performance.
+                                }
+                            },
+                            "name": "str",  # Optional. The name of the item.
+                            "properties": {
+                                "str": {}  # Optional. The additional properties of
+                                  the navigation element.
+                            },
+                            "type": "str"  # Optional. The type name of the item. Eg.
+                              EntityType.
+                        }
+                    ]
+                }
+        """
+
+    @overload
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={"2024-03-01-preview": ["accept"]},
+    )
+    def navigate(
+        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.NavigationResult:
+        # pylint: disable=line-too-long
+        """Navigate entities by itemPath.
+
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: NavigationResult. The NavigationResult is compatible with MutableMapping
+        :rtype: ~azure.purview.datamap.models.NavigationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "continuationToken": "str",  # Optional. The token used to get next batch of
+                      data. Absent if there's no more data.
+                    "items": [
+                        {
+                            "count": 0,  # Optional. The count of the top level asset.
+                              Won't return if request payload 'includeNextLevelAssetCount' is false.
+                            "isEntity": bool,  # Optional. Whether the item is Entity. If
+                              yes, can get complete definition of an entity given its itemPath.
+                            "isLeafNode": bool,  # Optional. Indicates whether the item
+                              is a leaf node. If it is, further navigation is not possible.
+                            "itemPath": {
+                                "path": "str",  # The identifier of the item. The
+                                  path starts with an empty string or a single slash. To navigate
+                                  further, you need to concatenate with a slash to form the full
+                                  itemPath using the previous navigation response's relative item path.
+                                  Required.
+                                "extendedProperties": {
+                                    "str": {}  # Optional. The extended
+                                      properties of the itemPath are typically obtained from the last
+                                      navigation response. While not mandatory to provide, including
+                                      them can enhance performance. Otherwise, there may be some impact
+                                      on performance.
+                                }
+                            },
+                            "name": "str",  # Optional. The name of the item.
+                            "properties": {
+                                "str": {}  # Optional. The additional properties of
+                                  the navigation element.
+                            },
+                            "type": "str"  # Optional. The type name of the item. Eg.
+                              EntityType.
+                        }
+                    ]
+                }
+        """
+
+    @overload
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={"2024-03-01-preview": ["accept"]},
+    )
+    def navigate(
+        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.NavigationResult:
+        # pylint: disable=line-too-long
+        """Navigate entities by itemPath.
+
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: NavigationResult. The NavigationResult is compatible with MutableMapping
+        :rtype: ~azure.purview.datamap.models.NavigationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "continuationToken": "str",  # Optional. The token used to get next batch of
+                      data. Absent if there's no more data.
+                    "items": [
+                        {
+                            "count": 0,  # Optional. The count of the top level asset.
+                              Won't return if request payload 'includeNextLevelAssetCount' is false.
+                            "isEntity": bool,  # Optional. Whether the item is Entity. If
+                              yes, can get complete definition of an entity given its itemPath.
+                            "isLeafNode": bool,  # Optional. Indicates whether the item
+                              is a leaf node. If it is, further navigation is not possible.
+                            "itemPath": {
+                                "path": "str",  # The identifier of the item. The
+                                  path starts with an empty string or a single slash. To navigate
+                                  further, you need to concatenate with a slash to form the full
+                                  itemPath using the previous navigation response's relative item path.
+                                  Required.
+                                "extendedProperties": {
+                                    "str": {}  # Optional. The extended
+                                      properties of the itemPath are typically obtained from the last
+                                      navigation response. While not mandatory to provide, including
+                                      them can enhance performance. Otherwise, there may be some impact
+                                      on performance.
+                                }
+                            },
+                            "name": "str",  # Optional. The name of the item.
+                            "properties": {
+                                "str": {}  # Optional. The additional properties of
+                                  the navigation element.
+                            },
+                            "type": "str"  # Optional. The type name of the item. Eg.
+                              EntityType.
+                        }
+                    ]
+                }
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={"2024-03-01-preview": ["accept"]},
+    )
+    def navigate(
+        self, body: Union[_models.NavigationRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.NavigationResult:
+        # pylint: disable=line-too-long
+        """Navigate entities by itemPath.
+
+        :param body: Is one of the following types: NavigationRequest, JSON, IO[bytes] Required.
+        :type body: ~azure.purview.datamap.models.NavigationRequest or JSON or IO[bytes]
+        :return: NavigationResult. The NavigationResult is compatible with MutableMapping
+        :rtype: ~azure.purview.datamap.models.NavigationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                body = {
+                    "itemPath": {
+                        "path": "str",  # The identifier of the item. The path starts with an
+                          empty string or a single slash. To navigate further, you need to concatenate
+                          with a slash to form the full itemPath using the previous navigation
+                          response's relative item path. Required.
+                        "extendedProperties": {
+                            "str": {}  # Optional. The extended properties of the
+                              itemPath are typically obtained from the last navigation response. While
+                              not mandatory to provide, including them can enhance performance.
+                              Otherwise, there may be some impact on performance.
+                        }
+                    },
+                    "includeNextLevelAssetCount": bool,  # Optional. Whether to return the next
+                      level asset count.
+                    "navigationMode": "str",  # Optional. The enum of navigation mode. Known
+                      values are: "assetType" and "azureResourceHierarchy".
+                    "properties": {
+                        "str": {}  # Optional. The additional properties of the request.
+                    }
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "continuationToken": "str",  # Optional. The token used to get next batch of
+                      data. Absent if there's no more data.
+                    "items": [
+                        {
+                            "count": 0,  # Optional. The count of the top level asset.
+                              Won't return if request payload 'includeNextLevelAssetCount' is false.
+                            "isEntity": bool,  # Optional. Whether the item is Entity. If
+                              yes, can get complete definition of an entity given its itemPath.
+                            "isLeafNode": bool,  # Optional. Indicates whether the item
+                              is a leaf node. If it is, further navigation is not possible.
+                            "itemPath": {
+                                "path": "str",  # The identifier of the item. The
+                                  path starts with an empty string or a single slash. To navigate
+                                  further, you need to concatenate with a slash to form the full
+                                  itemPath using the previous navigation response's relative item path.
+                                  Required.
+                                "extendedProperties": {
+                                    "str": {}  # Optional. The extended
+                                      properties of the itemPath are typically obtained from the last
+                                      navigation response. While not mandatory to provide, including
+                                      them can enhance performance. Otherwise, there may be some impact
+                                      on performance.
+                                }
+                            },
+                            "name": "str",  # Optional. The name of the item.
+                            "properties": {
+                                "str": {}  # Optional. The additional properties of
+                                  the navigation element.
+                            },
+                            "type": "str"  # Optional. The type name of the item. Eg.
+                              EntityType.
+                        }
+                    ]
+                }
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.NavigationResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_discovery_navigate_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                response.read()  # Load the body in memory and close the socket
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.NavigationResult, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -27992,7 +28455,7 @@ class LineageOperations:
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -28013,7 +28476,7 @@ class LineageOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -28183,7 +28646,7 @@ class LineageOperations:
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -28206,7 +28669,7 @@ class LineageOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -28393,7 +28856,7 @@ class LineageOperations:
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -28415,7 +28878,7 @@ class LineageOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -28741,7 +29204,7 @@ class RelationshipOperations:
                     "version": 0  # Optional. The version of the relationship.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -28769,7 +29232,7 @@ class RelationshipOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -29077,7 +29540,7 @@ class RelationshipOperations:
                     "version": 0  # Optional. The version of the relationship.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -29105,7 +29568,7 @@ class RelationshipOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -29270,7 +29733,7 @@ class RelationshipOperations:
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -29290,7 +29753,7 @@ class RelationshipOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -29328,7 +29791,7 @@ class RelationshipOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -29347,7 +29810,7 @@ class RelationshipOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -29509,7 +29972,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -29528,7 +29991,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -29679,7 +30142,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -29698,7 +30161,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -29867,7 +30330,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -29886,7 +30349,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -30055,7 +30518,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -30074,7 +30537,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -30271,7 +30734,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -30290,7 +30753,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -30487,7 +30950,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -30506,7 +30969,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -30630,7 +31093,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -30649,7 +31112,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -30773,7 +31236,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -30792,7 +31255,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -30975,7 +31438,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -30994,7 +31457,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -31177,7 +31640,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -31196,7 +31659,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -31346,7 +31809,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -31365,7 +31828,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -31515,7 +31978,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -31534,7 +31997,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -31788,7 +32251,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -31807,7 +32270,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -32061,7 +32524,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -32080,7 +32543,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -32118,7 +32581,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -32137,7 +32600,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -33131,7 +33594,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -33152,7 +33615,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -38944,7 +39407,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -38972,7 +39435,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -44760,7 +45223,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -44788,7 +45251,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -46778,7 +47241,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -46806,7 +47269,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -46865,7 +47328,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -46886,7 +47349,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -47036,7 +47499,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -47056,7 +47519,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -47206,7 +47669,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
                     "version": 0  # Optional. The version of the record.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -47226,7 +47689,7 @@ class TypeDefinitionOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 

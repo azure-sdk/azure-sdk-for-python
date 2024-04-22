@@ -3531,6 +3531,50 @@ class ImportInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class ItemPath(_model_base.Model):
+    """The identifier of navigation request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar path: The identifier of the item. The path starts with an empty string or a single slash.
+     To navigate further, you need to concatenate with a slash to form the full itemPath using the
+     previous navigation response's relative item path. Required.
+    :vartype path: str
+    :ivar extended_properties: The extended properties of the itemPath are typically obtained from
+     the last navigation response. While not mandatory to provide, including them can enhance
+     performance. Otherwise, there may be some impact on performance.
+    :vartype extended_properties: dict[str, any]
+    """
+
+    path: str = rest_field()
+    """The identifier of the item. The path starts with an empty string or a single slash. To navigate
+     further, you need to concatenate with a slash to form the full itemPath using the previous
+     navigation response's relative item path. Required."""
+    extended_properties: Optional[Dict[str, Any]] = rest_field(name="extendedProperties")
+    """The extended properties of the itemPath are typically obtained from the last navigation
+     response. While not mandatory to provide, including them can enhance performance. Otherwise,
+     there may be some impact on performance."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        path: str,
+        extended_properties: Optional[Dict[str, Any]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class LineageRelation(_model_base.Model):
     """The lineage relation with GUID of the from and to entity.
 
@@ -3585,6 +3629,152 @@ class MoveEntitiesOptions(_model_base.Model):
         self,
         *,
         entity_guids: Optional[List[str]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class NavigationElement(_model_base.Model):
+    """The item payload of the NavigationResult.
+
+    :ivar name: The name of the item.
+    :vartype name: str
+    :ivar item_path: The identifier of navigation request.
+    :vartype item_path: ~azure.purview.datamap.models.ItemPath
+    :ivar type: The type name of the item. Eg. EntityType.
+    :vartype type: str
+    :ivar is_entity: Whether the item is Entity. If yes, can get complete definition of an entity
+     given its itemPath.
+    :vartype is_entity: bool
+    :ivar is_leaf_node: Indicates whether the item is a leaf node. If it is, further navigation is
+     not possible.
+    :vartype is_leaf_node: bool
+    :ivar count: The count of the top level asset. Won't return if request payload
+     'includeNextLevelAssetCount' is false.
+    :vartype count: int
+    :ivar properties: The additional properties of the navigation element.
+    :vartype properties: dict[str, any]
+    """
+
+    name: Optional[str] = rest_field()
+    """The name of the item."""
+    item_path: Optional["_models.ItemPath"] = rest_field(name="itemPath")
+    """The identifier of navigation request."""
+    type: Optional[str] = rest_field()
+    """The type name of the item. Eg. EntityType."""
+    is_entity: Optional[bool] = rest_field(name="isEntity")
+    """Whether the item is Entity. If yes, can get complete definition of an entity given its
+     itemPath."""
+    is_leaf_node: Optional[bool] = rest_field(name="isLeafNode")
+    """Indicates whether the item is a leaf node. If it is, further navigation is not possible."""
+    count: Optional[int] = rest_field()
+    """The count of the top level asset. Won't return if request payload 'includeNextLevelAssetCount'
+     is false."""
+    properties: Optional[Dict[str, Any]] = rest_field()
+    """The additional properties of the navigation element."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        item_path: Optional["_models.ItemPath"] = None,
+        type: Optional[str] = None,
+        is_entity: Optional[bool] = None,
+        is_leaf_node: Optional[bool] = None,
+        count: Optional[int] = None,
+        properties: Optional[Dict[str, Any]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class NavigationRequest(_model_base.Model):
+    """The request payload of Navigation API.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar navigation_mode: The enum of navigation mode. Known values are: "assetType" and
+     "azureResourceHierarchy".
+    :vartype navigation_mode: str or ~azure.purview.datamap.models.NavigationMode
+    :ivar item_path: The identifier of navigation request. Required.
+    :vartype item_path: ~azure.purview.datamap.models.ItemPath
+    :ivar include_next_level_asset_count: Whether to return the next level asset count.
+    :vartype include_next_level_asset_count: bool
+    :ivar properties: The additional properties of the request.
+    :vartype properties: dict[str, any]
+    """
+
+    navigation_mode: Optional[Union[str, "_models.NavigationMode"]] = rest_field(name="navigationMode")
+    """The enum of navigation mode. Known values are: \"assetType\" and \"azureResourceHierarchy\"."""
+    item_path: "_models.ItemPath" = rest_field(name="itemPath")
+    """The identifier of navigation request. Required."""
+    include_next_level_asset_count: Optional[bool] = rest_field(name="includeNextLevelAssetCount")
+    """Whether to return the next level asset count."""
+    properties: Optional[Dict[str, Any]] = rest_field()
+    """The additional properties of the request."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        item_path: "_models.ItemPath",
+        navigation_mode: Optional[Union[str, "_models.NavigationMode"]] = None,
+        include_next_level_asset_count: Optional[bool] = None,
+        properties: Optional[Dict[str, Any]] = None,
+    ):
+        ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class NavigationResult(_model_base.Model):
+    """The response payload of the Navigation API.
+
+    :ivar continuation_token: The token used to get next batch of data. Absent if there's no more
+     data.
+    :vartype continuation_token: str
+    :ivar items_property: The identifier of navigation request.
+    :vartype items_property: list[~azure.purview.datamap.models.NavigationElement]
+    """
+
+    continuation_token: Optional[str] = rest_field(name="continuationToken")
+    """The token used to get next batch of data. Absent if there's no more data."""
+    items_property: Optional[List["_models.NavigationElement"]] = rest_field(name="items")
+    """The identifier of navigation request."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        continuation_token: Optional[str] = None,
+        items_property: Optional[List["_models.NavigationElement"]] = None,
     ):
         ...
 
