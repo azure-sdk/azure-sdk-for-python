@@ -301,7 +301,7 @@ class SkuDisabledReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Subscription does not have required offer types for the SKU."""
     NO_SUBSCRIPTION_INFO = "NoSubscriptionInfo"
     """Subscription has not registered to Microsoft.DataBox and Service does not have the subscription
-    #: notification."""
+    notification."""
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):

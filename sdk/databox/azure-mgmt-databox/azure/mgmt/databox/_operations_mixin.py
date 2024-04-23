@@ -9,6 +9,7 @@
 # regenerated.
 # --------------------------------------------------------------------------
 from ._serialization import Serializer, Deserializer
+from io import IOBase
 from typing import Any, IO, Optional, Union
 
 from . import models as _models
@@ -20,7 +21,7 @@ class DataBoxManagementClientOperationsMixin(object):
         self,
         job_name: str,
         resource_group_name: str,
-        mitigate_job_request: Union[_models.MitigateJobRequest, IO],
+        mitigate_job_request: Union[_models.MitigateJobRequest, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """Request to mitigate for a given job.
@@ -31,13 +32,10 @@ class DataBoxManagementClientOperationsMixin(object):
         :type job_name: str
         :param resource_group_name: The Resource Group Name. Required.
         :type resource_group_name: str
-        :param mitigate_job_request: Mitigation Request. Is either a MitigateJobRequest type or a IO
-         type. Required.
-        :type mitigate_job_request: ~azure.mgmt.databox.v2022_12_01.models.MitigateJobRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param mitigate_job_request: Mitigation Request. Is either a MitigateJobRequest type or a
+         IO[bytes] type. Required.
+        :type mitigate_job_request: ~azure.mgmt.databox.v2023_12_01.models.MitigateJobRequest or
+         IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -59,6 +57,14 @@ class DataBoxManagementClientOperationsMixin(object):
             from .v2022_10_01.operations import DataBoxManagementClientOperationsMixin as OperationClass
         elif api_version == '2022-12-01':
             from .v2022_12_01.operations import DataBoxManagementClientOperationsMixin as OperationClass
+        elif api_version == '2023-03-01':
+            from .v2023_03_01.operations import DataBoxManagementClientOperationsMixin as OperationClass
+        elif api_version == '2023-12-01':
+            from .v2023_12_01.operations import DataBoxManagementClientOperationsMixin as OperationClass
+        elif api_version == '2024-02-01-preview':
+            from .v2024_02_01_preview.operations import DataBoxManagementClientOperationsMixin as OperationClass
+        elif api_version == '2024-03-01-preview':
+            from .v2024_03_01_preview.operations import DataBoxManagementClientOperationsMixin as OperationClass
         else:
             raise ValueError("API version {} does not have operation 'mitigate'".format(api_version))
         mixin_instance = OperationClass()

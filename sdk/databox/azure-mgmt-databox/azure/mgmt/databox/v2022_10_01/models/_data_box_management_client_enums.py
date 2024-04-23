@@ -278,7 +278,7 @@ class ReverseShippingDetailsEditStatus(str, Enum, metaclass=CaseInsensitiveEnumM
     """Edit is disabled for Reverse shipping details."""
     NOT_SUPPORTED = "NotSupported"
     """Edit is not supported for Reverse shipping details. Either subscription feature is not
-    #: available or SKU doesn't support this feature."""
+    available or SKU doesn't support this feature."""
 
 
 class ReverseTransportPreferenceEditStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -290,7 +290,7 @@ class ReverseTransportPreferenceEditStatus(str, Enum, metaclass=CaseInsensitiveE
     """Edit is disabled for Reverse Transport Preferences."""
     NOT_SUPPORTED = "NotSupported"
     """Edit is not supported for Reverse Transport Preferences. Either subscription feature is not
-    #: available or SKU doesn't support this feature."""
+    available or SKU doesn't support this feature."""
 
 
 class ShareDestinationFormatType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -325,7 +325,7 @@ class SkuDisabledReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Subscription does not have required offer types for the SKU."""
     NO_SUBSCRIPTION_INFO = "NoSubscriptionInfo"
     """Subscription has not registered to Microsoft.DataBox and Service does not have the subscription
-    #: notification."""
+    notification."""
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
