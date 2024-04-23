@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_mongo_cluster_name_availability_already_exists.py
+    python network_security_perimeter_configuration_reconcile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +30,13 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.mongo_clusters.check_name_availability(
-        location="westus2",
-        parameters={"name": "existingmongocluster", "type": "Microsoft.DocumentDB/mongoClusters"},
-    )
-    print(response)
+    client.network_security_perimeter_configurations.begin_reconcile(
+        resource_group_name="res4410",
+        account_name="sto8607",
+        network_security_perimeter_configuration_name="dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1",
+    ).result()
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability_AlreadyExists.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/NetworkSecurityPerimeterConfigurationReconcile.json
 if __name__ == "__main__":
     main()
