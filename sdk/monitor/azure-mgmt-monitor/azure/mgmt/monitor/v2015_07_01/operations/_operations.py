@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -71,12 +71,12 @@ class Operations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list(self, **kwargs: Any) -> _models.OperationListResult:
         """Lists all of the available operations from Microsoft.Insights provider.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OperationListResult or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2015_07_01.models.OperationListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -92,21 +92,20 @@ class Operations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2015-07-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2015-07-01"))
         cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -119,8 +118,6 @@ class Operations:
         deserialized = self._deserialize("OperationListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {"url": "/providers/Microsoft.Insights/operations"}
+        return deserialized  # type: ignore

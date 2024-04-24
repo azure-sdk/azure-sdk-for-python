@@ -149,7 +149,7 @@ class AzureResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -198,7 +198,7 @@ class ActionGroupResource(AzureResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -360,7 +360,7 @@ class ActionGroupResource(AzureResource):  # pylint: disable=too-many-instance-a
 class ArmRoleReceiver(_serialization.Model):
     """An arm role receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the arm role receiver. Names must be unique across all receivers within
      an action group. Required.
@@ -401,7 +401,7 @@ class ArmRoleReceiver(_serialization.Model):
 class AutomationRunbookReceiver(_serialization.Model):
     """The Azure Automation Runbook notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar automation_account_id: The Azure automation account Id which holds this runbook and
      authenticate to Azure resource. Required.
@@ -479,7 +479,7 @@ class AutomationRunbookReceiver(_serialization.Model):
 class AzureAppPushReceiver(_serialization.Model):
     """The Azure mobile App push notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Azure mobile app push receiver. Names must be unique across all
      receivers within an action group. Required.
@@ -514,7 +514,7 @@ class AzureAppPushReceiver(_serialization.Model):
 class AzureFunctionReceiver(_serialization.Model):
     """An azure function receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the azure function receiver. Names must be unique across all receivers
      within an action group. Required.
@@ -787,7 +787,7 @@ class DataCollectionEndpoint(_serialization.Model):
         self.metadata = None
 
 
-class DataCollectionEndpointConfigurationAccess(ConfigurationAccessEndpointSpec):
+class DataCollectionEndpointConfigurationAccess(ConfigurationAccessEndpointSpec):  # pylint: disable=name-too-long
     """The endpoint used by clients to access their configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -795,18 +795,6 @@ class DataCollectionEndpointConfigurationAccess(ConfigurationAccessEndpointSpec)
     :ivar endpoint: The endpoint. This property is READ-ONLY.
     :vartype endpoint: str
     """
-
-    _validation = {
-        "endpoint": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "endpoint": {"key": "endpoint", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class FailoverConfigurationSpec(_serialization.Model):
@@ -841,7 +829,7 @@ class FailoverConfigurationSpec(_serialization.Model):
         self.locations = locations
 
 
-class DataCollectionEndpointFailoverConfiguration(FailoverConfigurationSpec):
+class DataCollectionEndpointFailoverConfiguration(FailoverConfigurationSpec):  # pylint: disable=name-too-long
     """Failover configuration on this endpoint. This property is READ-ONLY.
 
     :ivar active_location: Active location where data flow will occur.
@@ -849,26 +837,6 @@ class DataCollectionEndpointFailoverConfiguration(FailoverConfigurationSpec):
     :ivar locations: Locations that are configured for failover.
     :vartype locations: list[~azure.mgmt.monitor.v2022_06_01.models.LocationSpec]
     """
-
-    _attribute_map = {
-        "active_location": {"key": "activeLocation", "type": "str"},
-        "locations": {"key": "locations", "type": "[LocationSpec]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        active_location: Optional[str] = None,
-        locations: Optional[List["_models.LocationSpec"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword active_location: Active location where data flow will occur.
-        :paramtype active_location: str
-        :keyword locations: Locations that are configured for failover.
-        :paramtype locations: list[~azure.mgmt.monitor.v2022_06_01.models.LocationSpec]
-        """
-        super().__init__(active_location=active_location, locations=locations, **kwargs)
 
 
 class LogsIngestionEndpointSpec(_serialization.Model):
@@ -902,18 +870,6 @@ class DataCollectionEndpointLogsIngestion(LogsIngestionEndpointSpec):
     :ivar endpoint: The endpoint. This property is READ-ONLY.
     :vartype endpoint: str
     """
-
-    _validation = {
-        "endpoint": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "endpoint": {"key": "endpoint", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class Metadata(_serialization.Model):
@@ -957,20 +913,6 @@ class DataCollectionEndpointMetadata(Metadata):
     :vartype provisioned_by_resource_id: str
     """
 
-    _validation = {
-        "provisioned_by": {"readonly": True},
-        "provisioned_by_resource_id": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "provisioned_by": {"key": "provisionedBy", "type": "str"},
-        "provisioned_by_resource_id": {"key": "provisionedByResourceId", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class MetricsIngestionEndpointSpec(_serialization.Model):
     """Definition of the endpoint used for ingesting metrics.
@@ -1003,18 +945,6 @@ class DataCollectionEndpointMetricsIngestion(MetricsIngestionEndpointSpec):
     :ivar endpoint: The endpoint. This property is READ-ONLY.
     :vartype endpoint: str
     """
-
-    _validation = {
-        "endpoint": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "endpoint": {"key": "endpoint", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class NetworkRuleSet(_serialization.Model):
@@ -1058,32 +988,13 @@ class DataCollectionEndpointNetworkAcls(NetworkRuleSet):
      ~azure.mgmt.monitor.v2022_06_01.models.KnownPublicNetworkAccessOptions
     """
 
-    _attribute_map = {
-        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        public_network_access: Optional[Union[str, "_models.KnownPublicNetworkAccessOptions"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword public_network_access: The configuration to set whether network access from public
-         internet to the endpoints are allowed. Known values are: "Enabled", "Disabled", and
-         "SecuredByPerimeter".
-        :paramtype public_network_access: str or
-         ~azure.mgmt.monitor.v2022_06_01.models.KnownPublicNetworkAccessOptions
-        """
-        super().__init__(public_network_access=public_network_access, **kwargs)
-
 
 class DataCollectionEndpointResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Definition of ARM tracked top level resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
@@ -1253,7 +1164,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -1267,7 +1178,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
@@ -1300,7 +1211,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
@@ -1317,7 +1228,7 @@ class DataCollectionEndpointResourceIdentity(ManagedServiceIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -1331,51 +1242,17 @@ class DataCollectionEndpointResourceIdentity(ManagedServiceIdentity):
     :vartype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
     """
 
-    _validation = {
-        "principal_id": {"readonly": True},
-        "tenant_id": {"readonly": True},
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        type: Union[str, "_models.ManagedServiceIdentityType"],
-        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
-         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-         "SystemAssigned,UserAssigned".
-        :paramtype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
-        :keyword user_assigned_identities: The set of user assigned identities associated with the
-         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
-         The dictionary values can be empty objects ({}) in requests.
-        :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
-        """
-        super().__init__(type=type, user_assigned_identities=user_assigned_identities, **kwargs)
-
 
 class DataCollectionEndpointResourceListResult(_serialization.Model):
     """A pageable list of resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of resources. Required.
     :vartype value: list[~azure.mgmt.monitor.v2022_06_01.models.DataCollectionEndpointResource]
@@ -1442,69 +1319,6 @@ class DataCollectionEndpointResourceProperties(DataCollectionEndpoint):
     :ivar metadata: Metadata for the resource. This property is READ-ONLY.
     :vartype metadata: ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionEndpointMetadata
     """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-        "private_link_scoped_resources": {"readonly": True},
-        "failover_configuration": {"readonly": True},
-        "metadata": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "description": {"key": "description", "type": "str"},
-        "immutable_id": {"key": "immutableId", "type": "str"},
-        "configuration_access": {"key": "configurationAccess", "type": "DataCollectionEndpointConfigurationAccess"},
-        "logs_ingestion": {"key": "logsIngestion", "type": "DataCollectionEndpointLogsIngestion"},
-        "metrics_ingestion": {"key": "metricsIngestion", "type": "DataCollectionEndpointMetricsIngestion"},
-        "network_acls": {"key": "networkAcls", "type": "DataCollectionEndpointNetworkAcls"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "private_link_scoped_resources": {"key": "privateLinkScopedResources", "type": "[PrivateLinkScopedResource]"},
-        "failover_configuration": {
-            "key": "failoverConfiguration",
-            "type": "DataCollectionEndpointFailoverConfiguration",
-        },
-        "metadata": {"key": "metadata", "type": "DataCollectionEndpointMetadata"},
-    }
-
-    def __init__(
-        self,
-        *,
-        description: Optional[str] = None,
-        immutable_id: Optional[str] = None,
-        configuration_access: Optional["_models.DataCollectionEndpointConfigurationAccess"] = None,
-        logs_ingestion: Optional["_models.DataCollectionEndpointLogsIngestion"] = None,
-        metrics_ingestion: Optional["_models.DataCollectionEndpointMetricsIngestion"] = None,
-        network_acls: Optional["_models.DataCollectionEndpointNetworkAcls"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword description: Description of the data collection endpoint.
-        :paramtype description: str
-        :keyword immutable_id: The immutable ID of this data collection endpoint resource. This
-         property is READ-ONLY.
-        :paramtype immutable_id: str
-        :keyword configuration_access: The endpoint used by clients to access their configuration.
-        :paramtype configuration_access:
-         ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionEndpointConfigurationAccess
-        :keyword logs_ingestion: The endpoint used by clients to ingest logs.
-        :paramtype logs_ingestion:
-         ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionEndpointLogsIngestion
-        :keyword metrics_ingestion: The endpoint used by clients to ingest metrics.
-        :paramtype metrics_ingestion:
-         ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionEndpointMetricsIngestion
-        :keyword network_acls: Network access control rules for the endpoints.
-        :paramtype network_acls:
-         ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionEndpointNetworkAcls
-        """
-        super().__init__(
-            description=description,
-            immutable_id=immutable_id,
-            configuration_access=configuration_access,
-            logs_ingestion=logs_ingestion,
-            metrics_ingestion=metrics_ingestion,
-            network_acls=network_acls,
-            **kwargs
-        )
 
 
 class SystemData(_serialization.Model):
@@ -1589,52 +1403,6 @@ class DataCollectionEndpointResourceSystemData(SystemData):
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: The identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: The type of identity that created the resource. Known values are:
-         "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype created_by_type: str or ~azure.mgmt.monitor.v2022_06_01.models.CreatedByType
-        :keyword created_at: The timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: The identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
-         values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.monitor.v2022_06_01.models.CreatedByType
-        :keyword last_modified_at: The timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
 
 
 class DataCollectionRule(_serialization.Model):
@@ -1799,22 +1567,8 @@ class DataCollectionRuleAssociationMetadata(Metadata):
     :vartype provisioned_by_resource_id: str
     """
 
-    _validation = {
-        "provisioned_by": {"readonly": True},
-        "provisioned_by_resource_id": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "provisioned_by": {"key": "provisionedBy", "type": "str"},
-        "provisioned_by_resource_id": {"key": "provisionedByResourceId", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class DataCollectionRuleAssociationProxyOnlyResource(_serialization.Model):
+class DataCollectionRuleAssociationProxyOnlyResource(_serialization.Model):  # pylint: disable=name-too-long
     """Definition of generic ARM proxy resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1900,10 +1654,10 @@ class DataCollectionRuleAssociationProxyOnlyResource(_serialization.Model):
         self.metadata = None
 
 
-class DataCollectionRuleAssociationProxyOnlyResourceListResult(_serialization.Model):
+class DataCollectionRuleAssociationProxyOnlyResourceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A pageable list of resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of resources. Required.
     :vartype value:
@@ -1940,7 +1694,9 @@ class DataCollectionRuleAssociationProxyOnlyResourceListResult(_serialization.Mo
         self.next_link = next_link
 
 
-class DataCollectionRuleAssociationProxyOnlyResourceProperties(DataCollectionRuleAssociation):
+class DataCollectionRuleAssociationProxyOnlyResourceProperties(
+    DataCollectionRuleAssociation
+):  # pylint: disable=name-too-long
     """Resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1961,46 +1717,8 @@ class DataCollectionRuleAssociationProxyOnlyResourceProperties(DataCollectionRul
     :vartype metadata: ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionRuleAssociationMetadata
     """
 
-    _validation = {
-        "provisioning_state": {"readonly": True},
-        "metadata": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "description": {"key": "description", "type": "str"},
-        "data_collection_rule_id": {"key": "dataCollectionRuleId", "type": "str"},
-        "data_collection_endpoint_id": {"key": "dataCollectionEndpointId", "type": "str"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "metadata": {"key": "metadata", "type": "DataCollectionRuleAssociationMetadata"},
-    }
-
-    def __init__(
-        self,
-        *,
-        description: Optional[str] = None,
-        data_collection_rule_id: Optional[str] = None,
-        data_collection_endpoint_id: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword description: Description of the association.
-        :paramtype description: str
-        :keyword data_collection_rule_id: The resource ID of the data collection rule that is to be
-         associated.
-        :paramtype data_collection_rule_id: str
-        :keyword data_collection_endpoint_id: The resource ID of the data collection endpoint that is
-         to be associated.
-        :paramtype data_collection_endpoint_id: str
-        """
-        super().__init__(
-            description=description,
-            data_collection_rule_id=data_collection_rule_id,
-            data_collection_endpoint_id=data_collection_endpoint_id,
-            **kwargs
-        )
-
-
-class DataCollectionRuleAssociationProxyOnlyResourceSystemData(SystemData):
+class DataCollectionRuleAssociationProxyOnlyResourceSystemData(SystemData):  # pylint: disable=name-too-long
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -2018,52 +1736,6 @@ class DataCollectionRuleAssociationProxyOnlyResourceSystemData(SystemData):
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: The identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: The type of identity that created the resource. Known values are:
-         "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype created_by_type: str or ~azure.mgmt.monitor.v2022_06_01.models.CreatedByType
-        :keyword created_at: The timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: The identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
-         values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.monitor.v2022_06_01.models.CreatedByType
-        :keyword last_modified_at: The timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
 
 
 class DataSourcesSpec(_serialization.Model):
@@ -2196,75 +1868,6 @@ class DataCollectionRuleDataSources(DataSourcesSpec):
     :vartype data_imports: ~azure.mgmt.monitor.v2022_06_01.models.DataSourcesSpecDataImports
     """
 
-    _attribute_map = {
-        "performance_counters": {"key": "performanceCounters", "type": "[PerfCounterDataSource]"},
-        "windows_event_logs": {"key": "windowsEventLogs", "type": "[WindowsEventLogDataSource]"},
-        "syslog": {"key": "syslog", "type": "[SyslogDataSource]"},
-        "extensions": {"key": "extensions", "type": "[ExtensionDataSource]"},
-        "log_files": {"key": "logFiles", "type": "[LogFilesDataSource]"},
-        "iis_logs": {"key": "iisLogs", "type": "[IisLogsDataSource]"},
-        "windows_firewall_logs": {"key": "windowsFirewallLogs", "type": "[WindowsFirewallLogsDataSource]"},
-        "prometheus_forwarder": {"key": "prometheusForwarder", "type": "[PrometheusForwarderDataSource]"},
-        "platform_telemetry": {"key": "platformTelemetry", "type": "[PlatformTelemetryDataSource]"},
-        "data_imports": {"key": "dataImports", "type": "DataSourcesSpecDataImports"},
-    }
-
-    def __init__(
-        self,
-        *,
-        performance_counters: Optional[List["_models.PerfCounterDataSource"]] = None,
-        windows_event_logs: Optional[List["_models.WindowsEventLogDataSource"]] = None,
-        syslog: Optional[List["_models.SyslogDataSource"]] = None,
-        extensions: Optional[List["_models.ExtensionDataSource"]] = None,
-        log_files: Optional[List["_models.LogFilesDataSource"]] = None,
-        iis_logs: Optional[List["_models.IisLogsDataSource"]] = None,
-        windows_firewall_logs: Optional[List["_models.WindowsFirewallLogsDataSource"]] = None,
-        prometheus_forwarder: Optional[List["_models.PrometheusForwarderDataSource"]] = None,
-        platform_telemetry: Optional[List["_models.PlatformTelemetryDataSource"]] = None,
-        data_imports: Optional["_models.DataSourcesSpecDataImports"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword performance_counters: The list of performance counter data source configurations.
-        :paramtype performance_counters:
-         list[~azure.mgmt.monitor.v2022_06_01.models.PerfCounterDataSource]
-        :keyword windows_event_logs: The list of Windows Event Log data source configurations.
-        :paramtype windows_event_logs:
-         list[~azure.mgmt.monitor.v2022_06_01.models.WindowsEventLogDataSource]
-        :keyword syslog: The list of Syslog data source configurations.
-        :paramtype syslog: list[~azure.mgmt.monitor.v2022_06_01.models.SyslogDataSource]
-        :keyword extensions: The list of Azure VM extension data source configurations.
-        :paramtype extensions: list[~azure.mgmt.monitor.v2022_06_01.models.ExtensionDataSource]
-        :keyword log_files: The list of Log files source configurations.
-        :paramtype log_files: list[~azure.mgmt.monitor.v2022_06_01.models.LogFilesDataSource]
-        :keyword iis_logs: The list of IIS logs source configurations.
-        :paramtype iis_logs: list[~azure.mgmt.monitor.v2022_06_01.models.IisLogsDataSource]
-        :keyword windows_firewall_logs: The list of Windows Firewall logs source configurations.
-        :paramtype windows_firewall_logs:
-         list[~azure.mgmt.monitor.v2022_06_01.models.WindowsFirewallLogsDataSource]
-        :keyword prometheus_forwarder: The list of Prometheus forwarder data source configurations.
-        :paramtype prometheus_forwarder:
-         list[~azure.mgmt.monitor.v2022_06_01.models.PrometheusForwarderDataSource]
-        :keyword platform_telemetry: The list of platform telemetry configurations.
-        :paramtype platform_telemetry:
-         list[~azure.mgmt.monitor.v2022_06_01.models.PlatformTelemetryDataSource]
-        :keyword data_imports: Specifications of pull based data sources.
-        :paramtype data_imports: ~azure.mgmt.monitor.v2022_06_01.models.DataSourcesSpecDataImports
-        """
-        super().__init__(
-            performance_counters=performance_counters,
-            windows_event_logs=windows_event_logs,
-            syslog=syslog,
-            extensions=extensions,
-            log_files=log_files,
-            iis_logs=iis_logs,
-            windows_firewall_logs=windows_firewall_logs,
-            prometheus_forwarder=prometheus_forwarder,
-            platform_telemetry=platform_telemetry,
-            data_imports=data_imports,
-            **kwargs
-        )
-
 
 class DestinationsSpec(_serialization.Model):
     """Specification of destinations that can be used in data flows.
@@ -2380,67 +1983,6 @@ class DataCollectionRuleDestinations(DestinationsSpec):
     :vartype storage_accounts: list[~azure.mgmt.monitor.v2022_06_01.models.StorageBlobDestination]
     """
 
-    _attribute_map = {
-        "log_analytics": {"key": "logAnalytics", "type": "[LogAnalyticsDestination]"},
-        "monitoring_accounts": {"key": "monitoringAccounts", "type": "[MonitoringAccountDestination]"},
-        "azure_monitor_metrics": {"key": "azureMonitorMetrics", "type": "DestinationsSpecAzureMonitorMetrics"},
-        "event_hubs": {"key": "eventHubs", "type": "[EventHubDestination]"},
-        "event_hubs_direct": {"key": "eventHubsDirect", "type": "[EventHubDirectDestination]"},
-        "storage_blobs_direct": {"key": "storageBlobsDirect", "type": "[StorageBlobDestination]"},
-        "storage_tables_direct": {"key": "storageTablesDirect", "type": "[StorageTableDestination]"},
-        "storage_accounts": {"key": "storageAccounts", "type": "[StorageBlobDestination]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        log_analytics: Optional[List["_models.LogAnalyticsDestination"]] = None,
-        monitoring_accounts: Optional[List["_models.MonitoringAccountDestination"]] = None,
-        azure_monitor_metrics: Optional["_models.DestinationsSpecAzureMonitorMetrics"] = None,
-        event_hubs: Optional[List["_models.EventHubDestination"]] = None,
-        event_hubs_direct: Optional[List["_models.EventHubDirectDestination"]] = None,
-        storage_blobs_direct: Optional[List["_models.StorageBlobDestination"]] = None,
-        storage_tables_direct: Optional[List["_models.StorageTableDestination"]] = None,
-        storage_accounts: Optional[List["_models.StorageBlobDestination"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword log_analytics: List of Log Analytics destinations.
-        :paramtype log_analytics: list[~azure.mgmt.monitor.v2022_06_01.models.LogAnalyticsDestination]
-        :keyword monitoring_accounts: List of monitoring account destinations.
-        :paramtype monitoring_accounts:
-         list[~azure.mgmt.monitor.v2022_06_01.models.MonitoringAccountDestination]
-        :keyword azure_monitor_metrics: Azure Monitor Metrics destination.
-        :paramtype azure_monitor_metrics:
-         ~azure.mgmt.monitor.v2022_06_01.models.DestinationsSpecAzureMonitorMetrics
-        :keyword event_hubs: List of Event Hubs destinations.
-        :paramtype event_hubs: list[~azure.mgmt.monitor.v2022_06_01.models.EventHubDestination]
-        :keyword event_hubs_direct: List of Event Hubs Direct destinations.
-        :paramtype event_hubs_direct:
-         list[~azure.mgmt.monitor.v2022_06_01.models.EventHubDirectDestination]
-        :keyword storage_blobs_direct: List of Storage Blob Direct destinations. To be used only for
-         sending data directly to store from the agent.
-        :paramtype storage_blobs_direct:
-         list[~azure.mgmt.monitor.v2022_06_01.models.StorageBlobDestination]
-        :keyword storage_tables_direct: List of Storage Table Direct destinations.
-        :paramtype storage_tables_direct:
-         list[~azure.mgmt.monitor.v2022_06_01.models.StorageTableDestination]
-        :keyword storage_accounts: List of storage accounts destinations.
-        :paramtype storage_accounts:
-         list[~azure.mgmt.monitor.v2022_06_01.models.StorageBlobDestination]
-        """
-        super().__init__(
-            log_analytics=log_analytics,
-            monitoring_accounts=monitoring_accounts,
-            azure_monitor_metrics=azure_monitor_metrics,
-            event_hubs=event_hubs,
-            event_hubs_direct=event_hubs_direct,
-            storage_blobs_direct=storage_blobs_direct,
-            storage_tables_direct=storage_tables_direct,
-            storage_accounts=storage_accounts,
-            **kwargs
-        )
-
 
 class DataCollectionRuleMetadata(Metadata):
     """Metadata about the resource.
@@ -2454,27 +1996,13 @@ class DataCollectionRuleMetadata(Metadata):
     :vartype provisioned_by_resource_id: str
     """
 
-    _validation = {
-        "provisioned_by": {"readonly": True},
-        "provisioned_by_resource_id": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "provisioned_by": {"key": "provisionedBy", "type": "str"},
-        "provisioned_by_resource_id": {"key": "provisionedByResourceId", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class DataCollectionRuleResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Definition of ARM tracked top level resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
@@ -2623,7 +2151,7 @@ class DataCollectionRuleResourceIdentity(ManagedServiceIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -2637,51 +2165,17 @@ class DataCollectionRuleResourceIdentity(ManagedServiceIdentity):
     :vartype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
     """
 
-    _validation = {
-        "principal_id": {"readonly": True},
-        "tenant_id": {"readonly": True},
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        type: Union[str, "_models.ManagedServiceIdentityType"],
-        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
-         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-         "SystemAssigned,UserAssigned".
-        :paramtype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
-        :keyword user_assigned_identities: The set of user assigned identities associated with the
-         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
-         The dictionary values can be empty objects ({}) in requests.
-        :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
-        """
-        super().__init__(type=type, user_assigned_identities=user_assigned_identities, **kwargs)
-
 
 class DataCollectionRuleResourceListResult(_serialization.Model):
     """A pageable list of resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of resources. Required.
     :vartype value: list[~azure.mgmt.monitor.v2022_06_01.models.DataCollectionRuleResource]
@@ -2743,63 +2237,6 @@ class DataCollectionRuleResourceProperties(DataCollectionRule):
      ~azure.mgmt.monitor.v2022_06_01.models.KnownDataCollectionRuleProvisioningState
     """
 
-    _validation = {
-        "immutable_id": {"readonly": True},
-        "metadata": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "description": {"key": "description", "type": "str"},
-        "immutable_id": {"key": "immutableId", "type": "str"},
-        "data_collection_endpoint_id": {"key": "dataCollectionEndpointId", "type": "str"},
-        "metadata": {"key": "metadata", "type": "DataCollectionRuleMetadata"},
-        "stream_declarations": {"key": "streamDeclarations", "type": "{StreamDeclaration}"},
-        "data_sources": {"key": "dataSources", "type": "DataCollectionRuleDataSources"},
-        "destinations": {"key": "destinations", "type": "DataCollectionRuleDestinations"},
-        "data_flows": {"key": "dataFlows", "type": "[DataFlow]"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        description: Optional[str] = None,
-        data_collection_endpoint_id: Optional[str] = None,
-        stream_declarations: Optional[Dict[str, "_models.StreamDeclaration"]] = None,
-        data_sources: Optional["_models.DataCollectionRuleDataSources"] = None,
-        destinations: Optional["_models.DataCollectionRuleDestinations"] = None,
-        data_flows: Optional[List["_models.DataFlow"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword description: Description of the data collection rule.
-        :paramtype description: str
-        :keyword data_collection_endpoint_id: The resource ID of the data collection endpoint that this
-         rule can be used with.
-        :paramtype data_collection_endpoint_id: str
-        :keyword stream_declarations: Declaration of custom streams used in this rule.
-        :paramtype stream_declarations: dict[str,
-         ~azure.mgmt.monitor.v2022_06_01.models.StreamDeclaration]
-        :keyword data_sources: The specification of data sources.
-         This property is optional and can be omitted if the rule is meant to be used via direct calls
-         to the provisioned endpoint.
-        :paramtype data_sources: ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionRuleDataSources
-        :keyword destinations: The specification of destinations.
-        :paramtype destinations: ~azure.mgmt.monitor.v2022_06_01.models.DataCollectionRuleDestinations
-        :keyword data_flows: The specification of data flows.
-        :paramtype data_flows: list[~azure.mgmt.monitor.v2022_06_01.models.DataFlow]
-        """
-        super().__init__(
-            description=description,
-            data_collection_endpoint_id=data_collection_endpoint_id,
-            stream_declarations=stream_declarations,
-            data_sources=data_sources,
-            destinations=destinations,
-            data_flows=data_flows,
-            **kwargs
-        )
-
 
 class DataCollectionRuleResourceSystemData(SystemData):
     """Metadata pertaining to creation and last modification of the resource.
@@ -2819,52 +2256,6 @@ class DataCollectionRuleResourceSystemData(SystemData):
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: The identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: The type of identity that created the resource. Known values are:
-         "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype created_by_type: str or ~azure.mgmt.monitor.v2022_06_01.models.CreatedByType
-        :keyword created_at: The timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: The identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
-         values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.monitor.v2022_06_01.models.CreatedByType
-        :keyword last_modified_at: The timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
 
 
 class DataFlow(_serialization.Model):
@@ -2998,32 +2389,6 @@ class DataImportSourcesEventHub(EventHubDataSource):
     :vartype stream: str
     """
 
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "consumer_group": {"key": "consumerGroup", "type": "str"},
-        "stream": {"key": "stream", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        consumer_group: Optional[str] = None,
-        stream: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: A friendly name for the data source.
-         This name should be unique across all data sources (regardless of type) within the data
-         collection rule.
-        :paramtype name: str
-        :keyword consumer_group: Event Hub consumer group name.
-        :paramtype consumer_group: str
-        :keyword stream: The stream to collect from EventHub.
-        :paramtype stream: str
-        """
-        super().__init__(name=name, consumer_group=consumer_group, stream=stream, **kwargs)
-
 
 class DataSourcesSpecDataImports(DataImportSources):
     """Specifications of pull based data sources.
@@ -3031,17 +2396,6 @@ class DataSourcesSpecDataImports(DataImportSources):
     :ivar event_hub: Definition of Event Hub configuration.
     :vartype event_hub: ~azure.mgmt.monitor.v2022_06_01.models.DataImportSourcesEventHub
     """
-
-    _attribute_map = {
-        "event_hub": {"key": "eventHub", "type": "DataImportSourcesEventHub"},
-    }
-
-    def __init__(self, *, event_hub: Optional["_models.DataImportSourcesEventHub"] = None, **kwargs: Any) -> None:
-        """
-        :keyword event_hub: Definition of Event Hub configuration.
-        :paramtype event_hub: ~azure.mgmt.monitor.v2022_06_01.models.DataImportSourcesEventHub
-        """
-        super().__init__(event_hub=event_hub, **kwargs)
 
 
 class DestinationsSpecAzureMonitorMetrics(AzureMonitorMetricsDestination):
@@ -3053,26 +2407,13 @@ class DestinationsSpecAzureMonitorMetrics(AzureMonitorMetricsDestination):
     :vartype name: str
     """
 
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: A friendly name for the destination.
-         This name should be unique across all destinations (regardless of type) within the data
-         collection rule.
-        :paramtype name: str
-        """
-        super().__init__(name=name, **kwargs)
-
 
 class EmailReceiver(_serialization.Model):
     """An email receiver.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the email receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -3119,7 +2460,7 @@ class EmailReceiver(_serialization.Model):
 class EnableRequest(_serialization.Model):
     """Describes a receiver that should be resubscribed.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar receiver_name: The name of the receiver to resubscribe. Required.
     :vartype receiver_name: str
@@ -3327,7 +2668,7 @@ class EventHubDirectDestination(_serialization.Model):
 class EventHubReceiver(_serialization.Model):
     """An Event hub receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Event hub receiver. Names must be unique across all receivers
      within an action group. Required.
@@ -3400,7 +2741,7 @@ class ExtensionDataSource(_serialization.Model):
     the Azure Monitor Agent.
     Collected from either Windows and Linux machines, depending on which extension is defined.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar streams: List of streams that this data source will be sent to.
      A stream indicates what schema will be used for this data and usually what table in Log
@@ -3471,7 +2812,7 @@ class ExtensionDataSource(_serialization.Model):
 class IisLogsDataSource(_serialization.Model):
     """Enables IIS logs to be collected by this data collection rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar streams: IIS streams. Required.
     :vartype streams: list[str]
@@ -3520,7 +2861,7 @@ class IisLogsDataSource(_serialization.Model):
 class ItsmReceiver(_serialization.Model):
     """An Itsm receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Itsm receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -3534,7 +2875,7 @@ class ItsmReceiver(_serialization.Model):
      CreateMultipleWorkItems option will be part of this blob as well. Required.
     :vartype ticket_configuration: str
     :ivar region: Region in which workspace resides. Supported
-     values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
+     values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.  # pylint: disable=line-too-long
      Required.
     :vartype region: str
     """
@@ -3571,7 +2912,7 @@ class ItsmReceiver(_serialization.Model):
          CreateMultipleWorkItems option will be part of this blob as well. Required.
         :paramtype ticket_configuration: str
         :keyword region: Region in which workspace resides. Supported
-         values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
+         values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.  # pylint: disable=line-too-long
          Required.
         :paramtype region: str
         """
@@ -3664,7 +3005,7 @@ class LogAnalyticsDestination(_serialization.Model):
 class LogFilesDataSource(_serialization.Model):
     """Definition of which custom log files will be collected by this data collection rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar streams: List of streams that this data source will be sent to.
      A stream indicates what schema will be used for this data source. Required.
@@ -3755,22 +3096,11 @@ class LogFilesDataSourceSettings(LogFileSettings):
     :vartype text: ~azure.mgmt.monitor.v2022_06_01.models.LogFileSettingsText
     """
 
-    _attribute_map = {
-        "text": {"key": "text", "type": "LogFileSettingsText"},
-    }
-
-    def __init__(self, *, text: Optional["_models.LogFileSettingsText"] = None, **kwargs: Any) -> None:
-        """
-        :keyword text: Text settings.
-        :paramtype text: ~azure.mgmt.monitor.v2022_06_01.models.LogFileSettingsText
-        """
-        super().__init__(text=text, **kwargs)
-
 
 class LogFileTextSettings(_serialization.Model):
     """Settings for text log files.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar record_start_timestamp_format: One of the supported timestamp formats. Required. Known
      values are: "ISO 8601", "YYYY-MM-DD HH:MM:SS", "M/D/YYYY HH:MM:SS AM/PM", "Mon DD, YYYY
@@ -3809,7 +3139,7 @@ class LogFileTextSettings(_serialization.Model):
 class LogFileSettingsText(LogFileTextSettings):
     """Text settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar record_start_timestamp_format: One of the supported timestamp formats. Required. Known
      values are: "ISO 8601", "YYYY-MM-DD HH:MM:SS", "M/D/YYYY HH:MM:SS AM/PM", "Mon DD, YYYY
@@ -3819,35 +3149,11 @@ class LogFileSettingsText(LogFileTextSettings):
      ~azure.mgmt.monitor.v2022_06_01.models.KnownLogFileTextSettingsRecordStartTimestampFormat
     """
 
-    _validation = {
-        "record_start_timestamp_format": {"required": True},
-    }
-
-    _attribute_map = {
-        "record_start_timestamp_format": {"key": "recordStartTimestampFormat", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        record_start_timestamp_format: Union[str, "_models.KnownLogFileTextSettingsRecordStartTimestampFormat"],
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword record_start_timestamp_format: One of the supported timestamp formats. Required. Known
-         values are: "ISO 8601", "YYYY-MM-DD HH:MM:SS", "M/D/YYYY HH:MM:SS AM/PM", "Mon DD, YYYY
-         HH:MM:SS", "yyMMdd HH:mm:ss", "ddMMyy HH:mm:ss", "MMM d hh:mm:ss", "dd/MMM/yyyy:HH:mm:ss zzz",
-         and "yyyy-MM-ddTHH:mm:ssK".
-        :paramtype record_start_timestamp_format: str or
-         ~azure.mgmt.monitor.v2022_06_01.models.KnownLogFileTextSettingsRecordStartTimestampFormat
-        """
-        super().__init__(record_start_timestamp_format=record_start_timestamp_format, **kwargs)
-
 
 class LogicAppReceiver(_serialization.Model):
     """A logic app receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the logic app receiver. Names must be unique across all receivers
      within an action group. Required.
@@ -3937,7 +3243,7 @@ class MonitoringAccountDestination(_serialization.Model):
 class NotificationRequestBody(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """The request body which contain contact detail metadata.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_type: The value of the supported alert type. Supported alert type values are:
      servicehealth, metricstaticthreshold, metricsdynamicthreshold, logalertv2, smartalert,
@@ -4133,7 +3439,7 @@ class PerfCounterDataSource(_serialization.Model):
 class PlatformTelemetryDataSource(_serialization.Model):
     """Definition of platform telemetry data source configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar streams: List of platform telemetry streams to collect. Required.
     :vartype streams: list[str]
@@ -4284,7 +3590,7 @@ class ResourceForUpdateIdentity(ManagedServiceIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -4298,45 +3604,11 @@ class ResourceForUpdateIdentity(ManagedServiceIdentity):
     :vartype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
     """
-
-    _validation = {
-        "principal_id": {"readonly": True},
-        "tenant_id": {"readonly": True},
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        type: Union[str, "_models.ManagedServiceIdentityType"],
-        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
-         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-         "SystemAssigned,UserAssigned".
-        :paramtype type: str or ~azure.mgmt.monitor.v2022_06_01.models.ManagedServiceIdentityType
-        :keyword user_assigned_identities: The set of user assigned identities associated with the
-         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
-         The dictionary values can be empty objects ({}) in requests.
-        :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.monitor.v2022_06_01.models.UserAssignedIdentity]
-        """
-        super().__init__(type=type, user_assigned_identities=user_assigned_identities, **kwargs)
 
 
 class SmsReceiver(_serialization.Model):
@@ -4344,7 +3616,7 @@ class SmsReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SMS receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -4559,7 +3831,7 @@ class SyslogDataSource(_serialization.Model):
 class TestNotificationDetailsResponse(_serialization.Model):
     """The details of the test notification results.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar context: The context info.
     :vartype context: ~azure.mgmt.monitor.v2022_06_01.models.Context
@@ -4646,7 +3918,7 @@ class UserAssignedIdentity(_serialization.Model):
 class VoiceReceiver(_serialization.Model):
     """A voice receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the voice receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -4688,7 +3960,7 @@ class VoiceReceiver(_serialization.Model):
 class WebhookReceiver(_serialization.Model):
     """A webhook receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the webhook receiver. Names must be unique across all receivers within
      an action group. Required.
@@ -4814,7 +4086,7 @@ class WindowsEventLogDataSource(_serialization.Model):
 class WindowsFirewallLogsDataSource(_serialization.Model):
     """Enables Firewall logs to be collected by this data collection rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar streams: Firewall logs streams. Required.
     :vartype streams: list[str]
