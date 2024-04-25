@@ -7266,6 +7266,17 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
     :ivar policy_id: The policy id for limiting the ability to configure clusters based on a user
      defined set of rules. Type: string (or Expression with resultType string).
     :vartype policy_id: JSON
+    :ivar new_cluster_attributes: A set of optional, user-specified cluster attributes key-value
+     pairs.
+    :vartype new_cluster_attributes: dict[str, JSON]
+    :ivar cluster_option: Cluster option (Fixed / Autoscaling / Single Node) to enables the cluster
+     nodes to be fixed or automatically scale between the minimum and maximum number of nodes, based
+     on load. Single node clusters consists of a driver but no workers. Type: string (or Expression
+     with resultType string).
+    :vartype cluster_option: JSON
+    :ivar data_security_mode: Access mode for data secured in unity catalog. Type: string (or
+     Expression with resultType string).
+    :vartype data_security_mode: JSON
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
@@ -7300,6 +7311,9 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
         "new_cluster_enable_elastic_disk": {"key": "typeProperties.newClusterEnableElasticDisk", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "policy_id": {"key": "typeProperties.policyId", "type": "object"},
+        "new_cluster_attributes": {"key": "typeProperties.newClusterAttributes", "type": "{object}"},
+        "cluster_option": {"key": "typeProperties.clusterOption", "type": "object"},
+        "data_security_mode": {"key": "typeProperties.dataSecurityMode", "type": "object"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
@@ -7329,6 +7343,9 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
         new_cluster_enable_elastic_disk: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
         policy_id: Optional[JSON] = None,
+        new_cluster_attributes: Optional[Dict[str, JSON]] = None,
+        cluster_option: Optional[JSON] = None,
+        data_security_mode: Optional[JSON] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -7408,6 +7425,17 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
         :keyword policy_id: The policy id for limiting the ability to configure clusters based on a
          user defined set of rules. Type: string (or Expression with resultType string).
         :paramtype policy_id: JSON
+        :keyword new_cluster_attributes: A set of optional, user-specified cluster attributes key-value
+         pairs.
+        :paramtype new_cluster_attributes: dict[str, JSON]
+        :keyword cluster_option: Cluster option (Fixed / Autoscaling / Single Node) to enables the
+         cluster nodes to be fixed or automatically scale between the minimum and maximum number of
+         nodes, based on load. Single node clusters consists of a driver but no workers. Type: string
+         (or Expression with resultType string).
+        :paramtype cluster_option: JSON
+        :keyword data_security_mode: Access mode for data secured in unity catalog. Type: string (or
+         Expression with resultType string).
+        :paramtype data_security_mode: JSON
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
@@ -7438,6 +7466,9 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
         self.new_cluster_enable_elastic_disk = new_cluster_enable_elastic_disk
         self.encrypted_credential = encrypted_credential
         self.policy_id = policy_id
+        self.new_cluster_attributes = new_cluster_attributes
+        self.cluster_option = cluster_option
+        self.data_security_mode = data_security_mode
         self.credential = credential
 
 
@@ -38765,6 +38796,8 @@ class ManagedIdentityCredential(Credential):
     :vartype description: str
     :ivar annotations: List of tags that can be used for describing the Credential.
     :vartype annotations: list[JSON]
+    :ivar resource_id: The resource id of user assigned managed identity.
+    :vartype resource_id: str
     """
 
     _validation = {
@@ -38776,6 +38809,7 @@ class ManagedIdentityCredential(Credential):
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "resource_id": {"key": "typeProperties.resourceId", "type": "str"},
     }
 
     def __init__(
@@ -38784,6 +38818,7 @@ class ManagedIdentityCredential(Credential):
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
         annotations: Optional[List[JSON]] = None,
+        resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -38794,11 +38829,14 @@ class ManagedIdentityCredential(Credential):
         :paramtype description: str
         :keyword annotations: List of tags that can be used for describing the Credential.
         :paramtype annotations: list[JSON]
+        :keyword resource_id: The resource id of user assigned managed identity.
+        :paramtype resource_id: str
         """
         super().__init__(
             additional_properties=additional_properties, description=description, annotations=annotations, **kwargs
         )
         self.type: str = "ManagedIdentity"
+        self.resource_id = resource_id
 
 
 class ManagedIdentityCredentialResource(CredentialResource):
@@ -57548,9 +57586,9 @@ class ScriptActivityScriptBlock(_serialization.Model):
 
     :ivar text: The query text. Type: string (or Expression with resultType string). Required.
     :vartype text: JSON
-    :ivar type: The type of the query. Type: string. Required. Known values are: "Query" and
-     "NonQuery".
-    :vartype type: str or ~azure.mgmt.datafactory.models.ScriptType
+    :ivar type: The type of the query. Please refer to the ScriptType for valid options. Type:
+     string (or Expression with resultType string). Required.
+    :vartype type: JSON
     :ivar parameters: Array of script parameters. Type: array.
     :vartype parameters: list[~azure.mgmt.datafactory.models.ScriptActivityParameter]
     """
@@ -57562,7 +57600,7 @@ class ScriptActivityScriptBlock(_serialization.Model):
 
     _attribute_map = {
         "text": {"key": "text", "type": "object"},
-        "type": {"key": "type", "type": "str"},
+        "type": {"key": "type", "type": "object"},
         "parameters": {"key": "parameters", "type": "[ScriptActivityParameter]"},
     }
 
@@ -57570,16 +57608,16 @@ class ScriptActivityScriptBlock(_serialization.Model):
         self,
         *,
         text: JSON,
-        type: Union[str, "_models.ScriptType"],
+        type: JSON,
         parameters: Optional[List["_models.ScriptActivityParameter"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword text: The query text. Type: string (or Expression with resultType string). Required.
         :paramtype text: JSON
-        :keyword type: The type of the query. Type: string. Required. Known values are: "Query" and
-         "NonQuery".
-        :paramtype type: str or ~azure.mgmt.datafactory.models.ScriptType
+        :keyword type: The type of the query. Please refer to the ScriptType for valid options. Type:
+         string (or Expression with resultType string). Required.
+        :paramtype type: JSON
         :keyword parameters: Array of script parameters. Type: array.
         :paramtype parameters: list[~azure.mgmt.datafactory.models.ScriptActivityParameter]
         """
