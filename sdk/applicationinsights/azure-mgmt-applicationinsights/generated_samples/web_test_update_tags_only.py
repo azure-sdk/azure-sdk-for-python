@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.applicationinsights import ApplicationInsightsManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.applicationinsights import ApplicationInsightsManagementClient
     pip install azure-identity
     pip install azure-mgmt-applicationinsights
 # USAGE
-    python web_test_delete.py
+    python web_test_update_tags_only.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +32,21 @@ def main():
         subscription_id="subid",
     )
 
-    client.web_tests.delete(
+    response = client.web_tests.update_tags(
         resource_group_name="my-resource-group",
-        web_test_name="my-webtest-01-mywebservice",
+        web_test_name="my-webtest-my-component",
+        web_test_tags={
+            "tags": {
+                "Color": "AzureBlue",
+                "CustomField-01": "This is a random value",
+                "SystemType": "A08",
+                "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component": "Resource",
+            }
+        },
     )
+    print(response)
 
 
-# x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestDelete.json
+# x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestUpdateTagsOnly.json
 if __name__ == "__main__":
     main()

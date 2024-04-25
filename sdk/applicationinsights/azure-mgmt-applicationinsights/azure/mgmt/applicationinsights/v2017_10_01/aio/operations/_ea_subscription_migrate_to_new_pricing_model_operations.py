@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -31,7 +31,7 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class EASubscriptionMigrateToNewPricingModelOperations:
+class EASubscriptionMigrateToNewPricingModelOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -49,12 +49,12 @@ class EASubscriptionMigrateToNewPricingModelOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def post(self, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
         """Enterprise Agreement Customer opted to use new pricing model.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -70,22 +70,21 @@ class EASubscriptionMigrateToNewPricingModelOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2017-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2017-10-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_post_request(
+        _request = build_post_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.post.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -95,6 +94,4 @@ class EASubscriptionMigrateToNewPricingModelOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    post.metadata = {"url": "/subscriptions/{subscriptionId}/providers/microsoft.insights/migrateToNewPricingModel"}
+            return cls(pipeline_response, None, {})  # type: ignore
