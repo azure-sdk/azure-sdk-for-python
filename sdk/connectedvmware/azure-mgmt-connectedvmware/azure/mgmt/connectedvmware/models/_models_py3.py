@@ -22,7 +22,7 @@ class Cluster(_serialization.Model):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -184,7 +184,7 @@ class InventoryItemProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -258,7 +258,7 @@ class ClusterInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -314,7 +314,7 @@ class ClusterInventoryItem(InventoryItemProperties):
 class ClustersList(_serialization.Model):
     """List of Clusters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of Clusters.
     :vartype next_link: str
@@ -386,7 +386,7 @@ class Datastore(_serialization.Model):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -525,7 +525,7 @@ class DatastoreInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -595,7 +595,7 @@ class DatastoreInventoryItem(InventoryItemProperties):
 class DatastoresList(_serialization.Model):
     """List of Datastores.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of Datastores.
     :vartype next_link: str
@@ -748,7 +748,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -790,7 +790,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -802,24 +802,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.connectedvmware.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Defines the GuestAgent.
@@ -827,7 +809,7 @@ class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -924,7 +906,7 @@ class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
 class GuestAgentList(_serialization.Model):
     """List of GuestAgent.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of GuestAgent.
     :vartype next_link: str
@@ -960,23 +942,36 @@ class GuestCredential(_serialization.Model):
     :vartype username: str
     :ivar password: Gets or sets the password to connect with the guest.
     :vartype password: str
+    :ivar private_key: Private key used to authenticate to a virtual machine through ssh.
+    :vartype private_key: str
     """
 
     _attribute_map = {
         "username": {"key": "username", "type": "str"},
         "password": {"key": "password", "type": "str"},
+        "private_key": {"key": "privateKey", "type": "str"},
     }
 
-    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        private_key: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword username: Gets or sets username to connect with the guest.
         :paramtype username: str
         :keyword password: Gets or sets the password to connect with the guest.
         :paramtype password: str
+        :keyword private_key: Private key used to authenticate to a virtual machine through ssh.
+        :paramtype private_key: str
         """
         super().__init__(**kwargs)
         self.username = username
         self.password = password
+        self.private_key = private_key
 
 
 class HardwareProfile(_serialization.Model):
@@ -1048,7 +1043,7 @@ class Host(_serialization.Model):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -1199,12 +1194,12 @@ class Host(_serialization.Model):  # pylint: disable=too-many-instance-attribute
         self.provisioning_state = None
 
 
-class HostInventoryItem(InventoryItemProperties):
+class HostInventoryItem(InventoryItemProperties):  # pylint: disable=too-many-instance-attributes
     """The host inventory item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -1222,11 +1217,29 @@ class HostInventoryItem(InventoryItemProperties):
     :vartype provisioning_state: str or ~azure.mgmt.connectedvmware.models.ProvisioningState
     :ivar parent: Parent host inventory resource details.
     :vartype parent: ~azure.mgmt.connectedvmware.models.InventoryItemDetails
+    :ivar num_cores_per_socket: Gets or sets the number of cores per socket on the host.
+    :vartype num_cores_per_socket: int
+    :ivar num_sockets: Gets or sets the number of sockets on the host.
+    :vartype num_sockets: int
+    :ivar version: Gets or sets the version of the host.
+    :vartype version: str
+    :ivar cpu_model: Gets or sets the cpu model of the host.
+    :vartype cpu_model: str
+    :ivar memory_size_gb: Gets the total amount of physical memory on the host in GB.
+    :vartype memory_size_gb: int
+    :ivar power_state: Gets or sets the power state of the host.
+    :vartype power_state: str
     """
 
     _validation = {
         "inventory_type": {"required": True},
         "provisioning_state": {"readonly": True},
+        "num_cores_per_socket": {"readonly": True},
+        "num_sockets": {"readonly": True},
+        "version": {"readonly": True},
+        "cpu_model": {"readonly": True},
+        "memory_size_gb": {"readonly": True},
+        "power_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1236,6 +1249,12 @@ class HostInventoryItem(InventoryItemProperties):
         "mo_name": {"key": "moName", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "parent": {"key": "parent", "type": "InventoryItemDetails"},
+        "num_cores_per_socket": {"key": "numCoresPerSocket", "type": "int"},
+        "num_sockets": {"key": "numSockets", "type": "int"},
+        "version": {"key": "version", "type": "str"},
+        "cpu_model": {"key": "cpuModel", "type": "str"},
+        "memory_size_gb": {"key": "memorySizeGB", "type": "int"},
+        "power_state": {"key": "powerState", "type": "str"},
     }
 
     def __init__(
@@ -1262,12 +1281,18 @@ class HostInventoryItem(InventoryItemProperties):
         super().__init__(managed_resource_id=managed_resource_id, mo_ref_id=mo_ref_id, mo_name=mo_name, **kwargs)
         self.inventory_type: str = "Host"
         self.parent = parent
+        self.num_cores_per_socket = None
+        self.num_sockets = None
+        self.version = None
+        self.cpu_model = None
+        self.memory_size_gb = None
+        self.power_state = None
 
 
 class HostsList(_serialization.Model):
     """List of Hosts.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of Hosts.
     :vartype next_link: str
@@ -1409,10 +1434,10 @@ class InventoryItem(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1541,7 +1566,7 @@ class InventoryItemDetails(_serialization.Model):
 class InventoryItemsList(_serialization.Model):
     """List of InventoryItems.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of InventoryItems.
     :vartype next_link: str
@@ -1670,6 +1695,64 @@ class NetworkInterface(_serialization.Model):  # pylint: disable=too-many-instan
         self.ip_settings = ip_settings
 
 
+class NetworkInterfaceInventory(_serialization.Model):
+    """Inventory Network Interface model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar label: Gets or sets the label of the virtual network in vCenter that the nic is connected
+     to.
+    :vartype label: str
+    :ivar ip_addresses: Gets or sets the nic ip addresses.
+    :vartype ip_addresses: list[str]
+    :ivar mac_address: Gets or sets the NIC MAC address.
+    :vartype mac_address: str
+    :ivar nic_type: NIC type. Known values are: "vmxnet3", "vmxnet2", "vmxnet", "e1000", "e1000e",
+     and "pcnet32".
+    :vartype nic_type: str or ~azure.mgmt.connectedvmware.models.NICType
+    :ivar network_mo_ref_id: Gets or sets the vCenter MoRef (Managed Object Reference) ID of the
+     virtual network
+     that the nic is connected to.
+    :vartype network_mo_ref_id: str
+    :ivar network_mo_name: Gets or sets the name of the virtual network in vCenter that the nic is
+     connected to.
+    :vartype network_mo_name: str
+    :ivar device_key: Gets or sets the device key value.
+    :vartype device_key: int
+    """
+
+    _validation = {
+        "label": {"readonly": True},
+        "ip_addresses": {"readonly": True},
+        "mac_address": {"readonly": True},
+        "nic_type": {"readonly": True},
+        "network_mo_ref_id": {"readonly": True},
+        "network_mo_name": {"readonly": True},
+        "device_key": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "label": {"key": "label", "type": "str"},
+        "ip_addresses": {"key": "ipAddresses", "type": "[str]"},
+        "mac_address": {"key": "macAddress", "type": "str"},
+        "nic_type": {"key": "nicType", "type": "str"},
+        "network_mo_ref_id": {"key": "networkMoRefId", "type": "str"},
+        "network_mo_name": {"key": "networkMoName", "type": "str"},
+        "device_key": {"key": "deviceKey", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.label = None
+        self.ip_addresses = None
+        self.mac_address = None
+        self.nic_type = None
+        self.network_mo_ref_id = None
+        self.network_mo_name = None
+        self.device_key = None
+
+
 class NetworkInterfaceUpdate(_serialization.Model):
     """Defines the network interface update.
 
@@ -1746,6 +1829,31 @@ class NetworkProfile(_serialization.Model):
         :keyword network_interfaces: Gets or sets the list of network interfaces associated with the
          virtual machine.
         :paramtype network_interfaces: list[~azure.mgmt.connectedvmware.models.NetworkInterface]
+        """
+        super().__init__(**kwargs)
+        self.network_interfaces = network_interfaces
+
+
+class NetworkProfileInventory(_serialization.Model):
+    """Specifies the network interfaces of the virtual machine.
+
+    :ivar network_interfaces: Gets or sets the list of network interfaces associated with the
+     virtual machine.
+    :vartype network_interfaces: list[~azure.mgmt.connectedvmware.models.NetworkInterfaceInventory]
+    """
+
+    _attribute_map = {
+        "network_interfaces": {"key": "networkInterfaces", "type": "[NetworkInterfaceInventory]"},
+    }
+
+    def __init__(
+        self, *, network_interfaces: Optional[List["_models.NetworkInterfaceInventory"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword network_interfaces: Gets or sets the list of network interfaces associated with the
+         virtual machine.
+        :paramtype network_interfaces:
+         list[~azure.mgmt.connectedvmware.models.NetworkInterfaceInventory]
         """
         super().__init__(**kwargs)
         self.network_interfaces = network_interfaces
@@ -1973,7 +2081,7 @@ class OperationDisplay(_serialization.Model):
 class OperationsList(_serialization.Model):
     """Lists the operations available.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of operations.
     :vartype next_link: str
@@ -2028,6 +2136,8 @@ class OsProfileForVMInstance(_serialization.Model):
     :vartype tools_version_status: str
     :ivar tools_version: Gets or sets the current version of VMware Tools.
     :vartype tools_version: str
+    :ivar windows_configuration: Windows Configuration.
+    :vartype windows_configuration: ~azure.mgmt.connectedvmware.models.WindowsConfiguration
     """
 
     _validation = {
@@ -2047,6 +2157,7 @@ class OsProfileForVMInstance(_serialization.Model):
         "tools_running_status": {"key": "toolsRunningStatus", "type": "str"},
         "tools_version_status": {"key": "toolsVersionStatus", "type": "str"},
         "tools_version": {"key": "toolsVersion", "type": "str"},
+        "windows_configuration": {"key": "windowsConfiguration", "type": "WindowsConfiguration"},
     }
 
     def __init__(
@@ -2057,6 +2168,7 @@ class OsProfileForVMInstance(_serialization.Model):
         admin_password: Optional[str] = None,
         guest_id: Optional[str] = None,
         os_type: Optional[Union[str, "_models.OsType"]] = None,
+        windows_configuration: Optional["_models.WindowsConfiguration"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2071,6 +2183,8 @@ class OsProfileForVMInstance(_serialization.Model):
         :keyword os_type: Gets or sets the type of the os. Known values are: "Windows", "Linux", and
          "Other".
         :paramtype os_type: str or ~azure.mgmt.connectedvmware.models.OsType
+        :keyword windows_configuration: Windows Configuration.
+        :paramtype windows_configuration: ~azure.mgmt.connectedvmware.models.WindowsConfiguration
         """
         super().__init__(**kwargs)
         self.computer_name = computer_name
@@ -2082,6 +2196,7 @@ class OsProfileForVMInstance(_serialization.Model):
         self.tools_running_status = None
         self.tools_version_status = None
         self.tools_version = None
+        self.windows_configuration = windows_configuration
 
 
 class PlacementProfile(_serialization.Model):
@@ -2163,7 +2278,7 @@ class ResourcePool(_serialization.Model):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -2362,7 +2477,7 @@ class ResourcePoolInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -2425,7 +2540,7 @@ class ResourcePoolInventoryItem(InventoryItemProperties):
 class ResourcePoolsList(_serialization.Model):
     """List of ResourcePools.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of ResourcePools.
     :vartype next_link: str
@@ -2579,6 +2694,26 @@ class StorageProfile(_serialization.Model):
         self.scsi_controllers = None
 
 
+class StorageProfileInventory(_serialization.Model):
+    """Specifies the storage settings for the virtual machine disks.
+
+    :ivar disks: Gets or sets the list of virtual disks associated with the virtual machine.
+    :vartype disks: list[~azure.mgmt.connectedvmware.models.VirtualDiskInventory]
+    """
+
+    _attribute_map = {
+        "disks": {"key": "disks", "type": "[VirtualDiskInventory]"},
+    }
+
+    def __init__(self, *, disks: Optional[List["_models.VirtualDiskInventory"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword disks: Gets or sets the list of virtual disks associated with the virtual machine.
+        :paramtype disks: list[~azure.mgmt.connectedvmware.models.VirtualDiskInventory]
+        """
+        super().__init__(**kwargs)
+        self.disks = disks
+
+
 class StorageProfileUpdate(_serialization.Model):
     """Specifies the storage settings for the virtual machine disks.
 
@@ -2690,7 +2825,7 @@ class VCenter(_serialization.Model):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -2825,7 +2960,7 @@ class VCenter(_serialization.Model):  # pylint: disable=too-many-instance-attrib
 class VCentersList(_serialization.Model):
     """List of VCenters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VCenters.
     :vartype next_link: str
@@ -2973,6 +3108,98 @@ class VirtualDisk(_serialization.Model):
         self.disk_type = disk_type
 
 
+class VirtualDiskInventory(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Virtual disk model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar disk_name: Gets or sets the name of the virtual disk.
+    :vartype disk_name: str
+    :ivar label: Gets or sets the label of the virtual disk in vCenter.
+    :vartype label: str
+    :ivar disk_size_gb: Gets or sets the disk total size.
+    :vartype disk_size_gb: int
+    :ivar device_key: Gets or sets the device key value.
+    :vartype device_key: int
+    :ivar disk_mode: Gets or sets the disk mode. Known values are: "persistent",
+     "independent_persistent", and "independent_nonpersistent".
+    :vartype disk_mode: str or ~azure.mgmt.connectedvmware.models.DiskMode
+    :ivar controller_key: Gets or sets the controller id.
+    :vartype controller_key: int
+    :ivar unit_number: Gets or sets the unit number of the disk on the controller.
+    :vartype unit_number: int
+    :ivar device_name: Gets or sets the device name.
+    :vartype device_name: str
+    :ivar file_name: Gets or sets the disk file name.
+    :vartype file_name: str
+    :ivar disk_type: Gets or sets the disk backing type. Known values are: "flat", "pmem",
+     "rawphysical", "rawvirtual", "sparse", "sesparse", and "unknown".
+    :vartype disk_type: str or ~azure.mgmt.connectedvmware.models.DiskType
+    :ivar eagerly_scrub: Gets or sets the eagerly scrub property of disk.
+    :vartype eagerly_scrub: bool
+    :ivar thin_provisioned: Gets or sets the thin provisioning property of disk.
+    :vartype thin_provisioned: bool
+    :ivar controller_type: Gets or sets the controller type.
+    :vartype controller_type: str
+    :ivar uuid: Gets or sets a unique identifier for this resource.
+    :vartype uuid: str
+    """
+
+    _validation = {
+        "label": {"readonly": True},
+        "disk_size_gb": {"readonly": True},
+        "device_key": {"readonly": True},
+        "disk_mode": {"readonly": True},
+        "controller_key": {"readonly": True},
+        "unit_number": {"readonly": True},
+        "device_name": {"readonly": True},
+        "file_name": {"readonly": True},
+        "disk_type": {"readonly": True},
+        "eagerly_scrub": {"readonly": True},
+        "thin_provisioned": {"readonly": True},
+        "controller_type": {"readonly": True},
+        "uuid": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "disk_name": {"key": "diskName", "type": "str"},
+        "label": {"key": "label", "type": "str"},
+        "disk_size_gb": {"key": "diskSizeGB", "type": "int"},
+        "device_key": {"key": "deviceKey", "type": "int"},
+        "disk_mode": {"key": "diskMode", "type": "str"},
+        "controller_key": {"key": "controllerKey", "type": "int"},
+        "unit_number": {"key": "unitNumber", "type": "int"},
+        "device_name": {"key": "deviceName", "type": "str"},
+        "file_name": {"key": "fileName", "type": "str"},
+        "disk_type": {"key": "diskType", "type": "str"},
+        "eagerly_scrub": {"key": "eagerlyScrub", "type": "bool"},
+        "thin_provisioned": {"key": "thinProvisioned", "type": "bool"},
+        "controller_type": {"key": "controllerType", "type": "str"},
+        "uuid": {"key": "uuid", "type": "str"},
+    }
+
+    def __init__(self, *, disk_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword disk_name: Gets or sets the name of the virtual disk.
+        :paramtype disk_name: str
+        """
+        super().__init__(**kwargs)
+        self.disk_name = disk_name
+        self.label = None
+        self.disk_size_gb = None
+        self.device_key = None
+        self.disk_mode = None
+        self.controller_key = None
+        self.unit_number = None
+        self.device_name = None
+        self.file_name = None
+        self.disk_type = None
+        self.eagerly_scrub = None
+        self.thin_provisioned = None
+        self.controller_type = None
+        self.uuid = None
+
+
 class VirtualDiskUpdate(_serialization.Model):
     """Defines the virtual disk update.
 
@@ -3057,7 +3284,7 @@ class VirtualMachineInstance(ProxyResource):  # pylint: disable=too-many-instanc
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3173,7 +3400,7 @@ class VirtualMachineInstance(ProxyResource):  # pylint: disable=too-many-instanc
 class VirtualMachineInstancesList(_serialization.Model):
     """List of VirtualMachineInstances.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VirtualMachines.
     :vartype next_link: str
@@ -3248,7 +3475,7 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -3293,6 +3520,28 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
     :vartype tools_version_status: str
     :ivar tools_version: Gets or sets the current version of VMware Tools.
     :vartype tools_version: str
+    :ivar firmware_type: Firmware type. Known values are: "bios" and "efi".
+    :vartype firmware_type: str or ~azure.mgmt.connectedvmware.models.FirmwareType
+    :ivar change_tracking_supported: Gets a value indicating whether change tracking is supported.
+    :vartype change_tracking_supported: bool
+    :ivar change_tracking_enabled: Gets a value indicating whether change tracking is enabled.
+    :vartype change_tracking_enabled: bool
+    :ivar max_snapshots: Gets a value indicating the maximum possible number of snapshots.
+    :vartype max_snapshots: int
+    :ivar number_of_snapshots: Gets a value indicating the number of snapshots on the vm.
+    :vartype number_of_snapshots: int
+    :ivar disk_enabled_uuid: Gets or sets the disk Enabled UUID of the vm.
+    :vartype disk_enabled_uuid: str
+    :ivar computer_name: Gets the computer name.
+    :vartype computer_name: str
+    :ivar memory_size_mb: Gets or sets memory size in MBs for the vm.
+    :vartype memory_size_mb: int
+    :ivar num_cp_us: Gets or sets the number of vCPU for the vm.
+    :vartype num_cp_us: int
+    :ivar storage_profile: Storage properties.
+    :vartype storage_profile: ~azure.mgmt.connectedvmware.models.StorageProfileInventory
+    :ivar network_profile: Network properties.
+    :vartype network_profile: ~azure.mgmt.connectedvmware.models.NetworkProfileInventory
     """
 
     _validation = {
@@ -3302,6 +3551,15 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         "tools_running_status": {"readonly": True},
         "tools_version_status": {"readonly": True},
         "tools_version": {"readonly": True},
+        "firmware_type": {"readonly": True},
+        "change_tracking_supported": {"readonly": True},
+        "change_tracking_enabled": {"readonly": True},
+        "max_snapshots": {"readonly": True},
+        "number_of_snapshots": {"readonly": True},
+        "disk_enabled_uuid": {"readonly": True},
+        "computer_name": {"readonly": True},
+        "memory_size_mb": {"readonly": True},
+        "num_cp_us": {"readonly": True},
     }
 
     _attribute_map = {
@@ -3323,9 +3581,20 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         "tools_running_status": {"key": "toolsRunningStatus", "type": "str"},
         "tools_version_status": {"key": "toolsVersionStatus", "type": "str"},
         "tools_version": {"key": "toolsVersion", "type": "str"},
+        "firmware_type": {"key": "firmwareType", "type": "str"},
+        "change_tracking_supported": {"key": "changeTrackingSupported", "type": "bool"},
+        "change_tracking_enabled": {"key": "changeTrackingEnabled", "type": "bool"},
+        "max_snapshots": {"key": "maxSnapshots", "type": "int"},
+        "number_of_snapshots": {"key": "numberOfSnapshots", "type": "int"},
+        "disk_enabled_uuid": {"key": "diskEnabledUuid", "type": "str"},
+        "computer_name": {"key": "computerName", "type": "str"},
+        "memory_size_mb": {"key": "memorySizeMB", "type": "int"},
+        "num_cp_us": {"key": "numCPUs", "type": "int"},
+        "storage_profile": {"key": "storageProfile", "type": "StorageProfileInventory"},
+        "network_profile": {"key": "networkProfile", "type": "NetworkProfileInventory"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         managed_resource_id: Optional[str] = None,
@@ -3340,6 +3609,8 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         cluster: Optional["_models.InventoryItemDetails"] = None,
         instance_uuid: Optional[str] = None,
         smbios_uuid: Optional[str] = None,
+        storage_profile: Optional["_models.StorageProfileInventory"] = None,
+        network_profile: Optional["_models.NetworkProfileInventory"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3370,6 +3641,10 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         :paramtype instance_uuid: str
         :keyword smbios_uuid: Gets or sets the SMBIOS UUID of the vm.
         :paramtype smbios_uuid: str
+        :keyword storage_profile: Storage properties.
+        :paramtype storage_profile: ~azure.mgmt.connectedvmware.models.StorageProfileInventory
+        :keyword network_profile: Network properties.
+        :paramtype network_profile: ~azure.mgmt.connectedvmware.models.NetworkProfileInventory
         """
         super().__init__(managed_resource_id=managed_resource_id, mo_ref_id=mo_ref_id, mo_name=mo_name, **kwargs)
         self.inventory_type: str = "VirtualMachine"
@@ -3386,6 +3661,17 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         self.tools_running_status = None
         self.tools_version_status = None
         self.tools_version = None
+        self.firmware_type = None
+        self.change_tracking_supported = None
+        self.change_tracking_enabled = None
+        self.max_snapshots = None
+        self.number_of_snapshots = None
+        self.disk_enabled_uuid = None
+        self.computer_name = None
+        self.memory_size_mb = None
+        self.num_cp_us = None
+        self.storage_profile = storage_profile
+        self.network_profile = network_profile
 
 
 class VirtualMachineTemplate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -3393,7 +3679,7 @@ class VirtualMachineTemplate(_serialization.Model):  # pylint: disable=too-many-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -3583,7 +3869,7 @@ class VirtualMachineTemplateInventoryItem(InventoryItemProperties):  # pylint: d
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -3696,7 +3982,7 @@ class VirtualMachineTemplateInventoryItem(InventoryItemProperties):  # pylint: d
 class VirtualMachineTemplatesList(_serialization.Model):
     """List of VirtualMachineTemplates.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VirtualMachineTemplates.
     :vartype next_link: str
@@ -3732,7 +4018,7 @@ class VirtualNetwork(_serialization.Model):  # pylint: disable=too-many-instance
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: Gets or sets the location. Required.
     :vartype location: str
@@ -3861,7 +4147,7 @@ class VirtualNetworkInventoryItem(InventoryItemProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar inventory_type: They inventory type. Required. Known values are: "ResourcePool",
      "VirtualMachine", "VirtualMachineTemplate", "VirtualNetwork", "Cluster", "Datastore", and
@@ -3917,7 +4203,7 @@ class VirtualNetworkInventoryItem(InventoryItemProperties):
 class VirtualNetworksList(_serialization.Model):
     """List of VirtualNetworks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of VirtualNetworks.
     :vartype next_link: str
@@ -4012,7 +4298,7 @@ class VmInstanceHybridIdentityMetadata(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4065,7 +4351,7 @@ class VmInstanceHybridIdentityMetadata(ProxyResource):
 class VmInstanceHybridIdentityMetadataList(_serialization.Model):
     """List of HybridIdentityMetadata.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Url to follow for getting next page of HybridIdentityMetadata.
     :vartype next_link: str
@@ -4094,3 +4380,102 @@ class VmInstanceHybridIdentityMetadataList(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class WindowsConfiguration(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Specifies the Windows Configuration settings for the virtual machine.
+
+    :ivar full_name: Sets full name of the owner of the vm.
+    :vartype full_name: str
+    :ivar org_name: Sets org name to which the owner of the vm belongs.
+    :vartype org_name: str
+    :ivar domain_name: Sets domain name that vm should join.
+    :vartype domain_name: str
+    :ivar domain_username: Sets domain username.
+    :vartype domain_username: str
+    :ivar domain_user_password: Sets domain user password.
+    :vartype domain_user_password: str
+    :ivar work_group_name: Sets work group name that vm should join.
+    :vartype work_group_name: str
+    :ivar product_id: Sets product id of the vm.
+    :vartype product_id: str
+    :ivar auto_logon: Sets a value indicating whether auto logon is enabled.
+    :vartype auto_logon: bool
+    :ivar auto_logon_count: Sets auto logon count.
+    :vartype auto_logon_count: int
+    :ivar time_zone: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time".
+     Time zone name correspond to time zones listed at Microsoft Time Zone name
+     values(https://learn.microsoft.com/en-us/previous-versions/windows/embedded/ms912391(v=winembedded.11)).
+    :vartype time_zone: str
+    :ivar first_logon_commands: Sets first logon commands.
+    :vartype first_logon_commands: list[str]
+    """
+
+    _attribute_map = {
+        "full_name": {"key": "fullName", "type": "str"},
+        "org_name": {"key": "orgName", "type": "str"},
+        "domain_name": {"key": "domainName", "type": "str"},
+        "domain_username": {"key": "domainUsername", "type": "str"},
+        "domain_user_password": {"key": "domainUserPassword", "type": "str"},
+        "work_group_name": {"key": "workGroupName", "type": "str"},
+        "product_id": {"key": "productId", "type": "str"},
+        "auto_logon": {"key": "autoLogon", "type": "bool"},
+        "auto_logon_count": {"key": "autoLogonCount", "type": "int"},
+        "time_zone": {"key": "timeZone", "type": "str"},
+        "first_logon_commands": {"key": "firstLogonCommands", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        full_name: Optional[str] = None,
+        org_name: Optional[str] = None,
+        domain_name: Optional[str] = None,
+        domain_username: Optional[str] = None,
+        domain_user_password: Optional[str] = None,
+        work_group_name: Optional[str] = None,
+        product_id: Optional[str] = None,
+        auto_logon: Optional[bool] = None,
+        auto_logon_count: Optional[int] = None,
+        time_zone: Optional[str] = None,
+        first_logon_commands: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword full_name: Sets full name of the owner of the vm.
+        :paramtype full_name: str
+        :keyword org_name: Sets org name to which the owner of the vm belongs.
+        :paramtype org_name: str
+        :keyword domain_name: Sets domain name that vm should join.
+        :paramtype domain_name: str
+        :keyword domain_username: Sets domain username.
+        :paramtype domain_username: str
+        :keyword domain_user_password: Sets domain user password.
+        :paramtype domain_user_password: str
+        :keyword work_group_name: Sets work group name that vm should join.
+        :paramtype work_group_name: str
+        :keyword product_id: Sets product id of the vm.
+        :paramtype product_id: str
+        :keyword auto_logon: Sets a value indicating whether auto logon is enabled.
+        :paramtype auto_logon: bool
+        :keyword auto_logon_count: Sets auto logon count.
+        :paramtype auto_logon_count: int
+        :keyword time_zone: Specifies the time zone of the virtual machine. e.g. "Pacific Standard
+         Time". Time zone name correspond to time zones listed at Microsoft Time Zone name
+         values(https://learn.microsoft.com/en-us/previous-versions/windows/embedded/ms912391(v=winembedded.11)).
+        :paramtype time_zone: str
+        :keyword first_logon_commands: Sets first logon commands.
+        :paramtype first_logon_commands: list[str]
+        """
+        super().__init__(**kwargs)
+        self.full_name = full_name
+        self.org_name = org_name
+        self.domain_name = domain_name
+        self.domain_username = domain_username
+        self.domain_user_password = domain_user_password
+        self.work_group_name = work_group_name
+        self.product_id = product_id
+        self.auto_logon = auto_logon
+        self.auto_logon_count = auto_logon_count
+        self.time_zone = time_zone
+        self.first_logon_commands = first_logon_commands

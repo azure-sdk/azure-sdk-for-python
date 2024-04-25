@@ -31,8 +31,10 @@ from ._models_py3 import InventoryItemDetails
 from ._models_py3 import InventoryItemProperties
 from ._models_py3 import InventoryItemsList
 from ._models_py3 import NetworkInterface
+from ._models_py3 import NetworkInterfaceInventory
 from ._models_py3 import NetworkInterfaceUpdate
 from ._models_py3 import NetworkProfile
+from ._models_py3 import NetworkProfileInventory
 from ._models_py3 import NetworkProfileUpdate
 from ._models_py3 import NicIPAddressSettings
 from ._models_py3 import NicIPSettings
@@ -51,6 +53,7 @@ from ._models_py3 import ResourceStatus
 from ._models_py3 import SecurityProfile
 from ._models_py3 import StopVirtualMachineOptions
 from ._models_py3 import StorageProfile
+from ._models_py3 import StorageProfileInventory
 from ._models_py3 import StorageProfileUpdate
 from ._models_py3 import SystemData
 from ._models_py3 import UefiSettings
@@ -58,6 +61,7 @@ from ._models_py3 import VCenter
 from ._models_py3 import VCentersList
 from ._models_py3 import VICredential
 from ._models_py3 import VirtualDisk
+from ._models_py3 import VirtualDiskInventory
 from ._models_py3 import VirtualDiskUpdate
 from ._models_py3 import VirtualMachineInstance
 from ._models_py3 import VirtualMachineInstanceUpdate
@@ -72,6 +76,7 @@ from ._models_py3 import VirtualNetworksList
 from ._models_py3 import VirtualSCSIController
 from ._models_py3 import VmInstanceHybridIdentityMetadata
 from ._models_py3 import VmInstanceHybridIdentityMetadataList
+from ._models_py3 import WindowsConfiguration
 
 from ._connected_vmware_mgmt_client_enums import CreatedByType
 from ._connected_vmware_mgmt_client_enums import DiskMode
@@ -116,8 +121,10 @@ __all__ = [
     "InventoryItemProperties",
     "InventoryItemsList",
     "NetworkInterface",
+    "NetworkInterfaceInventory",
     "NetworkInterfaceUpdate",
     "NetworkProfile",
+    "NetworkProfileInventory",
     "NetworkProfileUpdate",
     "NicIPAddressSettings",
     "NicIPSettings",
@@ -136,6 +143,7 @@ __all__ = [
     "SecurityProfile",
     "StopVirtualMachineOptions",
     "StorageProfile",
+    "StorageProfileInventory",
     "StorageProfileUpdate",
     "SystemData",
     "UefiSettings",
@@ -143,6 +151,7 @@ __all__ = [
     "VCentersList",
     "VICredential",
     "VirtualDisk",
+    "VirtualDiskInventory",
     "VirtualDiskUpdate",
     "VirtualMachineInstance",
     "VirtualMachineInstanceUpdate",
@@ -157,6 +166,7 @@ __all__ = [
     "VirtualSCSIController",
     "VmInstanceHybridIdentityMetadata",
     "VmInstanceHybridIdentityMetadataList",
+    "WindowsConfiguration",
     "CreatedByType",
     "DiskMode",
     "DiskType",
