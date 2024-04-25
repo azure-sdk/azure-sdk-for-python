@@ -1994,9 +1994,92 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
     :ivar connection_string: The connection string. Type: string, SecureString or
-     AzureKeyVaultSecretReference. Required.
+     AzureKeyVaultSecretReference.
     :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL" and "Windows".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AmazonRdsForSqlAuthenticationType
     :ivar user_name: The on-premises Windows authentication user name. Type: string (or Expression
      with resultType string).
     :vartype user_name: JSON
@@ -2011,7 +2094,6 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
 
     _validation = {
         "type": {"required": True},
-        "connection_string": {"required": True},
     }
 
     _attribute_map = {
@@ -2021,7 +2103,27 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
         "description": {"key": "description", "type": "str"},
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "server": {"key": "typeProperties.server", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "encrypt": {"key": "typeProperties.encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "typeProperties.trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "typeProperties.hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "typeProperties.applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "typeProperties.connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "typeProperties.connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "typeProperties.connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "typeProperties.loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "integrated_security": {"key": "typeProperties.integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "typeProperties.failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "typeProperties.maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "typeProperties.minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "typeProperties.multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "typeProperties.multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "typeProperties.packetSize", "type": "object"},
+        "pooling": {"key": "typeProperties.pooling", "type": "object"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
@@ -2031,15 +2133,35 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
         },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        connection_string: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AmazonRdsForSqlAuthenticationType"]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         encrypted_credential: Optional[str] = None,
@@ -2058,9 +2180,92 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
         :keyword connection_string: The connection string. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         AzureKeyVaultSecretReference.
         :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL" and "Windows".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AmazonRdsForSqlAuthenticationType
         :keyword user_name: The on-premises Windows authentication user name. Type: string (or
          Expression with resultType string).
         :paramtype user_name: JSON
@@ -2082,7 +2287,550 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
             **kwargs
         )
         self.type: str = "AmazonRdsForSqlServer"
+        self.server = server
+        self.database = database
+        self.encrypt = encrypt
+        self.trust_server_certificate = trust_server_certificate
+        self.host_name_in_certificate = host_name_in_certificate
+        self.application_intent = application_intent
+        self.connect_timeout = connect_timeout
+        self.connect_retry_count = connect_retry_count
+        self.connect_retry_interval = connect_retry_interval
+        self.load_balance_timeout = load_balance_timeout
+        self.command_timeout = command_timeout
+        self.integrated_security = integrated_security
+        self.failover_partner = failover_partner
+        self.max_pool_size = max_pool_size
+        self.min_pool_size = min_pool_size
+        self.multiple_active_result_sets = multiple_active_result_sets
+        self.multi_subnet_failover = multi_subnet_failover
+        self.packet_size = packet_size
+        self.pooling = pooling
         self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
+        self.password = password
+        self.encrypted_credential = encrypted_credential
+        self.always_encrypted_settings = always_encrypted_settings
+
+
+class SqlServerBaseLinkedServiceTypeProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Sql Server family connector common linked service properties.
+
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
+    """
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "object"},
+        "database": {"key": "database", "type": "object"},
+        "encrypt": {"key": "encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "commandTimeout", "type": "object"},
+        "integrated_security": {"key": "integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "packetSize", "type": "object"},
+        "pooling": {"key": "pooling", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
+        """
+        super().__init__(**kwargs)
+        self.server = server
+        self.database = database
+        self.encrypt = encrypt
+        self.trust_server_certificate = trust_server_certificate
+        self.host_name_in_certificate = host_name_in_certificate
+        self.application_intent = application_intent
+        self.connect_timeout = connect_timeout
+        self.connect_retry_count = connect_retry_count
+        self.connect_retry_interval = connect_retry_interval
+        self.load_balance_timeout = load_balance_timeout
+        self.command_timeout = command_timeout
+        self.integrated_security = integrated_security
+        self.failover_partner = failover_partner
+        self.max_pool_size = max_pool_size
+        self.min_pool_size = min_pool_size
+        self.multiple_active_result_sets = multiple_active_result_sets
+        self.multi_subnet_failover = multi_subnet_failover
+        self.packet_size = packet_size
+        self.pooling = pooling
+
+
+class AmazonRdsForSqlServerLinkedServiceTypeProperties(
+    SqlServerBaseLinkedServiceTypeProperties
+):  # pylint: disable=too-many-instance-attributes,name-too-long
+    """Amazon Rds for SQL Server linked service properties.
+
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference.
+    :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL" and "Windows".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AmazonRdsForSqlAuthenticationType
+    :ivar user_name: The on-premises Windows authentication user name. Type: string (or Expression
+     with resultType string).
+    :vartype user_name: JSON
+    :ivar password: The on-premises Windows authentication password.
+    :vartype password: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
+    :ivar always_encrypted_settings: Sql always encrypted properties.
+    :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+    """
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "object"},
+        "database": {"key": "database", "type": "object"},
+        "encrypt": {"key": "encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "commandTimeout", "type": "object"},
+        "integrated_security": {"key": "integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "packetSize", "type": "object"},
+        "pooling": {"key": "pooling", "type": "object"},
+        "connection_string": {"key": "connectionString", "type": "object"},
+        "authentication_type": {"key": "authenticationType", "type": "str"},
+        "user_name": {"key": "userName", "type": "object"},
+        "password": {"key": "password", "type": "SecretBase"},
+        "encrypted_credential": {"key": "encryptedCredential", "type": "str"},
+        "always_encrypted_settings": {"key": "alwaysEncryptedSettings", "type": "SqlAlwaysEncryptedProperties"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AmazonRdsForSqlAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
+        password: Optional["_models.SecretBase"] = None,
+        encrypted_credential: Optional[str] = None,
+        always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference.
+        :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL" and "Windows".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AmazonRdsForSqlAuthenticationType
+        :keyword user_name: The on-premises Windows authentication user name. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
+        :keyword password: The on-premises Windows authentication password.
+        :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
+        :keyword always_encrypted_settings: Sql always encrypted properties.
+        :paramtype always_encrypted_settings:
+         ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+        """
+        super().__init__(
+            server=server,
+            database=database,
+            encrypt=encrypt,
+            trust_server_certificate=trust_server_certificate,
+            host_name_in_certificate=host_name_in_certificate,
+            application_intent=application_intent,
+            connect_timeout=connect_timeout,
+            connect_retry_count=connect_retry_count,
+            connect_retry_interval=connect_retry_interval,
+            load_balance_timeout=load_balance_timeout,
+            command_timeout=command_timeout,
+            integrated_security=integrated_security,
+            failover_partner=failover_partner,
+            max_pool_size=max_pool_size,
+            min_pool_size=min_pool_size,
+            multiple_active_result_sets=multiple_active_result_sets,
+            multi_subnet_failover=multi_subnet_failover,
+            packet_size=packet_size,
+            pooling=pooling,
+            **kwargs
+        )
+        self.connection_string = connection_string
+        self.authentication_type = authentication_type
         self.user_name = user_name
         self.password = password
         self.encrypted_credential = encrypted_credential
@@ -12264,9 +13012,95 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
     :ivar connection_string: The connection string. Type: string, SecureString or
-     AzureKeyVaultSecretReference. Required.
+     AzureKeyVaultSecretReference.
     :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AzureSqlDatabaseAuthenticationType
+    :ivar user_name: The user name to be used when connecting to server. Type: string (or
+     Expression with resultType string).
+    :vartype user_name: JSON
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
@@ -12275,6 +13109,16 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
     :ivar service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Database.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_credential: The credential of the service principal object in Azure
+     Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+     servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+     servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+     be AzureKeyVaultSecretReference.
+    :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
     :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
      (or Expression with resultType string).
     :vartype tenant: JSON
@@ -12293,7 +13137,6 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
 
     _validation = {
         "type": {"required": True},
-        "connection_string": {"required": True},
     }
 
     _attribute_map = {
@@ -12303,10 +13146,33 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
         "description": {"key": "description", "type": "str"},
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "server": {"key": "typeProperties.server", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "encrypt": {"key": "typeProperties.encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "typeProperties.trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "typeProperties.hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "typeProperties.applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "typeProperties.connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "typeProperties.connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "typeProperties.connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "typeProperties.loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "integrated_security": {"key": "typeProperties.integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "typeProperties.failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "typeProperties.maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "typeProperties.minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "typeProperties.multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "typeProperties.multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "typeProperties.packetSize", "type": "object"},
+        "pooling": {"key": "typeProperties.pooling", "type": "object"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
+        "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
+        "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
@@ -12317,18 +13183,41 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        connection_string: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AzureSqlDatabaseAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
         service_principal_id: Optional[JSON] = None,
         service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_credential: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
@@ -12348,9 +13237,95 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
         :keyword connection_string: The connection string. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         AzureKeyVaultSecretReference.
         :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AzureSqlDatabaseAuthenticationType
+        :keyword user_name: The user name to be used when connecting to server. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword service_principal_id: The ID of the service principal used to authenticate against
@@ -12359,6 +13334,16 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
         :keyword service_principal_key: The key of the service principal used to authenticate against
          Azure SQL Database.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_credential: The credential of the service principal object in Azure
+         Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+         servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+         servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+         be AzureKeyVaultSecretReference.
+        :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
         :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
          string (or Expression with resultType string).
         :paramtype tenant: JSON
@@ -12384,10 +13369,394 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
             **kwargs
         )
         self.type: str = "AzureSqlDatabase"
+        self.server = server
+        self.database = database
+        self.encrypt = encrypt
+        self.trust_server_certificate = trust_server_certificate
+        self.host_name_in_certificate = host_name_in_certificate
+        self.application_intent = application_intent
+        self.connect_timeout = connect_timeout
+        self.connect_retry_count = connect_retry_count
+        self.connect_retry_interval = connect_retry_interval
+        self.load_balance_timeout = load_balance_timeout
+        self.command_timeout = command_timeout
+        self.integrated_security = integrated_security
+        self.failover_partner = failover_partner
+        self.max_pool_size = max_pool_size
+        self.min_pool_size = min_pool_size
+        self.multiple_active_result_sets = multiple_active_result_sets
+        self.multi_subnet_failover = multi_subnet_failover
+        self.packet_size = packet_size
+        self.pooling = pooling
         self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
         self.password = password
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_credential = service_principal_credential
+        self.tenant = tenant
+        self.azure_cloud_type = azure_cloud_type
+        self.encrypted_credential = encrypted_credential
+        self.always_encrypted_settings = always_encrypted_settings
+        self.credential = credential
+
+
+class AzureSqlDatabaseLinkedServiceTypeProperties(
+    SqlServerBaseLinkedServiceTypeProperties
+):  # pylint: disable=too-many-instance-attributes,name-too-long
+    """Azure SQL Database linked service properties.
+
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference.
+    :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AzureSqlDatabaseAuthenticationType
+    :ivar user_name: The user name to be used when connecting to server. Type: string (or
+     Expression with resultType string).
+    :vartype user_name: JSON
+    :ivar password: The Azure key vault secret reference of password in connection string.
+    :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
+     SQL Database. Type: string (or Expression with resultType string).
+    :vartype service_principal_id: JSON
+    :ivar service_principal_key: The key of the service principal used to authenticate against
+     Azure SQL Database.
+    :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_credential: The credential of the service principal object in Azure
+     Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+     servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+     servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+     be AzureKeyVaultSecretReference.
+    :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
+     (or Expression with resultType string).
+    :vartype tenant: JSON
+    :ivar azure_cloud_type: Indicates the azure cloud type of the service principle auth. Allowed
+     values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data
+     factory regions’ cloud type. Type: string (or Expression with resultType string).
+    :vartype azure_cloud_type: JSON
+    :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
+    :ivar always_encrypted_settings: Sql always encrypted properties.
+    :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+    :ivar credential: The credential reference containing authentication information.
+    :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
+    """
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "object"},
+        "database": {"key": "database", "type": "object"},
+        "encrypt": {"key": "encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "commandTimeout", "type": "object"},
+        "integrated_security": {"key": "integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "packetSize", "type": "object"},
+        "pooling": {"key": "pooling", "type": "object"},
+        "connection_string": {"key": "connectionString", "type": "object"},
+        "authentication_type": {"key": "authenticationType", "type": "str"},
+        "user_name": {"key": "userName", "type": "object"},
+        "password": {"key": "password", "type": "AzureKeyVaultSecretReference"},
+        "service_principal_id": {"key": "servicePrincipalId", "type": "object"},
+        "service_principal_key": {"key": "servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "servicePrincipalCredentialType", "type": "object"},
+        "service_principal_credential": {"key": "servicePrincipalCredential", "type": "SecretBase"},
+        "tenant": {"key": "tenant", "type": "object"},
+        "azure_cloud_type": {"key": "azureCloudType", "type": "object"},
+        "encrypted_credential": {"key": "encryptedCredential", "type": "str"},
+        "always_encrypted_settings": {"key": "alwaysEncryptedSettings", "type": "SqlAlwaysEncryptedProperties"},
+        "credential": {"key": "credential", "type": "CredentialReference"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AzureSqlDatabaseAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
+        password: Optional["_models.AzureKeyVaultSecretReference"] = None,
+        service_principal_id: Optional[JSON] = None,
+        service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_credential: Optional["_models.SecretBase"] = None,
+        tenant: Optional[JSON] = None,
+        azure_cloud_type: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
+        always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
+        credential: Optional["_models.CredentialReference"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference.
+        :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AzureSqlDatabaseAuthenticationType
+        :keyword user_name: The user name to be used when connecting to server. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
+        :keyword password: The Azure key vault secret reference of password in connection string.
+        :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+        :keyword service_principal_id: The ID of the service principal used to authenticate against
+         Azure SQL Database. Type: string (or Expression with resultType string).
+        :paramtype service_principal_id: JSON
+        :keyword service_principal_key: The key of the service principal used to authenticate against
+         Azure SQL Database.
+        :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_credential: The credential of the service principal object in Azure
+         Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+         servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+         servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+         be AzureKeyVaultSecretReference.
+        :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
+         string (or Expression with resultType string).
+        :paramtype tenant: JSON
+        :keyword azure_cloud_type: Indicates the azure cloud type of the service principle auth.
+         Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is
+         the data factory regions’ cloud type. Type: string (or Expression with resultType string).
+        :paramtype azure_cloud_type: JSON
+        :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
+        :keyword always_encrypted_settings: Sql always encrypted properties.
+        :paramtype always_encrypted_settings:
+         ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+        :keyword credential: The credential reference containing authentication information.
+        :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
+        """
+        super().__init__(
+            server=server,
+            database=database,
+            encrypt=encrypt,
+            trust_server_certificate=trust_server_certificate,
+            host_name_in_certificate=host_name_in_certificate,
+            application_intent=application_intent,
+            connect_timeout=connect_timeout,
+            connect_retry_count=connect_retry_count,
+            connect_retry_interval=connect_retry_interval,
+            load_balance_timeout=load_balance_timeout,
+            command_timeout=command_timeout,
+            integrated_security=integrated_security,
+            failover_partner=failover_partner,
+            max_pool_size=max_pool_size,
+            min_pool_size=min_pool_size,
+            multiple_active_result_sets=multiple_active_result_sets,
+            multi_subnet_failover=multi_subnet_failover,
+            packet_size=packet_size,
+            pooling=pooling,
+            **kwargs
+        )
+        self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
+        self.password = password
+        self.service_principal_id = service_principal_id
+        self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_credential = service_principal_credential
         self.tenant = tenant
         self.azure_cloud_type = azure_cloud_type
         self.encrypted_credential = encrypted_credential
@@ -12413,10 +13782,95 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
     :ivar connection_string: The connection string. Type: string, SecureString or
      AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
-     Required.
     :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AzureSqlDWAuthenticationType
+    :ivar user_name: The user name to be used when connecting to server. Type: string (or
+     Expression with resultType string).
+    :vartype user_name: JSON
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
@@ -12425,6 +13879,16 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
     :ivar service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Data Warehouse.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_credential: The credential of the service principal object in Azure
+     Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+     servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+     servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+     be AzureKeyVaultSecretReference.
+    :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
     :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
      (or Expression with resultType string).
     :vartype tenant: JSON
@@ -12441,7 +13905,6 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
 
     _validation = {
         "type": {"required": True},
-        "connection_string": {"required": True},
     }
 
     _attribute_map = {
@@ -12451,28 +13914,74 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "description": {"key": "description", "type": "str"},
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "server": {"key": "typeProperties.server", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "encrypt": {"key": "typeProperties.encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "typeProperties.trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "typeProperties.hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "typeProperties.applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "typeProperties.connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "typeProperties.connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "typeProperties.connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "typeProperties.loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "integrated_security": {"key": "typeProperties.integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "typeProperties.failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "typeProperties.maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "typeProperties.minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "typeProperties.multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "typeProperties.multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "typeProperties.packetSize", "type": "object"},
+        "pooling": {"key": "typeProperties.pooling", "type": "object"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
+        "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
+        "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        connection_string: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AzureSqlDWAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
         service_principal_id: Optional[JSON] = None,
         service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_credential: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
@@ -12491,10 +14000,95 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
         :keyword connection_string: The connection string. Type: string, SecureString or
          AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
-         Required.
         :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AzureSqlDWAuthenticationType
+        :keyword user_name: The user name to be used when connecting to server. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword service_principal_id: The ID of the service principal used to authenticate against
@@ -12503,6 +14097,16 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
         :keyword service_principal_key: The key of the service principal used to authenticate against
          Azure SQL Data Warehouse.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_credential: The credential of the service principal object in Azure
+         Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+         servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+         servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+         be AzureKeyVaultSecretReference.
+        :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
         :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
          string (or Expression with resultType string).
         :paramtype tenant: JSON
@@ -12525,10 +14129,386 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
             **kwargs
         )
         self.type: str = "AzureSqlDW"
+        self.server = server
+        self.database = database
+        self.encrypt = encrypt
+        self.trust_server_certificate = trust_server_certificate
+        self.host_name_in_certificate = host_name_in_certificate
+        self.application_intent = application_intent
+        self.connect_timeout = connect_timeout
+        self.connect_retry_count = connect_retry_count
+        self.connect_retry_interval = connect_retry_interval
+        self.load_balance_timeout = load_balance_timeout
+        self.command_timeout = command_timeout
+        self.integrated_security = integrated_security
+        self.failover_partner = failover_partner
+        self.max_pool_size = max_pool_size
+        self.min_pool_size = min_pool_size
+        self.multiple_active_result_sets = multiple_active_result_sets
+        self.multi_subnet_failover = multi_subnet_failover
+        self.packet_size = packet_size
+        self.pooling = pooling
         self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
         self.password = password
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_credential = service_principal_credential
+        self.tenant = tenant
+        self.azure_cloud_type = azure_cloud_type
+        self.encrypted_credential = encrypted_credential
+        self.credential = credential
+
+
+class AzureSqlDWLinkedServiceTypeProperties(
+    SqlServerBaseLinkedServiceTypeProperties
+):  # pylint: disable=too-many-instance-attributes
+    """Azure SQL Data Warehouse linked service properties.
+
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
+    :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AzureSqlDWAuthenticationType
+    :ivar user_name: The user name to be used when connecting to server. Type: string (or
+     Expression with resultType string).
+    :vartype user_name: JSON
+    :ivar password: The Azure key vault secret reference of password in connection string.
+    :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
+     SQL Data Warehouse. Type: string (or Expression with resultType string).
+    :vartype service_principal_id: JSON
+    :ivar service_principal_key: The key of the service principal used to authenticate against
+     Azure SQL Data Warehouse.
+    :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_credential: The credential of the service principal object in Azure
+     Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+     servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+     servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+     be AzureKeyVaultSecretReference.
+    :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
+     (or Expression with resultType string).
+    :vartype tenant: JSON
+    :ivar azure_cloud_type: Indicates the azure cloud type of the service principle auth. Allowed
+     values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data
+     factory regions’ cloud type. Type: string (or Expression with resultType string).
+    :vartype azure_cloud_type: JSON
+    :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
+    :ivar credential: The credential reference containing authentication information.
+    :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
+    """
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "object"},
+        "database": {"key": "database", "type": "object"},
+        "encrypt": {"key": "encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "commandTimeout", "type": "object"},
+        "integrated_security": {"key": "integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "packetSize", "type": "object"},
+        "pooling": {"key": "pooling", "type": "object"},
+        "connection_string": {"key": "connectionString", "type": "object"},
+        "authentication_type": {"key": "authenticationType", "type": "str"},
+        "user_name": {"key": "userName", "type": "object"},
+        "password": {"key": "password", "type": "AzureKeyVaultSecretReference"},
+        "service_principal_id": {"key": "servicePrincipalId", "type": "object"},
+        "service_principal_key": {"key": "servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "servicePrincipalCredentialType", "type": "object"},
+        "service_principal_credential": {"key": "servicePrincipalCredential", "type": "SecretBase"},
+        "tenant": {"key": "tenant", "type": "object"},
+        "azure_cloud_type": {"key": "azureCloudType", "type": "object"},
+        "encrypted_credential": {"key": "encryptedCredential", "type": "str"},
+        "credential": {"key": "credential", "type": "CredentialReference"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AzureSqlDWAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
+        password: Optional["_models.AzureKeyVaultSecretReference"] = None,
+        service_principal_id: Optional[JSON] = None,
+        service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_credential: Optional["_models.SecretBase"] = None,
+        tenant: Optional[JSON] = None,
+        azure_cloud_type: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
+        credential: Optional["_models.CredentialReference"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
+        :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AzureSqlDWAuthenticationType
+        :keyword user_name: The user name to be used when connecting to server. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
+        :keyword password: The Azure key vault secret reference of password in connection string.
+        :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+        :keyword service_principal_id: The ID of the service principal used to authenticate against
+         Azure SQL Data Warehouse. Type: string (or Expression with resultType string).
+        :paramtype service_principal_id: JSON
+        :keyword service_principal_key: The key of the service principal used to authenticate against
+         Azure SQL Data Warehouse.
+        :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_credential: The credential of the service principal object in Azure
+         Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+         servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+         servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+         be AzureKeyVaultSecretReference.
+        :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
+         string (or Expression with resultType string).
+        :paramtype tenant: JSON
+        :keyword azure_cloud_type: Indicates the azure cloud type of the service principle auth.
+         Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is
+         the data factory regions’ cloud type. Type: string (or Expression with resultType string).
+        :paramtype azure_cloud_type: JSON
+        :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
+        :keyword credential: The credential reference containing authentication information.
+        :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
+        """
+        super().__init__(
+            server=server,
+            database=database,
+            encrypt=encrypt,
+            trust_server_certificate=trust_server_certificate,
+            host_name_in_certificate=host_name_in_certificate,
+            application_intent=application_intent,
+            connect_timeout=connect_timeout,
+            connect_retry_count=connect_retry_count,
+            connect_retry_interval=connect_retry_interval,
+            load_balance_timeout=load_balance_timeout,
+            command_timeout=command_timeout,
+            integrated_security=integrated_security,
+            failover_partner=failover_partner,
+            max_pool_size=max_pool_size,
+            min_pool_size=min_pool_size,
+            multiple_active_result_sets=multiple_active_result_sets,
+            multi_subnet_failover=multi_subnet_failover,
+            packet_size=packet_size,
+            pooling=pooling,
+            **kwargs
+        )
+        self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
+        self.password = password
+        self.service_principal_id = service_principal_id
+        self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_credential = service_principal_credential
         self.tenant = tenant
         self.azure_cloud_type = azure_cloud_type
         self.encrypted_credential = encrypted_credential
@@ -12675,9 +14655,95 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
     :ivar connection_string: The connection string. Type: string, SecureString or
-     AzureKeyVaultSecretReference. Required.
+     AzureKeyVaultSecretReference.
     :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AzureSqlMIAuthenticationType
+    :ivar user_name: The user name to be used when connecting to server. Type: string (or
+     Expression with resultType string).
+    :vartype user_name: JSON
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
@@ -12686,6 +14752,16 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
     :ivar service_principal_key: The key of the service principal used to authenticate against
      Azure SQL Managed Instance.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_credential: The credential of the service principal object in Azure
+     Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+     servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+     servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+     be AzureKeyVaultSecretReference.
+    :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
     :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
      (or Expression with resultType string).
     :vartype tenant: JSON
@@ -12704,7 +14780,6 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
 
     _validation = {
         "type": {"required": True},
-        "connection_string": {"required": True},
     }
 
     _attribute_map = {
@@ -12714,10 +14789,33 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
         "description": {"key": "description", "type": "str"},
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "server": {"key": "typeProperties.server", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "encrypt": {"key": "typeProperties.encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "typeProperties.trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "typeProperties.hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "typeProperties.applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "typeProperties.connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "typeProperties.connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "typeProperties.connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "typeProperties.loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "integrated_security": {"key": "typeProperties.integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "typeProperties.failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "typeProperties.maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "typeProperties.minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "typeProperties.multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "typeProperties.multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "typeProperties.packetSize", "type": "object"},
+        "pooling": {"key": "typeProperties.pooling", "type": "object"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
+        "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
+        "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
@@ -12728,18 +14826,41 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        connection_string: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AzureSqlMIAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
         service_principal_id: Optional[JSON] = None,
         service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_credential: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
@@ -12759,9 +14880,95 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
         :keyword connection_string: The connection string. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         AzureKeyVaultSecretReference.
         :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AzureSqlMIAuthenticationType
+        :keyword user_name: The user name to be used when connecting to server. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword service_principal_id: The ID of the service principal used to authenticate against
@@ -12770,6 +14977,16 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
         :keyword service_principal_key: The key of the service principal used to authenticate against
          Azure SQL Managed Instance.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_credential: The credential of the service principal object in Azure
+         Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+         servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+         servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+         be AzureKeyVaultSecretReference.
+        :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
         :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
          string (or Expression with resultType string).
         :paramtype tenant: JSON
@@ -12795,10 +15012,394 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
             **kwargs
         )
         self.type: str = "AzureSqlMI"
+        self.server = server
+        self.database = database
+        self.encrypt = encrypt
+        self.trust_server_certificate = trust_server_certificate
+        self.host_name_in_certificate = host_name_in_certificate
+        self.application_intent = application_intent
+        self.connect_timeout = connect_timeout
+        self.connect_retry_count = connect_retry_count
+        self.connect_retry_interval = connect_retry_interval
+        self.load_balance_timeout = load_balance_timeout
+        self.command_timeout = command_timeout
+        self.integrated_security = integrated_security
+        self.failover_partner = failover_partner
+        self.max_pool_size = max_pool_size
+        self.min_pool_size = min_pool_size
+        self.multiple_active_result_sets = multiple_active_result_sets
+        self.multi_subnet_failover = multi_subnet_failover
+        self.packet_size = packet_size
+        self.pooling = pooling
         self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
         self.password = password
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_credential = service_principal_credential
+        self.tenant = tenant
+        self.azure_cloud_type = azure_cloud_type
+        self.encrypted_credential = encrypted_credential
+        self.always_encrypted_settings = always_encrypted_settings
+        self.credential = credential
+
+
+class AzureSqlMILinkedServiceTypeProperties(
+    SqlServerBaseLinkedServiceTypeProperties
+):  # pylint: disable=too-many-instance-attributes
+    """Azure SQL Managed Instance linked service properties.
+
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference.
+    :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AzureSqlMIAuthenticationType
+    :ivar user_name: The user name to be used when connecting to server. Type: string (or
+     Expression with resultType string).
+    :vartype user_name: JSON
+    :ivar password: The Azure key vault secret reference of password in connection string.
+    :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+    :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
+     SQL Managed Instance. Type: string (or Expression with resultType string).
+    :vartype service_principal_id: JSON
+    :ivar service_principal_key: The key of the service principal used to authenticate against
+     Azure SQL Managed Instance.
+    :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_credential: The credential of the service principal object in Azure
+     Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+     servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+     servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+     be AzureKeyVaultSecretReference.
+    :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
+     (or Expression with resultType string).
+    :vartype tenant: JSON
+    :ivar azure_cloud_type: Indicates the azure cloud type of the service principle auth. Allowed
+     values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data
+     factory regions’ cloud type. Type: string (or Expression with resultType string).
+    :vartype azure_cloud_type: JSON
+    :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
+    :ivar always_encrypted_settings: Sql always encrypted properties.
+    :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+    :ivar credential: The credential reference containing authentication information.
+    :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
+    """
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "object"},
+        "database": {"key": "database", "type": "object"},
+        "encrypt": {"key": "encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "commandTimeout", "type": "object"},
+        "integrated_security": {"key": "integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "packetSize", "type": "object"},
+        "pooling": {"key": "pooling", "type": "object"},
+        "connection_string": {"key": "connectionString", "type": "object"},
+        "authentication_type": {"key": "authenticationType", "type": "str"},
+        "user_name": {"key": "userName", "type": "object"},
+        "password": {"key": "password", "type": "AzureKeyVaultSecretReference"},
+        "service_principal_id": {"key": "servicePrincipalId", "type": "object"},
+        "service_principal_key": {"key": "servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "servicePrincipalCredentialType", "type": "object"},
+        "service_principal_credential": {"key": "servicePrincipalCredential", "type": "SecretBase"},
+        "tenant": {"key": "tenant", "type": "object"},
+        "azure_cloud_type": {"key": "azureCloudType", "type": "object"},
+        "encrypted_credential": {"key": "encryptedCredential", "type": "str"},
+        "always_encrypted_settings": {"key": "alwaysEncryptedSettings", "type": "SqlAlwaysEncryptedProperties"},
+        "credential": {"key": "credential", "type": "CredentialReference"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AzureSqlMIAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
+        password: Optional["_models.AzureKeyVaultSecretReference"] = None,
+        service_principal_id: Optional[JSON] = None,
+        service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_credential: Optional["_models.SecretBase"] = None,
+        tenant: Optional[JSON] = None,
+        azure_cloud_type: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
+        always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
+        credential: Optional["_models.CredentialReference"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference.
+        :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL", "ServicePrincipal", "SystemAssignedManagedIdentity", and "UserAssignedManagedIdentity".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AzureSqlMIAuthenticationType
+        :keyword user_name: The user name to be used when connecting to server. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
+        :keyword password: The Azure key vault secret reference of password in connection string.
+        :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
+        :keyword service_principal_id: The ID of the service principal used to authenticate against
+         Azure SQL Managed Instance. Type: string (or Expression with resultType string).
+        :paramtype service_principal_id: JSON
+        :keyword service_principal_key: The key of the service principal used to authenticate against
+         Azure SQL Managed Instance.
+        :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_credential: The credential of the service principal object in Azure
+         Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
+         servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
+         servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only
+         be AzureKeyVaultSecretReference.
+        :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
+         string (or Expression with resultType string).
+        :paramtype tenant: JSON
+        :keyword azure_cloud_type: Indicates the azure cloud type of the service principle auth.
+         Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is
+         the data factory regions’ cloud type. Type: string (or Expression with resultType string).
+        :paramtype azure_cloud_type: JSON
+        :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
+        :keyword always_encrypted_settings: Sql always encrypted properties.
+        :paramtype always_encrypted_settings:
+         ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+        :keyword credential: The credential reference containing authentication information.
+        :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
+        """
+        super().__init__(
+            server=server,
+            database=database,
+            encrypt=encrypt,
+            trust_server_certificate=trust_server_certificate,
+            host_name_in_certificate=host_name_in_certificate,
+            application_intent=application_intent,
+            connect_timeout=connect_timeout,
+            connect_retry_count=connect_retry_count,
+            connect_retry_interval=connect_retry_interval,
+            load_balance_timeout=load_balance_timeout,
+            command_timeout=command_timeout,
+            integrated_security=integrated_security,
+            failover_partner=failover_partner,
+            max_pool_size=max_pool_size,
+            min_pool_size=min_pool_size,
+            multiple_active_result_sets=multiple_active_result_sets,
+            multi_subnet_failover=multi_subnet_failover,
+            packet_size=packet_size,
+            pooling=pooling,
+            **kwargs
+        )
+        self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
+        self.password = password
+        self.service_principal_id = service_principal_id
+        self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_credential = service_principal_credential
         self.tenant = tenant
         self.azure_cloud_type = azure_cloud_type
         self.encrypted_credential = encrypted_credential
@@ -38765,6 +41366,8 @@ class ManagedIdentityCredential(Credential):
     :vartype description: str
     :ivar annotations: List of tags that can be used for describing the Credential.
     :vartype annotations: list[JSON]
+    :ivar resource_id: The resource id of user assigned managed identity.
+    :vartype resource_id: str
     """
 
     _validation = {
@@ -38776,6 +41379,7 @@ class ManagedIdentityCredential(Credential):
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "resource_id": {"key": "typeProperties.resourceId", "type": "str"},
     }
 
     def __init__(
@@ -38784,6 +41388,7 @@ class ManagedIdentityCredential(Credential):
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
         annotations: Optional[List[JSON]] = None,
+        resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -38794,11 +41399,14 @@ class ManagedIdentityCredential(Credential):
         :paramtype description: str
         :keyword annotations: List of tags that can be used for describing the Credential.
         :paramtype annotations: list[JSON]
+        :keyword resource_id: The resource id of user assigned managed identity.
+        :paramtype resource_id: str
         """
         super().__init__(
             additional_properties=additional_properties, description=description, annotations=annotations, **kwargs
         )
         self.type: str = "ManagedIdentity"
+        self.resource_id = resource_id
 
 
 class ManagedIdentityCredentialResource(CredentialResource):
@@ -57548,9 +60156,9 @@ class ScriptActivityScriptBlock(_serialization.Model):
 
     :ivar text: The query text. Type: string (or Expression with resultType string). Required.
     :vartype text: JSON
-    :ivar type: The type of the query. Type: string. Required. Known values are: "Query" and
-     "NonQuery".
-    :vartype type: str or ~azure.mgmt.datafactory.models.ScriptType
+    :ivar type: The type of the query. Please refer to the ScriptType for valid options. Type:
+     string (or Expression with resultType string). Required.
+    :vartype type: JSON
     :ivar parameters: Array of script parameters. Type: array.
     :vartype parameters: list[~azure.mgmt.datafactory.models.ScriptActivityParameter]
     """
@@ -57562,7 +60170,7 @@ class ScriptActivityScriptBlock(_serialization.Model):
 
     _attribute_map = {
         "text": {"key": "text", "type": "object"},
-        "type": {"key": "type", "type": "str"},
+        "type": {"key": "type", "type": "object"},
         "parameters": {"key": "parameters", "type": "[ScriptActivityParameter]"},
     }
 
@@ -57570,16 +60178,16 @@ class ScriptActivityScriptBlock(_serialization.Model):
         self,
         *,
         text: JSON,
-        type: Union[str, "_models.ScriptType"],
+        type: JSON,
         parameters: Optional[List["_models.ScriptActivityParameter"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword text: The query text. Type: string (or Expression with resultType string). Required.
         :paramtype text: JSON
-        :keyword type: The type of the query. Type: string. Required. Known values are: "Query" and
-         "NonQuery".
-        :paramtype type: str or ~azure.mgmt.datafactory.models.ScriptType
+        :keyword type: The type of the query. Please refer to the ScriptType for valid options. Type:
+         string (or Expression with resultType string). Required.
+        :paramtype type: JSON
         :keyword parameters: Array of script parameters. Type: array.
         :paramtype parameters: list[~azure.mgmt.datafactory.models.ScriptActivityParameter]
         """
@@ -62541,9 +65149,91 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
     :ivar connection_string: The connection string. Type: string, SecureString or
-     AzureKeyVaultSecretReference. Required.
+     AzureKeyVaultSecretReference.
     :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL" and "Windows".
+    :vartype authentication_type: str or ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
     :ivar user_name: The on-premises Windows authentication user name. Type: string (or Expression
      with resultType string).
     :vartype user_name: JSON
@@ -62558,7 +65248,6 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
 
     _validation = {
         "type": {"required": True},
-        "connection_string": {"required": True},
     }
 
     _attribute_map = {
@@ -62568,7 +65257,27 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "description": {"key": "description", "type": "str"},
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
+        "server": {"key": "typeProperties.server", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "encrypt": {"key": "typeProperties.encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "typeProperties.trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "typeProperties.hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "typeProperties.applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "typeProperties.connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "typeProperties.connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "typeProperties.connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "typeProperties.loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "integrated_security": {"key": "typeProperties.integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "typeProperties.failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "typeProperties.maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "typeProperties.minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "typeProperties.multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "typeProperties.multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "typeProperties.packetSize", "type": "object"},
+        "pooling": {"key": "typeProperties.pooling", "type": "object"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
@@ -62578,15 +65287,35 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        connection_string: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.SqlServerAuthenticationType"]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         encrypted_credential: Optional[str] = None,
@@ -62605,9 +65334,92 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
         :keyword connection_string: The connection string. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         AzureKeyVaultSecretReference.
         :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL" and "Windows".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
         :keyword user_name: The on-premises Windows authentication user name. Type: string (or
          Expression with resultType string).
         :paramtype user_name: JSON
@@ -62629,7 +65441,316 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
             **kwargs
         )
         self.type: str = "SqlServer"
+        self.server = server
+        self.database = database
+        self.encrypt = encrypt
+        self.trust_server_certificate = trust_server_certificate
+        self.host_name_in_certificate = host_name_in_certificate
+        self.application_intent = application_intent
+        self.connect_timeout = connect_timeout
+        self.connect_retry_count = connect_retry_count
+        self.connect_retry_interval = connect_retry_interval
+        self.load_balance_timeout = load_balance_timeout
+        self.command_timeout = command_timeout
+        self.integrated_security = integrated_security
+        self.failover_partner = failover_partner
+        self.max_pool_size = max_pool_size
+        self.min_pool_size = min_pool_size
+        self.multiple_active_result_sets = multiple_active_result_sets
+        self.multi_subnet_failover = multi_subnet_failover
+        self.packet_size = packet_size
+        self.pooling = pooling
         self.connection_string = connection_string
+        self.authentication_type = authentication_type
+        self.user_name = user_name
+        self.password = password
+        self.encrypted_credential = encrypted_credential
+        self.always_encrypted_settings = always_encrypted_settings
+
+
+class SqlServerLinkedServiceTypeProperties(
+    SqlServerBaseLinkedServiceTypeProperties
+):  # pylint: disable=too-many-instance-attributes
+    """SQL Server linked service properties.
+
+    :ivar server: The name or network address of the instance of SQL Server to which to connect,
+     used by recommended version. Type: string (or Expression with resultType string).
+    :vartype server: JSON
+    :ivar database: The name of the database, used by recommended version. Type: string (or
+     Expression with resultType string).
+    :vartype database: JSON
+    :ivar encrypt: Indicate whether TLS encryption is required for all data sent between the client
+     and server, used by recommended version. Possible values are true/yes/mandatory,
+     false/no/optional and strict. Type: string (or Expression with resultType string).
+    :vartype encrypt: JSON
+    :ivar trust_server_certificate: Indicate whether the channel will be encrypted while bypassing
+     walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype trust_server_certificate: JSON
+    :ivar host_name_in_certificate: The host name to use when validating the server certificate for
+     the connection. When not specified, the server name from the Data Source is used for
+     certificate validation, used by recommended version. Type: string (or Expression with
+     resultType string).
+    :vartype host_name_in_certificate: JSON
+    :ivar application_intent: The application workload type when connecting to a server, used by
+     recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+     with resultType string).
+    :vartype application_intent: JSON
+    :ivar connect_timeout: The length of time (in seconds) to wait for a connection to the server
+     before terminating the attempt and generating an error, used by recommended version. Type:
+     integer (or Expression with resultType integer).
+    :vartype connect_timeout: JSON
+    :ivar connect_retry_count: The number of re-connections attempted after identifying that there
+     was an idle connection failure, used by recommended version. This must be an integer between 0
+     and 255. Type: integer (or Expression with resultType integer).
+    :vartype connect_retry_count: JSON
+    :ivar connect_retry_interval: The amount of time (in seconds) between each re-connection
+     attempt after identifying that there was an idle connection failure, used by recommended
+     version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+     integer).
+    :vartype connect_retry_interval: JSON
+    :ivar load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+     connection pool before being destroyed, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype load_balance_timeout: JSON
+    :ivar command_timeout: The default wait time (in seconds) before terminating the attempt to
+     execute a command and generating an error, used by recommended version. Type: integer (or
+     Expression with resultType integer).
+    :vartype command_timeout: JSON
+    :ivar integrated_security: Indicate whether User ID and Password are specified in the
+     connection (when false) or whether the current Windows account credentials are used for
+     authentication (when true), used by recommended version. Type: Boolean (or Expression with
+     resultType boolean).
+    :vartype integrated_security: JSON
+    :ivar failover_partner: The name or address of the partner server to connect to if the primary
+     server is down, used by recommended version. Type: string (or Expression with resultType
+     string).
+    :vartype failover_partner: JSON
+    :ivar max_pool_size: The maximum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype max_pool_size: JSON
+    :ivar min_pool_size: The minimum number of connections allowed in the connection pool for this
+     specific connection string, used by recommended version. Type: integer (or Expression with
+     resultType integer).
+    :vartype min_pool_size: JSON
+    :ivar multiple_active_result_sets: When true, an application can maintain multiple active
+     result sets (MARS). When false, an application must process or cancel all result sets from one
+     batch before it can execute any other batch on that connection, used by recommended version.
+     Type: Boolean (or Expression with resultType boolean).
+    :vartype multiple_active_result_sets: JSON
+    :ivar multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+     group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+     and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+     Expression with resultType boolean).
+    :vartype multi_subnet_failover: JSON
+    :ivar packet_size: The size in bytes of the network packets used to communicate with an
+     instance of server, used by recommended version. Type: integer (or Expression with resultType
+     integer).
+    :vartype packet_size: JSON
+    :ivar pooling: Indicate whether the connection will be pooled or explicitly opened every time
+     that the connection is requested, used by recommended version. Type: Boolean (or Expression
+     with resultType boolean).
+    :vartype pooling: JSON
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference.
+    :vartype connection_string: JSON
+    :ivar authentication_type: The type used for authentication. Type: string. Known values are:
+     "SQL" and "Windows".
+    :vartype authentication_type: str or ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
+    :ivar user_name: The on-premises Windows authentication user name. Type: string (or Expression
+     with resultType string).
+    :vartype user_name: JSON
+    :ivar password: The on-premises Windows authentication password.
+    :vartype password: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
+    :ivar always_encrypted_settings: Sql always encrypted properties.
+    :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+    """
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "object"},
+        "database": {"key": "database", "type": "object"},
+        "encrypt": {"key": "encrypt", "type": "object"},
+        "trust_server_certificate": {"key": "trustServerCertificate", "type": "object"},
+        "host_name_in_certificate": {"key": "hostNameInCertificate", "type": "object"},
+        "application_intent": {"key": "applicationIntent", "type": "object"},
+        "connect_timeout": {"key": "connectTimeout", "type": "object"},
+        "connect_retry_count": {"key": "connectRetryCount", "type": "object"},
+        "connect_retry_interval": {"key": "connectRetryInterval", "type": "object"},
+        "load_balance_timeout": {"key": "loadBalanceTimeout", "type": "object"},
+        "command_timeout": {"key": "commandTimeout", "type": "object"},
+        "integrated_security": {"key": "integratedSecurity", "type": "object"},
+        "failover_partner": {"key": "failoverPartner", "type": "object"},
+        "max_pool_size": {"key": "maxPoolSize", "type": "object"},
+        "min_pool_size": {"key": "minPoolSize", "type": "object"},
+        "multiple_active_result_sets": {"key": "multipleActiveResultSets", "type": "object"},
+        "multi_subnet_failover": {"key": "multiSubnetFailover", "type": "object"},
+        "packet_size": {"key": "packetSize", "type": "object"},
+        "pooling": {"key": "pooling", "type": "object"},
+        "connection_string": {"key": "connectionString", "type": "object"},
+        "authentication_type": {"key": "authenticationType", "type": "str"},
+        "user_name": {"key": "userName", "type": "object"},
+        "password": {"key": "password", "type": "SecretBase"},
+        "encrypted_credential": {"key": "encryptedCredential", "type": "str"},
+        "always_encrypted_settings": {"key": "alwaysEncryptedSettings", "type": "SqlAlwaysEncryptedProperties"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        server: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        encrypt: Optional[JSON] = None,
+        trust_server_certificate: Optional[JSON] = None,
+        host_name_in_certificate: Optional[JSON] = None,
+        application_intent: Optional[JSON] = None,
+        connect_timeout: Optional[JSON] = None,
+        connect_retry_count: Optional[JSON] = None,
+        connect_retry_interval: Optional[JSON] = None,
+        load_balance_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        integrated_security: Optional[JSON] = None,
+        failover_partner: Optional[JSON] = None,
+        max_pool_size: Optional[JSON] = None,
+        min_pool_size: Optional[JSON] = None,
+        multiple_active_result_sets: Optional[JSON] = None,
+        multi_subnet_failover: Optional[JSON] = None,
+        packet_size: Optional[JSON] = None,
+        pooling: Optional[JSON] = None,
+        connection_string: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.SqlServerAuthenticationType"]] = None,
+        user_name: Optional[JSON] = None,
+        password: Optional["_models.SecretBase"] = None,
+        encrypted_credential: Optional[str] = None,
+        always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword server: The name or network address of the instance of SQL Server to which to connect,
+         used by recommended version. Type: string (or Expression with resultType string).
+        :paramtype server: JSON
+        :keyword database: The name of the database, used by recommended version. Type: string (or
+         Expression with resultType string).
+        :paramtype database: JSON
+        :keyword encrypt: Indicate whether TLS encryption is required for all data sent between the
+         client and server, used by recommended version. Possible values are true/yes/mandatory,
+         false/no/optional and strict. Type: string (or Expression with resultType string).
+        :paramtype encrypt: JSON
+        :keyword trust_server_certificate: Indicate whether the channel will be encrypted while
+         bypassing walking the certificate chain to validate trust, used by recommended version. Type:
+         Boolean (or Expression with resultType boolean).
+        :paramtype trust_server_certificate: JSON
+        :keyword host_name_in_certificate: The host name to use when validating the server certificate
+         for the connection. When not specified, the server name from the Data Source is used for
+         certificate validation, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype host_name_in_certificate: JSON
+        :keyword application_intent: The application workload type when connecting to a server, used by
+         recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression
+         with resultType string).
+        :paramtype application_intent: JSON
+        :keyword connect_timeout: The length of time (in seconds) to wait for a connection to the
+         server before terminating the attempt and generating an error, used by recommended version.
+         Type: integer (or Expression with resultType integer).
+        :paramtype connect_timeout: JSON
+        :keyword connect_retry_count: The number of re-connections attempted after identifying that
+         there was an idle connection failure, used by recommended version. This must be an integer
+         between 0 and 255. Type: integer (or Expression with resultType integer).
+        :paramtype connect_retry_count: JSON
+        :keyword connect_retry_interval: The amount of time (in seconds) between each re-connection
+         attempt after identifying that there was an idle connection failure, used by recommended
+         version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType
+         integer).
+        :paramtype connect_retry_interval: JSON
+        :keyword load_balance_timeout: The minimum time, in seconds, for the connection to live in the
+         connection pool before being destroyed, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype load_balance_timeout: JSON
+        :keyword command_timeout: The default wait time (in seconds) before terminating the attempt to
+         execute a command and generating an error, used by recommended version. Type: integer (or
+         Expression with resultType integer).
+        :paramtype command_timeout: JSON
+        :keyword integrated_security: Indicate whether User ID and Password are specified in the
+         connection (when false) or whether the current Windows account credentials are used for
+         authentication (when true), used by recommended version. Type: Boolean (or Expression with
+         resultType boolean).
+        :paramtype integrated_security: JSON
+        :keyword failover_partner: The name or address of the partner server to connect to if the
+         primary server is down, used by recommended version. Type: string (or Expression with
+         resultType string).
+        :paramtype failover_partner: JSON
+        :keyword max_pool_size: The maximum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype max_pool_size: JSON
+        :keyword min_pool_size: The minimum number of connections allowed in the connection pool for
+         this specific connection string, used by recommended version. Type: integer (or Expression with
+         resultType integer).
+        :paramtype min_pool_size: JSON
+        :keyword multiple_active_result_sets: When true, an application can maintain multiple active
+         result sets (MARS). When false, an application must process or cancel all result sets from one
+         batch before it can execute any other batch on that connection, used by recommended version.
+         Type: Boolean (or Expression with resultType boolean).
+        :paramtype multiple_active_result_sets: JSON
+        :keyword multi_subnet_failover: If your application is connecting to an AlwaysOn availability
+         group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of
+         and connection to the (currently) active server, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype multi_subnet_failover: JSON
+        :keyword packet_size: The size in bytes of the network packets used to communicate with an
+         instance of server, used by recommended version. Type: integer (or Expression with resultType
+         integer).
+        :paramtype packet_size: JSON
+        :keyword pooling: Indicate whether the connection will be pooled or explicitly opened every
+         time that the connection is requested, used by recommended version. Type: Boolean (or
+         Expression with resultType boolean).
+        :paramtype pooling: JSON
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference.
+        :paramtype connection_string: JSON
+        :keyword authentication_type: The type used for authentication. Type: string. Known values are:
+         "SQL" and "Windows".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
+        :keyword user_name: The on-premises Windows authentication user name. Type: string (or
+         Expression with resultType string).
+        :paramtype user_name: JSON
+        :keyword password: The on-premises Windows authentication password.
+        :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
+        :keyword always_encrypted_settings: Sql always encrypted properties.
+        :paramtype always_encrypted_settings:
+         ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+        """
+        super().__init__(
+            server=server,
+            database=database,
+            encrypt=encrypt,
+            trust_server_certificate=trust_server_certificate,
+            host_name_in_certificate=host_name_in_certificate,
+            application_intent=application_intent,
+            connect_timeout=connect_timeout,
+            connect_retry_count=connect_retry_count,
+            connect_retry_interval=connect_retry_interval,
+            load_balance_timeout=load_balance_timeout,
+            command_timeout=command_timeout,
+            integrated_security=integrated_security,
+            failover_partner=failover_partner,
+            max_pool_size=max_pool_size,
+            min_pool_size=min_pool_size,
+            multiple_active_result_sets=multiple_active_result_sets,
+            multi_subnet_failover=multi_subnet_failover,
+            packet_size=packet_size,
+            pooling=pooling,
+            **kwargs
+        )
+        self.connection_string = connection_string
+        self.authentication_type = authentication_type
         self.user_name = user_name
         self.password = password
         self.encrypted_credential = encrypted_credential
