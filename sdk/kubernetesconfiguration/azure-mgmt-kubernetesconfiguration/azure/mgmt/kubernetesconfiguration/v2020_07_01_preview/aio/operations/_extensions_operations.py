@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -97,7 +97,6 @@ class ExtensionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -111,7 +110,7 @@ class ExtensionsOperations:
         cluster_resource_name: Union[str, _models.Enum1],
         cluster_name: str,
         extension_instance_name: str,
-        extension_instance: IO,
+        extension_instance: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -134,11 +133,10 @@ class ExtensionsOperations:
         :param extension_instance_name: Name of an instance of the Extension. Required.
         :type extension_instance_name: str
         :param extension_instance: Properties necessary to Create an Extension Instance. Required.
-        :type extension_instance: IO
+        :type extension_instance: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -152,7 +150,7 @@ class ExtensionsOperations:
         cluster_resource_name: Union[str, _models.Enum1],
         cluster_name: str,
         extension_instance_name: str,
-        extension_instance: Union[_models.ExtensionInstance, IO],
+        extension_instance: Union[_models.ExtensionInstance, IO[bytes]],
         **kwargs: Any
     ) -> _models.ExtensionInstance:
         """Create a new Kubernetes Cluster Extension Instance.
@@ -173,13 +171,9 @@ class ExtensionsOperations:
         :param extension_instance_name: Name of an instance of the Extension. Required.
         :type extension_instance_name: str
         :param extension_instance: Properties necessary to Create an Extension Instance. Is either a
-         ExtensionInstance type or a IO type. Required.
+         ExtensionInstance type or a IO[bytes] type. Required.
         :type extension_instance:
-         ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance or IO[bytes]
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -209,7 +203,7 @@ class ExtensionsOperations:
         else:
             _json = self._serialize.body(extension_instance, "ExtensionInstance")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             cluster_rp=cluster_rp,
             cluster_resource_name=cluster_resource_name,
@@ -220,16 +214,15 @@ class ExtensionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -242,13 +235,9 @@ class ExtensionsOperations:
         deserialized = self._deserialize("ExtensionInstance", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionInstanceName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(
@@ -277,7 +266,6 @@ class ExtensionsOperations:
         :type cluster_name: str
         :param extension_instance_name: Name of an instance of the Extension. Required.
         :type extension_instance_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -298,7 +286,7 @@ class ExtensionsOperations:
         )
         cls: ClsType[_models.ExtensionInstance] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_rp=cluster_rp,
             cluster_resource_name=cluster_resource_name,
@@ -306,16 +294,15 @@ class ExtensionsOperations:
             extension_instance_name=extension_instance_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -328,13 +315,9 @@ class ExtensionsOperations:
         deserialized = self._deserialize("ExtensionInstance", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionInstanceName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def update(
@@ -372,7 +355,6 @@ class ExtensionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -386,7 +368,7 @@ class ExtensionsOperations:
         cluster_resource_name: Union[str, _models.Enum1],
         cluster_name: str,
         extension_instance_name: str,
-        extension_instance: IO,
+        extension_instance: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -409,11 +391,10 @@ class ExtensionsOperations:
         :param extension_instance_name: Name of an instance of the Extension. Required.
         :type extension_instance_name: str
         :param extension_instance: Properties to Update in the Extension Instance. Required.
-        :type extension_instance: IO
+        :type extension_instance: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -427,7 +408,7 @@ class ExtensionsOperations:
         cluster_resource_name: Union[str, _models.Enum1],
         cluster_name: str,
         extension_instance_name: str,
-        extension_instance: Union[_models.ExtensionInstanceUpdate, IO],
+        extension_instance: Union[_models.ExtensionInstanceUpdate, IO[bytes]],
         **kwargs: Any
     ) -> _models.ExtensionInstance:
         """Update an existing Kubernetes Cluster Extension Instance.
@@ -448,13 +429,10 @@ class ExtensionsOperations:
         :param extension_instance_name: Name of an instance of the Extension. Required.
         :type extension_instance_name: str
         :param extension_instance: Properties to Update in the Extension Instance. Is either a
-         ExtensionInstanceUpdate type or a IO type. Required.
+         ExtensionInstanceUpdate type or a IO[bytes] type. Required.
         :type extension_instance:
-         ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstanceUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstanceUpdate or
+         IO[bytes]
         :return: ExtensionInstance or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -484,7 +462,7 @@ class ExtensionsOperations:
         else:
             _json = self._serialize.body(extension_instance, "ExtensionInstanceUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             cluster_rp=cluster_rp,
             cluster_resource_name=cluster_resource_name,
@@ -495,16 +473,15 @@ class ExtensionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -517,13 +494,9 @@ class ExtensionsOperations:
         deserialized = self._deserialize("ExtensionInstance", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionInstanceName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
@@ -553,7 +526,6 @@ class ExtensionsOperations:
         :type cluster_name: str
         :param extension_instance_name: Name of an instance of the Extension. Required.
         :type extension_instance_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -574,7 +546,7 @@ class ExtensionsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             cluster_rp=cluster_rp,
             cluster_resource_name=cluster_resource_name,
@@ -582,16 +554,15 @@ class ExtensionsOperations:
             extension_instance_name=extension_instance_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -602,11 +573,7 @@ class ExtensionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionInstanceName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list(
@@ -632,7 +599,6 @@ class ExtensionsOperations:
          ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.Enum1
         :param cluster_name: The name of the kubernetes cluster. Required.
         :type cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ExtensionInstance or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.ExtensionInstance]
@@ -657,19 +623,18 @@ class ExtensionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     cluster_rp=cluster_rp,
                     cluster_resource_name=cluster_resource_name,
                     cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -680,14 +645,14 @@ class ExtensionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ExtensionInstancesList", pipeline_response)
@@ -697,11 +662,11 @@ class ExtensionsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -713,7 +678,3 @@ class ExtensionsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions"
-    }

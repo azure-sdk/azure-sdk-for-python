@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -79,7 +79,6 @@ class FluxConfigOperationStatusOperations:
         :type flux_configuration_name: str
         :param operation_id: operation Id. Required.
         :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OperationStatusResult or the result of cls(response)
         :rtype: ~azure.mgmt.kubernetesconfiguration.v2022_11_01.models.OperationStatusResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -98,7 +97,7 @@ class FluxConfigOperationStatusOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-11-01"))
         cls: ClsType[_models.OperationStatusResult] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_rp=cluster_rp,
             cluster_resource_name=cluster_resource_name,
@@ -107,16 +106,15 @@ class FluxConfigOperationStatusOperations:
             operation_id=operation_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -129,10 +127,6 @@ class FluxConfigOperationStatusOperations:
         deserialized = self._deserialize("OperationStatusResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}/operations/{operationId}"
-    }
+        return deserialized  # type: ignore
