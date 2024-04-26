@@ -70,7 +70,7 @@ class WebtestsResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -119,7 +119,7 @@ class WebTest(WebtestsResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -300,7 +300,7 @@ class WebTestGeolocation(_serialization.Model):
 class WebTestListResult(_serialization.Model):
     """A list of 0 or more Application Insights WebTest definitions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Set of Application Insights WebTest definitions. Required.
     :vartype value: list[~azure.mgmt.applicationinsights.v2022_06_15.models.WebTest]
@@ -470,7 +470,7 @@ class WebTestPropertiesValidationRules(_serialization.Model):
         self.ignore_http_status_code = ignore_http_status_code
 
 
-class WebTestPropertiesValidationRulesContentValidation(_serialization.Model):
+class WebTestPropertiesValidationRulesContentValidation(_serialization.Model):  # pylint: disable=name-too-long
     """The collection of content validation properties.
 
     :ivar content_match: Content to look for in the return of the WebTest.  Must not be null or
