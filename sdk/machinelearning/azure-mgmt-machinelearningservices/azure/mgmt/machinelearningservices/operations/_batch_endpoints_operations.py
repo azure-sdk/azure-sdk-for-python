@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -30,7 +30,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -51,7 +51,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -69,7 +69,7 @@ def build_list_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -90,7 +90,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -109,7 +109,7 @@ def build_delete_request(
         "endpointName": _SERIALIZER.url("endpoint_name", endpoint_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -126,7 +126,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -145,7 +145,7 @@ def build_get_request(
         "endpointName": _SERIALIZER.url("endpoint_name", endpoint_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -162,7 +162,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -184,7 +184,7 @@ def build_update_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -203,7 +203,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -225,7 +225,7 @@ def build_create_or_update_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -244,7 +244,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -263,7 +263,7 @@ def build_list_keys_request(
         "endpointName": _SERIALIZER.url("endpoint_name", endpoint_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -315,7 +315,6 @@ class BatchEndpointsOperations:
         :type count: int
         :param skip: Continuation token for pagination. Default value is None.
         :type skip: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BatchEndpoint or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -337,19 +336,18 @@ class BatchEndpointsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     workspace_name=workspace_name,
                     subscription_id=self._config.subscription_id,
                     count=count,
                     skip=skip,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -361,13 +359,13 @@ class BatchEndpointsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("BatchEndpointTrackedResourceArmPaginatedResult", pipeline_response)
@@ -377,11 +375,11 @@ class BatchEndpointsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -393,10 +391,6 @@ class BatchEndpointsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints"
-    }
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, workspace_name: str, endpoint_name: str, **kwargs: Any
@@ -415,22 +409,21 @@ class BatchEndpointsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             endpoint_name=endpoint_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -449,11 +442,7 @@ class BatchEndpointsOperations:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -470,14 +459,6 @@ class BatchEndpointsOperations:
         :type workspace_name: str
         :param endpoint_name: Inference Endpoint name. Required.
         :type endpoint_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -505,7 +486,7 @@ class BatchEndpointsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -516,17 +497,13 @@ class BatchEndpointsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get(
@@ -543,7 +520,6 @@ class BatchEndpointsOperations:
         :type workspace_name: str
         :param endpoint_name: Name for the Batch Endpoint. Required.
         :type endpoint_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BatchEndpoint or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.BatchEndpoint
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -562,22 +538,21 @@ class BatchEndpointsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BatchEndpoint] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             endpoint_name=endpoint_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -590,20 +565,16 @@ class BatchEndpointsOperations:
         deserialized = self._deserialize("BatchEndpoint", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
+        return deserialized  # type: ignore
 
     def _update_initial(
         self,
         resource_group_name: str,
         workspace_name: str,
         endpoint_name: str,
-        body: Union[_models.PartialMinimalTrackedResourceWithIdentity, IO],
+        body: Union[_models.PartialMinimalTrackedResourceWithIdentity, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.BatchEndpoint]:
         error_map = {
@@ -629,7 +600,7 @@ class BatchEndpointsOperations:
         else:
             _json = self._serialize.body(body, "PartialMinimalTrackedResourceWithIdentity")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             endpoint_name=endpoint_name,
@@ -638,16 +609,15 @@ class BatchEndpointsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -670,13 +640,9 @@ class BatchEndpointsOperations:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -706,14 +672,6 @@ class BatchEndpointsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either BatchEndpoint or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
@@ -726,7 +684,7 @@ class BatchEndpointsOperations:
         resource_group_name: str,
         workspace_name: str,
         endpoint_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -743,18 +701,10 @@ class BatchEndpointsOperations:
         :param endpoint_name: Name for the Batch inference endpoint. Required.
         :type endpoint_name: str
         :param body: Mutable batch inference endpoint definition object. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either BatchEndpoint or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
@@ -767,7 +717,7 @@ class BatchEndpointsOperations:
         resource_group_name: str,
         workspace_name: str,
         endpoint_name: str,
-        body: Union[_models.PartialMinimalTrackedResourceWithIdentity, IO],
+        body: Union[_models.PartialMinimalTrackedResourceWithIdentity, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.BatchEndpoint]:
         """Update a batch inference endpoint (asynchronous).
@@ -782,20 +732,10 @@ class BatchEndpointsOperations:
         :param endpoint_name: Name for the Batch inference endpoint. Required.
         :type endpoint_name: str
         :param body: Mutable batch inference endpoint definition object. Is either a
-         PartialMinimalTrackedResourceWithIdentity type or a IO type. Required.
+         PartialMinimalTrackedResourceWithIdentity type or a IO[bytes] type. Required.
         :type body:
-         ~azure.mgmt.machinelearningservices.models.PartialMinimalTrackedResourceWithIdentity or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.machinelearningservices.models.PartialMinimalTrackedResourceWithIdentity or
+         IO[bytes]
         :return: An instance of LROPoller that returns either BatchEndpoint or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
@@ -828,7 +768,7 @@ class BatchEndpointsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BatchEndpoint", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -838,24 +778,22 @@ class BatchEndpointsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.BatchEndpoint].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
+        return LROPoller[_models.BatchEndpoint](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         workspace_name: str,
         endpoint_name: str,
-        body: Union[_models.BatchEndpoint, IO],
+        body: Union[_models.BatchEndpoint, IO[bytes]],
         **kwargs: Any
     ) -> _models.BatchEndpoint:
         error_map = {
@@ -881,7 +819,7 @@ class BatchEndpointsOperations:
         else:
             _json = self._serialize.body(body, "BatchEndpoint")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             endpoint_name=endpoint_name,
@@ -890,16 +828,15 @@ class BatchEndpointsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -928,10 +865,6 @@ class BatchEndpointsOperations:
 
         return deserialized  # type: ignore
 
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
-
     @overload
     def begin_create_or_update(
         self,
@@ -959,14 +892,6 @@ class BatchEndpointsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either BatchEndpoint or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
@@ -979,7 +904,7 @@ class BatchEndpointsOperations:
         resource_group_name: str,
         workspace_name: str,
         endpoint_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -996,18 +921,10 @@ class BatchEndpointsOperations:
         :param endpoint_name: Name for the Batch inference endpoint. Required.
         :type endpoint_name: str
         :param body: Batch inference endpoint definition object. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either BatchEndpoint or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
@@ -1020,7 +937,7 @@ class BatchEndpointsOperations:
         resource_group_name: str,
         workspace_name: str,
         endpoint_name: str,
-        body: Union[_models.BatchEndpoint, IO],
+        body: Union[_models.BatchEndpoint, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.BatchEndpoint]:
         """Creates a batch inference endpoint (asynchronous).
@@ -1034,20 +951,9 @@ class BatchEndpointsOperations:
         :type workspace_name: str
         :param endpoint_name: Name for the Batch inference endpoint. Required.
         :type endpoint_name: str
-        :param body: Batch inference endpoint definition object. Is either a BatchEndpoint type or a IO
-         type. Required.
-        :type body: ~azure.mgmt.machinelearningservices.models.BatchEndpoint or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Batch inference endpoint definition object. Is either a BatchEndpoint type or a
+         IO[bytes] type. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.BatchEndpoint or IO[bytes]
         :return: An instance of LROPoller that returns either BatchEndpoint or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.machinelearningservices.models.BatchEndpoint]
@@ -1080,7 +986,7 @@ class BatchEndpointsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BatchEndpoint", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1092,17 +998,15 @@ class BatchEndpointsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.BatchEndpoint].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}"
-    }
+        return LROPoller[_models.BatchEndpoint](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_keys(
@@ -1119,7 +1023,6 @@ class BatchEndpointsOperations:
         :type workspace_name: str
         :param endpoint_name: Inference Endpoint name. Required.
         :type endpoint_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: EndpointAuthKeys or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.EndpointAuthKeys
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1138,22 +1041,21 @@ class BatchEndpointsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.EndpointAuthKeys] = kwargs.pop("cls", None)
 
-        request = build_list_keys_request(
+        _request = build_list_keys_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             endpoint_name=endpoint_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_keys.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1166,10 +1068,6 @@ class BatchEndpointsOperations:
         deserialized = self._deserialize("EndpointAuthKeys", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_keys.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/listkeys"
-    }
+        return deserialized  # type: ignore
