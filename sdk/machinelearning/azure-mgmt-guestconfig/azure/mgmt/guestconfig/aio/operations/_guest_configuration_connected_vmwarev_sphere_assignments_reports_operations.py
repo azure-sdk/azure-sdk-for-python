@@ -25,20 +25,23 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._guest_configuration_assignment_reports_operations import build_get_request, build_list_request
+from ...operations._guest_configuration_connected_vmwarev_sphere_assignments_reports_operations import (
+    build_get_request,
+    build_list_request,
+)
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class GuestConfigurationAssignmentReportsOperations:  # pylint: disable=name-too-long
+class GuestConfigurationConnectedVMwarevSphereAssignmentsReportsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.guestconfig.aio.GuestConfigurationClient`'s
-        :attr:`guest_configuration_assignment_reports` attribute.
+        :attr:`guest_configuration_connected_vmwarev_sphere_assignments_reports` attribute.
     """
 
     models = _models
@@ -52,16 +55,16 @@ class GuestConfigurationAssignmentReportsOperations:  # pylint: disable=name-too
 
     @distributed_trace_async
     async def list(
-        self, resource_group_name: str, guest_configuration_assignment_name: str, vm_name: str, **kwargs: Any
+        self, resource_group_name: str, vm_name: str, guest_configuration_assignment_name: str, **kwargs: Any
     ) -> _models.GuestConfigurationAssignmentReportList:
         """List all reports for the guest configuration assignment, latest report first.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
-        :param guest_configuration_assignment_name: The guest configuration assignment name. Required.
-        :type guest_configuration_assignment_name: str
         :param vm_name: The name of the virtual machine. Required.
         :type vm_name: str
+        :param guest_configuration_assignment_name: The guest configuration assignment name. Required.
+        :type guest_configuration_assignment_name: str
         :return: GuestConfigurationAssignmentReportList or the result of cls(response)
         :rtype: ~azure.mgmt.guestconfig.models.GuestConfigurationAssignmentReportList
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -82,8 +85,8 @@ class GuestConfigurationAssignmentReportsOperations:  # pylint: disable=name-too
 
         _request = build_list_request(
             resource_group_name=resource_group_name,
-            guest_configuration_assignment_name=guest_configuration_assignment_name,
             vm_name=vm_name,
+            guest_configuration_assignment_name=guest_configuration_assignment_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -115,21 +118,21 @@ class GuestConfigurationAssignmentReportsOperations:  # pylint: disable=name-too
     async def get(
         self,
         resource_group_name: str,
+        vm_name: str,
         guest_configuration_assignment_name: str,
         report_id: str,
-        vm_name: str,
         **kwargs: Any
     ) -> _models.GuestConfigurationAssignmentReport:
         """Get a report for the guest configuration assignment, by reportId.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
+        :param vm_name: The name of the virtual machine. Required.
+        :type vm_name: str
         :param guest_configuration_assignment_name: The guest configuration assignment name. Required.
         :type guest_configuration_assignment_name: str
         :param report_id: The GUID for the guest configuration assignment report. Required.
         :type report_id: str
-        :param vm_name: The name of the virtual machine. Required.
-        :type vm_name: str
         :return: GuestConfigurationAssignmentReport or the result of cls(response)
         :rtype: ~azure.mgmt.guestconfig.models.GuestConfigurationAssignmentReport
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -150,9 +153,9 @@ class GuestConfigurationAssignmentReportsOperations:  # pylint: disable=name-too
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
+            vm_name=vm_name,
             guest_configuration_assignment_name=guest_configuration_assignment_name,
             report_id=report_id,
-            vm_name=vm_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,

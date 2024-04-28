@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.guestconfig import GuestConfigurationClient
@@ -17,7 +15,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python create_or_update_guest_configuration_assignment.py
+    python list_vmss_guest_configuration_assignments.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,31 +30,14 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.guest_configuration_assignments.create_or_update(
-        guest_configuration_assignment_name="NotInstalledApplicationForWindows",
+    response = client.guest_configuration_assignments_vmss.list(
         resource_group_name="myResourceGroupName",
-        vm_name="myVMName",
-        parameters={
-            "location": "westcentralus",
-            "name": "NotInstalledApplicationForWindows",
-            "properties": {
-                "context": "Azure policy",
-                "guestConfiguration": {
-                    "assignmentType": "ApplyAndAutoCorrect",
-                    "configurationParameter": [
-                        {"name": "[InstalledApplication]NotInstalledApplicationResource1;Name", "value": "NotePad,sql"}
-                    ],
-                    "contentHash": "123contenthash",
-                    "contentUri": "https://thisisfake/pacakge",
-                    "name": "NotInstalledApplicationForWindows",
-                    "version": "1.0.0.3",
-                },
-            },
-        },
+        vmss_name="myVMSSName",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationAssignment.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listVMSSGuestConfigurationAssignments.json
 if __name__ == "__main__":
     main()

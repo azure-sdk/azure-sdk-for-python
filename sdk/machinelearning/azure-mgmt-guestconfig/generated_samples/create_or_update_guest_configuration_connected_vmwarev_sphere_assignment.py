@@ -17,7 +17,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python create_or_update_guest_configuration_assignment.py
+    python create_or_update_guest_configuration_connected_vmwarev_sphere_assignment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,10 +32,10 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.guest_configuration_assignments.create_or_update(
-        guest_configuration_assignment_name="NotInstalledApplicationForWindows",
+    response = client.guest_configuration_connected_vmwarev_sphere_assignments.create_or_update(
         resource_group_name="myResourceGroupName",
         vm_name="myVMName",
+        guest_configuration_assignment_name="NotInstalledApplicationForWindows",
         parameters={
             "location": "westcentralus",
             "name": "NotInstalledApplicationForWindows",
@@ -49,7 +49,7 @@ def main():
                     "contentHash": "123contenthash",
                     "contentUri": "https://thisisfake/pacakge",
                     "name": "NotInstalledApplicationForWindows",
-                    "version": "1.0.0.3",
+                    "version": "1.0.0.0",
                 },
             },
         },
@@ -57,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationAssignment.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationConnectedVMwarevSphereAssignment.json
 if __name__ == "__main__":
     main()
