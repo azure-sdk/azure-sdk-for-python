@@ -40,8 +40,8 @@ def main():
             "properties": {
                 "appLogsConfiguration": {"logAnalyticsConfiguration": {"customerId": "string", "sharedKey": "string"}},
                 "customDomainConfiguration": {
-                    "certificatePassword": "1234",
-                    "certificateValue": "Y2VydA==",
+                    "certificatePassword": "<password>",
+                    "certificateValue": "<value>",
                     "dnsSuffix": "www.my-name.com",
                 },
                 "daprAIConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northcentralus-0.in.applicationinsights.azure.com/",
@@ -77,6 +77,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
 if __name__ == "__main__":
     main()

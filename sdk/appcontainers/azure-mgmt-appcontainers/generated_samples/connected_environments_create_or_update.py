@@ -39,8 +39,8 @@ def main():
             "location": "East US",
             "properties": {
                 "customDomainConfiguration": {
-                    "certificatePassword": "private key password",
-                    "certificateValue": "Y2VydA==",
+                    "certificatePassword": "<password>",
+                    "certificateValue": "<value>",
                     "dnsSuffix": "www.my-name.com",
                 },
                 "daprAIConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northcentralus-0.in.applicationinsights.azure.com/",
@@ -51,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ConnectedEnvironments_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironments_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
