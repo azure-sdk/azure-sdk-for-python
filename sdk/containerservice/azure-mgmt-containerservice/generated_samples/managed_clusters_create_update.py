@@ -39,7 +39,7 @@ def main():
             "identity": {
                 "type": "UserAssigned",
                 "userAssignedIdentities": {
-                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {}
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {}
                 },
             },
             "location": "location1",
@@ -67,7 +67,7 @@ def main():
                     "scan-interval": "20s",
                     "skip-nodes-with-system-pods": "false",
                 },
-                "diskEncryptionSetID": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+                "diskEncryptionSetID": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
                 "dnsPrefix": "dnsprefix1",
                 "enablePodSecurityPolicy": True,
                 "enableRBAC": True,
@@ -79,7 +79,7 @@ def main():
                     "outboundType": "loadBalancer",
                 },
                 "servicePrincipalProfile": {"clientId": "clientid", "secret": "secret"},
-                "upgradeSettings": {"overrideSettings": {"forceUpgrade": False, "until": "2022-11-01T13:00:00Z"}},
+                "upgradeSettings": {"overrideSettings": {"forceUpgrade": True, "until": "2022-11-01T13:00:00Z"}},
                 "windowsProfile": {"adminPassword": "replacePassword1234$", "adminUsername": "azureuser"},
             },
             "sku": {"name": "Basic", "tier": "Free"},
@@ -89,6 +89,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-02-01/examples/ManagedClustersCreate_Update.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-03-02-preview/examples/ManagedClustersCreate_Update.json
 if __name__ == "__main__":
     main()
