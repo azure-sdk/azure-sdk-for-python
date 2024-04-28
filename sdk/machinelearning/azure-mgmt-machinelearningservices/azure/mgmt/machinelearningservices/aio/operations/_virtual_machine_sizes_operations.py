@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -56,7 +56,6 @@ class VirtualMachineSizesOperations:
 
         :param location: The location upon which virtual-machine-sizes is queried. Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VirtualMachineSizeListResult or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.VirtualMachineSizeListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -75,20 +74,19 @@ class VirtualMachineSizesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VirtualMachineSizeListResult] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -101,10 +99,6 @@ class VirtualMachineSizesOperations:
         deserialized = self._deserialize("VirtualMachineSizeListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/vmSizes"
-    }
+        return deserialized  # type: ignore
