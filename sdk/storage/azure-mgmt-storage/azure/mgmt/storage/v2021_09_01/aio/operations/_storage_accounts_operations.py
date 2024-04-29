@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,8 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Literal, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -51,10 +50,6 @@ from ...operations._storage_accounts_operations import (
     build_update_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -97,7 +92,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -105,18 +99,17 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
     @overload
     async def check_name_availability(
-        self, account_name: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, account_name: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CheckNameAvailabilityResult:
         """Checks that the storage account name is valid and is not already in use.
 
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
          lower-case letters only. Required.
-        :type account_name: IO
+        :type account_name: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -124,20 +117,17 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
     @distributed_trace_async
     async def check_name_availability(
-        self, account_name: Union[_models.StorageAccountCheckNameAvailabilityParameters, IO], **kwargs: Any
+        self, account_name: Union[_models.StorageAccountCheckNameAvailabilityParameters, IO[bytes]], **kwargs: Any
     ) -> _models.CheckNameAvailabilityResult:
         """Checks that the storage account name is valid and is not already in use.
 
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Is either a StorageAccountCheckNameAvailabilityParameters type or a IO
-         type. Required.
+         lower-case letters only. Is either a StorageAccountCheckNameAvailabilityParameters type or a
+         IO[bytes] type. Required.
         :type account_name:
-         ~azure.mgmt.storage.v2021_09_01.models.StorageAccountCheckNameAvailabilityParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.storage.v2021_09_01.models.StorageAccountCheckNameAvailabilityParameters or
+         IO[bytes]
         :return: CheckNameAvailabilityResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -165,22 +155,21 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(account_name, "StorageAccountCheckNameAvailabilityParameters")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -192,19 +181,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("CheckNameAvailabilityResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability"
-    }
+        return deserialized  # type: ignore
 
     async def _create_initial(
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.StorageAccountCreateParameters, IO],
+        parameters: Union[_models.StorageAccountCreateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.StorageAccount]:
         error_map = {
@@ -230,7 +215,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "StorageAccountCreateParameters")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -238,16 +223,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -261,13 +245,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("StorageAccount", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create(
@@ -296,14 +276,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either StorageAccount or the result of
          cls(response)
         :rtype:
@@ -316,7 +288,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -334,18 +306,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide for the created account. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either StorageAccount or the result of
          cls(response)
         :rtype:
@@ -358,7 +322,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.StorageAccountCreateParameters, IO],
+        parameters: Union[_models.StorageAccountCreateParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.StorageAccount]:
         """Asynchronously creates a new storage account with the specified parameters. If an account is
@@ -374,19 +338,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide for the created account. Is either a
-         StorageAccountCreateParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountCreateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         StorageAccountCreateParameters type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountCreateParameters or
+         IO[bytes]
         :return: An instance of AsyncLROPoller that returns either StorageAccount or the result of
          cls(response)
         :rtype:
@@ -419,7 +373,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("StorageAccount", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -429,17 +383,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.StorageAccount].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}"
-    }
+        return AsyncLROPoller[_models.StorageAccount](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
@@ -454,7 +406,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          Storage account names must be between 3 and 24 characters in length and use numbers and
          lower-case letters only. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -473,21 +424,20 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -497,11 +447,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def get_properties(
@@ -527,7 +473,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          and blobRestoreStatus. Known values are: "geoReplicationStats" and "blobRestoreStatus". Default
          value is None.
         :type expand: str or ~azure.mgmt.storage.v2021_09_01.models.StorageAccountExpand
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: StorageAccount or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -546,22 +491,21 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
 
-        request = build_get_properties_request(
+        _request = build_get_properties_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             expand=expand,
             api_version=api_version,
-            template_url=self.get_properties.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -573,13 +517,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("StorageAccount", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_properties.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def update(
@@ -612,7 +552,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: StorageAccount or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -623,7 +562,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -645,11 +584,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide for the updated account. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: StorageAccount or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -660,7 +598,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.StorageAccountUpdateParameters, IO],
+        parameters: Union[_models.StorageAccountUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.StorageAccount:
         """The update operation can be used to update the SKU, encryption, access tier, or tags for a
@@ -680,12 +618,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide for the updated account. Is either a
-         StorageAccountUpdateParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         StorageAccountUpdateParameters type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountUpdateParameters or
+         IO[bytes]
         :return: StorageAccount or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -713,7 +648,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "StorageAccountUpdateParameters")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -721,16 +656,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -742,20 +676,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("StorageAccount", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.StorageAccount"]:
         """Lists all the storage accounts available under the subscription. Note that storage keys are not
         returned; use the ListKeys operation for this.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either StorageAccount or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.storage.v2021_09_01.models.StorageAccount]
@@ -778,15 +707,14 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -797,14 +725,14 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("StorageAccountListResult", pipeline_response)
@@ -814,11 +742,11 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -829,8 +757,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts"}
 
     @distributed_trace
     def list_by_resource_group(
@@ -842,7 +768,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group within the user's subscription. The
          name is case insensitive. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either StorageAccount or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.storage.v2021_09_01.models.StorageAccount]
@@ -865,16 +790,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -885,14 +809,14 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("StorageAccountListResult", pipeline_response)
@@ -902,11 +826,11 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -917,10 +841,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts"
-    }
 
     @distributed_trace_async
     async def list_keys(
@@ -939,7 +859,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :param expand: Specifies type of the key to be listed. Possible value is kerb. Known values are
          "kerb" and None. Default value is "kerb".
         :type expand: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: StorageAccountListKeysResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountListKeysResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -958,22 +877,21 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[_models.StorageAccountListKeysResult] = kwargs.pop("cls", None)
 
-        request = build_list_keys_request(
+        _request = build_list_keys_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             expand=expand,
             api_version=api_version,
-            template_url=self.list_keys.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -985,13 +903,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("StorageAccountListKeysResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_keys.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def regenerate_key(
@@ -1019,7 +933,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: StorageAccountListKeysResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountListKeysResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1030,7 +943,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        regenerate_key: IO,
+        regenerate_key: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1046,11 +959,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param regenerate_key: Specifies name of the key which should be regenerated -- key1, key2,
          kerb1, kerb2. Required.
-        :type regenerate_key: IO
+        :type regenerate_key: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: StorageAccountListKeysResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountListKeysResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1061,7 +973,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        regenerate_key: Union[_models.StorageAccountRegenerateKeyParameters, IO],
+        regenerate_key: Union[_models.StorageAccountRegenerateKeyParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.StorageAccountListKeysResult:
         """Regenerates one of the access keys or Kerberos keys for the specified storage account.
@@ -1074,13 +986,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param regenerate_key: Specifies name of the key which should be regenerated -- key1, key2,
-         kerb1, kerb2. Is either a StorageAccountRegenerateKeyParameters type or a IO type. Required.
+         kerb1, kerb2. Is either a StorageAccountRegenerateKeyParameters type or a IO[bytes] type.
+         Required.
         :type regenerate_key:
-         ~azure.mgmt.storage.v2021_09_01.models.StorageAccountRegenerateKeyParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.storage.v2021_09_01.models.StorageAccountRegenerateKeyParameters or IO[bytes]
         :return: StorageAccountListKeysResult or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.StorageAccountListKeysResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1108,7 +1017,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(regenerate_key, "StorageAccountRegenerateKeyParameters")
 
-        request = build_regenerate_key_request(
+        _request = build_regenerate_key_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -1116,16 +1025,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.regenerate_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1137,13 +1045,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("StorageAccountListKeysResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    regenerate_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_account_sas(
@@ -1170,7 +1074,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListAccountSasResponse or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.ListAccountSasResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1181,7 +1084,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1197,11 +1100,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param parameters: The parameters to provide to list SAS credentials for the storage account.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListAccountSasResponse or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.ListAccountSasResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1212,7 +1114,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.AccountSasParameters, IO],
+        parameters: Union[_models.AccountSasParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.ListAccountSasResponse:
         """List SAS credentials of a storage account.
@@ -1225,12 +1127,8 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide to list SAS credentials for the storage account.
-         Is either a AccountSasParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.AccountSasParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         Is either a AccountSasParameters type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.AccountSasParameters or IO[bytes]
         :return: ListAccountSasResponse or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.ListAccountSasResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1258,7 +1156,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "AccountSasParameters")
 
-        request = build_list_account_sas_request(
+        _request = build_list_account_sas_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -1266,16 +1164,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_account_sas.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1287,13 +1184,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ListAccountSasResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_account_sas.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_service_sas(
@@ -1319,7 +1212,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListServiceSasResponse or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.ListServiceSasResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1330,7 +1222,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1345,11 +1237,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide to list service SAS credentials. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListServiceSasResponse or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.ListServiceSasResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1360,7 +1251,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.ServiceSasParameters, IO],
+        parameters: Union[_models.ServiceSasParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.ListServiceSasResponse:
         """List service SAS credentials of a specific resource.
@@ -1373,12 +1264,8 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide to list service SAS credentials. Is either a
-         ServiceSasParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.ServiceSasParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ServiceSasParameters type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.ServiceSasParameters or IO[bytes]
         :return: ListServiceSasResponse or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_09_01.models.ListServiceSasResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1406,7 +1293,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "ServiceSasParameters")
 
-        request = build_list_service_sas_request(
+        _request = build_list_service_sas_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -1414,16 +1301,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_service_sas.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1435,13 +1321,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ListServiceSasResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_service_sas.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas"
-    }
+        return deserialized  # type: ignore
 
     async def _failover_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, **kwargs: Any
@@ -1460,21 +1342,20 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_failover_request(
+        _request = build_failover_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1484,11 +1365,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_failover(self, resource_group_name: str, account_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
@@ -1503,14 +1380,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          Storage account names must be between 3 and 24 characters in length and use numbers and
          lower-case letters only. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1537,7 +1406,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -1548,19 +1417,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover"
-    }
-
-    async def _hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements
+    async def _hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, account_name: str, request_type: str, **kwargs: Any
     ) -> None:
         error_map = {
@@ -1577,22 +1442,21 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_hierarchical_namespace_migration_request(
+        _request = build_hierarchical_namespace_migration_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             request_type=request_type,
             api_version=api_version,
-            template_url=self._hierarchical_namespace_migration_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1603,11 +1467,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _hierarchical_namespace_migration_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_hierarchical_namespace_migration(
@@ -1627,14 +1487,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          'HnsOnHydrationRequest'. The validation request will validate the migration whereas the
          hydration request will migrate the account. Required.
         :type request_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1662,7 +1514,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -1673,19 +1525,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_hierarchical_namespace_migration.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration"
-    }
-
-    async def _abort_hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements
+    async def _abort_hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> None:
         error_map = {
@@ -1702,21 +1550,20 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_abort_hierarchical_namespace_migration_request(
+        _request = build_abort_hierarchical_namespace_migration_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._abort_hierarchical_namespace_migration_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1727,14 +1574,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _abort_hierarchical_namespace_migration_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
-    async def begin_abort_hierarchical_namespace_migration(
+    async def begin_abort_hierarchical_namespace_migration(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
         """Abort live Migration of storage account to enable Hns.
@@ -1746,14 +1589,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          Storage account names must be between 3 and 24 characters in length and use numbers and
          lower-case letters only. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1780,7 +1615,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -1791,23 +1626,19 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_abort_hierarchical_namespace_migration.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _restore_blob_ranges_initial(
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.BlobRestoreParameters, IO],
+        parameters: Union[_models.BlobRestoreParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.BlobRestoreStatus:
         error_map = {
@@ -1833,7 +1664,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(parameters, "BlobRestoreParameters")
 
-        request = build_restore_blob_ranges_request(
+        _request = build_restore_blob_ranges_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -1841,16 +1672,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._restore_blob_ranges_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1869,10 +1699,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _restore_blob_ranges_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges"
-    }
 
     @overload
     async def begin_restore_blob_ranges(
@@ -1898,14 +1724,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BlobRestoreStatus or the result of
          cls(response)
         :rtype:
@@ -1918,7 +1736,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1933,18 +1751,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide for restore blob ranges. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BlobRestoreStatus or the result of
          cls(response)
         :rtype:
@@ -1957,7 +1767,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         account_name: str,
-        parameters: Union[_models.BlobRestoreParameters, IO],
+        parameters: Union[_models.BlobRestoreParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.BlobRestoreStatus]:
         """Restore blobs in the specified blob ranges.
@@ -1970,19 +1780,8 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          lower-case letters only. Required.
         :type account_name: str
         :param parameters: The parameters to provide for restore blob ranges. Is either a
-         BlobRestoreParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.BlobRestoreParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         BlobRestoreParameters type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.storage.v2021_09_01.models.BlobRestoreParameters or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either BlobRestoreStatus or the result of
          cls(response)
         :rtype:
@@ -2015,7 +1814,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BlobRestoreStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2027,17 +1826,15 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.BlobRestoreStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_restore_blob_ranges.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges"
-    }
+        return AsyncLROPoller[_models.BlobRestoreStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def revoke_user_delegation_keys(  # pylint: disable=inconsistent-return-statements
@@ -2052,7 +1849,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
          Storage account names must be between 3 and 24 characters in length and use numbers and
          lower-case letters only. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2071,21 +1867,20 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_revoke_user_delegation_keys_request(
+        _request = build_revoke_user_delegation_keys_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.revoke_user_delegation_keys.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2095,8 +1890,4 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    revoke_user_delegation_keys.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
