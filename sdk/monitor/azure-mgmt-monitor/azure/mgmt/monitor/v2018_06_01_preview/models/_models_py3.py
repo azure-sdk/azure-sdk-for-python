@@ -20,7 +20,7 @@ class DataSource(_serialization.Model):
     """Data source object contains configuration to collect telemetry and one or more sinks to send
     that telemetry data to.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Datasource kind. Required. Known values are: "PerformanceCounter", "ETWProviders",
      and "WindowsEventLogs".
@@ -140,7 +140,7 @@ class ErrorResponse(_serialization.Model):
 class EtwEventConfiguration(_serialization.Model):
     """EtwEventConfiguration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Required.
     :vartype name: str
@@ -186,7 +186,7 @@ class EtwEventConfiguration(_serialization.Model):
 class EtwProviderConfiguration(_serialization.Model):
     """EtwProviderConfiguration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Required.
     :vartype id: str
@@ -225,7 +225,7 @@ class EtwProviderConfiguration(_serialization.Model):
 class EventLogConfiguration(_serialization.Model):
     """EventLogConfiguration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_name: Required.
     :vartype log_name: str
@@ -295,7 +295,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -339,12 +339,12 @@ class Resource(_serialization.Model):
         self.tags = tags
 
 
-class GuestDiagnosticSettingsAssociationResource(Resource):
+class GuestDiagnosticSettingsAssociationResource(Resource):  # pylint: disable=name-too-long
     """Virtual machine guest diagnostic settings resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -397,7 +397,7 @@ class GuestDiagnosticSettingsAssociationResource(Resource):
         self.guest_diagnostic_settings_name = guest_diagnostic_settings_name
 
 
-class GuestDiagnosticSettingsAssociationResourcePatch(_serialization.Model):
+class GuestDiagnosticSettingsAssociationResourcePatch(_serialization.Model):  # pylint: disable=name-too-long
     """Guest diagnostic setting resource for patch operations.
 
     :ivar tags: Resource tags.
@@ -520,7 +520,7 @@ class GuestDiagnosticSettingsResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -595,7 +595,7 @@ class GuestDiagnosticSettingsResource(Resource):
 class PerformanceCounterConfiguration(_serialization.Model):
     """PerformanceCounterConfiguration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Required.
     :vartype name: str
@@ -634,7 +634,7 @@ class PerformanceCounterConfiguration(_serialization.Model):
 class SinkConfiguration(_serialization.Model):
     """SinkConfiguration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Required. Known values are: "EventHub", "ApplicationInsights", and "LogAnalytics".
     :vartype kind: str or ~azure.mgmt.monitor.v2018_06_01_preview.models.SinkConfigurationKind
