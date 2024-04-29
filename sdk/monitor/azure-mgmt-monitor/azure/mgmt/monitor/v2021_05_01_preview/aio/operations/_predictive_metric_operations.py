@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -50,6 +50,7 @@ class PredictiveMetricOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def get(
@@ -83,7 +84,6 @@ class PredictiveMetricOperations:
         :type metric_name: str
         :param aggregation: The list of aggregation types (comma separated) to retrieve. Required.
         :type aggregation: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: PredictiveResponse or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2021_05_01_preview.models.PredictiveResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -99,10 +99,12 @@ class PredictiveMetricOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2021-05-01-preview")
+        )
         cls: ClsType[_models.PredictiveResponse] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             autoscale_setting_name=autoscale_setting_name,
             subscription_id=self._config.subscription_id,
@@ -112,16 +114,15 @@ class PredictiveMetricOperations:
             metric_name=metric_name,
             aggregation=aggregation,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -134,10 +135,6 @@ class PredictiveMetricOperations:
         deserialized = self._deserialize("PredictiveResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}/predictiveMetrics"
-    }
+        return deserialized  # type: ignore
