@@ -23,7 +23,7 @@ from .._models import (
     DocumentStatus,
     convert_status,
     StorageInputType,
-    TranslationGlossary
+    TranslationGlossary,
 )
 from .._helpers import (
     get_http_logging_policy,
@@ -45,10 +45,7 @@ if TYPE_CHECKING:
 
 class DocumentTranslationClient:
     def __init__(
-        self,
-        endpoint: str,
-        credential: Union[AzureKeyCredential, "AsyncTokenCredential"],
-        **kwargs: Any
+        self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
         """DocumentTranslationClient is your interface to the Document Translation service.
         Use the client to translate whole documents while preserving source document
@@ -265,9 +262,7 @@ class DocumentTranslationClient:
 
         inputs = get_translation_input(args, kwargs, continuation_token)
 
-        def deserialization_callback(
-            raw_response, _, headers
-        ):  # pylint: disable=unused-argument
+        def deserialization_callback(raw_response, _, headers):  # pylint: disable=unused-argument
             translation_status = json.loads(raw_response.http_response.text())
             return self.list_document_statuses(translation_status["id"])
 
@@ -284,7 +279,8 @@ class DocumentTranslationClient:
             )
 
         callback = kwargs.pop("cls", deserialization_callback)
-        return cast(AsyncDocumentTranslationLROPoller[AsyncItemPaged[DocumentStatus]],
+        return cast(
+            AsyncDocumentTranslationLROPoller[AsyncItemPaged[DocumentStatus]],
             await self._client.document_translation.begin_start_translation(
                 body=StartTranslationDetails(inputs=inputs),
                 polling=AsyncDocumentTranslationLROPollingMethod(
@@ -296,7 +292,7 @@ class DocumentTranslationClient:
                 cls=callback,
                 continuation_token=continuation_token,
                 **kwargs
-            )
+            ),
         )
 
     @distributed_trace_async
@@ -312,11 +308,7 @@ class DocumentTranslationClient:
         :raises ~azure.core.exceptions.HttpResponseError or ~azure.core.exceptions.ResourceNotFoundError:
         """
 
-        translation_status = (
-            await self._client.document_translation.get_translation_status(
-                translation_id, **kwargs
-            )
-        )
+        translation_status = await self._client.document_translation.get_translation_status(translation_id, **kwargs)
         # pylint: disable=protected-access
         return TranslationStatus._from_generated(translation_status)
 
@@ -334,9 +326,7 @@ class DocumentTranslationClient:
         :raises ~azure.core.exceptions.HttpResponseError or ~azure.core.exceptions.ResourceNotFoundError:
         """
 
-        await self._client.document_translation.cancel_translation(
-            translation_id, **kwargs
-        )
+        await self._client.document_translation.cancel_translation(translation_id, **kwargs)
 
     @distributed_trace
     def list_translation_statuses(
@@ -394,12 +384,11 @@ class DocumentTranslationClient:
 
         model_conversion_function = kwargs.pop(
             "cls",
-            lambda translation_statuses: [
-                _convert_from_generated_model(status) for status in translation_statuses
-            ],
+            lambda translation_statuses: [_convert_from_generated_model(status) for status in translation_statuses],
         )
 
-        return cast(AsyncItemPaged[TranslationStatus],
+        return cast(
+            AsyncItemPaged[TranslationStatus],
             self._client.document_translation.get_translations_status(
                 cls=model_conversion_function,
                 created_date_time_utc_start=created_after,
@@ -410,7 +399,7 @@ class DocumentTranslationClient:
                 top=top,
                 skip=skip,  # type: ignore
                 **kwargs
-            )
+            ),
         )
 
     @distributed_trace
@@ -462,12 +451,8 @@ class DocumentTranslationClient:
         if statuses:
             statuses = [convert_status(status, ll=True) for status in statuses]
         order_by = convert_order_by(order_by)
-        created_after = (
-            convert_datetime(created_after) if created_after else None
-        )
-        created_before = (
-            convert_datetime(created_before) if created_before else None
-        )
+        created_after = convert_datetime(created_after) if created_after else None
+        created_before = convert_datetime(created_before) if created_before else None
 
         def _convert_from_generated_model(generated_model):
             # pylint: disable=protected-access
@@ -475,12 +460,11 @@ class DocumentTranslationClient:
 
         model_conversion_function = kwargs.pop(
             "cls",
-            lambda doc_statuses: [
-                _convert_from_generated_model(doc_status) for doc_status in doc_statuses
-            ],
+            lambda doc_statuses: [_convert_from_generated_model(doc_status) for doc_status in doc_statuses],
         )
 
-        return cast(AsyncItemPaged[DocumentStatus],
+        return cast(
+            AsyncItemPaged[DocumentStatus],
             self._client.document_translation.get_documents_status(
                 id=translation_id,
                 cls=model_conversion_function,
@@ -492,7 +476,7 @@ class DocumentTranslationClient:
                 top=top,
                 skip=skip,  # type: ignore
                 **kwargs
-            )
+            ),
         )
 
     @distributed_trace_async
@@ -519,11 +503,7 @@ class DocumentTranslationClient:
         :rtype: List[DocumentTranslationFileFormat]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        glossary_formats = (
-            await self._client.document_translation.get_supported_glossary_formats(
-                **kwargs
-            )
-        )
+        glossary_formats = await self._client.document_translation.get_supported_glossary_formats(**kwargs)
         # pylint: disable=protected-access
         return DocumentTranslationFileFormat._from_generated_list(glossary_formats.value)
 
@@ -535,10 +515,6 @@ class DocumentTranslationClient:
         :rtype: List[DocumentTranslationFileFormat]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        document_formats = (
-            await self._client.document_translation.get_supported_document_formats(
-                **kwargs
-            )
-        )
+        document_formats = await self._client.document_translation.get_supported_document_formats(**kwargs)
         # pylint: disable=protected-access
         return DocumentTranslationFileFormat._from_generated_list(document_formats.value)
