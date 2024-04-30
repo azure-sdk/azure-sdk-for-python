@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.sqlvirtualmachine import SqlVirtualMachineManagementClient
 
 """
@@ -35,6 +38,24 @@ def main():
         availability_group_listener_name="agl-test",
         parameters={
             "properties": {
+                "availabilityGroupConfiguration": {
+                    "replicas": [
+                        {
+                            "commit": "Synchronous_Commit",
+                            "failover": "Manual",
+                            "readableSecondary": "Read_Only",
+                            "role": "Primary",
+                            "sqlVirtualMachineInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm2",
+                        },
+                        {
+                            "commit": " Synchronous_Commit ",
+                            "failover": "Automatic",
+                            "readableSecondary": "All",
+                            "role": "Secondary",
+                            "sqlVirtualMachineInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm1",
+                        },
+                    ]
+                },
                 "availabilityGroupName": "ag-test",
                 "multiSubnetIpConfigurations": [
                     {
@@ -59,6 +80,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateAvailabilityGroupListenerWithMultiSubnet.json
+# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/stable/2023-10-01/examples/CreateOrUpdateAvailabilityGroupListenerWithMultiSubnet.json
 if __name__ == "__main__":
     main()
