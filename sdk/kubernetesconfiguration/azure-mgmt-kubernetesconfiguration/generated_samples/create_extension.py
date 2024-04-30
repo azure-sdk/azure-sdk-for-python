@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.kubernetesconfiguration import SourceControlConfigurationClient
 
 """
@@ -41,7 +44,7 @@ def main():
                 "configurationProtectedSettings": {"omsagent.secret.key": "secretKeyValue01"},
                 "configurationSettings": {
                     "omsagent.env.clusterName": "clusterName1",
-                    "omsagent.secret.wsid": "omsagent.secret.wsid",
+                    "omsagent.secret.wsid": "fakeTokenPlaceholder",
                 },
                 "extensionType": "azuremonitor-containers",
                 "releaseTrain": "Preview",
