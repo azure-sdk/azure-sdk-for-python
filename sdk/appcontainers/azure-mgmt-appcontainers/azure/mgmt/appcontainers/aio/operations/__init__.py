@@ -21,11 +21,16 @@ from ._connected_environments_storages_operations import ConnectedEnvironmentsSt
 from ._container_apps_operations import ContainerAppsOperations
 from ._container_apps_revisions_operations import ContainerAppsRevisionsOperations
 from ._container_apps_revision_replicas_operations import ContainerAppsRevisionReplicasOperations
+from ._container_apps_builds_by_container_app_operations import ContainerAppsBuildsByContainerAppOperations
+from ._container_apps_builds_operations import ContainerAppsBuildsOperations
+from ._container_apps_patches_operations import ContainerAppsPatchesOperations
 from ._container_apps_diagnostics_operations import ContainerAppsDiagnosticsOperations
 from ._managed_environment_diagnostics_operations import ManagedEnvironmentDiagnosticsOperations
 from ._managed_environments_diagnostics_operations import ManagedEnvironmentsDiagnosticsOperations
 from ._jobs_operations import JobsOperations
+from ._dot_net_components_operations import DotNetComponentsOperations
 from ._operations import Operations
+from ._java_components_operations import JavaComponentsOperations
 from ._jobs_executions_operations import JobsExecutionsOperations
 from ._container_apps_api_client_operations import ContainerAppsAPIClientOperationsMixin
 from ._managed_environments_operations import ManagedEnvironmentsOperations
@@ -39,8 +44,8 @@ from ._managed_environments_storages_operations import ManagedEnvironmentsStorag
 from ._container_apps_source_controls_operations import ContainerAppsSourceControlsOperations
 from ._usages_operations import UsagesOperations
 from ._managed_environment_usages_operations import ManagedEnvironmentUsagesOperations
-from ._java_components_operations import JavaComponentsOperations
-from ._dot_net_components_operations import DotNetComponentsOperations
+from ._functions_extension_operations import FunctionsExtensionOperations
+from ._container_apps_session_pools_operations import ContainerAppsSessionPoolsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -62,11 +67,16 @@ __all__ = [
     "ContainerAppsOperations",
     "ContainerAppsRevisionsOperations",
     "ContainerAppsRevisionReplicasOperations",
+    "ContainerAppsBuildsByContainerAppOperations",
+    "ContainerAppsBuildsOperations",
+    "ContainerAppsPatchesOperations",
     "ContainerAppsDiagnosticsOperations",
     "ManagedEnvironmentDiagnosticsOperations",
     "ManagedEnvironmentsDiagnosticsOperations",
     "JobsOperations",
+    "DotNetComponentsOperations",
     "Operations",
+    "JavaComponentsOperations",
     "JobsExecutionsOperations",
     "ContainerAppsAPIClientOperationsMixin",
     "ManagedEnvironmentsOperations",
@@ -80,8 +90,8 @@ __all__ = [
     "ContainerAppsSourceControlsOperations",
     "UsagesOperations",
     "ManagedEnvironmentUsagesOperations",
-    "JavaComponentsOperations",
-    "DotNetComponentsOperations",
+    "FunctionsExtensionOperations",
+    "ContainerAppsSessionPoolsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
