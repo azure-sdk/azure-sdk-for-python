@@ -17,7 +17,7 @@ from azure.mgmt.storagemover import StorageMoverMgmtClient
     pip install azure-identity
     pip install azure-mgmt-storagemover
 # USAGE
-    python endpoints_update_azure_storage_blob_container.py
+    python agents_create_or_update_minimum_set.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,17 +32,20 @@ def main():
         subscription_id="60bcfc77-6589-4da2-b7fd-f9ec9322cf95",
     )
 
-    response = client.endpoints.update(
+    response = client.agents.create_or_update(
         resource_group_name="examples-rg",
         storage_mover_name="examples-storageMoverName",
-        endpoint_name="examples-endpointName",
-        endpoint={
-            "properties": {"description": "Updated Endpoint Description", "endpointType": "AzureStorageBlobContainer"}
+        agent_name="examples-agentName",
+        agent={
+            "properties": {
+                "arcResourceId": "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.HybridCompute/machines/examples-hybridComputeName",
+                "arcVmUuid": "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
+            }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/preview/2024-05-01-preview/examples/Endpoints_Update_AzureStorageBlobContainer.json
+# x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/preview/2024-05-01-preview/examples/Agents_CreateOrUpdate_MinimumSet.json
 if __name__ == "__main__":
     main()
