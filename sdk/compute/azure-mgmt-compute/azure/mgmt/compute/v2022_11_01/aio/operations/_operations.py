@@ -10955,6 +10955,7 @@ class VirtualMachineImagesOperations:
         expand: Optional[str] = None,
         top: Optional[int] = None,
         orderby: Optional[str] = None,
+        include_scheduled_for_deprecation: Optional[bool] = None,
         **kwargs: Any
     ) -> List[_models.VirtualMachineImageResource]:
         """Gets a list of all virtual machine image versions for the specified location, publisher, offer,
@@ -10974,6 +10975,8 @@ class VirtualMachineImagesOperations:
         :paramtype top: int
         :keyword orderby: Default value is None.
         :paramtype orderby: str
+        :keyword include_scheduled_for_deprecation: Default value is None.
+        :paramtype include_scheduled_for_deprecation: bool
         :return: list of VirtualMachineImageResource or the result of cls(response)
         :rtype: list[~azure.mgmt.compute.v2022_11_01.models.VirtualMachineImageResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -11001,6 +11004,7 @@ class VirtualMachineImagesOperations:
             expand=expand,
             top=top,
             orderby=orderby,
+            include_scheduled_for_deprecation=include_scheduled_for_deprecation,
             api_version=api_version,
             headers=_headers,
             params=_params,

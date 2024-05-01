@@ -1201,6 +1201,7 @@ def build_virtual_machine_images_list_request(  # pylint: disable=name-too-long
     expand: Optional[str] = None,
     top: Optional[int] = None,
     orderby: Optional[str] = None,
+    include_scheduled_for_deprecation: Optional[bool] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1231,6 +1232,10 @@ def build_virtual_machine_images_list_request(  # pylint: disable=name-too-long
         _params["$top"] = _SERIALIZER.query("top", top, "int")
     if orderby is not None:
         _params["$orderby"] = _SERIALIZER.query("orderby", orderby, "str")
+    if include_scheduled_for_deprecation is not None:
+        _params["includeScheduledForDeprecation"] = _SERIALIZER.query(
+            "include_scheduled_for_deprecation", include_scheduled_for_deprecation, "bool"
+        )
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
@@ -6894,6 +6899,7 @@ class VirtualMachineImagesOperations:
         expand: Optional[str] = None,
         top: Optional[int] = None,
         orderby: Optional[str] = None,
+        include_scheduled_for_deprecation: Optional[bool] = None,
         **kwargs: Any
     ) -> List[_models.VirtualMachineImageResource]:
         """Gets a list of all virtual machine image versions for the specified location, publisher, offer,
@@ -6913,6 +6919,8 @@ class VirtualMachineImagesOperations:
         :paramtype top: int
         :keyword orderby: Default value is None.
         :paramtype orderby: str
+        :keyword include_scheduled_for_deprecation: Default value is None.
+        :paramtype include_scheduled_for_deprecation: bool
         :return: list of VirtualMachineImageResource or the result of cls(response)
         :rtype: list[~azure.mgmt.compute.v2017_12_01.models.VirtualMachineImageResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6940,6 +6948,7 @@ class VirtualMachineImagesOperations:
             expand=expand,
             top=top,
             orderby=orderby,
+            include_scheduled_for_deprecation=include_scheduled_for_deprecation,
             api_version=api_version,
             headers=_headers,
             params=_params,
