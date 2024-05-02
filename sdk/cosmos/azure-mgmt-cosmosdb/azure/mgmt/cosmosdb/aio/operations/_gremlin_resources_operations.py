@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -85,7 +85,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either GremlinDatabaseGetResults or the result of
          cls(response)
         :rtype:
@@ -109,17 +108,16 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_gremlin_databases_request(
+                _request = build_list_gremlin_databases_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_gremlin_databases.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -131,13 +129,13 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("GremlinDatabaseListResult", pipeline_response)
@@ -147,11 +145,11 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -162,10 +160,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_gremlin_databases.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases"
-    }
 
     @distributed_trace_async
     async def get_gremlin_database(
@@ -181,7 +175,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GremlinDatabaseGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.GremlinDatabaseGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -200,22 +193,21 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GremlinDatabaseGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_gremlin_database_request(
+        _request = build_get_gremlin_database_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_gremlin_database.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -227,20 +219,16 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("GremlinDatabaseGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_gremlin_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_update_gremlin_database_initial(
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        create_update_gremlin_database_parameters: Union[_models.GremlinDatabaseCreateUpdateParameters, IO],
+        create_update_gremlin_database_parameters: Union[_models.GremlinDatabaseCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.GremlinDatabaseGetResults]:
         error_map = {
@@ -268,7 +256,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_gremlin_database_parameters, "GremlinDatabaseCreateUpdateParameters"
             )
 
-        request = build_create_update_gremlin_database_request(
+        _request = build_create_update_gremlin_database_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -277,16 +265,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_gremlin_database_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -307,13 +294,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_gremlin_database_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_update_gremlin_database(
@@ -342,14 +325,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either GremlinDatabaseGetResults or the
          result of cls(response)
         :rtype:
@@ -363,7 +338,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        create_update_gremlin_database_parameters: IO,
+        create_update_gremlin_database_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -379,18 +354,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param create_update_gremlin_database_parameters: The parameters to provide for the current
          Gremlin database. Required.
-        :type create_update_gremlin_database_parameters: IO
+        :type create_update_gremlin_database_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either GremlinDatabaseGetResults or the
          result of cls(response)
         :rtype:
@@ -404,7 +371,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        create_update_gremlin_database_parameters: Union[_models.GremlinDatabaseCreateUpdateParameters, IO],
+        create_update_gremlin_database_parameters: Union[_models.GremlinDatabaseCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.GremlinDatabaseGetResults]:
         """Create or update an Azure Cosmos DB Gremlin database.
@@ -417,21 +384,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
         :param create_update_gremlin_database_parameters: The parameters to provide for the current
-         Gremlin database. Is either a GremlinDatabaseCreateUpdateParameters type or a IO type.
+         Gremlin database. Is either a GremlinDatabaseCreateUpdateParameters type or a IO[bytes] type.
          Required.
         :type create_update_gremlin_database_parameters:
-         ~azure.mgmt.cosmosdb.models.GremlinDatabaseCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.GremlinDatabaseCreateUpdateParameters or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either GremlinDatabaseGetResults or the
          result of cls(response)
         :rtype:
@@ -465,7 +421,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("GremlinDatabaseGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -475,17 +431,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.GremlinDatabaseGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_gremlin_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}"
-    }
+        return AsyncLROPoller[_models.GremlinDatabaseGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_gremlin_database_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
@@ -504,22 +458,21 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_gremlin_database_request(
+        _request = build_delete_gremlin_database_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_gremlin_database_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -536,11 +489,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_gremlin_database_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete_gremlin_database(
@@ -555,14 +504,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -590,7 +531,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -599,17 +540,13 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_gremlin_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace_async
     async def get_gremlin_database_throughput(
@@ -625,7 +562,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ThroughputSettingsGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -644,22 +580,21 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ThroughputSettingsGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_gremlin_database_throughput_request(
+        _request = build_get_gremlin_database_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_gremlin_database_throughput.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -671,20 +606,16 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_gremlin_database_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default"
-    }
-
-    async def _update_gremlin_database_throughput_initial(
+    async def _update_gremlin_database_throughput_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
         error_map = {
@@ -710,7 +641,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(update_throughput_parameters, "ThroughputSettingsUpdateParameters")
 
-        request = build_update_gremlin_database_throughput_request(
+        _request = build_update_gremlin_database_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -719,16 +650,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_gremlin_database_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -749,13 +679,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_gremlin_database_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_update_gremlin_database_throughput(
@@ -784,14 +710,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -805,7 +723,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        update_throughput_parameters: IO,
+        update_throughput_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -821,18 +739,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
          current Gremlin database. Required.
-        :type update_throughput_parameters: IO
+        :type update_throughput_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -846,7 +756,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ThroughputSettingsGetResults]:
         """Update RUs per second of an Azure Cosmos DB Gremlin database.
@@ -859,21 +769,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
-         current Gremlin database. Is either a ThroughputSettingsUpdateParameters type or a IO type.
-         Required.
+         current Gremlin database. Is either a ThroughputSettingsUpdateParameters type or a IO[bytes]
+         type. Required.
         :type update_throughput_parameters:
-         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -907,7 +806,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -917,19 +816,17 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_update_gremlin_database_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default"
-    }
-
-    async def _migrate_gremlin_database_to_autoscale_initial(
+    async def _migrate_gremlin_database_to_autoscale_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
         error_map = {
@@ -946,22 +843,21 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_gremlin_database_to_autoscale_request(
+        _request = build_migrate_gremlin_database_to_autoscale_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_gremlin_database_to_autoscale_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -982,16 +878,12 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_gremlin_database_to_autoscale_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def begin_migrate_gremlin_database_to_autoscale(
+    async def begin_migrate_gremlin_database_to_autoscale(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> AsyncLROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Gremlin database from manual throughput to autoscale.
@@ -1003,14 +895,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -1041,7 +925,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1051,19 +935,17 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_gremlin_database_to_autoscale.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale"
-    }
-
-    async def _migrate_gremlin_database_to_manual_throughput_initial(
+    async def _migrate_gremlin_database_to_manual_throughput_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
         error_map = {
@@ -1080,22 +962,21 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_gremlin_database_to_manual_throughput_request(
+        _request = build_migrate_gremlin_database_to_manual_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_gremlin_database_to_manual_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1116,16 +997,12 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_gremlin_database_to_manual_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def begin_migrate_gremlin_database_to_manual_throughput(
+    async def begin_migrate_gremlin_database_to_manual_throughput(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> AsyncLROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Gremlin database from autoscale to manual throughput.
@@ -1137,14 +1014,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -1175,7 +1044,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1185,17 +1054,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate_gremlin_database_to_manual_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return AsyncLROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_gremlin_graphs(
@@ -1210,7 +1077,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either GremlinGraphGetResults or the result of
          cls(response)
         :rtype:
@@ -1234,18 +1100,17 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_gremlin_graphs_request(
+                _request = build_list_gremlin_graphs_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_gremlin_graphs.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1257,13 +1122,13 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("GremlinGraphListResult", pipeline_response)
@@ -1273,11 +1138,11 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1288,10 +1153,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_gremlin_graphs.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs"
-    }
 
     @distributed_trace_async
     async def get_gremlin_graph(
@@ -1308,7 +1169,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GremlinGraphGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.GremlinGraphGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1327,23 +1187,22 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GremlinGraphGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_gremlin_graph_request(
+        _request = build_get_gremlin_graph_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             graph_name=graph_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_gremlin_graph.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1355,13 +1214,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("GremlinGraphGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_gremlin_graph.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_update_gremlin_graph_initial(
         self,
@@ -1369,7 +1224,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         graph_name: str,
-        create_update_gremlin_graph_parameters: Union[_models.GremlinGraphCreateUpdateParameters, IO],
+        create_update_gremlin_graph_parameters: Union[_models.GremlinGraphCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.GremlinGraphGetResults]:
         error_map = {
@@ -1395,7 +1250,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(create_update_gremlin_graph_parameters, "GremlinGraphCreateUpdateParameters")
 
-        request = build_create_update_gremlin_graph_request(
+        _request = build_create_update_gremlin_graph_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -1405,16 +1260,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_gremlin_graph_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1435,13 +1289,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_gremlin_graph_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_update_gremlin_graph(
@@ -1473,14 +1323,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either GremlinGraphGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.cosmosdb.models.GremlinGraphGetResults]
@@ -1494,7 +1336,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         graph_name: str,
-        create_update_gremlin_graph_parameters: IO,
+        create_update_gremlin_graph_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1512,18 +1354,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type graph_name: str
         :param create_update_gremlin_graph_parameters: The parameters to provide for the current
          Gremlin graph. Required.
-        :type create_update_gremlin_graph_parameters: IO
+        :type create_update_gremlin_graph_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either GremlinGraphGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.cosmosdb.models.GremlinGraphGetResults]
@@ -1537,7 +1371,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         graph_name: str,
-        create_update_gremlin_graph_parameters: Union[_models.GremlinGraphCreateUpdateParameters, IO],
+        create_update_gremlin_graph_parameters: Union[_models.GremlinGraphCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.GremlinGraphGetResults]:
         """Create or update an Azure Cosmos DB Gremlin graph.
@@ -1552,20 +1386,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
         :param create_update_gremlin_graph_parameters: The parameters to provide for the current
-         Gremlin graph. Is either a GremlinGraphCreateUpdateParameters type or a IO type. Required.
+         Gremlin graph. Is either a GremlinGraphCreateUpdateParameters type or a IO[bytes] type.
+         Required.
         :type create_update_gremlin_graph_parameters:
-         ~azure.mgmt.cosmosdb.models.GremlinGraphCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.GremlinGraphCreateUpdateParameters or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either GremlinGraphGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.cosmosdb.models.GremlinGraphGetResults]
@@ -1599,7 +1423,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("GremlinGraphGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1609,17 +1433,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.GremlinGraphGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_gremlin_graph.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}"
-    }
+        return AsyncLROPoller[_models.GremlinGraphGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_gremlin_graph_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, database_name: str, graph_name: str, **kwargs: Any
@@ -1638,23 +1460,22 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_gremlin_graph_request(
+        _request = build_delete_gremlin_graph_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             graph_name=graph_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_gremlin_graph_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1671,11 +1492,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_gremlin_graph_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete_gremlin_graph(
@@ -1692,14 +1509,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1728,7 +1537,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -1737,17 +1546,13 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_gremlin_graph.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace_async
     async def get_gremlin_graph_throughput(
@@ -1765,7 +1570,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ThroughputSettingsGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1784,23 +1588,22 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ThroughputSettingsGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_gremlin_graph_throughput_request(
+        _request = build_get_gremlin_graph_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             graph_name=graph_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_gremlin_graph_throughput.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1812,13 +1615,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_gremlin_graph_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     async def _update_gremlin_graph_throughput_initial(
         self,
@@ -1826,7 +1625,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         graph_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
         error_map = {
@@ -1852,7 +1651,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(update_throughput_parameters, "ThroughputSettingsUpdateParameters")
 
-        request = build_update_gremlin_graph_throughput_request(
+        _request = build_update_gremlin_graph_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -1862,16 +1661,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_gremlin_graph_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1892,13 +1690,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_gremlin_graph_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_update_gremlin_graph_throughput(
@@ -1930,14 +1724,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -1952,7 +1738,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         graph_name: str,
-        update_throughput_parameters: IO,
+        update_throughput_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1970,18 +1756,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type graph_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
          current Gremlin graph. Required.
-        :type update_throughput_parameters: IO
+        :type update_throughput_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -1996,7 +1774,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         graph_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ThroughputSettingsGetResults]:
         """Update RUs per second of an Azure Cosmos DB Gremlin graph.
@@ -2011,21 +1789,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
-         current Gremlin graph. Is either a ThroughputSettingsUpdateParameters type or a IO type.
+         current Gremlin graph. Is either a ThroughputSettingsUpdateParameters type or a IO[bytes] type.
          Required.
         :type update_throughput_parameters:
-         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -2060,7 +1827,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2070,19 +1837,17 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_update_gremlin_graph_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default"
-    }
-
-    async def _migrate_gremlin_graph_to_autoscale_initial(
+    async def _migrate_gremlin_graph_to_autoscale_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, graph_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
         error_map = {
@@ -2099,23 +1864,22 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_gremlin_graph_to_autoscale_request(
+        _request = build_migrate_gremlin_graph_to_autoscale_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             graph_name=graph_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_gremlin_graph_to_autoscale_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2136,13 +1900,9 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_gremlin_graph_to_autoscale_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_migrate_gremlin_graph_to_autoscale(
@@ -2159,14 +1919,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -2198,7 +1950,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2208,19 +1960,17 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_gremlin_graph_to_autoscale.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale"
-    }
-
-    async def _migrate_gremlin_graph_to_manual_throughput_initial(
+    async def _migrate_gremlin_graph_to_manual_throughput_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, graph_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
         error_map = {
@@ -2237,23 +1987,22 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_gremlin_graph_to_manual_throughput_request(
+        _request = build_migrate_gremlin_graph_to_manual_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             graph_name=graph_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_gremlin_graph_to_manual_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2274,16 +2023,12 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_gremlin_graph_to_manual_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def begin_migrate_gremlin_graph_to_manual_throughput(
+    async def begin_migrate_gremlin_graph_to_manual_throughput(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, graph_name: str, **kwargs: Any
     ) -> AsyncLROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Gremlin graph from autoscale to manual throughput.
@@ -2297,14 +2042,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype:
@@ -2336,7 +2073,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2346,25 +2083,23 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_gremlin_graph_to_manual_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput"
-    }
-
-    async def _retrieve_continuous_backup_information_initial(
+    async def _retrieve_continuous_backup_information_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         graph_name: str,
-        location: Union[_models.ContinuousBackupRestoreLocation, IO],
+        location: Union[_models.ContinuousBackupRestoreLocation, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.BackupInformation]:
         error_map = {
@@ -2390,7 +2125,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(location, "ContinuousBackupRestoreLocation")
 
-        request = build_retrieve_continuous_backup_information_request(
+        _request = build_retrieve_continuous_backup_information_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -2400,16 +2135,15 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._retrieve_continuous_backup_information_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2423,16 +2157,12 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("BackupInformation", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _retrieve_continuous_backup_information_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation"
-    }
+        return deserialized  # type: ignore
 
     @overload
-    async def begin_retrieve_continuous_backup_information(
+    async def begin_retrieve_continuous_backup_information(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -2459,14 +2189,6 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BackupInformation or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.cosmosdb.models.BackupInformation]
@@ -2474,13 +2196,13 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_retrieve_continuous_backup_information(
+    async def begin_retrieve_continuous_backup_information(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         graph_name: str,
-        location: IO,
+        location: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2497,18 +2219,10 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
         :param location: The name of the continuous backup restore location. Required.
-        :type location: IO
+        :type location: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BackupInformation or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.cosmosdb.models.BackupInformation]
@@ -2516,13 +2230,13 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_retrieve_continuous_backup_information(
+    async def begin_retrieve_continuous_backup_information(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         graph_name: str,
-        location: Union[_models.ContinuousBackupRestoreLocation, IO],
+        location: Union[_models.ContinuousBackupRestoreLocation, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.BackupInformation]:
         """Retrieves continuous backup information for a gremlin graph.
@@ -2537,19 +2251,8 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         :param graph_name: Cosmos DB graph name. Required.
         :type graph_name: str
         :param location: The name of the continuous backup restore location. Is either a
-         ContinuousBackupRestoreLocation type or a IO type. Required.
-        :type location: ~azure.mgmt.cosmosdb.models.ContinuousBackupRestoreLocation or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ContinuousBackupRestoreLocation type or a IO[bytes] type. Required.
+        :type location: ~azure.mgmt.cosmosdb.models.ContinuousBackupRestoreLocation or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either BackupInformation or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.cosmosdb.models.BackupInformation]
@@ -2583,7 +2286,7 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BackupInformation", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2595,14 +2298,12 @@ class GremlinResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.BackupInformation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_retrieve_continuous_backup_information.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation"
-    }
+        return AsyncLROPoller[_models.BackupInformation](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
