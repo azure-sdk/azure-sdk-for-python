@@ -15,7 +15,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
     pip install azure-identity
     pip install azure-mgmt-databricks
 # USAGE
-    python outbound_network_dependencies_endpoints_list.py
+    python workspace_delete_force_deletion.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,15 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11111111-1111-1111-1111-111111111111",
+        subscription_id="77777777-b0c6-47a2-b37c-d8e65a629c18",
     )
 
-    response = client.outbound_network_dependencies_endpoints.list(
-        resource_group_name="myResourceGroup",
-        workspace_name="myWorkspace",
-    )
-    print(response)
+    client.workspaces.begin_delete(
+        resource_group_name="HelloWorld",
+        workspace_name="swaggerExample",
+    ).result()
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/OutboundNetworkDependenciesEndpointsList.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceDeleteForceDeletion.json
 if __name__ == "__main__":
     main()
