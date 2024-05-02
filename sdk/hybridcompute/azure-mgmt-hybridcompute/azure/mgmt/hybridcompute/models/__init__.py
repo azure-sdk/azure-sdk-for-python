@@ -77,6 +77,7 @@ from ._models_py3 import OSProfileWindowsConfiguration
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationValue
 from ._models_py3 import OperationValueDisplay
+from ._models_py3 import PatchSettingsStatus
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionDataModel
 from ._models_py3 import PrivateEndpointConnectionListResult
@@ -116,6 +117,7 @@ from ._hybrid_compute_management_client_enums import EsuKeyState
 from ._hybrid_compute_management_client_enums import EsuServerType
 from ._hybrid_compute_management_client_enums import ExecutionState
 from ._hybrid_compute_management_client_enums import ExtensionsStatusLevelTypes
+from ._hybrid_compute_management_client_enums import HotpatchEnablementStatus
 from ._hybrid_compute_management_client_enums import LastAttemptStatusEnum
 from ._hybrid_compute_management_client_enums import LicenseAssignmentState
 from ._hybrid_compute_management_client_enums import LicenseCoreType
@@ -218,6 +220,7 @@ __all__ = [
     "OperationListResult",
     "OperationValue",
     "OperationValueDisplay",
+    "PatchSettingsStatus",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionDataModel",
     "PrivateEndpointConnectionListResult",
@@ -256,6 +259,7 @@ __all__ = [
     "EsuServerType",
     "ExecutionState",
     "ExtensionsStatusLevelTypes",
+    "HotpatchEnablementStatus",
     "LastAttemptStatusEnum",
     "LicenseAssignmentState",
     "LicenseCoreType",
