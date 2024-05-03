@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -64,7 +64,6 @@ class PrivateLinkResourcesOperations:
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PrivateLinkResource or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.cosmosdb.models.PrivateLinkResource]
@@ -87,17 +86,16 @@ class PrivateLinkResourcesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_database_account_request(
+                _request = build_list_by_database_account_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_database_account.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -109,13 +107,13 @@ class PrivateLinkResourcesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PrivateLinkResourceListResult", pipeline_response)
@@ -125,11 +123,11 @@ class PrivateLinkResourcesOperations:
             return None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -140,10 +138,6 @@ class PrivateLinkResourcesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_database_account.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources"
-    }
 
     @distributed_trace_async
     async def get(
@@ -158,7 +152,6 @@ class PrivateLinkResourcesOperations:
         :type account_name: str
         :param group_name: The name of the private link resource. Required.
         :type group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: PrivateLinkResource or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.PrivateLinkResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -177,22 +170,21 @@ class PrivateLinkResourcesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.PrivateLinkResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             group_name=group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -204,10 +196,6 @@ class PrivateLinkResourcesOperations:
         deserialized = self._deserialize("PrivateLinkResource", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}"
-    }
+        return deserialized  # type: ignore
