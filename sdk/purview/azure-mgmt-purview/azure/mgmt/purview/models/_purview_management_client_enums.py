@@ -10,6 +10,53 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AccountProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets the account status code."""
+
+    UNKNOWN = "Unknown"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    MOVING = "Moving"
+    DELETING = "Deleting"
+    SOFT_DELETING = "SoftDeleting"
+    SOFT_DELETED = "SoftDeleted"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+
+
+class AccountSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the sku name."""
+
+    STANDARD = "Standard"
+    FREE = "Free"
+
+
+class ConsentKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the consent kind."""
+
+    METADATA = "Metadata"
+    GOVERNANCE = "Governance"
+
+
+class ConsentScopeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines consent scope type."""
+
+    AZURE = "Azure"
+    FABRIC = "Fabric"
+    DATABRICKS = "Databricks"
+    SNOWFLAKE = "Snowflake"
+    S3 = "S3"
+
+
+class ConsentStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines consent status."""
+
+    NOT_SPECIFIED = "NotSpecified"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -17,6 +64,36 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class EventHubType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The event hub type."""
+
+    NOTIFICATION = "Notification"
+    HOOK = "Hook"
+
+
+class EventStreamingState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The state of the event streaming service."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
+class EventStreamingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The event streaming service type."""
+
+    NONE = "None"
+    MANAGED = "Managed"
+    AZURE = "Azure"
+
+
+class KafkaConfigurationIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Identity Type."""
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
 
 
 class LastModifiedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -28,10 +105,47 @@ class LastModifiedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
-class Name(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Gets or sets the sku name."""
+class ManagedEventHubState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the state of managed eventhub. If enabled managed eventhub will be created, if
+    disabled the managed eventhub will be removed.
+    """
 
-    STANDARD = "Standard"
+    NOT_SPECIFIED = "NotSpecified"
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
+class ManagedIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Identity Type."""
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+
+
+class MergeAccountType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The account's type for the merge operation."""
+
+    PRIMARY = "Primary"
+    SECONDARY = "Secondary"
+
+
+class MergeStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the merge operation."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    IN_PROGRESS = "InProgress"
+
+
+class PrivateEndpointConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status."""
+
+    UNKNOWN = "Unknown"
+    PENDING = "Pending"
+    APPROVED = "Approved"
+    REJECTED = "Rejected"
+    DISCONNECTED = "Disconnected"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -49,7 +163,7 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Gets or sets the public network access."""
+    """Gets or sets the public network access for managed resources."""
 
     NOT_SPECIFIED = "NotSpecified"
     ENABLED = "Enabled"
@@ -70,19 +184,9 @@ class ScopeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUBSCRIPTION = "Subscription"
 
 
-class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status."""
+class TenantEndpointState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the state of tenant endpoint."""
 
-    UNKNOWN = "Unknown"
-    PENDING = "Pending"
-    APPROVED = "Approved"
-    REJECTED = "Rejected"
-    DISCONNECTED = "Disconnected"
-
-
-class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Identity Type."""
-
-    NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
-    USER_ASSIGNED = "UserAssigned"
+    NOT_SPECIFIED = "NotSpecified"
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"

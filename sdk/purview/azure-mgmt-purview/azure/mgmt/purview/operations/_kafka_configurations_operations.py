@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -21,12 +21,10 @@ from azure.core.exceptions import (
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
 from azure.core.pipeline.transport import HttpResponse
-from azure.core.polling import LROPoller, NoPolling, PollingMethod
 from azure.core.rest import HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
-from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
@@ -56,7 +54,7 @@ def build_list_by_account_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/privateEndpointConnections",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/kafkaConfigurations",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -85,11 +83,7 @@ def build_list_by_account_request(
 
 
 def build_get_request(
-    resource_group_name: str,
-    account_name: str,
-    private_endpoint_connection_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    resource_group_name: str, account_name: str, kafka_configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -100,7 +94,7 @@ def build_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/kafkaConfigurations/{kafkaConfigurationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -113,8 +107,13 @@ def build_get_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "privateEndpointConnectionName": _SERIALIZER.url(
-            "private_endpoint_connection_name", private_endpoint_connection_name, "str"
+        "kafkaConfigurationName": _SERIALIZER.url(
+            "kafka_configuration_name",
+            kafka_configuration_name,
+            "str",
+            max_length=63,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
     }
 
@@ -130,11 +129,7 @@ def build_get_request(
 
 
 def build_create_or_update_request(
-    resource_group_name: str,
-    account_name: str,
-    private_endpoint_connection_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    resource_group_name: str, account_name: str, kafka_configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -146,7 +141,7 @@ def build_create_or_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/kafkaConfigurations/{kafkaConfigurationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -159,8 +154,13 @@ def build_create_or_update_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "privateEndpointConnectionName": _SERIALIZER.url(
-            "private_endpoint_connection_name", private_endpoint_connection_name, "str"
+        "kafkaConfigurationName": _SERIALIZER.url(
+            "kafka_configuration_name",
+            kafka_configuration_name,
+            "str",
+            max_length=63,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
     }
 
@@ -178,11 +178,7 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str,
-    account_name: str,
-    private_endpoint_connection_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    resource_group_name: str, account_name: str, kafka_configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -193,7 +189,7 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}/kafkaConfigurations/{kafkaConfigurationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -206,8 +202,13 @@ def build_delete_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "privateEndpointConnectionName": _SERIALIZER.url(
-            "private_endpoint_connection_name", private_endpoint_connection_name, "str"
+        "kafkaConfigurationName": _SERIALIZER.url(
+            "kafka_configuration_name",
+            kafka_configuration_name,
+            "str",
+            max_length=63,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
     }
 
@@ -222,14 +223,14 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class PrivateEndpointConnectionsOperations:
+class KafkaConfigurationsOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.purview.PurviewManagementClient`'s
-        :attr:`private_endpoint_connections` attribute.
+        :attr:`kafka_configurations` attribute.
     """
 
     models = _models
@@ -244,10 +245,10 @@ class PrivateEndpointConnectionsOperations:
     @distributed_trace
     def list_by_account(
         self, resource_group_name: str, account_name: str, skip_token: Optional[str] = None, **kwargs: Any
-    ) -> Iterable["_models.PrivateEndpointConnection"]:
-        """Gets private endpoint connections.
+    ) -> Iterable["_models.KafkaConfiguration"]:
+        """Gets the list of Kafka configurations for the account.
 
-        Get private endpoint connections for account.
+        Lists the Kafka configurations in the Account.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
@@ -255,16 +256,15 @@ class PrivateEndpointConnectionsOperations:
         :type account_name: str
         :param skip_token: The skip token. Default value is None.
         :type skip_token: str
-        :return: An iterator like instance of either PrivateEndpointConnection or the result of
-         cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.purview.models.PrivateEndpointConnection]
+        :return: An iterator like instance of either KafkaConfiguration or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.purview.models.KafkaConfiguration]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PrivateEndpointConnectionList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.KafkaConfigurationList] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -308,7 +308,7 @@ class PrivateEndpointConnectionsOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("PrivateEndpointConnectionList", pipeline_response)
+            deserialized = self._deserialize("KafkaConfigurationList", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -334,20 +334,20 @@ class PrivateEndpointConnectionsOperations:
 
     @distributed_trace
     def get(
-        self, resource_group_name: str, account_name: str, private_endpoint_connection_name: str, **kwargs: Any
-    ) -> _models.PrivateEndpointConnection:
-        """Gets private endpoint connection information.
+        self, resource_group_name: str, account_name: str, kafka_configuration_name: str, **kwargs: Any
+    ) -> _models.KafkaConfiguration:
+        """Gets the kafka configuration.
 
-        Get a private endpoint connection.
+        Gets the kafka configuration for the account.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param account_name: The name of the account. Required.
         :type account_name: str
-        :param private_endpoint_connection_name: Name of the private endpoint connection. Required.
-        :type private_endpoint_connection_name: str
-        :return: PrivateEndpointConnection or the result of cls(response)
-        :rtype: ~azure.mgmt.purview.models.PrivateEndpointConnection
+        :param kafka_configuration_name: Name of kafka configuration. Required.
+        :type kafka_configuration_name: str
+        :return: KafkaConfiguration or the result of cls(response)
+        :rtype: ~azure.mgmt.purview.models.KafkaConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -362,12 +362,12 @@ class PrivateEndpointConnectionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PrivateEndpointConnection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.KafkaConfiguration] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
-            private_endpoint_connection_name=private_endpoint_connection_name,
+            kafka_configuration_name=kafka_configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -388,21 +388,101 @@ class PrivateEndpointConnectionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseModel, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
+        deserialized = self._deserialize("KafkaConfiguration", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    @overload
+    def create_or_update(
         self,
         resource_group_name: str,
         account_name: str,
-        private_endpoint_connection_name: str,
-        request: Union[_models.PrivateEndpointConnection, IO[bytes]],
+        kafka_configuration_name: str,
+        kafka_configuration: _models.KafkaConfiguration,
+        *,
+        content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.PrivateEndpointConnection:
+    ) -> _models.KafkaConfiguration:
+        """Create or update the kafka configuration.
+
+        Create or update Kafka Configuration.
+
+        :param resource_group_name: The resource group name. Required.
+        :type resource_group_name: str
+        :param account_name: The name of the account. Required.
+        :type account_name: str
+        :param kafka_configuration_name: The kafka configuration name. Required.
+        :type kafka_configuration_name: str
+        :param kafka_configuration: The kafka configuration of the account. Required.
+        :type kafka_configuration: ~azure.mgmt.purview.models.KafkaConfiguration
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: KafkaConfiguration or the result of cls(response)
+        :rtype: ~azure.mgmt.purview.models.KafkaConfiguration
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_or_update(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        kafka_configuration_name: str,
+        kafka_configuration: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.KafkaConfiguration:
+        """Create or update the kafka configuration.
+
+        Create or update Kafka Configuration.
+
+        :param resource_group_name: The resource group name. Required.
+        :type resource_group_name: str
+        :param account_name: The name of the account. Required.
+        :type account_name: str
+        :param kafka_configuration_name: The kafka configuration name. Required.
+        :type kafka_configuration_name: str
+        :param kafka_configuration: The kafka configuration of the account. Required.
+        :type kafka_configuration: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: KafkaConfiguration or the result of cls(response)
+        :rtype: ~azure.mgmt.purview.models.KafkaConfiguration
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create_or_update(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        kafka_configuration_name: str,
+        kafka_configuration: Union[_models.KafkaConfiguration, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.KafkaConfiguration:
+        """Create or update the kafka configuration.
+
+        Create or update Kafka Configuration.
+
+        :param resource_group_name: The resource group name. Required.
+        :type resource_group_name: str
+        :param account_name: The name of the account. Required.
+        :type account_name: str
+        :param kafka_configuration_name: The kafka configuration name. Required.
+        :type kafka_configuration_name: str
+        :param kafka_configuration: The kafka configuration of the account. Is either a
+         KafkaConfiguration type or a IO[bytes] type. Required.
+        :type kafka_configuration: ~azure.mgmt.purview.models.KafkaConfiguration or IO[bytes]
+        :return: KafkaConfiguration or the result of cls(response)
+        :rtype: ~azure.mgmt.purview.models.KafkaConfiguration
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -416,20 +496,20 @@ class PrivateEndpointConnectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PrivateEndpointConnection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.KafkaConfiguration] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(request, (IOBase, bytes)):
-            _content = request
+        if isinstance(kafka_configuration, (IOBase, bytes)):
+            _content = kafka_configuration
         else:
-            _json = self._serialize.body(request, "PrivateEndpointConnection")
+            _json = self._serialize.body(kafka_configuration, "KafkaConfiguration")
 
         _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
-            private_endpoint_connection_name=private_endpoint_connection_name,
+            kafka_configuration_name=kafka_configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -454,157 +534,34 @@ class PrivateEndpointConnectionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if response.status_code == 200:
-            deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
+            deserialized = self._deserialize("KafkaConfiguration", pipeline_response)
 
         if response.status_code == 201:
-            deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
+            deserialized = self._deserialize("KafkaConfiguration", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        private_endpoint_connection_name: str,
-        request: _models.PrivateEndpointConnection,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Approves/Rejects private endpoint connection request.
-
-        Create or update a private endpoint connection.
-
-        :param resource_group_name: The resource group name. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the account. Required.
-        :type account_name: str
-        :param private_endpoint_connection_name: Name of the private endpoint connection. Required.
-        :type private_endpoint_connection_name: str
-        :param request: The request. Required.
-        :type request: ~azure.mgmt.purview.models.PrivateEndpointConnection
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either PrivateEndpointConnection or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.purview.models.PrivateEndpointConnection]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        private_endpoint_connection_name: str,
-        request: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Approves/Rejects private endpoint connection request.
-
-        Create or update a private endpoint connection.
-
-        :param resource_group_name: The resource group name. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the account. Required.
-        :type account_name: str
-        :param private_endpoint_connection_name: Name of the private endpoint connection. Required.
-        :type private_endpoint_connection_name: str
-        :param request: The request. Required.
-        :type request: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either PrivateEndpointConnection or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.purview.models.PrivateEndpointConnection]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
     @distributed_trace
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        private_endpoint_connection_name: str,
-        request: Union[_models.PrivateEndpointConnection, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Approves/Rejects private endpoint connection request.
+    def delete(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, account_name: str, kafka_configuration_name: str, **kwargs: Any
+    ) -> None:
+        """Deletes the kafka configuration on the account.
 
-        Create or update a private endpoint connection.
+        Deletes a KafkaConfiguration resource.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param account_name: The name of the account. Required.
         :type account_name: str
-        :param private_endpoint_connection_name: Name of the private endpoint connection. Required.
-        :type private_endpoint_connection_name: str
-        :param request: The request. Is either a PrivateEndpointConnection type or a IO[bytes] type.
-         Required.
-        :type request: ~azure.mgmt.purview.models.PrivateEndpointConnection or IO[bytes]
-        :return: An instance of LROPoller that returns either PrivateEndpointConnection or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.purview.models.PrivateEndpointConnection]
+        :param kafka_configuration_name: Name of kafka configuration. Required.
+        :type kafka_configuration_name: str
+        :return: None or the result of cls(response)
+        :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PrivateEndpointConnection] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._create_or_update_initial(
-                resource_group_name=resource_group_name,
-                account_name=account_name,
-                private_endpoint_connection_name=private_endpoint_connection_name,
-                request=request,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.PrivateEndpointConnection].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.PrivateEndpointConnection](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, account_name: str, private_endpoint_connection_name: str, **kwargs: Any
-    ) -> None:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -622,7 +579,7 @@ class PrivateEndpointConnectionsOperations:
         _request = build_delete_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
-            private_endpoint_connection_name=private_endpoint_connection_name,
+            kafka_configuration_name=kafka_configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -638,68 +595,10 @@ class PrivateEndpointConnectionsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [200, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseModel, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
-
-    @distributed_trace
-    def begin_delete(
-        self, resource_group_name: str, account_name: str, private_endpoint_connection_name: str, **kwargs: Any
-    ) -> LROPoller[None]:
-        """Deletes private endpoint connection.
-
-        Delete a private endpoint connection.
-
-        :param resource_group_name: The resource group name. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the account. Required.
-        :type account_name: str
-        :param private_endpoint_connection_name: Name of the private endpoint connection. Required.
-        :type private_endpoint_connection_name: str
-        :return: An instance of LROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                account_name=account_name,
-                private_endpoint_connection_name=private_endpoint_connection_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
