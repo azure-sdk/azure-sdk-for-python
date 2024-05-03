@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -29,12 +30,12 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.packet_core_control_plane_versions.get(
-        version_name="PMN-4-11-1",
+    response = client.packet_core_control_plane_versions_tenant_resource.get(
+        version_name="2404.0-1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreControlPlaneVersionGet.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/PacketCoreControlPlaneVersionGet.json
 if __name__ == "__main__":
     main()

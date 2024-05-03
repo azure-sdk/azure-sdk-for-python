@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -29,18 +32,19 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.sites.begin_delete_packet_core(
+    response = client.sites.begin_delete_packet_core(
         resource_group_name="rg1",
         mobile_network_name="testMobileNetwork",
         site_name="testSite",
-        parameters={
+        body={
             "packetCore": {
                 "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP"
             }
         },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SiteDeletePacketCore.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/SiteDeletePacketCore.json
 if __name__ == "__main__":
     main()

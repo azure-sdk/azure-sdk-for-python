@@ -7,7 +7,10 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import Ambr
-from ._models_py3 import Arp
+from ._models_py3 import AmfDeploymentResource
+from ._models_py3 import AmfDeploymentResourceListResult
+from ._models_py3 import AmfDeploymentResourceTagsUpdate
+from ._models_py3 import AmfId
 from ._models_py3 import AsyncOperationId
 from ._models_py3 import AsyncOperationStatus
 from ._models_py3 import AttachedDataNetwork
@@ -16,6 +19,12 @@ from ._models_py3 import AttachedDataNetworkResourceId
 from ._models_py3 import AzureStackEdgeDeviceResourceId
 from ._models_py3 import AzureStackHCIClusterResourceId
 from ._models_py3 import CertificateProvisioning
+from ._models_py3 import ClusterServiceAksClusterData
+from ._models_py3 import ClusterServiceClusterTypeSpecificData
+from ._models_py3 import ClusterServiceNexusAksClusterData
+from ._models_py3 import ClusterServiceResource
+from ._models_py3 import ClusterServiceResourceListResult
+from ._models_py3 import ClusterServiceResourceTagsUpdate
 from ._models_py3 import CommonSimPropertiesFormat
 from ._models_py3 import ConnectedClusterResourceId
 from ._models_py3 import CustomLocationResourceId
@@ -35,23 +44,40 @@ from ._models_py3 import ErrorResponse
 from ._models_py3 import EventHubConfiguration
 from ._models_py3 import ExtendedUeInfo
 from ._models_py3 import ExtendedUeInfoProperties
+from ._models_py3 import GNbId
+from ._models_py3 import GlobalRanNodeId
+from ._models_py3 import Guti4G
+from ._models_py3 import Guti5G
 from ._models_py3 import HomeNetworkPrivateKeysProvisioning
 from ._models_py3 import HomeNetworkPublicKey
 from ._models_py3 import HttpsServerCertificate
 from ._models_py3 import IdentityAndTagsObject
 from ._models_py3 import Installation
 from ._models_py3 import InterfaceProperties
+from ._models_py3 import Ipv4Route
+from ._models_py3 import Ipv4RouteNextHop
 from ._models_py3 import KeyVaultKey
 from ._models_py3 import LocalDiagnosticsAccessConfiguration
 from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import MmeId
 from ._models_py3 import MobileNetwork
 from ._models_py3 import MobileNetworkListResult
 from ._models_py3 import MobileNetworkResourceId
 from ._models_py3 import NASRerouteConfiguration
 from ._models_py3 import NaptConfiguration
+from ._models_py3 import NrfDeploymentResource
+from ._models_py3 import NrfDeploymentResourceListResult
+from ._models_py3 import NrfDeploymentResourceTagsUpdate
+from ._models_py3 import NssfDeploymentResource
+from ._models_py3 import NssfDeploymentResourceListResult
+from ._models_py3 import NssfDeploymentResourceTagsUpdate
+from ._models_py3 import ObservabilityServiceResource
+from ._models_py3 import ObservabilityServiceResourceListResult
+from ._models_py3 import ObservabilityServiceResourceTagsUpdate
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
-from ._models_py3 import OperationList
+from ._models_py3 import OperationListResult
+from ._models_py3 import OperationalStatus
 from ._models_py3 import PacketCapture
 from ._models_py3 import PacketCaptureListResult
 from ._models_py3 import PacketCoreControlPlane
@@ -74,18 +100,23 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import PublicLandMobileNetwork
 from ._models_py3 import PublicLandMobileNetworkHomeNetworkPublicKeys
 from ._models_py3 import QosPolicy
+from ._models_py3 import QualifiedComponentDeploymentParameters
 from ._models_py3 import Resource
+from ._models_py3 import RoutingInfoModel
+from ._models_py3 import RoutingInfoModelListResult
 from ._models_py3 import Service
 from ._models_py3 import ServiceDataFlowTemplate
 from ._models_py3 import ServiceListResult
 from ._models_py3 import ServiceResourceId
 from ._models_py3 import SignalingConfiguration
 from ._models_py3 import Sim
+from ._models_py3 import SimClone
 from ._models_py3 import SimDeleteList
 from ._models_py3 import SimGroup
 from ._models_py3 import SimGroupListResult
 from ._models_py3 import SimGroupResourceId
 from ._models_py3 import SimListResult
+from ._models_py3 import SimMove
 from ._models_py3 import SimNameAndEncryptedProperties
 from ._models_py3 import SimNameAndProperties
 from ._models_py3 import SimPolicy
@@ -103,23 +134,39 @@ from ._models_py3 import Slice
 from ._models_py3 import SliceConfiguration
 from ._models_py3 import SliceListResult
 from ._models_py3 import SliceResourceId
+from ._models_py3 import SmfDeploymentResource
+from ._models_py3 import SmfDeploymentResourceListResult
+from ._models_py3 import SmfDeploymentResourceTagsUpdate
 from ._models_py3 import Snssai
 from ._models_py3 import SubResource
 from ._models_py3 import SystemData
 from ._models_py3 import TagsObject
 from ._models_py3 import TrackedResource
+from ._models_py3 import UeConnectionInfo4G
+from ._models_py3 import UeConnectionInfo5G
 from ._models_py3 import UeInfo
 from ._models_py3 import UeInfo4G
+from ._models_py3 import UeInfo4GProperties
 from ._models_py3 import UeInfo5G
-from ._models_py3 import UeInfoList
+from ._models_py3 import UeInfo5GProperties
+from ._models_py3 import UeInfoListResult
+from ._models_py3 import UeIpAddress
+from ._models_py3 import UeLocationInfo
 from ._models_py3 import UeQOSFlow
 from ._models_py3 import UeSessionInfo4G
 from ._models_py3 import UeSessionInfo5G
+from ._models_py3 import UpfDeploymentResource
+from ._models_py3 import UpfDeploymentResourceListResult
+from ._models_py3 import UpfDeploymentResourceTagsUpdate
 from ._models_py3 import UserAssignedIdentity
+from ._models_py3 import UserConsentConfiguration
+from ._models_py3 import UserPlaneDataRoutesItem
 
+from ._mobile_network_management_client_enums import ActionType
 from ._mobile_network_management_client_enums import AuthenticationType
 from ._mobile_network_management_client_enums import BillingSku
 from ._mobile_network_management_client_enums import CertificateProvisioningState
+from ._mobile_network_management_client_enums import ClusterType
 from ._mobile_network_management_client_enums import CoreNetworkType
 from ._mobile_network_management_client_enums import CreatedByType
 from ._mobile_network_management_client_enums import DesiredInstallationState
@@ -128,8 +175,10 @@ from ._mobile_network_management_client_enums import HomeNetworkPrivateKeysProvi
 from ._mobile_network_management_client_enums import InstallationReason
 from ._mobile_network_management_client_enums import InstallationState
 from ._mobile_network_management_client_enums import ManagedServiceIdentityType
+from ._mobile_network_management_client_enums import NASEncryptionType
 from ._mobile_network_management_client_enums import NaptEnabled
 from ._mobile_network_management_client_enums import ObsoleteVersion
+from ._mobile_network_management_client_enums import Origin
 from ._mobile_network_management_client_enums import PacketCaptureStatus
 from ._mobile_network_management_client_enums import PdnType
 from ._mobile_network_management_client_enums import PduSessionType
@@ -144,6 +193,7 @@ from ._mobile_network_management_client_enums import RrcEstablishmentCause
 from ._mobile_network_management_client_enums import SdfDirection
 from ._mobile_network_management_client_enums import SimState
 from ._mobile_network_management_client_enums import SiteProvisioningState
+from ._mobile_network_management_client_enums import SkuDeploymentType
 from ._mobile_network_management_client_enums import TrafficControlPermission
 from ._mobile_network_management_client_enums import UeState
 from ._mobile_network_management_client_enums import UeUsageSetting
@@ -154,7 +204,10 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Ambr",
-    "Arp",
+    "AmfDeploymentResource",
+    "AmfDeploymentResourceListResult",
+    "AmfDeploymentResourceTagsUpdate",
+    "AmfId",
     "AsyncOperationId",
     "AsyncOperationStatus",
     "AttachedDataNetwork",
@@ -163,6 +216,12 @@ __all__ = [
     "AzureStackEdgeDeviceResourceId",
     "AzureStackHCIClusterResourceId",
     "CertificateProvisioning",
+    "ClusterServiceAksClusterData",
+    "ClusterServiceClusterTypeSpecificData",
+    "ClusterServiceNexusAksClusterData",
+    "ClusterServiceResource",
+    "ClusterServiceResourceListResult",
+    "ClusterServiceResourceTagsUpdate",
     "CommonSimPropertiesFormat",
     "ConnectedClusterResourceId",
     "CustomLocationResourceId",
@@ -182,23 +241,40 @@ __all__ = [
     "EventHubConfiguration",
     "ExtendedUeInfo",
     "ExtendedUeInfoProperties",
+    "GNbId",
+    "GlobalRanNodeId",
+    "Guti4G",
+    "Guti5G",
     "HomeNetworkPrivateKeysProvisioning",
     "HomeNetworkPublicKey",
     "HttpsServerCertificate",
     "IdentityAndTagsObject",
     "Installation",
     "InterfaceProperties",
+    "Ipv4Route",
+    "Ipv4RouteNextHop",
     "KeyVaultKey",
     "LocalDiagnosticsAccessConfiguration",
     "ManagedServiceIdentity",
+    "MmeId",
     "MobileNetwork",
     "MobileNetworkListResult",
     "MobileNetworkResourceId",
     "NASRerouteConfiguration",
     "NaptConfiguration",
+    "NrfDeploymentResource",
+    "NrfDeploymentResourceListResult",
+    "NrfDeploymentResourceTagsUpdate",
+    "NssfDeploymentResource",
+    "NssfDeploymentResourceListResult",
+    "NssfDeploymentResourceTagsUpdate",
+    "ObservabilityServiceResource",
+    "ObservabilityServiceResourceListResult",
+    "ObservabilityServiceResourceTagsUpdate",
     "Operation",
     "OperationDisplay",
-    "OperationList",
+    "OperationListResult",
+    "OperationalStatus",
     "PacketCapture",
     "PacketCaptureListResult",
     "PacketCoreControlPlane",
@@ -221,18 +297,23 @@ __all__ = [
     "PublicLandMobileNetwork",
     "PublicLandMobileNetworkHomeNetworkPublicKeys",
     "QosPolicy",
+    "QualifiedComponentDeploymentParameters",
     "Resource",
+    "RoutingInfoModel",
+    "RoutingInfoModelListResult",
     "Service",
     "ServiceDataFlowTemplate",
     "ServiceListResult",
     "ServiceResourceId",
     "SignalingConfiguration",
     "Sim",
+    "SimClone",
     "SimDeleteList",
     "SimGroup",
     "SimGroupListResult",
     "SimGroupResourceId",
     "SimListResult",
+    "SimMove",
     "SimNameAndEncryptedProperties",
     "SimNameAndProperties",
     "SimPolicy",
@@ -250,22 +331,38 @@ __all__ = [
     "SliceConfiguration",
     "SliceListResult",
     "SliceResourceId",
+    "SmfDeploymentResource",
+    "SmfDeploymentResourceListResult",
+    "SmfDeploymentResourceTagsUpdate",
     "Snssai",
     "SubResource",
     "SystemData",
     "TagsObject",
     "TrackedResource",
+    "UeConnectionInfo4G",
+    "UeConnectionInfo5G",
     "UeInfo",
     "UeInfo4G",
+    "UeInfo4GProperties",
     "UeInfo5G",
-    "UeInfoList",
+    "UeInfo5GProperties",
+    "UeInfoListResult",
+    "UeIpAddress",
+    "UeLocationInfo",
     "UeQOSFlow",
     "UeSessionInfo4G",
     "UeSessionInfo5G",
+    "UpfDeploymentResource",
+    "UpfDeploymentResourceListResult",
+    "UpfDeploymentResourceTagsUpdate",
     "UserAssignedIdentity",
+    "UserConsentConfiguration",
+    "UserPlaneDataRoutesItem",
+    "ActionType",
     "AuthenticationType",
     "BillingSku",
     "CertificateProvisioningState",
+    "ClusterType",
     "CoreNetworkType",
     "CreatedByType",
     "DesiredInstallationState",
@@ -274,8 +371,10 @@ __all__ = [
     "InstallationReason",
     "InstallationState",
     "ManagedServiceIdentityType",
+    "NASEncryptionType",
     "NaptEnabled",
     "ObsoleteVersion",
+    "Origin",
     "PacketCaptureStatus",
     "PdnType",
     "PduSessionType",
@@ -290,6 +389,7 @@ __all__ = [
     "SdfDirection",
     "SimState",
     "SiteProvisioningState",
+    "SkuDeploymentType",
     "TrafficControlPermission",
     "UeState",
     "UeUsageSetting",

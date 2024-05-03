@@ -10,6 +10,12 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """How to authenticate users who access local diagnostics APIs."""
 
@@ -47,8 +53,17 @@ class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     """The certificate failed to be provisioned. The "reason" property explains why."""
 
 
+class ClusterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Cluster Type Definitions."""
+
+    AKS = "Aks"
+    """Azure Kubernetes Service"""
+    NEXUS_AKS = "NexusAks"
+    """Azure Operator Nexus Kubernetes Service"""
+
+
 class CoreNetworkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The core network technology generation (5G core, EPC / 4G core or EPC / 4G + 5G core)."""
+    """The core network technology generation (5G core or EPC / 4G core)."""
 
     FIVE_GC = "5GC"
     """5G core"""
@@ -68,7 +83,7 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class DesiredInstallationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The desired installation state of the packet core."""
+    """The desired installation state."""
 
     UNINSTALLED = "Uninstalled"
     """Don't install the packet core."""
@@ -80,9 +95,13 @@ class DiagnosticsPackageStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The status of the diagnostics package collection."""
 
     NOT_STARTED = "NotStarted"
+    """Diagnostics package collection is not started."""
     COLLECTING = "Collecting"
+    """Diagnostics package collection is in-progress."""
     COLLECTED = "Collected"
+    """Diagnostics package has been collected."""
     ERROR = "Error"
+    """Error on collecting diagnostics package."""
 
 
 class HomeNetworkPrivateKeysProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -101,29 +120,29 @@ class InstallationReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     NO_SLICES = "NoSlices"
     """The packet core has not been installed as the mobile network does not have any applicable
-    #: configured slices."""
+    configured slices."""
     NO_PACKET_CORE_DATA_PLANE = "NoPacketCoreDataPlane"
     """The packet core has not been installed as there is no configured data plane for this packet
-    #: core."""
+    core."""
     NO_ATTACHED_DATA_NETWORKS = "NoAttachedDataNetworks"
     """The packet core has not been installed as the packet core has no attached data networks."""
     PUBLIC_LAND_MOBILE_NETWORK_IDENTIFIER_HAS_CHANGED = "PublicLandMobileNetworkIdentifierHasChanged"
     """A reinstall is required as the packet core is running with out-of-date PLMN ID."""
     CONTROL_PLANE_ACCESS_INTERFACE_HAS_CHANGED = "ControlPlaneAccessInterfaceHasChanged"
     """A reinstall is required as the packet core is running with out-of-date control plane access
-    #: interface information."""
+    interface information."""
     USER_PLANE_ACCESS_INTERFACE_HAS_CHANGED = "UserPlaneAccessInterfaceHasChanged"
     """A reinstall is required as the packet core is running with out-of-date user plane core
-    #: interface."""
+    interface."""
     USER_PLANE_DATA_INTERFACE_HAS_CHANGED = "UserPlaneDataInterfaceHasChanged"
     """A reinstall is required as the packet core is running with out-of-date user plane access
-    #: interface."""
+    interface."""
     CONTROL_PLANE_ACCESS_VIRTUAL_IPV4_ADDRESSES_HAS_CHANGED = "ControlPlaneAccessVirtualIpv4AddressesHasChanged"
     """A reinstall is required as the packet core is running with out-of-date control plane access
-    #: network virtual IP address."""
+    network virtual IP address."""
     USER_PLANE_ACCESS_VIRTUAL_IPV4_ADDRESSES_HAS_CHANGED = "UserPlaneAccessVirtualIpv4AddressesHasChanged"
     """A reinstall is required as the packet core is running with out-of-date user plane access
-    #: network virtual IP address."""
+    network virtual IP address."""
 
 
 class InstallationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -153,16 +172,29 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of managed service identity (currently only UserAssigned allowed)."""
 
     NONE = "None"
+    """No managed identity is assigned."""
     USER_ASSIGNED = "UserAssigned"
+    """A managed identity assigned by the user."""
 
 
 class NaptEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Whether network address and port translation is enabled."""
+    """Whether NAPT is enabled for connections to this attached data network."""
 
     ENABLED = "Enabled"
     """NAPT is enabled"""
     DISABLED = "Disabled"
     """NAPT is disabled"""
+
+
+class NASEncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The supported NAS Encryption types."""
+
+    NEA0_EEA0 = "NEA0/EEA0"
+    """NAS signaling is not encrypted."""
+    NEA1_EEA1 = "NEA1/EEA1"
+    """NAS signaling is encrypted with SNOW 3G cipher."""
+    NEA2_EEA2 = "NEA2/EEA2"
+    """NAS signaling is encrypted with AES cipher."""
 
 
 class ObsoleteVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -174,26 +206,43 @@ class ObsoleteVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """This version is not obsolete for use in new packet core control plane deployments."""
 
 
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
+
+
 class PacketCaptureStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The status of the packet capture session."""
 
     NOT_STARTED = "NotStarted"
+    """Packet capture is not started."""
     RUNNING = "Running"
+    """Packet capture is in-progress."""
     STOPPED = "Stopped"
+    """Packet capture has been stopped."""
     ERROR = "Error"
+    """Error on packet capture."""
 
 
 class PdnType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Packet Data Network Type."""
 
     IPV4 = "IPV4"
+    """Packet Data Network Type IPv4."""
 
 
 class PduSessionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """PDU session type (IPv4/IPv6)."""
+    """The default PDU session type, which is used if the UE does not request a specific session type."""
 
     I_PV4 = "IPv4"
+    """PDU session type IPv4."""
     I_PV6 = "IPv6"
+    """PDU session type IPv6."""
 
 
 class PlatformType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -201,14 +250,17 @@ class PlatformType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     AKS_HCI = "AKS-HCI"
     """If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or
-    #: "customLocation". If multiple are set, they must be consistent with each other."""
+    "customLocation". If multiple are set, they must be consistent with each other."""
     THREE_P_AZURE_STACK_HCI = "3P-AZURE-STACK-HCI"
     """If this option is chosen, you must set one of "azureStackHciCluster", "connectedCluster" or
-    #: "customLocation". If multiple are set, they must be consistent with each other."""
+    "customLocation". If multiple are set, they must be consistent with each other."""
 
 
 class PreemptionCapability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Preemption capability."""
+    """Default QoS Flow preemption capability. The preemption capability of a QoS Flow controls
+    whether it can preempt another QoS Flow with a lower priority level. See 3GPP TS23.501 section
+    5.7.2.2 for a full description of the ARP parameters.
+    """
 
     NOT_PREEMPT = "NotPreempt"
     """Cannot preempt"""
@@ -217,7 +269,10 @@ class PreemptionCapability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class PreemptionVulnerability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Preemption vulnerability."""
+    """Default QoS Flow preemption vulnerability. The preemption vulnerability of a QoS Flow controls
+    whether it can be preempted by a QoS Flow with a higher priority level. See 3GPP TS23.501
+    section 5.7.2.2 for a full description of the ARP parameters.
+    """
 
     NOT_PREEMPTABLE = "NotPreemptable"
     """Cannot be preempted"""
@@ -228,20 +283,33 @@ class PreemptionVulnerability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current provisioning state."""
 
-    UNKNOWN = "Unknown"
     SUCCEEDED = "Succeeded"
-    ACCEPTED = "Accepted"
-    DELETING = "Deleting"
+    """Resource has been created."""
     FAILED = "Failed"
+    """Resource creation failed."""
     CANCELED = "Canceled"
+    """Resource creation was canceled."""
+    PROVISIONING = "Provisioning"
+    """Resource is getting provisioned"""
+    UPDATING = "Updating"
+    """Resource is updating"""
+    UNKNOWN = "Unknown"
+    """Resource creation state is unknown."""
+    ACCEPTED = "Accepted"
+    """Resource has been accepted."""
+    DELETING = "Deleting"
+    """Resource is getting deleted."""
     DELETED = "Deleted"
+    """Resource has been deleted."""
 
 
 class RatType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """RAT Type."""
 
     FOUR_G = "4G"
+    """RAT type 4G."""
     FIVE_G = "5G"
+    """RAT type 5G."""
 
 
 class RecommendedVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -268,11 +336,17 @@ class RrcEstablishmentCause(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Radio connection establishment cause."""
 
     EMERGENCY = "Emergency"
-    MOBILE_ORIGINATED_SIGNALING = "MobileOriginatedSignaling"
-    MOBILE_TERMINATED_SIGNALING = "MobileTerminatedSignaling"
+    """Emergency Cause."""
     MOBILE_ORIGINATED_DATA = "MobileOriginatedData"
+    """Mobile Originated Data."""
+    MOBILE_ORIGINATED_SIGNALING = "MobileOriginatedSignaling"
+    """Mobile Originated Signaling."""
     MOBILE_TERMINATED_DATA = "MobileTerminatedData"
+    """Mobile Terminated Data."""
+    MOBILE_TERMINATED_SIGNALING = "MobileTerminatedSignaling"
+    """Mobile Terminated Signaling."""
     SMS = "SMS"
+    """Short Message Service."""
 
 
 class SdfDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -314,6 +388,15 @@ class SiteProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The resource failed to be provisioned on this site."""
 
 
+class SkuDeploymentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Deployment Type Definitions."""
+
+    PRODUCTION = "Production"
+    """Production Deployment"""
+    LAB = "Lab"
+    """Lab Deployment"""
+
+
 class TrafficControlPermission(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Traffic control permission."""
 
@@ -327,17 +410,24 @@ class UeState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """State of the UE."""
 
     CONNECTED = "Connected"
+    """UE has been connected."""
     IDLE = "Idle"
+    """UE is idle."""
     DETACHED = "Detached"
+    """UE has been detached."""
     DEREGISTERED = "Deregistered"
+    """UE has been deregistered."""
     UNKNOWN = "Unknown"
+    """UE state is unknown."""
 
 
 class UeUsageSetting(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The UE's usage setting."""
 
-    VOICE_CENTRIC = "VoiceCentric"
     DATA_CENTRIC = "DataCentric"
+    """Data Centric."""
+    VOICE_CENTRIC = "VoiceCentric"
+    """Voice Centric."""
 
 
 class VersionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

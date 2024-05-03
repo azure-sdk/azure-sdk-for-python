@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -29,7 +30,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.extended_ue_information.get(
+    response = client.extended_ue_infos.get(
         resource_group_name="rg1",
         packet_core_control_plane_name="TestPacketCoreCP",
         ue_id="84449105622",
@@ -37,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/ExtendedUeInfo5GGet.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/ExtendedUeInfo5GGet.json
 if __name__ == "__main__":
     main()
