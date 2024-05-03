@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -63,7 +63,6 @@ class ExtendedUeInformationOperations:
         :type packet_core_control_plane_name: str
         :param ue_id: IMSI of a UE. Required.
         :type ue_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExtendedUeInfo or the result of cls(response)
         :rtype: ~azure.mgmt.mobilenetwork.models.ExtendedUeInfo
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -82,22 +81,21 @@ class ExtendedUeInformationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ExtendedUeInfo] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             packet_core_control_plane_name=packet_core_control_plane_name,
             ue_id=ue_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -110,10 +108,6 @@ class ExtendedUeInformationOperations:
         deserialized = self._deserialize("ExtendedUeInfo", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/ues/{ueId}/extendedInformation/default"
-    }
+        return deserialized  # type: ignore
