@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -32,13 +35,11 @@ def main():
     response = client.packet_core_control_planes.begin_collect_diagnostics_package(
         resource_group_name="rg1",
         packet_core_control_plane_name="TestPacketCoreCP",
-        parameters={
-            "storageAccountBlobUrl": "https://contosoaccount.blob.core.windows.net/container/diagnosticsPackage.zip"
-        },
+        body={"storageAccountBlobUrl": "https://contosoaccount.blob.core.windows.net/container/diagnosticsPackage.zip"},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreControlPlaneCollectDiagnosticsPackage.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/PacketCoreControlPlaneCollectDiagnosticsPackage.json
 if __name__ == "__main__":
     main()

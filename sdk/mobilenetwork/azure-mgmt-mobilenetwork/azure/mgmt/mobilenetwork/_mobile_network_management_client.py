@@ -9,30 +9,41 @@
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
 
+from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 
 from . import models as _models
 from ._configuration import MobileNetworkManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
+    AmfDeploymentsOperations,
     AttachedDataNetworksOperations,
+    ClusterServicesOperations,
     DataNetworksOperations,
     DiagnosticsPackagesOperations,
-    ExtendedUeInformationOperations,
+    ExtendedUeInfosOperations,
     MobileNetworksOperations,
+    NrfDeploymentsOperations,
+    NssfDeploymentsOperations,
+    ObservabilityServicesOperations,
     Operations,
     PacketCapturesOperations,
     PacketCoreControlPlaneVersionsOperations,
+    PacketCoreControlPlaneVersionsTenantResourceOperations,
     PacketCoreControlPlanesOperations,
     PacketCoreDataPlanesOperations,
+    RoutingInfoModelsOperations,
     ServicesOperations,
     SimGroupsOperations,
     SimPoliciesOperations,
     SimsOperations,
     SitesOperations,
     SlicesOperations,
-    UeInformationOperations,
+    SmfDeploymentsOperations,
+    UesOperations,
+    UpfDeploymentsOperations,
 )
 
 if TYPE_CHECKING:
@@ -41,56 +52,75 @@ if TYPE_CHECKING:
 
 
 class MobileNetworkManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """The resources in this API specification will be used to manage attached data network resources
-    in mobile network attached to a particular packet core instance.
+    """Mobile Network Management API.
 
-    :ivar attached_data_networks: AttachedDataNetworksOperations operations
-    :vartype attached_data_networks:
-     azure.mgmt.mobilenetwork.operations.AttachedDataNetworksOperations
-    :ivar data_networks: DataNetworksOperations operations
-    :vartype data_networks: azure.mgmt.mobilenetwork.operations.DataNetworksOperations
-    :ivar diagnostics_packages: DiagnosticsPackagesOperations operations
-    :vartype diagnostics_packages:
-     azure.mgmt.mobilenetwork.operations.DiagnosticsPackagesOperations
-    :ivar mobile_networks: MobileNetworksOperations operations
-    :vartype mobile_networks: azure.mgmt.mobilenetwork.operations.MobileNetworksOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.mobilenetwork.operations.Operations
-    :ivar packet_captures: PacketCapturesOperations operations
-    :vartype packet_captures: azure.mgmt.mobilenetwork.operations.PacketCapturesOperations
-    :ivar packet_core_control_planes: PacketCoreControlPlanesOperations operations
-    :vartype packet_core_control_planes:
-     azure.mgmt.mobilenetwork.operations.PacketCoreControlPlanesOperations
+    :ivar packet_core_control_plane_versions_tenant_resource:
+     PacketCoreControlPlaneVersionsTenantResourceOperations operations
+    :vartype packet_core_control_plane_versions_tenant_resource:
+     azure.mgmt.mobilenetwork.operations.PacketCoreControlPlaneVersionsTenantResourceOperations
+    :ivar amf_deployments: AmfDeploymentsOperations operations
+    :vartype amf_deployments: azure.mgmt.mobilenetwork.operations.AmfDeploymentsOperations
+    :ivar cluster_services: ClusterServicesOperations operations
+    :vartype cluster_services: azure.mgmt.mobilenetwork.operations.ClusterServicesOperations
+    :ivar mobile_networks: MobileNetworksOperations operations
+    :vartype mobile_networks: azure.mgmt.mobilenetwork.operations.MobileNetworksOperations
+    :ivar nrf_deployments: NrfDeploymentsOperations operations
+    :vartype nrf_deployments: azure.mgmt.mobilenetwork.operations.NrfDeploymentsOperations
+    :ivar nssf_deployments: NssfDeploymentsOperations operations
+    :vartype nssf_deployments: azure.mgmt.mobilenetwork.operations.NssfDeploymentsOperations
+    :ivar observability_services: ObservabilityServicesOperations operations
+    :vartype observability_services:
+     azure.mgmt.mobilenetwork.operations.ObservabilityServicesOperations
     :ivar packet_core_control_plane_versions: PacketCoreControlPlaneVersionsOperations operations
     :vartype packet_core_control_plane_versions:
      azure.mgmt.mobilenetwork.operations.PacketCoreControlPlaneVersionsOperations
-    :ivar packet_core_data_planes: PacketCoreDataPlanesOperations operations
-    :vartype packet_core_data_planes:
-     azure.mgmt.mobilenetwork.operations.PacketCoreDataPlanesOperations
-    :ivar services: ServicesOperations operations
-    :vartype services: azure.mgmt.mobilenetwork.operations.ServicesOperations
-    :ivar sims: SimsOperations operations
-    :vartype sims: azure.mgmt.mobilenetwork.operations.SimsOperations
+    :ivar packet_core_control_planes: PacketCoreControlPlanesOperations operations
+    :vartype packet_core_control_planes:
+     azure.mgmt.mobilenetwork.operations.PacketCoreControlPlanesOperations
     :ivar sim_groups: SimGroupsOperations operations
     :vartype sim_groups: azure.mgmt.mobilenetwork.operations.SimGroupsOperations
+    :ivar smf_deployments: SmfDeploymentsOperations operations
+    :vartype smf_deployments: azure.mgmt.mobilenetwork.operations.SmfDeploymentsOperations
+    :ivar upf_deployments: UpfDeploymentsOperations operations
+    :vartype upf_deployments: azure.mgmt.mobilenetwork.operations.UpfDeploymentsOperations
+    :ivar data_networks: DataNetworksOperations operations
+    :vartype data_networks: azure.mgmt.mobilenetwork.operations.DataNetworksOperations
+    :ivar services: ServicesOperations operations
+    :vartype services: azure.mgmt.mobilenetwork.operations.ServicesOperations
     :ivar sim_policies: SimPoliciesOperations operations
     :vartype sim_policies: azure.mgmt.mobilenetwork.operations.SimPoliciesOperations
     :ivar sites: SitesOperations operations
     :vartype sites: azure.mgmt.mobilenetwork.operations.SitesOperations
     :ivar slices: SlicesOperations operations
     :vartype slices: azure.mgmt.mobilenetwork.operations.SlicesOperations
-    :ivar extended_ue_information: ExtendedUeInformationOperations operations
-    :vartype extended_ue_information:
-     azure.mgmt.mobilenetwork.operations.ExtendedUeInformationOperations
-    :ivar ue_information: UeInformationOperations operations
-    :vartype ue_information: azure.mgmt.mobilenetwork.operations.UeInformationOperations
+    :ivar diagnostics_packages: DiagnosticsPackagesOperations operations
+    :vartype diagnostics_packages:
+     azure.mgmt.mobilenetwork.operations.DiagnosticsPackagesOperations
+    :ivar packet_captures: PacketCapturesOperations operations
+    :vartype packet_captures: azure.mgmt.mobilenetwork.operations.PacketCapturesOperations
+    :ivar packet_core_data_planes: PacketCoreDataPlanesOperations operations
+    :vartype packet_core_data_planes:
+     azure.mgmt.mobilenetwork.operations.PacketCoreDataPlanesOperations
+    :ivar attached_data_networks: AttachedDataNetworksOperations operations
+    :vartype attached_data_networks:
+     azure.mgmt.mobilenetwork.operations.AttachedDataNetworksOperations
+    :ivar routing_info_models: RoutingInfoModelsOperations operations
+    :vartype routing_info_models: azure.mgmt.mobilenetwork.operations.RoutingInfoModelsOperations
+    :ivar ues: UesOperations operations
+    :vartype ues: azure.mgmt.mobilenetwork.operations.UesOperations
+    :ivar extended_ue_infos: ExtendedUeInfosOperations operations
+    :vartype extended_ue_infos: azure.mgmt.mobilenetwork.operations.ExtendedUeInfosOperations
+    :ivar sims: SimsOperations operations
+    :vartype sims: azure.mgmt.mobilenetwork.operations.SimsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-02-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-06-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -107,43 +137,82 @@ class MobileNetworkManagementClient:  # pylint: disable=client-accepts-api-versi
         self._config = MobileNetworkManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.attached_data_networks = AttachedDataNetworksOperations(
-            self._client, self._config, self._serialize, self._deserialize
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.packet_core_control_plane_versions_tenant_resource = (
+            PacketCoreControlPlaneVersionsTenantResourceOperations(
+                self._client, self._config, self._serialize, self._deserialize
+            )
         )
-        self.data_networks = DataNetworksOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.diagnostics_packages = DiagnosticsPackagesOperations(
+        self.amf_deployments = AmfDeploymentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.cluster_services = ClusterServicesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.mobile_networks = MobileNetworksOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.packet_captures = PacketCapturesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.packet_core_control_planes = PacketCoreControlPlanesOperations(
+        self.nrf_deployments = NrfDeploymentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.nssf_deployments = NssfDeploymentsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.observability_services = ObservabilityServicesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.packet_core_control_plane_versions = PacketCoreControlPlaneVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.packet_core_data_planes = PacketCoreDataPlanesOperations(
+        self.packet_core_control_planes = PacketCoreControlPlanesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.services = ServicesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.sims = SimsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.sim_groups = SimGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.smf_deployments = SmfDeploymentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.upf_deployments = UpfDeploymentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.data_networks = DataNetworksOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.services = ServicesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.sim_policies = SimPoliciesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.sites = SitesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.slices = SlicesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.extended_ue_information = ExtendedUeInformationOperations(
+        self.diagnostics_packages = DiagnosticsPackagesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.ue_information = UeInformationOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.packet_captures = PacketCapturesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.packet_core_data_planes = PacketCoreDataPlanesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.attached_data_networks = AttachedDataNetworksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.routing_info_models = RoutingInfoModelsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.ues = UesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.extended_ue_infos = ExtendedUeInfosOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.sims = SimsOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
+    def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -163,7 +232,7 @@ class MobileNetworkManagementClient:  # pylint: disable=client-accepts-api-versi
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     def close(self) -> None:
         self._client.close()

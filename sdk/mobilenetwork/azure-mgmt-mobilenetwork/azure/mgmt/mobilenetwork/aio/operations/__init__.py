@@ -6,46 +6,66 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._attached_data_networks_operations import AttachedDataNetworksOperations
-from ._data_networks_operations import DataNetworksOperations
-from ._diagnostics_packages_operations import DiagnosticsPackagesOperations
-from ._mobile_networks_operations import MobileNetworksOperations
 from ._operations import Operations
-from ._packet_captures_operations import PacketCapturesOperations
-from ._packet_core_control_planes_operations import PacketCoreControlPlanesOperations
+from ._packet_core_control_plane_versions_tenant_resource_operations import (
+    PacketCoreControlPlaneVersionsTenantResourceOperations,
+)
+from ._amf_deployments_operations import AmfDeploymentsOperations
+from ._cluster_services_operations import ClusterServicesOperations
+from ._mobile_networks_operations import MobileNetworksOperations
+from ._nrf_deployments_operations import NrfDeploymentsOperations
+from ._nssf_deployments_operations import NssfDeploymentsOperations
+from ._observability_services_operations import ObservabilityServicesOperations
 from ._packet_core_control_plane_versions_operations import PacketCoreControlPlaneVersionsOperations
-from ._packet_core_data_planes_operations import PacketCoreDataPlanesOperations
-from ._services_operations import ServicesOperations
-from ._sims_operations import SimsOperations
+from ._packet_core_control_planes_operations import PacketCoreControlPlanesOperations
 from ._sim_groups_operations import SimGroupsOperations
+from ._smf_deployments_operations import SmfDeploymentsOperations
+from ._upf_deployments_operations import UpfDeploymentsOperations
+from ._data_networks_operations import DataNetworksOperations
+from ._services_operations import ServicesOperations
 from ._sim_policies_operations import SimPoliciesOperations
 from ._sites_operations import SitesOperations
 from ._slices_operations import SlicesOperations
-from ._extended_ue_information_operations import ExtendedUeInformationOperations
-from ._ue_information_operations import UeInformationOperations
+from ._diagnostics_packages_operations import DiagnosticsPackagesOperations
+from ._packet_captures_operations import PacketCapturesOperations
+from ._packet_core_data_planes_operations import PacketCoreDataPlanesOperations
+from ._attached_data_networks_operations import AttachedDataNetworksOperations
+from ._routing_info_models_operations import RoutingInfoModelsOperations
+from ._ues_operations import UesOperations
+from ._extended_ue_infos_operations import ExtendedUeInfosOperations
+from ._sims_operations import SimsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AttachedDataNetworksOperations",
-    "DataNetworksOperations",
-    "DiagnosticsPackagesOperations",
-    "MobileNetworksOperations",
     "Operations",
-    "PacketCapturesOperations",
-    "PacketCoreControlPlanesOperations",
+    "PacketCoreControlPlaneVersionsTenantResourceOperations",
+    "AmfDeploymentsOperations",
+    "ClusterServicesOperations",
+    "MobileNetworksOperations",
+    "NrfDeploymentsOperations",
+    "NssfDeploymentsOperations",
+    "ObservabilityServicesOperations",
     "PacketCoreControlPlaneVersionsOperations",
-    "PacketCoreDataPlanesOperations",
-    "ServicesOperations",
-    "SimsOperations",
+    "PacketCoreControlPlanesOperations",
     "SimGroupsOperations",
+    "SmfDeploymentsOperations",
+    "UpfDeploymentsOperations",
+    "DataNetworksOperations",
+    "ServicesOperations",
     "SimPoliciesOperations",
     "SitesOperations",
     "SlicesOperations",
-    "ExtendedUeInformationOperations",
-    "UeInformationOperations",
+    "DiagnosticsPackagesOperations",
+    "PacketCapturesOperations",
+    "PacketCoreDataPlanesOperations",
+    "AttachedDataNetworksOperations",
+    "RoutingInfoModelsOperations",
+    "UesOperations",
+    "ExtendedUeInfosOperations",
+    "SimsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

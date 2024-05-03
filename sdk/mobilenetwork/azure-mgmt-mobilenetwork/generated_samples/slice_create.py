@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -33,7 +36,7 @@ def main():
         resource_group_name="rg1",
         mobile_network_name="testMobileNetwork",
         slice_name="testSlice",
-        parameters={
+        resource={
             "location": "eastus",
             "properties": {"description": "myFavouriteSlice", "snssai": {"sd": "1abcde", "sst": 1}},
         },
@@ -41,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SliceCreate.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/SliceCreate.json
 if __name__ == "__main__":
     main()

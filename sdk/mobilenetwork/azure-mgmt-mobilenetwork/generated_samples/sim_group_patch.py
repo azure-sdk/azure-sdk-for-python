@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -32,7 +35,7 @@ def main():
     response = client.sim_groups.update_tags(
         resource_group_name="rg1",
         sim_group_name="testSimGroup",
-        parameters={
+        properties={
             "identity": {
                 "type": "UserAssigned",
                 "userAssignedIdentities": {
@@ -45,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SimGroupPatch.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/SimGroupPatch.json
 if __name__ == "__main__":
     main()

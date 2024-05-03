@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -32,7 +35,7 @@ def main():
     response = client.mobile_networks.begin_create_or_update(
         resource_group_name="rg1",
         mobile_network_name="testMobileNetwork",
-        parameters={
+        resource={
             "location": "eastus",
             "properties": {
                 "publicLandMobileNetworkIdentifier": {"mcc": "001", "mnc": "01"},
@@ -60,6 +63,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/MobileNetworkCreate.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-06-01/examples/MobileNetworkCreate.json
 if __name__ == "__main__":
     main()
