@@ -35,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_ListBySub.json
+# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-03-07-preview/examples/ConfidentialLedger_ListBySub.json
 if __name__ == "__main__":
     main()

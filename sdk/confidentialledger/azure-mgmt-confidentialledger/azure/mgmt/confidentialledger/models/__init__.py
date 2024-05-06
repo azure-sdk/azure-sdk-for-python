@@ -39,6 +39,7 @@ from ._models_py3 import TrackedResource
 
 from ._confidential_ledger_enums import CheckNameAvailabilityReason
 from ._confidential_ledger_enums import CreatedByType
+from ._confidential_ledger_enums import EnclavePlatform
 from ._confidential_ledger_enums import LanguageRuntime
 from ._confidential_ledger_enums import LedgerRoleName
 from ._confidential_ledger_enums import LedgerSku
@@ -82,6 +83,7 @@ __all__ = [
     "TrackedResource",
     "CheckNameAvailabilityReason",
     "CreatedByType",
+    "EnclavePlatform",
     "LanguageRuntime",
     "LedgerRoleName",
     "LedgerSku",
