@@ -885,6 +885,9 @@ class ManagedCCFProperties(_serialization.Model):
     :vartype provisioning_state: str or ~azure.mgmt.confidentialledger.models.ProvisioningState
     :ivar node_count: Number of CCF nodes in the Managed CCF.
     :vartype node_count: int
+    :ivar enclave_platform: Enclave platform of Managed CCF. Known values are: "IntelSgx" and
+     "AmdSevSnp".
+    :vartype enclave_platform: str or ~azure.mgmt.confidentialledger.models.EnclavePlatform
     """
 
     _validation = {
@@ -903,6 +906,7 @@ class ManagedCCFProperties(_serialization.Model):
         "running_state": {"key": "runningState", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "node_count": {"key": "nodeCount", "type": "int"},
+        "enclave_platform": {"key": "enclavePlatform", "type": "str"},
     }
 
     def __init__(
@@ -912,6 +916,7 @@ class ManagedCCFProperties(_serialization.Model):
         deployment_type: Optional["_models.DeploymentType"] = None,
         running_state: Optional[Union[str, "_models.RunningState"]] = None,
         node_count: int = 3,
+        enclave_platform: Optional[Union[str, "_models.EnclavePlatform"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -925,6 +930,9 @@ class ManagedCCFProperties(_serialization.Model):
         :paramtype running_state: str or ~azure.mgmt.confidentialledger.models.RunningState
         :keyword node_count: Number of CCF nodes in the Managed CCF.
         :paramtype node_count: int
+        :keyword enclave_platform: Enclave platform of Managed CCF. Known values are: "IntelSgx" and
+         "AmdSevSnp".
+        :paramtype enclave_platform: str or ~azure.mgmt.confidentialledger.models.EnclavePlatform
         """
         super().__init__(**kwargs)
         self.app_name = None
@@ -935,6 +943,7 @@ class ManagedCCFProperties(_serialization.Model):
         self.running_state = running_state
         self.provisioning_state = None
         self.node_count = node_count
+        self.enclave_platform = enclave_platform
 
 
 class ManagedCCFRestore(_serialization.Model):
