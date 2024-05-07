@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.consumption import ConsumptionManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.consumption import ConsumptionManagementClient
     pip install azure-identity
     pip install azure-mgmt-consumption
 # USAGE
-    python reservation_details.py
+    python lots_list_by_billing_account_primary.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +30,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.reservations_details.list_by_reservation_order(
-        reservation_order_id="00000000-0000-0000-0000-000000000000",
-        filter="properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05",
+    response = client.lots.list_by_billing_account(
+        billing_account_id="1234:5678",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetails.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-11-01/examples/LotsListByBillingAccount-Primary.json
 if __name__ == "__main__":
     main()

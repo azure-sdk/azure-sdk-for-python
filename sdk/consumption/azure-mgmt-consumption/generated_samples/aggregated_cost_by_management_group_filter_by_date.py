@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.consumption import ConsumptionManagementClient
 
 """
@@ -35,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostByManagementGroupFilterByDate.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-11-01/examples/AggregatedCostByManagementGroupFilterByDate.json
 if __name__ == "__main__":
     main()

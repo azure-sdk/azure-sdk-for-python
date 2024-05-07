@@ -15,7 +15,7 @@ from azure.mgmt.consumption import ConsumptionManagementClient
     pip install azure-identity
     pip install azure-mgmt-consumption
 # USAGE
-    python marketplaces_by_billing_account_list_for_billing_period.py
+    python lots_list_by_billing_account_with_filters_primary.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.marketplaces.list(
-        scope="providers/Microsoft.Billing/billingAccounts/123456",
+    response = client.lots.list_by_billing_account(
+        billing_account_id="1234:5678",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-11-01/examples/MarketplacesByBillingAccountListForBillingPeriod.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-11-01/examples/LotsListByBillingAccountWithFilters-Primary.json
 if __name__ == "__main__":
     main()
