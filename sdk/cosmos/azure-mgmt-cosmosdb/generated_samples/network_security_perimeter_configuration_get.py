@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_sql_dedicated_gateway_service_get.py
+    python network_security_perimeter_configuration_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +27,17 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
 def main():
     client = CosmosDBManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.service.get(
-        resource_group_name="rg1",
-        account_name="ddb1",
-        service_name="SqlDedicatedGateway",
+    response = client.network_security_perimeter_configurations.get(
+        resource_group_name="res4410",
+        account_name="cosmosTest",
+        network_security_perimeter_configuration_name="dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/NetworkSecurityPerimeterConfigurationGet.json
 if __name__ == "__main__":
     main()

@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_mongo_cluster_create_pitr.py
+    python cosmos_db_sql_dedicated_gateway_service_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,26 +27,17 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
 def main():
     client = CosmosDBManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
+        subscription_id="subid",
     )
 
-    response = client.mongo_clusters.begin_create_or_update(
-        resource_group_name="TestResourceGroup",
-        mongo_cluster_name="myMongoCluster",
-        parameters={
-            "location": "westus2",
-            "properties": {
-                "createMode": "PointInTimeRestore",
-                "restoreParameters": {
-                    "pointInTimeUTC": "2023-01-13T20:07:35Z",
-                    "sourceResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/myOtherMongoCluster",
-                },
-            },
-        },
-    ).result()
+    response = client.service.get(
+        resource_group_name="rg1",
+        account_name="ddb1",
+        service_name="SqlDedicatedGateway",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreatePITR.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
 if __name__ == "__main__":
     main()
