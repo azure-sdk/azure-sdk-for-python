@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -178,14 +183,14 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :return: CurrentQuotaLimitBase or the result of cls(response)
         :rtype: ~azure.mgmt.quota.models.CurrentQuotaLimitBase
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -238,7 +243,7 @@ class QuotaOperations:
         create_quota_request: Union[_models.CurrentQuotaLimitBase, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.CurrentQuotaLimitBase]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -326,8 +331,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :param create_quota_request: Quota request payload. Required.
         :type create_quota_request: ~azure.mgmt.quota.models.CurrentQuotaLimitBase
@@ -371,8 +376,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :param create_quota_request: Quota request payload. Required.
         :type create_quota_request: IO[bytes]
@@ -414,8 +419,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :param create_quota_request: Quota request payload. Is either a CurrentQuotaLimitBase type or a
          IO[bytes] type. Required.
@@ -480,7 +485,7 @@ class QuotaOperations:
         create_quota_request: Union[_models.CurrentQuotaLimitBase, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.CurrentQuotaLimitBase]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -567,8 +572,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :param create_quota_request: Quota requests payload. Required.
         :type create_quota_request: ~azure.mgmt.quota.models.CurrentQuotaLimitBase
@@ -611,8 +616,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :param create_quota_request: Quota requests payload. Required.
         :type create_quota_request: IO[bytes]
@@ -653,8 +658,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :param create_quota_request: Quota requests payload. Is either a CurrentQuotaLimitBase type or
          a IO[bytes] type. Required.
@@ -720,8 +725,8 @@ class QuotaOperations:
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
+         added after ``/quotas``\\ , then it's the target Azure resource URI in the GET operation for
+         the specific resource. Required.
         :type scope: str
         :return: An iterator like instance of either CurrentQuotaLimitBase or the result of
          cls(response)
@@ -734,7 +739,7 @@ class QuotaOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.QuotaLimits] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

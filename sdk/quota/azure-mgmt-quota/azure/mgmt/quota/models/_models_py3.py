@@ -1980,7 +1980,7 @@ class QuotaProperties(_serialization.Model):
     :vartype resource_type: str
     :ivar quota_period: The time period over which the quota usage values are summarized. For
      example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because, for some resources like compute, the period is irrelevant.
     :vartype quota_period: str
@@ -2137,7 +2137,7 @@ class QuotaRequestOneResourceProperties(_serialization.Model):  # pylint: disabl
     :vartype resource_type: str
     :ivar quota_period: The time period over which the quota usage values are summarized. For
      example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because, for some resources like compute, the period is irrelevant.
     :vartype quota_period: str
@@ -2333,7 +2333,7 @@ class QuotaRequestStatusDetails(_serialization.Model):
     :vartype resource_type: str
     :ivar quota_period: The time period over which the quota usage values are summarized. For
      example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because, for some resources like compute, the period is irrelevant.
     :vartype quota_period: str
@@ -3259,7 +3259,7 @@ class UsagesProperties(_serialization.Model):
     :ivar resource_type: The name of the resource type. Optional field.
     :vartype resource_type: str
     :ivar quota_period: The time period for the summary of the quota usage values. For example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because it is not relevant for all resources such as compute.
     :vartype quota_period: str
