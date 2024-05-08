@@ -8,15 +8,9 @@
 # --------------------------------------------------------------------------
 
 import datetime
-import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -26,7 +20,7 @@ if TYPE_CHECKING:
 class ElseCondition(_serialization.Model):
     """The else block of storage task operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar operations: List of operations to execute in the else block. Required.
     :vartype operations: list[~azure.mgmt.storageactions.models.StorageTaskOperation]
@@ -144,10 +138,10 @@ class ErrorResponse(_serialization.Model):
 class IfCondition(_serialization.Model):
     """The if block of storage task operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar condition: The condition predicate which is composed of object properties, eg: blob and
-     container properties. Required.
+    :ivar condition: Condition predicate to evaluate each object. See
+     https://aka.ms/storagetaskconditions for valid properties and operators. Required.
     :vartype condition: str
     :ivar operations: List of operations to execute when the condition predicate satisfies.
      Required.
@@ -166,8 +160,8 @@ class IfCondition(_serialization.Model):
 
     def __init__(self, *, condition: str, operations: List["_models.StorageTaskOperation"], **kwargs: Any) -> None:
         """
-        :keyword condition: The condition predicate which is composed of object properties, eg: blob
-         and container properties. Required.
+        :keyword condition: Condition predicate to evaluate each object. See
+         https://aka.ms/storagetaskconditions for valid properties and operators. Required.
         :paramtype condition: str
         :keyword operations: List of operations to execute when the condition predicate satisfies.
          Required.
@@ -183,7 +177,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -197,7 +191,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.storageactions.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.storageactions.models.UserAssignedIdentity]
@@ -230,7 +224,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.storageactions.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.storageactions.models.UserAssignedIdentity]
@@ -369,7 +363,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -411,7 +405,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -423,24 +417,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.storageactions.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
@@ -448,10 +424,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -501,10 +477,10 @@ class StorageTask(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -518,9 +494,9 @@ class StorageTask(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar identity: The managed service identity of the resource.
+    :ivar identity: The managed service identity of the resource. Required.
     :vartype identity: ~azure.mgmt.storageactions.models.ManagedServiceIdentity
-    :ivar properties: Properties of the storage task.
+    :ivar properties: Properties of the storage task. Required.
     :vartype properties: ~azure.mgmt.storageactions.models.StorageTaskProperties
     """
 
@@ -530,6 +506,8 @@ class StorageTask(TrackedResource):
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
+        "identity": {"required": True},
+        "properties": {"required": True},
     }
 
     _attribute_map = {
@@ -547,9 +525,9 @@ class StorageTask(TrackedResource):
         self,
         *,
         location: str,
+        identity: "_models.ManagedServiceIdentity",
+        properties: "_models.StorageTaskProperties",
         tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.ManagedServiceIdentity"] = None,
-        properties: Optional["_models.StorageTaskProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -557,9 +535,9 @@ class StorageTask(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword identity: The managed service identity of the resource.
+        :keyword identity: The managed service identity of the resource. Required.
         :paramtype identity: ~azure.mgmt.storageactions.models.ManagedServiceIdentity
-        :keyword properties: Properties of the storage task.
+        :keyword properties: Properties of the storage task. Required.
         :paramtype properties: ~azure.mgmt.storageactions.models.StorageTaskProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
@@ -571,7 +549,7 @@ class StorageTaskAction(_serialization.Model):
     """The storage task action represents conditional statements and operations to be performed on
     target objects.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar if_property: The if block of storage task operation. Required.
     :vartype if_property: ~azure.mgmt.storageactions.models.IfCondition
@@ -607,11 +585,11 @@ class StorageTaskAction(_serialization.Model):
 
 
 class StorageTaskAssignment(_serialization.Model):
-    """Fetch the Storage task assignment ARM ids.
+    """Storage Task Assignment associated with this Storage Task.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: ARM Id of the storage task assignments, associated with the storage tasks.
+    :ivar id: Resource ID of the Storage Task Assignment.
     :vartype id: str
     """
 
@@ -634,11 +612,10 @@ class StorageTaskAssignmentsListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: Gets the list of storage task assignment Ids.
+    :ivar value: List of Storage Task Assignment Resource IDs associated with this Storage Task.
     :vartype value: list[~azure.mgmt.storageactions.models.StorageTaskAssignment]
-    :ivar next_link: Request URL that can be used to query next page of storage task assignment
-     Ids. Returned when total number of requested storage task assignment Ids exceed maximum page
-     size.
+    :ivar next_link: Request URL that can be used to query next page of Resource IDs. Returned when
+     total number of requested Resource IDs exceed maximum page size.
     :vartype next_link: str
     """
 
@@ -662,7 +639,7 @@ class StorageTaskAssignmentsListResult(_serialization.Model):
 class StorageTaskOperation(_serialization.Model):
     """Represents an operation to be performed on the object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The operation to be performed on the object. Required. Known values are:
      "SetBlobTier", "SetBlobTags", "SetBlobImmutabilityPolicy", "SetBlobLegalHold", "SetBlobExpiry",
@@ -722,7 +699,7 @@ class StorageTaskOperation(_serialization.Model):
 class StorageTaskPreviewAction(_serialization.Model):
     """Storage Task Preview Action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Properties of the storage task preview. Required.
     :vartype properties: ~azure.mgmt.storageactions.models.StorageTaskPreviewActionProperties
@@ -749,7 +726,7 @@ class StorageTaskPreviewActionCondition(_serialization.Model):
     """Represents the storage task conditions to be tested for a match with container and blob
     properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar if_property: The condition to be tested for a match with container and blob properties.
      Required.
@@ -807,16 +784,15 @@ class StorageTaskPreviewActionIfCondition(_serialization.Model):
 class StorageTaskPreviewActionProperties(_serialization.Model):
     """Storage task preview action properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar container: Preview action container properties to be tested for a match with the provided
-     condition. Required.
+    :ivar container: Properties of a sample container to test for a match with the preview action.
+     Required.
     :vartype container: ~azure.mgmt.storageactions.models.StorageTaskPreviewContainerProperties
-    :ivar blobs: Preview action container properties to be tested for a match with the provided
-     condition. Required.
+    :ivar blobs: Properties of some sample blobs in the container to test for matches with the
+     preview action. Required.
     :vartype blobs: list[~azure.mgmt.storageactions.models.StorageTaskPreviewBlobProperties]
-    :ivar action: Preview action container properties to be tested for a match with the provided
-     condition. Required.
+    :ivar action: Preview action to test. Required.
     :vartype action: ~azure.mgmt.storageactions.models.StorageTaskPreviewActionCondition
     """
 
@@ -841,14 +817,13 @@ class StorageTaskPreviewActionProperties(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword container: Preview action container properties to be tested for a match with the
-         provided condition. Required.
+        :keyword container: Properties of a sample container to test for a match with the preview
+         action. Required.
         :paramtype container: ~azure.mgmt.storageactions.models.StorageTaskPreviewContainerProperties
-        :keyword blobs: Preview action container properties to be tested for a match with the provided
-         condition. Required.
+        :keyword blobs: Properties of some sample blobs in the container to test for matches with the
+         preview action. Required.
         :paramtype blobs: list[~azure.mgmt.storageactions.models.StorageTaskPreviewBlobProperties]
-        :keyword action: Preview action container properties to be tested for a match with the provided
-         condition. Required.
+        :keyword action: Preview action to test. Required.
         :paramtype action: ~azure.mgmt.storageactions.models.StorageTaskPreviewActionCondition
         """
         super().__init__(**kwargs)
@@ -862,7 +837,7 @@ class StorageTaskPreviewBlobProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: property for the container name.
+    :ivar name: Name of test blob.
     :vartype name: str
     :ivar properties: properties key value pairs to be tested for a match against the provided
      condition.
@@ -874,7 +849,7 @@ class StorageTaskPreviewBlobProperties(_serialization.Model):
     :ivar tags: tags key value pairs to be tested for a match against the provided condition.
     :vartype tags: list[~azure.mgmt.storageactions.models.StorageTaskPreviewKeyValueProperties]
     :ivar matched_block: Represents the condition block name that matched blob properties. Known
-     values are: "If", "Else", "None", "If", and "Else".
+     values are: "If", "Else", and "None".
     :vartype matched_block: str or ~azure.mgmt.storageactions.models.MatchedBlockName
     """
 
@@ -900,7 +875,7 @@ class StorageTaskPreviewBlobProperties(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword name: property for the container name.
+        :keyword name: Name of test blob.
         :paramtype name: str
         :keyword properties: properties key value pairs to be tested for a match against the provided
          condition.
@@ -924,7 +899,7 @@ class StorageTaskPreviewBlobProperties(_serialization.Model):
 class StorageTaskPreviewContainerProperties(_serialization.Model):
     """Storage task preview container properties.
 
-    :ivar name: property for the container name.
+    :ivar name: Name of test container.
     :vartype name: str
     :ivar metadata: metadata key value pairs to be tested for a match against the provided
      condition.
@@ -944,7 +919,7 @@ class StorageTaskPreviewContainerProperties(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword name: property for the container name.
+        :keyword name: Name of test container.
         :paramtype name: str
         :keyword metadata: metadata key value pairs to be tested for a match against the provided
          condition.
@@ -987,7 +962,7 @@ class StorageTaskProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar task_version: Storage task version.
     :vartype task_version: int
@@ -1049,7 +1024,7 @@ class StorageTaskReportInstance(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1092,41 +1067,40 @@ class StorageTaskReportProperties(_serialization.Model):  # pylint: disable=too-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar task_assignment_id: Represents the Storage Task Assignment Id associated with the storage
-     task that provided an execution context.
+    :ivar task_assignment_id: Resource ID of the Storage Task Assignment associated with this
+     reported run.
     :vartype task_assignment_id: str
-    :ivar storage_account_id: Represents the Storage Account Id where the storage task definition
-     was applied and executed.
+    :ivar storage_account_id: Resource ID of the Storage Account where this reported run executed.
     :vartype storage_account_id: str
     :ivar start_time: Start time of the run instance. Filter options such as startTime gt
      '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for
      DateTime properties in
-     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.
+     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.  # pylint: disable=line-too-long
     :vartype start_time: str
     :ivar finish_time: End time of the run instance. Filter options such as startTime gt
      '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for
      DateTime properties in
-     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.
+     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.  # pylint: disable=line-too-long
     :vartype finish_time: str
     :ivar objects_targeted_count: Total number of objects that meet the condition as defined in the
      storage task assignment execution context. Filter options such as objectsTargetedCount gt 50
      and other comparison operators can be used as described for Numerical properties in
-     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.
+     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.  # pylint: disable=line-too-long
     :vartype objects_targeted_count: str
     :ivar objects_operated_on_count: Total number of objects that meet the storage tasks condition
      and were operated upon. Filter options such as objectsOperatedOnCount ge 100 and other
      comparison operators can be used as described for Numerical properties in
-     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.
+     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.  # pylint: disable=line-too-long
     :vartype objects_operated_on_count: str
     :ivar object_failed_count: Total number of objects where task operation failed when was
      attempted. Filter options such as objectFailedCount eq 0 and other comparison operators can be
      used as described for Numerical properties in
-     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.
+     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.  # pylint: disable=line-too-long
     :vartype object_failed_count: str
     :ivar objects_succeeded_count: Total number of objects where task operation succeeded when was
      attempted.Filter options such as objectsSucceededCount gt 150 and other comparison operators
      can be used as described for Numerical properties in
-     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.
+     https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators.  # pylint: disable=line-too-long
     :vartype objects_succeeded_count: str
     :ivar run_status_error: Well known Azure Storage error code that represents the error
      encountered during execution of the run instance.
@@ -1137,7 +1111,7 @@ class StorageTaskReportProperties(_serialization.Model):  # pylint: disable=too-
     :ivar summary_report_path: Full path to the verbose report stored in the reporting container as
      specified in the assignment execution context for the storage account.
     :vartype summary_report_path: str
-    :ivar task_id: Storage Task Arm Id.
+    :ivar task_id: Resource ID of the Storage Task applied during this run.
     :vartype task_id: str
     :ivar task_version: Storage Task Version.
     :vartype task_version: str
@@ -1230,7 +1204,7 @@ class StorageTaskReportSummary(_serialization.Model):
 
 
 class StorageTasksListResult(_serialization.Model):
-    """The response from the List Storage Tasks operation.
+    """The response from the List Storage Task operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
