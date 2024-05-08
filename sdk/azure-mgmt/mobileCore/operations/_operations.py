@@ -45,11 +45,11 @@ def build_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = kwargs.pop("template_url", "/providers/Microsoft.AzureLargeInstance/operations")
+    _url = kwargs.pop("template_url", "/providers/Microsoft.MobilePacketCore/operations")
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -66,7 +66,7 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.largeinstance.LargeInstanceMgmtClient`'s
+        :class:`~Microsoft.MobilePacketCore.MicrosoftMobilePacketCoreNetworkFunctionResource`'s
         :attr:`operations` attribute.
     """
 
@@ -84,7 +84,7 @@ class Operations:
         """List the operations for the provider.
 
         :return: An iterator like instance of either Operation or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.largeinstance.models.Operation]
+        :rtype: ~azure.core.paging.ItemPaged[~Microsoft.MobilePacketCore.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
