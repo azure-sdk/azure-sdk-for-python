@@ -22,6 +22,7 @@ from ._models_py3 import AmazonRdsForOraclePartitionSettings
 from ._models_py3 import AmazonRdsForOracleSource
 from ._models_py3 import AmazonRdsForOracleTableDataset
 from ._models_py3 import AmazonRdsForSqlServerLinkedService
+from ._models_py3 import AmazonRdsForSqlServerLinkedServiceTypeProperties
 from ._models_py3 import AmazonRdsForSqlServerSource
 from ._models_py3 import AmazonRdsForSqlServerTableDataset
 from ._models_py3 import AmazonRedshiftLinkedService
@@ -107,9 +108,12 @@ from ._models_py3 import AzureSearchIndexDataset
 from ._models_py3 import AzureSearchIndexSink
 from ._models_py3 import AzureSearchLinkedService
 from ._models_py3 import AzureSqlDWLinkedService
+from ._models_py3 import AzureSqlDWLinkedServiceTypeProperties
 from ._models_py3 import AzureSqlDWTableDataset
 from ._models_py3 import AzureSqlDatabaseLinkedService
+from ._models_py3 import AzureSqlDatabaseLinkedServiceTypeProperties
 from ._models_py3 import AzureSqlMILinkedService
+from ._models_py3 import AzureSqlMILinkedServiceTypeProperties
 from ._models_py3 import AzureSqlMITableDataset
 from ._models_py3 import AzureSqlSink
 from ._models_py3 import AzureSqlSource
@@ -388,13 +392,13 @@ from ._models_py3 import JsonReadSettings
 from ._models_py3 import JsonSink
 from ._models_py3 import JsonSource
 from ._models_py3 import JsonWriteSettings
-from ._models_py3 import LakeHouseLinkedService
-from ._models_py3 import LakeHouseLocation
-from ._models_py3 import LakeHouseReadSettings
-from ._models_py3 import LakeHouseTableDataset
-from ._models_py3 import LakeHouseTableSink
-from ._models_py3 import LakeHouseTableSource
-from ._models_py3 import LakeHouseWriteSettings
+from ._models_py3 import LakehouseLinkedService
+from ._models_py3 import LakehouseLocation
+from ._models_py3 import LakehouseReadSettings
+from ._models_py3 import LakehouseTableDataset
+from ._models_py3 import LakehouseTableSink
+from ._models_py3 import LakehouseTableSource
+from ._models_py3 import LakehouseWriteSettings
 from ._models_py3 import LinkedIntegrationRuntime
 from ._models_py3 import LinkedIntegrationRuntimeKeyAuthorization
 from ._models_py3 import LinkedIntegrationRuntimeRbacAuthorization
@@ -684,7 +688,9 @@ from ._models_py3 import SqlDWUpsertSettings
 from ._models_py3 import SqlMISink
 from ._models_py3 import SqlMISource
 from ._models_py3 import SqlPartitionSettings
+from ._models_py3 import SqlServerBaseLinkedServiceTypeProperties
 from ._models_py3 import SqlServerLinkedService
+from ._models_py3 import SqlServerLinkedServiceTypeProperties
 from ._models_py3 import SqlServerSink
 from ._models_py3 import SqlServerSource
 from ._models_py3 import SqlServerStoredProcedureActivity
@@ -787,9 +793,13 @@ from ._models_py3 import ZohoSource
 from ._data_factory_management_client_enums import ActivityOnInactiveMarkAs
 from ._data_factory_management_client_enums import ActivityState
 from ._data_factory_management_client_enums import AmazonRdsForOraclePartitionOption
+from ._data_factory_management_client_enums import AmazonRdsForSqlAuthenticationType
 from ._data_factory_management_client_enums import AvroCompressionCodec
 from ._data_factory_management_client_enums import AzureFunctionActivityMethod
 from ._data_factory_management_client_enums import AzureSearchIndexWriteBehaviorType
+from ._data_factory_management_client_enums import AzureSqlDWAuthenticationType
+from ._data_factory_management_client_enums import AzureSqlDatabaseAuthenticationType
+from ._data_factory_management_client_enums import AzureSqlMIAuthenticationType
 from ._data_factory_management_client_enums import AzureStorageAuthenticationType
 from ._data_factory_management_client_enums import BigDataPoolReferenceType
 from ._data_factory_management_client_enums import BlobEventTypes
@@ -891,6 +901,7 @@ from ._data_factory_management_client_enums import SparkThriftTransportProtocol
 from ._data_factory_management_client_enums import SqlAlwaysEncryptedAkvAuthType
 from ._data_factory_management_client_enums import SqlDWWriteBehaviorEnum
 from ._data_factory_management_client_enums import SqlPartitionOption
+from ._data_factory_management_client_enums import SqlServerAuthenticationType
 from ._data_factory_management_client_enums import SqlWriteBehaviorEnum
 from ._data_factory_management_client_enums import SsisLogLocationType
 from ._data_factory_management_client_enums import SsisObjectMetadataType
@@ -931,6 +942,7 @@ __all__ = [
     "AmazonRdsForOracleSource",
     "AmazonRdsForOracleTableDataset",
     "AmazonRdsForSqlServerLinkedService",
+    "AmazonRdsForSqlServerLinkedServiceTypeProperties",
     "AmazonRdsForSqlServerSource",
     "AmazonRdsForSqlServerTableDataset",
     "AmazonRedshiftLinkedService",
@@ -1016,9 +1028,12 @@ __all__ = [
     "AzureSearchIndexSink",
     "AzureSearchLinkedService",
     "AzureSqlDWLinkedService",
+    "AzureSqlDWLinkedServiceTypeProperties",
     "AzureSqlDWTableDataset",
     "AzureSqlDatabaseLinkedService",
+    "AzureSqlDatabaseLinkedServiceTypeProperties",
     "AzureSqlMILinkedService",
+    "AzureSqlMILinkedServiceTypeProperties",
     "AzureSqlMITableDataset",
     "AzureSqlSink",
     "AzureSqlSource",
@@ -1297,13 +1312,13 @@ __all__ = [
     "JsonSink",
     "JsonSource",
     "JsonWriteSettings",
-    "LakeHouseLinkedService",
-    "LakeHouseLocation",
-    "LakeHouseReadSettings",
-    "LakeHouseTableDataset",
-    "LakeHouseTableSink",
-    "LakeHouseTableSource",
-    "LakeHouseWriteSettings",
+    "LakehouseLinkedService",
+    "LakehouseLocation",
+    "LakehouseReadSettings",
+    "LakehouseTableDataset",
+    "LakehouseTableSink",
+    "LakehouseTableSource",
+    "LakehouseWriteSettings",
     "LinkedIntegrationRuntime",
     "LinkedIntegrationRuntimeKeyAuthorization",
     "LinkedIntegrationRuntimeRbacAuthorization",
@@ -1593,7 +1608,9 @@ __all__ = [
     "SqlMISink",
     "SqlMISource",
     "SqlPartitionSettings",
+    "SqlServerBaseLinkedServiceTypeProperties",
     "SqlServerLinkedService",
+    "SqlServerLinkedServiceTypeProperties",
     "SqlServerSink",
     "SqlServerSource",
     "SqlServerStoredProcedureActivity",
@@ -1695,9 +1712,13 @@ __all__ = [
     "ActivityOnInactiveMarkAs",
     "ActivityState",
     "AmazonRdsForOraclePartitionOption",
+    "AmazonRdsForSqlAuthenticationType",
     "AvroCompressionCodec",
     "AzureFunctionActivityMethod",
     "AzureSearchIndexWriteBehaviorType",
+    "AzureSqlDWAuthenticationType",
+    "AzureSqlDatabaseAuthenticationType",
+    "AzureSqlMIAuthenticationType",
     "AzureStorageAuthenticationType",
     "BigDataPoolReferenceType",
     "BlobEventTypes",
@@ -1799,6 +1820,7 @@ __all__ = [
     "SqlAlwaysEncryptedAkvAuthType",
     "SqlDWWriteBehaviorEnum",
     "SqlPartitionOption",
+    "SqlServerAuthenticationType",
     "SqlWriteBehaviorEnum",
     "SsisLogLocationType",
     "SsisObjectMetadataType",
