@@ -49,7 +49,7 @@ class ApiSpecImportSourceFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The inlined content of a specification document."""
     LINK = "link"
     """The link to a specification document hosted on a publicly accessible internet
-    #: address."""
+    address."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -171,10 +171,3 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource creation failed."""
     CANCELED = "Canceled"
     """Resource creation was canceled."""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The available API versions."""
-
-    V2024_03_01 = "2024-03-01"
-    """The initial service version"""
