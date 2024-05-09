@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managednetworkfabric import ManagedNetworkFabricMgmtClient
 
 """
@@ -37,6 +40,7 @@ def main():
                 "aclsUrl": "https://microsoft.com/a",
                 "annotation": "annotation",
                 "configurationType": "File",
+                "defaultAction": "Permit",
                 "dynamicMatchConfigurations": [
                     {
                         "ipGroups": [
