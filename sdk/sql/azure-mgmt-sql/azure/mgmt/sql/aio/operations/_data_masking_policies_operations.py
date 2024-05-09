@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Literal, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -29,10 +29,10 @@ from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._data_masking_policies_operations import build_create_or_update_request, build_get_request
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -81,11 +81,6 @@ class DataMaskingPoliciesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword data_masking_policy_name: The name of the database for which the data masking rule
-         applies. Default value is "Default". Note that overriding this default value may result in
-         unsupported behavior.
-        :paramtype data_masking_policy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DataMaskingPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.DataMaskingPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -97,7 +92,7 @@ class DataMaskingPoliciesOperations:
         resource_group_name: str,
         server_name: str,
         database_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -112,15 +107,10 @@ class DataMaskingPoliciesOperations:
         :param database_name: The name of the database. Required.
         :type database_name: str
         :param parameters: Parameters for creating or updating a data masking policy. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword data_masking_policy_name: The name of the database for which the data masking rule
-         applies. Default value is "Default". Note that overriding this default value may result in
-         unsupported behavior.
-        :paramtype data_masking_policy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DataMaskingPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.DataMaskingPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -132,7 +122,7 @@ class DataMaskingPoliciesOperations:
         resource_group_name: str,
         server_name: str,
         database_name: str,
-        parameters: Union[_models.DataMaskingPolicy, IO],
+        parameters: Union[_models.DataMaskingPolicy, IO[bytes]],
         **kwargs: Any
     ) -> _models.DataMaskingPolicy:
         """Creates or updates a database data masking policy.
@@ -145,21 +135,13 @@ class DataMaskingPoliciesOperations:
         :param database_name: The name of the database. Required.
         :type database_name: str
         :param parameters: Parameters for creating or updating a data masking policy. Is either a
-         DataMaskingPolicy type or a IO type. Required.
-        :type parameters: ~azure.mgmt.sql.models.DataMaskingPolicy or IO
-        :keyword data_masking_policy_name: The name of the database for which the data masking rule
-         applies. Default value is "Default". Note that overriding this default value may result in
-         unsupported behavior.
-        :paramtype data_masking_policy_name: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         DataMaskingPolicy type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.sql.models.DataMaskingPolicy or IO[bytes]
         :return: DataMaskingPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.DataMaskingPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -183,7 +165,7 @@ class DataMaskingPoliciesOperations:
         else:
             _json = self._serialize.body(parameters, "DataMaskingPolicy")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             database_name=database_name,
@@ -193,16 +175,15 @@ class DataMaskingPoliciesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -214,13 +195,9 @@ class DataMaskingPoliciesOperations:
         deserialized = self._deserialize("DataMaskingPolicy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(
@@ -235,16 +212,11 @@ class DataMaskingPoliciesOperations:
         :type server_name: str
         :param database_name: The name of the database. Required.
         :type database_name: str
-        :keyword data_masking_policy_name: The name of the database for which the data masking rule
-         applies. Default value is "Default". Note that overriding this default value may result in
-         unsupported behavior.
-        :paramtype data_masking_policy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DataMaskingPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.DataMaskingPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -259,23 +231,22 @@ class DataMaskingPoliciesOperations:
         data_masking_policy_name: Literal["Default"] = kwargs.pop("data_masking_policy_name", "Default")
         cls: ClsType[_models.DataMaskingPolicy] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             data_masking_policy_name=data_masking_policy_name,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -287,10 +258,6 @@ class DataMaskingPoliciesOperations:
         deserialized = self._deserialize("DataMaskingPolicy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}"
-    }
+        return deserialized  # type: ignore

@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -34,11 +35,15 @@ from ...operations._managed_database_security_alert_policies_operations import (
     build_list_by_database_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ManagedDatabaseSecurityAlertPoliciesOperations:
+class ManagedDatabaseSecurityAlertPoliciesOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -78,12 +83,11 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         :type database_name: str
         :param security_alert_policy_name: The name of the security alert policy. "Default" Required.
         :type security_alert_policy_name: str or ~azure.mgmt.sql.models.SecurityAlertPolicyName
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedDatabaseSecurityAlertPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.ManagedDatabaseSecurityAlertPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -97,23 +101,22 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.ManagedDatabaseSecurityAlertPolicy] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             managed_instance_name=managed_instance_name,
             database_name=database_name,
             security_alert_policy_name=security_alert_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -125,13 +128,9 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         deserialized = self._deserialize("ManagedDatabaseSecurityAlertPolicy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create_or_update(
@@ -162,7 +161,6 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedDatabaseSecurityAlertPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.ManagedDatabaseSecurityAlertPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -175,7 +173,7 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         managed_instance_name: str,
         database_name: str,
         security_alert_policy_name: Union[str, _models.SecurityAlertPolicyName],
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -193,11 +191,10 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         :param security_alert_policy_name: The name of the security alert policy. "Default" Required.
         :type security_alert_policy_name: str or ~azure.mgmt.sql.models.SecurityAlertPolicyName
         :param parameters: The database security alert policy. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedDatabaseSecurityAlertPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.ManagedDatabaseSecurityAlertPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -210,7 +207,7 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         managed_instance_name: str,
         database_name: str,
         security_alert_policy_name: Union[str, _models.SecurityAlertPolicyName],
-        parameters: Union[_models.ManagedDatabaseSecurityAlertPolicy, IO],
+        parameters: Union[_models.ManagedDatabaseSecurityAlertPolicy, IO[bytes]],
         **kwargs: Any
     ) -> _models.ManagedDatabaseSecurityAlertPolicy:
         """Creates or updates a database's security alert policy.
@@ -226,17 +223,13 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         :param security_alert_policy_name: The name of the security alert policy. "Default" Required.
         :type security_alert_policy_name: str or ~azure.mgmt.sql.models.SecurityAlertPolicyName
         :param parameters: The database security alert policy. Is either a
-         ManagedDatabaseSecurityAlertPolicy type or a IO type. Required.
-        :type parameters: ~azure.mgmt.sql.models.ManagedDatabaseSecurityAlertPolicy or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ManagedDatabaseSecurityAlertPolicy type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.sql.models.ManagedDatabaseSecurityAlertPolicy or IO[bytes]
         :return: ManagedDatabaseSecurityAlertPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.ManagedDatabaseSecurityAlertPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -259,7 +252,7 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         else:
             _json = self._serialize.body(parameters, "ManagedDatabaseSecurityAlertPolicy")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             managed_instance_name=managed_instance_name,
             database_name=database_name,
@@ -269,16 +262,15 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -298,10 +290,6 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}"
-    }
-
     @distributed_trace
     def list_by_database(
         self, resource_group_name: str, managed_instance_name: str, database_name: str, **kwargs: Any
@@ -316,7 +304,6 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         :param database_name: The name of the managed database for which the security alert policies
          are defined. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ManagedDatabaseSecurityAlertPolicy or the result
          of cls(response)
         :rtype:
@@ -329,7 +316,7 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.ManagedDatabaseSecurityAlertPolicyListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -340,25 +327,24 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_database_request(
+                _request = build_list_by_database_request(
                     resource_group_name=resource_group_name,
                     managed_instance_name=managed_instance_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_database.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = HttpRequest("GET", next_link)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ManagedDatabaseSecurityAlertPolicyListResult", pipeline_response)
@@ -368,11 +354,11 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -383,7 +369,3 @@ class ManagedDatabaseSecurityAlertPoliciesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies"
-    }

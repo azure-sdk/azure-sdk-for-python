@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -31,6 +32,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -225,7 +230,6 @@ class JobAgentsOperations:
         :type resource_group_name: str
         :param server_name: The name of the server. Required.
         :type server_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either JobAgent or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -236,7 +240,7 @@ class JobAgentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.JobAgentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -247,24 +251,23 @@ class JobAgentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_server_request(
+                _request = build_list_by_server_request(
                     resource_group_name=resource_group_name,
                     server_name=server_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_server.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = HttpRequest("GET", next_link)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("JobAgentListResult", pipeline_response)
@@ -274,11 +277,11 @@ class JobAgentsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -289,10 +292,6 @@ class JobAgentsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_server.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents"
-    }
 
     @distributed_trace
     def get(self, resource_group_name: str, server_name: str, job_agent_name: str, **kwargs: Any) -> _models.JobAgent:
@@ -305,12 +304,11 @@ class JobAgentsOperations:
         :type server_name: str
         :param job_agent_name: The name of the job agent to be retrieved. Required.
         :type job_agent_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JobAgent or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.JobAgent
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -324,22 +322,21 @@ class JobAgentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.JobAgent] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             job_agent_name=job_agent_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -351,23 +348,19 @@ class JobAgentsOperations:
         deserialized = self._deserialize("JobAgent", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         server_name: str,
         job_agent_name: str,
-        parameters: Union[_models.JobAgent, IO],
+        parameters: Union[_models.JobAgent, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.JobAgent]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -390,7 +383,7 @@ class JobAgentsOperations:
         else:
             _json = self._serialize.body(parameters, "JobAgent")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             job_agent_name=job_agent_name,
@@ -399,16 +392,15 @@ class JobAgentsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -425,13 +417,9 @@ class JobAgentsOperations:
             deserialized = self._deserialize("JobAgent", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_or_update(
@@ -458,14 +446,6 @@ class JobAgentsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either JobAgent or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -477,7 +457,7 @@ class JobAgentsOperations:
         resource_group_name: str,
         server_name: str,
         job_agent_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -492,18 +472,10 @@ class JobAgentsOperations:
         :param job_agent_name: The name of the job agent to be created or updated. Required.
         :type job_agent_name: str
         :param parameters: The requested job agent resource state. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either JobAgent or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -515,7 +487,7 @@ class JobAgentsOperations:
         resource_group_name: str,
         server_name: str,
         job_agent_name: str,
-        parameters: Union[_models.JobAgent, IO],
+        parameters: Union[_models.JobAgent, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.JobAgent]:
         """Creates or updates a job agent.
@@ -527,20 +499,9 @@ class JobAgentsOperations:
         :type server_name: str
         :param job_agent_name: The name of the job agent to be created or updated. Required.
         :type job_agent_name: str
-        :param parameters: The requested job agent resource state. Is either a JobAgent type or a IO
-         type. Required.
-        :type parameters: ~azure.mgmt.sql.models.JobAgent or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param parameters: The requested job agent resource state. Is either a JobAgent type or a
+         IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.sql.models.JobAgent or IO[bytes]
         :return: An instance of LROPoller that returns either JobAgent or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -572,7 +533,7 @@ class JobAgentsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("JobAgent", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -582,22 +543,20 @@ class JobAgentsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.JobAgent].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+        return LROPoller[_models.JobAgent](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, job_agent_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -611,22 +570,21 @@ class JobAgentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             job_agent_name=job_agent_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -636,11 +594,7 @@ class JobAgentsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -655,14 +609,6 @@ class JobAgentsOperations:
         :type server_name: str
         :param job_agent_name: The name of the job agent to be deleted. Required.
         :type job_agent_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -690,7 +636,7 @@ class JobAgentsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -699,27 +645,23 @@ class JobAgentsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _update_initial(
         self,
         resource_group_name: str,
         server_name: str,
         job_agent_name: str,
-        parameters: Union[_models.JobAgentUpdate, IO],
+        parameters: Union[_models.JobAgentUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.JobAgent]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -742,7 +684,7 @@ class JobAgentsOperations:
         else:
             _json = self._serialize.body(parameters, "JobAgentUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             job_agent_name=job_agent_name,
@@ -751,16 +693,15 @@ class JobAgentsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -774,13 +715,9 @@ class JobAgentsOperations:
             deserialized = self._deserialize("JobAgent", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -807,14 +744,6 @@ class JobAgentsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either JobAgent or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -826,7 +755,7 @@ class JobAgentsOperations:
         resource_group_name: str,
         server_name: str,
         job_agent_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -841,18 +770,10 @@ class JobAgentsOperations:
         :param job_agent_name: The name of the job agent to be updated. Required.
         :type job_agent_name: str
         :param parameters: The update to the job agent. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either JobAgent or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -864,7 +785,7 @@ class JobAgentsOperations:
         resource_group_name: str,
         server_name: str,
         job_agent_name: str,
-        parameters: Union[_models.JobAgentUpdate, IO],
+        parameters: Union[_models.JobAgentUpdate, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.JobAgent]:
         """Updates a job agent.
@@ -876,20 +797,9 @@ class JobAgentsOperations:
         :type server_name: str
         :param job_agent_name: The name of the job agent to be updated. Required.
         :type job_agent_name: str
-        :param parameters: The update to the job agent. Is either a JobAgentUpdate type or a IO type.
-         Required.
-        :type parameters: ~azure.mgmt.sql.models.JobAgentUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param parameters: The update to the job agent. Is either a JobAgentUpdate type or a IO[bytes]
+         type. Required.
+        :type parameters: ~azure.mgmt.sql.models.JobAgentUpdate or IO[bytes]
         :return: An instance of LROPoller that returns either JobAgent or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.JobAgent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -921,7 +831,7 @@ class JobAgentsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("JobAgent", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -931,14 +841,12 @@ class JobAgentsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.JobAgent].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}"
-    }
+        return LROPoller[_models.JobAgent](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
