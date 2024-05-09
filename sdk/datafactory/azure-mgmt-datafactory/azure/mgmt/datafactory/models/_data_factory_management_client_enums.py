@@ -37,6 +37,13 @@ class AmazonRdsForOraclePartitionOption(str, Enum, metaclass=CaseInsensitiveEnum
     DYNAMIC_RANGE = "DynamicRange"
 
 
+class AmazonRdsForSqlAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type used for authentication. Type: string."""
+
+    SQL = "SQL"
+    WINDOWS = "Windows"
+
+
 class AvroCompressionCodec(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AvroCompressionCodec."""
 
@@ -64,6 +71,33 @@ class AzureSearchIndexWriteBehaviorType(str, Enum, metaclass=CaseInsensitiveEnum
 
     MERGE = "Merge"
     UPLOAD = "Upload"
+
+
+class AzureSqlDatabaseAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type used for authentication. Type: string."""
+
+    SQL = "SQL"
+    SERVICE_PRINCIPAL = "ServicePrincipal"
+    SYSTEM_ASSIGNED_MANAGED_IDENTITY = "SystemAssignedManagedIdentity"
+    USER_ASSIGNED_MANAGED_IDENTITY = "UserAssignedManagedIdentity"
+
+
+class AzureSqlDWAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type used for authentication. Type: string."""
+
+    SQL = "SQL"
+    SERVICE_PRINCIPAL = "ServicePrincipal"
+    SYSTEM_ASSIGNED_MANAGED_IDENTITY = "SystemAssignedManagedIdentity"
+    USER_ASSIGNED_MANAGED_IDENTITY = "UserAssignedManagedIdentity"
+
+
+class AzureSqlMIAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type used for authentication. Type: string."""
+
+    SQL = "SQL"
+    SERVICE_PRINCIPAL = "ServicePrincipal"
+    SYSTEM_ASSIGNED_MANAGED_IDENTITY = "SystemAssignedManagedIdentity"
+    USER_ASSIGNED_MANAGED_IDENTITY = "UserAssignedManagedIdentity"
 
 
 class AzureStorageAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -185,12 +219,6 @@ class DatasetCompressionLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     OPTIMAL = "Optimal"
     FASTEST = "Fastest"
-
-
-class DatasetReferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Dataset reference type."""
-
-    DATASET_REFERENCE = "DatasetReference"
 
 
 class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -450,12 +478,6 @@ class IntegrationRuntimeLicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta
     LICENSE_INCLUDED = "LicenseIncluded"
 
 
-class IntegrationRuntimeReferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of integration runtime."""
-
-    INTEGRATION_RUNTIME_REFERENCE = "IntegrationRuntimeReference"
-
-
 class IntegrationRuntimeSsisCatalogPricingTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The pricing tier for the catalog database. The valid values could be found in
     https://azure.microsoft.com/en-us/pricing/details/sql-database/.
@@ -616,12 +638,6 @@ class PhoenixAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ANONYMOUS = "Anonymous"
     USERNAME_AND_PASSWORD = "UsernameAndPassword"
     WINDOWS_AZURE_HD_INSIGHT_SERVICE = "WindowsAzureHDInsightService"
-
-
-class PipelineReferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Pipeline reference type."""
-
-    PIPELINE_REFERENCE = "PipelineReference"
 
 
 class PolybaseSettingsRejectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -809,7 +825,7 @@ class ScriptActivityParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ScriptType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the query. Type: string."""
+    """The type of the ScriptActivityScriptBlock."""
 
     QUERY = "Query"
     NON_QUERY = "NonQuery"
@@ -924,6 +940,13 @@ class SqlPartitionOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DYNAMIC_RANGE = "DynamicRange"
 
 
+class SqlServerAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type used for authentication. Type: string."""
+
+    SQL = "SQL"
+    WINDOWS = "Windows"
+
+
 class SqlWriteBehaviorEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specify the write behavior when copying data into sql."""
 
@@ -1025,12 +1048,6 @@ class TumblingWindowFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MINUTE = "Minute"
     HOUR = "Hour"
     MONTH = "Month"
-
-
-class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Linked service reference type."""
-
-    LINKED_SERVICE_REFERENCE = "LinkedServiceReference"
 
 
 class VariableType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
