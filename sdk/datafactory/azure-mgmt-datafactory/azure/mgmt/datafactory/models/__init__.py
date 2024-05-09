@@ -22,6 +22,7 @@ from ._models_py3 import AmazonRdsForOraclePartitionSettings
 from ._models_py3 import AmazonRdsForOracleSource
 from ._models_py3 import AmazonRdsForOracleTableDataset
 from ._models_py3 import AmazonRdsForSqlServerLinkedService
+from ._models_py3 import AmazonRdsForSqlServerLinkedServiceTypeProperties
 from ._models_py3 import AmazonRdsForSqlServerSource
 from ._models_py3 import AmazonRdsForSqlServerTableDataset
 from ._models_py3 import AmazonRedshiftLinkedService
@@ -107,9 +108,12 @@ from ._models_py3 import AzureSearchIndexDataset
 from ._models_py3 import AzureSearchIndexSink
 from ._models_py3 import AzureSearchLinkedService
 from ._models_py3 import AzureSqlDWLinkedService
+from ._models_py3 import AzureSqlDWLinkedServiceTypeProperties
 from ._models_py3 import AzureSqlDWTableDataset
 from ._models_py3 import AzureSqlDatabaseLinkedService
+from ._models_py3 import AzureSqlDatabaseLinkedServiceTypeProperties
 from ._models_py3 import AzureSqlMILinkedService
+from ._models_py3 import AzureSqlMILinkedServiceTypeProperties
 from ._models_py3 import AzureSqlMITableDataset
 from ._models_py3 import AzureSqlSink
 from ._models_py3 import AzureSqlSource
@@ -562,6 +566,7 @@ from ._models_py3 import RecurrenceSchedule
 from ._models_py3 import RecurrenceScheduleOccurrence
 from ._models_py3 import RedirectIncompatibleRowSettings
 from ._models_py3 import RedshiftUnloadSettings
+from ._models_py3 import Reference
 from ._models_py3 import RelationalSource
 from ._models_py3 import RelationalTableDataset
 from ._models_py3 import RemotePrivateEndpointConnection
@@ -684,7 +689,9 @@ from ._models_py3 import SqlDWUpsertSettings
 from ._models_py3 import SqlMISink
 from ._models_py3 import SqlMISource
 from ._models_py3 import SqlPartitionSettings
+from ._models_py3 import SqlServerBaseLinkedServiceTypeProperties
 from ._models_py3 import SqlServerLinkedService
+from ._models_py3 import SqlServerLinkedServiceTypeProperties
 from ._models_py3 import SqlServerSink
 from ._models_py3 import SqlServerSource
 from ._models_py3 import SqlServerStoredProcedureActivity
@@ -787,9 +794,13 @@ from ._models_py3 import ZohoSource
 from ._data_factory_management_client_enums import ActivityOnInactiveMarkAs
 from ._data_factory_management_client_enums import ActivityState
 from ._data_factory_management_client_enums import AmazonRdsForOraclePartitionOption
+from ._data_factory_management_client_enums import AmazonRdsForSqlAuthenticationType
 from ._data_factory_management_client_enums import AvroCompressionCodec
 from ._data_factory_management_client_enums import AzureFunctionActivityMethod
 from ._data_factory_management_client_enums import AzureSearchIndexWriteBehaviorType
+from ._data_factory_management_client_enums import AzureSqlDWAuthenticationType
+from ._data_factory_management_client_enums import AzureSqlDatabaseAuthenticationType
+from ._data_factory_management_client_enums import AzureSqlMIAuthenticationType
 from ._data_factory_management_client_enums import AzureStorageAuthenticationType
 from ._data_factory_management_client_enums import BigDataPoolReferenceType
 from ._data_factory_management_client_enums import BlobEventTypes
@@ -804,7 +815,6 @@ from ._data_factory_management_client_enums import DataFlowComputeType
 from ._data_factory_management_client_enums import DataFlowDebugCommandType
 from ._data_factory_management_client_enums import DataFlowReferenceType
 from ._data_factory_management_client_enums import DatasetCompressionLevel
-from ._data_factory_management_client_enums import DatasetReferenceType
 from ._data_factory_management_client_enums import DayOfWeek
 from ._data_factory_management_client_enums import DaysOfWeek
 from ._data_factory_management_client_enums import Db2AuthenticationType
@@ -836,7 +846,6 @@ from ._data_factory_management_client_enums import IntegrationRuntimeEdition
 from ._data_factory_management_client_enums import IntegrationRuntimeEntityReferenceType
 from ._data_factory_management_client_enums import IntegrationRuntimeInternalChannelEncryptionMode
 from ._data_factory_management_client_enums import IntegrationRuntimeLicenseType
-from ._data_factory_management_client_enums import IntegrationRuntimeReferenceType
 from ._data_factory_management_client_enums import IntegrationRuntimeSsisCatalogPricingTier
 from ._data_factory_management_client_enums import IntegrationRuntimeState
 from ._data_factory_management_client_enums import IntegrationRuntimeType
@@ -856,7 +865,6 @@ from ._data_factory_management_client_enums import OraclePartitionOption
 from ._data_factory_management_client_enums import OrcCompressionCodec
 from ._data_factory_management_client_enums import ParameterType
 from ._data_factory_management_client_enums import PhoenixAuthenticationType
-from ._data_factory_management_client_enums import PipelineReferenceType
 from ._data_factory_management_client_enums import PolybaseSettingsRejectType
 from ._data_factory_management_client_enums import PrestoAuthenticationType
 from ._data_factory_management_client_enums import PublicNetworkAccess
@@ -891,6 +899,7 @@ from ._data_factory_management_client_enums import SparkThriftTransportProtocol
 from ._data_factory_management_client_enums import SqlAlwaysEncryptedAkvAuthType
 from ._data_factory_management_client_enums import SqlDWWriteBehaviorEnum
 from ._data_factory_management_client_enums import SqlPartitionOption
+from ._data_factory_management_client_enums import SqlServerAuthenticationType
 from ._data_factory_management_client_enums import SqlWriteBehaviorEnum
 from ._data_factory_management_client_enums import SsisLogLocationType
 from ._data_factory_management_client_enums import SsisObjectMetadataType
@@ -904,7 +913,6 @@ from ._data_factory_management_client_enums import TriggerReferenceType
 from ._data_factory_management_client_enums import TriggerRunStatus
 from ._data_factory_management_client_enums import TriggerRuntimeState
 from ._data_factory_management_client_enums import TumblingWindowFrequency
-from ._data_factory_management_client_enums import Type
 from ._data_factory_management_client_enums import VariableType
 from ._data_factory_management_client_enums import WebActivityMethod
 from ._data_factory_management_client_enums import WebAuthenticationType
@@ -931,6 +939,7 @@ __all__ = [
     "AmazonRdsForOracleSource",
     "AmazonRdsForOracleTableDataset",
     "AmazonRdsForSqlServerLinkedService",
+    "AmazonRdsForSqlServerLinkedServiceTypeProperties",
     "AmazonRdsForSqlServerSource",
     "AmazonRdsForSqlServerTableDataset",
     "AmazonRedshiftLinkedService",
@@ -1016,9 +1025,12 @@ __all__ = [
     "AzureSearchIndexSink",
     "AzureSearchLinkedService",
     "AzureSqlDWLinkedService",
+    "AzureSqlDWLinkedServiceTypeProperties",
     "AzureSqlDWTableDataset",
     "AzureSqlDatabaseLinkedService",
+    "AzureSqlDatabaseLinkedServiceTypeProperties",
     "AzureSqlMILinkedService",
+    "AzureSqlMILinkedServiceTypeProperties",
     "AzureSqlMITableDataset",
     "AzureSqlSink",
     "AzureSqlSource",
@@ -1471,6 +1483,7 @@ __all__ = [
     "RecurrenceScheduleOccurrence",
     "RedirectIncompatibleRowSettings",
     "RedshiftUnloadSettings",
+    "Reference",
     "RelationalSource",
     "RelationalTableDataset",
     "RemotePrivateEndpointConnection",
@@ -1593,7 +1606,9 @@ __all__ = [
     "SqlMISink",
     "SqlMISource",
     "SqlPartitionSettings",
+    "SqlServerBaseLinkedServiceTypeProperties",
     "SqlServerLinkedService",
+    "SqlServerLinkedServiceTypeProperties",
     "SqlServerSink",
     "SqlServerSource",
     "SqlServerStoredProcedureActivity",
@@ -1695,9 +1710,13 @@ __all__ = [
     "ActivityOnInactiveMarkAs",
     "ActivityState",
     "AmazonRdsForOraclePartitionOption",
+    "AmazonRdsForSqlAuthenticationType",
     "AvroCompressionCodec",
     "AzureFunctionActivityMethod",
     "AzureSearchIndexWriteBehaviorType",
+    "AzureSqlDWAuthenticationType",
+    "AzureSqlDatabaseAuthenticationType",
+    "AzureSqlMIAuthenticationType",
     "AzureStorageAuthenticationType",
     "BigDataPoolReferenceType",
     "BlobEventTypes",
@@ -1712,7 +1731,6 @@ __all__ = [
     "DataFlowDebugCommandType",
     "DataFlowReferenceType",
     "DatasetCompressionLevel",
-    "DatasetReferenceType",
     "DayOfWeek",
     "DaysOfWeek",
     "Db2AuthenticationType",
@@ -1744,7 +1762,6 @@ __all__ = [
     "IntegrationRuntimeEntityReferenceType",
     "IntegrationRuntimeInternalChannelEncryptionMode",
     "IntegrationRuntimeLicenseType",
-    "IntegrationRuntimeReferenceType",
     "IntegrationRuntimeSsisCatalogPricingTier",
     "IntegrationRuntimeState",
     "IntegrationRuntimeType",
@@ -1764,7 +1781,6 @@ __all__ = [
     "OrcCompressionCodec",
     "ParameterType",
     "PhoenixAuthenticationType",
-    "PipelineReferenceType",
     "PolybaseSettingsRejectType",
     "PrestoAuthenticationType",
     "PublicNetworkAccess",
@@ -1799,6 +1815,7 @@ __all__ = [
     "SqlAlwaysEncryptedAkvAuthType",
     "SqlDWWriteBehaviorEnum",
     "SqlPartitionOption",
+    "SqlServerAuthenticationType",
     "SqlWriteBehaviorEnum",
     "SsisLogLocationType",
     "SsisObjectMetadataType",
@@ -1812,7 +1829,6 @@ __all__ = [
     "TriggerRunStatus",
     "TriggerRuntimeState",
     "TumblingWindowFrequency",
-    "Type",
     "VariableType",
     "WebActivityMethod",
     "WebAuthenticationType",
