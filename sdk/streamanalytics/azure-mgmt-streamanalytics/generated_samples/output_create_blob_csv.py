@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.streamanalytics import StreamAnalyticsManagementClient
 
 """
@@ -37,8 +40,6 @@ def main():
             "properties": {
                 "datasource": {
                     "properties": {
-                        "blobPathPrefix": "my/path",
-                        "blobWriteMode": "Once",
                         "container": "state",
                         "dateFormat": "yyyy/MM/dd",
                         "pathPattern": "{date}/{time}",
@@ -54,6 +55,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_Blob_CSV.json
+# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Create_Blob_CSV.json
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -39,6 +41,10 @@ from ...operations._outputs_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -98,7 +104,6 @@ class OutputsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -110,7 +115,7 @@ class OutputsOperations:
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: IO,
+        output: IO[bytes],
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
         *,
@@ -128,7 +133,7 @@ class OutputsOperations:
         :type output_name: str
         :param output: The definition of the output that will be used to create a new output or replace
          the existing one under the streaming job. Required.
-        :type output: IO
+        :type output: IO[bytes]
         :param if_match: The ETag of the output. Omit this value to always overwrite the current
          output. Specify the last-seen ETag value to prevent accidentally overwriting concurrent
          changes. Default value is None.
@@ -140,7 +145,6 @@ class OutputsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -152,7 +156,7 @@ class OutputsOperations:
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: Union[_models.Output, IO],
+        output: Union[_models.Output, IO[bytes]],
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
         **kwargs: Any
@@ -167,8 +171,9 @@ class OutputsOperations:
         :param output_name: The name of the output. Required.
         :type output_name: str
         :param output: The definition of the output that will be used to create a new output or replace
-         the existing one under the streaming job. Is either a Output type or a IO type. Required.
-        :type output: ~azure.mgmt.streamanalytics.models.Output or IO
+         the existing one under the streaming job. Is either a Output type or a IO[bytes] type.
+         Required.
+        :type output: ~azure.mgmt.streamanalytics.models.Output or IO[bytes]
         :param if_match: The ETag of the output. Omit this value to always overwrite the current
          output. Specify the last-seen ETag value to prevent accidentally overwriting concurrent
          changes. Default value is None.
@@ -177,15 +182,11 @@ class OutputsOperations:
          an existing output. Other values will result in a 412 Pre-condition Failed response. Default
          value is None.
         :type if_none_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -196,7 +197,7 @@ class OutputsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Output] = kwargs.pop("cls", None)
 
@@ -208,7 +209,7 @@ class OutputsOperations:
         else:
             _json = self._serialize.body(output, "Output")
 
-        request = build_create_or_replace_request(
+        _request = build_create_or_replace_request(
             resource_group_name=resource_group_name,
             job_name=job_name,
             output_name=output_name,
@@ -219,16 +220,15 @@ class OutputsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_replace.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -253,10 +253,6 @@ class OutputsOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_replace.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs/{outputName}"
-    }
 
     @overload
     async def update(
@@ -293,7 +289,6 @@ class OutputsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -305,7 +300,7 @@ class OutputsOperations:
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: IO,
+        output: IO[bytes],
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
@@ -326,7 +321,7 @@ class OutputsOperations:
          properties in the existing output (ie. Those properties will be updated). Any properties that
          are set to null here will mean that the corresponding property in the existing output will
          remain the same and not change as a result of this PATCH operation. Required.
-        :type output: IO
+        :type output: IO[bytes]
         :param if_match: The ETag of the output. Omit this value to always overwrite the current
          output. Specify the last-seen ETag value to prevent accidentally overwriting concurrent
          changes. Default value is None.
@@ -334,7 +329,6 @@ class OutputsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -346,7 +340,7 @@ class OutputsOperations:
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: Union[_models.Output, IO],
+        output: Union[_models.Output, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.Output:
@@ -365,21 +359,17 @@ class OutputsOperations:
          properties in the existing output (ie. Those properties will be updated). Any properties that
          are set to null here will mean that the corresponding property in the existing output will
          remain the same and not change as a result of this PATCH operation. Is either a Output type or
-         a IO type. Required.
-        :type output: ~azure.mgmt.streamanalytics.models.Output or IO
+         a IO[bytes] type. Required.
+        :type output: ~azure.mgmt.streamanalytics.models.Output or IO[bytes]
         :param if_match: The ETag of the output. Omit this value to always overwrite the current
          output. Specify the last-seen ETag value to prevent accidentally overwriting concurrent
          changes. Default value is None.
         :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -390,7 +380,7 @@ class OutputsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Output] = kwargs.pop("cls", None)
 
@@ -402,7 +392,7 @@ class OutputsOperations:
         else:
             _json = self._serialize.body(output, "Output")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             job_name=job_name,
             output_name=output_name,
@@ -412,16 +402,15 @@ class OutputsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -437,13 +426,9 @@ class OutputsOperations:
         deserialized = self._deserialize("Output", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs/{outputName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
@@ -458,12 +443,11 @@ class OutputsOperations:
         :type job_name: str
         :param output_name: The name of the output. Required.
         :type output_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -474,25 +458,24 @@ class OutputsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             job_name=job_name,
             output_name=output_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -503,11 +486,7 @@ class OutputsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs/{outputName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, job_name: str, output_name: str, **kwargs: Any) -> _models.Output:
@@ -520,12 +499,11 @@ class OutputsOperations:
         :type job_name: str
         :param output_name: The name of the output. Required.
         :type output_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Output or the result of cls(response)
         :rtype: ~azure.mgmt.streamanalytics.models.Output
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -536,25 +514,24 @@ class OutputsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Output] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             job_name=job_name,
             output_name=output_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -570,13 +547,9 @@ class OutputsOperations:
         deserialized = self._deserialize("Output", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs/{outputName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_streaming_job(
@@ -590,11 +563,10 @@ class OutputsOperations:
         :param job_name: The name of the streaming job. Required.
         :type job_name: str
         :param select: The $select OData query parameter. This is a comma-separated list of structural
-         properties to include in the response, or "\ *" to include all properties. By default, all
-         properties are returned except diagnostics. Currently only accepts '*\ ' as a valid value.
+         properties to include in the response, or "\\ *" to include all properties. By default, all
+         properties are returned except diagnostics. Currently only accepts '*\\ ' as a valid value.
          Default value is None.
         :type select: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Output or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.streamanalytics.models.Output]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -602,10 +574,10 @@ class OutputsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.OutputListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -616,25 +588,35 @@ class OutputsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_streaming_job_request(
+                _request = build_list_by_streaming_job_request(
                     resource_group_name=resource_group_name,
                     job_name=job_name,
                     subscription_id=self._config.subscription_id,
                     select=select,
                     api_version=api_version,
-                    template_url=self.list_by_streaming_job.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("OutputListResult", pipeline_response)
@@ -644,11 +626,11 @@ class OutputsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -661,19 +643,15 @@ class OutputsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_streaming_job.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs"
-    }
-
     async def _test_initial(
         self,
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: Optional[Union[_models.Output, IO]] = None,
+        output: Optional[Union[_models.Output, IO[bytes]]] = None,
         **kwargs: Any
     ) -> Optional[_models.ResourceTestStatus]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -684,7 +662,7 @@ class OutputsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.ResourceTestStatus]] = kwargs.pop("cls", None)
 
@@ -699,7 +677,7 @@ class OutputsOperations:
             else:
                 _json = None
 
-        request = build_test_request(
+        _request = build_test_request(
             resource_group_name=resource_group_name,
             job_name=job_name,
             output_name=output_name,
@@ -708,16 +686,15 @@ class OutputsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -732,13 +709,9 @@ class OutputsOperations:
             deserialized = self._deserialize("ResourceTestStatus", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs/{outputName}/test"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_test(
@@ -770,14 +743,6 @@ class OutputsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ResourceTestStatus or the result of
          cls(response)
         :rtype:
@@ -791,7 +756,7 @@ class OutputsOperations:
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: Optional[IO] = None,
+        output: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -811,18 +776,10 @@ class OutputsOperations:
          parameter can be left null to test the existing output as is or if specified, the properties
          specified will overwrite the corresponding properties in the existing output (exactly like a
          PATCH operation) and the resulting output will be tested. Default value is None.
-        :type output: IO
+        :type output: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ResourceTestStatus or the result of
          cls(response)
         :rtype:
@@ -836,7 +793,7 @@ class OutputsOperations:
         resource_group_name: str,
         job_name: str,
         output_name: str,
-        output: Optional[Union[_models.Output, IO]] = None,
+        output: Optional[Union[_models.Output, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ResourceTestStatus]:
         """Tests whether an output’s datasource is reachable and usable by the Azure Stream Analytics
@@ -853,20 +810,9 @@ class OutputsOperations:
          full output definition intended to be tested. If the output specified already exists, this
          parameter can be left null to test the existing output as is or if specified, the properties
          specified will overwrite the corresponding properties in the existing output (exactly like a
-         PATCH operation) and the resulting output will be tested. Is either a Output type or a IO type.
-         Default value is None.
-        :type output: ~azure.mgmt.streamanalytics.models.Output or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         PATCH operation) and the resulting output will be tested. Is either a Output type or a
+         IO[bytes] type. Default value is None.
+        :type output: ~azure.mgmt.streamanalytics.models.Output or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either ResourceTestStatus or the result of
          cls(response)
         :rtype:
@@ -876,7 +822,7 @@ class OutputsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ResourceTestStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -900,7 +846,7 @@ class OutputsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ResourceTestStatus", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -910,14 +856,12 @@ class OutputsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ResourceTestStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs/{outputName}/test"
-    }
+        return AsyncLROPoller[_models.ResourceTestStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
