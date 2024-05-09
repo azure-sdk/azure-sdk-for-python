@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -30,8 +31,12 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -62,7 +67,7 @@ def build_create_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -97,7 +102,7 @@ def build_get_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -131,7 +136,7 @@ def build_update_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -166,7 +171,7 @@ def build_delete_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -177,7 +182,7 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_administrative_state_request(
+def build_update_administrative_state_request(  # pylint: disable=name-too-long
     resource_group_name: str, l2_isolation_domain_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -200,7 +205,7 @@ def build_update_administrative_state_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -235,7 +240,7 @@ def build_validate_configuration_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -268,7 +273,7 @@ def build_commit_configuration_request(
         "l2IsolationDomainName": _SERIALIZER.url("l2_isolation_domain_name", l2_isolation_domain_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -298,7 +303,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -324,7 +329,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -358,10 +363,10 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: Union[_models.L2IsolationDomain, IO],
+        body: Union[_models.L2IsolationDomain, IO[bytes]],
         **kwargs: Any
     ) -> _models.L2IsolationDomain:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -384,7 +389,7 @@ class L2IsolationDomainsOperations:
         else:
             _json = self._serialize.body(body, "L2IsolationDomain")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
@@ -392,16 +397,15 @@ class L2IsolationDomainsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -421,10 +425,6 @@ class L2IsolationDomainsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
 
     @overload
     def begin_create(
@@ -451,14 +451,6 @@ class L2IsolationDomainsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either L2IsolationDomain or the result of
          cls(response)
         :rtype:
@@ -471,7 +463,7 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -487,18 +479,10 @@ class L2IsolationDomainsOperations:
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
         :param body: Request payload. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either L2IsolationDomain or the result of
          cls(response)
         :rtype:
@@ -511,7 +495,7 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: Union[_models.L2IsolationDomain, IO],
+        body: Union[_models.L2IsolationDomain, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.L2IsolationDomain]:
         """Create L2 Isolation Domain.
@@ -524,19 +508,8 @@ class L2IsolationDomainsOperations:
         :type resource_group_name: str
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
-        :param body: Request payload. Is either a L2IsolationDomain type or a IO type. Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.L2IsolationDomain or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Request payload. Is either a L2IsolationDomain type or a IO[bytes] type. Required.
+        :type body: ~azure.mgmt.managednetworkfabric.models.L2IsolationDomain or IO[bytes]
         :return: An instance of LROPoller that returns either L2IsolationDomain or the result of
          cls(response)
         :rtype:
@@ -569,7 +542,7 @@ class L2IsolationDomainsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("L2IsolationDomain", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -581,17 +554,15 @@ class L2IsolationDomainsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.L2IsolationDomain].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
+        return LROPoller[_models.L2IsolationDomain](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def get(self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any) -> _models.L2IsolationDomain:
@@ -604,12 +575,11 @@ class L2IsolationDomainsOperations:
         :type resource_group_name: str
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: L2IsolationDomain or the result of cls(response)
         :rtype: ~azure.mgmt.managednetworkfabric.models.L2IsolationDomain
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -623,21 +593,20 @@ class L2IsolationDomainsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.L2IsolationDomain] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -650,22 +619,18 @@ class L2IsolationDomainsOperations:
         deserialized = self._deserialize("L2IsolationDomain", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
+        return deserialized  # type: ignore
 
     def _update_initial(
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: Union[_models.L2IsolationDomainPatch, IO],
+        body: Union[_models.L2IsolationDomainPatch, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.L2IsolationDomain]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -688,7 +653,7 @@ class L2IsolationDomainsOperations:
         else:
             _json = self._serialize.body(body, "L2IsolationDomainPatch")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
@@ -696,16 +661,15 @@ class L2IsolationDomainsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -724,13 +688,9 @@ class L2IsolationDomainsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -756,14 +716,6 @@ class L2IsolationDomainsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either L2IsolationDomain or the result of
          cls(response)
         :rtype:
@@ -776,7 +728,7 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -791,18 +743,10 @@ class L2IsolationDomainsOperations:
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
         :param body: API to update certain properties of the L2 Isolation Domain resource.. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either L2IsolationDomain or the result of
          cls(response)
         :rtype:
@@ -815,7 +759,7 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: Union[_models.L2IsolationDomainPatch, IO],
+        body: Union[_models.L2IsolationDomainPatch, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.L2IsolationDomain]:
         """Updates the L2 Isolation Domain.
@@ -828,19 +772,8 @@ class L2IsolationDomainsOperations:
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
         :param body: API to update certain properties of the L2 Isolation Domain resource.. Is either a
-         L2IsolationDomainPatch type or a IO type. Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.L2IsolationDomainPatch or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         L2IsolationDomainPatch type or a IO[bytes] type. Required.
+        :type body: ~azure.mgmt.managednetworkfabric.models.L2IsolationDomainPatch or IO[bytes]
         :return: An instance of LROPoller that returns either L2IsolationDomain or the result of
          cls(response)
         :rtype:
@@ -873,7 +806,7 @@ class L2IsolationDomainsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("L2IsolationDomain", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -885,22 +818,20 @@ class L2IsolationDomainsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.L2IsolationDomain].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
+        return LROPoller[_models.L2IsolationDomain](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -914,21 +845,20 @@ class L2IsolationDomainsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -939,11 +869,7 @@ class L2IsolationDomainsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -956,14 +882,6 @@ class L2IsolationDomainsOperations:
         :type resource_group_name: str
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -990,7 +908,7 @@ class L2IsolationDomainsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1001,26 +919,22 @@ class L2IsolationDomainsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _update_administrative_state_initial(
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: Union[_models.UpdateAdministrativeState, IO],
+        body: Union[_models.UpdateAdministrativeState, IO[bytes]],
         **kwargs: Any
     ) -> _models.CommonPostActionResponseForDeviceUpdate:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1043,7 +957,7 @@ class L2IsolationDomainsOperations:
         else:
             _json = self._serialize.body(body, "UpdateAdministrativeState")
 
-        request = build_update_administrative_state_request(
+        _request = build_update_administrative_state_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
@@ -1051,16 +965,15 @@ class L2IsolationDomainsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_administrative_state_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1083,10 +996,6 @@ class L2IsolationDomainsOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _update_administrative_state_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/updateAdministrativeState"
-    }
 
     @overload
     def begin_update_administrative_state(
@@ -1112,14 +1021,6 @@ class L2IsolationDomainsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CommonPostActionResponseForDeviceUpdate
          or the result of cls(response)
         :rtype:
@@ -1132,7 +1033,7 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1147,18 +1048,10 @@ class L2IsolationDomainsOperations:
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
         :param body: Request payload. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CommonPostActionResponseForDeviceUpdate
          or the result of cls(response)
         :rtype:
@@ -1171,7 +1064,7 @@ class L2IsolationDomainsOperations:
         self,
         resource_group_name: str,
         l2_isolation_domain_name: str,
-        body: Union[_models.UpdateAdministrativeState, IO],
+        body: Union[_models.UpdateAdministrativeState, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.CommonPostActionResponseForDeviceUpdate]:
         """Implements the operation to the underlying resources.
@@ -1183,20 +1076,9 @@ class L2IsolationDomainsOperations:
         :type resource_group_name: str
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
-        :param body: Request payload. Is either a UpdateAdministrativeState type or a IO type.
+        :param body: Request payload. Is either a UpdateAdministrativeState type or a IO[bytes] type.
          Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateAdministrativeState or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateAdministrativeState or IO[bytes]
         :return: An instance of LROPoller that returns either CommonPostActionResponseForDeviceUpdate
          or the result of cls(response)
         :rtype:
@@ -1229,7 +1111,7 @@ class L2IsolationDomainsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CommonPostActionResponseForDeviceUpdate", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1241,22 +1123,20 @@ class L2IsolationDomainsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.CommonPostActionResponseForDeviceUpdate].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_administrative_state.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/updateAdministrativeState"
-    }
+        return LROPoller[_models.CommonPostActionResponseForDeviceUpdate](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _validate_configuration_initial(
         self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any
     ) -> _models.ValidateConfigurationResponse:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1270,21 +1150,20 @@ class L2IsolationDomainsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ValidateConfigurationResponse] = kwargs.pop("cls", None)
 
-        request = build_validate_configuration_request(
+        _request = build_validate_configuration_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._validate_configuration_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1308,10 +1187,6 @@ class L2IsolationDomainsOperations:
 
         return deserialized  # type: ignore
 
-    _validate_configuration_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/validateConfiguration"
-    }
-
     @distributed_trace
     def begin_validate_configuration(
         self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any
@@ -1323,14 +1198,6 @@ class L2IsolationDomainsOperations:
         :type resource_group_name: str
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ValidateConfigurationResponse or the
          result of cls(response)
         :rtype:
@@ -1360,7 +1227,7 @@ class L2IsolationDomainsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ValidateConfigurationResponse", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1372,22 +1239,20 @@ class L2IsolationDomainsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ValidateConfigurationResponse].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_validate_configuration.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/validateConfiguration"
-    }
+        return LROPoller[_models.ValidateConfigurationResponse](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _commit_configuration_initial(
         self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any
     ) -> _models.CommonPostActionResponseForStateUpdate:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1401,21 +1266,20 @@ class L2IsolationDomainsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CommonPostActionResponseForStateUpdate] = kwargs.pop("cls", None)
 
-        request = build_commit_configuration_request(
+        _request = build_commit_configuration_request(
             resource_group_name=resource_group_name,
             l2_isolation_domain_name=l2_isolation_domain_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._commit_configuration_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1439,10 +1303,6 @@ class L2IsolationDomainsOperations:
 
         return deserialized  # type: ignore
 
-    _commit_configuration_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/commitConfiguration"
-    }
-
     @distributed_trace
     def begin_commit_configuration(
         self, resource_group_name: str, l2_isolation_domain_name: str, **kwargs: Any
@@ -1456,14 +1316,6 @@ class L2IsolationDomainsOperations:
         :type resource_group_name: str
         :param l2_isolation_domain_name: Name of the L2 Isolation Domain. Required.
         :type l2_isolation_domain_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CommonPostActionResponseForStateUpdate or
          the result of cls(response)
         :rtype:
@@ -1493,7 +1345,7 @@ class L2IsolationDomainsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CommonPostActionResponseForStateUpdate", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1505,17 +1357,15 @@ class L2IsolationDomainsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.CommonPostActionResponseForStateUpdate].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_commit_configuration.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/commitConfiguration"
-    }
+        return LROPoller[_models.CommonPostActionResponseForStateUpdate](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.L2IsolationDomain"]:
@@ -1526,7 +1376,6 @@ class L2IsolationDomainsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either L2IsolationDomain or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.managednetworkfabric.models.L2IsolationDomain]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1537,7 +1386,7 @@ class L2IsolationDomainsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.L2IsolationDomainsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1548,16 +1397,15 @@ class L2IsolationDomainsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1569,13 +1417,13 @@ class L2IsolationDomainsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("L2IsolationDomainsListResult", pipeline_response)
@@ -1585,11 +1433,11 @@ class L2IsolationDomainsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1601,10 +1449,6 @@ class L2IsolationDomainsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains"
-    }
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.L2IsolationDomain"]:
@@ -1612,7 +1456,6 @@ class L2IsolationDomainsOperations:
 
         Displays L2IsolationDomains list by subscription GET method.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either L2IsolationDomain or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.managednetworkfabric.models.L2IsolationDomain]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1623,7 +1466,7 @@ class L2IsolationDomainsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.L2IsolationDomainsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1634,15 +1477,14 @@ class L2IsolationDomainsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1654,13 +1496,13 @@ class L2IsolationDomainsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("L2IsolationDomainsListResult", pipeline_response)
@@ -1670,11 +1512,11 @@ class L2IsolationDomainsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1686,7 +1528,3 @@ class L2IsolationDomainsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains"
-    }
