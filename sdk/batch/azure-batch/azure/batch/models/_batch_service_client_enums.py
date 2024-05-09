@@ -52,7 +52,9 @@ class JobAction(str, Enum):
 
     none = "none"  #: Take no action.
     disable = "disable"  #: Disable the Job. This is equivalent to calling the disable Job API, with a disableTasks value of requeue.
-    terminate = "terminate"  #: Terminate the Job. The terminateReason in the Job's executionInfo is set to "TaskFailed".
+    terminate = (
+        "terminate"  #: Terminate the Job. The terminateReason in the Job's executionInfo is set to "TaskFailed".
+    )
 
 
 class DependencyAction(str, Enum):
@@ -83,7 +85,9 @@ class OutputFileUploadCondition(str, Enum):
 
     task_success = "tasksuccess"  #: Upload the file(s) only after the Task process exits with an exit code of 0.
     task_failure = "taskfailure"  #: Upload the file(s) only after the Task process exits with a nonzero exit code.
-    task_completion = "taskcompletion"  #: Upload the file(s) after the Task process exits, no matter what the exit code was.
+    task_completion = (
+        "taskcompletion"  #: Upload the file(s) after the Task process exits, no matter what the exit code was.
+    )
 
 
 class ComputeNodeFillType(str, Enum):
@@ -121,7 +125,9 @@ class StorageAccountType(str, Enum):
 
 class ContainerType(str, Enum):
 
-    docker_compatible = "dockerCompatible"  #: A Docker compatible container technology will be used to launch the containers.
+    docker_compatible = (
+        "dockerCompatible"  #: A Docker compatible container technology will be used to launch the containers.
+    )
     cri_compatible = "criCompatible"  #: A CRI based technology will be used to launch the containers.
 
 
@@ -168,7 +174,9 @@ class NetworkSecurityGroupRuleAccess(str, Enum):
 class IPAddressProvisioningType(str, Enum):
 
     batch_managed = "batchmanaged"  #: A public IP will be created and managed by Batch. There may be multiple public IPs depending on the size of the Pool.
-    user_managed = "usermanaged"  #: Public IPs are provided by the user and will be used to provision the Compute Nodes.
+    user_managed = (
+        "usermanaged"  #: Public IPs are provided by the user and will be used to provision the Compute Nodes.
+    )
     no_public_ip_addresses = "nopublicipaddresses"  #: No public IP Address will be created.
 
 
@@ -224,7 +232,9 @@ class JobState(str, Enum):
     active = "active"  #: The Job is available to have Tasks scheduled.
     disabling = "disabling"  #: A user has requested that the Job be disabled, but the disable operation is still in progress (for example, waiting for Tasks to terminate).
     disabled = "disabled"  #: A user has disabled the Job. No Tasks are running, and no new Tasks will be scheduled.
-    enabling = "enabling"  #: A user has requested that the Job be enabled, but the enable operation is still in progress.
+    enabling = (
+        "enabling"  #: A user has requested that the Job be enabled, but the enable operation is still in progress.
+    )
     terminating = "terminating"  #: The Job is about to complete, either because a Job Manager Task has completed or because the user has terminated the Job, but the terminate operation is still in progress (for example, because Job Release Tasks are running).
     completed = "completed"  #: All Tasks have terminated, and the system will not accept any more Tasks or any further changes to the Job.
     deleting = "deleting"  #: A user has requested that the Job be deleted, but the delete operation is still in progress (for example, because the system is still terminating running Tasks).
@@ -258,7 +268,9 @@ class StatusLevelTypes(str, Enum):
 class PoolState(str, Enum):
 
     active = "active"  #: The Pool is available to run Tasks subject to the availability of Compute Nodes.
-    deleting = "deleting"  #: The user has requested that the Pool be deleted, but the delete operation has not yet completed.
+    deleting = (
+        "deleting"  #: The user has requested that the Pool be deleted, but the delete operation has not yet completed.
+    )
 
 
 class AllocationState(str, Enum):

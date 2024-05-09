@@ -1,10 +1,10 @@
 # coding: utf-8
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for
 # license information.
-#--------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 import datetime
 import io
 import time
@@ -13,49 +13,40 @@ import azure.batch
 from azure.batch import models
 import pytest
 
-from batch_preparers import (
-    AccountPreparer,
-    PoolPreparer,
-    JobPreparer
-)
+from batch_preparers import AccountPreparer, PoolPreparer, JobPreparer
 
 from devtools_testutils import (
     AzureMgmtRecordedTestCase,
     ResourceGroupPreparer,
     StorageAccountPreparer,
-    CachedResourceGroupPreparer
+    CachedResourceGroupPreparer,
 )
 from devtools_testutils.fake_credentials import BATCH_TEST_PASSWORD
 
 
-AZURE_LOCATION = 'eastus'
+AZURE_LOCATION = "eastus"
 BATCH_ENVIRONMENT = None  # Set this to None if testing against prod
-BATCH_RESOURCE = 'https://batch.core.windows.net/'
-DEFAULT_VM_SIZE = 'standard_d2_v2'
+BATCH_RESOURCE = "https://batch.core.windows.net/"
+DEFAULT_VM_SIZE = "standard_d2_v2"
 
 
 class TestBatch(AzureMgmtRecordedTestCase):
 
     def _batch_url(self, batch):
-        if batch.account_endpoint.startswith('https://'):
+        if batch.account_endpoint.startswith("https://"):
             return batch.account_endpoint
         else:
-            return 'https://' + batch.account_endpoint
+            return "https://" + batch.account_endpoint
 
     def create_aad_client(self, batch_account, **kwargs):
         credentials = self.settings.get_credentials(resource=BATCH_RESOURCE)
         client = self.create_basic_client(
-            azure.batch.BatchServiceClient,
-            credentials=credentials,
-            batch_url=self._batch_url(batch_account)
+            azure.batch.BatchServiceClient, credentials=credentials, batch_url=self._batch_url(batch_account)
         )
         return client
 
     def create_sharedkey_client(self, batch_account, credentials, **kwargs):
-        client = azure.batch.BatchServiceClient(
-            credentials=credentials,
-            batch_url=self._batch_url(batch_account)
-        )
+        client = azure.batch.BatchServiceClient(credentials=credentials, batch_url=self._batch_url(batch_account))
         return client
 
     def assertBatchError(self, code, func, *args, **kwargs):
@@ -83,7 +74,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
     @pytest.mark.live_test_only("Can't use recordings until tests use the test proxy")
     @ResourceGroupPreparer(location=AZURE_LOCATION)
-    @StorageAccountPreparer(name_prefix='batch1', location=AZURE_LOCATION)
+    @StorageAccountPreparer(name_prefix="batch1", location=AZURE_LOCATION)
     @AccountPreparer(location=AZURE_LOCATION, batch_environment=BATCH_ENVIRONMENT)
     @JobPreparer()
     def test_batch_applications(self, **kwargs):
@@ -94,17 +85,19 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert len(apps) == 1
 
         # Test Get Application
-        app = client.application.get('application_id')
+        app = client.application.get("application_id")
         assert isinstance(app, models.ApplicationSummary)
-        assert app.id == 'application_id'
-        assert app.versions == ['v1.0']
+        assert app.id == "application_id"
+        assert app.versions == ["v1.0"]
 
         # Test Create Task with Application Package
-        task_id = 'python_task_with_app_package'
+        task_id = "python_task_with_app_package"
         task = models.TaskAddParameter(
             id=task_id,
             command_line='cmd /c "echo hello world"',
-            application_package_references=[models.ApplicationPackageReference(application_id='application_id', version='v1.0')]
+            application_package_references=[
+                models.ApplicationPackageReference(application_id="application_id", version="v1.0")
+            ],
         )
         response = client.task.add(batch_job.id, task)
         assert response is None
@@ -112,7 +105,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
         # Test Get Task with Application Package
         task = client.task.get(batch_job.id, task_id)
         assert isinstance(task, models.CloudTask)
-        assert task.application_package_references[0].application_id == 'application_id'
+        assert task.application_package_references[0].application_id == "application_id"
 
     @pytest.mark.live_test_only("Can't use recordings until tests use the test proxy")
     @ResourceGroupPreparer(location=AZURE_LOCATION)
@@ -121,37 +114,38 @@ class TestBatch(AzureMgmtRecordedTestCase):
         client = self.create_sharedkey_client(**kwargs)
         # Test Add Certificate
         certificate = models.CertificateAddParameter(
-            thumbprint='cff2ab63c8c955aaf71989efa641b906558d9fb7',
-            thumbprint_algorithm='sha1',
-            data='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',
+            thumbprint="cff2ab63c8c955aaf71989efa641b906558d9fb7",
+            thumbprint_algorithm="sha1",
+            data="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",
             certificate_format=models.CertificateFormat.pfx,
-            password='nodesdk')
+            password="nodesdk",
+        )
 
         response = client.certificate.add(certificate)
         assert response is None
 
         # Test List Certificates
         certs = client.certificate.list()
-        test_cert = [c for c in certs if c.thumbprint == 'cff2ab63c8c955aaf71989efa641b906558d9fb7']
+        test_cert = [c for c in certs if c.thumbprint == "cff2ab63c8c955aaf71989efa641b906558d9fb7"]
         assert len(test_cert) == 1
 
         # Test Get Certificate
-        cert = client.certificate.get('sha1', 'cff2ab63c8c955aaf71989efa641b906558d9fb7')
+        cert = client.certificate.get("sha1", "cff2ab63c8c955aaf71989efa641b906558d9fb7")
         assert isinstance(cert, models.Certificate)
-        assert cert.thumbprint == 'cff2ab63c8c955aaf71989efa641b906558d9fb7'
-        assert cert.thumbprint_algorithm == 'sha1'
+        assert cert.thumbprint == "cff2ab63c8c955aaf71989efa641b906558d9fb7"
+        assert cert.thumbprint_algorithm == "sha1"
         assert cert.delete_certificate_error is None
 
         # Test Cancel Certificate Delete
-        self.assertBatchError('CertificateStateActive',
-                              client.certificate.cancel_deletion,
-                              'sha1',
-                              'cff2ab63c8c955aaf71989efa641b906558d9fb7')
+        self.assertBatchError(
+            "CertificateStateActive",
+            client.certificate.cancel_deletion,
+            "sha1",
+            "cff2ab63c8c955aaf71989efa641b906558d9fb7",
+        )
 
         # Test Delete Certificate
-        response = client.certificate.delete(
-            'sha1',
-            'cff2ab63c8c955aaf71989efa641b906558d9fb7')
+        response = client.certificate.delete("sha1", "cff2ab63c8c955aaf71989efa641b906558d9fb7")
         assert response is None
 
     @pytest.mark.live_test_only("Can't use recordings until tests use the test proxy")
@@ -167,22 +161,23 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Iaas Pool
         users = [
-            models.UserAccount(name='test-user-1', password=BATCH_TEST_PASSWORD),
-            models.UserAccount(name='test-user-2', password=BATCH_TEST_PASSWORD, elevation_level=models.ElevationLevel.admin)
+            models.UserAccount(name="test-user-1", password=BATCH_TEST_PASSWORD),
+            models.UserAccount(
+                name="test-user-2", password=BATCH_TEST_PASSWORD, elevation_level=models.ElevationLevel.admin
+            ),
         ]
         test_iaas_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_iaas_'),
+            id=self.get_resource_name("batch_iaas_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
                 image_reference=models.ImageReference(
-                    publisher='MicrosoftWindowsServer',
-                    offer='WindowsServer',
-                    sku='2016-Datacenter-smalldisk'
+                    publisher="MicrosoftWindowsServer", offer="WindowsServer", sku="2016-Datacenter-smalldisk"
                 ),
-                node_agent_sku_id='batch.node.windows amd64',
-                windows_configuration=models.WindowsConfiguration(enable_automatic_updates=True)),
+                node_agent_sku_id="batch.node.windows amd64",
+                windows_configuration=models.WindowsConfiguration(enable_automatic_updates=True),
+            ),
             task_scheduling_policy=models.TaskSchedulingPolicy(node_fill_type=models.ComputeNodeFillType.pack),
-            user_accounts=users
+            user_accounts=users,
         )
         response = client.pool.add(test_iaas_pool)
         assert response is None
@@ -198,56 +193,56 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert counts[0].low_priority.total == 0
 
         # Test Create Pool with Network Configuration
-        #TODO Public IP tests
-        network_config = models.NetworkConfiguration(subnet_id='/subscriptions/00000000-0000-0000-0000-000000000000'
-                                                     '/resourceGroups/test'
-                                                     '/providers/Microsoft.Network'
-                                                     '/virtualNetworks/vnet1'
-                                                     '/subnets/subnet1')
+        # TODO Public IP tests
+        network_config = models.NetworkConfiguration(
+            subnet_id="/subscriptions/00000000-0000-0000-0000-000000000000"
+            "/resourceGroups/test"
+            "/providers/Microsoft.Network"
+            "/virtualNetworks/vnet1"
+            "/subnets/subnet1"
+        )
         test_network_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_network_'),
+            id=self.get_resource_name("batch_network_"),
             vm_size=DEFAULT_VM_SIZE,
             network_configuration=network_config,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
-                image_reference=models.ImageReference(
-                    publisher='Canonical',
-                    offer='UbuntuServer',
-                    sku='18.04-LTS'
-                ),
-                node_agent_sku_id='batch.node.ubuntu 18.04')
+                image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
+                node_agent_sku_id="batch.node.ubuntu 18.04",
+            ),
         )
-        self.assertBatchError('InvalidPropertyValue', client.pool.add, test_network_pool, models.PoolAddOptions(timeout=45))
+        self.assertBatchError(
+            "InvalidPropertyValue", client.pool.add, test_network_pool, models.PoolAddOptions(timeout=45)
+        )
 
         test_image_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_image_'),
+            id=self.get_resource_name("batch_image_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
                 image_reference=models.ImageReference(
                     virtual_machine_image_id="/subscriptions/00000000-0000-0000-0000-000000000000"
-                                             "/resourceGroups/test"
-                                             "/providers/Microsoft.Compute"
-                                             "/gallery/FakeGallery"
-                                             "/images/FakeImage"
-                                             "/versions/version"
+                    "/resourceGroups/test"
+                    "/providers/Microsoft.Compute"
+                    "/gallery/FakeGallery"
+                    "/images/FakeImage"
+                    "/versions/version"
                 ),
-                node_agent_sku_id='batch.node.ubuntu 18.04'
-            )
+                node_agent_sku_id="batch.node.ubuntu 18.04",
+            ),
         )
-        self.assertBatchError('InvalidPropertyValue', client.pool.add, test_image_pool, models.PoolAddOptions(timeout=45))
+        self.assertBatchError(
+            "InvalidPropertyValue", client.pool.add, test_image_pool, models.PoolAddOptions(timeout=45)
+        )
 
         # Test Create Pool with Data Disk
         data_disk = models.DataDisk(lun=1, disk_size_gb=50)
         test_disk_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_disk_'),
+            id=self.get_resource_name("batch_disk_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
-                image_reference=models.ImageReference(
-                    publisher='Canonical',
-                    offer='UbuntuServer',
-                    sku='18.04-LTS'
-                ),
-                node_agent_sku_id='batch.node.ubuntu 18.04',
-                data_disks=[data_disk])
+                image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
+                node_agent_sku_id="batch.node.ubuntu 18.04",
+                data_disks=[data_disk],
+            ),
         )
         response = client.pool.add(test_disk_pool)
         assert response is None
@@ -257,18 +252,15 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Pool with Azure Disk Encryption
         test_ade_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_ade_'),
+            id=self.get_resource_name("batch_ade_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
-                image_reference=models.ImageReference(
-                    publisher='Canonical',
-                    offer='UbuntuServer',
-                    sku='18.04-LTS'
-                ),
+                image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
                 disk_encryption_configuration=models.DiskEncryptionConfiguration(
                     targets=[models.DiskEncryptionTarget.temporary_disk]
                 ),
-                node_agent_sku_id='batch.node.ubuntu 18.04')
+                node_agent_sku_id="batch.node.ubuntu 18.04",
+            ),
         )
         response = client.pool.add(test_ade_pool)
         assert response is None
@@ -278,22 +270,24 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Pool with Virtual Machine Configuration With Extensions
         test_vmextension_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_vmextension_'),
+            id=self.get_resource_name("batch_vmextension_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
                 image_reference=models.ImageReference(
-                    publisher='microsoftwindowsserver',
-                    offer='windowsserver',
-                    sku='2022-datacenter'
+                    publisher="microsoftwindowsserver", offer="windowsserver", sku="2022-datacenter"
                 ),
-                extensions=[models.VMExtension(
-                    name="CustomExtension",
-                    publisher="Microsoft.Azure.Geneva",
-                    type="GenevaMonitoring",
-                    type_handler_version="2.0",
-                    auto_upgrade_minor_version=True,
-                    enable_automatic_upgrade=True)],
-                node_agent_sku_id='batch.node.windows amd64')
+                extensions=[
+                    models.VMExtension(
+                        name="CustomExtension",
+                        publisher="Microsoft.Azure.Geneva",
+                        type="GenevaMonitoring",
+                        type_handler_version="2.0",
+                        auto_upgrade_minor_version=True,
+                        enable_automatic_upgrade=True,
+                    )
+                ],
+                node_agent_sku_id="batch.node.windows amd64",
+            ),
         )
         response = client.pool.add(test_vmextension_pool)
         assert response is None
@@ -302,24 +296,17 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Pool with Trusted Launch security type
         test_trustedlaunch_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_trustedlaunch_'),
-            vm_size='standard_d2s_v3',
+            id=self.get_resource_name("batch_trustedlaunch_"),
+            vm_size="standard_d2s_v3",
             virtual_machine_configuration=models.VirtualMachineConfiguration(
-                image_reference=models.ImageReference(
-                    publisher='Canonical',
-                    offer='UbuntuServer',
-                    sku='18.04-LTS'
-                ),
-                node_agent_sku_id='batch.node.ubuntu 18.04',
+                image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
+                node_agent_sku_id="batch.node.ubuntu 18.04",
                 security_profile=models.SecurityProfile(
                     security_type=models.SecurityTypes.trusted_launch,
                     encryption_at_host=True,
-                    uefi_settings=models.UefiSettings(
-                        secure_boot_enabled=True,
-                        v_tpm_enabled=True
-                    )
-                )
-            )
+                    uefi_settings=models.UefiSettings(secure_boot_enabled=True, v_tpm_enabled=True),
+                ),
+            ),
         )
         response = client.pool.add(test_trustedlaunch_pool)
         assert response is None
@@ -332,23 +319,19 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Pool with custom OS Disk configuration
         test_osdisk_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_osdisk_'),
+            id=self.get_resource_name("batch_osdisk_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
-                image_reference=models.ImageReference(
-                    publisher='Canonical',
-                    offer='UbuntuServer',
-                    sku='18.04-LTS'
-                ),
-                node_agent_sku_id='batch.node.ubuntu 18.04',
+                image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
+                node_agent_sku_id="batch.node.ubuntu 18.04",
                 os_disk=models.OSDisk(
                     caching=models.CachingType.read_only,
                     managed_disk=models.ManagedDisk(
                         storage_account_type=models.StorageAccountType.premium_lrs,
                     ),
-                    disk_size_gb=10
-                )
-            )
+                    disk_size_gb=10,
+                ),
+            ),
         )
         response = client.pool.add(test_osdisk_pool)
         assert response is None
@@ -357,21 +340,16 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert osdisk_pool.virtual_machine_configuration.os_disk.managed_disk.storage_account_type == "premium_lrs"
         assert osdisk_pool.virtual_machine_configuration.os_disk.disk_size_gb == 10
 
-
         # Test Create Pool with Upgrade Policy
         test_upgradepolicy_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_upgradepolicy_'),
-            vm_size='standard_d2s_v3',
+            id=self.get_resource_name("batch_upgradepolicy_"),
+            vm_size="standard_d2s_v3",
             virtual_machine_configuration=models.VirtualMachineConfiguration(
-                image_reference=models.ImageReference(
-                    publisher='Canonical',
-                    offer='UbuntuServer',
-                    sku='18.04-LTS'
-                ),
+                image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
                 node_placement_configuration=models.NodePlacementConfiguration(
                     policy=models.NodePlacementPolicyType.zonal
                 ),
-                node_agent_sku_id='batch.node.ubuntu 18.04'
+                node_agent_sku_id="batch.node.ubuntu 18.04",
             ),
             upgrade_policy=models.UpgradePolicy(
                 mode=models.UpgradeMode.automatic,
@@ -379,7 +357,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
                     disable_automatic_rollback=True,
                     enable_automatic_os_upgrade=True,
                     use_rolling_upgrade_policy=True,
-                    os_rolling_upgrade_deferral=True
+                    os_rolling_upgrade_deferral=True,
                 ),
                 rolling_upgrade_policy=models.RollingUpgradePolicy(
                     enable_cross_zone_upgrade=True,
@@ -388,11 +366,11 @@ class TestBatch(AzureMgmtRecordedTestCase):
                     max_unhealthy_upgraded_instance_percent=20,
                     pause_time_between_batches=datetime.timedelta(seconds=5),
                     prioritize_unhealthy_instances=False,
-                    rollback_failed_instances_on_policy_breach=False
-                )
-            )
+                    rollback_failed_instances_on_policy_breach=False,
+                ),
+            ),
         )
-        
+
         response = client.pool.add(test_upgradepolicy_pool)
         assert response is None
         upgradepolicy_pool = client.pool.get(test_upgradepolicy_pool.id)
@@ -414,10 +392,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert len(pools.current_page) == 1
 
         # Test List Pools with Filter
-        options = models.PoolListOptions(
-            filter='startswith(id,\'batch_disk_\')',
-            select='id,state',
-            expand='stats')
+        options = models.PoolListOptions(filter="startswith(id,'batch_disk_')", select="id,state", expand="stats")
         pools = list(client.pool.list(options))
         assert len(pools) == 1
 
@@ -428,25 +403,26 @@ class TestBatch(AzureMgmtRecordedTestCase):
         client = self.create_sharedkey_client(**kwargs)
         # Test Create Iaas Pool
         test_iaas_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_iaas_'),
+            id=self.get_resource_name("batch_iaas_"),
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=models.VirtualMachineConfiguration(
                 image_reference=models.ImageReference(
-                    publisher='MicrosoftWindowsServer',
-                    offer='WindowsServer',
-                    sku='2016-Datacenter-smalldisk'
+                    publisher="MicrosoftWindowsServer", offer="WindowsServer", sku="2016-Datacenter-smalldisk"
                 ),
-                node_agent_sku_id='batch.node.windows amd64',
-                windows_configuration=models.WindowsConfiguration(enable_automatic_updates=True)),
+                node_agent_sku_id="batch.node.windows amd64",
+                windows_configuration=models.WindowsConfiguration(enable_automatic_updates=True),
+            ),
             task_scheduling_policy=models.TaskSchedulingPolicy(node_fill_type=models.ComputeNodeFillType.pack),
-            mount_configuration=[models.MountConfiguration(
-                azure_blob_file_system_configuration=models.AzureBlobFileSystemConfiguration(
-                    account_name='test',
-                    container_name='https://test.blob.core.windows.net:443/test-container',
-                    relative_mount_path='foo',
-                    account_key='fake_account_key'
+            mount_configuration=[
+                models.MountConfiguration(
+                    azure_blob_file_system_configuration=models.AzureBlobFileSystemConfiguration(
+                        account_name="test",
+                        container_name="https://test.blob.core.windows.net:443/test-container",
+                        relative_mount_path="foo",
+                        account_key="fake_account_key",
+                    )
                 )
-            )]
+            ],
         )
         response = client.pool.add(test_iaas_pool)
         assert response is None
@@ -464,35 +440,32 @@ class TestBatch(AzureMgmtRecordedTestCase):
         client = self.create_sharedkey_client(**kwargs)
         # Test Create Paas Pool
         test_paas_pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_paas_'),
+            id=self.get_resource_name("batch_paas_"),
             vm_size=DEFAULT_VM_SIZE,
-            cloud_service_configuration=models.CloudServiceConfiguration(
-                os_family='5'
-            ),
+            cloud_service_configuration=models.CloudServiceConfiguration(os_family="5"),
             start_task=models.StartTask(
-                command_line="cmd.exe /c \"echo hello world\"",
-                resource_files=[models.ResourceFile(http_url='https://blobsource.com', file_path='filename.txt')],
-                environment_settings=[models.EnvironmentSetting(name='ENV_VAR', value='env_value')],
+                command_line='cmd.exe /c "echo hello world"',
+                resource_files=[models.ResourceFile(http_url="https://blobsource.com", file_path="filename.txt")],
+                environment_settings=[models.EnvironmentSetting(name="ENV_VAR", value="env_value")],
                 user_identity=models.UserIdentity(
-                    auto_user=models.AutoUserSpecification(
-                        elevation_level=models.ElevationLevel.admin
-                    )
-                )
-            )
+                    auto_user=models.AutoUserSpecification(elevation_level=models.ElevationLevel.admin)
+                ),
+            ),
         )
         response = client.pool.add(test_paas_pool)
         assert response is None
 
         # Test Update Pool Parameters
         params = models.PoolUpdatePropertiesParameter(
-            certificate_references=[], 
-            application_package_references=[], 
-            metadata=[models.MetadataItem(name='foo', value='bar')])
+            certificate_references=[],
+            application_package_references=[],
+            metadata=[models.MetadataItem(name="foo", value="bar")],
+        )
         response = client.pool.update_properties(test_paas_pool.id, params)
         assert response is None
 
         # Test Patch Pool Parameters
-        params = models.PoolPatchParameter(metadata=[models.MetadataItem(name='foo2', value='bar2')])
+        params = models.PoolPatchParameter(metadata=[models.MetadataItem(name="foo2", value="bar2")])
         response = client.pool.patch(test_paas_pool.id, params)
         assert response is None
 
@@ -506,14 +479,14 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert pool.id == test_paas_pool.id
         assert pool.state == models.PoolState.active
         assert pool.allocation_state == models.AllocationState.steady
-        assert pool.cloud_service_configuration.os_family == '5'
+        assert pool.cloud_service_configuration.os_family == "5"
         assert pool.vm_size == DEFAULT_VM_SIZE
         assert pool.start_task is None
-        assert pool.metadata[0].name == 'foo2'
-        assert pool.metadata[0].value == 'bar2'
+        assert pool.metadata[0].name == "foo2"
+        assert pool.metadata[0].value == "bar2"
 
         # Test Get Pool with OData Clauses
-        options = models.PoolGetOptions(select='id,state', expand='stats')
+        options = models.PoolGetOptions(select="id,state", expand="stats")
         pool = client.pool.get(test_paas_pool.id, options)
         assert isinstance(pool, models.CloudPool)
         assert pool.id == test_paas_pool.id
@@ -531,24 +504,23 @@ class TestBatch(AzureMgmtRecordedTestCase):
     @PoolPreparer(location=AZURE_LOCATION)
     def test_batch_scale_pools(self, **kwargs):
 
-        time.sleep(10) # temporary fix for timeout issue
-        
+        time.sleep(10)  # temporary fix for timeout issue
+
         batch_pool = kwargs.pop("batch_pool")
         client = self.create_sharedkey_client(**kwargs)
         # Test Enable Autoscale
         interval = datetime.timedelta(minutes=6)
         response = client.pool.enable_auto_scale(
-            batch_pool.name,
-            auto_scale_formula='$TargetDedicatedNodes=2',
-            auto_scale_evaluation_interval=interval)
+            batch_pool.name, auto_scale_formula="$TargetDedicatedNodes=2", auto_scale_evaluation_interval=interval
+        )
 
         assert response is None
 
         # Test Evaluate Autoscale
-        result = client.pool.evaluate_auto_scale(batch_pool.name, '$TargetDedicatedNodes=3')
+        result = client.pool.evaluate_auto_scale(batch_pool.name, "$TargetDedicatedNodes=3")
         assert isinstance(result, models.AutoScaleRun)
-        assert result.results == '$TargetDedicatedNodes=3;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue'
-        
+        assert result.results == "$TargetDedicatedNodes=3;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue"
+
         # Test Disable Autoscale
         pool = client.pool.get(batch_pool.name)
         while self.is_live and pool.allocation_state != models.AllocationState.steady:
@@ -584,21 +556,16 @@ class TestBatch(AzureMgmtRecordedTestCase):
     def test_batch_job_schedules(self, **kwargs):
         client = self.create_sharedkey_client(**kwargs)
         # Test Create Job Schedule
-        schedule_id = self.get_resource_name('batch_schedule_')
+        schedule_id = self.get_resource_name("batch_schedule_")
         job_spec = models.JobSpecification(
             pool_info=models.PoolInformation(pool_id="pool_id"),
             constraints=models.JobConstraints(max_task_retry_count=2),
-            on_all_tasks_complete=models.OnAllTasksComplete.terminate_job
+            on_all_tasks_complete=models.OnAllTasksComplete.terminate_job,
         )
         schedule = models.Schedule(
-            start_window=datetime.timedelta(hours=1),
-            recurrence_interval=datetime.timedelta(days=1)
+            start_window=datetime.timedelta(hours=1), recurrence_interval=datetime.timedelta(days=1)
         )
-        params = models.JobScheduleAddParameter(
-            id=schedule_id,
-            schedule=schedule,
-            job_specification=job_spec
-        )
+        params = models.JobScheduleAddParameter(id=schedule_id, schedule=schedule, job_specification=job_spec)
         response = client.job_schedule.add(params)
         assert response is None
 
@@ -629,20 +596,14 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert response is None
 
         # Test Update Job Schedule
-        job_spec = models.JobSpecification(
-            pool_info=models.PoolInformation(pool_id='pool_id')
-        )
-        schedule = models.Schedule(
-            recurrence_interval=datetime.timedelta(hours=10)
-        )
+        job_spec = models.JobSpecification(pool_info=models.PoolInformation(pool_id="pool_id"))
+        schedule = models.Schedule(recurrence_interval=datetime.timedelta(hours=10))
         params = models.JobScheduleUpdateParameter(schedule=schedule, job_specification=job_spec)
         response = client.job_schedule.update(schedule_id, params)
         assert response is None
 
         # Test Patch Job Schedule
-        schedule = models.Schedule(
-            recurrence_interval=datetime.timedelta(hours=5)
-        )
+        schedule = models.Schedule(recurrence_interval=datetime.timedelta(hours=5))
         params = models.JobSchedulePatchParameter(schedule=schedule)
         response = client.job_schedule.patch(schedule_id, params)
         assert response is None
@@ -674,26 +635,23 @@ class TestBatch(AzureMgmtRecordedTestCase):
                             models.NetworkSecurityGroupRule(
                                 priority=150,
                                 access=models.NetworkSecurityGroupRuleAccess.allow,
-                                source_address_prefix='*'
+                                source_address_prefix="*",
                             )
-                        ]
+                        ],
                     )
                 ]
             )
         )
         virtual_machine_config = models.VirtualMachineConfiguration(
             node_agent_sku_id="batch.node.ubuntu 18.04",
-            image_reference=models.ImageReference(
-                publisher="Canonical",
-                offer="UbuntuServer",
-                sku="18.04-LTS")
+            image_reference=models.ImageReference(publisher="Canonical", offer="UbuntuServer", sku="18.04-LTS"),
         )
         pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_network_'),
+            id=self.get_resource_name("batch_network_"),
             target_dedicated_nodes=1,
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=virtual_machine_config,
-            network_configuration=network_config
+            network_configuration=network_config,
         )
 
         client.pool.add(pool)
@@ -707,14 +665,14 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert len(nodes) == 1
         assert isinstance(nodes[0], models.ComputeNode)
         assert len(nodes[0].endpoint_configuration.inbound_endpoints) == 2
-        assert nodes[0].endpoint_configuration.inbound_endpoints[0].name == 'TestEndpointConfig.0'
-        assert nodes[0].endpoint_configuration.inbound_endpoints[0].protocol.value == 'udp'
+        assert nodes[0].endpoint_configuration.inbound_endpoints[0].name == "TestEndpointConfig.0"
+        assert nodes[0].endpoint_configuration.inbound_endpoints[0].protocol.value == "udp"
 
     @pytest.mark.live_test_only("Can't use recordings until tests use the test proxy")
     @ResourceGroupPreparer(location=AZURE_LOCATION)
     @AccountPreparer(location=AZURE_LOCATION, batch_environment=BATCH_ENVIRONMENT)
     def test_batch_network_configuration_acceleratednetworking(self, **kwargs):
-        client = self.create_sharedkey_client(**kwargs)     
+        client = self.create_sharedkey_client(**kwargs)
         # Test Network enableAcceleratedNetworking configuration
         network_config = models.NetworkConfiguration(enable_accelerated_networking=True)
         virtual_machine_config = models.VirtualMachineConfiguration(
@@ -723,14 +681,15 @@ class TestBatch(AzureMgmtRecordedTestCase):
                 publisher="MicrosoftWindowsServer",
                 offer="WindowsServer",
                 sku="2016-datacenter-smalldisk",
-                version="latest")
+                version="latest",
+            ),
         )
         pool = models.PoolAddParameter(
-            id=self.get_resource_name('batch_network_acceleratednetworking_'),
+            id=self.get_resource_name("batch_network_acceleratednetworking_"),
             target_dedicated_nodes=2,
             vm_size=DEFAULT_VM_SIZE,
             virtual_machine_configuration=virtual_machine_config,
-            network_configuration=network_config
+            network_configuration=network_config,
         )
 
         client.pool.add(pool)
@@ -744,7 +703,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
     @pytest.mark.live_test_only("Can't use recordings until tests use the test proxy")
     @ResourceGroupPreparer(location=AZURE_LOCATION)
     @AccountPreparer(location=AZURE_LOCATION, batch_environment=BATCH_ENVIRONMENT)
-    @PoolPreparer(location=AZURE_LOCATION, size=2, config='iaas')
+    @PoolPreparer(location=AZURE_LOCATION, size=2, config="iaas")
     def test_batch_compute_nodes(self, **kwargs):
         batch_pool = kwargs.pop("batch_pool")
         client = self.create_sharedkey_client(**kwargs)
@@ -766,8 +725,9 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Upload Log
         config = models.UploadBatchServiceLogsConfiguration(
-            container_url = "https://computecontainer.blob.core.windows.net/", 
-            start_time = datetime.datetime.utcnow() - datetime.timedelta(minutes=6))
+            container_url="https://computecontainer.blob.core.windows.net/",
+            start_time=datetime.datetime.utcnow() - datetime.timedelta(minutes=6),
+        )
         result = client.compute_node.upload_batch_service_logs(batch_pool.name, nodes[0].id, config)
         assert result is not None
         assert result.number_of_files_uploaded > 0
@@ -783,15 +743,18 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Reboot Node
         response = client.compute_node.reboot(
-            batch_pool.name, nodes[0].id, node_reboot_option=models.ComputeNodeRebootOption.terminate)
+            batch_pool.name, nodes[0].id, node_reboot_option=models.ComputeNodeRebootOption.terminate
+        )
         assert response is None
 
         # Test Reimage Node
-        self.assertBatchError('OperationNotValidOnNode',
-                              client.compute_node.reimage,
-                              batch_pool.name,
-                              nodes[1].id,
-                              node_reimage_option=models.ComputeNodeReimageOption.terminate)
+        self.assertBatchError(
+            "OperationNotValidOnNode",
+            client.compute_node.reimage,
+            batch_pool.name,
+            nodes[1].id,
+            node_reimage_option=models.ComputeNodeReimageOption.terminate,
+        )
 
         # Test Remove Nodes
         options = models.NodeRemoveParameter(node_list=[n.id for n in nodes])
@@ -812,14 +775,14 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert len(nodes) == 1
 
         # Test Add User
-        user_name = 'BatchPythonSDKUser'
+        user_name = "BatchPythonSDKUser"
         nodes = list(client.compute_node.list(batch_pool.name))
         user = models.ComputeNodeUser(name=user_name, password=BATCH_TEST_PASSWORD, is_admin=False)
         response = client.compute_node.add_user(batch_pool.name, nodes[0].id, user)
         assert response is None
 
         # Test Update User
-        user = models.NodeUpdateUserParameter(password='liilef#$DdRGSa_ewkjh')
+        user = models.NodeUpdateUserParameter(password="liilef#$DdRGSa_ewkjh")
         response = client.compute_node.update_user(batch_pool.name, nodes[0].id, user_name, user)
         assert response is None
 
@@ -835,8 +798,8 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
     @pytest.mark.live_test_only("Can't use recordings until tests use the test proxy")
     @ResourceGroupPreparer(location=AZURE_LOCATION)
-    @StorageAccountPreparer(name_prefix='batch4', location=AZURE_LOCATION)
-    @AccountPreparer(location=AZURE_LOCATION, batch_environment=BATCH_ENVIRONMENT, name_prefix='batch4')
+    @StorageAccountPreparer(name_prefix="batch4", location=AZURE_LOCATION)
+    @AccountPreparer(location=AZURE_LOCATION, batch_environment=BATCH_ENVIRONMENT, name_prefix="batch4")
     @PoolPreparer(size=1)
     @JobPreparer()
     def test_batch_files(self, **kwargs):
@@ -849,7 +812,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
             nodes = list(client.compute_node.list(batch_pool.name))
         assert len(nodes) == 1
         node = nodes[0].id
-        task_id = 'test_task'
+        task_id = "test_task"
         task_param = models.TaskAddParameter(id=task_id, command_line='cmd /c "echo hello world"')
         response = client.task.add(batch_job.id, task_param)
         assert response is None
@@ -864,10 +827,9 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert len(only_files) >= 2
 
         # Test File Properties from Compute Node
-        props = client.file.get_properties_from_compute_node(
-            batch_pool.name, node, only_files[0].name, raw=True)
-        assert 'Content-Length' in props.headers
-        assert 'Content-Type' in props.headers
+        props = client.file.get_properties_from_compute_node(batch_pool.name, node, only_files[0].name, raw=True)
+        assert "Content-Length" in props.headers
+        assert "Content-Type" in props.headers
 
         # Test Get File from Compute Node
         file_length = 0
@@ -875,7 +837,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
             response = client.file.get_from_compute_node(batch_pool.name, node, only_files[0].name)
             for data in response:
                 file_length += len(data)
-        assert file_length == props.headers['Content-Length']
+        assert file_length == props.headers["Content-Length"]
 
         # Test Delete File from Compute Node
         response = client.file.delete_from_compute_node(batch_pool.name, node, only_files[0].name)
@@ -887,10 +849,9 @@ class TestBatch(AzureMgmtRecordedTestCase):
         assert len(only_files) >= 1
 
         # Test File Properties from Task
-        props = client.file.get_properties_from_task(
-            batch_job.id, task_id, only_files[0].name, raw=True)
-        assert 'Content-Length' in props.headers
-        assert 'Content-Type' in props.headers
+        props = client.file.get_properties_from_task(batch_job.id, task_id, only_files[0].name, raw=True)
+        assert "Content-Length" in props.headers
+        assert "Content-Type" in props.headers
 
         # Test Get File from Task
         file_length = 0
@@ -898,7 +859,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
             response = client.file.get_from_task(batch_job.id, task_id, only_files[0].name)
             for data in response:
                 file_length += len(data)
-        assert file_length == props.headers['Content-Length']
+        assert file_length == props.headers["Content-Length"]
 
         # Test Delete File from Task
         response = client.file.delete_from_task(batch_job.id, task_id, only_files[0].name)
@@ -914,13 +875,20 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Task with Auto Complete
         exit_conditions = models.ExitConditions(
-            exit_codes=[models.ExitCodeMapping(code=1, exit_options=models.ExitOptions(job_action=models.JobAction.terminate))],
-            exit_code_ranges=[models.ExitCodeRangeMapping(start=2, end=4, exit_options=models.ExitOptions(job_action=models.JobAction.disable))],
-            default=models.ExitOptions(job_action=models.JobAction.none))
+            exit_codes=[
+                models.ExitCodeMapping(code=1, exit_options=models.ExitOptions(job_action=models.JobAction.terminate))
+            ],
+            exit_code_ranges=[
+                models.ExitCodeRangeMapping(
+                    start=2, end=4, exit_options=models.ExitOptions(job_action=models.JobAction.disable)
+                )
+            ],
+            default=models.ExitOptions(job_action=models.JobAction.none),
+        )
         task_param = models.TaskAddParameter(
-            id=self.get_resource_name('batch_task1_'),
+            id=self.get_resource_name("batch_task1_"),
             command_line='cmd /c "echo hello world"',
-            exit_conditions=exit_conditions
+            exit_conditions=exit_conditions,
         )
         try:
             client.task.add(batch_job.id, task_param)
@@ -942,21 +910,27 @@ class TestBatch(AzureMgmtRecordedTestCase):
                 file_pattern="../stdout.txt",
                 destination=models.OutputFileDestination(
                     container=models.OutputFileBlobContainerDestination(
-                        container_url=container_url, path="taskLogs/output.txt")),
+                        container_url=container_url, path="taskLogs/output.txt"
+                    )
+                ),
                 upload_options=models.OutputFileUploadOptions(
-                    upload_condition=models.OutputFileUploadCondition.task_completion)),
+                    upload_condition=models.OutputFileUploadCondition.task_completion
+                ),
+            ),
             models.OutputFile(
                 file_pattern="../stderr.txt",
                 destination=models.OutputFileDestination(
                     container=models.OutputFileBlobContainerDestination(
-                        container_url=container_url, path="taskLogs/error.txt")),
+                        container_url=container_url, path="taskLogs/error.txt"
+                    )
+                ),
                 upload_options=models.OutputFileUploadOptions(
-                    upload_condition=models.OutputFileUploadCondition.task_failure)),
+                    upload_condition=models.OutputFileUploadCondition.task_failure
+                ),
+            ),
         ]
         task_param = models.TaskAddParameter(
-            id=self.get_resource_name('batch_task2_'),
-            command_line='cmd /c "echo hello world"',
-            output_files=outputs
+            id=self.get_resource_name("batch_task2_"), command_line='cmd /c "echo hello world"', output_files=outputs
         )
         client.task.add(batch_job.id, task_param)
         task = client.task.get(batch_job.id, task_param.id)
@@ -965,12 +939,12 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Task with Auto User
         auto_user = models.AutoUserSpecification(
-            scope=models.AutoUserScope.task,
-            elevation_level=models.ElevationLevel.admin)
+            scope=models.AutoUserScope.task, elevation_level=models.ElevationLevel.admin
+        )
         task_param = models.TaskAddParameter(
-            id=self.get_resource_name('batch_task3_'),
+            id=self.get_resource_name("batch_task3_"),
             command_line='cmd /c "echo hello world"',
-            user_identity=models.UserIdentity(auto_user=auto_user)
+            user_identity=models.UserIdentity(auto_user=auto_user),
         )
         client.task.add(batch_job.id, task_param)
         task = client.task.get(batch_job.id, task_param.id)
@@ -980,10 +954,9 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Task with Token Settings
         task_param = models.TaskAddParameter(
-            id=self.get_resource_name('batch_task4_'),
+            id=self.get_resource_name("batch_task4_"),
             command_line='cmd /c "echo hello world"',
-            authentication_token_settings=models.AuthenticationTokenSettings(
-                access=[models.AccessScope.job])
+            authentication_token_settings=models.AuthenticationTokenSettings(access=[models.AccessScope.job]),
         )
         client.task.add(batch_job.id, task_param)
         task = client.task.get(batch_job.id, task_param.id)
@@ -992,35 +965,38 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Task with Container Settings
         task_param = models.TaskAddParameter(
-            id=self.get_resource_name('batch_task5_'),
+            id=self.get_resource_name("batch_task5_"),
             command_line='cmd /c "echo hello world"',
             container_settings=models.TaskContainerSettings(
-                image_name='windows_container:latest',
-                registry=models.ContainerRegistry(user_name='username', password='password'))
+                image_name="windows_container:latest",
+                registry=models.ContainerRegistry(user_name="username", password="password"),
+            ),
         )
         client.task.add(batch_job.id, task_param)
         task = client.task.get(batch_job.id, task_param.id)
         assert isinstance(task, models.CloudTask)
-        assert task.container_settings.image_name == 'windows_container:latest'
-        assert task.container_settings.registry.user_name == 'username'
+        assert task.container_settings.image_name == "windows_container:latest"
+        assert task.container_settings.registry.user_name == "username"
 
         # Test Create Task with Run-As-User
         task_param = models.TaskAddParameter(
-            id=self.get_resource_name('batch_task6_'),
+            id=self.get_resource_name("batch_task6_"),
             command_line='cmd /c "echo hello world"',
-            user_identity=models.UserIdentity(user_name='task-user')
+            user_identity=models.UserIdentity(user_name="task-user"),
         )
         client.task.add(batch_job.id, task_param)
         task = client.task.get(batch_job.id, task_param.id)
         assert isinstance(task, models.CloudTask)
-        assert task.user_identity.user_name == 'task-user'
+        assert task.user_identity.user_name == "task-user"
 
         # Test Add Task Collection
         tasks = []
         for i in range(7, 10):
-            tasks.append(models.TaskAddParameter(
-                id=self.get_resource_name('batch_task{}_'.format(i)),
-                command_line='cmd /c "echo hello world"'))
+            tasks.append(
+                models.TaskAddParameter(
+                    id=self.get_resource_name("batch_task{}_".format(i)), command_line='cmd /c "echo hello world"'
+                )
+            )
         result = client.task.add_collection(batch_job.id, tasks)
         assert isinstance(result, models.TaskAddCollectionResult)
         assert len(result.value) == 3
@@ -1050,8 +1026,8 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Update Task
         response = client.task.update(
-            batch_job.id, task_param.id,
-            constraints=models.TaskConstraints(max_task_retry_count=1))
+            batch_job.id, task_param.id, constraints=models.TaskConstraints(max_task_retry_count=1)
+        )
         assert response is None
 
         # Test Get Subtasks
@@ -1071,24 +1047,15 @@ class TestBatch(AzureMgmtRecordedTestCase):
         for i in range(10000):
             resource_file = models.ResourceFile(
                 http_url="https://mystorageaccount.blob.core.windows.net/files/resourceFile{}".format(str(i)),
-                file_path="resourceFile{}".format(str(i)))
+                file_path="resourceFile{}".format(str(i)),
+            )
             resource_files.append(resource_file)
-        task = models.TaskAddParameter(
-            id=task_id,
-            command_line="sleep 1",
-            resource_files=resource_files)
+        task = models.TaskAddParameter(id=task_id, command_line="sleep 1", resource_files=resource_files)
         tasks_to_add.append(task)
+        self.assertCreateTasksError("RequestBodyTooLarge", client.task.add_collection, batch_job.id, tasks_to_add)
         self.assertCreateTasksError(
-            "RequestBodyTooLarge",
-            client.task.add_collection,
-            batch_job.id,
-            tasks_to_add)
-        self.assertCreateTasksError(
-            "RequestBodyTooLarge",
-            client.task.add_collection,
-            batch_job.id,
-            tasks_to_add,
-            threads=3)
+            "RequestBodyTooLarge", client.task.add_collection, batch_job.id, tasks_to_add, threads=3
+        )
 
         # Test Bulk Add Task Success
         task_id = "mytask"
@@ -1097,13 +1064,11 @@ class TestBatch(AzureMgmtRecordedTestCase):
         for i in range(100):
             resource_file = models.ResourceFile(
                 http_url="https://mystorageaccount.blob.core.windows.net/files/resourceFile" + str(i),
-                file_path="resourceFile"+str(i))
+                file_path="resourceFile" + str(i),
+            )
             resource_files.append(resource_file)
         for i in range(733):
-            task = models.TaskAddParameter(
-                id=task_id + str(i),
-                command_line="sleep 1",
-                resource_files=resource_files)
+            task = models.TaskAddParameter(id=task_id + str(i), command_line="sleep 1", resource_files=resource_files)
             tasks_to_add.append(task)
         result = client.task.add_collection(batch_job.id, tasks_to_add)
         assert isinstance(result, models.TaskAddCollectionResult)
@@ -1120,21 +1085,16 @@ class TestBatch(AzureMgmtRecordedTestCase):
         auto_pool = models.AutoPoolSpecification(
             pool_lifetime_option=models.PoolLifetimeOption.job,
             pool=models.PoolSpecification(
-                vm_size=DEFAULT_VM_SIZE,
-                cloud_service_configuration=models.CloudServiceConfiguration(
-                    os_family='5'
-                )
-            )
-        )
-        job_prep = models.JobPreparationTask(command_line="cmd /c \"echo hello world\"")
-        job_release = models.JobReleaseTask(command_line="cmd /c \"echo goodbye world\"")
-        job_param = models.JobAddParameter(
-            id=self.get_resource_name('batch_job1_'),
-            pool_info=models.PoolInformation(
-                auto_pool_specification=auto_pool
+                vm_size=DEFAULT_VM_SIZE, cloud_service_configuration=models.CloudServiceConfiguration(os_family="5")
             ),
+        )
+        job_prep = models.JobPreparationTask(command_line='cmd /c "echo hello world"')
+        job_release = models.JobReleaseTask(command_line='cmd /c "echo goodbye world"')
+        job_param = models.JobAddParameter(
+            id=self.get_resource_name("batch_job1_"),
+            pool_info=models.PoolInformation(auto_pool_specification=auto_pool),
             job_preparation_task=job_prep,
-            job_release_task=job_release
+            job_release_task=job_release,
         )
         response = client.job.add(job_param)
         assert response is None
@@ -1142,11 +1102,7 @@ class TestBatch(AzureMgmtRecordedTestCase):
         # Test Update Job
         constraints = models.JobConstraints(max_task_retry_count=3)
         options = models.JobUpdateParameter(
-            priority=500,
-            constraints=constraints,
-            pool_info=models.PoolInformation(
-                auto_pool_specification=auto_pool
-            )
+            priority=500, constraints=constraints, pool_info=models.PoolInformation(auto_pool_specification=auto_pool)
         )
         response = client.job.update(job_param.id, options)
         assert response is None
@@ -1164,12 +1120,10 @@ class TestBatch(AzureMgmtRecordedTestCase):
 
         # Test Create Job with Auto Complete
         job_auto_param = models.JobAddParameter(
-            id=self.get_resource_name('batch_job2_'),
+            id=self.get_resource_name("batch_job2_"),
             on_all_tasks_complete=models.OnAllTasksComplete.terminate_job,
             on_task_failure=models.OnTaskFailure.perform_exit_options_job_action,
-            pool_info=models.PoolInformation(
-                auto_pool_specification=auto_pool
-            )
+            pool_info=models.PoolInformation(auto_pool_specification=auto_pool),
         )
         response = client.job.add(job_auto_param)
         assert response is None
