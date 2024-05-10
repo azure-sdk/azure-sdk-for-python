@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -39,6 +40,10 @@ from ...operations._replication_policies_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -68,7 +73,6 @@ class ReplicationPoliciesOperations:
 
         Lists the replication policies for a vault.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Policy or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.Policy]
@@ -80,7 +84,7 @@ class ReplicationPoliciesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.PolicyCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -91,17 +95,16 @@ class ReplicationPoliciesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -113,13 +116,13 @@ class ReplicationPoliciesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyCollection", pipeline_response)
@@ -129,11 +132,11 @@ class ReplicationPoliciesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -145,10 +148,6 @@ class ReplicationPoliciesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies"
-    }
-
     @distributed_trace_async
     async def get(self, policy_name: str, **kwargs: Any) -> _models.Policy:
         """Gets the requested policy.
@@ -157,12 +156,11 @@ class ReplicationPoliciesOperations:
 
         :param policy_name: Replication policy name. Required.
         :type policy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Policy or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Policy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -176,22 +174,21 @@ class ReplicationPoliciesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Policy] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             policy_name=policy_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -203,18 +200,14 @@ class ReplicationPoliciesOperations:
         deserialized = self._deserialize("Policy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_initial(
-        self, policy_name: str, input: Union[_models.CreatePolicyInput, IO], **kwargs: Any
+        self, policy_name: str, input: Union[_models.CreatePolicyInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Policy]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -237,7 +230,7 @@ class ReplicationPoliciesOperations:
         else:
             _json = self._serialize.body(input, "CreatePolicyInput")
 
-        request = build_create_request(
+        _request = build_create_request(
             policy_name=policy_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -246,16 +239,15 @@ class ReplicationPoliciesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -269,13 +261,9 @@ class ReplicationPoliciesOperations:
             deserialized = self._deserialize("Policy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create(
@@ -297,14 +285,6 @@ class ReplicationPoliciesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Policy or the result of
          cls(response)
         :rtype:
@@ -314,7 +294,7 @@ class ReplicationPoliciesOperations:
 
     @overload
     async def begin_create(
-        self, policy_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, policy_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncLROPoller[_models.Policy]:
         """Creates the policy.
 
@@ -323,18 +303,10 @@ class ReplicationPoliciesOperations:
         :param policy_name: Replication policy name. Required.
         :type policy_name: str
         :param input: Create policy input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Policy or the result of
          cls(response)
         :rtype:
@@ -344,7 +316,7 @@ class ReplicationPoliciesOperations:
 
     @distributed_trace_async
     async def begin_create(
-        self, policy_name: str, input: Union[_models.CreatePolicyInput, IO], **kwargs: Any
+        self, policy_name: str, input: Union[_models.CreatePolicyInput, IO[bytes]], **kwargs: Any
     ) -> AsyncLROPoller[_models.Policy]:
         """Creates the policy.
 
@@ -352,19 +324,9 @@ class ReplicationPoliciesOperations:
 
         :param policy_name: Replication policy name. Required.
         :type policy_name: str
-        :param input: Create policy input. Is either a CreatePolicyInput type or a IO type. Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.CreatePolicyInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Create policy input. Is either a CreatePolicyInput type or a IO[bytes] type.
+         Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.CreatePolicyInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Policy or the result of
          cls(response)
         :rtype:
@@ -396,7 +358,7 @@ class ReplicationPoliciesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Policy", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -406,22 +368,20 @@ class ReplicationPoliciesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Policy].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+        return AsyncLROPoller[_models.Policy](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, policy_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -435,22 +395,21 @@ class ReplicationPoliciesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             policy_name=policy_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -460,11 +419,7 @@ class ReplicationPoliciesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(self, policy_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
@@ -474,14 +429,6 @@ class ReplicationPoliciesOperations:
 
         :param policy_name: Replication policy name. Required.
         :type policy_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -507,7 +454,7 @@ class ReplicationPoliciesOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -516,22 +463,18 @@ class ReplicationPoliciesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _update_initial(
-        self, policy_name: str, input: Union[_models.UpdatePolicyInput, IO], **kwargs: Any
+        self, policy_name: str, input: Union[_models.UpdatePolicyInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Policy]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -554,7 +497,7 @@ class ReplicationPoliciesOperations:
         else:
             _json = self._serialize.body(input, "UpdatePolicyInput")
 
-        request = build_update_request(
+        _request = build_update_request(
             policy_name=policy_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -563,16 +506,15 @@ class ReplicationPoliciesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -586,13 +528,9 @@ class ReplicationPoliciesOperations:
             deserialized = self._deserialize("Policy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_update(
@@ -614,14 +552,6 @@ class ReplicationPoliciesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Policy or the result of
          cls(response)
         :rtype:
@@ -631,7 +561,7 @@ class ReplicationPoliciesOperations:
 
     @overload
     async def begin_update(
-        self, policy_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, policy_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncLROPoller[_models.Policy]:
         """Updates the policy.
 
@@ -640,18 +570,10 @@ class ReplicationPoliciesOperations:
         :param policy_name: Policy Id. Required.
         :type policy_name: str
         :param input: Update Policy Input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Policy or the result of
          cls(response)
         :rtype:
@@ -661,7 +583,7 @@ class ReplicationPoliciesOperations:
 
     @distributed_trace_async
     async def begin_update(
-        self, policy_name: str, input: Union[_models.UpdatePolicyInput, IO], **kwargs: Any
+        self, policy_name: str, input: Union[_models.UpdatePolicyInput, IO[bytes]], **kwargs: Any
     ) -> AsyncLROPoller[_models.Policy]:
         """Updates the policy.
 
@@ -669,19 +591,9 @@ class ReplicationPoliciesOperations:
 
         :param policy_name: Policy Id. Required.
         :type policy_name: str
-        :param input: Update Policy Input. Is either a UpdatePolicyInput type or a IO type. Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.UpdatePolicyInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Update Policy Input. Is either a UpdatePolicyInput type or a IO[bytes] type.
+         Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.UpdatePolicyInput or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Policy or the result of
          cls(response)
         :rtype:
@@ -713,7 +625,7 @@ class ReplicationPoliciesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Policy", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -723,14 +635,12 @@ class ReplicationPoliciesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Policy].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}"
-    }
+        return AsyncLROPoller[_models.Policy](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

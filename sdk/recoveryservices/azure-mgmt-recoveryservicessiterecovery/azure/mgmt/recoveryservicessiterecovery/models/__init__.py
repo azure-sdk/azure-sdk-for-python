@@ -7,7 +7,11 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import A2AAddDisksInput
+from ._models_py3 import A2AApplyClusterRecoveryPointInput
 from ._models_py3 import A2AApplyRecoveryPointInput
+from ._models_py3 import A2AClusterRecoveryPointDetails
+from ._models_py3 import A2AClusterTestFailoverInput
+from ._models_py3 import A2AClusterUnplannedFailoverInput
 from ._models_py3 import A2AContainerCreationInput
 from ._models_py3 import A2AContainerMappingInput
 from ._models_py3 import A2ACreateProtectionIntentInput
@@ -23,6 +27,7 @@ from ._models_py3 import A2AFabricSpecificLocationDetails
 from ._models_py3 import A2APolicyCreationInput
 from ._models_py3 import A2APolicyDetails
 from ._models_py3 import A2AProtectedDiskDetails
+from ._models_py3 import A2AProtectedItemDetail
 from ._models_py3 import A2AProtectedManagedDiskDetails
 from ._models_py3 import A2AProtectionContainerMappingDetails
 from ._models_py3 import A2AProtectionIntentDiskInputDetails
@@ -31,7 +36,11 @@ from ._models_py3 import A2ARecoveryPointDetails
 from ._models_py3 import A2ARemoveDisksInput
 from ._models_py3 import A2AReplicationDetails
 from ._models_py3 import A2AReplicationIntentDetails
+from ._models_py3 import A2AReplicationProtectionClusterDetails
 from ._models_py3 import A2AReprotectInput
+from ._models_py3 import A2ASharedDiskIRErrorDetails
+from ._models_py3 import A2ASharedDiskReplicationDetails
+from ._models_py3 import A2ASwitchClusterProtectionInput
 from ._models_py3 import A2ASwitchProtectionInput
 from ._models_py3 import A2ATestFailoverInput
 from ._models_py3 import A2AUnplannedFailoverInput
@@ -60,6 +69,9 @@ from ._models_py3 import ApplianceMonitoringDetails
 from ._models_py3 import ApplianceQueryParameter
 from ._models_py3 import ApplianceResourceDetails
 from ._models_py3 import ApplianceSpecificDetails
+from ._models_py3 import ApplyClusterRecoveryPointInput
+from ._models_py3 import ApplyClusterRecoveryPointInputProperties
+from ._models_py3 import ApplyClusterRecoveryPointProviderSpecificInput
 from ._models_py3 import ApplyRecoveryPointInput
 from ._models_py3 import ApplyRecoveryPointInputProperties
 from ._models_py3 import ApplyRecoveryPointProviderSpecificInput
@@ -72,6 +84,21 @@ from ._models_py3 import AzureToAzureNetworkMappingSettings
 from ._models_py3 import AzureToAzureUpdateNetworkMappingInput
 from ._models_py3 import AzureToAzureVmSyncedConfigDetails
 from ._models_py3 import AzureVmDiskDetails
+from ._models_py3 import ClusterFailoverJobDetails
+from ._models_py3 import ClusterProviderSpecificRecoveryPointDetails
+from ._models_py3 import ClusterRecoveryPoint
+from ._models_py3 import ClusterRecoveryPointCollection
+from ._models_py3 import ClusterRecoveryPointProperties
+from ._models_py3 import ClusterSwitchProtectionJobDetails
+from ._models_py3 import ClusterTestFailoverCleanupInput
+from ._models_py3 import ClusterTestFailoverCleanupInputProperties
+from ._models_py3 import ClusterTestFailoverInput
+from ._models_py3 import ClusterTestFailoverInputProperties
+from ._models_py3 import ClusterTestFailoverJobDetails
+from ._models_py3 import ClusterTestFailoverProviderSpecificInput
+from ._models_py3 import ClusterUnplannedFailoverInput
+from ._models_py3 import ClusterUnplannedFailoverInputProperties
+from ._models_py3 import ClusterUnplannedFailoverProviderSpecificInput
 from ._models_py3 import ComputeSizeErrorDetails
 from ._models_py3 import ConfigurationSettings
 from ._models_py3 import ConfigureAlertRequest
@@ -209,6 +236,7 @@ from ._models_py3 import InMageFabricSwitchProviderBlockingErrorDetails
 from ._models_py3 import InMagePolicyDetails
 from ._models_py3 import InMagePolicyInput
 from ._models_py3 import InMageProtectedDiskDetails
+from ._models_py3 import InMageRcmAddDisksInput
 from ._models_py3 import InMageRcmAgentUpgradeBlockingErrorDetails
 from ._models_py3 import InMageRcmApplianceDetails
 from ._models_py3 import InMageRcmApplianceSpecificDetails
@@ -245,6 +273,7 @@ from ._models_py3 import InMageRcmReplicationDetails
 from ._models_py3 import InMageRcmReprotectInput
 from ._models_py3 import InMageRcmSyncDetails
 from ._models_py3 import InMageRcmTestFailoverInput
+from ._models_py3 import InMageRcmUnProtectedDiskDetails
 from ._models_py3 import InMageRcmUnplannedFailoverInput
 from ._models_py3 import InMageRcmUpdateApplianceForReplicationProtectedItemInput
 from ._models_py3 import InMageRcmUpdateContainerMappingInput
@@ -272,6 +301,7 @@ from ._models_py3 import KeyEncryptionKeyInfo
 from ._models_py3 import LogicalNetwork
 from ._models_py3 import LogicalNetworkCollection
 from ._models_py3 import LogicalNetworkProperties
+from ._models_py3 import ManagedRunCommandScriptInput
 from ._models_py3 import ManualActionTaskDetails
 from ._models_py3 import MarsAgentDetails
 from ._models_py3 import MasterTargetServer
@@ -374,6 +404,7 @@ from ._models_py3 import RecoveryServicesProvider
 from ._models_py3 import RecoveryServicesProviderCollection
 from ._models_py3 import RecoveryServicesProviderProperties
 from ._models_py3 import RecoveryVirtualNetworkCustomDetails
+from ._models_py3 import RegisteredClusterNodes
 from ._models_py3 import RemoveDisksInput
 from ._models_py3 import RemoveDisksInputProperties
 from ._models_py3 import RemoveDisksProviderSpecificInput
@@ -384,6 +415,7 @@ from ._models_py3 import RenewCertificateInputProperties
 from ._models_py3 import ReplicationAgentDetails
 from ._models_py3 import ReplicationAppliance
 from ._models_py3 import ReplicationApplianceProperties
+from ._models_py3 import ReplicationClusterProviderSpecificSettings
 from ._models_py3 import ReplicationEligibilityResults
 from ._models_py3 import ReplicationEligibilityResultsCollection
 from ._models_py3 import ReplicationEligibilityResultsErrorInfo
@@ -392,6 +424,9 @@ from ._models_py3 import ReplicationGroupDetails
 from ._models_py3 import ReplicationProtectedItem
 from ._models_py3 import ReplicationProtectedItemCollection
 from ._models_py3 import ReplicationProtectedItemProperties
+from ._models_py3 import ReplicationProtectionCluster
+from ._models_py3 import ReplicationProtectionClusterCollection
+from ._models_py3 import ReplicationProtectionClusterProperties
 from ._models_py3 import ReplicationProtectionIntent
 from ._models_py3 import ReplicationProtectionIntentCollection
 from ._models_py3 import ReplicationProtectionIntentProperties
@@ -422,7 +457,10 @@ from ._models_py3 import ReverseReplicationProviderSpecificInput
 from ._models_py3 import RoleAssignment
 from ._models_py3 import RunAsAccount
 from ._models_py3 import ScriptActionTaskDetails
+from ._models_py3 import SecurityProfileProperties
 from ._models_py3 import ServiceError
+from ._models_py3 import SharedDiskReplicationItemProperties
+from ._models_py3 import SharedDiskReplicationProviderSpecificSettings
 from ._models_py3 import StorageAccountCustomDetails
 from ._models_py3 import StorageClassification
 from ._models_py3 import StorageClassificationCollection
@@ -437,6 +475,9 @@ from ._models_py3 import SupportedOSDetails
 from ._models_py3 import SupportedOSProperties
 from ._models_py3 import SupportedOSProperty
 from ._models_py3 import SupportedOperatingSystems
+from ._models_py3 import SwitchClusterProtectionInput
+from ._models_py3 import SwitchClusterProtectionInputProperties
+from ._models_py3 import SwitchClusterProtectionProviderSpecificInput
 from ._models_py3 import SwitchProtectionInput
 from ._models_py3 import SwitchProtectionInputProperties
 from ._models_py3 import SwitchProtectionJobDetails
@@ -484,6 +525,7 @@ from ._models_py3 import UpdateReplicationProtectedItemInputProperties
 from ._models_py3 import UpdateReplicationProtectedItemProviderInput
 from ._models_py3 import UpdateVCenterRequest
 from ._models_py3 import UpdateVCenterRequestProperties
+from ._models_py3 import UserCreatedResourceTag
 from ._models_py3 import VCenter
 from ._models_py3 import VCenterCollection
 from ._models_py3 import VCenterProperties
@@ -540,20 +582,24 @@ from ._site_recovery_management_client_enums import AlternateLocationRecoveryOpt
 from ._site_recovery_management_client_enums import AutoProtectionOfDataDisk
 from ._site_recovery_management_client_enums import AutomationAccountAuthenticationType
 from ._site_recovery_management_client_enums import ChurnOptionSelected
+from ._site_recovery_management_client_enums import ClusterRecoveryPointType
 from ._site_recovery_management_client_enums import DataSyncStatus
 from ._site_recovery_management_client_enums import DisableProtectionReason
 from ._site_recovery_management_client_enums import DiskAccountType
 from ._site_recovery_management_client_enums import DiskReplicationProgressHealth
+from ._site_recovery_management_client_enums import DiskState
 from ._site_recovery_management_client_enums import EthernetAddressType
 from ._site_recovery_management_client_enums import ExportJobOutputSerializationType
 from ._site_recovery_management_client_enums import ExtendedLocationType
 from ._site_recovery_management_client_enums import FailoverDeploymentModel
+from ._site_recovery_management_client_enums import FailoverDirection
 from ._site_recovery_management_client_enums import HealthErrorCategory
 from ._site_recovery_management_client_enums import HealthErrorCustomerResolvability
 from ._site_recovery_management_client_enums import HyperVReplicaAzureRpRecoveryPointType
 from ._site_recovery_management_client_enums import InMageRcmFailbackRecoveryPointType
 from ._site_recovery_management_client_enums import InMageV2RpRecoveryPointType
 from ._site_recovery_management_client_enums import LicenseType
+from ._site_recovery_management_client_enums import LinuxLicenseType
 from ._site_recovery_management_client_enums import MigrationItemOperation
 from ._site_recovery_management_client_enums import MigrationRecoveryPointType
 from ._site_recovery_management_client_enums import MigrationState
@@ -573,6 +619,7 @@ from ._site_recovery_management_client_enums import RecoveryPointType
 from ._site_recovery_management_client_enums import ReplicationProtectedItemOperation
 from ._site_recovery_management_client_enums import ResyncState
 from ._site_recovery_management_client_enums import RpInMageRecoveryPointType
+from ._site_recovery_management_client_enums import SecurityConfiguration
 from ._site_recovery_management_client_enums import SecurityType
 from ._site_recovery_management_client_enums import SetMultiVmSyncStatus
 from ._site_recovery_management_client_enums import Severity
@@ -587,7 +634,11 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "A2AAddDisksInput",
+    "A2AApplyClusterRecoveryPointInput",
     "A2AApplyRecoveryPointInput",
+    "A2AClusterRecoveryPointDetails",
+    "A2AClusterTestFailoverInput",
+    "A2AClusterUnplannedFailoverInput",
     "A2AContainerCreationInput",
     "A2AContainerMappingInput",
     "A2ACreateProtectionIntentInput",
@@ -603,6 +654,7 @@ __all__ = [
     "A2APolicyCreationInput",
     "A2APolicyDetails",
     "A2AProtectedDiskDetails",
+    "A2AProtectedItemDetail",
     "A2AProtectedManagedDiskDetails",
     "A2AProtectionContainerMappingDetails",
     "A2AProtectionIntentDiskInputDetails",
@@ -611,7 +663,11 @@ __all__ = [
     "A2ARemoveDisksInput",
     "A2AReplicationDetails",
     "A2AReplicationIntentDetails",
+    "A2AReplicationProtectionClusterDetails",
     "A2AReprotectInput",
+    "A2ASharedDiskIRErrorDetails",
+    "A2ASharedDiskReplicationDetails",
+    "A2ASwitchClusterProtectionInput",
     "A2ASwitchProtectionInput",
     "A2ATestFailoverInput",
     "A2AUnplannedFailoverInput",
@@ -640,6 +696,9 @@ __all__ = [
     "ApplianceQueryParameter",
     "ApplianceResourceDetails",
     "ApplianceSpecificDetails",
+    "ApplyClusterRecoveryPointInput",
+    "ApplyClusterRecoveryPointInputProperties",
+    "ApplyClusterRecoveryPointProviderSpecificInput",
     "ApplyRecoveryPointInput",
     "ApplyRecoveryPointInputProperties",
     "ApplyRecoveryPointProviderSpecificInput",
@@ -652,6 +711,21 @@ __all__ = [
     "AzureToAzureUpdateNetworkMappingInput",
     "AzureToAzureVmSyncedConfigDetails",
     "AzureVmDiskDetails",
+    "ClusterFailoverJobDetails",
+    "ClusterProviderSpecificRecoveryPointDetails",
+    "ClusterRecoveryPoint",
+    "ClusterRecoveryPointCollection",
+    "ClusterRecoveryPointProperties",
+    "ClusterSwitchProtectionJobDetails",
+    "ClusterTestFailoverCleanupInput",
+    "ClusterTestFailoverCleanupInputProperties",
+    "ClusterTestFailoverInput",
+    "ClusterTestFailoverInputProperties",
+    "ClusterTestFailoverJobDetails",
+    "ClusterTestFailoverProviderSpecificInput",
+    "ClusterUnplannedFailoverInput",
+    "ClusterUnplannedFailoverInputProperties",
+    "ClusterUnplannedFailoverProviderSpecificInput",
     "ComputeSizeErrorDetails",
     "ConfigurationSettings",
     "ConfigureAlertRequest",
@@ -789,6 +863,7 @@ __all__ = [
     "InMagePolicyDetails",
     "InMagePolicyInput",
     "InMageProtectedDiskDetails",
+    "InMageRcmAddDisksInput",
     "InMageRcmAgentUpgradeBlockingErrorDetails",
     "InMageRcmApplianceDetails",
     "InMageRcmApplianceSpecificDetails",
@@ -825,6 +900,7 @@ __all__ = [
     "InMageRcmReprotectInput",
     "InMageRcmSyncDetails",
     "InMageRcmTestFailoverInput",
+    "InMageRcmUnProtectedDiskDetails",
     "InMageRcmUnplannedFailoverInput",
     "InMageRcmUpdateApplianceForReplicationProtectedItemInput",
     "InMageRcmUpdateContainerMappingInput",
@@ -852,6 +928,7 @@ __all__ = [
     "LogicalNetwork",
     "LogicalNetworkCollection",
     "LogicalNetworkProperties",
+    "ManagedRunCommandScriptInput",
     "ManualActionTaskDetails",
     "MarsAgentDetails",
     "MasterTargetServer",
@@ -954,6 +1031,7 @@ __all__ = [
     "RecoveryServicesProviderCollection",
     "RecoveryServicesProviderProperties",
     "RecoveryVirtualNetworkCustomDetails",
+    "RegisteredClusterNodes",
     "RemoveDisksInput",
     "RemoveDisksInputProperties",
     "RemoveDisksProviderSpecificInput",
@@ -964,6 +1042,7 @@ __all__ = [
     "ReplicationAgentDetails",
     "ReplicationAppliance",
     "ReplicationApplianceProperties",
+    "ReplicationClusterProviderSpecificSettings",
     "ReplicationEligibilityResults",
     "ReplicationEligibilityResultsCollection",
     "ReplicationEligibilityResultsErrorInfo",
@@ -972,6 +1051,9 @@ __all__ = [
     "ReplicationProtectedItem",
     "ReplicationProtectedItemCollection",
     "ReplicationProtectedItemProperties",
+    "ReplicationProtectionCluster",
+    "ReplicationProtectionClusterCollection",
+    "ReplicationProtectionClusterProperties",
     "ReplicationProtectionIntent",
     "ReplicationProtectionIntentCollection",
     "ReplicationProtectionIntentProperties",
@@ -1002,7 +1084,10 @@ __all__ = [
     "RoleAssignment",
     "RunAsAccount",
     "ScriptActionTaskDetails",
+    "SecurityProfileProperties",
     "ServiceError",
+    "SharedDiskReplicationItemProperties",
+    "SharedDiskReplicationProviderSpecificSettings",
     "StorageAccountCustomDetails",
     "StorageClassification",
     "StorageClassificationCollection",
@@ -1017,6 +1102,9 @@ __all__ = [
     "SupportedOSProperties",
     "SupportedOSProperty",
     "SupportedOperatingSystems",
+    "SwitchClusterProtectionInput",
+    "SwitchClusterProtectionInputProperties",
+    "SwitchClusterProtectionProviderSpecificInput",
     "SwitchProtectionInput",
     "SwitchProtectionInputProperties",
     "SwitchProtectionJobDetails",
@@ -1064,6 +1152,7 @@ __all__ = [
     "UpdateReplicationProtectedItemProviderInput",
     "UpdateVCenterRequest",
     "UpdateVCenterRequestProperties",
+    "UserCreatedResourceTag",
     "VCenter",
     "VCenterCollection",
     "VCenterProperties",
@@ -1119,20 +1208,24 @@ __all__ = [
     "AutoProtectionOfDataDisk",
     "AutomationAccountAuthenticationType",
     "ChurnOptionSelected",
+    "ClusterRecoveryPointType",
     "DataSyncStatus",
     "DisableProtectionReason",
     "DiskAccountType",
     "DiskReplicationProgressHealth",
+    "DiskState",
     "EthernetAddressType",
     "ExportJobOutputSerializationType",
     "ExtendedLocationType",
     "FailoverDeploymentModel",
+    "FailoverDirection",
     "HealthErrorCategory",
     "HealthErrorCustomerResolvability",
     "HyperVReplicaAzureRpRecoveryPointType",
     "InMageRcmFailbackRecoveryPointType",
     "InMageV2RpRecoveryPointType",
     "LicenseType",
+    "LinuxLicenseType",
     "MigrationItemOperation",
     "MigrationRecoveryPointType",
     "MigrationState",
@@ -1152,6 +1245,7 @@ __all__ = [
     "ReplicationProtectedItemOperation",
     "ResyncState",
     "RpInMageRecoveryPointType",
+    "SecurityConfiguration",
     "SecurityType",
     "SetMultiVmSyncStatus",
     "Severity",
