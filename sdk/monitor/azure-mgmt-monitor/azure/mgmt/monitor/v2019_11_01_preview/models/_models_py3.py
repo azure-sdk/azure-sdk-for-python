@@ -160,7 +160,7 @@ class DataCollectionRuleAssociation(_serialization.Model):
         self.provisioning_state = None
 
 
-class DataCollectionRuleAssociationProxyOnlyResource(_serialization.Model):
+class DataCollectionRuleAssociationProxyOnlyResource(_serialization.Model):  # pylint: disable=name-too-long
     """Definition of generic ARM proxy resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -222,10 +222,10 @@ class DataCollectionRuleAssociationProxyOnlyResource(_serialization.Model):
         self.provisioning_state = None
 
 
-class DataCollectionRuleAssociationProxyOnlyResourceListResult(_serialization.Model):
+class DataCollectionRuleAssociationProxyOnlyResourceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A pageable list of resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of resources. Required.
     :vartype value:
@@ -262,7 +262,9 @@ class DataCollectionRuleAssociationProxyOnlyResourceListResult(_serialization.Mo
         self.next_link = next_link
 
 
-class DataCollectionRuleAssociationProxyOnlyResourceProperties(DataCollectionRuleAssociation):
+class DataCollectionRuleAssociationProxyOnlyResourceProperties(
+    DataCollectionRuleAssociation
+):  # pylint: disable=name-too-long
     """Resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -277,28 +279,6 @@ class DataCollectionRuleAssociationProxyOnlyResourceProperties(DataCollectionRul
     :vartype provisioning_state: str or
      ~azure.mgmt.monitor.v2019_11_01_preview.models.KnownDataCollectionRuleAssociationProvisioningState
     """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "description": {"key": "description", "type": "str"},
-        "data_collection_rule_id": {"key": "dataCollectionRuleId", "type": "str"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-    }
-
-    def __init__(
-        self, *, description: Optional[str] = None, data_collection_rule_id: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword description: Description of the association.
-        :paramtype description: str
-        :keyword data_collection_rule_id: The resource ID of the data collection rule that is to be
-         associated.
-        :paramtype data_collection_rule_id: str
-        """
-        super().__init__(description=description, data_collection_rule_id=data_collection_rule_id, **kwargs)
 
 
 class DataSourcesSpec(_serialization.Model):
@@ -368,42 +348,6 @@ class DataCollectionRuleDataSources(DataSourcesSpec):
     :vartype extensions: list[~azure.mgmt.monitor.v2019_11_01_preview.models.ExtensionDataSource]
     """
 
-    _attribute_map = {
-        "performance_counters": {"key": "performanceCounters", "type": "[PerfCounterDataSource]"},
-        "windows_event_logs": {"key": "windowsEventLogs", "type": "[WindowsEventLogDataSource]"},
-        "syslog": {"key": "syslog", "type": "[SyslogDataSource]"},
-        "extensions": {"key": "extensions", "type": "[ExtensionDataSource]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        performance_counters: Optional[List["_models.PerfCounterDataSource"]] = None,
-        windows_event_logs: Optional[List["_models.WindowsEventLogDataSource"]] = None,
-        syslog: Optional[List["_models.SyslogDataSource"]] = None,
-        extensions: Optional[List["_models.ExtensionDataSource"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword performance_counters: The list of performance counter data source configurations.
-        :paramtype performance_counters:
-         list[~azure.mgmt.monitor.v2019_11_01_preview.models.PerfCounterDataSource]
-        :keyword windows_event_logs: The list of Windows Event Log data source configurations.
-        :paramtype windows_event_logs:
-         list[~azure.mgmt.monitor.v2019_11_01_preview.models.WindowsEventLogDataSource]
-        :keyword syslog: The list of Syslog data source configurations.
-        :paramtype syslog: list[~azure.mgmt.monitor.v2019_11_01_preview.models.SyslogDataSource]
-        :keyword extensions: The list of Azure VM extension data source configurations.
-        :paramtype extensions: list[~azure.mgmt.monitor.v2019_11_01_preview.models.ExtensionDataSource]
-        """
-        super().__init__(
-            performance_counters=performance_counters,
-            windows_event_logs=windows_event_logs,
-            syslog=syslog,
-            extensions=extensions,
-            **kwargs
-        )
-
 
 class DestinationsSpec(_serialization.Model):
     """Specification of destinations that can be used in data flows.
@@ -452,35 +396,13 @@ class DataCollectionRuleDestinations(DestinationsSpec):
      ~azure.mgmt.monitor.v2019_11_01_preview.models.DestinationsSpecAzureMonitorMetrics
     """
 
-    _attribute_map = {
-        "log_analytics": {"key": "logAnalytics", "type": "[LogAnalyticsDestination]"},
-        "azure_monitor_metrics": {"key": "azureMonitorMetrics", "type": "DestinationsSpecAzureMonitorMetrics"},
-    }
-
-    def __init__(
-        self,
-        *,
-        log_analytics: Optional[List["_models.LogAnalyticsDestination"]] = None,
-        azure_monitor_metrics: Optional["_models.DestinationsSpecAzureMonitorMetrics"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword log_analytics: List of Log Analytics destinations.
-        :paramtype log_analytics:
-         list[~azure.mgmt.monitor.v2019_11_01_preview.models.LogAnalyticsDestination]
-        :keyword azure_monitor_metrics: Azure Monitor Metrics destination.
-        :paramtype azure_monitor_metrics:
-         ~azure.mgmt.monitor.v2019_11_01_preview.models.DestinationsSpecAzureMonitorMetrics
-        """
-        super().__init__(log_analytics=log_analytics, azure_monitor_metrics=azure_monitor_metrics, **kwargs)
-
 
 class DataCollectionRuleResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Definition of ARM tracked top level resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
@@ -595,7 +517,7 @@ class DataCollectionRuleResource(_serialization.Model):  # pylint: disable=too-m
 class DataCollectionRuleResourceListResult(_serialization.Model):
     """A pageable list of resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of resources. Required.
     :vartype value: list[~azure.mgmt.monitor.v2019_11_01_preview.models.DataCollectionRuleResource]
@@ -652,51 +574,6 @@ class DataCollectionRuleResourceProperties(DataCollectionRule):
      ~azure.mgmt.monitor.v2019_11_01_preview.models.KnownDataCollectionRuleProvisioningState
     """
 
-    _validation = {
-        "immutable_id": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "description": {"key": "description", "type": "str"},
-        "immutable_id": {"key": "immutableId", "type": "str"},
-        "data_sources": {"key": "dataSources", "type": "DataCollectionRuleDataSources"},
-        "destinations": {"key": "destinations", "type": "DataCollectionRuleDestinations"},
-        "data_flows": {"key": "dataFlows", "type": "[DataFlow]"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        description: Optional[str] = None,
-        data_sources: Optional["_models.DataCollectionRuleDataSources"] = None,
-        destinations: Optional["_models.DataCollectionRuleDestinations"] = None,
-        data_flows: Optional[List["_models.DataFlow"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword description: Description of the data collection rule.
-        :paramtype description: str
-        :keyword data_sources: The specification of data sources.
-         This property is optional and can be omitted if the rule is meant to be used via direct calls
-         to the provisioned endpoint.
-        :paramtype data_sources:
-         ~azure.mgmt.monitor.v2019_11_01_preview.models.DataCollectionRuleDataSources
-        :keyword destinations: The specification of destinations.
-        :paramtype destinations:
-         ~azure.mgmt.monitor.v2019_11_01_preview.models.DataCollectionRuleDestinations
-        :keyword data_flows: The specification of data flows.
-        :paramtype data_flows: list[~azure.mgmt.monitor.v2019_11_01_preview.models.DataFlow]
-        """
-        super().__init__(
-            description=description,
-            data_sources=data_sources,
-            destinations=destinations,
-            data_flows=data_flows,
-            **kwargs
-        )
-
 
 class DataFlow(_serialization.Model):
     """Definition of which streams are sent to which destinations.
@@ -740,19 +617,6 @@ class DestinationsSpecAzureMonitorMetrics(AzureMonitorMetricsDestination):
      collection rule.
     :vartype name: str
     """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: A friendly name for the destination.
-         This name should be unique across all destinations (regardless of type) within the data
-         collection rule.
-        :paramtype name: str
-        """
-        super().__init__(name=name, **kwargs)
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -853,7 +717,7 @@ class ExtensionDataSource(_serialization.Model):
     the Azure Monitor Agent.
     Collected from either Windows and Linux machines, depending on which extension is defined.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar streams: List of streams that this data source will be sent to.
      A stream indicates what schema will be used for this data and usually what table in Log
