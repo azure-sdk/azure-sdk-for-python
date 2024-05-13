@@ -32,17 +32,16 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._experiments_operations import (
-    build_cancel_request,
+from ...operations._private_accesses_operations import (
     build_create_or_update_request,
+    build_delete_a_private_endpoint_connection_request,
     build_delete_request,
-    build_execution_details_request,
-    build_get_execution_request,
+    build_get_a_private_endpoint_connection_request,
+    build_get_private_link_resources_request,
     build_get_request,
-    build_list_all_executions_request,
     build_list_all_request,
+    build_list_private_endpoint_connections_request,
     build_list_request,
-    build_start_request,
     build_update_request,
 )
 
@@ -54,14 +53,14 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ExperimentsOperations:
+class PrivateAccessesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.chaos.aio.ChaosManagementClient`'s
-        :attr:`experiments` attribute.
+        :attr:`private_accesses` attribute.
     """
 
     models = _models
@@ -75,26 +74,22 @@ class ExperimentsOperations:
 
     @distributed_trace
     def list_all(
-        self, running: Optional[bool] = None, continuation_token_parameter: Optional[str] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.Experiment"]:
-        """Get a list of Experiment resources in a subscription.
+        self, continuation_token_parameter: Optional[str] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.PrivateAccess"]:
+        """Get a list of private access resources in a subscription.
 
-        :param running: Optional value that indicates whether to filter results based on if the
-         Experiment is currently running. If null, then the results will not be filtered. Default value
-         is None.
-        :type running: bool
         :param continuation_token_parameter: String that sets the continuation token. Default value is
          None.
         :type continuation_token_parameter: str
-        :return: An iterator like instance of either Experiment or the result of cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.Experiment]
+        :return: An iterator like instance of either PrivateAccess or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExperimentListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccessListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -109,7 +104,6 @@ class ExperimentsOperations:
 
                 _request = build_list_all_request(
                     subscription_id=self._config.subscription_id,
-                    running=running,
                     continuation_token_parameter=continuation_token_parameter,
                     api_version=api_version,
                     headers=_headers,
@@ -137,7 +131,7 @@ class ExperimentsOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ExperimentListResult", pipeline_response)
+            deserialized = self._deserialize("PrivateAccessListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -163,32 +157,24 @@ class ExperimentsOperations:
 
     @distributed_trace
     def list(
-        self,
-        resource_group_name: str,
-        running: Optional[bool] = None,
-        continuation_token_parameter: Optional[str] = None,
-        **kwargs: Any
-    ) -> AsyncIterable["_models.Experiment"]:
-        """Get a list of Experiment resources in a resource group.
+        self, resource_group_name: str, continuation_token_parameter: Optional[str] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.PrivateAccess"]:
+        """Get a list of private access resources in a resource group.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param running: Optional value that indicates whether to filter results based on if the
-         Experiment is currently running. If null, then the results will not be filtered. Default value
-         is None.
-        :type running: bool
         :param continuation_token_parameter: String that sets the continuation token. Default value is
          None.
         :type continuation_token_parameter: str
-        :return: An iterator like instance of either Experiment or the result of cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.Experiment]
+        :return: An iterator like instance of either PrivateAccess or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExperimentListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccessListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -204,7 +190,6 @@ class ExperimentsOperations:
                 _request = build_list_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
-                    running=running,
                     continuation_token_parameter=continuation_token_parameter,
                     api_version=api_version,
                     headers=_headers,
@@ -232,7 +217,7 @@ class ExperimentsOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ExperimentListResult", pipeline_response)
+            deserialized = self._deserialize("PrivateAccessListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -256,112 +241,18 @@ class ExperimentsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, experiment_name: str, **kwargs: Any
-    ) -> None:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        _request = build_delete_request(
-            resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request = _convert_request(_request)
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
-
     @distributed_trace_async
-    async def begin_delete(self, resource_group_name: str, experiment_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
-        """Delete a Experiment resource.
+    async def get(self, resource_group_name: str, private_access_name: str, **kwargs: Any) -> _models.PrivateAccess:
+        """Get a private access resource.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._delete_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                experiment_name=experiment_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    @distributed_trace_async
-    async def get(self, resource_group_name: str, experiment_name: str, **kwargs: Any) -> _models.Experiment:
-        """Get a Experiment resource.
-
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :return: Experiment or the result of cls(response)
-        :rtype: ~azure.mgmt.chaos.models.Experiment
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :return: PrivateAccess or the result of cls(response)
+        :rtype: ~azure.mgmt.chaos.models.PrivateAccess
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -376,11 +267,11 @@ class ExperimentsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.Experiment] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccess] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
+            private_access_name=private_access_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -401,7 +292,7 @@ class ExperimentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Experiment", pipeline_response)
+        deserialized = self._deserialize("PrivateAccess", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -411,10 +302,10 @@ class ExperimentsOperations:
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: Union[_models.Experiment, IO[bytes]],
+        private_access_name: str,
+        private_access: Union[_models.PrivateAccess, IO[bytes]],
         **kwargs: Any
-    ) -> _models.Experiment:
+    ) -> _models.PrivateAccess:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -428,19 +319,19 @@ class ExperimentsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Experiment] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccess] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(experiment, (IOBase, bytes)):
-            _content = experiment
+        if isinstance(private_access, (IOBase, bytes)):
+            _content = private_access
         else:
-            _json = self._serialize.body(experiment, "Experiment")
+            _json = self._serialize.body(private_access, "PrivateAccess")
 
         _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
+            private_access_name=private_access_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -465,10 +356,10 @@ class ExperimentsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if response.status_code == 200:
-            deserialized = self._deserialize("Experiment", pipeline_response)
+            deserialized = self._deserialize("PrivateAccess", pipeline_response)
 
         if response.status_code == 201:
-            deserialized = self._deserialize("Experiment", pipeline_response)
+            deserialized = self._deserialize("PrivateAccess", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -479,26 +370,28 @@ class ExperimentsOperations:
     async def begin_create_or_update(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: _models.Experiment,
+        private_access_name: str,
+        private_access: _models.PrivateAccess,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.Experiment]:
-        """Create or update a Experiment resource.
+    ) -> AsyncLROPoller[_models.PrivateAccess]:
+        """Create or update a private access.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param experiment: Experiment resource to be created or updated. Required.
-        :type experiment: ~azure.mgmt.chaos.models.Experiment
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_access: private access resource to be created or updated. Required.
+        :type private_access: ~azure.mgmt.chaos.models.PrivateAccess
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either Experiment or the result of
+        :return: An instance of AsyncLROPoller that returns either PrivateAccess or the result of
          cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.Experiment]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -506,26 +399,28 @@ class ExperimentsOperations:
     async def begin_create_or_update(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: IO[bytes],
+        private_access_name: str,
+        private_access: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.Experiment]:
-        """Create or update a Experiment resource.
+    ) -> AsyncLROPoller[_models.PrivateAccess]:
+        """Create or update a private access.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param experiment: Experiment resource to be created or updated. Required.
-        :type experiment: IO[bytes]
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_access: private access resource to be created or updated. Required.
+        :type private_access: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either Experiment or the result of
+        :return: An instance of AsyncLROPoller that returns either PrivateAccess or the result of
          cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.Experiment]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -533,22 +428,24 @@ class ExperimentsOperations:
     async def begin_create_or_update(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: Union[_models.Experiment, IO[bytes]],
+        private_access_name: str,
+        private_access: Union[_models.PrivateAccess, IO[bytes]],
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.Experiment]:
-        """Create or update a Experiment resource.
+    ) -> AsyncLROPoller[_models.PrivateAccess]:
+        """Create or update a private access.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param experiment: Experiment resource to be created or updated. Is either a Experiment type or
-         a IO[bytes] type. Required.
-        :type experiment: ~azure.mgmt.chaos.models.Experiment or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns either Experiment or the result of
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_access: private access resource to be created or updated. Is either a
+         PrivateAccess type or a IO[bytes] type. Required.
+        :type private_access: ~azure.mgmt.chaos.models.PrivateAccess or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns either PrivateAccess or the result of
          cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.Experiment]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -556,15 +453,15 @@ class ExperimentsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Experiment] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccess] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
             raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
-                experiment_name=experiment_name,
-                experiment=experiment,
+                private_access_name=private_access_name,
+                private_access=private_access,
                 api_version=api_version,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -575,7 +472,7 @@ class ExperimentsOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("Experiment", pipeline_response)
+            deserialized = self._deserialize("PrivateAccess", pipeline_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -590,23 +487,23 @@ class ExperimentsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.Experiment].from_continuation_token(
+            return AsyncLROPoller[_models.PrivateAccess].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.Experiment](
+        return AsyncLROPoller[_models.PrivateAccess](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     async def _update_initial(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: Union[_models.ExperimentUpdate, IO[bytes]],
+        private_access_name: str,
+        private_access_patch: Union[_models.PrivateAccessPatch, IO[bytes]],
         **kwargs: Any
-    ) -> _models.Experiment:
+    ) -> _models.PrivateAccess:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -620,19 +517,19 @@ class ExperimentsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Experiment] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccess] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(experiment, (IOBase, bytes)):
-            _content = experiment
+        if isinstance(private_access_patch, (IOBase, bytes)):
+            _content = private_access_patch
         else:
-            _json = self._serialize.body(experiment, "ExperimentUpdate")
+            _json = self._serialize.body(private_access_patch, "PrivateAccessPatch")
 
         _request = build_update_request(
             resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
+            private_access_name=private_access_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -651,15 +548,22 @@ class ExperimentsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [202]:
+        if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Experiment", pipeline_response)
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("PrivateAccess", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+            deserialized = self._deserialize("PrivateAccess", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -667,26 +571,28 @@ class ExperimentsOperations:
     async def begin_update(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: _models.ExperimentUpdate,
+        private_access_name: str,
+        private_access_patch: _models.PrivateAccessPatch,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.Experiment]:
-        """The operation to update an experiment.
+    ) -> AsyncLROPoller[_models.PrivateAccess]:
+        """Patch a private access tags.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param experiment: Parameters supplied to the Update experiment operation. Required.
-        :type experiment: ~azure.mgmt.chaos.models.ExperimentUpdate
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_access_patch: private access resource's tags to be updated. Required.
+        :type private_access_patch: ~azure.mgmt.chaos.models.PrivateAccessPatch
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either Experiment or the result of
+        :return: An instance of AsyncLROPoller that returns either PrivateAccess or the result of
          cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.Experiment]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -694,26 +600,28 @@ class ExperimentsOperations:
     async def begin_update(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: IO[bytes],
+        private_access_name: str,
+        private_access_patch: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.Experiment]:
-        """The operation to update an experiment.
+    ) -> AsyncLROPoller[_models.PrivateAccess]:
+        """Patch a private access tags.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param experiment: Parameters supplied to the Update experiment operation. Required.
-        :type experiment: IO[bytes]
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_access_patch: private access resource's tags to be updated. Required.
+        :type private_access_patch: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either Experiment or the result of
+        :return: An instance of AsyncLROPoller that returns either PrivateAccess or the result of
          cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.Experiment]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -721,22 +629,24 @@ class ExperimentsOperations:
     async def begin_update(
         self,
         resource_group_name: str,
-        experiment_name: str,
-        experiment: Union[_models.ExperimentUpdate, IO[bytes]],
+        private_access_name: str,
+        private_access_patch: Union[_models.PrivateAccessPatch, IO[bytes]],
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.Experiment]:
-        """The operation to update an experiment.
+    ) -> AsyncLROPoller[_models.PrivateAccess]:
+        """Patch a private access tags.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param experiment: Parameters supplied to the Update experiment operation. Is either a
-         ExperimentUpdate type or a IO[bytes] type. Required.
-        :type experiment: ~azure.mgmt.chaos.models.ExperimentUpdate or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns either Experiment or the result of
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_access_patch: private access resource's tags to be updated. Is either a
+         PrivateAccessPatch type or a IO[bytes] type. Required.
+        :type private_access_patch: ~azure.mgmt.chaos.models.PrivateAccessPatch or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns either PrivateAccess or the result of
          cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.Experiment]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.chaos.models.PrivateAccess]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -744,15 +654,15 @@ class ExperimentsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Experiment] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateAccess] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
             raw_result = await self._update_initial(
                 resource_group_name=resource_group_name,
-                experiment_name=experiment_name,
-                experiment=experiment,
+                private_access_name=private_access_name,
+                private_access_patch=private_access_patch,
                 api_version=api_version,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -763,7 +673,7 @@ class ExperimentsOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("Experiment", pipeline_response)
+            deserialized = self._deserialize("PrivateAccess", pipeline_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -777,18 +687,18 @@ class ExperimentsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.Experiment].from_continuation_token(
+            return AsyncLROPoller[_models.PrivateAccess].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.Experiment](
+        return AsyncLROPoller[_models.PrivateAccess](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    async def _cancel_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, experiment_name: str, **kwargs: Any
+    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, private_access_name: str, **kwargs: Any
     ) -> None:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -804,9 +714,9 @@ class ExperimentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        _request = build_cancel_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
+            private_access_name=private_access_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -822,22 +732,30 @@ class ExperimentsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [202]:
+        if response.status_code not in [202, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
-    async def begin_cancel(self, resource_group_name: str, experiment_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
-        """Cancel a running Experiment resource.
+    async def begin_delete(
+        self, resource_group_name: str, private_access_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Delete a private access.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -851,105 +769,9 @@ class ExperimentsOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._cancel_initial(  # type: ignore
+            raw_result = await self._delete_initial(  # type: ignore
                 resource_group_name=resource_group_name,
-                experiment_name=experiment_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    async def _start_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, experiment_name: str, **kwargs: Any
-    ) -> None:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        _request = build_start_request(
-            resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request = _convert_request(_request)
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
-
-    @distributed_trace_async
-    async def begin_start(self, resource_group_name: str, experiment_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
-        """Start a Experiment resource.
-
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._start_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                experiment_name=experiment_name,
+                private_access_name=private_access_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -980,24 +802,26 @@ class ExperimentsOperations:
         return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
-    def list_all_executions(
-        self, resource_group_name: str, experiment_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.ExperimentExecution"]:
-        """Get a list of executions of an Experiment resource.
+    def get_private_link_resources(
+        self, resource_group_name: str, private_access_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.PrivateLinkResource"]:
+        """Gets the private link resources possible under private access resource.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :return: An iterator like instance of either ExperimentExecution or the result of cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.ExperimentExecution]
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :return: An iterator like instance of either PrivateLinkResource or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.PrivateLinkResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExperimentExecutionListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateLinkResourceListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -1010,9 +834,9 @@ class ExperimentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_list_all_executions_request(
+                _request = build_get_private_link_resources_request(
                     resource_group_name=resource_group_name,
-                    experiment_name=experiment_name,
+                    private_access_name=private_access_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     headers=_headers,
@@ -1040,7 +864,7 @@ class ExperimentsOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ExperimentExecutionListResult", pipeline_response)
+            deserialized = self._deserialize("PrivateLinkResourceListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -1065,19 +889,21 @@ class ExperimentsOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace_async
-    async def get_execution(
-        self, resource_group_name: str, experiment_name: str, execution_id: str, **kwargs: Any
-    ) -> _models.ExperimentExecution:
-        """Get an execution of an Experiment resource.
+    async def get_a_private_endpoint_connection(
+        self, resource_group_name: str, private_access_name: str, private_endpoint_connection_name: str, **kwargs: Any
+    ) -> _models.PrivateEndpointConnection:
+        """Gets information about a private endpoint connection under a private access resource.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param execution_id: GUID that represents a Experiment execution detail. Required.
-        :type execution_id: str
-        :return: ExperimentExecution or the result of cls(response)
-        :rtype: ~azure.mgmt.chaos.models.ExperimentExecution
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_endpoint_connection_name: The name of the private endpoint connection. Required.
+        :type private_endpoint_connection_name: str
+        :return: PrivateEndpointConnection or the result of cls(response)
+        :rtype: ~azure.mgmt.chaos.models.PrivateEndpointConnection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -1092,12 +918,12 @@ class ExperimentsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExperimentExecution] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateEndpointConnection] = kwargs.pop("cls", None)
 
-        _request = build_get_execution_request(
+        _request = build_get_a_private_endpoint_connection_request(
             resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
-            execution_id=execution_id,
+            private_access_name=private_access_name,
+            private_endpoint_connection_name=private_endpoint_connection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -1118,29 +944,145 @@ class ExperimentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ExperimentExecution", pipeline_response)
+        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
+
+    async def _delete_a_private_endpoint_connection_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
+        self, resource_group_name: str, private_access_name: str, private_endpoint_connection_name: str, **kwargs: Any
+    ) -> None:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_delete_a_private_endpoint_connection_request(
+            resource_group_name=resource_group_name,
+            private_access_name=private_access_name,
+            private_endpoint_connection_name=private_endpoint_connection_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [202, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
-    async def execution_details(
-        self, resource_group_name: str, experiment_name: str, execution_id: str, **kwargs: Any
-    ) -> _models.ExperimentExecutionDetails:
-        """Execution details of an experiment resource.
+    async def begin_delete_a_private_endpoint_connection(  # pylint: disable=name-too-long
+        self, resource_group_name: str, private_access_name: str, private_endpoint_connection_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Deletes a private endpoint connection under a private access resource.
 
         :param resource_group_name: String that represents an Azure resource group. Required.
         :type resource_group_name: str
-        :param experiment_name: String that represents a Experiment resource name. Required.
-        :type experiment_name: str
-        :param execution_id: GUID that represents a Experiment execution detail. Required.
-        :type execution_id: str
-        :return: ExperimentExecutionDetails or the result of cls(response)
-        :rtype: ~azure.mgmt.chaos.models.ExperimentExecutionDetails
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :param private_endpoint_connection_name: The name of the private endpoint connection. Required.
+        :type private_endpoint_connection_name: str
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._delete_a_private_endpoint_connection_initial(  # type: ignore
+                resource_group_name=resource_group_name,
+                private_access_name=private_access_name,
+                private_endpoint_connection_name=private_endpoint_connection_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    @distributed_trace
+    def list_private_endpoint_connections(
+        self, resource_group_name: str, private_access_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.PrivateEndpointConnection"]:
+        """List information about private endpoint connections under a private access resource.
+
+        :param resource_group_name: String that represents an Azure resource group. Required.
+        :type resource_group_name: str
+        :param private_access_name: The name of the private access resource that is being created.
+         Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80
+         characters. Required.
+        :type private_access_name: str
+        :return: An iterator like instance of either PrivateEndpointConnection or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.PrivateEndpointConnection]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.PrivateEndpointConnectionListResult] = kwargs.pop("cls", None)
+
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1149,39 +1091,59 @@ class ExperimentsOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+        def prepare_request(next_link=None):
+            if not next_link:
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExperimentExecutionDetails] = kwargs.pop("cls", None)
+                _request = build_list_private_endpoint_connections_request(
+                    resource_group_name=resource_group_name,
+                    private_access_name=private_access_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
-        _request = build_execution_details_request(
-            resource_group_name=resource_group_name,
-            experiment_name=experiment_name,
-            execution_id=execution_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request = _convert_request(_request)
-        _request.url = self._client.format_url(_request.url)
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("PrivateEndpointConnectionListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
 
-        response = pipeline_response.http_response
+        async def get_next(next_link=None):
+            _request = prepare_request(next_link)
 
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
 
-        deserialized = self._deserialize("ExperimentExecutionDetails", pipeline_response)
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return pipeline_response
 
-        return deserialized  # type: ignore
+        return AsyncItemPaged(get_next, extract_data)
