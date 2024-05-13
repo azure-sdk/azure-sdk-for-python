@@ -32,3 +32,5 @@ extends:
     Artifacts:
     - name: azure-mgmt-sphere
       safeName: azuremgmtsphere
+    - name: azure-mgmt-spheretest
+      safeName: azuremgmtspheretest
