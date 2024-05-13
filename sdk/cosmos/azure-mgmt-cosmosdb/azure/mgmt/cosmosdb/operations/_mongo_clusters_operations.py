@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -67,7 +72,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +104,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -142,7 +147,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -182,7 +187,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -222,7 +227,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -259,13 +264,13 @@ def build_update_request(
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_firewall_rule_request(
+def build_create_or_update_firewall_rule_request(  # pylint: disable=name-too-long
     resource_group_name: str, mongo_cluster_name: str, firewall_rule_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -316,7 +321,7 @@ def build_delete_firewall_rule_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -364,7 +369,7 @@ def build_get_firewall_rule_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -412,7 +417,7 @@ def build_list_firewall_rules_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -450,7 +455,7 @@ def build_check_name_availability_request(location: str, subscription_id: str, *
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -483,7 +488,7 @@ def build_list_connection_strings_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -540,7 +545,6 @@ class MongoClustersOperations:
     def list(self, **kwargs: Any) -> Iterable["_models.MongoCluster"]:
         """List all the mongo clusters in a given subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MongoCluster or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.MongoCluster]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -551,7 +555,7 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MongoClusterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -562,15 +566,14 @@ class MongoClustersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -582,13 +585,13 @@ class MongoClustersOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MongoClusterListResult", pipeline_response)
@@ -598,11 +601,11 @@ class MongoClustersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -614,8 +617,6 @@ class MongoClustersOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters"}
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.MongoCluster"]:
@@ -624,7 +625,6 @@ class MongoClustersOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MongoCluster or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.MongoCluster]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -635,7 +635,7 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MongoClusterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -646,16 +646,15 @@ class MongoClustersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -667,13 +666,13 @@ class MongoClustersOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MongoClusterListResult", pipeline_response)
@@ -683,11 +682,11 @@ class MongoClustersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -700,18 +699,14 @@ class MongoClustersOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters"
-    }
-
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        parameters: Union[_models.MongoCluster, IO],
+        parameters: Union[_models.MongoCluster, IO[bytes]],
         **kwargs: Any
     ) -> _models.MongoCluster:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -734,7 +729,7 @@ class MongoClustersOperations:
         else:
             _json = self._serialize.body(parameters, "MongoCluster")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             subscription_id=self._config.subscription_id,
@@ -742,16 +737,15 @@ class MongoClustersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -771,10 +765,6 @@ class MongoClustersOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -799,14 +789,6 @@ class MongoClustersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either MongoCluster or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.MongoCluster]
@@ -818,7 +800,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -832,18 +814,10 @@ class MongoClustersOperations:
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
         :param parameters: The required parameters for creating or updating a mongo cluster. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either MongoCluster or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.MongoCluster]
@@ -855,7 +829,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        parameters: Union[_models.MongoCluster, IO],
+        parameters: Union[_models.MongoCluster, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.MongoCluster]:
         """Create or update a mongo cluster. Update overwrites all properties for the resource. To only
@@ -867,19 +841,8 @@ class MongoClustersOperations:
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
         :param parameters: The required parameters for creating or updating a mongo cluster. Is either
-         a MongoCluster type or a IO type. Required.
-        :type parameters: ~azure.mgmt.cosmosdb.models.MongoCluster or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a MongoCluster type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.cosmosdb.models.MongoCluster or IO[bytes]
         :return: An instance of LROPoller that returns either MongoCluster or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.MongoCluster]
@@ -911,7 +874,7 @@ class MongoClustersOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MongoCluster", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -923,17 +886,15 @@ class MongoClustersOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.MongoCluster].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
+        return LROPoller[_models.MongoCluster](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def get(self, resource_group_name: str, mongo_cluster_name: str, **kwargs: Any) -> _models.MongoCluster:
@@ -944,12 +905,11 @@ class MongoClustersOperations:
         :type resource_group_name: str
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MongoCluster or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.MongoCluster
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -963,21 +923,20 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MongoCluster] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -990,18 +949,14 @@ class MongoClustersOperations:
         deserialized = self._deserialize("MongoCluster", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
+        return deserialized  # type: ignore
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, mongo_cluster_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1015,21 +970,20 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1044,11 +998,7 @@ class MongoClustersOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, mongo_cluster_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1059,14 +1009,6 @@ class MongoClustersOperations:
         :type resource_group_name: str
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1093,7 +1035,7 @@ class MongoClustersOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1104,26 +1046,22 @@ class MongoClustersOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _update_initial(
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        parameters: Union[_models.MongoClusterUpdate, IO],
+        parameters: Union[_models.MongoClusterUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.MongoCluster]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1146,7 +1084,7 @@ class MongoClustersOperations:
         else:
             _json = self._serialize.body(parameters, "MongoClusterUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             subscription_id=self._config.subscription_id,
@@ -1154,16 +1092,15 @@ class MongoClustersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1182,13 +1119,9 @@ class MongoClustersOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -1213,14 +1146,6 @@ class MongoClustersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either MongoCluster or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.MongoCluster]
@@ -1232,7 +1157,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1246,18 +1171,10 @@ class MongoClustersOperations:
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
         :param parameters: The parameters for updating a mongo cluster. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either MongoCluster or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.MongoCluster]
@@ -1269,7 +1186,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        parameters: Union[_models.MongoClusterUpdate, IO],
+        parameters: Union[_models.MongoClusterUpdate, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.MongoCluster]:
         """Updates an existing mongo cluster. The request body can contain one to many of the properties
@@ -1281,19 +1198,8 @@ class MongoClustersOperations:
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
         :param parameters: The parameters for updating a mongo cluster. Is either a MongoClusterUpdate
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.cosmosdb.models.MongoClusterUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.cosmosdb.models.MongoClusterUpdate or IO[bytes]
         :return: An instance of LROPoller that returns either MongoCluster or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.MongoCluster]
@@ -1325,7 +1231,7 @@ class MongoClustersOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("MongoCluster", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1337,27 +1243,25 @@ class MongoClustersOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.MongoCluster].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}"
-    }
+        return LROPoller[_models.MongoCluster](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _create_or_update_firewall_rule_initial(
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
         firewall_rule_name: str,
-        parameters: Union[_models.FirewallRule, IO],
+        parameters: Union[_models.FirewallRule, IO[bytes]],
         **kwargs: Any
     ) -> _models.FirewallRule:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1380,7 +1284,7 @@ class MongoClustersOperations:
         else:
             _json = self._serialize.body(parameters, "FirewallRule")
 
-        request = build_create_or_update_firewall_rule_request(
+        _request = build_create_or_update_firewall_rule_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             firewall_rule_name=firewall_rule_name,
@@ -1389,16 +1293,15 @@ class MongoClustersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_firewall_rule_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1418,10 +1321,6 @@ class MongoClustersOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_firewall_rule_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}"
-    }
 
     @overload
     def begin_create_or_update_firewall_rule(
@@ -1448,14 +1347,6 @@ class MongoClustersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either FirewallRule or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.FirewallRule]
@@ -1468,7 +1359,7 @@ class MongoClustersOperations:
         resource_group_name: str,
         mongo_cluster_name: str,
         firewall_rule_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1483,18 +1374,10 @@ class MongoClustersOperations:
         :param firewall_rule_name: The name of the mongo cluster firewall rule. Required.
         :type firewall_rule_name: str
         :param parameters: The required parameters for creating or updating a firewall rule. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either FirewallRule or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.FirewallRule]
@@ -1507,7 +1390,7 @@ class MongoClustersOperations:
         resource_group_name: str,
         mongo_cluster_name: str,
         firewall_rule_name: str,
-        parameters: Union[_models.FirewallRule, IO],
+        parameters: Union[_models.FirewallRule, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.FirewallRule]:
         """Creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
@@ -1520,19 +1403,8 @@ class MongoClustersOperations:
         :param firewall_rule_name: The name of the mongo cluster firewall rule. Required.
         :type firewall_rule_name: str
         :param parameters: The required parameters for creating or updating a firewall rule. Is either
-         a FirewallRule type or a IO type. Required.
-        :type parameters: ~azure.mgmt.cosmosdb.models.FirewallRule or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a FirewallRule type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.cosmosdb.models.FirewallRule or IO[bytes]
         :return: An instance of LROPoller that returns either FirewallRule or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.FirewallRule]
@@ -1565,7 +1437,7 @@ class MongoClustersOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("FirewallRule", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1577,22 +1449,20 @@ class MongoClustersOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.FirewallRule].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update_firewall_rule.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}"
-    }
+        return LROPoller[_models.FirewallRule](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_firewall_rule_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, mongo_cluster_name: str, firewall_rule_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1606,22 +1476,21 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_firewall_rule_request(
+        _request = build_delete_firewall_rule_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             firewall_rule_name=firewall_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_firewall_rule_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1636,11 +1505,7 @@ class MongoClustersOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_firewall_rule_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_firewall_rule(
@@ -1655,14 +1520,6 @@ class MongoClustersOperations:
         :type mongo_cluster_name: str
         :param firewall_rule_name: The name of the mongo cluster firewall rule. Required.
         :type firewall_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1690,7 +1547,7 @@ class MongoClustersOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1701,17 +1558,13 @@ class MongoClustersOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_firewall_rule.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_firewall_rule(
@@ -1726,12 +1579,11 @@ class MongoClustersOperations:
         :type mongo_cluster_name: str
         :param firewall_rule_name: The name of the mongo cluster firewall rule. Required.
         :type firewall_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: FirewallRule or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.FirewallRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1745,22 +1597,21 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.FirewallRule] = kwargs.pop("cls", None)
 
-        request = build_get_firewall_rule_request(
+        _request = build_get_firewall_rule_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             firewall_rule_name=firewall_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_firewall_rule.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1773,13 +1624,9 @@ class MongoClustersOperations:
         deserialized = self._deserialize("FirewallRule", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_firewall_rule.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_firewall_rules(
@@ -1792,7 +1639,6 @@ class MongoClustersOperations:
         :type resource_group_name: str
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either FirewallRule or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.FirewallRule]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1803,7 +1649,7 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.FirewallRuleListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1814,17 +1660,16 @@ class MongoClustersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_firewall_rules_request(
+                _request = build_list_firewall_rules_request(
                     resource_group_name=resource_group_name,
                     mongo_cluster_name=mongo_cluster_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_firewall_rules.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1836,13 +1681,13 @@ class MongoClustersOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("FirewallRuleListResult", pipeline_response)
@@ -1852,11 +1697,11 @@ class MongoClustersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1868,10 +1713,6 @@ class MongoClustersOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_firewall_rules.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules"
-    }
 
     @overload
     def check_name_availability(
@@ -1892,7 +1733,6 @@ class MongoClustersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1900,7 +1740,7 @@ class MongoClustersOperations:
 
     @overload
     def check_name_availability(
-        self, location: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, location: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CheckNameAvailabilityResponse:
         """Check the availability of name for resource.
 
@@ -1908,11 +1748,10 @@ class MongoClustersOperations:
         :type location: str
         :param parameters: The required parameters for checking if resource name is available.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1920,24 +1759,20 @@ class MongoClustersOperations:
 
     @distributed_trace
     def check_name_availability(
-        self, location: str, parameters: Union[_models.CheckNameAvailabilityRequest, IO], **kwargs: Any
+        self, location: str, parameters: Union[_models.CheckNameAvailabilityRequest, IO[bytes]], **kwargs: Any
     ) -> _models.CheckNameAvailabilityResponse:
         """Check the availability of name for resource.
 
         :param location: The name of the Azure region. Required.
         :type location: str
         :param parameters: The required parameters for checking if resource name is available. Is
-         either a CheckNameAvailabilityRequest type or a IO type. Required.
-        :type parameters: ~azure.mgmt.cosmosdb.models.CheckNameAvailabilityRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         either a CheckNameAvailabilityRequest type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.cosmosdb.models.CheckNameAvailabilityRequest or IO[bytes]
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1960,23 +1795,22 @@ class MongoClustersOperations:
         else:
             _json = self._serialize.body(parameters, "CheckNameAvailabilityRequest")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1989,13 +1823,9 @@ class MongoClustersOperations:
         deserialized = self._deserialize("CheckNameAvailabilityResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_connection_strings(
@@ -2009,12 +1839,11 @@ class MongoClustersOperations:
         :type resource_group_name: str
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListConnectionStringsResult or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ListConnectionStringsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2028,21 +1857,20 @@ class MongoClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListConnectionStringsResult] = kwargs.pop("cls", None)
 
-        request = build_list_connection_strings_request(
+        _request = build_list_connection_strings_request(
             resource_group_name=resource_group_name,
             mongo_cluster_name=mongo_cluster_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_connection_strings.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2055,10 +1883,6 @@ class MongoClustersOperations:
         deserialized = self._deserialize("ListConnectionStringsResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_connection_strings.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings"
-    }
+        return deserialized  # type: ignore
