@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
 """
@@ -34,11 +37,11 @@ def main():
         elastic_san_name="elasticsanname",
         volume_group_name="volumegroupname",
         volume_name="volumename",
-        parameters={"properties": {"sizeGiB": 11}},
+        parameters={"properties": {"managedBy": {"resourceId": "fyodcxvtqlspavsxygxc"}, "sizeGiB": 30}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

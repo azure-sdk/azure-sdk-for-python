@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
 """
@@ -35,18 +38,18 @@ def main():
         parameters={
             "location": "France Central",
             "properties": {
-                "availabilityZones": ["1"],
-                "baseSizeTiB": 5,
-                "extendedCapacitySizeTiB": 25,
+                "availabilityZones": ["bgyobptiableh"],
+                "baseSizeTiB": 9,
+                "extendedCapacitySizeTiB": 6,
                 "publicNetworkAccess": "Enabled",
                 "sku": {"name": "Premium_LRS", "tier": "Premium"},
             },
-            "tags": {"key9316": "ihndtieqibtob"},
+            "tags": {"key8999": "kzpsnqodjgfjyasktlxiboklydek"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Create_MaximumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Create_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

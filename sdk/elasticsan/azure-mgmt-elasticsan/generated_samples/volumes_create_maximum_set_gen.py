@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
 """
@@ -36,15 +39,15 @@ def main():
         volume_name="volumename",
         parameters={
             "properties": {
-                "creationData": {"createSource": "None", "sourceId": "ARM Id of Resource"},
-                "managedBy": {"resourceId": "mtkeip"},
-                "sizeGiB": 9,
+                "creationData": {"createSource": "None", "sourceId": "fkackofx"},
+                "managedBy": {"resourceId": "fyodcxvtqlspavsxygxc"},
+                "sizeGiB": 10,
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Create_MaximumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Create_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
