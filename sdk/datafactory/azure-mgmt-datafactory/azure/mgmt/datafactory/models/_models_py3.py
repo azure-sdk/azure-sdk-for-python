@@ -28710,12 +28710,12 @@ class ExpressionV2(_serialization.Model):
     """Nested representation of a complex expression.
 
     :ivar type: Type of expressions supported by the system. Type: string. Known values are:
-     "Constant", "Field", "Unary", and "Binary".
+     "Constant", "Field", "Unary", "Binary", and "NAry".
     :vartype type: str or ~azure.mgmt.datafactory.models.ExpressionV2Type
     :ivar value: Value for Constant/Field Type: string.
     :vartype value: str
-    :ivar operator: Expression operator value Type: string.
-    :vartype operator: str
+    :ivar operators: Expression operator value Type: list of strings.
+    :vartype operators: list[str]
     :ivar operands: List of nested expressions.
     :vartype operands: list[~azure.mgmt.datafactory.models.ExpressionV2]
     """
@@ -28723,7 +28723,7 @@ class ExpressionV2(_serialization.Model):
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
         "value": {"key": "value", "type": "str"},
-        "operator": {"key": "operator", "type": "str"},
+        "operators": {"key": "operators", "type": "[str]"},
         "operands": {"key": "operands", "type": "[ExpressionV2]"},
     }
 
@@ -28732,25 +28732,25 @@ class ExpressionV2(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ExpressionV2Type"]] = None,
         value: Optional[str] = None,
-        operator: Optional[str] = None,
+        operators: Optional[List[str]] = None,
         operands: Optional[List["_models.ExpressionV2"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type: Type of expressions supported by the system. Type: string. Known values are:
-         "Constant", "Field", "Unary", and "Binary".
+         "Constant", "Field", "Unary", "Binary", and "NAry".
         :paramtype type: str or ~azure.mgmt.datafactory.models.ExpressionV2Type
         :keyword value: Value for Constant/Field Type: string.
         :paramtype value: str
-        :keyword operator: Expression operator value Type: string.
-        :paramtype operator: str
+        :keyword operators: Expression operator value Type: list of strings.
+        :paramtype operators: list[str]
         :keyword operands: List of nested expressions.
         :paramtype operands: list[~azure.mgmt.datafactory.models.ExpressionV2]
         """
         super().__init__(**kwargs)
         self.type = type
         self.value = value
-        self.operator = operator
+        self.operators = operators
         self.operands = operands
 
 
@@ -41407,50 +41407,6 @@ class ManagedIdentityCredential(Credential):
         )
         self.type: str = "ManagedIdentity"
         self.resource_id = resource_id
-
-
-class ManagedIdentityCredentialResource(CredentialResource):
-    """Credential resource type.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar id: The resource identifier.
-    :vartype id: str
-    :ivar name: The resource name.
-    :vartype name: str
-    :ivar type: The resource type.
-    :vartype type: str
-    :ivar etag: Etag identifies change in the resource.
-    :vartype etag: str
-    :ivar properties: Managed Identity Credential properties. Required.
-    :vartype properties: ~azure.mgmt.datafactory.models.ManagedIdentityCredential
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "etag": {"readonly": True},
-        "properties": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
-        "properties": {"key": "properties", "type": "ManagedIdentityCredential"},
-    }
-
-    def __init__(self, *, properties: "_models.ManagedIdentityCredential", **kwargs: Any) -> None:
-        """
-        :keyword properties: Managed Identity Credential properties. Required.
-        :paramtype properties: ~azure.mgmt.datafactory.models.ManagedIdentityCredential
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
 
 
 class ManagedIntegrationRuntime(IntegrationRuntime):
@@ -56059,8 +56015,16 @@ class SalesforceServiceCloudV2Source(CopySource):
     :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
      false. Type: boolean (or Expression with resultType boolean).
     :vartype disable_metrics_collection: JSON
-    :ivar soql_query: Database query. Type: string (or Expression with resultType string).
+    :ivar soql_query: Deprecating, please use 'query' property instead. Type: string (or Expression
+     with resultType string).
     :vartype soql_query: JSON
+    :ivar query: You can only use Salesforce Object Query Language (SOQL) query with limitations.
+     For SOQL limitations, see this article:
+     https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+     If query is not specified, all the data of the Salesforce object specified in
+     ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+     resultType string).
+    :vartype query: JSON
     :ivar include_deleted_objects: This property control whether query result contains Deleted
      objects. Default is false. Type: boolean (or Expression with resultType boolean).
     :vartype include_deleted_objects: JSON
@@ -56081,6 +56045,7 @@ class SalesforceServiceCloudV2Source(CopySource):
         "max_concurrent_connections": {"key": "maxConcurrentConnections", "type": "object"},
         "disable_metrics_collection": {"key": "disableMetricsCollection", "type": "object"},
         "soql_query": {"key": "SOQLQuery", "type": "object"},
+        "query": {"key": "query", "type": "object"},
         "include_deleted_objects": {"key": "includeDeletedObjects", "type": "object"},
         "additional_columns": {"key": "additionalColumns", "type": "object"},
     }
@@ -56094,6 +56059,7 @@ class SalesforceServiceCloudV2Source(CopySource):
         max_concurrent_connections: Optional[JSON] = None,
         disable_metrics_collection: Optional[JSON] = None,
         soql_query: Optional[JSON] = None,
+        query: Optional[JSON] = None,
         include_deleted_objects: Optional[JSON] = None,
         additional_columns: Optional[JSON] = None,
         **kwargs: Any
@@ -56114,8 +56080,16 @@ class SalesforceServiceCloudV2Source(CopySource):
         :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_metrics_collection: JSON
-        :keyword soql_query: Database query. Type: string (or Expression with resultType string).
+        :keyword soql_query: Deprecating, please use 'query' property instead. Type: string (or
+         Expression with resultType string).
         :paramtype soql_query: JSON
+        :keyword query: You can only use Salesforce Object Query Language (SOQL) query with
+         limitations. For SOQL limitations, see this article:
+         https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+         If query is not specified, all the data of the Salesforce object specified in
+         ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+         resultType string).
+        :paramtype query: JSON
         :keyword include_deleted_objects: This property control whether query result contains Deleted
          objects. Default is false. Type: boolean (or Expression with resultType boolean).
         :paramtype include_deleted_objects: JSON
@@ -56133,6 +56107,7 @@ class SalesforceServiceCloudV2Source(CopySource):
         )
         self.type: str = "SalesforceServiceCloudV2Source"
         self.soql_query = soql_query
+        self.query = query
         self.include_deleted_objects = include_deleted_objects
         self.additional_columns = additional_columns
 
@@ -56740,7 +56715,7 @@ class SalesforceV2Sink(CopySink):  # pylint: disable=too-many-instance-attribute
         self.ignore_null_values = ignore_null_values
 
 
-class SalesforceV2Source(TabularSource):
+class SalesforceV2Source(TabularSource):  # pylint: disable=too-many-instance-attributes
     """A copy activity Salesforce V2 source.
 
     All required parameters must be populated in order to send to server.
@@ -56768,8 +56743,16 @@ class SalesforceV2Source(TabularSource):
     :ivar additional_columns: Specifies the additional columns to be added to source data. Type:
      array of objects(AdditionalColumns) (or Expression with resultType array of objects).
     :vartype additional_columns: JSON
-    :ivar soql_query: Database query. Type: string (or Expression with resultType string).
+    :ivar soql_query: Deprecating, please use 'query' property instead. Type: string (or Expression
+     with resultType string).
     :vartype soql_query: JSON
+    :ivar query: You can only use Salesforce Object Query Language (SOQL) query with limitations.
+     For SOQL limitations, see this article:
+     https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+     If query is not specified, all the data of the Salesforce object specified in
+     ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+     resultType string).
+    :vartype query: JSON
     :ivar include_deleted_objects: This property control whether query result contains Deleted
      objects. Default is false. Type: boolean (or Expression with resultType boolean).
     :vartype include_deleted_objects: JSON
@@ -56789,6 +56772,7 @@ class SalesforceV2Source(TabularSource):
         "query_timeout": {"key": "queryTimeout", "type": "object"},
         "additional_columns": {"key": "additionalColumns", "type": "object"},
         "soql_query": {"key": "SOQLQuery", "type": "object"},
+        "query": {"key": "query", "type": "object"},
         "include_deleted_objects": {"key": "includeDeletedObjects", "type": "object"},
     }
 
@@ -56803,6 +56787,7 @@ class SalesforceV2Source(TabularSource):
         query_timeout: Optional[JSON] = None,
         additional_columns: Optional[JSON] = None,
         soql_query: Optional[JSON] = None,
+        query: Optional[JSON] = None,
         include_deleted_objects: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -56828,8 +56813,16 @@ class SalesforceV2Source(TabularSource):
         :keyword additional_columns: Specifies the additional columns to be added to source data. Type:
          array of objects(AdditionalColumns) (or Expression with resultType array of objects).
         :paramtype additional_columns: JSON
-        :keyword soql_query: Database query. Type: string (or Expression with resultType string).
+        :keyword soql_query: Deprecating, please use 'query' property instead. Type: string (or
+         Expression with resultType string).
         :paramtype soql_query: JSON
+        :keyword query: You can only use Salesforce Object Query Language (SOQL) query with
+         limitations. For SOQL limitations, see this article:
+         https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+         If query is not specified, all the data of the Salesforce object specified in
+         ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+         resultType string).
+        :paramtype query: JSON
         :keyword include_deleted_objects: This property control whether query result contains Deleted
          objects. Default is false. Type: boolean (or Expression with resultType boolean).
         :paramtype include_deleted_objects: JSON
@@ -56846,6 +56839,7 @@ class SalesforceV2Source(TabularSource):
         )
         self.type: str = "SalesforceV2Source"
         self.soql_query = soql_query
+        self.query = query
         self.include_deleted_objects = include_deleted_objects
 
 
@@ -61459,50 +61453,6 @@ class ServicePrincipalCredential(Credential):
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
         self.tenant = tenant
-
-
-class ServicePrincipalCredentialResource(CredentialResource):
-    """Credential resource type.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar id: The resource identifier.
-    :vartype id: str
-    :ivar name: The resource name.
-    :vartype name: str
-    :ivar type: The resource type.
-    :vartype type: str
-    :ivar etag: Etag identifies change in the resource.
-    :vartype etag: str
-    :ivar properties: Service Principal Credential properties. Required.
-    :vartype properties: ~azure.mgmt.datafactory.models.ServicePrincipalCredential
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "etag": {"readonly": True},
-        "properties": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
-        "properties": {"key": "properties", "type": "ServicePrincipalCredential"},
-    }
-
-    def __init__(self, *, properties: "_models.ServicePrincipalCredential", **kwargs: Any) -> None:
-        """
-        :keyword properties: Service Principal Credential properties. Required.
-        :paramtype properties: ~azure.mgmt.datafactory.models.ServicePrincipalCredential
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
 
 
 class SetVariableActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
