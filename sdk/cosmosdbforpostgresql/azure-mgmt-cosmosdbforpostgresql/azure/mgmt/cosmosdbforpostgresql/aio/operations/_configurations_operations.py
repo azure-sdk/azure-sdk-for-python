@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -41,6 +42,10 @@ from ...operations._configurations_operations import (
     build_update_on_node_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -77,7 +82,6 @@ class ConfigurationsOperations:
         :type cluster_name: str
         :param server_name: The name of the server. Required.
         :type server_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ServerConfiguration or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration]
@@ -89,7 +93,7 @@ class ConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ServerConfigurationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -100,18 +104,17 @@ class ConfigurationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_server_request(
+                _request = build_list_by_server_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     server_name=server_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_server.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -123,13 +126,13 @@ class ConfigurationsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ServerConfigurationListResult", pipeline_response)
@@ -139,11 +142,11 @@ class ConfigurationsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -155,10 +158,6 @@ class ConfigurationsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_server.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers/{serverName}/configurations"
-    }
 
     @distributed_trace
     def list_by_cluster(
@@ -171,7 +170,6 @@ class ConfigurationsOperations:
         :type resource_group_name: str
         :param cluster_name: The name of the cluster. Required.
         :type cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Configuration or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.cosmosdbforpostgresql.models.Configuration]
@@ -183,7 +181,7 @@ class ConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ClusterConfigurationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -194,17 +192,16 @@ class ConfigurationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_cluster_request(
+                _request = build_list_by_cluster_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_cluster.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -216,13 +213,13 @@ class ConfigurationsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ClusterConfigurationListResult", pipeline_response)
@@ -232,11 +229,11 @@ class ConfigurationsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -248,10 +245,6 @@ class ConfigurationsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_cluster.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations"
-    }
 
     @distributed_trace_async
     async def get(
@@ -266,12 +259,11 @@ class ConfigurationsOperations:
         :type cluster_name: str
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Configuration or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdbforpostgresql.models.Configuration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -285,22 +277,21 @@ class ConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Configuration] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -313,13 +304,9 @@ class ConfigurationsOperations:
         deserialized = self._deserialize("Configuration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations/{configurationName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get_coordinator(
@@ -334,12 +321,11 @@ class ConfigurationsOperations:
         :type cluster_name: str
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ServerConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -353,22 +339,21 @@ class ConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ServerConfiguration] = kwargs.pop("cls", None)
 
-        request = build_get_coordinator_request(
+        _request = build_get_coordinator_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_coordinator.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -381,23 +366,19 @@ class ConfigurationsOperations:
         deserialized = self._deserialize("ServerConfiguration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_coordinator.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}"
-    }
+        return deserialized  # type: ignore
 
     async def _update_on_coordinator_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         configuration_name: str,
-        parameters: Union[_models.ServerConfiguration, IO],
+        parameters: Union[_models.ServerConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> _models.ServerConfiguration:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -420,7 +401,7 @@ class ConfigurationsOperations:
         else:
             _json = self._serialize.body(parameters, "ServerConfiguration")
 
-        request = build_update_on_coordinator_request(
+        _request = build_update_on_coordinator_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             configuration_name=configuration_name,
@@ -429,16 +410,15 @@ class ConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_on_coordinator_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -465,10 +445,6 @@ class ConfigurationsOperations:
 
         return deserialized  # type: ignore
 
-    _update_on_coordinator_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}"
-    }
-
     @overload
     async def begin_update_on_coordinator(
         self,
@@ -494,14 +470,6 @@ class ConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ServerConfiguration or the result of
          cls(response)
         :rtype:
@@ -515,7 +483,7 @@ class ConfigurationsOperations:
         resource_group_name: str,
         cluster_name: str,
         configuration_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -530,18 +498,10 @@ class ConfigurationsOperations:
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
         :param parameters: The required parameters for updating a cluster configuration. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ServerConfiguration or the result of
          cls(response)
         :rtype:
@@ -555,7 +515,7 @@ class ConfigurationsOperations:
         resource_group_name: str,
         cluster_name: str,
         configuration_name: str,
-        parameters: Union[_models.ServerConfiguration, IO],
+        parameters: Union[_models.ServerConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ServerConfiguration]:
         """Updates configuration of coordinator in a cluster.
@@ -568,19 +528,8 @@ class ConfigurationsOperations:
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
         :param parameters: The required parameters for updating a cluster configuration. Is either a
-         ServerConfiguration type or a IO type. Required.
-        :type parameters: ~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ServerConfiguration type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either ServerConfiguration or the result of
          cls(response)
         :rtype:
@@ -614,7 +563,7 @@ class ConfigurationsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ServerConfiguration", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -627,17 +576,15 @@ class ConfigurationsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ServerConfiguration].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_on_coordinator.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}"
-    }
+        return AsyncLROPoller[_models.ServerConfiguration](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def get_node(
@@ -652,12 +599,11 @@ class ConfigurationsOperations:
         :type cluster_name: str
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ServerConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -671,22 +617,21 @@ class ConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ServerConfiguration] = kwargs.pop("cls", None)
 
-        request = build_get_node_request(
+        _request = build_get_node_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_node.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -699,23 +644,19 @@ class ConfigurationsOperations:
         deserialized = self._deserialize("ServerConfiguration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_node.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}"
-    }
+        return deserialized  # type: ignore
 
     async def _update_on_node_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         configuration_name: str,
-        parameters: Union[_models.ServerConfiguration, IO],
+        parameters: Union[_models.ServerConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> _models.ServerConfiguration:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -738,7 +679,7 @@ class ConfigurationsOperations:
         else:
             _json = self._serialize.body(parameters, "ServerConfiguration")
 
-        request = build_update_on_node_request(
+        _request = build_update_on_node_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             configuration_name=configuration_name,
@@ -747,16 +688,15 @@ class ConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_on_node_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -783,10 +723,6 @@ class ConfigurationsOperations:
 
         return deserialized  # type: ignore
 
-    _update_on_node_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}"
-    }
-
     @overload
     async def begin_update_on_node(
         self,
@@ -812,14 +748,6 @@ class ConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ServerConfiguration or the result of
          cls(response)
         :rtype:
@@ -833,7 +761,7 @@ class ConfigurationsOperations:
         resource_group_name: str,
         cluster_name: str,
         configuration_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -848,18 +776,10 @@ class ConfigurationsOperations:
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
         :param parameters: The required parameters for updating a cluster configuration. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ServerConfiguration or the result of
          cls(response)
         :rtype:
@@ -873,7 +793,7 @@ class ConfigurationsOperations:
         resource_group_name: str,
         cluster_name: str,
         configuration_name: str,
-        parameters: Union[_models.ServerConfiguration, IO],
+        parameters: Union[_models.ServerConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ServerConfiguration]:
         """Updates configuration of worker nodes in a cluster.
@@ -886,19 +806,8 @@ class ConfigurationsOperations:
         :param configuration_name: The name of the cluster configuration. Required.
         :type configuration_name: str
         :param parameters: The required parameters for updating a cluster configuration. Is either a
-         ServerConfiguration type or a IO type. Required.
-        :type parameters: ~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ServerConfiguration type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.cosmosdbforpostgresql.models.ServerConfiguration or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either ServerConfiguration or the result of
          cls(response)
         :rtype:
@@ -932,7 +841,7 @@ class ConfigurationsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ServerConfiguration", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -945,14 +854,12 @@ class ConfigurationsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ServerConfiguration].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_on_node.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}"
-    }
+        return AsyncLROPoller[_models.ServerConfiguration](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

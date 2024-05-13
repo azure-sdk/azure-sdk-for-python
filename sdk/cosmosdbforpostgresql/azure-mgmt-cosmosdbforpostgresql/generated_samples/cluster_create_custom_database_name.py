@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.cosmosdbforpostgresql import CosmosdbForPostgresqlMgmtClient
@@ -15,7 +17,7 @@ from azure.mgmt.cosmosdbforpostgresql import CosmosdbForPostgresqlMgmtClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdbforpostgresql
 # USAGE
-    python cluster_stop.py
+    python cluster_create_custom_database_name.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +32,31 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    client.clusters.begin_stop(
+    response = client.clusters.begin_create(
         resource_group_name="TestGroup",
-        cluster_name="testcluster1",
+        cluster_name="testcluster-custom-db-name",
+        parameters={
+            "location": "westus",
+            "properties": {
+                "administratorLoginPassword": "password",
+                "citusVersion": "11.3",
+                "coordinatorEnablePublicIpAccess": True,
+                "coordinatorServerEdition": "GeneralPurpose",
+                "coordinatorStorageQuotaInMb": 131072,
+                "coordinatorVCores": 8,
+                "databaseName": "testdbname",
+                "enableHa": True,
+                "enableShardsOnCoordinator": True,
+                "nodeCount": 0,
+                "postgresqlVersion": "15",
+                "preferredPrimaryZone": "1",
+            },
+            "tags": {"owner": "JohnDoe"},
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterStop.json
+# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateCustomDatabaseName.json
 if __name__ == "__main__":
     main()

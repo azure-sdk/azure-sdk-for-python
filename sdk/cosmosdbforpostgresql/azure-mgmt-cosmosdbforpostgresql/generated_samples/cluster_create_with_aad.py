@@ -17,7 +17,7 @@ from azure.mgmt.cosmosdbforpostgresql import CosmosdbForPostgresqlMgmtClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdbforpostgresql
 # USAGE
-    python cluster_create_multi_node.py
+    python cluster_create_with_aad.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -34,17 +34,29 @@ def main():
 
     response = client.clusters.begin_create(
         resource_group_name="TestGroup",
-        cluster_name="testcluster-multinode",
+        cluster_name="testcluster-cmk",
         parameters={
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity": {}
+                },
+            },
             "location": "westus",
             "properties": {
                 "administratorLoginPassword": "password",
-                "citusVersion": "11.1",
+                "citusVersion": "12.1",
                 "coordinatorEnablePublicIpAccess": True,
                 "coordinatorServerEdition": "GeneralPurpose",
                 "coordinatorStorageQuotaInMb": 524288,
                 "coordinatorVCores": 4,
-                "enableHa": True,
+                "dataEncryption": {
+                    "primaryKeyUri": "https://test-kv.vault.azure.net/keys/test-key1/fffffffffffffffffffffffffffffff",
+                    "primaryUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
+                    "type": "AzureKeyVault",
+                },
+                "databaseName": "citus",
+                "enableHa": False,
                 "enableShardsOnCoordinator": False,
                 "nodeCount": 3,
                 "nodeEnablePublicIpAccess": False,
@@ -60,6 +72,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateMultiNode.json
+# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateWithAAD.json
 if __name__ == "__main__":
     main()
