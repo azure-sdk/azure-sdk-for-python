@@ -24,6 +24,7 @@ from ._models_py3 import BackupSchedule
 from ._models_py3 import BaseCosmosDataTransferDataSourceSink
 from ._models_py3 import Capability
 from ._models_py3 import Capacity
+from ._models_py3 import CapacityModeChangeTransitionState
 from ._models_py3 import CassandraClusterDataCenterNodeItem
 from ._models_py3 import CassandraClusterPublicStatus
 from ._models_py3 import CassandraClusterPublicStatusDataCentersItem
@@ -348,6 +349,8 @@ from ._cosmos_db_management_client_enums import BackupPolicyMigrationStatus
 from ._cosmos_db_management_client_enums import BackupPolicyType
 from ._cosmos_db_management_client_enums import BackupState
 from ._cosmos_db_management_client_enums import BackupStorageRedundancy
+from ._cosmos_db_management_client_enums import CapacityMode
+from ._cosmos_db_management_client_enums import CapacityModeTransitionStatus
 from ._cosmos_db_management_client_enums import CheckNameAvailabilityReason
 from ._cosmos_db_management_client_enums import ClusterType
 from ._cosmos_db_management_client_enums import CommandStatus
@@ -422,6 +425,7 @@ __all__ = [
     "BaseCosmosDataTransferDataSourceSink",
     "Capability",
     "Capacity",
+    "CapacityModeChangeTransitionState",
     "CassandraClusterDataCenterNodeItem",
     "CassandraClusterPublicStatus",
     "CassandraClusterPublicStatusDataCentersItem",
@@ -745,6 +749,8 @@ __all__ = [
     "BackupPolicyType",
     "BackupState",
     "BackupStorageRedundancy",
+    "CapacityMode",
+    "CapacityModeTransitionStatus",
     "CheckNameAvailabilityReason",
     "ClusterType",
     "CommandStatus",
