@@ -37,6 +37,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/AuthorizationRuleDelete.json
+# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2024-03-01-preview/examples/Namespaces/AuthorizationRuleDelete.json
 if __name__ == "__main__":
     main()

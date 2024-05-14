@@ -41,6 +41,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/AuthorizationRuleRegenerateKey.json
+# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2024-03-01-preview/examples/Namespaces/AuthorizationRuleRegenerateKey.json
 if __name__ == "__main__":
     main()
