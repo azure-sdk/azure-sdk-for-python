@@ -17,7 +17,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python create_or_update_guest_configuration_assignment.py
+    python create_or_update_guest_configuration_hcrp_assignment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,10 +32,10 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.guest_configuration_assignments.create_or_update(
+    response = client.guest_configuration_hcrp_assignments.create_or_update(
         guest_configuration_assignment_name="NotInstalledApplicationForWindows",
         resource_group_name="myResourceGroupName",
-        vm_name="myVMName",
+        machine_name="myMachineName",
         parameters={
             "location": "westcentralus",
             "name": "NotInstalledApplicationForWindows",
@@ -47,7 +47,6 @@ def main():
                         {"name": "[InstalledApplication]NotInstalledApplicationResource1;Name", "value": "NotePad,sql"}
                     ],
                     "contentHash": "123contenthash",
-                    "contentManagedIdentity": "test_identity",
                     "contentUri": "https://thisisfake/pacakge",
                     "name": "NotInstalledApplicationForWindows",
                     "version": "1.0.0.3",
@@ -58,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/createOrUpdateGuestConfigurationAssignment.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/createOrUpdateGuestConfigurationHCRPAssignment.json
 if __name__ == "__main__":
     main()
