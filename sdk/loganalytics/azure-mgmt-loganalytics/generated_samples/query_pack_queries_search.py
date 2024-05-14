@@ -17,7 +17,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python storage_insights_create_or_update.py
+    python query_pack_queries_search.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,27 +29,18 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-00000000000",
+        subscription_id="86dc51d3-92ed-4d7e-947a-775ea79b4918",
     )
 
-    response = client.storage_insight_configs.create_or_update(
-        resource_group_name="OIAutoRest5123",
-        workspace_name="aztest5048",
-        storage_insight_name="AzTestSI1110",
-        parameters={
-            "properties": {
-                "containers": ["wad-iis-logfiles"],
-                "storageAccount": {
-                    "id": "/subscriptions/00000000-0000-0000-0000-000000000005/resourcegroups/OIAutoRest6987/providers/microsoft.storage/storageaccounts/AzTestFakeSA9945",
-                    "key": "1234",
-                },
-                "tables": ["WADWindowsEventLogsTable", "LinuxSyslogVer2v0"],
-            }
-        },
+    response = client.queries.search(
+        resource_group_name="my-resource-group",
+        query_pack_name="my-querypack",
+        query_search_properties={"related": {"categories": ["other", "analytics"]}, "tags": {"my-label": ["label1"]}},
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/StorageInsightsCreateOrUpdate.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
 if __name__ == "__main__":
     main()
