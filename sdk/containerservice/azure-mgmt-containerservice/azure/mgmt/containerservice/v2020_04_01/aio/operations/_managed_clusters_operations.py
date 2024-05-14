@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -48,6 +49,10 @@ from ...operations._managed_clusters_operations import (
     build_update_tags_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -90,7 +95,7 @@ class ManagedClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-04-01"))
         cls: ClsType[_models.ManagedClusterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -174,7 +179,7 @@ class ManagedClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-04-01"))
         cls: ClsType[_models.ManagedClusterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -254,7 +259,7 @@ class ManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2020_04_01.models.ManagedClusterUpgradeProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -304,7 +309,7 @@ class ManagedClustersOperations:
         """Gets an access profile of a managed cluster.
 
         Gets the accessProfile for the specified role name of the managed cluster with a specified
-        resource group and name. **WARNING**\ : This API will be deprecated. Instead use
+        resource group and name. **WARNING**\\ : This API will be deprecated. Instead use
         `ListClusterUserCredentials
         <https://docs.microsoft.com/en-us/rest/api/aks/managedclusters/listclusterusercredentials>`_ or
         `ListClusterAdminCredentials
@@ -320,7 +325,7 @@ class ManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2020_04_01.models.ManagedClusterAccessProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -380,7 +385,7 @@ class ManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2020_04_01.models.CredentialResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -439,7 +444,7 @@ class ManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2020_04_01.models.CredentialResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -499,7 +504,7 @@ class ManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2020_04_01.models.CredentialResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -556,7 +561,7 @@ class ManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2020_04_01.models.ManagedCluster
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -606,7 +611,7 @@ class ManagedClustersOperations:
         parameters: Union[_models.ManagedCluster, IO[bytes]],
         **kwargs: Any
     ) -> _models.ManagedCluster:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -808,7 +813,7 @@ class ManagedClustersOperations:
         parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
     ) -> _models.ManagedCluster:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -997,7 +1002,7 @@ class ManagedClustersOperations:
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1096,7 +1101,7 @@ class ManagedClustersOperations:
         parameters: Union[_models.ManagedClusterServicePrincipalProfile, IO[bytes]],
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1281,7 +1286,7 @@ class ManagedClustersOperations:
         parameters: Union[_models.ManagedClusterAADProfile, IO[bytes]],
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1459,7 +1464,7 @@ class ManagedClustersOperations:
     async def _rotate_cluster_certificates_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

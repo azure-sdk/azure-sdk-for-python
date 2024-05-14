@@ -70,6 +70,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-02-01/examples/AgentPoolsCreate_OSSKU.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-03-02-preview/examples/AgentPoolsCreate_OSSKU.json
 if __name__ == "__main__":
     main()
