@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -37,6 +38,10 @@ from ...operations._sync_sets_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -72,7 +77,6 @@ class SyncSetsOperations:
         :type resource_group_name: str
         :param resource_name: The name of the OpenShift cluster resource. Required.
         :type resource_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SyncSet or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet]
@@ -84,7 +88,7 @@ class SyncSetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-04-01"))
         cls: ClsType[_models.SyncSetList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -95,17 +99,16 @@ class SyncSetsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     resource_name=resource_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -116,14 +119,14 @@ class SyncSetsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("SyncSetList", pipeline_response)
@@ -133,11 +136,11 @@ class SyncSetsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -148,10 +151,6 @@ class SyncSetsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftCluster/{resourceName}/syncSets"
-    }
 
     @distributed_trace_async
     async def get(
@@ -168,12 +167,11 @@ class SyncSetsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the SyncSet resource. Required.
         :type child_resource_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -187,22 +185,21 @@ class SyncSetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-04-01"))
         cls: ClsType[_models.SyncSet] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -214,13 +211,9 @@ class SyncSetsOperations:
         deserialized = self._deserialize("SyncSet", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/syncSet/{childResourceName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create_or_update(
@@ -249,7 +242,6 @@ class SyncSetsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -261,7 +253,7 @@ class SyncSetsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -278,11 +270,10 @@ class SyncSetsOperations:
         :param child_resource_name: The name of the SyncSet resource. Required.
         :type child_resource_name: str
         :param parameters: The SyncSet resource. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -294,7 +285,7 @@ class SyncSetsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: Union[_models.SyncSet, IO],
+        parameters: Union[_models.SyncSet, IO[bytes]],
         **kwargs: Any
     ) -> _models.SyncSet:
         """Creates or updates a SyncSet with the specified subscription, resource group and resource name.
@@ -308,17 +299,14 @@ class SyncSetsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the SyncSet resource. Required.
         :type child_resource_name: str
-        :param parameters: The SyncSet resource. Is either a SyncSet type or a IO type. Required.
-        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: The SyncSet resource. Is either a SyncSet type or a IO[bytes] type.
+         Required.
+        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet or IO[bytes]
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -341,7 +329,7 @@ class SyncSetsOperations:
         else:
             _json = self._serialize.body(parameters, "SyncSet")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
@@ -350,16 +338,15 @@ class SyncSetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -379,10 +366,6 @@ class SyncSetsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/syncSet/{childResourceName}"
-    }
-
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, resource_name: str, child_resource_name: str, **kwargs: Any
@@ -398,12 +381,11 @@ class SyncSetsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the SyncSet resource. Required.
         :type child_resource_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -417,22 +399,21 @@ class SyncSetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-04-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -442,11 +423,7 @@ class SyncSetsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/syncSet/{childResourceName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def update(
@@ -475,7 +452,6 @@ class SyncSetsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -487,7 +463,7 @@ class SyncSetsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -504,11 +480,10 @@ class SyncSetsOperations:
         :param child_resource_name: The name of the SyncSet resource. Required.
         :type child_resource_name: str
         :param parameters: The SyncSet resource. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -520,7 +495,7 @@ class SyncSetsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: Union[_models.SyncSetUpdate, IO],
+        parameters: Union[_models.SyncSetUpdate, IO[bytes]],
         **kwargs: Any
     ) -> _models.SyncSet:
         """Updates a SyncSet with the specified subscription, resource group and resource name.
@@ -534,17 +509,14 @@ class SyncSetsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the SyncSet resource. Required.
         :type child_resource_name: str
-        :param parameters: The SyncSet resource. Is either a SyncSetUpdate type or a IO type. Required.
-        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSetUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: The SyncSet resource. Is either a SyncSetUpdate type or a IO[bytes] type.
+         Required.
+        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSetUpdate or IO[bytes]
         :return: SyncSet or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SyncSet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -567,7 +539,7 @@ class SyncSetsOperations:
         else:
             _json = self._serialize.body(parameters, "SyncSetUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
@@ -576,16 +548,15 @@ class SyncSetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -597,10 +568,6 @@ class SyncSetsOperations:
         deserialized = self._deserialize("SyncSet", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/syncSet/{childResourceName}"
-    }
+        return deserialized  # type: ignore

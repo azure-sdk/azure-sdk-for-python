@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -30,6 +31,10 @@ from .. import models as _models
 from ..._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -306,7 +311,6 @@ class SecretsOperations:
         :type resource_group_name: str
         :param resource_name: The name of the OpenShift cluster resource. Required.
         :type resource_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Secret or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -317,7 +321,7 @@ class SecretsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-04"))
         cls: ClsType[_models.SecretList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -328,17 +332,16 @@ class SecretsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     resource_name=resource_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -349,14 +352,14 @@ class SecretsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SecretList", pipeline_response)
@@ -366,11 +369,11 @@ class SecretsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -381,10 +384,6 @@ class SecretsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftCluster/{resourceName}/secrets"
-    }
 
     @distributed_trace
     def get(
@@ -401,12 +400,11 @@ class SecretsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the Secret resource. Required.
         :type child_resource_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -420,22 +418,21 @@ class SecretsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-04"))
         cls: ClsType[_models.Secret] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -447,13 +444,9 @@ class SecretsOperations:
         deserialized = self._deserialize("Secret", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/secret/{childResourceName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -482,7 +475,6 @@ class SecretsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -494,7 +486,7 @@ class SecretsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -511,11 +503,10 @@ class SecretsOperations:
         :param child_resource_name: The name of the Secret resource. Required.
         :type child_resource_name: str
         :param parameters: The Secret resource. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -527,7 +518,7 @@ class SecretsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: Union[_models.Secret, IO],
+        parameters: Union[_models.Secret, IO[bytes]],
         **kwargs: Any
     ) -> _models.Secret:
         """Creates or updates a Secret with the specified subscription, resource group and resource name.
@@ -541,17 +532,13 @@ class SecretsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the Secret resource. Required.
         :type child_resource_name: str
-        :param parameters: The Secret resource. Is either a Secret type or a IO type. Required.
-        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: The Secret resource. Is either a Secret type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret or IO[bytes]
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -574,7 +561,7 @@ class SecretsOperations:
         else:
             _json = self._serialize.body(parameters, "Secret")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
@@ -583,16 +570,15 @@ class SecretsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -612,10 +598,6 @@ class SecretsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/secret/{childResourceName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, resource_name: str, child_resource_name: str, **kwargs: Any
@@ -631,12 +613,11 @@ class SecretsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the Secret resource. Required.
         :type child_resource_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -650,22 +631,21 @@ class SecretsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-04"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -675,11 +655,7 @@ class SecretsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/secret/{childResourceName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def update(
@@ -708,7 +684,6 @@ class SecretsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -720,7 +695,7 @@ class SecretsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -737,11 +712,10 @@ class SecretsOperations:
         :param child_resource_name: The name of the Secret resource. Required.
         :type child_resource_name: str
         :param parameters: The Secret resource. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -753,7 +727,7 @@ class SecretsOperations:
         resource_group_name: str,
         resource_name: str,
         child_resource_name: str,
-        parameters: Union[_models.SecretUpdate, IO],
+        parameters: Union[_models.SecretUpdate, IO[bytes]],
         **kwargs: Any
     ) -> _models.Secret:
         """Updates a Secret with the specified subscription, resource group and resource name.
@@ -767,17 +741,14 @@ class SecretsOperations:
         :type resource_name: str
         :param child_resource_name: The name of the Secret resource. Required.
         :type child_resource_name: str
-        :param parameters: The Secret resource. Is either a SecretUpdate type or a IO type. Required.
-        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SecretUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: The Secret resource. Is either a SecretUpdate type or a IO[bytes] type.
+         Required.
+        :type parameters: ~azure.mgmt.redhatopenshift.v2022_09_04.models.SecretUpdate or IO[bytes]
         :return: Secret or the result of cls(response)
         :rtype: ~azure.mgmt.redhatopenshift.v2022_09_04.models.Secret
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -800,7 +771,7 @@ class SecretsOperations:
         else:
             _json = self._serialize.body(parameters, "SecretUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             resource_name=resource_name,
             child_resource_name=child_resource_name,
@@ -809,16 +780,15 @@ class SecretsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -830,10 +800,6 @@ class SecretsOperations:
         deserialized = self._deserialize("Secret", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openshiftclusters/{resourceName}/secret/{childResourceName}"
-    }
+        return deserialized  # type: ignore
