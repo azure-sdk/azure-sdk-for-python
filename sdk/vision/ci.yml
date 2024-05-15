@@ -28,4 +28,5 @@ extends:
     TestProxy: true
     Artifacts:
     - name: azure-ai-vision-imageanalysis
-      safeName: azureaivisionimageanalysis
+      safeName: azureaivisionimageanalysis    - name: azure-ai-vision-face
+      safeName: azureaivisionface
