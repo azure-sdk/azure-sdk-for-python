@@ -17,7 +17,7 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hdinsightcontainers
 # USAGE
-    python upgrade_aks_patch_version_for_cluster_pool.py
+    python install_new_cluster_libraries.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,23 +29,40 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
 def main():
     client = HDInsightContainersMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="10e32bab-26da-4cc4-a441-52b318f824e6",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.cluster_pools.begin_upgrade(
-        resource_group_name="hiloResourcegroup",
-        cluster_pool_name="clusterpool1",
-        cluster_pool_upgrade_request={
+    client.cluster_libraries.begin_manage_libraries(
+        resource_group_name="hiloResourceGroup",
+        cluster_pool_name="clusterPool",
+        cluster_name="cluster",
+        operation={
             "properties": {
-                "upgradeAllClusterNodes": False,
-                "upgradeClusterPool": True,
-                "upgradeType": "AKSPatchUpgrade",
+                "action": "Install",
+                "libraries": [
+                    {
+                        "properties": {
+                            "name": "requests",
+                            "remarks": "PyPi packages.",
+                            "type": "pypi",
+                            "version": "2.31.0",
+                        }
+                    },
+                    {
+                        "properties": {
+                            "groupId": "org.apache.flink",
+                            "name": "flink-connector-kafka",
+                            "remarks": "Maven packages.",
+                            "type": "maven",
+                            "version": "3.0.2-1.18",
+                        }
+                    },
+                ],
             }
         },
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/stable/2024-05-01/examples/UpgradeAKSPatchVersionForClusterPool.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/stable/2024-05-01/examples/InstallNewClusterLibraries.json
 if __name__ == "__main__":
     main()

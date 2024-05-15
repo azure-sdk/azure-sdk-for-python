@@ -32,7 +32,7 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._cluster_jobs_operations import build_list_request, build_run_job_request
+from ...operations._cluster_libraries_operations import build_list_request, build_manage_libraries_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -42,14 +42,14 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ClusterJobsOperations:
+class ClusterLibrariesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.hdinsightcontainers.aio.HDInsightContainersMgmtClient`'s
-        :attr:`cluster_jobs` attribute.
+        :attr:`cluster_libraries` attribute.
     """
 
     models = _models
@@ -61,223 +61,16 @@ class ClusterJobsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    async def _run_job_initial(
-        self,
-        resource_group_name: str,
-        cluster_pool_name: str,
-        cluster_name: str,
-        cluster_job: Union[_models.ClusterJob, IO[bytes]],
-        **kwargs: Any
-    ) -> Optional[_models.ClusterJob]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.ClusterJob]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(cluster_job, (IOBase, bytes)):
-            _content = cluster_job
-        else:
-            _json = self._serialize.body(cluster_job, "ClusterJob")
-
-        _request = build_run_job_request(
-            resource_group_name=resource_group_name,
-            cluster_pool_name=cluster_pool_name,
-            cluster_name=cluster_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request = _convert_request(_request)
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = None
-        response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("ClusterJob", pipeline_response)
-
-        if response.status_code == 202:
-            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
-
-        if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    async def begin_run_job(
-        self,
-        resource_group_name: str,
-        cluster_pool_name: str,
-        cluster_name: str,
-        cluster_job: _models.ClusterJob,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.ClusterJob]:
-        """Operations on jobs of HDInsight on AKS cluster.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param cluster_pool_name: The name of the cluster pool. Required.
-        :type cluster_pool_name: str
-        :param cluster_name: The name of the HDInsight cluster. Required.
-        :type cluster_name: str
-        :param cluster_job: The Cluster job. Required.
-        :type cluster_job: ~azure.mgmt.hdinsightcontainers.models.ClusterJob
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either ClusterJob or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.hdinsightcontainers.models.ClusterJob]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_run_job(
-        self,
-        resource_group_name: str,
-        cluster_pool_name: str,
-        cluster_name: str,
-        cluster_job: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.ClusterJob]:
-        """Operations on jobs of HDInsight on AKS cluster.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param cluster_pool_name: The name of the cluster pool. Required.
-        :type cluster_pool_name: str
-        :param cluster_name: The name of the HDInsight cluster. Required.
-        :type cluster_name: str
-        :param cluster_job: The Cluster job. Required.
-        :type cluster_job: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either ClusterJob or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.hdinsightcontainers.models.ClusterJob]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_run_job(
-        self,
-        resource_group_name: str,
-        cluster_pool_name: str,
-        cluster_name: str,
-        cluster_job: Union[_models.ClusterJob, IO[bytes]],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.ClusterJob]:
-        """Operations on jobs of HDInsight on AKS cluster.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param cluster_pool_name: The name of the cluster pool. Required.
-        :type cluster_pool_name: str
-        :param cluster_name: The name of the HDInsight cluster. Required.
-        :type cluster_name: str
-        :param cluster_job: The Cluster job. Is either a ClusterJob type or a IO[bytes] type. Required.
-        :type cluster_job: ~azure.mgmt.hdinsightcontainers.models.ClusterJob or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns either ClusterJob or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.hdinsightcontainers.models.ClusterJob]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ClusterJob] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._run_job_initial(
-                resource_group_name=resource_group_name,
-                cluster_pool_name=cluster_pool_name,
-                cluster_name=cluster_name,
-                cluster_job=cluster_job,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("ClusterJob", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[_models.ClusterJob].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[_models.ClusterJob](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
     @distributed_trace
     def list(
         self,
         resource_group_name: str,
         cluster_pool_name: str,
         cluster_name: str,
-        filter: Optional[str] = None,
+        category: Union[str, _models.Category],
         **kwargs: Any
-    ) -> AsyncIterable["_models.ClusterJob"]:
-        """Get jobs of HDInsight on AKS cluster.
+    ) -> AsyncIterable["_models.ClusterLibrary"]:
+        """Get all libraries of HDInsight on AKS cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -286,19 +79,19 @@ class ClusterJobsOperations:
         :type cluster_pool_name: str
         :param cluster_name: The name of the HDInsight cluster. Required.
         :type cluster_name: str
-        :param filter: The system query option to filter job returned in the response. Allowed value is
-         'jobName eq {jobName}' or 'jarName eq {jarName}'. Default value is None.
-        :type filter: str
-        :return: An iterator like instance of either ClusterJob or the result of cls(response)
+        :param category: The system query option to filter libraries returned in the response. Allowed
+         value is 'custom' or 'predefined'. Known values are: "custom" and "predefined". Required.
+        :type category: str or ~azure.mgmt.hdinsightcontainers.models.Category
+        :return: An iterator like instance of either ClusterLibrary or the result of cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterJob]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterLibrary]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ClusterJobList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ClusterLibraryList] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -316,7 +109,7 @@ class ClusterJobsOperations:
                     cluster_pool_name=cluster_pool_name,
                     cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
-                    filter=filter,
+                    category=category,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
@@ -343,7 +136,7 @@ class ClusterJobsOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ClusterJobList", pipeline_response)
+            deserialized = self._deserialize("ClusterLibraryList", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -366,3 +159,198 @@ class ClusterJobsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
+
+    async def _manage_libraries_initial(  # pylint: disable=inconsistent-return-statements
+        self,
+        resource_group_name: str,
+        cluster_pool_name: str,
+        cluster_name: str,
+        operation: Union[_models.ClusterLibraryManagementOperation, IO[bytes]],
+        **kwargs: Any
+    ) -> None:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(operation, (IOBase, bytes)):
+            _content = operation
+        else:
+            _json = self._serialize.body(operation, "ClusterLibraryManagementOperation")
+
+        _request = build_manage_libraries_request(
+            resource_group_name=resource_group_name,
+            cluster_pool_name=cluster_pool_name,
+            cluster_name=cluster_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, None, response_headers)  # type: ignore
+
+    @overload
+    async def begin_manage_libraries(
+        self,
+        resource_group_name: str,
+        cluster_pool_name: str,
+        cluster_name: str,
+        operation: _models.ClusterLibraryManagementOperation,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Library management operations on HDInsight on AKS cluster.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param cluster_pool_name: The name of the cluster pool. Required.
+        :type cluster_pool_name: str
+        :param cluster_name: The name of the HDInsight cluster. Required.
+        :type cluster_name: str
+        :param operation: The library management operation. Required.
+        :type operation: ~azure.mgmt.hdinsightcontainers.models.ClusterLibraryManagementOperation
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_manage_libraries(
+        self,
+        resource_group_name: str,
+        cluster_pool_name: str,
+        cluster_name: str,
+        operation: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Library management operations on HDInsight on AKS cluster.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param cluster_pool_name: The name of the cluster pool. Required.
+        :type cluster_pool_name: str
+        :param cluster_name: The name of the HDInsight cluster. Required.
+        :type cluster_name: str
+        :param operation: The library management operation. Required.
+        :type operation: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_manage_libraries(
+        self,
+        resource_group_name: str,
+        cluster_pool_name: str,
+        cluster_name: str,
+        operation: Union[_models.ClusterLibraryManagementOperation, IO[bytes]],
+        **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Library management operations on HDInsight on AKS cluster.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param cluster_pool_name: The name of the cluster pool. Required.
+        :type cluster_pool_name: str
+        :param cluster_name: The name of the HDInsight cluster. Required.
+        :type cluster_name: str
+        :param operation: The library management operation. Is either a
+         ClusterLibraryManagementOperation type or a IO[bytes] type. Required.
+        :type operation: ~azure.mgmt.hdinsightcontainers.models.ClusterLibraryManagementOperation or
+         IO[bytes]
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._manage_libraries_initial(  # type: ignore
+                resource_group_name=resource_group_name,
+                cluster_pool_name=cluster_pool_name,
+                cluster_name=cluster_name,
+                operation=operation,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
