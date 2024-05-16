@@ -109,7 +109,6 @@ from ._workload_classifiers_operations import WorkloadClassifiersOperations
 from ._workload_groups_operations import WorkloadGroupsOperations
 from ._backup_short_term_retention_policies_operations import BackupShortTermRetentionPoliciesOperations
 from ._database_extensions_operations import DatabaseExtensionsOperations
-from ._database_operations_operations import DatabaseOperationsOperations
 from ._database_usages_operations import DatabaseUsagesOperations
 from ._ledger_digest_uploads_operations import LedgerDigestUploadsOperations
 from ._outbound_firewall_rules_operations import OutboundFirewallRulesOperations
@@ -139,7 +138,6 @@ from ._managed_database_advanced_threat_protection_settings_operations import (
 from ._managed_instance_advanced_threat_protection_settings_operations import (
     ManagedInstanceAdvancedThreatProtectionSettingsOperations,
 )
-from ._replication_links_operations import ReplicationLinksOperations
 from ._managed_database_move_operations_operations import ManagedDatabaseMoveOperationsOperations
 from ._managed_instance_dtcs_operations import ManagedInstanceDtcsOperations
 from ._synapse_link_workspaces_operations import SynapseLinkWorkspacesOperations
@@ -154,6 +152,7 @@ from ._restorable_dropped_databases_operations import RestorableDroppedDatabases
 from ._server_configuration_options_operations import ServerConfigurationOptionsOperations
 from ._start_stop_managed_instance_schedules_operations import StartStopManagedInstanceSchedulesOperations
 from ._transparent_data_encryptions_operations import TransparentDataEncryptionsOperations
+from ._database_operations_operations import DatabaseOperationsOperations
 from ._ipv6_firewall_rules_operations import IPv6FirewallRulesOperations
 from ._sql_vulnerability_assessment_baseline_operations import SqlVulnerabilityAssessmentBaselineOperations
 from ._sql_vulnerability_assessment_baselines_operations import SqlVulnerabilityAssessmentBaselinesOperations
@@ -186,6 +185,7 @@ from ._long_term_retention_backups_operations import LongTermRetentionBackupsOpe
 from ._long_term_retention_policies_operations import LongTermRetentionPoliciesOperations
 from ._managed_instances_operations import ManagedInstancesOperations
 from ._servers_operations import ServersOperations
+from ._replication_links_operations import ReplicationLinksOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -281,7 +281,6 @@ __all__ = [
     "WorkloadGroupsOperations",
     "BackupShortTermRetentionPoliciesOperations",
     "DatabaseExtensionsOperations",
-    "DatabaseOperationsOperations",
     "DatabaseUsagesOperations",
     "LedgerDigestUploadsOperations",
     "OutboundFirewallRulesOperations",
@@ -305,7 +304,6 @@ __all__ = [
     "ManagedServerDnsAliasesOperations",
     "ManagedDatabaseAdvancedThreatProtectionSettingsOperations",
     "ManagedInstanceAdvancedThreatProtectionSettingsOperations",
-    "ReplicationLinksOperations",
     "ManagedDatabaseMoveOperationsOperations",
     "ManagedInstanceDtcsOperations",
     "SynapseLinkWorkspacesOperations",
@@ -320,6 +318,7 @@ __all__ = [
     "ServerConfigurationOptionsOperations",
     "StartStopManagedInstanceSchedulesOperations",
     "TransparentDataEncryptionsOperations",
+    "DatabaseOperationsOperations",
     "IPv6FirewallRulesOperations",
     "SqlVulnerabilityAssessmentBaselineOperations",
     "SqlVulnerabilityAssessmentBaselinesOperations",
@@ -342,6 +341,7 @@ __all__ = [
     "LongTermRetentionPoliciesOperations",
     "ManagedInstancesOperations",
     "ServersOperations",
+    "ReplicationLinksOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

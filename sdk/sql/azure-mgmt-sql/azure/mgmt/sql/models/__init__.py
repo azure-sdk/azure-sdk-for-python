@@ -262,6 +262,7 @@ from ._models_py3 import OutboundFirewallRuleListResult
 from ._models_py3 import PartnerInfo
 from ._models_py3 import PartnerRegionInfo
 from ._models_py3 import PerformanceLevelCapability
+from ._models_py3 import PhaseDetails
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionListResult
 from ._models_py3 import PrivateEndpointConnectionProperties
@@ -297,6 +298,7 @@ from ._models_py3 import RefreshExternalGovernanceStatusOperationResultMI
 from ._models_py3 import Remediation
 from ._models_py3 import ReplicationLink
 from ._models_py3 import ReplicationLinkListResult
+from ._models_py3 import ReplicationLinkUpdate
 from ._models_py3 import Resource
 from ._models_py3 import ResourceIdentity
 from ._models_py3 import ResourceMoveDefinition
@@ -473,6 +475,7 @@ from ._sql_management_client_enums import ElasticPoolLicenseType
 from ._sql_management_client_enums import ElasticPoolState
 from ._sql_management_client_enums import EncryptionProtectorName
 from ._sql_management_client_enums import ExternalGovernanceStatus
+from ._sql_management_client_enums import FailoverGroupDatabasesSecondaryType
 from ._sql_management_client_enums import FailoverGroupReplicationRole
 from ._sql_management_client_enums import FailoverModeType
 from ._sql_management_client_enums import FailoverType
@@ -521,6 +524,7 @@ from ._sql_management_client_enums import OperationMode
 from ._sql_management_client_enums import OperationOrigin
 from ._sql_management_client_enums import PauseDelayTimeUnit
 from ._sql_management_client_enums import PerformanceLevelUnit
+from ._sql_management_client_enums import Phase
 from ._sql_management_client_enums import PrimaryAggregationType
 from ._sql_management_client_enums import PrincipalType
 from ._sql_management_client_enums import PrivateEndpointProvisioningState
@@ -854,6 +858,7 @@ __all__ = [
     "PartnerInfo",
     "PartnerRegionInfo",
     "PerformanceLevelCapability",
+    "PhaseDetails",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionListResult",
     "PrivateEndpointConnectionProperties",
@@ -889,6 +894,7 @@ __all__ = [
     "Remediation",
     "ReplicationLink",
     "ReplicationLinkListResult",
+    "ReplicationLinkUpdate",
     "Resource",
     "ResourceIdentity",
     "ResourceMoveDefinition",
@@ -1064,6 +1070,7 @@ __all__ = [
     "ElasticPoolState",
     "EncryptionProtectorName",
     "ExternalGovernanceStatus",
+    "FailoverGroupDatabasesSecondaryType",
     "FailoverGroupReplicationRole",
     "FailoverModeType",
     "FailoverType",
@@ -1112,6 +1119,7 @@ __all__ = [
     "OperationOrigin",
     "PauseDelayTimeUnit",
     "PerformanceLevelUnit",
+    "Phase",
     "PrimaryAggregationType",
     "PrincipalType",
     "PrivateEndpointProvisioningState",

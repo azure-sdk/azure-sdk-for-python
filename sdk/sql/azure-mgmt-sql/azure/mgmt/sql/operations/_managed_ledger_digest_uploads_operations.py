@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -31,6 +32,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -219,7 +224,6 @@ class ManagedLedgerDigestUploadsOperations:
         :type managed_instance_name: str
         :param database_name: The name of the database. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ManagedLedgerDigestUploads or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.sql.models.ManagedLedgerDigestUploads]
@@ -231,7 +235,7 @@ class ManagedLedgerDigestUploadsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-01-preview"))
         cls: ClsType[_models.ManagedLedgerDigestUploadsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -242,25 +246,24 @@ class ManagedLedgerDigestUploadsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_database_request(
+                _request = build_list_by_database_request(
                     resource_group_name=resource_group_name,
                     managed_instance_name=managed_instance_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_database.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = HttpRequest("GET", next_link)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ManagedLedgerDigestUploadsListResult", pipeline_response)
@@ -270,11 +273,11 @@ class ManagedLedgerDigestUploadsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -285,10 +288,6 @@ class ManagedLedgerDigestUploadsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads"
-    }
 
     @distributed_trace
     def get(
@@ -310,12 +309,11 @@ class ManagedLedgerDigestUploadsOperations:
         :type database_name: str
         :param ledger_digest_uploads: "current" Required.
         :type ledger_digest_uploads: str or ~azure.mgmt.sql.models.ManagedLedgerDigestUploadsName
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedLedgerDigestUploads or the result of cls(response)
         :rtype: ~azure.mgmt.sql.models.ManagedLedgerDigestUploads
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -329,23 +327,22 @@ class ManagedLedgerDigestUploadsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-01-preview"))
         cls: ClsType[_models.ManagedLedgerDigestUploads] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             managed_instance_name=managed_instance_name,
             database_name=database_name,
             ledger_digest_uploads=ledger_digest_uploads,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -357,13 +354,9 @@ class ManagedLedgerDigestUploadsOperations:
         deserialized = self._deserialize("ManagedLedgerDigestUploads", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}"
-    }
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
         self,
@@ -371,10 +364,10 @@ class ManagedLedgerDigestUploadsOperations:
         managed_instance_name: str,
         database_name: str,
         ledger_digest_uploads: Union[str, _models.ManagedLedgerDigestUploadsName],
-        parameters: Union[_models.ManagedLedgerDigestUploads, IO],
+        parameters: Union[_models.ManagedLedgerDigestUploads, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ManagedLedgerDigestUploads]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -397,7 +390,7 @@ class ManagedLedgerDigestUploadsOperations:
         else:
             _json = self._serialize.body(parameters, "ManagedLedgerDigestUploads")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             managed_instance_name=managed_instance_name,
             database_name=database_name,
@@ -407,16 +400,15 @@ class ManagedLedgerDigestUploadsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -430,13 +422,9 @@ class ManagedLedgerDigestUploadsOperations:
             deserialized = self._deserialize("ManagedLedgerDigestUploads", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_or_update(
@@ -468,14 +456,6 @@ class ManagedLedgerDigestUploadsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedLedgerDigestUploads or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.ManagedLedgerDigestUploads]
@@ -489,7 +469,7 @@ class ManagedLedgerDigestUploadsOperations:
         managed_instance_name: str,
         database_name: str,
         ledger_digest_uploads: Union[str, _models.ManagedLedgerDigestUploadsName],
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -508,18 +488,10 @@ class ManagedLedgerDigestUploadsOperations:
          Required.
         :type ledger_digest_uploads: str or ~azure.mgmt.sql.models.ManagedLedgerDigestUploadsName
         :param parameters: The Ledger Digest Storage Endpoint. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedLedgerDigestUploads or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.ManagedLedgerDigestUploads]
@@ -533,7 +505,7 @@ class ManagedLedgerDigestUploadsOperations:
         managed_instance_name: str,
         database_name: str,
         ledger_digest_uploads: Union[str, _models.ManagedLedgerDigestUploadsName],
-        parameters: Union[_models.ManagedLedgerDigestUploads, IO],
+        parameters: Union[_models.ManagedLedgerDigestUploads, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ManagedLedgerDigestUploads]:
         """Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger
@@ -550,19 +522,8 @@ class ManagedLedgerDigestUploadsOperations:
          Required.
         :type ledger_digest_uploads: str or ~azure.mgmt.sql.models.ManagedLedgerDigestUploadsName
         :param parameters: The Ledger Digest Storage Endpoint. Is either a ManagedLedgerDigestUploads
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.sql.models.ManagedLedgerDigestUploads or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.sql.models.ManagedLedgerDigestUploads or IO[bytes]
         :return: An instance of LROPoller that returns either ManagedLedgerDigestUploads or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.ManagedLedgerDigestUploads]
@@ -596,7 +557,7 @@ class ManagedLedgerDigestUploadsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ManagedLedgerDigestUploads", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -606,17 +567,15 @@ class ManagedLedgerDigestUploadsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ManagedLedgerDigestUploads].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}"
-    }
+        return LROPoller[_models.ManagedLedgerDigestUploads](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _disable_initial(
         self,
@@ -626,7 +585,7 @@ class ManagedLedgerDigestUploadsOperations:
         ledger_digest_uploads: Union[str, _models.ManagedLedgerDigestUploadsName],
         **kwargs: Any
     ) -> Optional[_models.ManagedLedgerDigestUploads]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -640,23 +599,22 @@ class ManagedLedgerDigestUploadsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-01-preview"))
         cls: ClsType[Optional[_models.ManagedLedgerDigestUploads]] = kwargs.pop("cls", None)
 
-        request = build_disable_request(
+        _request = build_disable_request(
             resource_group_name=resource_group_name,
             managed_instance_name=managed_instance_name,
             database_name=database_name,
             ledger_digest_uploads=ledger_digest_uploads,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._disable_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -670,13 +628,9 @@ class ManagedLedgerDigestUploadsOperations:
             deserialized = self._deserialize("ManagedLedgerDigestUploads", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _disable_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_disable(
@@ -699,14 +653,6 @@ class ManagedLedgerDigestUploadsOperations:
         :type database_name: str
         :param ledger_digest_uploads: "current" Required.
         :type ledger_digest_uploads: str or ~azure.mgmt.sql.models.ManagedLedgerDigestUploadsName
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedLedgerDigestUploads or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.sql.models.ManagedLedgerDigestUploads]
@@ -737,7 +683,7 @@ class ManagedLedgerDigestUploadsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ManagedLedgerDigestUploads", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -747,14 +693,12 @@ class ManagedLedgerDigestUploadsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ManagedLedgerDigestUploads].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_disable.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable"
-    }
+        return LROPoller[_models.ManagedLedgerDigestUploads](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
