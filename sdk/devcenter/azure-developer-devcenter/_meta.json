@@ -1,0 +1,7 @@
+{
+  "commit": "ea05402820c853cfb2b63933d36dc4ba61944302",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/devcenter/DevCenter",
+  "@azure-tools/typespec-python": "0.23.11",
+  "@autorest/python": "6.13.17"
+}
