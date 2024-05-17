@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -30,11 +30,11 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._extensions_operations import (
+from ...operations._data_connectors_operations import (
     build_create_or_update_request,
     build_delete_request,
     build_get_request,
-    build_list_by_data_manager_for_agriculture_request,
+    build_list_request,
 )
 
 if sys.version_info >= (3, 9):
@@ -45,14 +45,14 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ExtensionsOperations:
+class DataConnectorsOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.agrifood.aio.AgriFoodMgmtClient`'s
-        :attr:`extensions` attribute.
+        :attr:`data_connectors` attribute.
     """
 
     models = _models
@@ -64,169 +64,15 @@ class ExtensionsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @overload
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        data_manager_for_agriculture_resource_name: str,
-        extension_id: str,
-        request_body: Optional[_models.ExtensionInstallationRequest] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Extension:
-        """Install or Update extension. Additional Api Properties are merged patch and if the extension is
-        updated to a new version then the obsolete entries will be auto deleted from Additional Api
-        Properties.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
-         Required.
-        :type data_manager_for_agriculture_resource_name: str
-        :param extension_id: Id of extension resource. Required.
-        :type extension_id: str
-        :param request_body: Extension resource request body. Default value is None.
-        :type request_body: ~azure.mgmt.agrifood.models.ExtensionInstallationRequest
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: Extension or the result of cls(response)
-        :rtype: ~azure.mgmt.agrifood.models.Extension
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        data_manager_for_agriculture_resource_name: str,
-        extension_id: str,
-        request_body: Optional[IO[bytes]] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Extension:
-        """Install or Update extension. Additional Api Properties are merged patch and if the extension is
-        updated to a new version then the obsolete entries will be auto deleted from Additional Api
-        Properties.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
-         Required.
-        :type data_manager_for_agriculture_resource_name: str
-        :param extension_id: Id of extension resource. Required.
-        :type extension_id: str
-        :param request_body: Extension resource request body. Default value is None.
-        :type request_body: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: Extension or the result of cls(response)
-        :rtype: ~azure.mgmt.agrifood.models.Extension
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        data_manager_for_agriculture_resource_name: str,
-        extension_id: str,
-        request_body: Optional[Union[_models.ExtensionInstallationRequest, IO[bytes]]] = None,
-        **kwargs: Any
-    ) -> _models.Extension:
-        """Install or Update extension. Additional Api Properties are merged patch and if the extension is
-        updated to a new version then the obsolete entries will be auto deleted from Additional Api
-        Properties.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
-         Required.
-        :type data_manager_for_agriculture_resource_name: str
-        :param extension_id: Id of extension resource. Required.
-        :type extension_id: str
-        :param request_body: Extension resource request body. Is either a ExtensionInstallationRequest
-         type or a IO[bytes] type. Default value is None.
-        :type request_body: ~azure.mgmt.agrifood.models.ExtensionInstallationRequest or IO[bytes]
-        :return: Extension or the result of cls(response)
-        :rtype: ~azure.mgmt.agrifood.models.Extension
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Extension] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(request_body, (IOBase, bytes)):
-            _content = request_body
-        else:
-            if request_body is not None:
-                _json = self._serialize.body(request_body, "ExtensionInstallationRequest")
-            else:
-                _json = None
-
-        _request = build_create_or_update_request(
-            resource_group_name=resource_group_name,
-            data_manager_for_agriculture_resource_name=data_manager_for_agriculture_resource_name,
-            extension_id=extension_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request = _convert_request(_request)
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("Extension", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
     @distributed_trace_async
     async def get(
         self,
         resource_group_name: str,
         data_manager_for_agriculture_resource_name: str,
-        extension_id: str,
+        data_connector_name: str,
         **kwargs: Any
-    ) -> _models.Extension:
-        """Get installed extension details by extension id.
+    ) -> _models.DataConnector:
+        """Get specific Data Connector resource by DataConnectorName.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -234,10 +80,10 @@ class ExtensionsOperations:
         :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
          Required.
         :type data_manager_for_agriculture_resource_name: str
-        :param extension_id: Id of extension resource. Required.
-        :type extension_id: str
-        :return: Extension or the result of cls(response)
-        :rtype: ~azure.mgmt.agrifood.models.Extension
+        :param data_connector_name: Connector name. Required.
+        :type data_connector_name: str
+        :return: DataConnector or the result of cls(response)
+        :rtype: ~azure.mgmt.agrifood.models.DataConnector
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -252,12 +98,12 @@ class ExtensionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.Extension] = kwargs.pop("cls", None)
+        cls: ClsType[_models.DataConnector] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
             data_manager_for_agriculture_resource_name=data_manager_for_agriculture_resource_name,
-            extension_id=extension_id,
+            data_connector_name=data_connector_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -278,7 +124,156 @@ class ExtensionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Extension", pipeline_response)
+        deserialized = self._deserialize("DataConnector", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def create_or_update(
+        self,
+        resource_group_name: str,
+        data_manager_for_agriculture_resource_name: str,
+        data_connector_name: str,
+        body: _models.DataConnector,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.DataConnector:
+        """Create or update Data Connector For MADMA resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
+         Required.
+        :type data_manager_for_agriculture_resource_name: str
+        :param data_connector_name: Connector name. Required.
+        :type data_connector_name: str
+        :param body: Body must be valid DataConnector request. Required.
+        :type body: ~azure.mgmt.agrifood.models.DataConnector
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DataConnector or the result of cls(response)
+        :rtype: ~azure.mgmt.agrifood.models.DataConnector
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def create_or_update(
+        self,
+        resource_group_name: str,
+        data_manager_for_agriculture_resource_name: str,
+        data_connector_name: str,
+        body: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.DataConnector:
+        """Create or update Data Connector For MADMA resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
+         Required.
+        :type data_manager_for_agriculture_resource_name: str
+        :param data_connector_name: Connector name. Required.
+        :type data_connector_name: str
+        :param body: Body must be valid DataConnector request. Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DataConnector or the result of cls(response)
+        :rtype: ~azure.mgmt.agrifood.models.DataConnector
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def create_or_update(
+        self,
+        resource_group_name: str,
+        data_manager_for_agriculture_resource_name: str,
+        data_connector_name: str,
+        body: Union[_models.DataConnector, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.DataConnector:
+        """Create or update Data Connector For MADMA resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
+         Required.
+        :type data_manager_for_agriculture_resource_name: str
+        :param data_connector_name: Connector name. Required.
+        :type data_connector_name: str
+        :param body: Body must be valid DataConnector request. Is either a DataConnector type or a
+         IO[bytes] type. Required.
+        :type body: ~azure.mgmt.agrifood.models.DataConnector or IO[bytes]
+        :return: DataConnector or the result of cls(response)
+        :rtype: ~azure.mgmt.agrifood.models.DataConnector
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.DataConnector] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _json = self._serialize.body(body, "DataConnector")
+
+        _request = build_create_or_update_request(
+            resource_group_name=resource_group_name,
+            data_manager_for_agriculture_resource_name=data_manager_for_agriculture_resource_name,
+            data_connector_name=data_connector_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if response.status_code == 200:
+            deserialized = self._deserialize("DataConnector", pipeline_response)
+
+        if response.status_code == 201:
+            deserialized = self._deserialize("DataConnector", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -290,10 +285,10 @@ class ExtensionsOperations:
         self,
         resource_group_name: str,
         data_manager_for_agriculture_resource_name: str,
-        extension_id: str,
+        data_connector_name: str,
         **kwargs: Any
     ) -> None:
-        """Uninstall extension.
+        """Delete a Data Connectors with given dataConnector name.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -301,8 +296,8 @@ class ExtensionsOperations:
         :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
          Required.
         :type data_manager_for_agriculture_resource_name: str
-        :param extension_id: Id of extension resource. Required.
-        :type extension_id: str
+        :param data_connector_name: Connector name. Required.
+        :type data_connector_name: str
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -312,6 +307,10 @@ class ExtensionsOperations:
             404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
+            400: cast(
+                Type[HttpResponseError],
+                lambda response: HttpResponseError(response=response, error_format=ARMErrorFormat),
+            ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
@@ -324,7 +323,7 @@ class ExtensionsOperations:
         _request = build_delete_request(
             resource_group_name=resource_group_name,
             data_manager_for_agriculture_resource_name=data_manager_for_agriculture_resource_name,
-            extension_id=extension_id,
+            data_connector_name=data_connector_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -349,17 +348,15 @@ class ExtensionsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def list_by_data_manager_for_agriculture(
+    def list(
         self,
         resource_group_name: str,
         data_manager_for_agriculture_resource_name: str,
-        extension_ids: Optional[List[str]] = None,
-        extension_categories: Optional[List[str]] = None,
         max_page_size: int = 50,
         skip_token: Optional[str] = None,
         **kwargs: Any
-    ) -> AsyncIterable["_models.Extension"]:
-        """Get installed extensions details.
+    ) -> AsyncIterable["_models.DataConnector"]:
+        """Lists the Data Connector Credentials for MADMA instance.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -367,24 +364,20 @@ class ExtensionsOperations:
         :param data_manager_for_agriculture_resource_name: DataManagerForAgriculture resource name.
          Required.
         :type data_manager_for_agriculture_resource_name: str
-        :param extension_ids: Installed extension ids. Default value is None.
-        :type extension_ids: list[str]
-        :param extension_categories: Installed extension categories. Default value is None.
-        :type extension_categories: list[str]
         :param max_page_size: Maximum number of items needed (inclusive).
          Minimum = 10, Maximum = 1000, Default value = 50. Default value is 50.
         :type max_page_size: int
-        :param skip_token: Skip token for getting next set of results. Default value is None.
+        :param skip_token: Continuation token for getting next set of results. Default value is None.
         :type skip_token: str
-        :return: An iterator like instance of either Extension or the result of cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.agrifood.models.Extension]
+        :return: An iterator like instance of either DataConnector or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.agrifood.models.DataConnector]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExtensionListResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.DataConnectorListResponse] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -397,12 +390,10 @@ class ExtensionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_list_by_data_manager_for_agriculture_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     data_manager_for_agriculture_resource_name=data_manager_for_agriculture_resource_name,
                     subscription_id=self._config.subscription_id,
-                    extension_ids=extension_ids,
-                    extension_categories=extension_categories,
                     max_page_size=max_page_size,
                     skip_token=skip_token,
                     api_version=api_version,
@@ -431,7 +422,7 @@ class ExtensionsOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ExtensionListResponse", pipeline_response)
+            deserialized = self._deserialize("DataConnectorListResponse", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
