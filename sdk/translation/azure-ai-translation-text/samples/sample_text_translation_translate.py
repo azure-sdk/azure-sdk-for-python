@@ -34,6 +34,7 @@ import sample_text_translation_client
 
 text_translator = sample_text_translation_client.create_text_translation_client_with_credential()
 
+
 # -------------------------------------------------------------------------
 # Get text translation
 # -------------------------------------------------------------------------
