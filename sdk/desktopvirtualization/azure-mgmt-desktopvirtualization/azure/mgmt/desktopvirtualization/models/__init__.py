@@ -8,6 +8,12 @@
 
 from ._models_py3 import AgentUpdatePatchProperties
 from ._models_py3 import AgentUpdateProperties
+from ._models_py3 import AppAttachPackage
+from ._models_py3 import AppAttachPackageInfoProperties
+from ._models_py3 import AppAttachPackageList
+from ._models_py3 import AppAttachPackagePatch
+from ._models_py3 import AppAttachPackagePatchProperties
+from ._models_py3 import AppAttachPackageProperties
 from ._models_py3 import Application
 from ._models_py3 import ApplicationGroup
 from ._models_py3 import ApplicationGroupList
@@ -18,12 +24,16 @@ from ._models_py3 import CloudErrorProperties
 from ._models_py3 import Desktop
 from ._models_py3 import DesktopList
 from ._models_py3 import DesktopPatch
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import ExpandMsixImage
 from ._models_py3 import ExpandMsixImageList
 from ._models_py3 import HostPool
 from ._models_py3 import HostPoolList
 from ._models_py3 import HostPoolPatch
 from ._models_py3 import Identity
+from ._models_py3 import ImportPackageInfoRequest
 from ._models_py3 import LogSpecification
 from ._models_py3 import MSIXImageURI
 from ._models_py3 import MSIXPackage
@@ -76,26 +86,31 @@ from ._models_py3 import StartMenuItem
 from ._models_py3 import StartMenuItemList
 from ._models_py3 import SystemData
 from ._models_py3 import Time
+from ._models_py3 import TrackedResource
 from ._models_py3 import UserSession
 from ._models_py3 import UserSessionList
 from ._models_py3 import Workspace
 from ._models_py3 import WorkspaceList
 from ._models_py3 import WorkspacePatch
 
+from ._desktop_virtualization_mgmt_client_enums import AppAttachPackageArchitectures
 from ._desktop_virtualization_mgmt_client_enums import ApplicationGroupType
 from ._desktop_virtualization_mgmt_client_enums import ApplicationType
 from ._desktop_virtualization_mgmt_client_enums import CommandLineSetting
 from ._desktop_virtualization_mgmt_client_enums import CreatedByType
 from ._desktop_virtualization_mgmt_client_enums import DayOfWeek
+from ._desktop_virtualization_mgmt_client_enums import FailHealthCheckOnStagingFailure
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckName
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckResult
 from ._desktop_virtualization_mgmt_client_enums import HostPoolType
 from ._desktop_virtualization_mgmt_client_enums import HostpoolPublicNetworkAccess
 from ._desktop_virtualization_mgmt_client_enums import LoadBalancerType
+from ._desktop_virtualization_mgmt_client_enums import PackageTimestamped
 from ._desktop_virtualization_mgmt_client_enums import PersonalDesktopAssignmentType
 from ._desktop_virtualization_mgmt_client_enums import PreferredAppGroupType
 from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointConnectionProvisioningState
 from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
+from ._desktop_virtualization_mgmt_client_enums import ProvisioningState
 from ._desktop_virtualization_mgmt_client_enums import PublicNetworkAccess
 from ._desktop_virtualization_mgmt_client_enums import RegistrationTokenOperation
 from ._desktop_virtualization_mgmt_client_enums import RemoteApplicationType
@@ -119,6 +134,12 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "AgentUpdatePatchProperties",
     "AgentUpdateProperties",
+    "AppAttachPackage",
+    "AppAttachPackageInfoProperties",
+    "AppAttachPackageList",
+    "AppAttachPackagePatch",
+    "AppAttachPackagePatchProperties",
+    "AppAttachPackageProperties",
     "Application",
     "ApplicationGroup",
     "ApplicationGroupList",
@@ -129,12 +150,16 @@ __all__ = [
     "Desktop",
     "DesktopList",
     "DesktopPatch",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
     "ExpandMsixImage",
     "ExpandMsixImageList",
     "HostPool",
     "HostPoolList",
     "HostPoolPatch",
     "Identity",
+    "ImportPackageInfoRequest",
     "LogSpecification",
     "MSIXImageURI",
     "MSIXPackage",
@@ -187,25 +212,30 @@ __all__ = [
     "StartMenuItemList",
     "SystemData",
     "Time",
+    "TrackedResource",
     "UserSession",
     "UserSessionList",
     "Workspace",
     "WorkspaceList",
     "WorkspacePatch",
+    "AppAttachPackageArchitectures",
     "ApplicationGroupType",
     "ApplicationType",
     "CommandLineSetting",
     "CreatedByType",
     "DayOfWeek",
+    "FailHealthCheckOnStagingFailure",
     "HealthCheckName",
     "HealthCheckResult",
     "HostPoolType",
     "HostpoolPublicNetworkAccess",
     "LoadBalancerType",
+    "PackageTimestamped",
     "PersonalDesktopAssignmentType",
     "PreferredAppGroupType",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
+    "ProvisioningState",
     "PublicNetworkAccess",
     "RegistrationTokenOperation",
     "RemoteApplicationType",
