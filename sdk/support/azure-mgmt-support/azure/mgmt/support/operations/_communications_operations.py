@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_check_name_availability_request(support_ticket_name: str, subscription
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -81,7 +86,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -115,7 +120,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -146,7 +151,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -261,7 +266,7 @@ class CommunicationsOperations:
         :rtype: ~azure.mgmt.support.models.CheckNameAvailabilityOutput
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -323,7 +328,7 @@ class CommunicationsOperations:
         """Lists all communications (attachments not included) for a support ticket. :code:`<br/>`</br>
         You can also filter support ticket communications by *CreatedDate* or *CommunicationType* using
         the $filter parameter. The only type of communication supported today is *Web*. Output will be
-        a paged result with *nextLink*\ , using which you can retrieve the next set of Communication
+        a paged result with *nextLink*\\ , using which you can retrieve the next set of Communication
         results. :code:`<br/>`:code:`<br/>`Support ticket data is available for 18 months after ticket
         creation. If a ticket was created more than 18 months ago, a request for data might cause an
         error.
@@ -350,7 +355,7 @@ class CommunicationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CommunicationsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -428,7 +433,7 @@ class CommunicationsOperations:
         :rtype: ~azure.mgmt.support.models.CommunicationDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -479,7 +484,7 @@ class CommunicationsOperations:
         create_communication_parameters: Union[_models.CommunicationDetails, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.CommunicationDetails]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

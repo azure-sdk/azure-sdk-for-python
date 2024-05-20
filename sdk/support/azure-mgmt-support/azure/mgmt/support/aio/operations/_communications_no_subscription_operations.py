@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -38,6 +39,10 @@ from ...operations._communications_no_subscription_operations import (
     build_list_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -129,7 +134,7 @@ class CommunicationsNoSubscriptionOperations:
         :rtype: ~azure.mgmt.support.models.CheckNameAvailabilityOutput
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -190,7 +195,7 @@ class CommunicationsNoSubscriptionOperations:
         """Lists all communications (attachments not included) for a support ticket. :code:`<br/>`</br>
         You can also filter support ticket communications by *CreatedDate* or *CommunicationType* using
         the $filter parameter. The only type of communication supported today is *Web*. Output will be
-        a paged result with *nextLink*\ , using which you can retrieve the next set of Communication
+        a paged result with *nextLink*\\ , using which you can retrieve the next set of Communication
         results. :code:`<br/>`:code:`<br/>`Support ticket data is available for 18 months after ticket
         creation. If a ticket was created more than 18 months ago, a request for data might cause an
         error.
@@ -218,7 +223,7 @@ class CommunicationsNoSubscriptionOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CommunicationsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -297,7 +302,7 @@ class CommunicationsNoSubscriptionOperations:
         :rtype: ~azure.mgmt.support.models.CommunicationDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -347,7 +352,7 @@ class CommunicationsNoSubscriptionOperations:
         create_communication_parameters: Union[_models.CommunicationDetails, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.CommunicationDetails]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

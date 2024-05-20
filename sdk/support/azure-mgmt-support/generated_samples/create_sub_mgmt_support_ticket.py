@@ -36,7 +36,6 @@ def main():
         support_ticket_name="testticket",
         create_support_ticket_parameters={
             "properties": {
-                "advancedDiagnosticConsent": "Yes",
                 "contactDetails": {
                     "country": "usa",
                     "firstName": "abc",
@@ -59,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateSubMgmtSupportTicket.json
+# x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSubMgmtSupportTicket.json
 if __name__ == "__main__":
     main()

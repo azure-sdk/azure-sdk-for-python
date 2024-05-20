@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_check_name_availability_request(subscription_id: str, **kwargs: Any) -
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -74,7 +79,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -102,7 +107,7 @@ def build_get_request(support_ticket_name: str, subscription_id: str, **kwargs: 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -129,7 +134,7 @@ def build_update_request(support_ticket_name: str, subscription_id: str, **kwarg
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -159,7 +164,7 @@ def build_create_request(support_ticket_name: str, subscription_id: str, **kwarg
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -257,7 +262,7 @@ class SupportTicketsOperations:
         :rtype: ~azure.mgmt.support.models.CheckNameAvailabilityOutput
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -316,8 +321,8 @@ class SupportTicketsOperations:
         self, top: Optional[int] = None, filter: Optional[str] = None, **kwargs: Any
     ) -> Iterable["_models.SupportTicketDetails"]:
         """Lists all the support tickets for an Azure subscription. You can also filter the support
-        tickets by *Status*\ , *CreatedDate*\ , *ServiceId*\ , and *ProblemClassificationId* using the
-        $filter parameter. Output will be a paged result with *nextLink*\ , using which you can
+        tickets by *Status*\\ , *CreatedDate*\\ , *ServiceId*\\ , and *ProblemClassificationId* using
+        the $filter parameter. Output will be a paged result with *nextLink*\\ , using which you can
         retrieve the next set of support tickets. :code:`<br/>`:code:`<br/>`Support ticket data is
         available for 18 months after ticket creation. If a ticket was created more than 18 months ago,
         a request for data might cause an error.
@@ -326,8 +331,8 @@ class SupportTicketsOperations:
          Default value is None.
         :type top: int
         :param filter: The filter to apply on the operation. We support 'odata v4.0' filter semantics.
-         `Learn more <https://docs.microsoft.com/odata/concepts/queryoptions-overview>`_. *Status*\ ,
-         *ServiceId*\ , and *ProblemClassificationId* filters can only be used with Equals ('eq')
+         `Learn more <https://docs.microsoft.com/odata/concepts/queryoptions-overview>`_. *Status*\\ ,
+         *ServiceId*\\ , and *ProblemClassificationId* filters can only be used with Equals ('eq')
          operator. For *CreatedDate* filter, the supported operators are Greater Than ('gt') and Greater
          Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'. Default
          value is None.
@@ -343,7 +348,7 @@ class SupportTicketsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SupportTicketsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -420,7 +425,7 @@ class SupportTicketsOperations:
         :rtype: ~azure.mgmt.support.models.SupportTicketDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -539,7 +544,7 @@ class SupportTicketsOperations:
         :rtype: ~azure.mgmt.support.models.SupportTicketDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -600,7 +605,7 @@ class SupportTicketsOperations:
         create_support_ticket_parameters: Union[_models.SupportTicketDetails, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.SupportTicketDetails]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -678,8 +683,8 @@ class SupportTicketsOperations:
         new file.:code:`<br/>`:code:`<br/>`Providing consent to share diagnostic information with Azure
         support is currently not supported via the API. The Azure support engineer working on your
         ticket will reach out to you for consent if your issue requires gathering diagnostic
-        information from your Azure resources.:code:`<br/>`:code:`<br/>`\ **Creating a support ticket
-        for on-behalf-of**\ : Include *x-ms-authorization-auxiliary* header to provide an auxiliary
+        information from your Azure resources.:code:`<br/>`:code:`<br/>`\\ **Creating a support ticket
+        for on-behalf-of**\\ : Include *x-ms-authorization-auxiliary* header to provide an auxiliary
         token as per `documentation
         <https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant>`_.
         The primary token will be from the tenant for whom a support ticket is being raised against the
@@ -720,8 +725,8 @@ class SupportTicketsOperations:
         new file.:code:`<br/>`:code:`<br/>`Providing consent to share diagnostic information with Azure
         support is currently not supported via the API. The Azure support engineer working on your
         ticket will reach out to you for consent if your issue requires gathering diagnostic
-        information from your Azure resources.:code:`<br/>`:code:`<br/>`\ **Creating a support ticket
-        for on-behalf-of**\ : Include *x-ms-authorization-auxiliary* header to provide an auxiliary
+        information from your Azure resources.:code:`<br/>`:code:`<br/>`\\ **Creating a support ticket
+        for on-behalf-of**\\ : Include *x-ms-authorization-auxiliary* header to provide an auxiliary
         token as per `documentation
         <https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant>`_.
         The primary token will be from the tenant for whom a support ticket is being raised against the
@@ -760,8 +765,8 @@ class SupportTicketsOperations:
         new file.:code:`<br/>`:code:`<br/>`Providing consent to share diagnostic information with Azure
         support is currently not supported via the API. The Azure support engineer working on your
         ticket will reach out to you for consent if your issue requires gathering diagnostic
-        information from your Azure resources.:code:`<br/>`:code:`<br/>`\ **Creating a support ticket
-        for on-behalf-of**\ : Include *x-ms-authorization-auxiliary* header to provide an auxiliary
+        information from your Azure resources.:code:`<br/>`:code:`<br/>`\\ **Creating a support ticket
+        for on-behalf-of**\\ : Include *x-ms-authorization-auxiliary* header to provide an auxiliary
         token as per `documentation
         <https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant>`_.
         The primary token will be from the tenant for whom a support ticket is being raised against the
