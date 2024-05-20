@@ -8,7 +8,8 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import json
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, List, Optional, Type, TypeVar, Union, overload
 
 from azure.core import MatchConditions
 from azure.core.exceptions import (
@@ -30,6 +31,10 @@ from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
 from .._vendor import TextTranslationClientMixinABC, prep_if_match, prep_if_none_match
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -37,7 +42,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_text_translation_get_languages_request(  # pylint: disable=name-too-long
+def build_text_translation_get_supported_languages_request(  # pylint: disable=name-too-long
     *,
     client_trace_id: Optional[str] = None,
     scope: Optional[str] = None,
@@ -132,9 +137,9 @@ def build_text_translation_translate_request(
     # Construct headers
     if client_trace_id is not None:
         _headers["X-ClientTraceId"] = _SERIALIZER.header("client_trace_id", client_trace_id, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -161,9 +166,9 @@ def build_text_translation_transliterate_request(  # pylint: disable=name-too-lo
     # Construct headers
     if client_trace_id is not None:
         _headers["X-ClientTraceId"] = _SERIALIZER.header("client_trace_id", client_trace_id, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -195,9 +200,9 @@ def build_text_translation_find_sentence_boundaries_request(  # pylint: disable=
     # Construct headers
     if client_trace_id is not None:
         _headers["X-ClientTraceId"] = _SERIALIZER.header("client_trace_id", client_trace_id, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -223,9 +228,9 @@ def build_text_translation_lookup_dictionary_entries_request(  # pylint: disable
     # Construct headers
     if client_trace_id is not None:
         _headers["X-ClientTraceId"] = _SERIALIZER.header("client_trace_id", client_trace_id, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -251,16 +256,17 @@ def build_text_translation_lookup_dictionary_examples_request(  # pylint: disabl
     # Construct headers
     if client_trace_id is not None:
         _headers["X-ClientTraceId"] = _SERIALIZER.header("client_trace_id", client_trace_id, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
+
     @distributed_trace
-    def get_languages(
+    def get_supported_languages(
         self,
         *,
         client_trace_id: Optional[str] = None,
@@ -269,7 +275,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
         etag: Optional[str] = None,
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
-    ) -> _models.GetLanguagesResult:
+    ) -> _models.GetSupportedLanguagesResult:
         # pylint: disable=line-too-long
         """Gets the set of languages currently supported by other operations of the Translator.
 
@@ -279,7 +285,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
          value is None.
         :paramtype client_trace_id: str
         :keyword scope: A comma-separated list of names defining the group of languages to return.
-         Allowed group names are: ``translation``\ , ``transliteration`` and ``dictionary``.
+         Allowed group names are: ``translation``\\ , ``transliteration`` and ``dictionary``.
          If no scope is given, then all groups are returned, which is equivalent to passing
          ``scope=translation,transliteration,dictionary``. To decide which set of supported languages
          is appropriate for your scenario, see the description of the `response object
@@ -301,8 +307,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
         :paramtype etag: str
         :keyword match_condition: The match condition to use upon the etag. Default value is None.
         :paramtype match_condition: ~azure.core.MatchConditions
-        :return: GetLanguagesResult. The GetLanguagesResult is compatible with MutableMapping
-        :rtype: ~azure.ai.translation.text.models.GetLanguagesResult
+        :return: GetSupportedLanguagesResult. The GetSupportedLanguagesResult is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.translation.text.models.GetSupportedLanguagesResult
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -314,6 +321,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                         "str": {
                             "dir": "str",  # Directionality, which is rtl for
                               right-to-left languages or ltr for left-to-right languages. Required.
+                              Known values are: "ltr" and "rtl".
                             "name": "str",  # Display name of the language in the locale
                               requested via Accept-Language header. Required.
                             "nativeName": "str",  # Display name of the language in the
@@ -324,7 +332,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                                       the target language. Required.
                                     "dir": "str",  # Directionality, which is rtl
                                       for right-to-left languages or ltr for left-to-right languages.
-                                      Required.
+                                      Required. Known values are: "ltr" and "rtl".
                                     "name": "str",  # Display name of the
                                       language in the locale requested via Accept-Language header.
                                       Required.
@@ -338,6 +346,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                         "str": {
                             "dir": "str",  # Directionality, which is rtl for
                               right-to-left languages or ltr for left-to-right languages. Required.
+                              Known values are: "ltr" and "rtl".
                             "name": "str",  # Display name of the language in the locale
                               requested via Accept-Language header. Required.
                             "nativeName": "str"  # Display name of the language in the
@@ -356,7 +365,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                                       script. Required.
                                     "dir": "str",  # Directionality, which is rtl
                                       for right-to-left languages or ltr for left-to-right languages.
-                                      Required.
+                                      Required. Known values are: "ltr" and "rtl".
                                     "name": "str",  # Display name of the script
                                       in the locale requested via Accept-Language header. Required.
                                     "nativeName": "str",  # Display name of the
@@ -367,7 +376,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                                               identifying the script. Required.
                                             "dir": "str",  #
                                               Directionality, which is rtl for right-to-left languages
-                                              or ltr for left-to-right languages. Required.
+                                              or ltr for left-to-right languages. Required. Known
+                                              values are: "ltr" and "rtl".
                                             "name": "str",  # Display
                                               name of the script in the locale requested via
                                               Accept-Language header. Required.
@@ -382,7 +392,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -399,9 +409,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.GetLanguagesResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.GetSupportedLanguagesResult] = kwargs.pop("cls", None)
 
-        _request = build_text_translation_get_languages_request(
+        _request = build_text_translation_get_supported_languages_request(
             client_trace_id=client_trace_id,
             scope=scope,
             accept_language=accept_language,
@@ -437,7 +447,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.GetLanguagesResult, response.json())
+            deserialized = _deserialize(_models.GetSupportedLanguagesResult, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -447,7 +457,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def translate(
         self,
-        request_body: List[_models.InputTextItem],
+        body: List[_models.InputTextItem],
         *,
         to: List[str],
         client_trace_id: Optional[str] = None,
@@ -470,8 +480,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Translate Text.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem]
+        :param body: Defines the content of the request. Required.
+        :type body: list[~azure.ai.translation.text.models.InputTextItem]
         :keyword to: Specifies the language of the output text. The target language must be one of the
          supported languages included
          in the translation scope. For example, use to=de to translate to German.
@@ -555,7 +565,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
             .. code-block:: python
 
                 # JSON input template you can fill out and use as your body input.
-                request_body = [
+                body = [
                     {
                         "text": "str"  # Text to translate. Required.
                     }
@@ -623,7 +633,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def translate(
         self,
-        request_body: IO[bytes],
+        body: IO[bytes],
         *,
         to: List[str],
         client_trace_id: Optional[str] = None,
@@ -646,8 +656,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Translate Text.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: IO[bytes]
+        :param body: Defines the content of the request. Required.
+        :type body: IO[bytes]
         :keyword to: Specifies the language of the output text. The target language must be one of the
          supported languages included
          in the translation scope. For example, use to=de to translate to German.
@@ -792,7 +802,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @distributed_trace
     def translate(
         self,
-        request_body: Union[List[_models.InputTextItem], IO[bytes]],
+        body: Union[List[_models.InputTextItem], IO[bytes]],
         *,
         to: List[str],
         client_trace_id: Optional[str] = None,
@@ -814,9 +824,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Translate Text.
 
-        :param request_body: Defines the content of the request. Is either a [InputTextItem] type or a
+        :param body: Defines the content of the request. Is either a [InputTextItem] type or a
          IO[bytes] type. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
+        :type body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
         :keyword to: Specifies the language of the output text. The target language must be one of the
          supported languages included
          in the translation scope. For example, use to=de to translate to German.
@@ -954,7 +964,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -970,10 +980,10 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(request_body, (IOBase, bytes)):
-            _content = request_body
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
         else:
-            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_text_translation_translate_request(
             to=to,
@@ -1032,7 +1042,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def transliterate(
         self,
-        request_body: List[_models.InputTextItem],
+        body: List[_models.InputTextItem],
         *,
         language: str,
         from_script: str,
@@ -1045,8 +1055,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Transliterate Text.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem]
+        :param body: Defines the content of the request. Required.
+        :type body: list[~azure.ai.translation.text.models.InputTextItem]
         :keyword language: Specifies the language of the text to convert from one script to another.
          Possible languages are listed in the transliteration scope obtained by querying the service
          for its supported languages. Required.
@@ -1073,7 +1083,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
             .. code-block:: python
 
                 # JSON input template you can fill out and use as your body input.
-                request_body = [
+                body = [
                     {
                         "text": "str"  # Text to translate. Required.
                     }
@@ -1093,7 +1103,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def transliterate(
         self,
-        request_body: IO[bytes],
+        body: IO[bytes],
         *,
         language: str,
         from_script: str,
@@ -1106,8 +1116,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Transliterate Text.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: IO[bytes]
+        :param body: Defines the content of the request. Required.
+        :type body: IO[bytes]
         :keyword language: Specifies the language of the text to convert from one script to another.
          Possible languages are listed in the transliteration scope obtained by querying the service
          for its supported languages. Required.
@@ -1147,7 +1157,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @distributed_trace
     def transliterate(
         self,
-        request_body: Union[List[_models.InputTextItem], IO[bytes]],
+        body: Union[List[_models.InputTextItem], IO[bytes]],
         *,
         language: str,
         from_script: str,
@@ -1159,9 +1169,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Transliterate Text.
 
-        :param request_body: Defines the content of the request. Is either a [InputTextItem] type or a
+        :param body: Defines the content of the request. Is either a [InputTextItem] type or a
          IO[bytes] type. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
+        :type body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
         :keyword language: Specifies the language of the text to convert from one script to another.
          Possible languages are listed in the transliteration scope obtained by querying the service
          for its supported languages. Required.
@@ -1194,7 +1204,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1210,10 +1220,10 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(request_body, (IOBase, bytes)):
-            _content = request_body
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
         else:
-            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_text_translation_transliterate_request(
             language=language,
@@ -1261,7 +1271,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def find_sentence_boundaries(
         self,
-        request_body: List[_models.InputTextItem],
+        body: List[_models.InputTextItem],
         *,
         client_trace_id: Optional[str] = None,
         language: Optional[str] = None,
@@ -1274,8 +1284,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Find Sentence Boundaries.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem]
+        :param body: Defines the content of the request. Required.
+        :type body: list[~azure.ai.translation.text.models.InputTextItem]
         :keyword client_trace_id: A client-generated GUID to uniquely identify the request. Default
          value is None.
         :paramtype client_trace_id: str
@@ -1298,7 +1308,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
             .. code-block:: python
 
                 # JSON input template you can fill out and use as your body input.
-                request_body = [
+                body = [
                     {
                         "text": "str"  # Text to translate. Required.
                     }
@@ -1326,7 +1336,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def find_sentence_boundaries(
         self,
-        request_body: IO[bytes],
+        body: IO[bytes],
         *,
         client_trace_id: Optional[str] = None,
         language: Optional[str] = None,
@@ -1339,8 +1349,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Find Sentence Boundaries.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: IO[bytes]
+        :param body: Defines the content of the request. Required.
+        :type body: IO[bytes]
         :keyword client_trace_id: A client-generated GUID to uniquely identify the request. Default
          value is None.
         :paramtype client_trace_id: str
@@ -1384,7 +1394,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @distributed_trace
     def find_sentence_boundaries(
         self,
-        request_body: Union[List[_models.InputTextItem], IO[bytes]],
+        body: Union[List[_models.InputTextItem], IO[bytes]],
         *,
         client_trace_id: Optional[str] = None,
         language: Optional[str] = None,
@@ -1396,9 +1406,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Find Sentence Boundaries.
 
-        :param request_body: Defines the content of the request. Is either a [InputTextItem] type or a
+        :param body: Defines the content of the request. Is either a [InputTextItem] type or a
          IO[bytes] type. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
+        :type body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
         :keyword client_trace_id: A client-generated GUID to uniquely identify the request. Default
          value is None.
         :paramtype client_trace_id: str
@@ -1435,7 +1445,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1451,10 +1461,10 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(request_body, (IOBase, bytes)):
-            _content = request_body
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
         else:
-            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_text_translation_find_sentence_boundaries_request(
             client_trace_id=client_trace_id,
@@ -1501,7 +1511,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def lookup_dictionary_entries(
         self,
-        request_body: List[_models.InputTextItem],
+        body: List[_models.InputTextItem],
         *,
         from_parameter: str,
         to: str,
@@ -1514,8 +1524,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Lookup Dictionary Entries.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem]
+        :param body: Defines the content of the request. Required.
+        :type body: list[~azure.ai.translation.text.models.InputTextItem]
         :keyword from_parameter: Specifies the language of the input text.
          The source language must be one of the supported languages included in the dictionary scope.
          Required.
@@ -1538,7 +1548,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
             .. code-block:: python
 
                 # JSON input template you can fill out and use as your body input.
-                request_body = [
+                body = [
                     {
                         "text": "str"  # Text to translate. Required.
                     }
@@ -1616,7 +1626,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def lookup_dictionary_entries(
         self,
-        request_body: IO[bytes],
+        body: IO[bytes],
         *,
         from_parameter: str,
         to: str,
@@ -1629,8 +1639,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Lookup Dictionary Entries.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: IO[bytes]
+        :param body: Defines the content of the request. Required.
+        :type body: IO[bytes]
         :keyword from_parameter: Specifies the language of the input text.
          The source language must be one of the supported languages included in the dictionary scope.
          Required.
@@ -1724,7 +1734,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @distributed_trace
     def lookup_dictionary_entries(
         self,
-        request_body: Union[List[_models.InputTextItem], IO[bytes]],
+        body: Union[List[_models.InputTextItem], IO[bytes]],
         *,
         from_parameter: str,
         to: str,
@@ -1736,9 +1746,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Lookup Dictionary Entries.
 
-        :param request_body: Defines the content of the request. Is either a [InputTextItem] type or a
+        :param body: Defines the content of the request. Is either a [InputTextItem] type or a
          IO[bytes] type. Required.
-        :type request_body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
+        :type body: list[~azure.ai.translation.text.models.InputTextItem] or IO[bytes]
         :keyword from_parameter: Specifies the language of the input text.
          The source language must be one of the supported languages included in the dictionary scope.
          Required.
@@ -1825,7 +1835,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1841,10 +1851,10 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(request_body, (IOBase, bytes)):
-            _content = request_body
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
         else:
-            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_text_translation_lookup_dictionary_entries_request(
             from_parameter=from_parameter,
@@ -1891,7 +1901,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def lookup_dictionary_examples(
         self,
-        request_body: List[_models.DictionaryExampleTextItem],
+        body: List[_models.DictionaryExampleTextItem],
         *,
         from_parameter: str,
         to: str,
@@ -1904,8 +1914,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Lookup Dictionary Examples.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: list[~azure.ai.translation.text.models.DictionaryExampleTextItem]
+        :param body: Defines the content of the request. Required.
+        :type body: list[~azure.ai.translation.text.models.DictionaryExampleTextItem]
         :keyword from_parameter: Specifies the language of the input text.
          The source language must be one of the supported languages included in the dictionary scope.
          Required.
@@ -1928,7 +1938,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
             .. code-block:: python
 
                 # JSON input template you can fill out and use as your body input.
-                request_body = [
+                body = [
                     {
                         "text": "str",  # Text to translate. Required.
                         "translation": "str"  # A string specifying the translated text
@@ -1978,7 +1988,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @overload
     def lookup_dictionary_examples(
         self,
-        request_body: IO[bytes],
+        body: IO[bytes],
         *,
         from_parameter: str,
         to: str,
@@ -1991,8 +2001,8 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Lookup Dictionary Examples.
 
-        :param request_body: Defines the content of the request. Required.
-        :type request_body: IO[bytes]
+        :param body: Defines the content of the request. Required.
+        :type body: IO[bytes]
         :keyword from_parameter: Specifies the language of the input text.
          The source language must be one of the supported languages included in the dictionary scope.
          Required.
@@ -2053,7 +2063,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
     @distributed_trace
     def lookup_dictionary_examples(
         self,
-        request_body: Union[List[_models.DictionaryExampleTextItem], IO[bytes]],
+        body: Union[List[_models.DictionaryExampleTextItem], IO[bytes]],
         *,
         from_parameter: str,
         to: str,
@@ -2065,10 +2075,9 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         Lookup Dictionary Examples.
 
-        :param request_body: Defines the content of the request. Is either a
-         [DictionaryExampleTextItem] type or a IO[bytes] type. Required.
-        :type request_body: list[~azure.ai.translation.text.models.DictionaryExampleTextItem] or
-         IO[bytes]
+        :param body: Defines the content of the request. Is either a [DictionaryExampleTextItem] type
+         or a IO[bytes] type. Required.
+        :type body: list[~azure.ai.translation.text.models.DictionaryExampleTextItem] or IO[bytes]
         :keyword from_parameter: Specifies the language of the input text.
          The source language must be one of the supported languages included in the dictionary scope.
          Required.
@@ -2122,7 +2131,7 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
                     }
                 ]
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2138,10 +2147,10 @@ class TextTranslationClientOperationsMixin(TextTranslationClientMixinABC):
 
         content_type = content_type or "application/json"
         _content = None
-        if isinstance(request_body, (IOBase, bytes)):
-            _content = request_body
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
         else:
-            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_text_translation_lookup_dictionary_examples_request(
             from_parameter=from_parameter,
