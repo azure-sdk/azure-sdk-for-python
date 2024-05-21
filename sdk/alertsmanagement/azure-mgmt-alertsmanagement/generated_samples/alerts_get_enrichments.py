@@ -6,21 +6,16 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import TYPE_CHECKING, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
-if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
-    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python alerts_summary.py
+    python alerts_get_enrichments.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -35,13 +30,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.alerts.get_summary(
-        scope="subscriptions/1e3ff1c0-771a-4119-a03b-be82a51e232d",
-        groupby="severity,alertState",
+    response = client.alerts.get_enrichments(
+        scope="subscriptions/72fa99ef-9c84-4a7c-b343-ec62da107d81",
+        alert_id="66114d64-d9d9-478b-95c9-b789d6502101",
     )
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/Alerts_Summary.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/Alerts_GetEnrichments.json
 if __name__ == "__main__":
     main()
