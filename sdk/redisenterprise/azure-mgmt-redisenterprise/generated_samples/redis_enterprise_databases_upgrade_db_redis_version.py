@@ -15,7 +15,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
     pip install azure-identity
     pip install azure-mgmt-redisenterprise
 # USAGE
-    python operations_status_get.py
+    python redis_enterprise_databases_upgrade_db_redis_version.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.operations_status.get(
-        location="West US",
-        operation_id="testoperationid",
-    )
-    print(response)
+    client.databases.begin_upgrade_db_redis_version(
+        resource_group_name="rg1",
+        cluster_name="cache1",
+        database_name="default",
+    ).result()
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-06-01-preview/examples/OperationsStatusGet.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-06-01-preview/examples/RedisEnterpriseDatabasesUpgradeDBRedisVersion.json
 if __name__ == "__main__":
     main()

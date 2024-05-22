@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
     pip install azure-identity
     pip install azure-mgmt-redisenterprise
 # USAGE
-    python operations_status_get.py
+    python redis_enterprise_databases_force_link.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +29,27 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
 def main():
     client = RedisEnterpriseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.operations_status.get(
-        location="West US",
-        operation_id="testoperationid",
-    )
-    print(response)
+    client.databases.begin_force_link_to_replication_group(
+        resource_group_name="rg1",
+        cluster_name="cache1",
+        database_name="default",
+        parameters={
+            "groupNickname": "groupName",
+            "linkedDatabases": [
+                {
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default"
+                },
+                {
+                    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"
+                },
+            ],
+        },
+    ).result()
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-06-01-preview/examples/OperationsStatusGet.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-06-01-preview/examples/RedisEnterpriseDatabasesForceLink.json
 if __name__ == "__main__":
     main()
