@@ -170,13 +170,7 @@ class TextTranslationClient(ServiceClientGenerated):
     ): ...
 
     @overload
-    def __init__(
-        self,
-        *,
-        endpoint: str,
-        api_version="3.0",
-        **kwargs
-    ): ...
+    def __init__(self, *, endpoint: str, api_version="3.0", **kwargs): ...
 
     def __init__(self, **kwargs):
         api_version = kwargs.get("api_version", "3.0")
