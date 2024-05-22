@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
+from typing import Any, Callable, Dict, Iterable, Optional, Type, TypeVar
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -28,12 +28,12 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -47,7 +47,7 @@ def build_list_by_billing_profile_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -60,7 +60,7 @@ def build_list_by_billing_profile_request(
         "billingProfileId": _SERIALIZER.url("billing_profile_id", billing_profile_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -77,7 +77,7 @@ def build_list_by_billing_account_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -89,7 +89,7 @@ def build_list_by_billing_account_request(
         "billingAccountId": _SERIALIZER.url("billing_account_id", billing_account_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -108,7 +108,7 @@ def build_list_by_customer_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -121,7 +121,7 @@ def build_list_by_customer_request(
         "customerId": _SERIALIZER.url("customer_id", customer_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -160,11 +160,13 @@ class LotsOperations:
         """Lists all Azure credits for a billing account or a billing profile. The API is only supported
         for Microsoft Customer Agreements (MCA) billing accounts.
 
+        .. seealso::
+           - https://docs.microsoft.com/en-us/rest/api/consumption/
+
         :param billing_account_id: BillingAccount ID. Required.
         :type billing_account_id: str
         :param billing_profile_id: Azure Billing Profile ID. Required.
         :type billing_profile_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either LotSummary or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.consumption.models.LotSummary]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -172,12 +174,10 @@ class LotsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-10-01"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Lots] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -188,16 +188,15 @@ class LotsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_billing_profile_request(
+                _request = build_list_by_billing_profile_request(
                     billing_account_id=billing_account_id,
                     billing_profile_id=billing_profile_id,
                     api_version=api_version,
-                    template_url=self.list_by_billing_profile.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -209,13 +208,13 @@ class LotsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("Lots", pipeline_response)
@@ -225,10 +224,11 @@ class LotsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -240,10 +240,6 @@ class LotsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_billing_profile.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/lots"
-    }
 
     @distributed_trace
     def list_by_billing_account(
@@ -253,6 +249,9 @@ class LotsOperations:
         supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing
         accounts.
 
+        .. seealso::
+           - https://docs.microsoft.com/en-us/rest/api/consumption/
+
         :param billing_account_id: BillingAccount ID. Required.
         :type billing_account_id: str
         :param filter: May be used to filter the lots by Status, Source etc. The filter supports 'eq',
@@ -260,7 +259,6 @@ class LotsOperations:
          filter is a key value pair string where key and value is separated by a colon (:). Default
          value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either LotSummary or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.consumption.models.LotSummary]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -268,12 +266,10 @@ class LotsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-10-01"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Lots] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -284,16 +280,15 @@ class LotsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_billing_account_request(
+                _request = build_list_by_billing_account_request(
                     billing_account_id=billing_account_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_billing_account.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -305,13 +300,13 @@ class LotsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("Lots", pipeline_response)
@@ -321,10 +316,11 @@ class LotsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -337,16 +333,15 @@ class LotsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_billing_account.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/lots"
-    }
-
     @distributed_trace
     def list_by_customer(
         self, billing_account_id: str, customer_id: str, filter: Optional[str] = None, **kwargs: Any
     ) -> Iterable["_models.LotSummary"]:
         """Lists all Azure credits for a customer. The API is only supported for Microsoft Partner
         Agreements (MPA) billing accounts.
+
+        .. seealso::
+           - https://docs.microsoft.com/en-us/rest/api/consumption/
 
         :param billing_account_id: BillingAccount ID. Required.
         :type billing_account_id: str
@@ -356,7 +351,6 @@ class LotsOperations:
          'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is
          separated by a colon (:). Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either LotSummary or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.consumption.models.LotSummary]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -364,12 +358,10 @@ class LotsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-10-01"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Lots] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -380,17 +372,16 @@ class LotsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_customer_request(
+                _request = build_list_by_customer_request(
                     billing_account_id=billing_account_id,
                     customer_id=customer_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_customer.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -402,13 +393,13 @@ class LotsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("Lots", pipeline_response)
@@ -418,10 +409,11 @@ class LotsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -433,7 +425,3 @@ class LotsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_customer.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}/providers/Microsoft.Consumption/lots"
-    }
