@@ -17,7 +17,7 @@ from azure.mgmt.redis import RedisManagementClient
     pip install azure-identity
     pip install azure-mgmt-redis
 # USAGE
-    python redis_cache_create_latest_version.py
+    python redis_cache_create_automatic_zonal_allocation_policy.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -36,24 +36,23 @@ def main():
         resource_group_name="rg1",
         name="cache1",
         parameters={
-            "location": "West US",
+            "location": "East US",
             "properties": {
                 "enableNonSslPort": True,
                 "minimumTlsVersion": "1.2",
                 "redisConfiguration": {"maxmemory-policy": "allkeys-lru"},
-                "redisVersion": "Latest",
                 "replicasPerPrimary": 2,
                 "shardCount": 2,
                 "sku": {"capacity": 1, "family": "P", "name": "Premium"},
                 "staticIP": "192.168.0.5",
                 "subnetId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+                "zonalAllocationPolicy": "Automatic",
             },
-            "zones": ["1"],
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2024-04-01-preview/examples/RedisCacheCreateLatestVersion.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2024-04-01-preview/examples/RedisCacheCreateAutomaticZonalAllocationPolicy.json
 if __name__ == "__main__":
     main()
