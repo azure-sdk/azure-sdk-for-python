@@ -6,21 +6,16 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import TYPE_CHECKING, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
-if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
-    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python alerts_summary.py
+    python alert_rule_recommendations_get_by_subscription_vm.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,16 +27,16 @@ if TYPE_CHECKING:
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="2f00cc51-6809-498f-9ffc-48c42aff570d",
     )
 
-    response = client.alerts.get_summary(
-        scope="subscriptions/1e3ff1c0-771a-4119-a03b-be82a51e232d",
-        groupby="severity,alertState",
+    response = client.alert_rule_recommendations.list_by_target_type(
+        target_type="microsoft.compute/virtualmachines",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/Alerts_Summary.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-08-01-preview/examples/AlertRuleRecommendations_GetBySubscription_VM.json
 if __name__ == "__main__":
     main()
