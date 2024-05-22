@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar, Union
+from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar, Union
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -34,10 +34,10 @@ from ...operations._reservations_summaries_operations import (
     build_list_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -69,7 +69,12 @@ class ReservationsSummariesOperations:
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.ReservationSummary"]:
-        """Lists the reservations summaries for daily or monthly grain.
+        """Lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit
+        of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such
+        cases, API call should be made with smaller date ranges.
+
+        .. seealso::
+           - https://docs.microsoft.com/en-us/rest/api/consumption/
 
         :param reservation_order_id: Order Id of the reservation. Required.
         :type reservation_order_id: str
@@ -78,7 +83,6 @@ class ReservationsSummariesOperations:
         :param filter: Required only for daily grain. The properties/UsageDate for start date and end
          date. The filter supports 'le' and  'ge'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ReservationSummary or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.consumption.models.ReservationSummary]
@@ -87,12 +91,10 @@ class ReservationsSummariesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-10-01"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ReservationSummariesListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -103,17 +105,16 @@ class ReservationsSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_reservation_order_request(
+                _request = build_list_by_reservation_order_request(
                     reservation_order_id=reservation_order_id,
                     grain=grain,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_reservation_order.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -125,13 +126,13 @@ class ReservationsSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ReservationSummariesListResult", pipeline_response)
@@ -141,10 +142,11 @@ class ReservationsSummariesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -157,12 +159,8 @@ class ReservationsSummariesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_reservation_order.metadata = {
-        "url": "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationSummaries"
-    }
-
     @distributed_trace
-    def list_by_reservation_order_and_reservation(
+    def list_by_reservation_order_and_reservation(  # pylint: disable=name-too-long
         self,
         reservation_order_id: str,
         reservation_id: str,
@@ -170,7 +168,12 @@ class ReservationsSummariesOperations:
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.ReservationSummary"]:
-        """Lists the reservations summaries for daily or monthly grain.
+        """Lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit
+        of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such
+        cases, API call should be made with smaller date ranges.
+
+        .. seealso::
+           - https://docs.microsoft.com/en-us/rest/api/consumption/
 
         :param reservation_order_id: Order Id of the reservation. Required.
         :type reservation_order_id: str
@@ -181,7 +184,6 @@ class ReservationsSummariesOperations:
         :param filter: Required only for daily grain. The properties/UsageDate for start date and end
          date. The filter supports 'le' and  'ge'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ReservationSummary or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.consumption.models.ReservationSummary]
@@ -190,12 +192,10 @@ class ReservationsSummariesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-10-01"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ReservationSummariesListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -206,18 +206,17 @@ class ReservationsSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_reservation_order_and_reservation_request(
+                _request = build_list_by_reservation_order_and_reservation_request(
                     reservation_order_id=reservation_order_id,
                     reservation_id=reservation_id,
                     grain=grain,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_reservation_order_and_reservation.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -229,13 +228,13 @@ class ReservationsSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ReservationSummariesListResult", pipeline_response)
@@ -245,10 +244,11 @@ class ReservationsSummariesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -260,10 +260,6 @@ class ReservationsSummariesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_reservation_order_and_reservation.metadata = {
-        "url": "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries"
-    }
 
     @distributed_trace
     def list(
@@ -277,7 +273,12 @@ class ReservationsSummariesOperations:
         reservation_order_id: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.ReservationSummary"]:
-        """Lists the reservations summaries for the defined scope daily or monthly grain.
+        """Lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a
+        payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM
+        limit. In such cases, API call should be made with smaller date ranges.
+
+        .. seealso::
+           - https://docs.microsoft.com/en-us/rest/api/consumption/
 
         :param resource_scope: The scope associated with reservations summaries operations. This
          includes '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount
@@ -303,7 +304,6 @@ class ReservationsSummariesOperations:
         :param reservation_order_id: Reservation Order Id GUID. Required if reservationId is provided.
          Filter to a specific reservation order. Default value is None.
         :type reservation_order_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ReservationSummary or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.consumption.models.ReservationSummary]
@@ -312,12 +312,10 @@ class ReservationsSummariesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-10-01"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ReservationSummariesListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -328,7 +326,7 @@ class ReservationsSummariesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_scope=resource_scope,
                     grain=grain,
                     start_date=start_date,
@@ -337,12 +335,11 @@ class ReservationsSummariesOperations:
                     reservation_id=reservation_id,
                     reservation_order_id=reservation_order_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -354,13 +351,13 @@ class ReservationsSummariesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ReservationSummariesListResult", pipeline_response)
@@ -370,10 +367,11 @@ class ReservationsSummariesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -385,5 +383,3 @@ class ReservationsSummariesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries"}
