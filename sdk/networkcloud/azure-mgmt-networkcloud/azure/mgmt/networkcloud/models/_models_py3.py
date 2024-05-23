@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class AadConfiguration(_serialization.Model):
     """AadConfiguration represents the Azure Active Directory Integration properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar admin_group_object_ids: The list of Azure Active Directory group object IDs that will
      have an administrative role on the Kubernetes cluster. Required.
@@ -49,7 +49,7 @@ class AdministrativeCredentials(_serialization.Model):
     """AdministrativeCredentials represents the admin credentials for the device requiring
     password-based authentication.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar password: The password of the administrator of the device used during initialization.
      Required.
@@ -123,10 +123,33 @@ class AdministratorConfiguration(_serialization.Model):
         self.ssh_public_keys = ssh_public_keys
 
 
+class AdministratorConfigurationPatch(_serialization.Model):
+    """AdministratorConfigurationPatch represents the patching capabilities for the administrator
+    configuration.
+
+    :ivar ssh_public_keys: SshPublicKey represents the public key used to authenticate with a
+     resource through SSH.
+    :vartype ssh_public_keys: list[~azure.mgmt.networkcloud.models.SshPublicKey]
+    """
+
+    _attribute_map = {
+        "ssh_public_keys": {"key": "sshPublicKeys", "type": "[SshPublicKey]"},
+    }
+
+    def __init__(self, *, ssh_public_keys: Optional[List["_models.SshPublicKey"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword ssh_public_keys: SshPublicKey represents the public key used to authenticate with a
+         resource through SSH.
+        :paramtype ssh_public_keys: list[~azure.mgmt.networkcloud.models.SshPublicKey]
+        """
+        super().__init__(**kwargs)
+        self.ssh_public_keys = ssh_public_keys
+
+
 class AgentOptions(_serialization.Model):
     """AgentOptions are configurations that will be applied to each agent in an agent pool.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar hugepages_count: The number of hugepages to allocate. Required.
     :vartype hugepages_count: int
@@ -164,7 +187,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -205,10 +228,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -258,10 +281,10 @@ class AgentPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -444,7 +467,7 @@ class AgentPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
 class AgentPoolConfiguration(_serialization.Model):
     """AgentPoolConfiguration specifies the configuration of a pool of nodes.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar administrator_configuration: The administrator credentials to be used for the nodes in
      this agent pool.
@@ -597,6 +620,10 @@ class AgentPoolPatchParameters(_serialization.Model):
 
     :ivar tags: The Azure resource tags that will replace the existing ones.
     :vartype tags: dict[str, str]
+    :ivar administrator_configuration: The configuration of administrator credentials for the
+     control plane nodes.
+    :vartype administrator_configuration:
+     ~azure.mgmt.networkcloud.models.NodePoolAdministratorConfigurationPatch
     :ivar count: The number of virtual machines that use this configuration.
     :vartype count: int
     :ivar upgrade_settings: The configuration of the agent pool.
@@ -605,6 +632,10 @@ class AgentPoolPatchParameters(_serialization.Model):
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "administrator_configuration": {
+            "key": "properties.administratorConfiguration",
+            "type": "NodePoolAdministratorConfigurationPatch",
+        },
         "count": {"key": "properties.count", "type": "int"},
         "upgrade_settings": {"key": "properties.upgradeSettings", "type": "AgentPoolUpgradeSettings"},
     }
@@ -613,6 +644,7 @@ class AgentPoolPatchParameters(_serialization.Model):
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
+        administrator_configuration: Optional["_models.NodePoolAdministratorConfigurationPatch"] = None,
         count: Optional[int] = None,
         upgrade_settings: Optional["_models.AgentPoolUpgradeSettings"] = None,
         **kwargs: Any
@@ -620,6 +652,10 @@ class AgentPoolPatchParameters(_serialization.Model):
         """
         :keyword tags: The Azure resource tags that will replace the existing ones.
         :paramtype tags: dict[str, str]
+        :keyword administrator_configuration: The configuration of administrator credentials for the
+         control plane nodes.
+        :paramtype administrator_configuration:
+         ~azure.mgmt.networkcloud.models.NodePoolAdministratorConfigurationPatch
         :keyword count: The number of virtual machines that use this configuration.
         :paramtype count: int
         :keyword upgrade_settings: The configuration of the agent pool.
@@ -627,6 +663,7 @@ class AgentPoolPatchParameters(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.tags = tags
+        self.administrator_configuration = administrator_configuration
         self.count = count
         self.upgrade_settings = upgrade_settings
 
@@ -733,10 +770,10 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -795,6 +832,9 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
     :vartype machine_details: str
     :ivar machine_name: The OS-level hostname assigned to this machine. Required.
     :vartype machine_name: str
+    :ivar machine_roles: The list of roles that are assigned to the cluster node running on this
+     machine.
+    :vartype machine_roles: list[str]
     :ivar machine_sku_id: The unique internal identifier of the bare metal machine SKU. Required.
     :vartype machine_sku_id: str
     :ivar oam_ipv4_address: The IPv4 address that is assigned to the bare metal machine during the
@@ -820,6 +860,8 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
     :ivar ready_state: The indicator of whether the bare metal machine is ready to receive
      workloads. Known values are: "True" and "False".
     :vartype ready_state: str or ~azure.mgmt.networkcloud.models.BareMetalMachineReadyState
+    :ivar runtime_protection_status: The runtime protection status of the bare metal machine.
+    :vartype runtime_protection_status: ~azure.mgmt.networkcloud.models.RuntimeProtectionStatus
     :ivar serial_number: The serial number of the bare metal machine. Required.
     :vartype serial_number: str
     :ivar service_tag: The discovered value of the machine's service tag.
@@ -853,6 +895,7 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
         "kubernetes_version": {"readonly": True},
         "machine_details": {"required": True, "max_length": 256},
         "machine_name": {"required": True, "pattern": r"^([a-zA-Z0-9][a-zA-Z0-9]{0,62}[a-zA-Z0-9])$"},
+        "machine_roles": {"readonly": True},
         "machine_sku_id": {"required": True},
         "oam_ipv4_address": {"readonly": True},
         "oam_ipv6_address": {"readonly": True},
@@ -862,6 +905,7 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
         "rack_id": {"required": True},
         "rack_slot": {"required": True, "maximum": 256, "minimum": 1},
         "ready_state": {"readonly": True},
+        "runtime_protection_status": {"readonly": True},
         "serial_number": {"required": True, "max_length": 64, "min_length": 1},
         "service_tag": {"readonly": True},
         "virtual_machines_associated_ids": {"readonly": True},
@@ -894,6 +938,7 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
         "kubernetes_version": {"key": "properties.kubernetesVersion", "type": "str"},
         "machine_details": {"key": "properties.machineDetails", "type": "str"},
         "machine_name": {"key": "properties.machineName", "type": "str"},
+        "machine_roles": {"key": "properties.machineRoles", "type": "[str]"},
         "machine_sku_id": {"key": "properties.machineSkuId", "type": "str"},
         "oam_ipv4_address": {"key": "properties.oamIpv4Address", "type": "str"},
         "oam_ipv6_address": {"key": "properties.oamIpv6Address", "type": "str"},
@@ -903,6 +948,7 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
         "rack_id": {"key": "properties.rackId", "type": "str"},
         "rack_slot": {"key": "properties.rackSlot", "type": "int"},
         "ready_state": {"key": "properties.readyState", "type": "str"},
+        "runtime_protection_status": {"key": "properties.runtimeProtectionStatus", "type": "RuntimeProtectionStatus"},
         "serial_number": {"key": "properties.serialNumber", "type": "str"},
         "service_tag": {"key": "properties.serviceTag", "type": "str"},
         "virtual_machines_associated_ids": {"key": "properties.virtualMachinesAssociatedIds", "type": "[str]"},
@@ -977,6 +1023,7 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
         self.kubernetes_version = None
         self.machine_details = machine_details
         self.machine_name = machine_name
+        self.machine_roles = None
         self.machine_sku_id = machine_sku_id
         self.oam_ipv4_address = None
         self.oam_ipv6_address = None
@@ -986,6 +1033,7 @@ class BareMetalMachine(TrackedResource):  # pylint: disable=too-many-instance-at
         self.rack_id = rack_id
         self.rack_slot = rack_slot
         self.ready_state = None
+        self.runtime_protection_status = None
         self.serial_number = serial_number
         self.service_tag = None
         self.virtual_machines_associated_ids = None
@@ -995,7 +1043,7 @@ class BareMetalMachineCommandSpecification(_serialization.Model):
     """BareMetalMachineCommandSpecification represents the command and optional arguments to exercise
     against the bare metal machine.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar arguments: The list of string arguments that will be passed to the script in order as
      separate arguments.
@@ -1031,7 +1079,7 @@ class BareMetalMachineConfigurationData(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar bmc_connection_string: The connection string for the baseboard management controller
      including IP address and protocol.
@@ -1153,10 +1201,10 @@ class BareMetalMachineKeySet(TrackedResource):  # pylint: disable=too-many-insta
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1550,7 +1598,7 @@ class BareMetalMachineRunCommandParameters(_serialization.Model):
     """BareMetalMachineRunCommandParameters represents the body of the request to execute a script on
     the bare metal machine.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar arguments: The list of string arguments that will be passed to the script in order as
      separate arguments.
@@ -1596,11 +1644,11 @@ class BareMetalMachineRunCommandParameters(_serialization.Model):
         self.script = script
 
 
-class BareMetalMachineRunDataExtractsParameters(_serialization.Model):
+class BareMetalMachineRunDataExtractsParameters(_serialization.Model):  # pylint: disable=name-too-long
     """BareMetalMachineRunDataExtractsParameters represents the body of request containing list of
     curated data extraction commands to run on the bare metal machine.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar commands: The list of curated data extraction commands to be executed directly against
      the target machine. Required.
@@ -1640,11 +1688,11 @@ class BareMetalMachineRunDataExtractsParameters(_serialization.Model):
         self.limit_time_seconds = limit_time_seconds
 
 
-class BareMetalMachineRunReadCommandsParameters(_serialization.Model):
+class BareMetalMachineRunReadCommandsParameters(_serialization.Model):  # pylint: disable=name-too-long
     """BareMetalMachineRunReadCommandsParameters represents the body of request containing list of
     read-only commands to run on the bare metal machine.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar commands: The list of read-only commands to be executed directly against the target
      machine. Required.
@@ -1687,7 +1735,7 @@ class BareMetalMachineRunReadCommandsParameters(_serialization.Model):
 class BgpAdvertisement(_serialization.Model):
     """BgpAdvertisement represents the association of IP address pools to the communities and peers.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar advertise_to_fabric: The indicator of if this advertisement is also made to the network
      fabric associated with the Network Cloud Cluster. This field is ignored if fabricPeeringEnabled
@@ -1806,10 +1854,10 @@ class BmcKeySet(TrackedResource):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2015,10 +2063,10 @@ class CloudServicesNetwork(TrackedResource):  # pylint: disable=too-many-instanc
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2241,10 +2289,10 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2275,7 +2323,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar cluster_capacity: The capacity supported by this cluster.
     :vartype cluster_capacity: ~azure.mgmt.networkcloud.models.ClusterCapacity
     :ivar cluster_connection_status: The latest heartbeat status between the cluster manager and
-     the cluster. Known values are: "Connected", "Timeout", and "Undefined".
+     the cluster. Known values are: "Connected", "Disconnected", "Timeout", and "Undefined".
     :vartype cluster_connection_status: str or
      ~azure.mgmt.networkcloud.models.ClusterConnectionStatus
     :ivar cluster_extended_location: The extended location (custom location) that represents the
@@ -2331,8 +2379,16 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar provisioning_state: The provisioning state of the cluster. Known values are: "Succeeded",
      "Failed", "Canceled", "Accepted", "Validating", and "Updating".
     :vartype provisioning_state: str or ~azure.mgmt.networkcloud.models.ClusterProvisioningState
+    :ivar runtime_protection_configuration: The settings for cluster runtime protection.
+    :vartype runtime_protection_configuration:
+     ~azure.mgmt.networkcloud.models.RuntimeProtectionConfiguration
+    :ivar secret_archive: The configuration for use of a key vault to store secrets for later
+     retrieval by the operator.
+    :vartype secret_archive: ~azure.mgmt.networkcloud.models.ClusterSecretArchive
     :ivar support_expiry_date: The support end date of the runtime version of the cluster.
     :vartype support_expiry_date: str
+    :ivar update_strategy: The strategy for updating the cluster.
+    :vartype update_strategy: ~azure.mgmt.networkcloud.models.ClusterUpdateStrategy
     :ivar workload_resource_ids: The list of workload resource IDs that are hosted within this
      cluster.
     :vartype workload_resource_ids: list[str]
@@ -2406,7 +2462,13 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "manual_action_count": {"key": "properties.manualActionCount", "type": "int"},
         "network_fabric_id": {"key": "properties.networkFabricId", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "runtime_protection_configuration": {
+            "key": "properties.runtimeProtectionConfiguration",
+            "type": "RuntimeProtectionConfiguration",
+        },
+        "secret_archive": {"key": "properties.secretArchive", "type": "ClusterSecretArchive"},
         "support_expiry_date": {"key": "properties.supportExpiryDate", "type": "str"},
+        "update_strategy": {"key": "properties.updateStrategy", "type": "ClusterUpdateStrategy"},
         "workload_resource_ids": {"key": "properties.workloadResourceIds", "type": "[str]"},
     }
 
@@ -2426,6 +2488,9 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         compute_deployment_threshold: Optional["_models.ValidationThreshold"] = None,
         compute_rack_definitions: Optional[List["_models.RackDefinition"]] = None,
         managed_resource_group_configuration: Optional["_models.ManagedResourceGroupConfiguration"] = None,
+        runtime_protection_configuration: Optional["_models.RuntimeProtectionConfiguration"] = None,
+        secret_archive: Optional["_models.ClusterSecretArchive"] = None,
+        update_strategy: Optional["_models.ClusterUpdateStrategy"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2469,6 +2534,14 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword network_fabric_id: The resource ID of the Network Fabric associated with the cluster.
          Required.
         :paramtype network_fabric_id: str
+        :keyword runtime_protection_configuration: The settings for cluster runtime protection.
+        :paramtype runtime_protection_configuration:
+         ~azure.mgmt.networkcloud.models.RuntimeProtectionConfiguration
+        :keyword secret_archive: The configuration for use of a key vault to store secrets for later
+         retrieval by the operator.
+        :paramtype secret_archive: ~azure.mgmt.networkcloud.models.ClusterSecretArchive
+        :keyword update_strategy: The strategy for updating the cluster.
+        :paramtype update_strategy: ~azure.mgmt.networkcloud.models.ClusterUpdateStrategy
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.extended_location = extended_location
@@ -2493,7 +2566,10 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.manual_action_count = None
         self.network_fabric_id = network_fabric_id
         self.provisioning_state = None
+        self.runtime_protection_configuration = runtime_protection_configuration
+        self.secret_archive = secret_archive
         self.support_expiry_date = None
+        self.update_strategy = update_strategy
         self.workload_resource_ids = None
 
 
@@ -2720,10 +2796,10 @@ class ClusterManager(TrackedResource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2914,10 +2990,10 @@ class ClusterMetricsConfiguration(TrackedResource):  # pylint: disable=too-many-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3052,7 +3128,7 @@ class ClusterMetricsConfigurationList(_serialization.Model):
         self.value = value
 
 
-class ClusterMetricsConfigurationPatchParameters(_serialization.Model):
+class ClusterMetricsConfigurationPatchParameters(_serialization.Model):  # pylint: disable=name-too-long
     """ClusterMetricsConfigurationPatchParameters represents the body of the request to patch the
     metrics configuration of cluster.
 
@@ -3119,6 +3195,14 @@ class ClusterPatchParameters(_serialization.Model):
      multi-rack
      cluster, or an empty list in a single-rack cluster.
     :vartype compute_rack_definitions: list[~azure.mgmt.networkcloud.models.RackDefinition]
+    :ivar runtime_protection_configuration: The settings for cluster runtime protection.
+    :vartype runtime_protection_configuration:
+     ~azure.mgmt.networkcloud.models.RuntimeProtectionConfiguration
+    :ivar secret_archive: The configuration for use of a key vault to store secrets for later
+     retrieval by the operator.
+    :vartype secret_archive: ~azure.mgmt.networkcloud.models.ClusterSecretArchive
+    :ivar update_strategy: The strategy for updating the cluster.
+    :vartype update_strategy: ~azure.mgmt.networkcloud.models.ClusterUpdateStrategy
     """
 
     _attribute_map = {
@@ -3134,6 +3218,12 @@ class ClusterPatchParameters(_serialization.Model):
         },
         "compute_deployment_threshold": {"key": "properties.computeDeploymentThreshold", "type": "ValidationThreshold"},
         "compute_rack_definitions": {"key": "properties.computeRackDefinitions", "type": "[RackDefinition]"},
+        "runtime_protection_configuration": {
+            "key": "properties.runtimeProtectionConfiguration",
+            "type": "RuntimeProtectionConfiguration",
+        },
+        "secret_archive": {"key": "properties.secretArchive", "type": "ClusterSecretArchive"},
+        "update_strategy": {"key": "properties.updateStrategy", "type": "ClusterUpdateStrategy"},
     }
 
     def __init__(
@@ -3145,6 +3235,9 @@ class ClusterPatchParameters(_serialization.Model):
         cluster_service_principal: Optional["_models.ServicePrincipalInformation"] = None,
         compute_deployment_threshold: Optional["_models.ValidationThreshold"] = None,
         compute_rack_definitions: Optional[List["_models.RackDefinition"]] = None,
+        runtime_protection_configuration: Optional["_models.RuntimeProtectionConfiguration"] = None,
+        secret_archive: Optional["_models.ClusterSecretArchive"] = None,
+        update_strategy: Optional["_models.ClusterUpdateStrategy"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3167,6 +3260,14 @@ class ClusterPatchParameters(_serialization.Model):
          multi-rack
          cluster, or an empty list in a single-rack cluster.
         :paramtype compute_rack_definitions: list[~azure.mgmt.networkcloud.models.RackDefinition]
+        :keyword runtime_protection_configuration: The settings for cluster runtime protection.
+        :paramtype runtime_protection_configuration:
+         ~azure.mgmt.networkcloud.models.RuntimeProtectionConfiguration
+        :keyword secret_archive: The configuration for use of a key vault to store secrets for later
+         retrieval by the operator.
+        :paramtype secret_archive: ~azure.mgmt.networkcloud.models.ClusterSecretArchive
+        :keyword update_strategy: The strategy for updating the cluster.
+        :paramtype update_strategy: ~azure.mgmt.networkcloud.models.ClusterUpdateStrategy
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -3175,12 +3276,157 @@ class ClusterPatchParameters(_serialization.Model):
         self.cluster_service_principal = cluster_service_principal
         self.compute_deployment_threshold = compute_deployment_threshold
         self.compute_rack_definitions = compute_rack_definitions
+        self.runtime_protection_configuration = runtime_protection_configuration
+        self.secret_archive = secret_archive
+        self.update_strategy = update_strategy
+
+
+class ClusterScanRuntimeParameters(_serialization.Model):
+    """ClusterScanRuntimeParameters defines the parameters for the cluster scan runtime operation.
+
+    :ivar scan_activity: The choice of if the scan operation should run the scan. Known values are:
+     "Scan" and "Skip".
+    :vartype scan_activity: str or
+     ~azure.mgmt.networkcloud.models.ClusterScanRuntimeParametersScanActivity
+    """
+
+    _attribute_map = {
+        "scan_activity": {"key": "scanActivity", "type": "str"},
+    }
+
+    def __init__(
+        self, *, scan_activity: Union[str, "_models.ClusterScanRuntimeParametersScanActivity"] = "Scan", **kwargs: Any
+    ) -> None:
+        """
+        :keyword scan_activity: The choice of if the scan operation should run the scan. Known values
+         are: "Scan" and "Skip".
+        :paramtype scan_activity: str or
+         ~azure.mgmt.networkcloud.models.ClusterScanRuntimeParametersScanActivity
+        """
+        super().__init__(**kwargs)
+        self.scan_activity = scan_activity
+
+
+class ClusterSecretArchive(_serialization.Model):
+    """ClusterSecretArchive configures the key vault to archive the secrets of the cluster for later
+    retrieval.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar key_vault_id: The resource ID of the key vault to archive the secrets of the cluster.
+     Required.
+    :vartype key_vault_id: str
+    :ivar use_key_vault: The indicator if the specified key vault should be used to archive the
+     secrets of the cluster. Known values are: "True" and "False".
+    :vartype use_key_vault: str or ~azure.mgmt.networkcloud.models.ClusterSecretArchiveEnabled
+    """
+
+    _validation = {
+        "key_vault_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "key_vault_id": {"key": "keyVaultId", "type": "str"},
+        "use_key_vault": {"key": "useKeyVault", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        key_vault_id: str,
+        use_key_vault: Union[str, "_models.ClusterSecretArchiveEnabled"] = "False",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword key_vault_id: The resource ID of the key vault to archive the secrets of the cluster.
+         Required.
+        :paramtype key_vault_id: str
+        :keyword use_key_vault: The indicator if the specified key vault should be used to archive the
+         secrets of the cluster. Known values are: "True" and "False".
+        :paramtype use_key_vault: str or ~azure.mgmt.networkcloud.models.ClusterSecretArchiveEnabled
+        """
+        super().__init__(**kwargs)
+        self.key_vault_id = key_vault_id
+        self.use_key_vault = use_key_vault
+
+
+class ClusterUpdateStrategy(_serialization.Model):
+    """ClusterUpdateStrategy represents the strategy for updating the cluster.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar max_unavailable: The maximum number of worker nodes that can be offline within the
+     increment of update, e.g., rack-by-rack.
+     Limited by the maximum number of machines in the increment. Defaults to the whole increment
+     size.
+    :vartype max_unavailable: int
+    :ivar strategy_type: The mode of operation for runtime protection. Required. "Rack"
+    :vartype strategy_type: str or ~azure.mgmt.networkcloud.models.ClusterUpdateStrategyType
+    :ivar threshold_type: Selection of how the threshold should be evaluated. Required. Known
+     values are: "CountSuccess" and "PercentSuccess".
+    :vartype threshold_type: str or ~azure.mgmt.networkcloud.models.ValidationThresholdType
+    :ivar threshold_value: The numeric threshold value. Required.
+    :vartype threshold_value: int
+    :ivar wait_time_minutes: The time to wait between the increments of update defined by the
+     strategy.
+    :vartype wait_time_minutes: int
+    """
+
+    _validation = {
+        "max_unavailable": {"minimum": 1},
+        "strategy_type": {"required": True},
+        "threshold_type": {"required": True},
+        "threshold_value": {"required": True, "minimum": 0},
+        "wait_time_minutes": {"maximum": 60, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "max_unavailable": {"key": "maxUnavailable", "type": "int"},
+        "strategy_type": {"key": "strategyType", "type": "str"},
+        "threshold_type": {"key": "thresholdType", "type": "str"},
+        "threshold_value": {"key": "thresholdValue", "type": "int"},
+        "wait_time_minutes": {"key": "waitTimeMinutes", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        strategy_type: Union[str, "_models.ClusterUpdateStrategyType"],
+        threshold_type: Union[str, "_models.ValidationThresholdType"],
+        threshold_value: int,
+        max_unavailable: Optional[int] = None,
+        wait_time_minutes: int = 15,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword max_unavailable: The maximum number of worker nodes that can be offline within the
+         increment of update, e.g., rack-by-rack.
+         Limited by the maximum number of machines in the increment. Defaults to the whole increment
+         size.
+        :paramtype max_unavailable: int
+        :keyword strategy_type: The mode of operation for runtime protection. Required. "Rack"
+        :paramtype strategy_type: str or ~azure.mgmt.networkcloud.models.ClusterUpdateStrategyType
+        :keyword threshold_type: Selection of how the threshold should be evaluated. Required. Known
+         values are: "CountSuccess" and "PercentSuccess".
+        :paramtype threshold_type: str or ~azure.mgmt.networkcloud.models.ValidationThresholdType
+        :keyword threshold_value: The numeric threshold value. Required.
+        :paramtype threshold_value: int
+        :keyword wait_time_minutes: The time to wait between the increments of update defined by the
+         strategy.
+        :paramtype wait_time_minutes: int
+        """
+        super().__init__(**kwargs)
+        self.max_unavailable = max_unavailable
+        self.strategy_type = strategy_type
+        self.threshold_type = threshold_type
+        self.threshold_value = threshold_value
+        self.wait_time_minutes = wait_time_minutes
 
 
 class ClusterUpdateVersionParameters(_serialization.Model):
     """ClusterUpdateVersionParameters represents the body of the request to update cluster version.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar target_cluster_version: The version to be applied to the cluster during update. Required.
     :vartype target_cluster_version: str
@@ -3209,10 +3455,10 @@ class Console(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3360,8 +3606,8 @@ class ConsolePatchParameters(_serialization.Model):
 
     :ivar tags: The Azure resource tags that will replace the existing ones.
     :vartype tags: dict[str, str]
-    :ivar enabled: The credentials used to login to the image repository that has access to the
-     specified image. Known values are: "True" and "False".
+    :ivar enabled: The indicator of whether the console access is enabled. Known values are: "True"
+     and "False".
     :vartype enabled: str or ~azure.mgmt.networkcloud.models.ConsoleEnabled
     :ivar expiration: The date and time after which the key will be disallowed access.
     :vartype expiration: ~datetime.datetime
@@ -3389,8 +3635,8 @@ class ConsolePatchParameters(_serialization.Model):
         """
         :keyword tags: The Azure resource tags that will replace the existing ones.
         :paramtype tags: dict[str, str]
-        :keyword enabled: The credentials used to login to the image repository that has access to the
-         specified image. Known values are: "True" and "False".
+        :keyword enabled: The indicator of whether the console access is enabled. Known values are:
+         "True" and "False".
         :paramtype enabled: str or ~azure.mgmt.networkcloud.models.ConsoleEnabled
         :keyword expiration: The date and time after which the key will be disallowed access.
         :paramtype expiration: ~datetime.datetime
@@ -3409,7 +3655,7 @@ class ControlPlaneNodeConfiguration(_serialization.Model):
     """ControlPlaneNodeConfiguration represents the selection of virtual machines and size of the
     control plane for a Kubernetes cluster.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar administrator_configuration: The administrator credentials to be used for the nodes in
      the control plane.
@@ -3471,6 +3717,10 @@ class ControlPlaneNodePatchConfiguration(_serialization.Model):
     """ControlPlaneNodePatchConfiguration represents the properties of the control plane that can be
     patched for this Kubernetes cluster.
 
+    :ivar administrator_configuration: The configuration of administrator credentials for the
+     control plane nodes.
+    :vartype administrator_configuration:
+     ~azure.mgmt.networkcloud.models.AdministratorConfigurationPatch
     :ivar count: The number of virtual machines that use this configuration.
     :vartype count: int
     """
@@ -3480,15 +3730,27 @@ class ControlPlaneNodePatchConfiguration(_serialization.Model):
     }
 
     _attribute_map = {
+        "administrator_configuration": {"key": "administratorConfiguration", "type": "AdministratorConfigurationPatch"},
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        administrator_configuration: Optional["_models.AdministratorConfigurationPatch"] = None,
+        count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword administrator_configuration: The configuration of administrator credentials for the
+         control plane nodes.
+        :paramtype administrator_configuration:
+         ~azure.mgmt.networkcloud.models.AdministratorConfigurationPatch
         :keyword count: The number of virtual machines that use this configuration.
         :paramtype count: int
         """
         super().__init__(**kwargs)
+        self.administrator_configuration = administrator_configuration
         self.count = count
 
 
@@ -3496,7 +3758,7 @@ class EgressEndpoint(_serialization.Model):
     """EgressEndpoint represents the connection from a cloud services network to the specified
     endpoint for a common purpose.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: The descriptive category name of endpoints accessible by the AKS agent node.
      For example, azure-resource-management, API server, etc. The platform egress endpoints provided
@@ -3533,7 +3795,7 @@ class EgressEndpoint(_serialization.Model):
 class EndpointDependency(_serialization.Model):
     """EndpointDependency represents the definition of an endpoint, including the domain and details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar domain_name: The domain name of the dependency. Required.
     :vartype domain_name: str
@@ -3658,7 +3920,7 @@ class ErrorResponse(_serialization.Model):
 class ExtendedLocation(_serialization.Model):
     """ExtendedLocation represents the Azure custom location where the resource will be created.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The resource ID of the extended location on which the resource will be created.
      Required.
@@ -3815,8 +4077,7 @@ class HardwareValidationStatus(_serialization.Model):
 
     :ivar last_validation_time: The timestamp of the hardware validation execution.
     :vartype last_validation_time: ~datetime.datetime
-    :ivar result: The outcome of the hardware validation. Known values are: "Pass", "Fail", and
-     "Pass".
+    :ivar result: The outcome of the hardware validation. Known values are: "Pass" and "Fail".
     :vartype result: str or
      ~azure.mgmt.networkcloud.models.BareMetalMachineHardwareValidationResult
     """
@@ -3841,7 +4102,7 @@ class HardwareValidationStatus(_serialization.Model):
 class ImageRepositoryCredentials(_serialization.Model):
     """ImageRepositoryCredentials represents the credentials used to login to the image repository.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar password: The password or token used to access an image in the target repository.
      Required.
@@ -3886,7 +4147,7 @@ class InitialAgentPoolConfiguration(_serialization.Model):  # pylint: disable=to
     """InitialAgentPoolConfiguration specifies the configuration of a pool of virtual machines that
     are initially defined with a Kubernetes cluster.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar administrator_configuration: The administrator credentials to be used for the nodes in
      this agent pool.
@@ -4018,7 +4279,7 @@ class InitialAgentPoolConfiguration(_serialization.Model):  # pylint: disable=to
 class IpAddressPool(_serialization.Model):
     """IpAddressPool represents a pool of IP addresses that can be allocated to a service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar addresses: The list of IP address ranges. Each range can be a either a subnet in CIDR
      format or an explicit start-end range of IP addresses. Required.
@@ -4081,7 +4342,7 @@ class IpAddressPool(_serialization.Model):
 class KeySetUser(_serialization.Model):
     """KeySetUser represents the properties of the user in the key set.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar azure_user_name: The user name that will be used for access. Required.
     :vartype azure_user_name: str
@@ -4090,6 +4351,9 @@ class KeySetUser(_serialization.Model):
     :ivar ssh_public_key: The SSH public key that will be provisioned for user access. The user is
      expected to have the corresponding SSH private key for logging in. Required.
     :vartype ssh_public_key: ~azure.mgmt.networkcloud.models.SshPublicKey
+    :ivar user_principal_name: The user principal name (email format) used to validate this user's
+     group membership.
+    :vartype user_principal_name: str
     """
 
     _validation = {
@@ -4102,6 +4366,7 @@ class KeySetUser(_serialization.Model):
         "azure_user_name": {"key": "azureUserName", "type": "str"},
         "description": {"key": "description", "type": "str"},
         "ssh_public_key": {"key": "sshPublicKey", "type": "SshPublicKey"},
+        "user_principal_name": {"key": "userPrincipalName", "type": "str"},
     }
 
     def __init__(
@@ -4110,6 +4375,7 @@ class KeySetUser(_serialization.Model):
         azure_user_name: str,
         ssh_public_key: "_models.SshPublicKey",
         description: Optional[str] = None,
+        user_principal_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4120,11 +4386,15 @@ class KeySetUser(_serialization.Model):
         :keyword ssh_public_key: The SSH public key that will be provisioned for user access. The user
          is expected to have the corresponding SSH private key for logging in. Required.
         :paramtype ssh_public_key: ~azure.mgmt.networkcloud.models.SshPublicKey
+        :keyword user_principal_name: The user principal name (email format) used to validate this
+         user's group membership.
+        :paramtype user_principal_name: str
         """
         super().__init__(**kwargs)
         self.azure_user_name = azure_user_name
         self.description = description
         self.ssh_public_key = ssh_public_key
+        self.user_principal_name = user_principal_name
 
 
 class KeySetUserStatus(_serialization.Model):
@@ -4167,10 +4437,10 @@ class KubernetesCluster(TrackedResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4536,6 +4806,9 @@ class KubernetesClusterPatchParameters(_serialization.Model):
 
     :ivar tags: The Azure resource tags that will replace the existing ones.
     :vartype tags: dict[str, str]
+    :ivar administrator_configuration: The configuration of the default administrator credentials.
+    :vartype administrator_configuration:
+     ~azure.mgmt.networkcloud.models.AdministratorConfigurationPatch
     :ivar control_plane_node_configuration: The defining characteristics of the control plane that
      can be patched for this Kubernetes cluster.
     :vartype control_plane_node_configuration:
@@ -4548,6 +4821,10 @@ class KubernetesClusterPatchParameters(_serialization.Model):
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "administrator_configuration": {
+            "key": "properties.administratorConfiguration",
+            "type": "AdministratorConfigurationPatch",
+        },
         "control_plane_node_configuration": {
             "key": "properties.controlPlaneNodeConfiguration",
             "type": "ControlPlaneNodePatchConfiguration",
@@ -4559,6 +4836,7 @@ class KubernetesClusterPatchParameters(_serialization.Model):
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
+        administrator_configuration: Optional["_models.AdministratorConfigurationPatch"] = None,
         control_plane_node_configuration: Optional["_models.ControlPlaneNodePatchConfiguration"] = None,
         kubernetes_version: Optional[str] = None,
         **kwargs: Any
@@ -4566,6 +4844,10 @@ class KubernetesClusterPatchParameters(_serialization.Model):
         """
         :keyword tags: The Azure resource tags that will replace the existing ones.
         :paramtype tags: dict[str, str]
+        :keyword administrator_configuration: The configuration of the default administrator
+         credentials.
+        :paramtype administrator_configuration:
+         ~azure.mgmt.networkcloud.models.AdministratorConfigurationPatch
         :keyword control_plane_node_configuration: The defining characteristics of the control plane
          that can be patched for this Kubernetes cluster.
         :paramtype control_plane_node_configuration:
@@ -4577,6 +4859,7 @@ class KubernetesClusterPatchParameters(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.tags = tags
+        self.administrator_configuration = administrator_configuration
         self.control_plane_node_configuration = control_plane_node_configuration
         self.kubernetes_version = kubernetes_version
 
@@ -4585,7 +4868,7 @@ class KubernetesClusterRestartNodeParameters(_serialization.Model):
     """KubernetesClusterRestartNodeParameters represents the body of the request to restart the node
     of a Kubernetes cluster.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar node_name: The name of the node to restart. Required.
     :vartype node_name: str
@@ -4612,7 +4895,7 @@ class KubernetesLabel(_serialization.Model):
     """KubernetesLabel represents a single entry for a Kubernetes label or taint such as those used on
     a node or pod.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key: The name of the label or taint. Required.
     :vartype key: str
@@ -4648,10 +4931,10 @@ class L2Network(TrackedResource):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4789,7 +5072,7 @@ class L2NetworkAttachmentConfiguration(_serialization.Model):
     """L2NetworkAttachmentConfiguration represents the configuration of the attachment of a Layer 2
     network.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar network_id: The resource ID of the network that is being configured for attachment.
      Required.
@@ -4882,10 +5165,10 @@ class L3Network(TrackedResource):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5075,7 +5358,7 @@ class L3NetworkAttachmentConfiguration(_serialization.Model):
     """L3NetworkAttachmentConfiguration represents the configuration of the attachment of a Layer 3
     network.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar ipam_enabled: The indication of whether this network will or will not perform IP address
      management and allocate IP addresses when attached. Known values are: "True" and "False".
@@ -5365,7 +5648,7 @@ class NetworkAttachment(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar attached_network_id: The resource ID of the associated network attached to the virtual
      machine.
@@ -5503,7 +5786,7 @@ class NetworkAttachment(_serialization.Model):
 class NetworkConfiguration(_serialization.Model):
     """NetworkConfiguration specifies the Kubernetes cluster network related configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar attached_network_configuration: The configuration of networks being attached to the
      cluster for use by the workloads that run on this Kubernetes cluster.
@@ -5690,6 +5973,29 @@ class Nic(_serialization.Model):
         self.name = None
 
 
+class NodePoolAdministratorConfigurationPatch(_serialization.Model):
+    """NodePoolAdministratorConfigurationPatch represents the patching capabilities for the
+    administrator configuration.
+
+    :ivar ssh_public_keys: SshPublicKey represents the public key used to authenticate with a
+     resource through SSH.
+    :vartype ssh_public_keys: list[~azure.mgmt.networkcloud.models.SshPublicKey]
+    """
+
+    _attribute_map = {
+        "ssh_public_keys": {"key": "sshPublicKeys", "type": "[SshPublicKey]"},
+    }
+
+    def __init__(self, *, ssh_public_keys: Optional[List["_models.SshPublicKey"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword ssh_public_keys: SshPublicKey represents the public key used to authenticate with a
+         resource through SSH.
+        :paramtype ssh_public_keys: list[~azure.mgmt.networkcloud.models.SshPublicKey]
+        """
+        super().__init__(**kwargs)
+        self.ssh_public_keys = ssh_public_keys
+
+
 class Operation(_serialization.Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
@@ -5816,7 +6122,7 @@ class OperationStatusResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -5903,7 +6209,7 @@ class OperationStatusResult(_serialization.Model):
 class OsDisk(_serialization.Model):
     """OsDisk represents configuration of the boot disk.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar create_option: The strategy for creating the OS disk. "Ephemeral"
     :vartype create_option: str or ~azure.mgmt.networkcloud.models.OsDiskCreateOption
@@ -5952,10 +6258,10 @@ class Rack(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6082,7 +6388,7 @@ class Rack(TrackedResource):  # pylint: disable=too-many-instance-attributes
 class RackDefinition(_serialization.Model):
     """RackDefinition represents details regarding the rack.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar availability_zone: The zone name used for this rack when created. Availability zones are
      used for workload placement.
@@ -6258,7 +6564,7 @@ class RackSku(Resource):  # pylint: disable=too-many-instance-attributes
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6361,11 +6667,83 @@ class RackSkuList(_serialization.Model):
         self.value = value
 
 
+class RuntimeProtectionConfiguration(_serialization.Model):
+    """RuntimeProtectionConfiguration represents the runtime protection configuration for the cluster.
+
+    :ivar enforcement_level: The mode of operation for runtime protection. Known values are:
+     "Audit", "Disabled", "OnDemand", "Passive", and "RealTime".
+    :vartype enforcement_level: str or
+     ~azure.mgmt.networkcloud.models.RuntimeProtectionEnforcementLevel
+    """
+
+    _attribute_map = {
+        "enforcement_level": {"key": "enforcementLevel", "type": "str"},
+    }
+
+    def __init__(
+        self, *, enforcement_level: Union[str, "_models.RuntimeProtectionEnforcementLevel"] = "Disabled", **kwargs: Any
+    ) -> None:
+        """
+        :keyword enforcement_level: The mode of operation for runtime protection. Known values are:
+         "Audit", "Disabled", "OnDemand", "Passive", and "RealTime".
+        :paramtype enforcement_level: str or
+         ~azure.mgmt.networkcloud.models.RuntimeProtectionEnforcementLevel
+        """
+        super().__init__(**kwargs)
+        self.enforcement_level = enforcement_level
+
+
+class RuntimeProtectionStatus(_serialization.Model):
+    """RuntimeProtectionStatus represents the runtime protection status of the bare metal machine.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar definitions_last_updated: The timestamp when the malware definitions were last updated.
+    :vartype definitions_last_updated: ~datetime.datetime
+    :ivar definitions_version: The version of the malware definitions.
+    :vartype definitions_version: str
+    :ivar scan_completed_time: The timestamp of the most recently completed scan, or empty if there
+     has never been a scan.
+    :vartype scan_completed_time: ~datetime.datetime
+    :ivar scan_scheduled_time: The timestamp of the most recently scheduled scan, or empty if no
+     scan has been scheduled.
+    :vartype scan_scheduled_time: ~datetime.datetime
+    :ivar scan_started_time: The timestamp of the most recently started scan, or empty if there has
+     never been a scan.
+    :vartype scan_started_time: ~datetime.datetime
+    """
+
+    _validation = {
+        "definitions_last_updated": {"readonly": True},
+        "definitions_version": {"readonly": True},
+        "scan_completed_time": {"readonly": True},
+        "scan_scheduled_time": {"readonly": True},
+        "scan_started_time": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "definitions_last_updated": {"key": "definitionsLastUpdated", "type": "iso-8601"},
+        "definitions_version": {"key": "definitionsVersion", "type": "str"},
+        "scan_completed_time": {"key": "scanCompletedTime", "type": "iso-8601"},
+        "scan_scheduled_time": {"key": "scanScheduledTime", "type": "iso-8601"},
+        "scan_started_time": {"key": "scanStartedTime", "type": "iso-8601"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.definitions_last_updated = None
+        self.definitions_version = None
+        self.scan_completed_time = None
+        self.scan_scheduled_time = None
+        self.scan_started_time = None
+
+
 class ServiceLoadBalancerBgpPeer(_serialization.Model):
     """ServiceLoadBalancerBgpPeer represents the configuration of the BGP service load balancer for
     the Kubernetes cluster.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar bfd_enabled: The indicator of BFD enablement for this BgpPeer. Known values are: "True"
      and "False".
@@ -6478,7 +6856,7 @@ class ServicePrincipalInformation(_serialization.Model):
     """ServicePrincipalInformation represents the details of the service principal to be used by the
     cluster during Arc Appliance installation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar application_id: The application ID, also known as client ID, of the service principal.
      Required.
@@ -6531,7 +6909,7 @@ class ServicePrincipalInformation(_serialization.Model):
 class SshPublicKey(_serialization.Model):
     """SshPublicKey represents the public key used to authenticate with a resource through SSH.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_data: The SSH public key data. Required.
     :vartype key_data: str
@@ -6559,10 +6937,10 @@ class StorageAppliance(TrackedResource):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6725,7 +7103,7 @@ class StorageAppliance(TrackedResource):  # pylint: disable=too-many-instance-at
 class StorageApplianceConfigurationData(_serialization.Model):
     """StorageApplianceConfigurationData represents configuration for the storage application.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar admin_credentials: The credentials of the administrative interface on this storage
      appliance. Required.
@@ -6783,7 +7161,7 @@ class StorageApplianceConfigurationData(_serialization.Model):
         self.storage_appliance_name = storage_appliance_name
 
 
-class StorageApplianceEnableRemoteVendorManagementParameters(_serialization.Model):
+class StorageApplianceEnableRemoteVendorManagementParameters(_serialization.Model):  # pylint: disable=name-too-long
     """StorageApplianceEnableRemoteVendorManagementParameters represents the body of the request to
     enable remote vendor management of a storage appliance.
 
@@ -6908,7 +7286,7 @@ class StorageApplianceSkuSlot(_serialization.Model):
 class StorageProfile(_serialization.Model):
     """StorageProfile represents information about a disk.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar os_disk: The disk to use with this virtual machine. Required.
     :vartype os_disk: ~azure.mgmt.networkcloud.models.OsDisk
@@ -7031,10 +7409,10 @@ class TrunkedNetwork(TrackedResource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7185,7 +7563,7 @@ class TrunkedNetworkAttachmentConfiguration(_serialization.Model):
     """TrunkedNetworkAttachmentConfiguration represents the configuration of the attachment of a
     trunked network.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar network_id: The resource ID of the network that is being configured for attachment.
      Required.
@@ -7275,7 +7653,7 @@ class TrunkedNetworkPatchParameters(_serialization.Model):
 class ValidationThreshold(_serialization.Model):
     """ValidationThreshold indicates allowed machine and node hardware and deployment failures.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar grouping: Selection of how the type evaluation is applied to the cluster calculation.
      Required. Known values are: "PerCluster" and "PerRack".
@@ -7328,10 +7706,10 @@ class VirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7353,8 +7731,8 @@ class VirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-attr
     :vartype admin_username: str
     :ivar availability_zone: The cluster availability zone containing this virtual machine.
     :vartype availability_zone: str
-    :ivar bare_metal_machine_id: The resource ID of the bare metal machine the virtual machine has
-     landed to.
+    :ivar bare_metal_machine_id: The resource ID of the bare metal machine that hosts the virtual
+     machine.
     :vartype bare_metal_machine_id: str
     :ivar boot_method: Selects the boot method for the virtual machine. Known values are: "UEFI"
      and "BIOS".
@@ -7657,7 +8035,7 @@ class VirtualMachinePatchParameters(_serialization.Model):
 class VirtualMachinePlacementHint(_serialization.Model):
     """VirtualMachinePlacementHint represents a single scheduling hint of the virtual machine.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar hint_type: The specification of whether this hint supports affinity or anti-affinity with
      the referenced resources. Required. Known values are: "Affinity" and "AntiAffinity".
@@ -7678,7 +8056,7 @@ class VirtualMachinePlacementHint(_serialization.Model):
 
     _validation = {
         "hint_type": {"required": True},
-        "resource_id": {"required": True, "min_length": 1},
+        "resource_id": {"required": True},
         "scheduling_execution": {"required": True},
         "scope": {"required": True},
     }
@@ -7751,10 +8129,10 @@ class Volume(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str

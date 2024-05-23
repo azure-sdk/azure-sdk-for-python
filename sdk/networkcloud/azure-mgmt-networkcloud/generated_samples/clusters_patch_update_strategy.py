@@ -15,7 +15,7 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkcloud
 # USAGE
-    python clusters_patch_aggregator_or_single_rack_definition.py
+    python clusters_patch_update_strategy.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/Clusters_Patch_AggregatorOrSingleRackDefinition.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/Clusters_Patch_UpdateStrategy.json
 if __name__ == "__main__":
     main()
