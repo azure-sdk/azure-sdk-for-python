@@ -1,0 +1,123 @@
+# coding: utf-8
+
+# -------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See License.txt in the project root for
+# license information.
+# --------------------------------------------------------------------------
+from devtools_testutils import AzureRecordedTestCase, recorded_by_proxy
+
+from azure.ai.vision.face.models import (
+    FaceDetectionModel,
+    FaceRecognitionModel,
+    FaceAttributeTypeDetection03,
+    FaceAttributeTypeRecognition04,
+)
+
+from preparers import FaceClientPreparer, FacePreparer
+from _shared.constants import TestImages
+from _shared import helpers
+
+
+class TestDetection(AzureRecordedTestCase):
+    @FacePreparer()
+    @FaceClientPreparer()
+    @recorded_by_proxy
+    def test_detect_from_image_content(self, client, **kwargs):
+        sample_file_path = helpers.get_image_path(TestImages.IMAGE_DETECTION_1)
+        result = client.detect(
+            image_content=helpers.read_file_content(sample_file_path),
+            detection_model=FaceDetectionModel.DETECTION_03,
+            recognition_model=FaceRecognitionModel.RECOGNITION_04,
+            return_face_id=False,
+            return_face_attributes=[
+                FaceAttributeTypeDetection03.HEAD_POSE,
+                FaceAttributeTypeDetection03.MASK,
+                FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION,
+            ],
+            return_face_landmarks=True,
+        )
+
+        assert result is not None
+
+    @FacePreparer()
+    @FaceClientPreparer()
+    @recorded_by_proxy
+    def test_detect_from_body_with_image_content(self, client, **kwargs):
+
+        sample_file_path = helpers.get_image_path(TestImages.IMAGE_DETECTION_1)
+        result = client.detect(
+            body=helpers.read_file_content(sample_file_path),
+            detection_model=FaceDetectionModel.DETECTION_03,
+            recognition_model=FaceRecognitionModel.RECOGNITION_04,
+            return_face_id=False,
+            return_face_attributes=[
+                FaceAttributeTypeDetection03.HEAD_POSE,
+                FaceAttributeTypeDetection03.MASK,
+                FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION,
+            ],
+            return_face_landmarks=True,
+        )
+
+        assert result is not None
+
+    @FacePreparer()
+    @FaceClientPreparer()
+    @recorded_by_proxy
+    def test_detect_from_url(self, client, **kwargs):
+        sample_url = TestImages.IMAGE_URL
+        result = client.detect(
+            url=sample_url,
+            detection_model=FaceDetectionModel.DETECTION_03,
+            recognition_model=FaceRecognitionModel.RECOGNITION_04,
+            return_face_id=False,
+            return_face_attributes=[
+                FaceAttributeTypeDetection03.HEAD_POSE,
+                FaceAttributeTypeDetection03.MASK,
+                FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION,
+            ],
+            return_face_landmarks=True,
+        )
+
+        assert result is not None
+
+    @FacePreparer()
+    @FaceClientPreparer()
+    @recorded_by_proxy
+    def test_detect_from_body_with_json_dict(self, client, **kwargs):
+        sample_url = TestImages.IMAGE_URL
+        result = client.detect(
+            body={"url": sample_url},
+            detection_model=FaceDetectionModel.DETECTION_03,
+            recognition_model=FaceRecognitionModel.RECOGNITION_04,
+            return_face_id=False,
+            return_face_attributes=[
+                FaceAttributeTypeDetection03.HEAD_POSE,
+                FaceAttributeTypeDetection03.MASK,
+                FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION,
+            ],
+            return_face_landmarks=True,
+        )
+
+        assert result is not None
+
+    @FacePreparer()
+    @FaceClientPreparer()
+    @recorded_by_proxy
+    def test_detect_from_body_with_json_binary(self, client, **kwargs):
+
+        sample_url = TestImages.IMAGE_URL
+        result = client.detect(
+            body=f'{{\"url\": \"{sample_url}\"}}'.encode('utf-8'),
+            detection_model=FaceDetectionModel.DETECTION_03,
+            recognition_model=FaceRecognitionModel.RECOGNITION_04,
+            return_face_id=False,
+            return_face_attributes=[
+                FaceAttributeTypeDetection03.HEAD_POSE,
+                FaceAttributeTypeDetection03.MASK,
+                FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION,
+            ],
+            return_face_landmarks=True,
+        )
+
+        assert result is not None
