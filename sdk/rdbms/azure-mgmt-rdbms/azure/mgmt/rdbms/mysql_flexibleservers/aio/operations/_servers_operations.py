@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -45,6 +46,10 @@ from ...operations._servers_operations import (
     build_validate_estimate_high_availability_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -71,7 +76,7 @@ class ServersOperations:
     async def _create_initial(
         self, resource_group_name: str, server_name: str, parameters: Union[_models.Server, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Server]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -82,7 +87,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.Server]] = kwargs.pop("cls", None)
 
@@ -220,7 +225,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Server] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -270,7 +275,7 @@ class ServersOperations:
         parameters: Union[_models.ServerForUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.Server]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -281,7 +286,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.Server]] = kwargs.pop("cls", None)
 
@@ -420,7 +425,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Server] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -466,7 +471,7 @@ class ServersOperations:
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -477,7 +482,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
@@ -526,7 +531,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -578,7 +583,7 @@ class ServersOperations:
         :rtype: ~azure.mgmt.rdbms.mysql_flexibleservers.models.Server
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -589,7 +594,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[_models.Server] = kwargs.pop("cls", None)
 
         _request = build_get_request(
@@ -637,10 +642,10 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[_models.ServerListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -705,10 +710,10 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[_models.ServerListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -763,7 +768,7 @@ class ServersOperations:
     async def _failover_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -774,7 +779,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_failover_request(
@@ -823,7 +828,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -940,7 +945,7 @@ class ServersOperations:
         :rtype: ~azure.mgmt.rdbms.mysql_flexibleservers.models.HighAvailabilityValidationEstimation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -951,7 +956,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.HighAvailabilityValidationEstimation] = kwargs.pop("cls", None)
 
@@ -1003,7 +1008,7 @@ class ServersOperations:
         parameters: Union[_models.ServerRestartParameter, IO[bytes]],
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1014,7 +1019,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -1139,7 +1144,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -1181,7 +1186,7 @@ class ServersOperations:
     async def _start_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1192,7 +1197,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_start_request(
@@ -1241,7 +1246,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1280,7 +1285,7 @@ class ServersOperations:
     async def _stop_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1291,7 +1296,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_stop_request(
@@ -1340,7 +1345,7 @@ class ServersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1383,7 +1388,7 @@ class ServersOperations:
         parameters: Union[_models.ServerGtidSetParameter, IO[bytes]],
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1394,7 +1399,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -1519,7 +1524,7 @@ class ServersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
