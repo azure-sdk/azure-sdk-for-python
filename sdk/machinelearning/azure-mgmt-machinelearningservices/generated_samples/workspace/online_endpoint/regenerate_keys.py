@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -33,10 +36,10 @@ def main():
         resource_group_name="test-rg",
         workspace_name="my-aml-workspace",
         endpoint_name="testEndpointName",
-        body={"keyType": "Primary", "keyValue": "string"},
+        body={"keyType": "Primary"},
     ).result()
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Workspace/OnlineEndpoint/regenerateKeys.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/OnlineEndpoint/regenerateKeys.json
 if __name__ == "__main__":
     main()
