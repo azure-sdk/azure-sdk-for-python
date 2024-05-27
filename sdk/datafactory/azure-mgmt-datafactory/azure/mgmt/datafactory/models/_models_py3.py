@@ -19400,6 +19400,45 @@ class ConnectionStateProperties(_serialization.Model):
         self.status = None
 
 
+class ContinuationSettingsReference(_serialization.Model):
+    """Continuation settings for execute data flow activity.
+
+    :ivar continuation_ttl_in_minutes: Continuation TTL in minutes.
+    :vartype continuation_ttl_in_minutes: JSON
+    :ivar idle_condition: Idle condition.
+    :vartype idle_condition: JSON
+    :ivar customized_checkpoint_key: Customized checkpoint key.
+    :vartype customized_checkpoint_key: JSON
+    """
+
+    _attribute_map = {
+        "continuation_ttl_in_minutes": {"key": "continuationTtlInMinutes", "type": "object"},
+        "idle_condition": {"key": "idleCondition", "type": "object"},
+        "customized_checkpoint_key": {"key": "customizedCheckpointKey", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        continuation_ttl_in_minutes: Optional[JSON] = None,
+        idle_condition: Optional[JSON] = None,
+        customized_checkpoint_key: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword continuation_ttl_in_minutes: Continuation TTL in minutes.
+        :paramtype continuation_ttl_in_minutes: JSON
+        :keyword idle_condition: Idle condition.
+        :paramtype idle_condition: JSON
+        :keyword customized_checkpoint_key: Customized checkpoint key.
+        :paramtype customized_checkpoint_key: JSON
+        """
+        super().__init__(**kwargs)
+        self.continuation_ttl_in_minutes = continuation_ttl_in_minutes
+        self.idle_condition = idle_condition
+        self.customized_checkpoint_key = customized_checkpoint_key
+
+
 class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attributes
     """Copy activity.
 
@@ -27654,6 +27693,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -27691,6 +27732,10 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         "data_flow": {"key": "typeProperties.dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "typeProperties.staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "typeProperties.integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {
+            "key": "typeProperties.continuationSettings",
+            "type": "ContinuationSettingsReference",
+        },
         "compute": {"key": "typeProperties.compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "typeProperties.traceLevel", "type": "object"},
         "continue_on_error": {"key": "typeProperties.continueOnError", "type": "object"},
@@ -27713,6 +27758,7 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         policy: Optional["_models.ActivityPolicy"] = None,
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -27749,6 +27795,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -27781,6 +27829,7 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
+        self.continuation_settings = continuation_settings
         self.compute = compute
         self.trace_level = trace_level
         self.continue_on_error = continue_on_error
@@ -27799,6 +27848,8 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -27824,6 +27875,7 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         "data_flow": {"key": "dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {"key": "continuationSettings", "type": "ContinuationSettingsReference"},
         "compute": {"key": "compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "traceLevel", "type": "object"},
         "continue_on_error": {"key": "continueOnError", "type": "object"},
@@ -27837,6 +27889,7 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         data_flow: "_models.DataFlowReference",
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -27851,6 +27904,8 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -27871,6 +27926,7 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
+        self.continuation_settings = continuation_settings
         self.compute = compute
         self.trace_level = trace_level
         self.continue_on_error = continue_on_error
@@ -28068,7 +28124,9 @@ class ExecutePipelineActivityPolicy(_serialization.Model):
         self.secure_input = secure_input
 
 
-class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypeProperties):
+class ExecutePowerQueryActivityTypeProperties(
+    ExecuteDataFlowActivityTypeProperties
+):  # pylint: disable=too-many-instance-attributes
     """Execute power query data flow activity properties.
 
     All required parameters must be populated in order to send to server.
@@ -28079,6 +28137,8 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -28109,6 +28169,7 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
         "data_flow": {"key": "dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {"key": "continuationSettings", "type": "ContinuationSettingsReference"},
         "compute": {"key": "compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "traceLevel", "type": "object"},
         "continue_on_error": {"key": "continueOnError", "type": "object"},
@@ -28124,6 +28185,7 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
         data_flow: "_models.DataFlowReference",
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -28140,6 +28202,8 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -28165,6 +28229,7 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
             data_flow=data_flow,
             staging=staging,
             integration_runtime=integration_runtime,
+            continuation_settings=continuation_settings,
             compute=compute,
             trace_level=trace_level,
             continue_on_error=continue_on_error,
@@ -28417,6 +28482,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -28458,6 +28525,10 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         "data_flow": {"key": "typeProperties.dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "typeProperties.staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "typeProperties.integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {
+            "key": "typeProperties.continuationSettings",
+            "type": "ContinuationSettingsReference",
+        },
         "compute": {"key": "typeProperties.compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "typeProperties.traceLevel", "type": "object"},
         "continue_on_error": {"key": "typeProperties.continueOnError", "type": "object"},
@@ -28481,6 +28552,7 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         policy: Optional["_models.ActivityPolicy"] = None,
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -28517,6 +28589,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -28553,6 +28627,7 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
+        self.continuation_settings = continuation_settings
         self.compute = compute
         self.trace_level = trace_level
         self.continue_on_error = continue_on_error
@@ -28710,12 +28785,12 @@ class ExpressionV2(_serialization.Model):
     """Nested representation of a complex expression.
 
     :ivar type: Type of expressions supported by the system. Type: string. Known values are:
-     "Constant", "Field", "Unary", and "Binary".
+     "Constant", "Field", "Unary", "Binary", and "NAry".
     :vartype type: str or ~azure.mgmt.datafactory.models.ExpressionV2Type
     :ivar value: Value for Constant/Field Type: string.
     :vartype value: str
-    :ivar operator: Expression operator value Type: string.
-    :vartype operator: str
+    :ivar operators: Expression operator value Type: list of strings.
+    :vartype operators: list[str]
     :ivar operands: List of nested expressions.
     :vartype operands: list[~azure.mgmt.datafactory.models.ExpressionV2]
     """
@@ -28723,7 +28798,7 @@ class ExpressionV2(_serialization.Model):
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
         "value": {"key": "value", "type": "str"},
-        "operator": {"key": "operator", "type": "str"},
+        "operators": {"key": "operators", "type": "[str]"},
         "operands": {"key": "operands", "type": "[ExpressionV2]"},
     }
 
@@ -28732,25 +28807,25 @@ class ExpressionV2(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ExpressionV2Type"]] = None,
         value: Optional[str] = None,
-        operator: Optional[str] = None,
+        operators: Optional[List[str]] = None,
         operands: Optional[List["_models.ExpressionV2"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type: Type of expressions supported by the system. Type: string. Known values are:
-         "Constant", "Field", "Unary", and "Binary".
+         "Constant", "Field", "Unary", "Binary", and "NAry".
         :paramtype type: str or ~azure.mgmt.datafactory.models.ExpressionV2Type
         :keyword value: Value for Constant/Field Type: string.
         :paramtype value: str
-        :keyword operator: Expression operator value Type: string.
-        :paramtype operator: str
+        :keyword operators: Expression operator value Type: list of strings.
+        :paramtype operators: list[str]
         :keyword operands: List of nested expressions.
         :paramtype operands: list[~azure.mgmt.datafactory.models.ExpressionV2]
         """
         super().__init__(**kwargs)
         self.type = type
         self.value = value
-        self.operator = operator
+        self.operators = operators
         self.operands = operands
 
 
@@ -40018,7 +40093,7 @@ class LakeHouseReadSettings(StoreReadSettings):  # pylint: disable=too-many-inst
         self.modified_datetime_end = modified_datetime_end
 
 
-class LakeHouseTableDataset(Dataset):
+class LakeHouseTableDataset(Dataset):  # pylint: disable=too-many-instance-attributes
     """Microsoft Fabric LakeHouse Table.
 
     All required parameters must be populated in order to send to server.
@@ -40045,6 +40120,9 @@ class LakeHouseTableDataset(Dataset):
     :ivar folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
      root level.
     :vartype folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :ivar schema_type_properties_schema: The schema name of Microsoft Fabric LakeHouse Table. Type:
+     string (or Expression with resultType string).
+    :vartype schema_type_properties_schema: JSON
     :ivar table: The name of Microsoft Fabric LakeHouse Table. Type: string (or Expression with
      resultType string).
     :vartype table: JSON
@@ -40065,6 +40143,7 @@ class LakeHouseTableDataset(Dataset):
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
         "folder": {"key": "folder", "type": "DatasetFolder"},
+        "schema_type_properties_schema": {"key": "typeProperties.schema", "type": "object"},
         "table": {"key": "typeProperties.table", "type": "object"},
     }
 
@@ -40079,6 +40158,7 @@ class LakeHouseTableDataset(Dataset):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         folder: Optional["_models.DatasetFolder"] = None,
+        schema_type_properties_schema: Optional[JSON] = None,
         table: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -40103,6 +40183,9 @@ class LakeHouseTableDataset(Dataset):
         :keyword folder: The folder that this Dataset is in. If not specified, Dataset will appear at
          the root level.
         :paramtype folder: ~azure.mgmt.datafactory.models.DatasetFolder
+        :keyword schema_type_properties_schema: The schema name of Microsoft Fabric LakeHouse Table.
+         Type: string (or Expression with resultType string).
+        :paramtype schema_type_properties_schema: JSON
         :keyword table: The name of Microsoft Fabric LakeHouse Table. Type: string (or Expression with
          resultType string).
         :paramtype table: JSON
@@ -40119,6 +40202,7 @@ class LakeHouseTableDataset(Dataset):
             **kwargs
         )
         self.type: str = "LakeHouseTable"
+        self.schema_type_properties_schema = schema_type_properties_schema
         self.table = table
 
 
@@ -56059,8 +56143,16 @@ class SalesforceServiceCloudV2Source(CopySource):
     :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
      false. Type: boolean (or Expression with resultType boolean).
     :vartype disable_metrics_collection: JSON
-    :ivar soql_query: Database query. Type: string (or Expression with resultType string).
+    :ivar soql_query: Deprecating, please use 'query' property instead. Type: string (or Expression
+     with resultType string).
     :vartype soql_query: JSON
+    :ivar query: You can only use Salesforce Object Query Language (SOQL) query with limitations.
+     For SOQL limitations, see this article:
+     https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+     If query is not specified, all the data of the Salesforce object specified in
+     ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+     resultType string).
+    :vartype query: JSON
     :ivar include_deleted_objects: This property control whether query result contains Deleted
      objects. Default is false. Type: boolean (or Expression with resultType boolean).
     :vartype include_deleted_objects: JSON
@@ -56081,6 +56173,7 @@ class SalesforceServiceCloudV2Source(CopySource):
         "max_concurrent_connections": {"key": "maxConcurrentConnections", "type": "object"},
         "disable_metrics_collection": {"key": "disableMetricsCollection", "type": "object"},
         "soql_query": {"key": "SOQLQuery", "type": "object"},
+        "query": {"key": "query", "type": "object"},
         "include_deleted_objects": {"key": "includeDeletedObjects", "type": "object"},
         "additional_columns": {"key": "additionalColumns", "type": "object"},
     }
@@ -56094,6 +56187,7 @@ class SalesforceServiceCloudV2Source(CopySource):
         max_concurrent_connections: Optional[JSON] = None,
         disable_metrics_collection: Optional[JSON] = None,
         soql_query: Optional[JSON] = None,
+        query: Optional[JSON] = None,
         include_deleted_objects: Optional[JSON] = None,
         additional_columns: Optional[JSON] = None,
         **kwargs: Any
@@ -56114,8 +56208,16 @@ class SalesforceServiceCloudV2Source(CopySource):
         :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_metrics_collection: JSON
-        :keyword soql_query: Database query. Type: string (or Expression with resultType string).
+        :keyword soql_query: Deprecating, please use 'query' property instead. Type: string (or
+         Expression with resultType string).
         :paramtype soql_query: JSON
+        :keyword query: You can only use Salesforce Object Query Language (SOQL) query with
+         limitations. For SOQL limitations, see this article:
+         https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+         If query is not specified, all the data of the Salesforce object specified in
+         ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+         resultType string).
+        :paramtype query: JSON
         :keyword include_deleted_objects: This property control whether query result contains Deleted
          objects. Default is false. Type: boolean (or Expression with resultType boolean).
         :paramtype include_deleted_objects: JSON
@@ -56133,6 +56235,7 @@ class SalesforceServiceCloudV2Source(CopySource):
         )
         self.type: str = "SalesforceServiceCloudV2Source"
         self.soql_query = soql_query
+        self.query = query
         self.include_deleted_objects = include_deleted_objects
         self.additional_columns = additional_columns
 
@@ -56740,7 +56843,7 @@ class SalesforceV2Sink(CopySink):  # pylint: disable=too-many-instance-attribute
         self.ignore_null_values = ignore_null_values
 
 
-class SalesforceV2Source(TabularSource):
+class SalesforceV2Source(TabularSource):  # pylint: disable=too-many-instance-attributes
     """A copy activity Salesforce V2 source.
 
     All required parameters must be populated in order to send to server.
@@ -56768,8 +56871,16 @@ class SalesforceV2Source(TabularSource):
     :ivar additional_columns: Specifies the additional columns to be added to source data. Type:
      array of objects(AdditionalColumns) (or Expression with resultType array of objects).
     :vartype additional_columns: JSON
-    :ivar soql_query: Database query. Type: string (or Expression with resultType string).
+    :ivar soql_query: Deprecating, please use 'query' property instead. Type: string (or Expression
+     with resultType string).
     :vartype soql_query: JSON
+    :ivar query: You can only use Salesforce Object Query Language (SOQL) query with limitations.
+     For SOQL limitations, see this article:
+     https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+     If query is not specified, all the data of the Salesforce object specified in
+     ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+     resultType string).
+    :vartype query: JSON
     :ivar include_deleted_objects: This property control whether query result contains Deleted
      objects. Default is false. Type: boolean (or Expression with resultType boolean).
     :vartype include_deleted_objects: JSON
@@ -56789,6 +56900,7 @@ class SalesforceV2Source(TabularSource):
         "query_timeout": {"key": "queryTimeout", "type": "object"},
         "additional_columns": {"key": "additionalColumns", "type": "object"},
         "soql_query": {"key": "SOQLQuery", "type": "object"},
+        "query": {"key": "query", "type": "object"},
         "include_deleted_objects": {"key": "includeDeletedObjects", "type": "object"},
     }
 
@@ -56803,6 +56915,7 @@ class SalesforceV2Source(TabularSource):
         query_timeout: Optional[JSON] = None,
         additional_columns: Optional[JSON] = None,
         soql_query: Optional[JSON] = None,
+        query: Optional[JSON] = None,
         include_deleted_objects: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -56828,8 +56941,16 @@ class SalesforceV2Source(TabularSource):
         :keyword additional_columns: Specifies the additional columns to be added to source data. Type:
          array of objects(AdditionalColumns) (or Expression with resultType array of objects).
         :paramtype additional_columns: JSON
-        :keyword soql_query: Database query. Type: string (or Expression with resultType string).
+        :keyword soql_query: Deprecating, please use 'query' property instead. Type: string (or
+         Expression with resultType string).
         :paramtype soql_query: JSON
+        :keyword query: You can only use Salesforce Object Query Language (SOQL) query with
+         limitations. For SOQL limitations, see this article:
+         https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations.
+         If query is not specified, all the data of the Salesforce object specified in
+         ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with
+         resultType string).
+        :paramtype query: JSON
         :keyword include_deleted_objects: This property control whether query result contains Deleted
          objects. Default is false. Type: boolean (or Expression with resultType boolean).
         :paramtype include_deleted_objects: JSON
@@ -56846,6 +56967,7 @@ class SalesforceV2Source(TabularSource):
         )
         self.type: str = "SalesforceV2Source"
         self.soql_query = soql_query
+        self.query = query
         self.include_deleted_objects = include_deleted_objects
 
 

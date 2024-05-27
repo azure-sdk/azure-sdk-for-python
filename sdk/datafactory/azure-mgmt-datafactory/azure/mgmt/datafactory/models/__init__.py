@@ -153,6 +153,7 @@ from ._models_py3 import ConcurLinkedService
 from ._models_py3 import ConcurObjectDataset
 from ._models_py3 import ConcurSource
 from ._models_py3 import ConnectionStateProperties
+from ._models_py3 import ContinuationSettingsReference
 from ._models_py3 import ControlActivity
 from ._models_py3 import CopyActivity
 from ._models_py3 import CopyActivityLogSettings
@@ -1073,6 +1074,7 @@ __all__ = [
     "ConcurObjectDataset",
     "ConcurSource",
     "ConnectionStateProperties",
+    "ContinuationSettingsReference",
     "ControlActivity",
     "CopyActivity",
     "CopyActivityLogSettings",
