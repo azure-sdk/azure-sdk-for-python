@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -30,8 +31,12 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
+from .._vendor import ElasticSanMgmtClientMixinABC, _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -50,7 +55,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -109,7 +114,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -166,12 +171,13 @@ def build_delete_request(
     *,
     x_ms_delete_snapshots: Optional[Union[str, _models.XMsDeleteSnapshots]] = None,
     x_ms_force_delete: Optional[Union[str, _models.XMsForceDelete]] = None,
+    purge: Optional[Union[str, _models.Purge]] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -209,6 +215,8 @@ def build_delete_request(
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if purge is not None:
+        _params["purge"] = _SERIALIZER.query("purge", purge, "str")
 
     # Construct headers
     if x_ms_delete_snapshots is not None:
@@ -226,12 +234,14 @@ def build_get_request(
     volume_group_name: str,
     volume_name: str,
     subscription_id: str,
+    *,
+    x_ms_access_soft_deleted_resources: Optional[Union[str, _models.XMsAccessSoftDeletedResources]] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -271,18 +281,28 @@ def build_get_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    if x_ms_access_soft_deleted_resources is not None:
+        _headers["x-ms-access-soft-deleted-resources"] = _SERIALIZER.header(
+            "x_ms_access_soft_deleted_resources", x_ms_access_soft_deleted_resources, "str"
+        )
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_list_by_volume_group_request(
-    resource_group_name: str, elastic_san_name: str, volume_group_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str,
+    elastic_san_name: str,
+    volume_group_name: str,
+    subscription_id: str,
+    *,
+    x_ms_access_soft_deleted_resources: Optional[Union[str, _models.XMsAccessSoftDeletedResources]] = None,
+    **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -319,6 +339,10 @@ def build_list_by_volume_group_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    if x_ms_access_soft_deleted_resources is not None:
+        _headers["x-ms-access-soft-deleted-resources"] = _SERIALIZER.header(
+            "x_ms_access_soft_deleted_resources", x_ms_access_soft_deleted_resources, "str"
+        )
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
@@ -349,10 +373,10 @@ class VolumesOperations:
         elastic_san_name: str,
         volume_group_name: str,
         volume_name: str,
-        parameters: Union[_models.Volume, IO],
+        parameters: Union[_models.Volume, IO[bytes]],
         **kwargs: Any
     ) -> _models.Volume:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -375,7 +399,7 @@ class VolumesOperations:
         else:
             _json = self._serialize.body(parameters, "Volume")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             elastic_san_name=elastic_san_name,
             volume_group_name=volume_group_name,
@@ -385,16 +409,15 @@ class VolumesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -414,10 +437,6 @@ class VolumesOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
 
     @overload
     def begin_create(
@@ -447,14 +466,6 @@ class VolumesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Volume or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -467,7 +478,7 @@ class VolumesOperations:
         elastic_san_name: str,
         volume_group_name: str,
         volume_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -484,18 +495,10 @@ class VolumesOperations:
         :param volume_name: The name of the Volume. Required.
         :type volume_name: str
         :param parameters: Volume object. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Volume or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -508,7 +511,7 @@ class VolumesOperations:
         elastic_san_name: str,
         volume_group_name: str,
         volume_name: str,
-        parameters: Union[_models.Volume, IO],
+        parameters: Union[_models.Volume, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.Volume]:
         """Create a Volume.
@@ -522,19 +525,8 @@ class VolumesOperations:
         :type volume_group_name: str
         :param volume_name: The name of the Volume. Required.
         :type volume_name: str
-        :param parameters: Volume object. Is either a Volume type or a IO type. Required.
-        :type parameters: ~azure.mgmt.elasticsan.models.Volume or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param parameters: Volume object. Is either a Volume type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.elasticsan.models.Volume or IO[bytes]
         :return: An instance of LROPoller that returns either Volume or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -567,7 +559,7 @@ class VolumesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Volume", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -579,17 +571,15 @@ class VolumesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Volume].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
+        return LROPoller[_models.Volume](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_initial(
         self,
@@ -597,10 +587,10 @@ class VolumesOperations:
         elastic_san_name: str,
         volume_group_name: str,
         volume_name: str,
-        parameters: Union[_models.VolumeUpdate, IO],
+        parameters: Union[_models.VolumeUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.Volume]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -623,7 +613,7 @@ class VolumesOperations:
         else:
             _json = self._serialize.body(parameters, "VolumeUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             elastic_san_name=elastic_san_name,
             volume_group_name=volume_group_name,
@@ -633,16 +623,15 @@ class VolumesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -661,13 +650,9 @@ class VolumesOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -697,14 +682,6 @@ class VolumesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Volume or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -717,7 +694,7 @@ class VolumesOperations:
         elastic_san_name: str,
         volume_group_name: str,
         volume_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -734,18 +711,10 @@ class VolumesOperations:
         :param volume_name: The name of the Volume. Required.
         :type volume_name: str
         :param parameters: Volume object. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Volume or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -758,7 +727,7 @@ class VolumesOperations:
         elastic_san_name: str,
         volume_group_name: str,
         volume_name: str,
-        parameters: Union[_models.VolumeUpdate, IO],
+        parameters: Union[_models.VolumeUpdate, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.Volume]:
         """Update an Volume.
@@ -772,19 +741,8 @@ class VolumesOperations:
         :type volume_group_name: str
         :param volume_name: The name of the Volume. Required.
         :type volume_name: str
-        :param parameters: Volume object. Is either a VolumeUpdate type or a IO type. Required.
-        :type parameters: ~azure.mgmt.elasticsan.models.VolumeUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param parameters: Volume object. Is either a VolumeUpdate type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.elasticsan.models.VolumeUpdate or IO[bytes]
         :return: An instance of LROPoller that returns either Volume or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -817,7 +775,7 @@ class VolumesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Volume", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -829,17 +787,15 @@ class VolumesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Volume].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
+        return LROPoller[_models.Volume](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self,
@@ -849,9 +805,10 @@ class VolumesOperations:
         volume_name: str,
         x_ms_delete_snapshots: Optional[Union[str, _models.XMsDeleteSnapshots]] = None,
         x_ms_force_delete: Optional[Union[str, _models.XMsForceDelete]] = None,
+        purge: Optional[Union[str, _models.Purge]] = None,
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -865,7 +822,7 @@ class VolumesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             elastic_san_name=elastic_san_name,
             volume_group_name=volume_group_name,
@@ -873,17 +830,17 @@ class VolumesOperations:
             subscription_id=self._config.subscription_id,
             x_ms_delete_snapshots=x_ms_delete_snapshots,
             x_ms_force_delete=x_ms_force_delete,
+            purge=purge,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -898,11 +855,7 @@ class VolumesOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -913,6 +866,7 @@ class VolumesOperations:
         volume_name: str,
         x_ms_delete_snapshots: Optional[Union[str, _models.XMsDeleteSnapshots]] = None,
         x_ms_force_delete: Optional[Union[str, _models.XMsForceDelete]] = None,
+        purge: Optional[Union[str, _models.Purge]] = None,
         **kwargs: Any
     ) -> LROPoller[None]:
         """Delete an Volume.
@@ -934,14 +888,9 @@ class VolumesOperations:
          value are only true or false. Default value is false. Known values are: "true" and "false".
          Default value is None.
         :type x_ms_force_delete: str or ~azure.mgmt.elasticsan.models.XMsForceDelete
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param purge: Optional, used to purge soft deleted volumes if set to true. Known values are:
+         "true" and "false". Default value is None.
+        :type purge: str or ~azure.mgmt.elasticsan.models.Purge
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -962,6 +911,7 @@ class VolumesOperations:
                 volume_name=volume_name,
                 x_ms_delete_snapshots=x_ms_delete_snapshots,
                 x_ms_force_delete=x_ms_force_delete,
+                purge=purge,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -972,7 +922,7 @@ class VolumesOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -983,21 +933,23 @@ class VolumesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get(
-        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, volume_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        elastic_san_name: str,
+        volume_group_name: str,
+        volume_name: str,
+        x_ms_access_soft_deleted_resources: Optional[Union[str, _models.XMsAccessSoftDeletedResources]] = None,
+        **kwargs: Any
     ) -> _models.Volume:
         """Get an Volume.
 
@@ -1010,12 +962,15 @@ class VolumesOperations:
         :type volume_group_name: str
         :param volume_name: The name of the Volume. Required.
         :type volume_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param x_ms_access_soft_deleted_resources: Optional, used to get soft deleted volumes if set to
+         true. Known values are: "true" and "false". Default value is None.
+        :type x_ms_access_soft_deleted_resources: str or
+         ~azure.mgmt.elasticsan.models.XMsAccessSoftDeletedResources
         :return: Volume or the result of cls(response)
         :rtype: ~azure.mgmt.elasticsan.models.Volume
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1029,23 +984,23 @@ class VolumesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Volume] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             elastic_san_name=elastic_san_name,
             volume_group_name=volume_group_name,
             volume_name=volume_name,
             subscription_id=self._config.subscription_id,
+            x_ms_access_soft_deleted_resources=x_ms_access_soft_deleted_resources,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1058,17 +1013,18 @@ class VolumesOperations:
         deserialized = self._deserialize("Volume", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_volume_group(
-        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        elastic_san_name: str,
+        volume_group_name: str,
+        x_ms_access_soft_deleted_resources: Optional[Union[str, _models.XMsAccessSoftDeletedResources]] = None,
+        **kwargs: Any
     ) -> Iterable["_models.Volume"]:
         """List Volumes in a VolumeGroup.
 
@@ -1079,7 +1035,10 @@ class VolumesOperations:
         :type elastic_san_name: str
         :param volume_group_name: The name of the VolumeGroup. Required.
         :type volume_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param x_ms_access_soft_deleted_resources: Optional, used to get soft deleted volumes if set to
+         true. Known values are: "true" and "false". Default value is None.
+        :type x_ms_access_soft_deleted_resources: str or
+         ~azure.mgmt.elasticsan.models.XMsAccessSoftDeletedResources
         :return: An iterator like instance of either Volume or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1090,7 +1049,7 @@ class VolumesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VolumeList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1101,18 +1060,18 @@ class VolumesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_volume_group_request(
+                _request = build_list_by_volume_group_request(
                     resource_group_name=resource_group_name,
                     elastic_san_name=elastic_san_name,
                     volume_group_name=volume_group_name,
                     subscription_id=self._config.subscription_id,
+                    x_ms_access_soft_deleted_resources=x_ms_access_soft_deleted_resources,
                     api_version=api_version,
-                    template_url=self.list_by_volume_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1124,13 +1083,13 @@ class VolumesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("VolumeList", pipeline_response)
@@ -1140,11 +1099,11 @@ class VolumesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1156,7 +1115,3 @@ class VolumesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_volume_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes"
-    }
