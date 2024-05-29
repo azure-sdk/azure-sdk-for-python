@@ -17,13 +17,43 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class DeleteRetentionPolicy(_serialization.Model):
+    """Response for Delete Retention Policy object.
+
+    :ivar enabled: The flag to enable/disable retention policy.
+    :vartype enabled: bool
+    :ivar days: The number of days to retain the volume after deletion.
+    :vartype days: int
+    """
+
+    _validation = {
+        "days": {"minimum": 0},
+    }
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+        "days": {"key": "days", "type": "int"},
+    }
+
+    def __init__(self, *, enabled: Optional[bool] = None, days: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword enabled: The flag to enable/disable retention policy.
+        :paramtype enabled: bool
+        :keyword days: The number of days to retain the volume after deletion.
+        :paramtype days: int
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
+        self.days = days
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -64,10 +94,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -117,10 +147,10 @@ class ElasticSan(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -212,7 +242,7 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sku: resource sku. Required.
     :vartype sku: ~azure.mgmt.elasticsan.models.Sku
@@ -538,7 +568,7 @@ class Identity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The principal ID of resource identity.
     :vartype principal_id: str
@@ -898,10 +928,10 @@ class PrivateEndpointConnection(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -975,7 +1005,7 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Provisioning State of Private Endpoint connection resource. Known
      values are: "Invalid", "Succeeded", "Failed", "Canceled", "Pending", "Creating", "Updating",
@@ -1036,7 +1066,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1189,7 +1219,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1201,29 +1231,11 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.elasticsan.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class Sku(_serialization.Model):
     """The SKU name. Required for account creation; optional for update.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The sku name. Required. Known values are: "Premium_LRS" and "Premium_ZRS".
     :vartype name: str or ~azure.mgmt.elasticsan.models.SkuName
@@ -1291,7 +1303,7 @@ class SkuInformation(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Sku Name. Required. Known values are: "Premium_LRS" and "Premium_ZRS".
     :vartype name: str or ~azure.mgmt.elasticsan.models.SkuName
@@ -1408,10 +1420,10 @@ class Snapshot(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1453,10 +1465,10 @@ class Snapshot(ProxyResource):
 class SnapshotCreationData(_serialization.Model):
     """Data used when creating a volume snapshot.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_id: Fully qualified resource ID of the volume. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".  # pylint: disable=line-too-long
      Required.
     :vartype source_id: str
     """
@@ -1472,7 +1484,7 @@ class SnapshotCreationData(_serialization.Model):
     def __init__(self, *, source_id: str, **kwargs: Any) -> None:
         """
         :keyword source_id: Fully qualified resource ID of the volume. E.g.
-         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".
+         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".  # pylint: disable=line-too-long
          Required.
         :paramtype source_id: str
         """
@@ -1515,7 +1527,7 @@ class SnapshotProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar creation_data: Data used when creating a volume snapshot. Required.
     :vartype creation_data: ~azure.mgmt.elasticsan.models.SnapshotCreationData
@@ -1561,7 +1573,7 @@ class SourceCreationData(_serialization.Model):
      are: "None", "VolumeSnapshot", "DiskSnapshot", "Disk", and "DiskRestorePoint".
     :vartype create_source: str or ~azure.mgmt.elasticsan.models.VolumeCreateOption
     :ivar source_id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype source_id: str
     """
 
@@ -1582,7 +1594,7 @@ class SourceCreationData(_serialization.Model):
          are: "None", "VolumeSnapshot", "DiskSnapshot", "Disk", and "DiskRestorePoint".
         :paramtype create_source: str or ~azure.mgmt.elasticsan.models.VolumeCreateOption
         :keyword source_id: Fully qualified resource ID for the resource. E.g.
-         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
         :paramtype source_id: str
         """
         super().__init__(**kwargs)
@@ -1685,10 +1697,10 @@ class UserAssignedIdentity(_serialization.Model):
 class VirtualNetworkRule(_serialization.Model):
     """Virtual Network rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar virtual_network_resource_id: Resource ID of a subnet, for example:
-     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
      Required.
     :vartype virtual_network_resource_id: str
     :ivar action: The action of virtual network rule. "Allow"
@@ -1709,7 +1721,7 @@ class VirtualNetworkRule(_serialization.Model):
     ) -> None:
         """
         :keyword virtual_network_resource_id: Resource ID of a subnet, for example:
-         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
          Required.
         :paramtype virtual_network_resource_id: str
         :keyword action: The action of virtual network rule. "Allow"
@@ -1725,10 +1737,10 @@ class Volume(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1773,7 +1785,7 @@ class VolumeGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1875,6 +1887,8 @@ class VolumeGroupProperties(_serialization.Model):
     :ivar private_endpoint_connections: The list of Private Endpoint Connections.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.elasticsan.models.PrivateEndpointConnection]
+    :ivar delete_retention_policy: The retention policy for the deleted volumes.
+    :vartype delete_retention_policy: ~azure.mgmt.elasticsan.models.DeleteRetentionPolicy
     """
 
     _validation = {
@@ -1889,6 +1903,7 @@ class VolumeGroupProperties(_serialization.Model):
         "encryption_properties": {"key": "encryptionProperties", "type": "EncryptionProperties"},
         "network_acls": {"key": "networkAcls", "type": "NetworkRuleSet"},
         "private_endpoint_connections": {"key": "privateEndpointConnections", "type": "[PrivateEndpointConnection]"},
+        "delete_retention_policy": {"key": "deleteRetentionPolicy", "type": "DeleteRetentionPolicy"},
     }
 
     def __init__(
@@ -1898,6 +1913,7 @@ class VolumeGroupProperties(_serialization.Model):
         encryption: Optional[Union[str, "_models.EncryptionType"]] = None,
         encryption_properties: Optional["_models.EncryptionProperties"] = None,
         network_acls: Optional["_models.NetworkRuleSet"] = None,
+        delete_retention_policy: Optional["_models.DeleteRetentionPolicy"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1912,6 +1928,8 @@ class VolumeGroupProperties(_serialization.Model):
         :keyword network_acls: A collection of rules governing the accessibility from specific network
          locations.
         :paramtype network_acls: ~azure.mgmt.elasticsan.models.NetworkRuleSet
+        :keyword delete_retention_policy: The retention policy for the deleted volumes.
+        :paramtype delete_retention_policy: ~azure.mgmt.elasticsan.models.DeleteRetentionPolicy
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
@@ -1920,6 +1938,7 @@ class VolumeGroupProperties(_serialization.Model):
         self.encryption_properties = encryption_properties
         self.network_acls = network_acls
         self.private_endpoint_connections = None
+        self.delete_retention_policy = delete_retention_policy
 
 
 class VolumeGroupUpdate(_serialization.Model):
@@ -1968,6 +1987,8 @@ class VolumeGroupUpdateProperties(_serialization.Model):
     :ivar network_acls: A collection of rules governing the accessibility from specific network
      locations.
     :vartype network_acls: ~azure.mgmt.elasticsan.models.NetworkRuleSet
+    :ivar delete_retention_policy: The retention policy for the deleted volumes.
+    :vartype delete_retention_policy: ~azure.mgmt.elasticsan.models.DeleteRetentionPolicy
     """
 
     _attribute_map = {
@@ -1975,6 +1996,7 @@ class VolumeGroupUpdateProperties(_serialization.Model):
         "encryption": {"key": "encryption", "type": "str"},
         "encryption_properties": {"key": "encryptionProperties", "type": "EncryptionProperties"},
         "network_acls": {"key": "networkAcls", "type": "NetworkRuleSet"},
+        "delete_retention_policy": {"key": "deleteRetentionPolicy", "type": "DeleteRetentionPolicy"},
     }
 
     def __init__(
@@ -1984,6 +2006,7 @@ class VolumeGroupUpdateProperties(_serialization.Model):
         encryption: Optional[Union[str, "_models.EncryptionType"]] = None,
         encryption_properties: Optional["_models.EncryptionProperties"] = None,
         network_acls: Optional["_models.NetworkRuleSet"] = None,
+        delete_retention_policy: Optional["_models.DeleteRetentionPolicy"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1998,12 +2021,15 @@ class VolumeGroupUpdateProperties(_serialization.Model):
         :keyword network_acls: A collection of rules governing the accessibility from specific network
          locations.
         :paramtype network_acls: ~azure.mgmt.elasticsan.models.NetworkRuleSet
+        :keyword delete_retention_policy: The retention policy for the deleted volumes.
+        :paramtype delete_retention_policy: ~azure.mgmt.elasticsan.models.DeleteRetentionPolicy
         """
         super().__init__(**kwargs)
         self.protocol_type = protocol_type
         self.encryption = encryption
         self.encryption_properties = encryption_properties
         self.network_acls = network_acls
+        self.delete_retention_policy = delete_retention_policy
 
 
 class VolumeList(_serialization.Model):
@@ -2041,7 +2067,7 @@ class VolumeProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar volume_id: Unique Id of the volume in GUID format.
     :vartype volume_id: str
@@ -2051,6 +2077,8 @@ class VolumeProperties(_serialization.Model):
     :vartype size_gi_b: int
     :ivar storage_target: Storage target information.
     :vartype storage_target: ~azure.mgmt.elasticsan.models.IscsiTargetInfo
+    :ivar soft_delete_enabled: Indicates whether delete retention is allowed on the volume.
+    :vartype soft_delete_enabled: bool
     :ivar managed_by: Parent resource information.
     :vartype managed_by: ~azure.mgmt.elasticsan.models.ManagedByInfo
     :ivar provisioning_state: State of the operation on the resource. Known values are: "Invalid",
@@ -2070,6 +2098,7 @@ class VolumeProperties(_serialization.Model):
         "creation_data": {"key": "creationData", "type": "SourceCreationData"},
         "size_gi_b": {"key": "sizeGiB", "type": "int"},
         "storage_target": {"key": "storageTarget", "type": "IscsiTargetInfo"},
+        "soft_delete_enabled": {"key": "softDeleteEnabled", "type": "bool"},
         "managed_by": {"key": "managedBy", "type": "ManagedByInfo"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
@@ -2079,6 +2108,7 @@ class VolumeProperties(_serialization.Model):
         *,
         size_gi_b: int,
         creation_data: Optional["_models.SourceCreationData"] = None,
+        soft_delete_enabled: Optional[bool] = None,
         managed_by: Optional["_models.ManagedByInfo"] = None,
         **kwargs: Any
     ) -> None:
@@ -2087,6 +2117,8 @@ class VolumeProperties(_serialization.Model):
         :paramtype creation_data: ~azure.mgmt.elasticsan.models.SourceCreationData
         :keyword size_gi_b: Volume size. Required.
         :paramtype size_gi_b: int
+        :keyword soft_delete_enabled: Indicates whether delete retention is allowed on the volume.
+        :paramtype soft_delete_enabled: bool
         :keyword managed_by: Parent resource information.
         :paramtype managed_by: ~azure.mgmt.elasticsan.models.ManagedByInfo
         """
@@ -2095,6 +2127,7 @@ class VolumeProperties(_serialization.Model):
         self.creation_data = creation_data
         self.size_gi_b = size_gi_b
         self.storage_target = None
+        self.soft_delete_enabled = soft_delete_enabled
         self.managed_by = managed_by
         self.provisioning_state = None
 
@@ -2126,22 +2159,33 @@ class VolumeUpdateProperties(_serialization.Model):
     :vartype size_gi_b: int
     :ivar managed_by: Parent resource information.
     :vartype managed_by: ~azure.mgmt.elasticsan.models.ManagedByInfo
+    :ivar soft_delete_enabled: Indicates whether delete retention is allowed on the volume.
+    :vartype soft_delete_enabled: bool
     """
 
     _attribute_map = {
         "size_gi_b": {"key": "sizeGiB", "type": "int"},
         "managed_by": {"key": "managedBy", "type": "ManagedByInfo"},
+        "soft_delete_enabled": {"key": "softDeleteEnabled", "type": "bool"},
     }
 
     def __init__(
-        self, *, size_gi_b: Optional[int] = None, managed_by: Optional["_models.ManagedByInfo"] = None, **kwargs: Any
+        self,
+        *,
+        size_gi_b: Optional[int] = None,
+        managed_by: Optional["_models.ManagedByInfo"] = None,
+        soft_delete_enabled: Optional[bool] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword size_gi_b: Volume size.
         :paramtype size_gi_b: int
         :keyword managed_by: Parent resource information.
         :paramtype managed_by: ~azure.mgmt.elasticsan.models.ManagedByInfo
+        :keyword soft_delete_enabled: Indicates whether delete retention is allowed on the volume.
+        :paramtype soft_delete_enabled: bool
         """
         super().__init__(**kwargs)
         self.size_gi_b = size_gi_b
         self.managed_by = managed_by
+        self.soft_delete_enabled = soft_delete_enabled

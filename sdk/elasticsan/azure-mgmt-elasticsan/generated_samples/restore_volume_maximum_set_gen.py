@@ -15,7 +15,7 @@ from azure.mgmt.elasticsan import ElasticSanMgmtClient
     pip install azure-identity
     pip install azure-mgmt-elasticsan
 # USAGE
-    python elastic_sans_list_by_resource_group_minimum_set_gen.py
+    python restore_volume_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,15 @@ def main():
         subscription_id="subscriptionid",
     )
 
-    response = client.elastic_sans.list_by_resource_group(
+    response = client.begin_restore_volume(
         resource_group_name="resourcegroupname",
-    )
-    for item in response:
-        print(item)
+        elastic_san_name="elasticsanname",
+        volume_group_name="volumegroupname",
+        volume_name="volumename",
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/RestoreVolume_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
