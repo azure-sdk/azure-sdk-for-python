@@ -62,6 +62,40 @@ class AccessoryItem(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class AddFaceResult(_model_base.Model):
+    """Response body for adding face.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar persisted_face_id: Persisted Face ID of the added face, which is persisted and will not
+     expire. Different from faceId which is created in "Detect" and will expire in 24 hours after
+     the detection call. Required.
+    :vartype persisted_face_id: str
+    """
+
+    persisted_face_id: str = rest_field(name="persistedFaceId")
+    """Persisted Face ID of the added face, which is persisted and will not expire. Different from
+     faceId which is created in \"Detect\" and will expire in 24 hours after the detection call.
+     Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        persisted_face_id: str,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class AuditLivenessResponseInfo(_model_base.Model):
     """Audit entry for a response in the session.
 
@@ -179,6 +213,56 @@ class BlurProperties(_model_base.Model):
         *,
         blur_level: Union[str, "_models.BlurLevel"],
         value: float,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class CreateCollectionOptions(_model_base.Model):
+    """CreateCollectionOptions.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar recognition_model: The 'recognitionModel' associated with this face list. Supported
+     'recognitionModel' values include 'recognition_01', 'recognition_02, 'recognition_03', and
+     'recognition_04'. The default value is 'recognition_01'. 'recognition_04' is recommended since
+     its accuracy is improved on faces wearing masks compared with 'recognition_03', and its overall
+     accuracy is improved compared with 'recognition_01' and 'recognition_02'. Known values are:
+     "recognition_01", "recognition_02", "recognition_03", and "recognition_04".
+    :vartype recognition_model: str or ~azure.ai.vision.face.models.FaceRecognitionModel
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = rest_field(name="recognitionModel")
+    """The 'recognitionModel' associated with this face list. Supported 'recognitionModel' values
+     include 'recognition_01', 'recognition_02, 'recognition_03', and 'recognition_04'. The default
+     value is 'recognition_01'. 'recognition_04' is recommended since its accuracy is improved on
+     faces wearing masks compared with 'recognition_03', and its overall accuracy is improved
+     compared with 'recognition_01' and 'recognition_02'. Known values are: \"recognition_01\",
+     \"recognition_02\", \"recognition_03\", and \"recognition_04\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = None,
     ): ...
 
     @overload
@@ -353,6 +437,77 @@ class CreateLivenessWithVerifySessionResult(_model_base.Model):
         session_id: str,
         auth_token: str,
         verify_image: Optional["_models.LivenessWithVerifyImage"] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class CreatePersonResult(_model_base.Model):
+    """Response of create person.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar person_id: Person ID of the person. Required.
+    :vartype person_id: str
+    """
+
+    person_id: str = rest_field(name="personId")
+    """Person ID of the person. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        person_id: str,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class DynamicPersonGroup(_model_base.Model):
+    """A container that references Person Directory "Create Person".
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar dynamic_person_group_id: ID of the dynamic person group. Required.
+    :vartype dynamic_person_group_id: str
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    """
+
+    dynamic_person_group_id: str = rest_field(name="dynamicPersonGroupId", visibility=["read"])
+    """ID of the dynamic person group. Required."""
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
     ): ...
 
     @overload
@@ -827,7 +982,7 @@ class FaceLandmarks(_model_base.Model):  # pylint: disable=too-many-instance-att
     """The coordinates of the under lip bottom. Required."""
 
     @overload
-    def __init__(  # pylint: disable=too-many-locals
+    def __init__(
         self,
         *,
         pupil_left: "_models.LandmarkCoordinate",
@@ -857,6 +1012,199 @@ class FaceLandmarks(_model_base.Model):  # pylint: disable=too-many-instance-att
         upper_lip_bottom: "_models.LandmarkCoordinate",
         under_lip_top: "_models.LandmarkCoordinate",
         under_lip_bottom: "_models.LandmarkCoordinate",
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class FaceLargeFaceListData(_model_base.Model):
+    """Large face list is a list of faces, up to 1,000,000 faces.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar recognition_model: Name of recognition model. Recognition model is used when the face
+     features are extracted and associated with detected faceIds. Known values are:
+     "recognition_01", "recognition_02", "recognition_03", and "recognition_04".
+    :vartype recognition_model: str or ~azure.ai.vision.face.models.FaceRecognitionModel
+    :ivar large_face_list_id: Valid character is letter in lower case or digit or '-' or '_',
+     maximum length is 64. Required.
+    :vartype large_face_list_id: str
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = rest_field(name="recognitionModel")
+    """Name of recognition model. Recognition model is used when the face features are extracted and
+     associated with detected faceIds. Known values are: \"recognition_01\", \"recognition_02\",
+     \"recognition_03\", and \"recognition_04\"."""
+    large_face_list_id: str = rest_field(name="largeFaceListId", visibility=["read"])
+    """Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class FaceListData(_model_base.Model):
+    """Face list is a list of faces, up to 1,000 faces.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar recognition_model: Name of recognition model. Recognition model is used when the face
+     features are extracted and associated with detected faceIds. Known values are:
+     "recognition_01", "recognition_02", "recognition_03", and "recognition_04".
+    :vartype recognition_model: str or ~azure.ai.vision.face.models.FaceRecognitionModel
+    :ivar face_list_id: Valid character is letter in lower case or digit or '-' or '_', maximum
+     length is 64. Required.
+    :vartype face_list_id: str
+    :ivar persisted_faces: Face ids of registered faces in the face list.
+    :vartype persisted_faces: list[~azure.ai.vision.face.models.FaceListFace]
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = rest_field(name="recognitionModel")
+    """Name of recognition model. Recognition model is used when the face features are extracted and
+     associated with detected faceIds. Known values are: \"recognition_01\", \"recognition_02\",
+     \"recognition_03\", and \"recognition_04\"."""
+    face_list_id: str = rest_field(name="faceListId", visibility=["read"])
+    """Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. Required."""
+    persisted_faces: Optional[List["_models.FaceListFace"]] = rest_field(name="persistedFaces")
+    """Face ids of registered faces in the face list."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = None,
+        persisted_faces: Optional[List["_models.FaceListFace"]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class FaceListFace(_model_base.Model):
+    """Face resource for face list.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar persisted_face_id: Face ID of the face. Required.
+    :vartype persisted_face_id: str
+    :ivar user_data: User-provided data attached to the face. The length limit is 1K.
+    :vartype user_data: str
+    """
+
+    persisted_face_id: str = rest_field(name="persistedFaceId", visibility=["read"])
+    """Face ID of the face. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """User-provided data attached to the face. The length limit is 1K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class FaceListItem(_model_base.Model):
+    """Face list item for list face list.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar recognition_model: Name of recognition model. Recognition model is used when the face
+     features are extracted and associated with detected faceIds. Known values are:
+     "recognition_01", "recognition_02", "recognition_03", and "recognition_04".
+    :vartype recognition_model: str or ~azure.ai.vision.face.models.FaceRecognitionModel
+    :ivar face_list_id: Valid character is letter in lower case or digit or '-' or '_', maximum
+     length is 64. Required.
+    :vartype face_list_id: str
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = rest_field(name="recognitionModel")
+    """Name of recognition model. Recognition model is used when the face features are extracted and
+     associated with detected faceIds. Known values are: \"recognition_01\", \"recognition_02\",
+     \"recognition_03\", and \"recognition_04\"."""
+    face_list_id: str = rest_field(name="faceListId")
+    """Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        face_list_id: str,
+        user_data: Optional[str] = None,
+        recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = None,
     ): ...
 
     @overload
@@ -906,6 +1254,34 @@ class FaceRectangle(_model_base.Model):
         left: int,
         width: int,
         height: int,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class FaceUserData(_model_base.Model):
+    """FaceUserData.
+
+    :ivar user_data: User-provided data attached to the face. The length limit is 1K.
+    :vartype user_data: str
+    """
+
+    user_data: Optional[str] = rest_field(name="userData")
+    """User-provided data attached to the face. The length limit is 1K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_data: Optional[str] = None,
     ): ...
 
     @overload
@@ -1148,6 +1524,271 @@ class LandmarkCoordinate(_model_base.Model):
         *,
         x: float,
         y: float,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class LargeFaceListFace(_model_base.Model):
+    """Face resource for large face list.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar persisted_face_id: Face ID of the face. Required.
+    :vartype persisted_face_id: str
+    :ivar user_data: User-provided data attached to the face. The length limit is 1K.
+    :vartype user_data: str
+    """
+
+    persisted_face_id: str = rest_field(name="persistedFaceId", visibility=["read"])
+    """Face ID of the face. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """User-provided data attached to the face. The length limit is 1K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class LargePersonGroupData(_model_base.Model):
+    """The container of the uploaded person data, including face recognition feature, and up to
+    1,000,000 people.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar recognition_model: Name of recognition model. Recognition model is used when the face
+     features are extracted and associated with detected faceIds. Known values are:
+     "recognition_01", "recognition_02", "recognition_03", and "recognition_04".
+    :vartype recognition_model: str or ~azure.ai.vision.face.models.FaceRecognitionModel
+    :ivar large_person_group_id: ID of the container. Required.
+    :vartype large_person_group_id: str
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = rest_field(name="recognitionModel")
+    """Name of recognition model. Recognition model is used when the face features are extracted and
+     associated with detected faceIds. Known values are: \"recognition_01\", \"recognition_02\",
+     \"recognition_03\", and \"recognition_04\"."""
+    large_person_group_id: str = rest_field(name="largePersonGroupId", visibility=["read"])
+    """ID of the container. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class LargePersonGroupPerson(_model_base.Model):
+    """The person in a specified large person group. To add face to this person, please call "Add
+    Large Person Group Person Face".
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar person_id: ID of the person. Required.
+    :vartype person_id: str
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar persisted_face_ids: Face ids of registered faces in the person.
+    :vartype persisted_face_ids: list[str]
+    """
+
+    person_id: str = rest_field(name="personId", visibility=["read"])
+    """ID of the person. Required."""
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    persisted_face_ids: Optional[List[str]] = rest_field(name="persistedFaceIds")
+    """Face ids of registered faces in the person."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        persisted_face_ids: Optional[List[str]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class LargePersonGroupPersonFace(_model_base.Model):
+    """Face resource for large person group person.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar persisted_face_id: Face ID of the face. Required.
+    :vartype persisted_face_id: str
+    :ivar user_data: User-provided data attached to the face. The length limit is 1K.
+    :vartype user_data: str
+    """
+
+    persisted_face_id: str = rest_field(name="persistedFaceId", visibility=["read"])
+    """Face ID of the face. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """User-provided data attached to the face. The length limit is 1K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class ListFaceResult(_model_base.Model):
+    """Response of list face of person.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar person_id: Id of person. Required.
+    :vartype person_id: str
+    :ivar persisted_face_ids: Array of persisted face ids. Required.
+    :vartype persisted_face_ids: list[str]
+    """
+
+    person_id: str = rest_field(name="personId")
+    """Id of person. Required."""
+    persisted_face_ids: List[str] = rest_field(name="persistedFaceIds")
+    """Array of persisted face ids. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        person_id: str,
+        persisted_face_ids: List[str],
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class ListGroupReferenceResult(_model_base.Model):
+    """Response of list dynamic person group of person.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar dynamic_person_group_ids: Array of PersonDirectory DynamicPersonGroup ids. Required.
+    :vartype dynamic_person_group_ids: list[str]
+    """
+
+    dynamic_person_group_ids: List[str] = rest_field(name="dynamicPersonGroupIds")
+    """Array of PersonDirectory DynamicPersonGroup ids. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        dynamic_person_group_ids: List[str],
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class ListPersonResult(_model_base.Model):
+    """Response of list dynamic person group person.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar person_ids: Array of PersonDirectory Person ids. Required.
+    :vartype person_ids: list[str]
+    """
+
+    person_ids: List[str] = rest_field(name="personIds")
+    """Array of PersonDirectory Person ids. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        person_ids: List[str],
     ): ...
 
     @overload
@@ -1734,6 +2375,407 @@ class OcclusionProperties(_model_base.Model):
         forehead_occluded: bool,
         eye_occluded: bool,
         mouth_occluded: bool,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class OperationResult(_model_base.Model):
+    """Long running operation resource for person directory.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar operation_id: Operation ID of the operation. Required.
+    :vartype operation_id: str
+    :ivar status: Current status of the operation. Required. Known values are: "notStarted",
+     "running", "succeeded", and "failed".
+    :vartype status: str or ~azure.ai.vision.face.models.OperationStatus
+    :ivar created_time: Date and time the operation was created. Required.
+    :vartype created_time: ~datetime.datetime
+    :ivar last_action_time: Date and time the operation was last updated.
+    :vartype last_action_time: ~datetime.datetime
+    :ivar finished_time: Date and time the operation was finished.
+    :vartype finished_time: ~datetime.datetime
+    :ivar message: Message for the operation.
+    :vartype message: str
+    """
+
+    operation_id: str = rest_field(name="operationId", visibility=["read"])
+    """Operation ID of the operation. Required."""
+    status: Union[str, "_models.OperationStatus"] = rest_field()
+    """Current status of the operation. Required. Known values are: \"notStarted\", \"running\",
+     \"succeeded\", and \"failed\"."""
+    created_time: datetime.datetime = rest_field(name="createdTime", format="rfc3339")
+    """Date and time the operation was created. Required."""
+    last_action_time: Optional[datetime.datetime] = rest_field(name="lastActionTime", format="rfc3339")
+    """Date and time the operation was last updated."""
+    finished_time: Optional[datetime.datetime] = rest_field(name="finishedTime", format="rfc3339")
+    """Date and time the operation was finished."""
+    message: Optional[str] = rest_field()
+    """Message for the operation."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        status: Union[str, "_models.OperationStatus"],
+        created_time: datetime.datetime,
+        last_action_time: Optional[datetime.datetime] = None,
+        finished_time: Optional[datetime.datetime] = None,
+        message: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class PersonDirectoryFace(_model_base.Model):
+    """Face resource for person directory person.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar persisted_face_id: Face ID of the face. Required.
+    :vartype persisted_face_id: str
+    :ivar user_data: User-provided data attached to the face. The length limit is 1K.
+    :vartype user_data: str
+    """
+
+    persisted_face_id: str = rest_field(name="persistedFaceId", visibility=["read"])
+    """Face ID of the face. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """User-provided data attached to the face. The length limit is 1K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class PersonDirectoryPerson(_model_base.Model):
+    """Person resource for person directory.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar person_id: Person ID of the person. Required.
+    :vartype person_id: str
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    """
+
+    person_id: str = rest_field(name="personId", visibility=["read"])
+    """Person ID of the person. Required."""
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class PersonGroupData(_model_base.Model):
+    """The container of the uploaded person data, including face recognition feature, and up to 10,000
+    persons. To handle larger scale face identification problem, please consider using Large Person
+    Group.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar recognition_model: Name of recognition model. Recognition model is used when the face
+     features are extracted and associated with detected faceIds. Known values are:
+     "recognition_01", "recognition_02", "recognition_03", and "recognition_04".
+    :vartype recognition_model: str or ~azure.ai.vision.face.models.FaceRecognitionModel
+    :ivar person_group_id: ID of the container. Required.
+    :vartype person_group_id: str
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = rest_field(name="recognitionModel")
+    """Name of recognition model. Recognition model is used when the face features are extracted and
+     associated with detected faceIds. Known values are: \"recognition_01\", \"recognition_02\",
+     \"recognition_03\", and \"recognition_04\"."""
+    person_group_id: str = rest_field(name="personGroupId", visibility=["read"])
+    """ID of the container. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        recognition_model: Optional[Union[str, "_models.FaceRecognitionModel"]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class PersonGroupPerson(_model_base.Model):
+    """The person in a specified person group. To add face to this person, please call "Add Large
+    Person Group Person Face".
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar person_id: ID of the person. Required.
+    :vartype person_id: str
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    :ivar persisted_face_ids: Face ids of registered faces in the person.
+    :vartype persisted_face_ids: list[str]
+    """
+
+    person_id: str = rest_field(name="personId", visibility=["read"])
+    """ID of the person. Required."""
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+    persisted_face_ids: Optional[List[str]] = rest_field(name="persistedFaceIds")
+    """Face ids of registered faces in the person."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+        persisted_face_ids: Optional[List[str]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class PersonGroupPersonFace(_model_base.Model):
+    """Face resource for person group person.
+
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar persisted_face_id: Face ID of the face. Required.
+    :vartype persisted_face_id: str
+    :ivar user_data: User-provided data attached to the face. The length limit is 1K.
+    :vartype user_data: str
+    """
+
+    persisted_face_id: str = rest_field(name="persistedFaceId", visibility=["read"])
+    """Face ID of the face. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """User-provided data attached to the face. The length limit is 1K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class TrainingResult(_model_base.Model):
+    """Training result of a container.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar status: Training status of the container. Required. Known values are: "notStarted",
+     "running", "succeeded", and "failed".
+    :vartype status: str or ~azure.ai.vision.face.models.OperationStatus
+    :ivar created_date_time: A combined UTC date and time string that describes the created time of
+     the person group, large person group or large face list. Required.
+    :vartype created_date_time: ~datetime.datetime
+    :ivar last_action_date_time: A combined UTC date and time string that describes the last modify
+     time of the person group, large person group or large face list, could be null value when the
+     group is not successfully trained. Required.
+    :vartype last_action_date_time: ~datetime.datetime
+    :ivar last_successful_training_date_time: A combined UTC date and time string that describes
+     the last successful training time of the person group, large person group or large face list.
+     Required.
+    :vartype last_successful_training_date_time: ~datetime.datetime
+    :ivar message: Show failure message when training failed (omitted when training succeed).
+    :vartype message: str
+    """
+
+    status: Union[str, "_models.OperationStatus"] = rest_field()
+    """Training status of the container. Required. Known values are: \"notStarted\", \"running\",
+     \"succeeded\", and \"failed\"."""
+    created_date_time: datetime.datetime = rest_field(name="createdDateTime", format="rfc3339")
+    """A combined UTC date and time string that describes the created time of the person group, large
+     person group or large face list. Required."""
+    last_action_date_time: datetime.datetime = rest_field(name="lastActionDateTime", format="rfc3339")
+    """A combined UTC date and time string that describes the last modify time of the person group,
+     large person group or large face list, could be null value when the group is not successfully
+     trained. Required."""
+    last_successful_training_date_time: datetime.datetime = rest_field(
+        name="lastSuccessfulTrainingDateTime", format="rfc3339"
+    )
+    """A combined UTC date and time string that describes the last successful training time of the
+     person group, large person group or large face list. Required."""
+    message: Optional[str] = rest_field()
+    """Show failure message when training failed (omitted when training succeed)."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        status: Union[str, "_models.OperationStatus"],
+        created_date_time: datetime.datetime,
+        last_action_date_time: datetime.datetime,
+        last_successful_training_date_time: datetime.datetime,
+        message: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class UserDefinedFields(_model_base.Model):
+    """UserDefinedFields.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: User defined name, maximum length is 128. Required.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    """
+
+    name: str = rest_field()
+    """User defined name, maximum length is 128. Required."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        user_data: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class UserDefinedFieldsForUpdate(_model_base.Model):
+    """UserDefinedFieldsForUpdate.
+
+    :ivar name: User defined name, maximum length is 128.
+    :vartype name: str
+    :ivar user_data: Optional user defined data. Length should not exceed 16K.
+    :vartype user_data: str
+    """
+
+    name: Optional[str] = rest_field()
+    """User defined name, maximum length is 128."""
+    user_data: Optional[str] = rest_field(name="userData")
+    """Optional user defined data. Length should not exceed 16K."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        user_data: Optional[str] = None,
     ): ...
 
     @overload
