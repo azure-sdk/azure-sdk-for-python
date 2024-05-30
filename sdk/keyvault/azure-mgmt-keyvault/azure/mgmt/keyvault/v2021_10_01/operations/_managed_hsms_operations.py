@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from ..._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -326,9 +331,9 @@ class ManagedHsmsOperations:
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     def _create_or_update_initial(
-        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO], **kwargs: Any
+        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO[bytes]], **kwargs: Any
     ) -> _models.ManagedHsm:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -351,7 +356,7 @@ class ManagedHsmsOperations:
         else:
             _json = self._serialize.body(parameters, "ManagedHsm")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -359,16 +364,15 @@ class ManagedHsmsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -388,10 +392,6 @@ class ManagedHsmsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -415,14 +415,6 @@ class ManagedHsmsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -433,7 +425,7 @@ class ManagedHsmsOperations:
         self,
         resource_group_name: str,
         name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -446,18 +438,10 @@ class ManagedHsmsOperations:
         :param name: Name of the managed HSM Pool. Required.
         :type name: str
         :param parameters: Parameters to create or update the managed HSM Pool. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -465,7 +449,7 @@ class ManagedHsmsOperations:
 
     @distributed_trace
     def begin_create_or_update(
-        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO], **kwargs: Any
+        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.ManagedHsm]:
         """Create or update a managed HSM Pool in the specified subscription.
 
@@ -475,19 +459,8 @@ class ManagedHsmsOperations:
         :param name: Name of the managed HSM Pool. Required.
         :type name: str
         :param parameters: Parameters to create or update the managed HSM Pool. Is either a ManagedHsm
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm or IO[bytes]
         :return: An instance of LROPoller that returns either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -518,7 +491,7 @@ class ManagedHsmsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ManagedHsm", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -528,22 +501,20 @@ class ManagedHsmsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ManagedHsm].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
+        return LROPoller[_models.ManagedHsm](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_initial(
-        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO], **kwargs: Any
+        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO[bytes]], **kwargs: Any
     ) -> _models.ManagedHsm:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -566,7 +537,7 @@ class ManagedHsmsOperations:
         else:
             _json = self._serialize.body(parameters, "ManagedHsm")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
@@ -574,16 +545,15 @@ class ManagedHsmsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -607,10 +577,6 @@ class ManagedHsmsOperations:
 
         return deserialized  # type: ignore
 
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
-
     @overload
     def begin_update(
         self,
@@ -633,14 +599,6 @@ class ManagedHsmsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -651,7 +609,7 @@ class ManagedHsmsOperations:
         self,
         resource_group_name: str,
         name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -664,18 +622,10 @@ class ManagedHsmsOperations:
         :param name: Name of the managed HSM Pool. Required.
         :type name: str
         :param parameters: Parameters to patch the managed HSM Pool. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -683,7 +633,7 @@ class ManagedHsmsOperations:
 
     @distributed_trace
     def begin_update(
-        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO], **kwargs: Any
+        self, resource_group_name: str, name: str, parameters: Union[_models.ManagedHsm, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.ManagedHsm]:
         """Update a managed HSM Pool in the specified subscription.
 
@@ -693,19 +643,8 @@ class ManagedHsmsOperations:
         :param name: Name of the managed HSM Pool. Required.
         :type name: str
         :param parameters: Parameters to patch the managed HSM Pool. Is either a ManagedHsm type or a
-         IO type. Required.
-        :type parameters: ~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm or IO[bytes]
         :return: An instance of LROPoller that returns either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -736,7 +675,7 @@ class ManagedHsmsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ManagedHsm", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -746,22 +685,20 @@ class ManagedHsmsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ManagedHsm].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
+        return LROPoller[_models.ManagedHsm](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -775,21 +712,20 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -804,11 +740,7 @@ class ManagedHsmsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, name: str, **kwargs: Any) -> LROPoller[None]:
@@ -819,14 +751,6 @@ class ManagedHsmsOperations:
         :type resource_group_name: str
         :param name: The name of the managed HSM Pool to delete. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -853,7 +777,7 @@ class ManagedHsmsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -862,17 +786,13 @@ class ManagedHsmsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get(self, resource_group_name: str, name: str, **kwargs: Any) -> Optional[_models.ManagedHsm]:
@@ -883,12 +803,11 @@ class ManagedHsmsOperations:
         :type resource_group_name: str
         :param name: The name of the managed HSM Pool. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ManagedHsm or None or the result of cls(response)
         :rtype: ~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -902,21 +821,20 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[Optional[_models.ManagedHsm]] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -931,13 +849,9 @@ class ManagedHsmsOperations:
             deserialized = self._deserialize("ManagedHsm", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_resource_group(
@@ -951,7 +865,6 @@ class ManagedHsmsOperations:
         :type resource_group_name: str
         :param top: Maximum number of results to return. Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -962,7 +875,7 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[_models.ManagedHsmListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -973,17 +886,16 @@ class ManagedHsmsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -994,14 +906,14 @@ class ManagedHsmsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ManagedHsmListResult", pipeline_response)
@@ -1011,11 +923,11 @@ class ManagedHsmsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1027,10 +939,6 @@ class ManagedHsmsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs"
-    }
 
     @distributed_trace
     def list_by_subscription(self, top: Optional[int] = None, **kwargs: Any) -> Iterable["_models.ManagedHsm"]:
@@ -1039,7 +947,6 @@ class ManagedHsmsOperations:
 
         :param top: Maximum number of results to return. Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ManagedHsm or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.keyvault.v2021_10_01.models.ManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1050,7 +957,7 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[_models.ManagedHsmListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1061,16 +968,15 @@ class ManagedHsmsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     top=top,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1081,14 +987,14 @@ class ManagedHsmsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ManagedHsmListResult", pipeline_response)
@@ -1098,11 +1004,11 @@ class ManagedHsmsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1115,14 +1021,11 @@ class ManagedHsmsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_subscription.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs"}
-
     @distributed_trace
     def list_deleted(self, **kwargs: Any) -> Iterable["_models.DeletedManagedHsm"]:
         """The List operation gets information about the deleted managed HSMs associated with the
         subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DeletedManagedHsm or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.keyvault.v2021_10_01.models.DeletedManagedHsm]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1133,7 +1036,7 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[_models.DeletedManagedHsmListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1144,15 +1047,14 @@ class ManagedHsmsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_deleted_request(
+                _request = build_list_deleted_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_deleted.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1163,14 +1065,14 @@ class ManagedHsmsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DeletedManagedHsmListResult", pipeline_response)
@@ -1180,11 +1082,11 @@ class ManagedHsmsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1197,8 +1099,6 @@ class ManagedHsmsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_deleted.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs"}
-
     @distributed_trace
     def get_deleted(self, name: str, location: str, **kwargs: Any) -> _models.DeletedManagedHsm:
         """Gets the specified deleted managed HSM.
@@ -1207,12 +1107,11 @@ class ManagedHsmsOperations:
         :type name: str
         :param location: The location of the deleted managed HSM. Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DeletedManagedHsm or the result of cls(response)
         :rtype: ~azure.mgmt.keyvault.v2021_10_01.models.DeletedManagedHsm
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1226,21 +1125,20 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[_models.DeletedManagedHsm] = kwargs.pop("cls", None)
 
-        request = build_get_deleted_request(
+        _request = build_get_deleted_request(
             name=name,
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_deleted.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1253,18 +1151,14 @@ class ManagedHsmsOperations:
         deserialized = self._deserialize("DeletedManagedHsm", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_deleted.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}"
-    }
+        return deserialized  # type: ignore
 
     def _purge_deleted_initial(  # pylint: disable=inconsistent-return-statements
         self, name: str, location: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1278,21 +1172,20 @@ class ManagedHsmsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-10-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_purge_deleted_request(
+        _request = build_purge_deleted_request(
             name=name,
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._purge_deleted_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1306,11 +1199,7 @@ class ManagedHsmsOperations:
         response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _purge_deleted_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}/purge"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_purge_deleted(self, name: str, location: str, **kwargs: Any) -> LROPoller[None]:
@@ -1320,14 +1209,6 @@ class ManagedHsmsOperations:
         :type name: str
         :param location: The location of the soft-deleted managed HSM. Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1354,7 +1235,7 @@ class ManagedHsmsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -1363,14 +1244,10 @@ class ManagedHsmsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_purge_deleted.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}/purge"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
