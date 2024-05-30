@@ -10644,44 +10644,23 @@ class ServiceResource(ARMProxyResource):
 class ServiceResourceCreateUpdateParameters(_serialization.Model):
     """Parameters for Create or Update request for ServiceResource.
 
-    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
-     "Cosmos.D8s", and "Cosmos.D16s".
-    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
-    :ivar instance_count: Instance count for the service.
-    :vartype instance_count: int
-    :ivar service_type: ServiceType for the service. Known values are: "SqlDedicatedGateway",
-     "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
-    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    :ivar properties: Properties in ServiceResourceCreateUpdateParameters.
+    :vartype properties: ~azure.mgmt.cosmosdb.models.ServiceResourceCreateUpdateProperties
     """
 
-    _validation = {
-        "instance_count": {"minimum": 0},
-    }
-
     _attribute_map = {
-        "instance_size": {"key": "properties.instanceSize", "type": "str"},
-        "instance_count": {"key": "properties.instanceCount", "type": "int"},
-        "service_type": {"key": "properties.serviceType", "type": "str"},
+        "properties": {"key": "properties", "type": "ServiceResourceCreateUpdateProperties"},
     }
 
     def __init__(
-        self,
-        *,
-        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
-        instance_count: Optional[int] = None,
-        **kwargs: Any
+        self, *, properties: Optional["_models.ServiceResourceCreateUpdateProperties"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
-         "Cosmos.D8s", and "Cosmos.D16s".
-        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
-        :keyword instance_count: Instance count for the service.
-        :paramtype instance_count: int
+        :keyword properties: Properties in ServiceResourceCreateUpdateParameters.
+        :paramtype properties: ~azure.mgmt.cosmosdb.models.ServiceResourceCreateUpdateProperties
         """
         super().__init__(**kwargs)
-        self.instance_size = instance_size
-        self.instance_count = instance_count
-        self.service_type: Optional[str] = None
+        self.properties = properties
 
 
 class ServiceResourceListResult(_serialization.Model):
