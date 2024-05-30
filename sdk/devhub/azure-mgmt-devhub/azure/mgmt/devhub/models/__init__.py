@@ -13,16 +13,25 @@ from ._models_py3 import DeploymentProperties
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExportTemplateRequest
 from ._models_py3 import GitHubOAuthCallRequest
 from ._models_py3 import GitHubOAuthInfoResponse
 from ._models_py3 import GitHubOAuthListResponse
 from ._models_py3 import GitHubOAuthResponse
 from ._models_py3 import GitHubWorkflowProfileOidcCredentials
+from ._models_py3 import IacProfile
+from ._models_py3 import IacProfileListResult
+from ._models_py3 import IacTemplateDetails
+from ._models_py3 import IacTemplateProperties
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import PrLinkResponse
 from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
+from ._models_py3 import ScaleProperty
+from ._models_py3 import ScaleTemplateRequest
+from ._models_py3 import StageProperties
 from ._models_py3 import SystemData
 from ._models_py3 import TagsObject
 from ._models_py3 import TrackedResource
@@ -40,6 +49,7 @@ from ._dev_hub_mgmt_client_enums import ManifestGenerationMode
 from ._dev_hub_mgmt_client_enums import ManifestType
 from ._dev_hub_mgmt_client_enums import Origin
 from ._dev_hub_mgmt_client_enums import PullRequestStatus
+from ._dev_hub_mgmt_client_enums import QuickStartTemplateType
 from ._dev_hub_mgmt_client_enums import WorkflowRunStatus
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -53,16 +63,25 @@ __all__ = [
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "ExportTemplateRequest",
     "GitHubOAuthCallRequest",
     "GitHubOAuthInfoResponse",
     "GitHubOAuthListResponse",
     "GitHubOAuthResponse",
     "GitHubWorkflowProfileOidcCredentials",
+    "IacProfile",
+    "IacProfileListResult",
+    "IacTemplateDetails",
+    "IacTemplateProperties",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "PrLinkResponse",
     "ProxyResource",
     "Resource",
+    "ScaleProperty",
+    "ScaleTemplateRequest",
+    "StageProperties",
     "SystemData",
     "TagsObject",
     "TrackedResource",
@@ -79,6 +98,7 @@ __all__ = [
     "ManifestType",
     "Origin",
     "PullRequestStatus",
+    "QuickStartTemplateType",
     "WorkflowRunStatus",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

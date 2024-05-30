@@ -9,6 +9,7 @@
 from ._operations import Operations
 from ._dev_hub_mgmt_client_operations import DevHubMgmtClientOperationsMixin
 from ._workflow_operations import WorkflowOperations
+from ._iac_profiles_operations import IacProfilesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -18,6 +19,7 @@ __all__ = [
     "Operations",
     "DevHubMgmtClientOperationsMixin",
     "WorkflowOperations",
+    "IacProfilesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
