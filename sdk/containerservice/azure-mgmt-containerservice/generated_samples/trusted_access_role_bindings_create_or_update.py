@@ -49,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-02-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
