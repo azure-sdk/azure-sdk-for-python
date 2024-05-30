@@ -44,8 +44,8 @@ class BackupProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar azure_storage_resource_uri: Azure storage Resource Uri.
-    :vartype azure_storage_resource_uri: str
+    :ivar azure_storage_container_uri: Azure Blob storage container Uri.
+    :vartype azure_storage_container_uri: str
     :ivar last_backup_date_time: Last Date Time that Customer Enabled Backup was taken.
     :vartype last_backup_date_time: ~datetime.datetime
     :ivar last_backup_status: Status of last backup.
@@ -58,23 +58,23 @@ class BackupProperties(_serialization.Model):
     }
 
     _attribute_map = {
-        "azure_storage_resource_uri": {"key": "azureStorageResourceUri", "type": "str"},
+        "azure_storage_container_uri": {"key": "azureStorageContainerUri", "type": "str"},
         "last_backup_date_time": {"key": "lastBackupDateTime", "type": "iso-8601"},
         "last_backup_status": {"key": "lastBackupStatus", "type": "str"},
     }
 
-    def __init__(self, *, azure_storage_resource_uri: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, azure_storage_container_uri: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword azure_storage_resource_uri: Azure storage Resource Uri.
-        :paramtype azure_storage_resource_uri: str
+        :keyword azure_storage_container_uri: Azure Blob storage container Uri.
+        :paramtype azure_storage_container_uri: str
         """
         super().__init__(**kwargs)
-        self.azure_storage_resource_uri = azure_storage_resource_uri
+        self.azure_storage_container_uri = azure_storage_container_uri
         self.last_backup_date_time = None
         self.last_backup_status = None
 
 
-class CHsmError(_serialization.Model):
+class ChsmError(_serialization.Model):
     """Error details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -108,7 +108,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -149,10 +149,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -202,10 +202,10 @@ class CloudHsmClusterResource(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -219,10 +219,10 @@ class CloudHsmClusterResource(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar sku: SKU details.
-    :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
     :ivar identity: Managed service identity (system assigned and/or user assigned identities).
     :vartype identity: ~azure.mgmt.hardwaresecuritymodules.models.ManagedServiceIdentity
+    :ivar sku: SKU details.
+    :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
     """
 
     _validation = {
@@ -240,8 +240,8 @@ class CloudHsmClusterResource(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "sku": {"key": "sku", "type": "CloudHsmClusterSku"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "sku": {"key": "sku", "type": "CloudHsmClusterSku"},
     }
 
     def __init__(
@@ -249,8 +249,8 @@ class CloudHsmClusterResource(TrackedResource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
-        sku: Optional["_models.CloudHsmClusterSku"] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        sku: Optional["_models.CloudHsmClusterSku"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -258,14 +258,14 @@ class CloudHsmClusterResource(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword sku: SKU details.
-        :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
         :keyword identity: Managed service identity (system assigned and/or user assigned identities).
         :paramtype identity: ~azure.mgmt.hardwaresecuritymodules.models.ManagedServiceIdentity
+        :keyword sku: SKU details.
+        :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.sku = sku
         self.identity = identity
+        self.sku = sku
 
 
 class CloudHsmCluster(CloudHsmClusterResource):
@@ -273,10 +273,10 @@ class CloudHsmCluster(CloudHsmClusterResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -290,10 +290,10 @@ class CloudHsmCluster(CloudHsmClusterResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar sku: SKU details.
-    :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
     :ivar identity: Managed service identity (system assigned and/or user assigned identities).
     :vartype identity: ~azure.mgmt.hardwaresecuritymodules.models.ManagedServiceIdentity
+    :ivar sku: SKU details.
+    :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
     :ivar properties: Properties of the Cloud HSM Cluster.
     :vartype properties: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterProperties
     """
@@ -313,8 +313,8 @@ class CloudHsmCluster(CloudHsmClusterResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "sku": {"key": "sku", "type": "CloudHsmClusterSku"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "sku": {"key": "sku", "type": "CloudHsmClusterSku"},
         "properties": {"key": "properties", "type": "CloudHsmClusterProperties"},
     }
 
@@ -323,8 +323,8 @@ class CloudHsmCluster(CloudHsmClusterResource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
-        sku: Optional["_models.CloudHsmClusterSku"] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        sku: Optional["_models.CloudHsmClusterSku"] = None,
         properties: Optional["_models.CloudHsmClusterProperties"] = None,
         **kwargs: Any
     ) -> None:
@@ -333,14 +333,14 @@ class CloudHsmCluster(CloudHsmClusterResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword sku: SKU details.
-        :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
         :keyword identity: Managed service identity (system assigned and/or user assigned identities).
         :paramtype identity: ~azure.mgmt.hardwaresecuritymodules.models.ManagedServiceIdentity
+        :keyword sku: SKU details.
+        :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSku
         :keyword properties: Properties of the Cloud HSM Cluster.
         :paramtype properties: ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterProperties
         """
-        super().__init__(tags=tags, location=location, sku=sku, identity=identity, **kwargs)
+        super().__init__(tags=tags, location=location, identity=identity, sku=sku, **kwargs)
         self.properties = properties
 
 
@@ -348,17 +348,17 @@ class CloudHsmClusterError(_serialization.Model):
     """The Cloud HSM Cluster error details.
 
     :ivar error: Error details.
-    :vartype error: ~azure.mgmt.hardwaresecuritymodules.models.CHsmError
+    :vartype error: ~azure.mgmt.hardwaresecuritymodules.models.ChsmError
     """
 
     _attribute_map = {
-        "error": {"key": "error", "type": "CHsmError"},
+        "error": {"key": "error", "type": "ChsmError"},
     }
 
-    def __init__(self, *, error: Optional["_models.CHsmError"] = None, **kwargs: Any) -> None:
+    def __init__(self, *, error: Optional["_models.ChsmError"] = None, **kwargs: Any) -> None:
         """
         :keyword error: Error details.
-        :paramtype error: ~azure.mgmt.hardwaresecuritymodules.models.CHsmError
+        :paramtype error: ~azure.mgmt.hardwaresecuritymodules.models.ChsmError
         """
         super().__init__(**kwargs)
         self.error = error
@@ -465,127 +465,102 @@ class CloudHsmClusterProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar activation_state: State of security domain activation.
+    :vartype activation_state: str
+    :ivar auto_generated_domain_name_label_scope: The Cloud HSM Cluster's auto-generated Domain
+     Name Label Scope.
+    :vartype auto_generated_domain_name_label_scope: str
+    :ivar fips_approved_mode: False: Non-FIPS Mode with-single factor authentication. True: FIPS
+     approved Mode with single-factor authentication.
+    :vartype fips_approved_mode: bool
+    :ivar hsms: An array of Cloud HSM Cluster's HSMs.
+    :vartype hsms: list[~azure.mgmt.hardwaresecuritymodules.models.CloudHsmProperties]
+    :ivar private_endpoint_connections: List of private endpoint connection resources.
+    :vartype private_endpoint_connections:
+     list[~azure.mgmt.hardwaresecuritymodules.models.PrivateEndpointConnection]
     :ivar provisioning_state: The Cloud HSM Cluster's provisioningState. Known values are:
      "Provisioning", "Succeeded", "Failed", "Deleting", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.hardwaresecuritymodules.models.ProvisioningState
-    :ivar auto_generated_domain_name_label_scope: The Cloud HSM Cluster's auto-generated Domain
-     Name Label Scope.
-    :vartype auto_generated_domain_name_label_scope: str
-    :ivar security_domain: Security domain properties information for Cloud HSM cluster.
-    :vartype security_domain:
-     ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSecurityDomainProperties
-    :ivar hsms: An array of Cloud HSM Cluster's HSMs.
-    :vartype hsms: list[~azure.mgmt.hardwaresecuritymodules.models.CloudHsmProperties]
     :ivar public_network_access: The Cloud HSM Cluster public network access.
     :vartype public_network_access: str
-    :ivar private_endpoint_connections: List of private endpoint connection resources.
-    :vartype private_endpoint_connections:
-     list[~azure.mgmt.hardwaresecuritymodules.models.PrivateEndpointConnection]
     :ivar status_message: Cloud HSM Cluster status message.
     :vartype status_message: str
-    :ivar restore_properties: Cloud Hsm Cluster restore information.
-    :vartype restore_properties: ~azure.mgmt.hardwaresecuritymodules.models.RestoreProperties
     :ivar backup_properties: Cloud Hsm Cluster backup information.
     :vartype backup_properties: ~azure.mgmt.hardwaresecuritymodules.models.BackupProperties
+    :ivar restore_properties: Cloud Hsm Cluster restore information.
+    :vartype restore_properties: ~azure.mgmt.hardwaresecuritymodules.models.RestoreProperties
     """
 
     _validation = {
+        "provisioning_state": {"readonly": True},
         "status_message": {"readonly": True},
     }
 
     _attribute_map = {
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "activation_state": {"key": "activationState", "type": "str"},
         "auto_generated_domain_name_label_scope": {"key": "autoGeneratedDomainNameLabelScope", "type": "str"},
-        "security_domain": {"key": "securityDomain", "type": "CloudHsmClusterSecurityDomainProperties"},
+        "fips_approved_mode": {"key": "fipsApprovedMode", "type": "bool"},
         "hsms": {"key": "hsms", "type": "[CloudHsmProperties]"},
-        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "private_endpoint_connections": {"key": "privateEndpointConnections", "type": "[PrivateEndpointConnection]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "status_message": {"key": "statusMessage", "type": "str"},
-        "restore_properties": {"key": "restoreProperties", "type": "RestoreProperties"},
         "backup_properties": {"key": "backupProperties", "type": "BackupProperties"},
+        "restore_properties": {"key": "restoreProperties", "type": "RestoreProperties"},
     }
 
     def __init__(
         self,
         *,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
+        activation_state: Optional[str] = None,
         auto_generated_domain_name_label_scope: Optional[str] = None,
-        security_domain: Optional["_models.CloudHsmClusterSecurityDomainProperties"] = None,
+        fips_approved_mode: bool = False,
         hsms: Optional[List["_models.CloudHsmProperties"]] = None,
-        public_network_access: Optional[str] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
-        restore_properties: Optional["_models.RestoreProperties"] = None,
+        public_network_access: Optional[str] = None,
         backup_properties: Optional["_models.BackupProperties"] = None,
+        restore_properties: Optional["_models.RestoreProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword provisioning_state: The Cloud HSM Cluster's provisioningState. Known values are:
-         "Provisioning", "Succeeded", "Failed", "Deleting", and "Canceled".
-        :paramtype provisioning_state: str or
-         ~azure.mgmt.hardwaresecuritymodules.models.ProvisioningState
+        :keyword activation_state: State of security domain activation.
+        :paramtype activation_state: str
         :keyword auto_generated_domain_name_label_scope: The Cloud HSM Cluster's auto-generated Domain
          Name Label Scope.
         :paramtype auto_generated_domain_name_label_scope: str
-        :keyword security_domain: Security domain properties information for Cloud HSM cluster.
-        :paramtype security_domain:
-         ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSecurityDomainProperties
+        :keyword fips_approved_mode: False: Non-FIPS Mode with-single factor authentication. True: FIPS
+         approved Mode with single-factor authentication.
+        :paramtype fips_approved_mode: bool
         :keyword hsms: An array of Cloud HSM Cluster's HSMs.
         :paramtype hsms: list[~azure.mgmt.hardwaresecuritymodules.models.CloudHsmProperties]
-        :keyword public_network_access: The Cloud HSM Cluster public network access.
-        :paramtype public_network_access: str
         :keyword private_endpoint_connections: List of private endpoint connection resources.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.hardwaresecuritymodules.models.PrivateEndpointConnection]
-        :keyword restore_properties: Cloud Hsm Cluster restore information.
-        :paramtype restore_properties: ~azure.mgmt.hardwaresecuritymodules.models.RestoreProperties
+        :keyword public_network_access: The Cloud HSM Cluster public network access.
+        :paramtype public_network_access: str
         :keyword backup_properties: Cloud Hsm Cluster backup information.
         :paramtype backup_properties: ~azure.mgmt.hardwaresecuritymodules.models.BackupProperties
+        :keyword restore_properties: Cloud Hsm Cluster restore information.
+        :paramtype restore_properties: ~azure.mgmt.hardwaresecuritymodules.models.RestoreProperties
         """
         super().__init__(**kwargs)
-        self.provisioning_state = provisioning_state
+        self.activation_state = activation_state
         self.auto_generated_domain_name_label_scope = auto_generated_domain_name_label_scope
-        self.security_domain = security_domain
+        self.fips_approved_mode = fips_approved_mode
         self.hsms = hsms
-        self.public_network_access = public_network_access
         self.private_endpoint_connections = private_endpoint_connections
+        self.provisioning_state = None
+        self.public_network_access = public_network_access
         self.status_message = None
-        self.restore_properties = restore_properties
         self.backup_properties = backup_properties
-
-
-class CloudHsmClusterSecurityDomainProperties(_serialization.Model):
-    """Security domain properties information for Cloud HSM cluster.
-
-    :ivar fips_state: FIPS state information for security domain.
-    :vartype fips_state: int
-    :ivar activation_status: status of security domain activation.
-    :vartype activation_status: str
-    """
-
-    _attribute_map = {
-        "fips_state": {"key": "fipsState", "type": "int"},
-        "activation_status": {"key": "activationStatus", "type": "str"},
-    }
-
-    def __init__(
-        self, *, fips_state: Optional[int] = None, activation_status: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword fips_state: FIPS state information for security domain.
-        :paramtype fips_state: int
-        :keyword activation_status: status of security domain activation.
-        :paramtype activation_status: str
-        """
-        super().__init__(**kwargs)
-        self.fips_state = fips_state
-        self.activation_status = activation_status
+        self.restore_properties = restore_properties
 
 
 class CloudHsmClusterSku(_serialization.Model):
     """Cloud Hsm Cluster SKU information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar family: Sku family of the Cloud HSM Cluster. "B"
     :vartype family: str or ~azure.mgmt.hardwaresecuritymodules.models.CloudHsmClusterSkuFamily
@@ -669,101 +644,32 @@ class CloudHsmProperties(_serialization.Model):
         self.state_message = state_message
 
 
-class DedicatedHsmResource(_serialization.Model):
-    """Dedicated HSM resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: The Azure Resource Manager resource ID for the dedicated HSM.
-    :vartype id: str
-    :ivar name: The name of the dedicated HSM.
-    :vartype name: str
-    :ivar type: The resource type of the dedicated HSM.
-    :vartype type: str
-    :ivar location: The supported Azure location where the dedicated HSM should be created.
-     Required.
-    :vartype location: str
-    :ivar sku: SKU details.
-    :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.Sku
-    :ivar zones: The Dedicated Hsm zones.
-    :vartype zones: list[str]
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "location": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "sku": {"key": "sku", "type": "Sku"},
-        "zones": {"key": "zones", "type": "[str]"},
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: str,
-        sku: Optional["_models.Sku"] = None,
-        zones: Optional[List[str]] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword location: The supported Azure location where the dedicated HSM should be created.
-         Required.
-        :paramtype location: str
-        :keyword sku: SKU details.
-        :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.Sku
-        :keyword zones: The Dedicated Hsm zones.
-        :paramtype zones: list[str]
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = location
-        self.sku = sku
-        self.zones = zones
-        self.tags = tags
-
-
-class DedicatedHsm(DedicatedHsmResource):
+class DedicatedHsm(TrackedResource):
     """Resource information with extended details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The Azure Resource Manager resource ID for the dedicated HSM.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
-    :ivar name: The name of the dedicated HSM.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The resource type of the dedicated HSM.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The supported Azure location where the dedicated HSM should be created.
-     Required.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.hardwaresecuritymodules.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar sku: SKU details.
+    :ivar sku: SKU details. Required.
     :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.Sku
     :ivar zones: The Dedicated Hsm zones.
     :vartype zones: list[str]
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.hardwaresecuritymodules.models.SystemDataAutoGenerated
     :ivar properties: Properties of the dedicated HSM. Required.
     :vartype properties: ~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmProperties
     """
@@ -772,8 +678,9 @@ class DedicatedHsm(DedicatedHsmResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
+        "sku": {"required": True},
         "properties": {"required": True},
     }
 
@@ -781,11 +688,11 @@ class DedicatedHsm(DedicatedHsmResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "zones": {"key": "zones", "type": "[str]"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "system_data": {"key": "systemData", "type": "SystemDataAutoGenerated"},
         "properties": {"key": "properties", "type": "DedicatedHsmProperties"},
     }
 
@@ -793,27 +700,27 @@ class DedicatedHsm(DedicatedHsmResource):
         self,
         *,
         location: str,
+        sku: "_models.Sku",
         properties: "_models.DedicatedHsmProperties",
-        sku: Optional["_models.Sku"] = None,
-        zones: Optional[List[str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        zones: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: The supported Azure location where the dedicated HSM should be created.
-         Required.
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword sku: SKU details.
+        :keyword sku: SKU details. Required.
         :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.Sku
         :keyword zones: The Dedicated Hsm zones.
         :paramtype zones: list[str]
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         :keyword properties: Properties of the dedicated HSM. Required.
         :paramtype properties: ~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmProperties
         """
-        super().__init__(location=location, sku=sku, zones=zones, tags=tags, **kwargs)
-        self.system_data = None
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.sku = sku
+        self.zones = zones
         self.properties = properties
 
 
@@ -866,122 +773,6 @@ class DedicatedHsmListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
-
-
-class DedicatedHsmOperation(_serialization.Model):
-    """REST API operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: The name of the Dedicated HSM Resource Provider Operation.
-    :vartype name: str
-    :ivar is_data_action: Gets or sets a value indicating whether it is a data plane action.
-    :vartype is_data_action: bool
-    :ivar origin: The origin of the operation.
-    :vartype origin: str
-    :ivar display: The display string.
-    :vartype display: ~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmOperationDisplay
-    """
-
-    _validation = {
-        "is_data_action": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "is_data_action": {"key": "isDataAction", "type": "bool"},
-        "origin": {"key": "origin", "type": "str"},
-        "display": {"key": "display", "type": "DedicatedHsmOperationDisplay"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        origin: Optional[str] = None,
-        display: Optional["_models.DedicatedHsmOperationDisplay"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: The name of the Dedicated HSM Resource Provider Operation.
-        :paramtype name: str
-        :keyword origin: The origin of the operation.
-        :paramtype origin: str
-        :keyword display: The display string.
-        :paramtype display: ~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmOperationDisplay
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.is_data_action = None
-        self.origin = origin
-        self.display = display
-
-
-class DedicatedHsmOperationDisplay(_serialization.Model):
-    """The display string.
-
-    :ivar provider: The Resource Provider of the operation.
-    :vartype provider: str
-    :ivar resource: Resource on which the operation is performed.
-    :vartype resource: str
-    :ivar operation: Operation type: Read, write, delete, etc.
-    :vartype operation: str
-    :ivar description: The object that represents the operation.
-    :vartype description: str
-    """
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword provider: The Resource Provider of the operation.
-        :paramtype provider: str
-        :keyword resource: Resource on which the operation is performed.
-        :paramtype resource: str
-        :keyword operation: Operation type: Read, write, delete, etc.
-        :paramtype operation: str
-        :keyword description: The object that represents the operation.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
-
-
-class DedicatedHsmOperationListResult(_serialization.Model):
-    """Result of the request to list Dedicated HSM Provider operations. It contains a list of
-    operations.
-
-    :ivar value: List of Dedicated HSM Resource Provider operations.
-    :vartype value: list[~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmOperation]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[DedicatedHsmOperation]"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.DedicatedHsmOperation"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword value: List of Dedicated HSM Resource Provider operations.
-        :paramtype value: list[~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmOperation]
-        """
-        super().__init__(**kwargs)
-        self.value = value
 
 
 class DedicatedHsmPatchParameters(_serialization.Model):
@@ -1060,6 +851,77 @@ class DedicatedHsmProperties(_serialization.Model):
         self.stamp_id = stamp_id
         self.status_message = None
         self.provisioning_state = None
+
+
+class DedicatedHsmResource(_serialization.Model):
+    """Dedicated HSM resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The Azure Resource Manager resource ID for the dedicated HSM.
+    :vartype id: str
+    :ivar name: The name of the dedicated HSM.
+    :vartype name: str
+    :ivar type: The resource type of the dedicated HSM.
+    :vartype type: str
+    :ivar location: The supported Azure location where the dedicated HSM should be created.
+     Required.
+    :vartype location: str
+    :ivar sku: SKU details.
+    :vartype sku: ~azure.mgmt.hardwaresecuritymodules.models.Sku
+    :ivar zones: The Dedicated Hsm zones.
+    :vartype zones: list[str]
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "sku": {"key": "sku", "type": "Sku"},
+        "zones": {"key": "zones", "type": "[str]"},
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        sku: Optional["_models.Sku"] = None,
+        zones: Optional[List[str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword location: The supported Azure location where the dedicated HSM should be created.
+         Required.
+        :paramtype location: str
+        :keyword sku: SKU details.
+        :paramtype sku: ~azure.mgmt.hardwaresecuritymodules.models.Sku
+        :keyword zones: The Dedicated Hsm zones.
+        :paramtype zones: list[str]
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.location = location
+        self.sku = sku
+        self.zones = zones
+        self.tags = tags
 
 
 class EndpointDependency(_serialization.Model):
@@ -1173,12 +1035,104 @@ class Error(_serialization.Model):
         self.inner_error = None
 
 
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.hardwaresecuritymodules.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.hardwaresecuritymodules.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.hardwaresecuritymodules.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.hardwaresecuritymodules.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class ManagedServiceIdentity(_serialization.Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -1192,7 +1146,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.hardwaresecuritymodules.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.hardwaresecuritymodules.models.UserAssignedIdentity]
@@ -1225,7 +1179,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.hardwaresecuritymodules.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.hardwaresecuritymodules.models.UserAssignedIdentity]
@@ -1303,6 +1257,127 @@ class NetworkProfile(_serialization.Model):
         self.network_interfaces = network_interfaces
 
 
+class Operation(_serialization.Model):
+    """Details of a REST API operation, returned from the Resource Provider Operations API.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+     "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
+    :vartype name: str
+    :ivar is_data_action: Whether the operation applies to data-plane. This is "true" for
+     data-plane operations and "false" for ARM/control-plane operations.
+    :vartype is_data_action: bool
+    :ivar display: Localized display information for this particular operation.
+    :vartype display: ~azure.mgmt.hardwaresecuritymodules.models.OperationDisplay
+    :ivar origin: The intended executor of the operation; as in Resource Based Access Control
+     (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
+     and "user,system".
+    :vartype origin: str or ~azure.mgmt.hardwaresecuritymodules.models.Origin
+    :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
+     internal only APIs. "Internal"
+    :vartype action_type: str or ~azure.mgmt.hardwaresecuritymodules.models.ActionType
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "is_data_action": {"readonly": True},
+        "origin": {"readonly": True},
+        "action_type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "is_data_action": {"key": "isDataAction", "type": "bool"},
+        "display": {"key": "display", "type": "OperationDisplay"},
+        "origin": {"key": "origin", "type": "str"},
+        "action_type": {"key": "actionType", "type": "str"},
+    }
+
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
+        """
+        :keyword display: Localized display information for this particular operation.
+        :paramtype display: ~azure.mgmt.hardwaresecuritymodules.models.OperationDisplay
+        """
+        super().__init__(**kwargs)
+        self.name = None
+        self.is_data_action = None
+        self.display = display
+        self.origin = None
+        self.action_type = None
+
+
+class OperationDisplay(_serialization.Model):
+    """Localized display information for this particular operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
+     Monitoring Insights" or "Microsoft Compute".
+    :vartype provider: str
+    :ivar resource: The localized friendly name of the resource type related to this operation.
+     E.g. "Virtual Machines" or "Job Schedule Collections".
+    :vartype resource: str
+    :ivar operation: The concise, localized friendly name for the operation; suitable for
+     dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    :vartype operation: str
+    :ivar description: The short, localized friendly description of the operation; suitable for
+     tool tips and detailed views.
+    :vartype description: str
+    """
+
+    _validation = {
+        "provider": {"readonly": True},
+        "resource": {"readonly": True},
+        "operation": {"readonly": True},
+        "description": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provider": {"key": "provider", "type": "str"},
+        "resource": {"key": "resource", "type": "str"},
+        "operation": {"key": "operation", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provider = None
+        self.resource = None
+        self.operation = None
+        self.description = None
+
+
+class OperationListResult(_serialization.Model):
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of operations supported by the resource provider.
+    :vartype value: list[~azure.mgmt.hardwaresecuritymodules.models.Operation]
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Operation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
 class OutboundEnvironmentEndpoint(_serialization.Model):
     """Egress endpoints which dedicated hsm service connects to for common purpose.
 
@@ -1342,7 +1417,7 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Collection of resources. Required.
     :vartype value: list[~azure.mgmt.hardwaresecuritymodules.models.OutboundEnvironmentEndpoint]
@@ -1400,7 +1475,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1412,24 +1487,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.hardwaresecuritymodules.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class PrivateEndpointConnection(ProxyResource):
     """The private endpoint connection resource.
@@ -1437,7 +1494,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1526,7 +1583,7 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar private_endpoint: The private endpoint resource.
     :vartype private_endpoint: ~azure.mgmt.hardwaresecuritymodules.models.PrivateEndpoint
@@ -1587,7 +1644,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1628,12 +1685,21 @@ class PrivateLinkResource(Resource):
 class PrivateLinkResourceListResult(_serialization.Model):
     """A list of private link resources.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar value: Array of private link resources.
     :vartype value: list[~azure.mgmt.hardwaresecuritymodules.models.PrivateLinkResource]
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
+    :vartype next_link: str
     """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
@@ -1643,6 +1709,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+        self.next_link = None
 
 
 class PrivateLinkResourceProperties(_serialization.Model):
@@ -1726,64 +1793,32 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
-class ResourceListResult(_serialization.Model):
-    """List of dedicated HSM resources.
-
-    :ivar value: The list of dedicated HSM resources.
-    :vartype value: list[~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmResource]
-    :ivar next_link: The URL to get the next set of dedicated HSM resources.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[DedicatedHsmResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.DedicatedHsmResource"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The list of dedicated HSM resources.
-        :paramtype value: list[~azure.mgmt.hardwaresecuritymodules.models.DedicatedHsmResource]
-        :keyword next_link: The URL to get the next set of dedicated HSM resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
 class RestoreProperties(_serialization.Model):
     """Cloud Hsm Cluster restore information.
 
-    :ivar foldername: Directory name in Azure Storage Blob where the backup is stored.
-    :vartype foldername: str
-    :ivar azure_storage_resource_uri: Azure Blob storage container Uri.
-    :vartype azure_storage_resource_uri: str
+    :ivar folder_name: Directory name in Azure Storage Blob where the backup is stored.
+    :vartype folder_name: str
+    :ivar azure_storage_container_uri: Azure Blob storage container Uri.
+    :vartype azure_storage_container_uri: str
     """
 
     _attribute_map = {
-        "foldername": {"key": "foldername", "type": "str"},
-        "azure_storage_resource_uri": {"key": "azureStorageResourceUri", "type": "str"},
+        "folder_name": {"key": "folderName", "type": "str"},
+        "azure_storage_container_uri": {"key": "azureStorageContainerUri", "type": "str"},
     }
 
     def __init__(
-        self, *, foldername: Optional[str] = None, azure_storage_resource_uri: Optional[str] = None, **kwargs: Any
+        self, *, folder_name: Optional[str] = None, azure_storage_container_uri: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword foldername: Directory name in Azure Storage Blob where the backup is stored.
-        :paramtype foldername: str
-        :keyword azure_storage_resource_uri: Azure Blob storage container Uri.
-        :paramtype azure_storage_resource_uri: str
+        :keyword folder_name: Directory name in Azure Storage Blob where the backup is stored.
+        :paramtype folder_name: str
+        :keyword azure_storage_container_uri: Azure Blob storage container Uri.
+        :paramtype azure_storage_container_uri: str
         """
         super().__init__(**kwargs)
-        self.foldername = foldername
-        self.azure_storage_resource_uri = azure_storage_resource_uri
+        self.folder_name = folder_name
+        self.azure_storage_container_uri = azure_storage_container_uri
 
 
 class Sku(_serialization.Model):

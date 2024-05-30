@@ -10,6 +10,12 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class CloudHsmClusterSkuFamily(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Sku family of the Cloud HSM Cluster."""
 
@@ -71,6 +77,16 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
+
+
 class PrivateEndpointConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current provisioning state."""
 
@@ -108,19 +124,19 @@ class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The dedicated HSM is a Safenet Luna Network HSM A790 device."""
     PAY_SHIELD10_K_LMK1_CPS60 = "payShield10K_LMK1_CPS60"
     """The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with
-    #: 1 local master key which supports up to 60 calls per second."""
+    1 local master key which supports up to 60 calls per second."""
     PAY_SHIELD10_K_LMK1_CPS250 = "payShield10K_LMK1_CPS250"
     """The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with
-    #: 1 local master key which supports up to 250 calls per second."""
+    1 local master key which supports up to 250 calls per second."""
     PAY_SHIELD10_K_LMK1_CPS2500 = "payShield10K_LMK1_CPS2500"
     """The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with
-    #: 1 local master key which supports up to 2500 calls per second."""
+    1 local master key which supports up to 2500 calls per second."""
     PAY_SHIELD10_K_LMK2_CPS60 = "payShield10K_LMK2_CPS60"
     """The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with
-    #: 2 local master keys which supports up to 60 calls per second."""
+    2 local master keys which supports up to 60 calls per second."""
     PAY_SHIELD10_K_LMK2_CPS250 = "payShield10K_LMK2_CPS250"
     """The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with
-    #: 2 local master keys which supports up to 250 calls per second."""
+    2 local master keys which supports up to 250 calls per second."""
     PAY_SHIELD10_K_LMK2_CPS2500 = "payShield10K_LMK2_CPS2500"
     """The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with
-    #: 2 local master keys which supports up to 2500 calls per second."""
+    2 local master keys which supports up to 2500 calls per second."""
