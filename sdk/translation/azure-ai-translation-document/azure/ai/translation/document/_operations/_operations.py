@@ -29,9 +29,7 @@ from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from ..models import _models
-from ..models import _enums
-from .. import _model_base
+from .. import _model_base, models as _models
 from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
 from .._vendor import (
@@ -260,7 +258,7 @@ def build_document_translation_get_documents_status_request(  # pylint: disable=
 
 
 def build_document_translation_get_supported_formats_request(  # pylint: disable=name-too-long
-    *, type: Optional[Union[str, _enums.FileFormatType]] = None, **kwargs: Any
+    *, type: Optional[Union[str, _models._enums.FileFormatType]] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -318,7 +316,7 @@ def build_single_document_translation_document_translate_request(  # pylint: dis
 class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC):
 
     def _start_translation_initial(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[_models.StartTranslationDetails, JSON, IO[bytes]], **kwargs: Any
+        self, body: Union[_models._models.StartTranslationDetails, JSON, IO[bytes]], **kwargs: Any
     ) -> None:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -374,7 +372,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
 
     @overload
     def begin_start_translation(  # pylint: disable=protected-access
-        self, body: _models.StartTranslationDetails, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _models._models.StartTranslationDetails, *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[None]:
         # pylint: disable=line-too-long
         """Submit a document translation request to the Document Translation service.
@@ -541,7 +539,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
 
     @distributed_trace
     def begin_start_translation(
-        self, body: Union[_models.StartTranslationDetails, JSON, IO[bytes]], **kwargs: Any
+        self, body: Union[_models._models.StartTranslationDetails, JSON, IO[bytes]], **kwargs: Any
     ) -> LROPoller[None]:
         # pylint: disable=line-too-long
         """Submit a document translation request to the Document Translation service.
@@ -682,7 +680,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         created_date_time_utc_end: Optional[datetime.datetime] = None,
         orderby: Optional[List[str]] = None,
         **kwargs: Any
-    ) -> Iterable["_models.TranslationStatus"]:
+    ) -> Iterable["_models._models.TranslationStatus"]:
         # pylint: disable=line-too-long
         """Returns a list of batch requests submitted and the status for each request.
 
@@ -828,7 +826,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         _params = kwargs.pop("params", {}) or {}
 
         maxpagesize = kwargs.pop("maxpagesize", None)
-        cls: ClsType[List[_models.TranslationStatus]] = kwargs.pop(  # pylint: disable=protected-access
+        cls: ClsType[List[_models._models.TranslationStatus]] = kwargs.pop(  # pylint: disable=protected-access
             "cls", None
         )
 
@@ -887,7 +885,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TranslationStatus], deserialized["value"])
+            list_of_elem = _deserialize(List[_models._models.TranslationStatus], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -896,7 +894,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # type: ignore[annotation-unchecked] # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -914,7 +912,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
     @distributed_trace
     def get_document_status(  # pylint: disable=protected-access
         self, id: str, document_id: str, **kwargs: Any
-    ) -> _models.DocumentStatus:
+    ) -> _models._models.DocumentStatus:
         # pylint: disable=line-too-long
         """Returns the status for a specific document.
 
@@ -977,7 +975,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.DocumentStatus] = kwargs.pop("cls", None)  # pylint: disable=protected-access
+        cls: ClsType[_models._models.DocumentStatus] = kwargs.pop("cls", None)  # pylint: disable=protected-access
 
         _request = build_document_translation_get_document_status_request(
             id=id,
@@ -1008,7 +1006,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(
-                _models.DocumentStatus, response.json()  # pylint: disable=protected-access
+                _models._models.DocumentStatus, response.json()  # pylint: disable=protected-access
             )
 
         if cls:
@@ -1019,7 +1017,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
     @distributed_trace
     def get_translation_status(  # pylint: disable=protected-access
         self, id: str, **kwargs: Any
-    ) -> _models.TranslationStatus:
+    ) -> _models._models.TranslationStatus:
         # pylint: disable=line-too-long
         """Returns the status for a document translation request.
 
@@ -1087,7 +1085,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.TranslationStatus] = kwargs.pop("cls", None)  # pylint: disable=protected-access
+        cls: ClsType[_models._models.TranslationStatus] = kwargs.pop("cls", None)  # pylint: disable=protected-access
 
         _request = build_document_translation_get_translation_status_request(
             id=id,
@@ -1117,7 +1115,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(
-                _models.TranslationStatus, response.json()  # pylint: disable=protected-access
+                _models._models.TranslationStatus, response.json()  # pylint: disable=protected-access
             )
 
         if cls:
@@ -1128,7 +1126,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
     @distributed_trace
     def cancel_translation(  # pylint: disable=protected-access
         self, id: str, **kwargs: Any
-    ) -> _models.TranslationStatus:
+    ) -> _models._models.TranslationStatus:
         # pylint: disable=line-too-long
         """Cancel a currently processing or queued translation.
 
@@ -1200,7 +1198,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.TranslationStatus] = kwargs.pop("cls", None)  # pylint: disable=protected-access
+        cls: ClsType[_models._models.TranslationStatus] = kwargs.pop("cls", None)  # pylint: disable=protected-access
 
         _request = build_document_translation_cancel_translation_request(
             id=id,
@@ -1230,7 +1228,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(
-                _models.TranslationStatus, response.json()  # pylint: disable=protected-access
+                _models._models.TranslationStatus, response.json()  # pylint: disable=protected-access
             )
 
         if cls:
@@ -1251,7 +1249,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         created_date_time_utc_end: Optional[datetime.datetime] = None,
         orderby: Optional[List[str]] = None,
         **kwargs: Any
-    ) -> Iterable["_models.DocumentStatus"]:
+    ) -> Iterable["_models._models.DocumentStatus"]:
         # pylint: disable=line-too-long
         """Returns the status for all documents in a batch document translation request.
 
@@ -1388,7 +1386,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         _params = kwargs.pop("params", {}) or {}
 
         maxpagesize = kwargs.pop("maxpagesize", None)
-        cls: ClsType[List[_models.DocumentStatus]] = kwargs.pop("cls", None)  # pylint: disable=protected-access
+        cls: ClsType[List[_models._models.DocumentStatus]] = kwargs.pop("cls", None)  # pylint: disable=protected-access
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -1446,7 +1444,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.DocumentStatus], deserialized["value"])
+            list_of_elem = _deserialize(List[_models._models.DocumentStatus], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -1455,7 +1453,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(   # type: ignore[annotation-unchecked] # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -1472,8 +1470,8 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
 
     @distributed_trace
     def get_supported_formats(  # pylint: disable=protected-access
-        self, *, type: Optional[Union[str, _enums.FileFormatType]] = None, **kwargs: Any
-    ) -> _models.SupportedFileFormats:
+        self, *, type: Optional[Union[str, _models._enums.FileFormatType]] = None, **kwargs: Any
+    ) -> _models._models.SupportedFileFormats:
         """Returns a list of supported document formats.
 
         The list of supported formats supported by the Document Translation
@@ -1525,7 +1523,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.SupportedFileFormats] = kwargs.pop("cls", None)  # pylint: disable=protected-access
+        cls: ClsType[_models._models.SupportedFileFormats] = kwargs.pop("cls", None)  # pylint: disable=protected-access
 
         _request = build_document_translation_get_supported_formats_request(
             type=type,
@@ -1555,7 +1553,7 @@ class DocumentTranslationClientOperationsMixin(DocumentTranslationClientMixinABC
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(
-                _models.SupportedFileFormats, response.json()  # pylint: disable=protected-access
+                _models._models.SupportedFileFormats, response.json()  # pylint: disable=protected-access
             )
 
         if cls:
