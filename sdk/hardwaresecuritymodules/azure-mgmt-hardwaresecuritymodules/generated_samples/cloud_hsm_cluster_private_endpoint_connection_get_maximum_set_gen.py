@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
 
 """
@@ -26,6 +27,7 @@ from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
 def main():
     client = HardwareSecurityModulesMgmtClient(
         credential=DefaultAzureCredential(),
+        name="NAME",
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
@@ -37,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmClusterPrivateEndpointConnection_Get_MaximumSet_Gen.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2024-06-30/examples/CloudHsmClusterPrivateEndpointConnection_Get_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
