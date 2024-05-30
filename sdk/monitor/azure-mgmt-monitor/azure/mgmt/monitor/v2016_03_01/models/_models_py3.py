@@ -22,7 +22,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -71,7 +71,7 @@ class AlertRuleResource(Resource):  # pylint: disable=too-many-instance-attribut
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -380,7 +380,7 @@ class IncidentListResult(_serialization.Model):
 class LocalizableString(_serialization.Model):
     """The localizable string class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the invariant value. Required.
     :vartype value: str
@@ -415,7 +415,7 @@ class RuleCondition(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     LocationThresholdRuleCondition, ManagementEventRuleCondition, ThresholdRuleCondition
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of condition. This can be one of three types:
      ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition
@@ -458,7 +458,7 @@ class RuleCondition(_serialization.Model):
 class LocationThresholdRuleCondition(RuleCondition):
     """A rule condition based on a certain number of locations failing.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of condition. This can be one of three types:
      ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition
@@ -518,7 +518,7 @@ class LocationThresholdRuleCondition(RuleCondition):
 class LogProfileCollection(_serialization.Model):
     """Represents a collection of log profiles.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values of the log profiles. Required.
     :vartype value: list[~azure.mgmt.monitor.v2016_03_01.models.LogProfileResource]
@@ -546,7 +546,7 @@ class LogProfileResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -757,7 +757,7 @@ class ManagementEventAggregationCondition(_serialization.Model):
 class ManagementEventRuleCondition(RuleCondition):
     """A management event rule condition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of condition. This can be one of three types:
      ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition
@@ -919,7 +919,7 @@ class MetricDefinition(_serialization.Model):
 class MetricDefinitionCollection(_serialization.Model):
     """Represents collection of metric definitions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values for the metric definitions. Required.
     :vartype value: list[~azure.mgmt.monitor.v2016_03_01.models.MetricDefinition]
@@ -945,7 +945,7 @@ class MetricDefinitionCollection(_serialization.Model):
 class RetentionPolicy(_serialization.Model):
     """Specifies the retention policy for the log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: a value indicating whether the retention policy is enabled. Required.
     :vartype enabled: bool
@@ -984,7 +984,7 @@ class RuleAction(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     RuleEmailAction, RuleWebhookAction
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of the action. There are two types of actions:
      RuleEmailAction and RuleWebhookAction. Required.
@@ -1018,16 +1018,16 @@ class RuleDataSource(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     RuleManagementEventDataSource, RuleMetricDataSource
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of data source. There are two types of rule data sources:
      RuleMetricDataSource and RuleManagementEventDataSource. Required.
     :vartype odata_type: str
-    :ivar resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\ : this
-     property cannot be updated for an existing rule.
+    :ivar resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\\ :
+     this property cannot be updated for an existing rule.
     :vartype resource_uri: str
     :ivar legacy_resource_id: the legacy resource identifier of the resource the rule monitors.
-     **NOTE**\ : this property cannot be updated for an existing rule.
+     **NOTE**\\ : this property cannot be updated for an existing rule.
     :vartype legacy_resource_id: str
     :ivar resource_location: the location of the resource.
     :vartype resource_location: str
@@ -1064,11 +1064,11 @@ class RuleDataSource(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\ :
+        :keyword resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\\ :
          this property cannot be updated for an existing rule.
         :paramtype resource_uri: str
         :keyword legacy_resource_id: the legacy resource identifier of the resource the rule monitors.
-         **NOTE**\ : this property cannot be updated for an existing rule.
+         **NOTE**\\ : this property cannot be updated for an existing rule.
         :paramtype legacy_resource_id: str
         :keyword resource_location: the location of the resource.
         :paramtype resource_location: str
@@ -1087,7 +1087,7 @@ class RuleEmailAction(RuleAction):
     """Specifies the action to send email when the rule condition is evaluated. The discriminator is
     always RuleEmailAction in this case.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of the action. There are two types of actions:
      RuleEmailAction and RuleWebhookAction. Required.
@@ -1151,16 +1151,16 @@ class RuleManagementEventDataSource(RuleDataSource):  # pylint: disable=too-many
     """A rule management event data source. The discriminator fields is always
     RuleManagementEventDataSource in this case.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of data source. There are two types of rule data sources:
      RuleMetricDataSource and RuleManagementEventDataSource. Required.
     :vartype odata_type: str
-    :ivar resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\ : this
-     property cannot be updated for an existing rule.
+    :ivar resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\\ :
+     this property cannot be updated for an existing rule.
     :vartype resource_uri: str
     :ivar legacy_resource_id: the legacy resource identifier of the resource the rule monitors.
-     **NOTE**\ : this property cannot be updated for an existing rule.
+     **NOTE**\\ : this property cannot be updated for an existing rule.
     :vartype legacy_resource_id: str
     :ivar resource_location: the location of the resource.
     :vartype resource_location: str
@@ -1228,11 +1228,11 @@ class RuleManagementEventDataSource(RuleDataSource):  # pylint: disable=too-many
         **kwargs: Any
     ) -> None:
         """
-        :keyword resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\ :
+        :keyword resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\\ :
          this property cannot be updated for an existing rule.
         :paramtype resource_uri: str
         :keyword legacy_resource_id: the legacy resource identifier of the resource the rule monitors.
-         **NOTE**\ : this property cannot be updated for an existing rule.
+         **NOTE**\\ : this property cannot be updated for an existing rule.
         :paramtype legacy_resource_id: str
         :keyword resource_location: the location of the resource.
         :paramtype resource_location: str
@@ -1281,16 +1281,16 @@ class RuleManagementEventDataSource(RuleDataSource):  # pylint: disable=too-many
 class RuleMetricDataSource(RuleDataSource):
     """A rule metric data source. The discriminator value is always RuleMetricDataSource in this case.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of data source. There are two types of rule data sources:
      RuleMetricDataSource and RuleManagementEventDataSource. Required.
     :vartype odata_type: str
-    :ivar resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\ : this
-     property cannot be updated for an existing rule.
+    :ivar resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\\ :
+     this property cannot be updated for an existing rule.
     :vartype resource_uri: str
     :ivar legacy_resource_id: the legacy resource identifier of the resource the rule monitors.
-     **NOTE**\ : this property cannot be updated for an existing rule.
+     **NOTE**\\ : this property cannot be updated for an existing rule.
     :vartype legacy_resource_id: str
     :ivar resource_location: the location of the resource.
     :vartype resource_location: str
@@ -1324,11 +1324,11 @@ class RuleMetricDataSource(RuleDataSource):
         **kwargs: Any
     ) -> None:
         """
-        :keyword resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\ :
+        :keyword resource_uri: the resource identifier of the resource the rule monitors. **NOTE**\\ :
          this property cannot be updated for an existing rule.
         :paramtype resource_uri: str
         :keyword legacy_resource_id: the legacy resource identifier of the resource the rule monitors.
-         **NOTE**\ : this property cannot be updated for an existing rule.
+         **NOTE**\\ : this property cannot be updated for an existing rule.
         :paramtype legacy_resource_id: str
         :keyword resource_location: the location of the resource.
         :paramtype resource_location: str
@@ -1352,7 +1352,7 @@ class RuleWebhookAction(RuleAction):
     """Specifies the action to post to service when the rule condition is evaluated. The discriminator
     is always RuleWebhookAction in this case.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of the action. There are two types of actions:
      RuleEmailAction and RuleWebhookAction. Required.
@@ -1395,7 +1395,7 @@ class RuleWebhookAction(RuleAction):
 class ThresholdRuleCondition(RuleCondition):
     """A rule condition based on a metric crossing a threshold.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: specifies the type of condition. This can be one of three types:
      ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition

@@ -100,7 +100,7 @@ class MetricNamespace(_serialization.Model):
 class MetricNamespaceCollection(_serialization.Model):
     """Represents collection of metric namespaces.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The values for the metric namespaces. Required.
     :vartype value: list[~azure.mgmt.monitor.v2017_12_01_preview.models.MetricNamespace]
