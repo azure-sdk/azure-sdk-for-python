@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from ..._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -260,7 +265,7 @@ class OpenShiftManagedClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2019-04-30"))
         cls: ClsType[_models.OpenShiftManagedClusterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -345,7 +350,7 @@ class OpenShiftManagedClustersOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2019-04-30"))
         cls: ClsType[_models.OpenShiftManagedClusterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -422,7 +427,7 @@ class OpenShiftManagedClustersOperations:
         :rtype: ~azure.mgmt.containerservice.v2019_04_30.models.OpenShiftManagedCluster
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -472,7 +477,7 @@ class OpenShiftManagedClustersOperations:
         parameters: Union[_models.OpenShiftManagedCluster, IO[bytes]],
         **kwargs: Any
     ) -> _models.OpenShiftManagedCluster:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -675,7 +680,7 @@ class OpenShiftManagedClustersOperations:
         parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
     ) -> _models.OpenShiftManagedCluster:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -866,7 +871,7 @@ class OpenShiftManagedClustersOperations:
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
