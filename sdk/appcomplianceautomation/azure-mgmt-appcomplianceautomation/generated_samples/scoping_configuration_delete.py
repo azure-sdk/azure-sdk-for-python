@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMicrosoft365
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMic
     pip install azure-identity
     pip install azure-mgmt-appcomplianceautomation
 # USAGE
-    python report_create_or_update.py
+    python scoping_configuration_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,25 +29,12 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.report.begin_create_or_update(
+    client.scoping_configuration.delete(
         report_name="testReportName",
-        parameters={
-            "properties": {
-                "offerGuid": "0000",
-                "resources": [
-                    {
-                        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint",
-                        "tags": {"key1": "value1"},
-                    }
-                ],
-                "timeZone": "GMT Standard Time",
-                "triggerTime": "2022-03-04T05:11:56.197Z",
-            }
-        },
-    ).result()
-    print(response)
+        scoping_configuration_name="default",
+    )
 
 
-# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/preview/2022-11-16-preview/examples/Report_CreateOrUpdate.json
+# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/ScopingConfiguration_Delete.json
 if __name__ == "__main__":
     main()
