@@ -9,8 +9,10 @@
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
@@ -48,6 +50,14 @@ if TYPE_CHECKING:
 class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Operational Insights Client.
 
+    :ivar workspaces: WorkspacesOperations operations
+    :vartype workspaces: azure.mgmt.loganalytics.aio.operations.WorkspacesOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.loganalytics.aio.operations.Operations
+    :ivar deleted_workspaces: DeletedWorkspacesOperations operations
+    :vartype deleted_workspaces: azure.mgmt.loganalytics.aio.operations.DeletedWorkspacesOperations
+    :ivar tables: TablesOperations operations
+    :vartype tables: azure.mgmt.loganalytics.aio.operations.TablesOperations
     :ivar query_packs: QueryPacksOperations operations
     :vartype query_packs: azure.mgmt.loganalytics.aio.operations.QueryPacksOperations
     :ivar queries: QueriesOperations operations
@@ -87,14 +97,6 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
     :vartype workspace_purge: azure.mgmt.loganalytics.aio.operations.WorkspacePurgeOperations
     :ivar clusters: ClustersOperations operations
     :vartype clusters: azure.mgmt.loganalytics.aio.operations.ClustersOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.loganalytics.aio.operations.Operations
-    :ivar workspaces: WorkspacesOperations operations
-    :vartype workspaces: azure.mgmt.loganalytics.aio.operations.WorkspacesOperations
-    :ivar deleted_workspaces: DeletedWorkspacesOperations operations
-    :vartype deleted_workspaces: azure.mgmt.loganalytics.aio.operations.DeletedWorkspacesOperations
-    :ivar tables: TablesOperations operations
-    :vartype tables: azure.mgmt.loganalytics.aio.operations.TablesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -115,12 +117,36 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
         self._config = LogAnalyticsManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.deleted_workspaces = DeletedWorkspacesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.tables = TablesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.query_packs = QueryPacksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.queries = QueriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.data_exports = DataExportsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -151,14 +177,10 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
         self.schema = SchemaOperations(self._client, self._config, self._serialize, self._deserialize)
         self.workspace_purge = WorkspacePurgeOperations(self._client, self._config, self._serialize, self._deserialize)
         self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.deleted_workspaces = DeletedWorkspacesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.tables = TablesOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -178,7 +200,7 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
@@ -187,5 +209,5 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)
