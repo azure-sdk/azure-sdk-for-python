@@ -6,6 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._operations import FaceListOperations
+from ._operations import LargeFaceListOperations
+from ._operations import PersonGroupOperations
+from ._operations import LargePersonGroupOperations
+from ._operations import PersonDirectoryOperations
 from ._operations import FaceClientOperationsMixin
 from ._operations import FaceSessionClientOperationsMixin
 
@@ -14,6 +19,11 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "FaceListOperations",
+    "LargeFaceListOperations",
+    "PersonGroupOperations",
+    "LargePersonGroupOperations",
+    "PersonDirectoryOperations",
     "FaceClientOperationsMixin",
     "FaceSessionClientOperationsMixin",
 ]
