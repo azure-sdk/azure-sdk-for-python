@@ -15,7 +15,7 @@ from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMic
     pip install azure-identity
     pip install azure-mgmt-appcomplianceautomation
 # USAGE
-    python snapshot_get.py
+    python evidence_list_by_report.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.snapshot.get(
-        report_name="testReportName",
-        snapshot_name="testSnapshot",
+    response = client.evidence.list_by_report(
+        report_name="reportName",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_Get.json
+# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_ListByReport.json
 if __name__ == "__main__":
     main()

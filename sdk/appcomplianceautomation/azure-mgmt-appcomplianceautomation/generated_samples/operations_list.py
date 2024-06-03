@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMicrosoft365
 
 """
@@ -33,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/preview/2022-11-16-preview/examples/Operations_List.json
+# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Operations_List.json
 if __name__ == "__main__":
     main()

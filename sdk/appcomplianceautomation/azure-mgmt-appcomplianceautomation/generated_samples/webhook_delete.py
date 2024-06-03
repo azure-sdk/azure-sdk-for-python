@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMicrosoft365
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMic
     pip install azure-identity
     pip install azure-mgmt-appcomplianceautomation
 # USAGE
-    python snapshots_list.py
+    python webhook_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,13 +29,12 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.snapshots.list(
+    client.webhook.delete(
         report_name="testReportName",
+        webhook_name="testWebhookName",
     )
-    for item in response:
-        print(item)
 
 
-# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/preview/2022-11-16-preview/examples/Snapshots_List.json
+# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Webhook_Delete.json
 if __name__ == "__main__":
     main()
