@@ -15,7 +15,7 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hdinsightcontainers
 # USAGE
-    python delete_cluster.py
+    python list_cluster_upgrade_history.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,15 @@ def main():
         subscription_id="10e32bab-26da-4cc4-a441-52b318f824e6",
     )
 
-    client.clusters.begin_delete(
-        resource_group_name="rg1",
+    response = client.cluster_upgrade_histories.list(
+        resource_group_name="hiloResourcegroup",
         cluster_pool_name="clusterpool1",
         cluster_name="cluster1",
-    ).result()
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/stable/2024-05-01/examples/DeleteCluster.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/stable/2024-05-01/examples/ListClusterUpgradeHistory.json
 if __name__ == "__main__":
     main()

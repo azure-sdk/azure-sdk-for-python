@@ -28,7 +28,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._cluster_available_upgrades_operations import build_list_request
+from ...operations._cluster_pool_upgrade_histories_operations import build_list_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -38,14 +38,14 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ClusterAvailableUpgradesOperations:
+class ClusterPoolUpgradeHistoriesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.hdinsightcontainers.aio.HDInsightContainersMgmtClient`'s
-        :attr:`cluster_available_upgrades` attribute.
+        :attr:`cluster_pool_upgrade_histories` attribute.
     """
 
     models = _models
@@ -59,28 +59,26 @@ class ClusterAvailableUpgradesOperations:
 
     @distributed_trace
     def list(
-        self, resource_group_name: str, cluster_pool_name: str, cluster_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.ClusterAvailableUpgrade"]:
-        """List a cluster available upgrade.
+        self, resource_group_name: str, cluster_pool_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.ClusterPoolUpgradeHistory"]:
+        """Returns a list of upgrade history.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param cluster_pool_name: The name of the cluster pool. Required.
         :type cluster_pool_name: str
-        :param cluster_name: The name of the HDInsight cluster. Required.
-        :type cluster_name: str
-        :return: An iterator like instance of either ClusterAvailableUpgrade or the result of
+        :return: An iterator like instance of either ClusterPoolUpgradeHistory or the result of
          cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterAvailableUpgrade]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterPoolUpgradeHistory]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ClusterAvailableUpgradeList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ClusterPoolUpgradeHistoryListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -96,7 +94,6 @@ class ClusterAvailableUpgradesOperations:
                 _request = build_list_request(
                     resource_group_name=resource_group_name,
                     cluster_pool_name=cluster_pool_name,
-                    cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     headers=_headers,
@@ -124,7 +121,7 @@ class ClusterAvailableUpgradesOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ClusterAvailableUpgradeList", pipeline_response)
+            deserialized = self._deserialize("ClusterPoolUpgradeHistoryListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
