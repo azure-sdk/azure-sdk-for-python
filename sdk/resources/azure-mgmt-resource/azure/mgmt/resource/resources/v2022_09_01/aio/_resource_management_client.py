@@ -36,11 +36,14 @@ if TYPE_CHECKING:
 class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Provides operations for working with resources and resource groups.
 
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.resource.resources.v2022_09_01.aio.operations.Operations
     :ivar deployments: DeploymentsOperations operations
     :vartype deployments:
      azure.mgmt.resource.resources.v2022_09_01.aio.operations.DeploymentsOperations
+    :ivar deployment_operations: DeploymentOperationsOperations operations
+    :vartype deployment_operations:
+     azure.mgmt.resource.resources.v2022_09_01.aio.operations.DeploymentOperationsOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.resource.resources.v2022_09_01.aio.operations.Operations
     :ivar providers: ProvidersOperations operations
     :vartype providers:
      azure.mgmt.resource.resources.v2022_09_01.aio.operations.ProvidersOperations
@@ -55,9 +58,6 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
      azure.mgmt.resource.resources.v2022_09_01.aio.operations.ResourceGroupsOperations
     :ivar tags: TagsOperations operations
     :vartype tags: azure.mgmt.resource.resources.v2022_09_01.aio.operations.TagsOperations
-    :ivar deployment_operations: DeploymentOperationsOperations operations
-    :vartype deployment_operations:
-     azure.mgmt.resource.resources.v2022_09_01.aio.operations.DeploymentOperationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The Microsoft Azure subscription ID. Required.
@@ -105,10 +105,13 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2022-09-01")
         self.deployments = DeploymentsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
         )
+        self.deployment_operations = DeploymentOperationsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
+        )
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2022-09-01")
         self.providers = ProvidersOperations(
             self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
         )
@@ -122,9 +125,6 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
         )
         self.tags = TagsOperations(self._client, self._config, self._serialize, self._deserialize, "2022-09-01")
-        self.deployment_operations = DeploymentOperationsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
-        )
 
     def _send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any

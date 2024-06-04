@@ -106,10 +106,10 @@
     },
     "operation_groups": {
         "deployments": "DeploymentsOperations",
+        "deployment_operations": "DeploymentOperationsOperations",
         "providers": "ProvidersOperations",
         "resource_groups": "ResourceGroupsOperations",
         "resources": "ResourcesOperations",
-        "tags": "TagsOperations",
-        "deployment_operations": "DeploymentOperationsOperations"
+        "tags": "TagsOperations"
     }
 }

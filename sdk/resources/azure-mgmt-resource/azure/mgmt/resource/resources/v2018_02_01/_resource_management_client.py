@@ -37,6 +37,9 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
     :ivar deployments: DeploymentsOperations operations
     :vartype deployments:
      azure.mgmt.resource.resources.v2018_02_01.operations.DeploymentsOperations
+    :ivar deployment_operations: DeploymentOperationsOperations operations
+    :vartype deployment_operations:
+     azure.mgmt.resource.resources.v2018_02_01.operations.DeploymentOperationsOperations
     :ivar providers: ProvidersOperations operations
     :vartype providers: azure.mgmt.resource.resources.v2018_02_01.operations.ProvidersOperations
     :ivar resources: ResourcesOperations operations
@@ -46,9 +49,6 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
      azure.mgmt.resource.resources.v2018_02_01.operations.ResourceGroupsOperations
     :ivar tags: TagsOperations operations
     :vartype tags: azure.mgmt.resource.resources.v2018_02_01.operations.TagsOperations
-    :ivar deployment_operations: DeploymentOperationsOperations operations
-    :vartype deployment_operations:
-     azure.mgmt.resource.resources.v2018_02_01.operations.DeploymentOperationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -99,6 +99,9 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
         self.deployments = DeploymentsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2018-02-01"
         )
+        self.deployment_operations = DeploymentOperationsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2018-02-01"
+        )
         self.providers = ProvidersOperations(
             self._client, self._config, self._serialize, self._deserialize, "2018-02-01"
         )
@@ -109,9 +112,6 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize, "2018-02-01"
         )
         self.tags = TagsOperations(self._client, self._config, self._serialize, self._deserialize, "2018-02-01")
-        self.deployment_operations = DeploymentOperationsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2018-02-01"
-        )
 
     def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
