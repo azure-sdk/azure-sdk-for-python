@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
     pip install azure-identity
     pip install azure-mgmt-mobilenetwork
 # USAGE
-    python data_network_update_tags.py
+    python sim_clone.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +32,19 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.data_networks.update_tags(
-        resource_group_name="rg1",
-        mobile_network_name="testMobileNetwork",
-        data_network_name="testDataNetwork",
-        parameters={"tags": {"tag1": "value1", "tag2": "value2"}},
-    )
+    response = client.sims.begin_clone(
+        resource_group_name="testResourceGroupName",
+        sim_group_name="testSimGroup",
+        parameters={
+            "sims": ["testSim", "testSim2"],
+            "targetSimGroupId": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.MobileNetwork/simGroups/testSimGroup1"
+            },
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/DataNetworkUpdateTags.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimClone.json
 if __name__ == "__main__":
     main()

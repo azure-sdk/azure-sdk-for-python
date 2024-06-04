@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
     pip install azure-identity
     pip install azure-mgmt-mobilenetwork
 # USAGE
-    python data_network_delete.py
+    python routing_info_list_packet_core_control_plane.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.data_networks.begin_delete(
+    response = client.routing_info.list(
         resource_group_name="rg1",
-        mobile_network_name="testMobileNetwork",
-        data_network_name="testDataNetwork",
-    ).result()
+        packet_core_control_plane_name="TestPacketCoreCP",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/DataNetworkDelete.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/RoutingInfoListPacketCoreControlPlane.json
 if __name__ == "__main__":
     main()
