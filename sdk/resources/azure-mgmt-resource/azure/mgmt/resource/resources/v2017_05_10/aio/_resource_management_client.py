@@ -37,6 +37,9 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
     :ivar deployments: DeploymentsOperations operations
     :vartype deployments:
      azure.mgmt.resource.resources.v2017_05_10.aio.operations.DeploymentsOperations
+    :ivar deployment_operations: DeploymentOperationsOperations operations
+    :vartype deployment_operations:
+     azure.mgmt.resource.resources.v2017_05_10.aio.operations.DeploymentOperationsOperations
     :ivar providers: ProvidersOperations operations
     :vartype providers:
      azure.mgmt.resource.resources.v2017_05_10.aio.operations.ProvidersOperations
@@ -48,9 +51,6 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
      azure.mgmt.resource.resources.v2017_05_10.aio.operations.ResourceGroupsOperations
     :ivar tags: TagsOperations operations
     :vartype tags: azure.mgmt.resource.resources.v2017_05_10.aio.operations.TagsOperations
-    :ivar deployment_operations: DeploymentOperationsOperations operations
-    :vartype deployment_operations:
-     azure.mgmt.resource.resources.v2017_05_10.aio.operations.DeploymentOperationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -101,6 +101,9 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
         self.deployments = DeploymentsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2017-05-10"
         )
+        self.deployment_operations = DeploymentOperationsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2017-05-10"
+        )
         self.providers = ProvidersOperations(
             self._client, self._config, self._serialize, self._deserialize, "2017-05-10"
         )
@@ -111,9 +114,6 @@ class ResourceManagementClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize, "2017-05-10"
         )
         self.tags = TagsOperations(self._client, self._config, self._serialize, self._deserialize, "2017-05-10")
-        self.deployment_operations = DeploymentOperationsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2017-05-10"
-        )
 
     def _send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
