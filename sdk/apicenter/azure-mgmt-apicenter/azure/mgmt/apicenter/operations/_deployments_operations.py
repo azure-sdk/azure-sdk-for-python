@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -30,6 +31,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -50,7 +55,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +104,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -144,12 +149,14 @@ def build_create_or_update_request(
     api_name: str,
     deployment_name: str,
     subscription_id: str,
+    *,
+    if_match: Optional[str] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -183,6 +190,8 @@ def build_create_or_update_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    if if_match is not None:
+        _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -202,7 +211,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -252,7 +261,7 @@ def build_head_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -332,7 +341,6 @@ class DeploymentsOperations:
         :type api_name: str
         :param filter: OData filter parameter. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Deployment or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.apicenter.models.Deployment]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -343,7 +351,7 @@ class DeploymentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DeploymentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -354,7 +362,7 @@ class DeploymentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     service_name=service_name,
                     workspace_name=workspace_name,
@@ -362,12 +370,11 @@ class DeploymentsOperations:
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -379,13 +386,13 @@ class DeploymentsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DeploymentListResult", pipeline_response)
@@ -395,11 +402,11 @@ class DeploymentsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -411,10 +418,6 @@ class DeploymentsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/deployments"
-    }
 
     @distributed_trace
     def get(
@@ -439,12 +442,11 @@ class DeploymentsOperations:
         :type api_name: str
         :param deployment_name: The name of the API deployment. Required.
         :type deployment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Deployment or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.Deployment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -458,7 +460,7 @@ class DeploymentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Deployment] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
@@ -466,16 +468,15 @@ class DeploymentsOperations:
             deployment_name=deployment_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -491,13 +492,9 @@ class DeploymentsOperations:
         deserialized = self._deserialize("Deployment", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/deployments/{deploymentName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -508,6 +505,7 @@ class DeploymentsOperations:
         api_name: str,
         deployment_name: str,
         resource: _models.Deployment,
+        if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -527,10 +525,12 @@ class DeploymentsOperations:
         :type deployment_name: str
         :param resource: Resource create parameters. Required.
         :type resource: ~azure.mgmt.apicenter.models.Deployment
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Deployment or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.Deployment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -544,7 +544,8 @@ class DeploymentsOperations:
         workspace_name: str,
         api_name: str,
         deployment_name: str,
-        resource: IO,
+        resource: IO[bytes],
+        if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -563,11 +564,13 @@ class DeploymentsOperations:
         :param deployment_name: The name of the API deployment. Required.
         :type deployment_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Deployment or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.Deployment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -581,7 +584,8 @@ class DeploymentsOperations:
         workspace_name: str,
         api_name: str,
         deployment_name: str,
-        resource: Union[_models.Deployment, IO],
+        resource: Union[_models.Deployment, IO[bytes]],
+        if_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.Deployment:
         """Creates new or updates existing API deployment.
@@ -597,18 +601,17 @@ class DeploymentsOperations:
         :type api_name: str
         :param deployment_name: The name of the API deployment. Required.
         :type deployment_name: str
-        :param resource: Resource create parameters. Is either a Deployment type or a IO type.
+        :param resource: Resource create parameters. Is either a Deployment type or a IO[bytes] type.
          Required.
-        :type resource: ~azure.mgmt.apicenter.models.Deployment or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type resource: ~azure.mgmt.apicenter.models.Deployment or IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
         :return: Deployment or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.Deployment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -631,27 +634,27 @@ class DeploymentsOperations:
         else:
             _json = self._serialize.body(resource, "Deployment")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
             api_name=api_name,
             deployment_name=deployment_name,
             subscription_id=self._config.subscription_id,
+            if_match=if_match,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -677,10 +680,6 @@ class DeploymentsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/deployments/{deploymentName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self,
@@ -704,12 +703,11 @@ class DeploymentsOperations:
         :type api_name: str
         :param deployment_name: The name of the API deployment. Required.
         :type deployment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -723,7 +721,7 @@ class DeploymentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
@@ -731,16 +729,15 @@ class DeploymentsOperations:
             deployment_name=deployment_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -751,11 +748,7 @@ class DeploymentsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/deployments/{deploymentName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def head(
@@ -780,12 +773,11 @@ class DeploymentsOperations:
         :type api_name: str
         :param deployment_name: The name of the API deployment. Required.
         :type deployment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: bool or the result of cls(response)
         :rtype: bool
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -799,7 +791,7 @@ class DeploymentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_head_request(
+        _request = build_head_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             workspace_name=workspace_name,
@@ -807,16 +799,15 @@ class DeploymentsOperations:
             deployment_name=deployment_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.head.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -827,9 +818,5 @@ class DeploymentsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})  # type: ignore
         return 200 <= response.status_code <= 299
-
-    head.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/deployments/{deploymentName}"
-    }
