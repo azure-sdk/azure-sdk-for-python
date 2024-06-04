@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
@@ -17,7 +15,7 @@ from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
     pip install azure-identity
     pip install azure-mgmt-mobilenetwork
 # USAGE
-    python packet_core_data_plane_create.py
+    python routing_info_packet_core_control_plane.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,15 +30,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.packet_core_data_planes.begin_create_or_update(
+    response = client.routing_info.get(
         resource_group_name="rg1",
-        packet_core_control_plane_name="testPacketCoreCP",
-        packet_core_data_plane_name="testPacketCoreDP",
-        parameters={"location": "eastus", "properties": {"userPlaneAccessInterface": {"name": "N3"}}},
-    ).result()
+        packet_core_control_plane_name="TestPacketCoreCP",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreDataPlaneCreate.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/RoutingInfoPacketCoreControlPlane.json
 if __name__ == "__main__":
     main()
