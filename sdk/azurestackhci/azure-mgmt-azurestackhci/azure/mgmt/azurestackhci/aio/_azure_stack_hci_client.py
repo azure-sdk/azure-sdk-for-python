@@ -9,13 +9,20 @@
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import AzureStackHCIClientConfiguration
 from .operations import (
+    ArcSettingsOperations,
+    ClustersOperations,
+    DeploymentSettingsOperations,
+    EdgeDevicesOperations,
+    ExtensionsOperations,
     GalleryImagesOperations,
     GuestAgentOperations,
     GuestAgentsOperations,
@@ -23,8 +30,15 @@ from .operations import (
     LogicalNetworksOperations,
     MarketplaceGalleryImagesOperations,
     NetworkInterfacesOperations,
+    OffersOperations,
     Operations,
+    PublishersOperations,
+    SecuritySettingsOperations,
+    SkusOperations,
     StorageContainersOperations,
+    UpdateRunsOperations,
+    UpdateSummariesOperations,
+    UpdatesOperations,
     VirtualHardDisksOperations,
     VirtualMachineInstancesOperations,
 )
@@ -37,10 +51,19 @@ if TYPE_CHECKING:
 class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Azure Stack HCI management service.
 
+    :ivar arc_settings: ArcSettingsOperations operations
+    :vartype arc_settings: azure.mgmt.azurestackhci.aio.operations.ArcSettingsOperations
+    :ivar clusters: ClustersOperations operations
+    :vartype clusters: azure.mgmt.azurestackhci.aio.operations.ClustersOperations
+    :ivar deployment_settings: DeploymentSettingsOperations operations
+    :vartype deployment_settings:
+     azure.mgmt.azurestackhci.aio.operations.DeploymentSettingsOperations
+    :ivar edge_devices: EdgeDevicesOperations operations
+    :vartype edge_devices: azure.mgmt.azurestackhci.aio.operations.EdgeDevicesOperations
+    :ivar extensions: ExtensionsOperations operations
+    :vartype extensions: azure.mgmt.azurestackhci.aio.operations.ExtensionsOperations
     :ivar gallery_images: GalleryImagesOperations operations
     :vartype gallery_images: azure.mgmt.azurestackhci.aio.operations.GalleryImagesOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.azurestackhci.aio.operations.Operations
     :ivar logical_networks: LogicalNetworksOperations operations
     :vartype logical_networks: azure.mgmt.azurestackhci.aio.operations.LogicalNetworksOperations
     :ivar marketplace_gallery_images: MarketplaceGalleryImagesOperations operations
@@ -49,9 +72,25 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :ivar network_interfaces: NetworkInterfacesOperations operations
     :vartype network_interfaces:
      azure.mgmt.azurestackhci.aio.operations.NetworkInterfacesOperations
+    :ivar offers: OffersOperations operations
+    :vartype offers: azure.mgmt.azurestackhci.aio.operations.OffersOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.azurestackhci.aio.operations.Operations
+    :ivar publishers: PublishersOperations operations
+    :vartype publishers: azure.mgmt.azurestackhci.aio.operations.PublishersOperations
+    :ivar security_settings: SecuritySettingsOperations operations
+    :vartype security_settings: azure.mgmt.azurestackhci.aio.operations.SecuritySettingsOperations
+    :ivar skus: SkusOperations operations
+    :vartype skus: azure.mgmt.azurestackhci.aio.operations.SkusOperations
     :ivar storage_containers: StorageContainersOperations operations
     :vartype storage_containers:
      azure.mgmt.azurestackhci.aio.operations.StorageContainersOperations
+    :ivar update_runs: UpdateRunsOperations operations
+    :vartype update_runs: azure.mgmt.azurestackhci.aio.operations.UpdateRunsOperations
+    :ivar update_summaries: UpdateSummariesOperations operations
+    :vartype update_summaries: azure.mgmt.azurestackhci.aio.operations.UpdateSummariesOperations
+    :ivar updates: UpdatesOperations operations
+    :vartype updates: azure.mgmt.azurestackhci.aio.operations.UpdatesOperations
     :ivar virtual_hard_disks: VirtualHardDisksOperations operations
     :vartype virtual_hard_disks: azure.mgmt.azurestackhci.aio.operations.VirtualHardDisksOperations
     :ivar virtual_machine_instances: VirtualMachineInstancesOperations operations
@@ -70,8 +109,8 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-01-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -87,14 +126,38 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         self._config = AzureStackHCIClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.arc_settings = ArcSettingsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.deployment_settings = DeploymentSettingsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.edge_devices = EdgeDevicesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.extensions = ExtensionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.gallery_images = GalleryImagesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.logical_networks = LogicalNetworksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -104,9 +167,21 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         self.network_interfaces = NetworkInterfacesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.offers = OffersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.publishers = PublishersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.security_settings = SecuritySettingsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.storage_containers = StorageContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.update_runs = UpdateRunsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.update_summaries = UpdateSummariesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.updates = UpdatesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.virtual_hard_disks = VirtualHardDisksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -119,7 +194,9 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         self.guest_agent = GuestAgentOperations(self._client, self._config, self._serialize, self._deserialize)
         self.guest_agents = GuestAgentsOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -139,7 +216,7 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
