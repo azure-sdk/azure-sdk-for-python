@@ -21,7 +21,7 @@ class ComponentsResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -70,7 +70,7 @@ class ApplicationInsightsComponent(ComponentsResource):  # pylint: disable=too-m
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -335,7 +335,7 @@ class ApplicationInsightsComponent(ComponentsResource):  # pylint: disable=too-m
 class ApplicationInsightsComponentListResult(_serialization.Model):
     """Describes the list of Application Insights Resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of Application Insights component definitions. Required.
     :vartype value:
@@ -373,7 +373,7 @@ class ApplicationInsightsComponentListResult(_serialization.Model):
 class ComponentPurgeBody(_serialization.Model):
     """Describes the body of a purge request for an App Insights component.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar table: Table from which to purge data. Required.
     :vartype table: str
@@ -464,7 +464,7 @@ class ComponentPurgeBodyFilters(_serialization.Model):
 class ComponentPurgeResponse(_serialization.Model):
     """Response containing operationId for a specific purge action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar operation_id: Id to use when querying for status for a particular purge operation.
      Required.
@@ -492,7 +492,7 @@ class ComponentPurgeResponse(_serialization.Model):
 class ComponentPurgeStatusResponse(_serialization.Model):
     """Response containing status for a specific purge operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: Status of the operation represented by the requested Id. Required. Known values
      are: "pending" and "completed".

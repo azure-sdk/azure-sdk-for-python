@@ -1,11 +1,26 @@
 {
-  "commit": "e60df62e9e0d88462e6abba81a76d94eab000f0d",
+  "commit": "84b969912ab7a23325e03039708ee5334c4c8288",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.4.8",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.13.16",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/applicationinsights/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.8 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/applicationinsights/resource-manager/readme.md"
+  "autorest_command": "autorest specification/applicationinsights/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.13.16 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/applicationinsights/resource-manager/readme.md",
+  "package-2015-05": "2022-03-07 07:43:24 +0100 9735d8c1580e6b56e6d4508be6ec00f46e45cb77 Microsoft.Insights/stable/2015-05-01/webTests_API.json",
+  "package-2017-10": "2019-05-06 14:34:52 -0400 e129012901bbd9cc0f182ec5b539bccf2440ef4a Microsoft.Insights/preview/2017-10-01/eaSubscriptionMigration_API.json",
+  "package-2018-05-01-preview": "2021-08-24 22:48:16 -0700 e1eca381eca8ec1f80b722e5dbf060fdeef48653 Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json",
+  "package-2018-06-17-preview": "2020-09-14 19:17:37 -0700 e354da005a6502cb3029853bd7360c69aeda80b6 Microsoft.Insights/preview/2018-06-17-preview/workbooks_API.json",
+  "package-2019-10-17-preview": "2020-07-27 18:31:44 -0700 ee068060cb90273a653e3964ffd9c69c6b2dc33b Microsoft.Insights/preview/2019-10-17-preview/workbookTemplates_API.json",
+  "package-2020-02-02-preview": "2021-05-11 01:54:13 +0300 497df1cf194392f38ce8b08405a6f887648d22fb Microsoft.Insights/preview/2020-02-02-preview/components_API.json",
+  "package-2020-02-02-only": "2022-07-01 09:55:24 +0300 1ddabd9234338d209f9755beac5c13cc0ae3b5f7 Microsoft.Insights/stable/2020-02-02/components_API.json",
+  "package-2020-03-01-preview": "2021-06-30 08:40:16 +0300 4483c52219e9e8490dabbe53f1fe8005e8f3acd3 Microsoft.Insights/preview/2020-03-01-preview/componentLinkedStorageAccounts_API.json",
+  "package-preview-2020-06-only": "2021-06-30 08:40:16 +0300 4483c52219e9e8490dabbe53f1fe8005e8f3acd3 Microsoft.Insights/preview/2020-06-02-preview/livetoken_API.json",
+  "package-2020-11-only": "2022-03-07 07:43:24 +0100 9735d8c1580e6b56e6d4508be6ec00f46e45cb77 Microsoft.Insights/stable/2020-11-20/workbookTemplates_API.json",
+  "package-2021-03-08-only": "2021-05-05 20:47:33 -0700 6967cbe61d5d5fd18412343bcde770f3257c05b5 Microsoft.Insights/stable/2021-03-08/myworkbooks_API.json",
+  "package-2021-08": "2023-01-25 22:33:01 -0800 6e290d0b310e87d56cfa98cababea00b489d2c07 Microsoft.Insights/stable/2021-08-01/workbooks_API.json",
+  "package-2021-10": "2022-03-07 07:43:24 +0100 9735d8c1580e6b56e6d4508be6ec00f46e45cb77 Microsoft.Insights/stable/2021-10-14/livetoken_API.json",
+  "package-2022-04-01-only": "2023-01-25 22:33:01 -0800 6e290d0b310e87d56cfa98cababea00b489d2c07 Microsoft.Insights/stable/2022-04-01/workbooks_API.json",
+  "package-2022-06-15-only": "2023-01-19 08:29:19 +0530 13d172c85dac78b65d023dcd95097c383e38c048 Microsoft.Insights/stable/2022-06-15/webTests_API.json"
 }
