@@ -17,7 +17,7 @@ from azure.mgmt.powerbidedicated import PowerBIDedicated
     pip install azure-identity
     pip install azure-mgmt-powerbidedicated
 # USAGE
-    python create_capacity.py
+    python update_auto_scale_vcore.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,19 +32,18 @@ def main():
         subscription_id="613192d7-503f-477a-9cfe-4efc3ee2bd60",
     )
 
-    response = client.capacities.begin_create(
+    response = client.auto_scale_vcores.update(
         resource_group_name="TestRG",
-        dedicated_capacity_name="azsdktest",
-        capacity_parameters={
-            "location": "West US",
-            "properties": {"administration": {"members": ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"]}},
-            "sku": {"name": "A1", "tier": "PBIE_Azure"},
+        vcore_name="testvcore",
+        v_core_update_parameters={
+            "properties": {"capacityLimit": 20},
+            "sku": {"capacity": 0, "name": "AutoScale", "tier": "AutoScale"},
             "tags": {"testKey": "testValue"},
         },
-    ).result()
+    )
     print(response)
 
 
-# x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/createCapacity.json
+# x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateAutoScaleVCore.json
 if __name__ == "__main__":
     main()
