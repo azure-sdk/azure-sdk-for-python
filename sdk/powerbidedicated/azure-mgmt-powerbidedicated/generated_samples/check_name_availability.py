@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.powerbidedicated import PowerBIDedicated
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.powerbidedicated import PowerBIDedicated
     pip install azure-identity
     pip install azure-mgmt-powerbidedicated
 # USAGE
-    python update_auto_scale_vcore_parameters.py
+    python check_name_availability.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,18 +32,13 @@ def main():
         subscription_id="613192d7-503f-477a-9cfe-4efc3ee2bd60",
     )
 
-    response = client.auto_scale_vcores.update(
-        resource_group_name="TestRG",
-        vcore_name="testvcore",
-        v_core_update_parameters={
-            "properties": {"capacityLimit": 20},
-            "sku": {"capacity": 0, "name": "AutoScale", "tier": "AutoScale"},
-            "tags": {"testKey": "testValue"},
-        },
+    response = client.capacities.check_name_availability(
+        location="West US",
+        capacity_parameters={"name": "azsdktest", "type": "Microsoft.PowerBIDedicated/capacities"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateAutoScaleVCore.json
+# x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/checkNameAvailability.json
 if __name__ == "__main__":
     main()
