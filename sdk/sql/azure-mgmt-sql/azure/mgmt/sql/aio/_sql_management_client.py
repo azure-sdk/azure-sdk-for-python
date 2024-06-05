@@ -488,8 +488,6 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
      ManagedInstanceAdvancedThreatProtectionSettingsOperations operations
     :vartype managed_instance_advanced_threat_protection_settings:
      azure.mgmt.sql.aio.operations.ManagedInstanceAdvancedThreatProtectionSettingsOperations
-    :ivar replication_links: ReplicationLinksOperations operations
-    :vartype replication_links: azure.mgmt.sql.aio.operations.ReplicationLinksOperations
     :ivar managed_database_move_operations: ManagedDatabaseMoveOperationsOperations operations
     :vartype managed_database_move_operations:
      azure.mgmt.sql.aio.operations.ManagedDatabaseMoveOperationsOperations
@@ -510,6 +508,8 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
      azure.mgmt.sql.aio.operations.DatabaseEncryptionProtectorsOperations
     :ivar managed_databases: ManagedDatabasesOperations operations
     :vartype managed_databases: azure.mgmt.sql.aio.operations.ManagedDatabasesOperations
+    :ivar managed_instances: ManagedInstancesOperations operations
+    :vartype managed_instances: azure.mgmt.sql.aio.operations.ManagedInstancesOperations
     :ivar managed_ledger_digest_uploads: ManagedLedgerDigestUploadsOperations operations
     :vartype managed_ledger_digest_uploads:
      azure.mgmt.sql.aio.operations.ManagedLedgerDigestUploadsOperations
@@ -600,10 +600,10 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
     :ivar long_term_retention_policies: LongTermRetentionPoliciesOperations operations
     :vartype long_term_retention_policies:
      azure.mgmt.sql.aio.operations.LongTermRetentionPoliciesOperations
-    :ivar managed_instances: ManagedInstancesOperations operations
-    :vartype managed_instances: azure.mgmt.sql.aio.operations.ManagedInstancesOperations
     :ivar servers: ServersOperations operations
     :vartype servers: azure.mgmt.sql.aio.operations.ServersOperations
+    :ivar replication_links: ReplicationLinksOperations operations
+    :vartype replication_links: azure.mgmt.sql.aio.operations.ReplicationLinksOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The subscription ID that identifies an Azure subscription. Required.
@@ -942,9 +942,6 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
                 self._client, self._config, self._serialize, self._deserialize
             )
         )
-        self.replication_links = ReplicationLinksOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
         self.managed_database_move_operations = ManagedDatabaseMoveOperationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -967,6 +964,9 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
             self._client, self._config, self._serialize, self._deserialize
         )
         self.managed_databases = ManagedDatabasesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_instances = ManagedInstancesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.managed_ledger_digest_uploads = ManagedLedgerDigestUploadsOperations(
@@ -1050,10 +1050,10 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
         self.long_term_retention_policies = LongTermRetentionPoliciesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.managed_instances = ManagedInstancesOperations(
+        self.servers = ServersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.replication_links = ReplicationLinksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.servers = ServersOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any

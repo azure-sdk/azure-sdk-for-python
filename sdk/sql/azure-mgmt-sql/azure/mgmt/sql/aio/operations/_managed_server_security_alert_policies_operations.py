@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -36,6 +37,10 @@ from ...operations._managed_server_security_alert_policies_operations import (
     build_list_by_instance_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -80,7 +85,7 @@ class ManagedServerSecurityAlertPoliciesOperations:  # pylint: disable=name-too-
         :rtype: ~azure.mgmt.sql.models.ManagedServerSecurityAlertPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -132,7 +137,7 @@ class ManagedServerSecurityAlertPoliciesOperations:  # pylint: disable=name-too-
         parameters: Union[_models.ManagedServerSecurityAlertPolicy, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ManagedServerSecurityAlertPolicy]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -351,7 +356,7 @@ class ManagedServerSecurityAlertPoliciesOperations:  # pylint: disable=name-too-
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.ManagedServerSecurityAlertPolicyListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
