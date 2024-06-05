@@ -10,7 +10,7 @@ import datetime
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, List, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core import MatchConditions
@@ -140,9 +140,12 @@ def build_job_router_administration_list_distribution_policies_request(  # pylin
 def build_job_router_administration_delete_distribution_policy_request(  # pylint: disable=name-too-long
     distribution_policy_id: str, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-18-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/routing/distributionPolicies/{distributionPolicyId}"
     path_format_arguments = {
@@ -154,7 +157,10 @@ def build_job_router_administration_delete_distribution_policy_request(  # pylin
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_job_router_administration_upsert_classification_policy_request(  # pylint: disable=name-too-long
@@ -251,9 +257,12 @@ def build_job_router_administration_list_classification_policies_request(  # pyl
 def build_job_router_administration_delete_classification_policy_request(  # pylint: disable=name-too-long
     classification_policy_id: str, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-18-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/routing/classificationPolicies/{classificationPolicyId}"
     path_format_arguments = {
@@ -265,7 +274,10 @@ def build_job_router_administration_delete_classification_policy_request(  # pyl
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_job_router_administration_upsert_exception_policy_request(  # pylint: disable=name-too-long
@@ -362,9 +374,12 @@ def build_job_router_administration_list_exception_policies_request(  # pylint: 
 def build_job_router_administration_delete_exception_policy_request(  # pylint: disable=name-too-long
     exception_policy_id: str, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-18-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/routing/exceptionPolicies/{exceptionPolicyId}"
     path_format_arguments = {
@@ -376,7 +391,10 @@ def build_job_router_administration_delete_exception_policy_request(  # pylint: 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_job_router_administration_upsert_queue_request(  # pylint: disable=name-too-long
@@ -473,9 +491,12 @@ def build_job_router_administration_list_queues_request(  # pylint: disable=name
 def build_job_router_administration_delete_queue_request(  # pylint: disable=name-too-long
     queue_id: str, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-18-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/routing/queues/{queueId}"
     path_format_arguments = {
@@ -487,7 +508,10 @@ def build_job_router_administration_delete_queue_request(  # pylint: disable=nam
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_job_router_upsert_job_request(
@@ -557,9 +581,12 @@ def build_job_router_get_job_request(job_id: str, **kwargs: Any) -> HttpRequest:
 
 
 def build_job_router_delete_job_request(job_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-18-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/routing/jobs/{jobId}"
     path_format_arguments = {
@@ -571,7 +598,10 @@ def build_job_router_delete_job_request(job_id: str, **kwargs: Any) -> HttpReque
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_job_router_reclassify_job_request(job_id: str, **kwargs: Any) -> HttpRequest:
@@ -594,9 +624,9 @@ def build_job_router_reclassify_job_request(job_id: str, **kwargs: Any) -> HttpR
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -621,9 +651,9 @@ def build_job_router_cancel_job_request(job_id: str, **kwargs: Any) -> HttpReque
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -649,9 +679,9 @@ def build_job_router_complete_job_request(job_id: str, assignment_id: str, **kwa
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -677,9 +707,9 @@ def build_job_router_close_job_request(job_id: str, assignment_id: str, **kwargs
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -776,9 +806,9 @@ def build_job_router_unassign_job_request(job_id: str, assignment_id: str, **kwa
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -833,9 +863,9 @@ def build_job_router_decline_job_offer_request(  # pylint: disable=name-too-long
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
@@ -933,9 +963,12 @@ def build_job_router_get_worker_request(worker_id: str, **kwargs: Any) -> HttpRe
 
 
 def build_job_router_delete_worker_request(worker_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-18-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = "/routing/workers/{workerId}"
     path_format_arguments = {
@@ -947,7 +980,10 @@ def build_job_router_delete_worker_request(worker_id: str, **kwargs: Any) -> Htt
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_job_router_list_workers_request(
@@ -990,6 +1026,7 @@ def build_job_router_list_workers_request(
 class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-long
     JobRouterAdministrationClientMixinABC
 ):
+
     @overload
     def upsert_distribution_policy(
         self,
@@ -1110,6 +1147,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "offerExpiresAfterSeconds": 0.0  # Optional. Number of seconds after which
                       any offers created under this policy will be expired.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1181,6 +1219,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "value": {}  # Optional. The static value this rule always returns. Values
                       must be primitive values - number, string, boolean.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1302,6 +1341,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1373,6 +1413,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "value": {}  # Optional. The static value this rule always returns. Values
                       must be primitive values - number, string, boolean.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1494,6 +1535,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1565,6 +1607,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "value": {}  # Optional. The static value this rule always returns. Values
                       must be primitive values - number, string, boolean.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1765,6 +1808,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "offerExpiresAfterSeconds": 0.0  # Optional. Number of seconds after which
                       any offers created under this policy will be expired.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1836,6 +1880,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "value": {}  # Optional. The static value this rule always returns. Values
                       must be primitive values - number, string, boolean.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -1918,7 +1963,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                       any offers created under this policy will be expired.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1957,7 +2002,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2013,6 +2058,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2095,7 +2141,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                       any offers created under this policy will be expired.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2115,7 +2161,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2146,9 +2192,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         return deserialized  # type: ignore
 
-    # https://github.com/Azure/autorest.python/issues/2262
     @distributed_trace
-    def list_distribution_policies(self, **kwargs: Any) -> ItemPaged["_models.DistributionPolicy"]:
+    def list_distribution_policies(self, **kwargs: Any) -> Iterable["_models.DistributionPolicy"]:
         # pylint: disable=line-too-long
         """Retrieves existing distribution policies.
 
@@ -2160,6 +2205,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2248,7 +2294,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.DistributionPolicy]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2266,9 +2312,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2286,9 +2330,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2334,7 +2376,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2354,7 +2396,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2479,6 +2521,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                         worker_selector_attachment
                     ]
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2529,6 +2572,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     },
                     "webhookUri": "str"  # Optional. Uri for Contoso's Web Server.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2635,6 +2679,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2685,6 +2730,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     },
                     "webhookUri": "str"  # Optional. Uri for Contoso's Web Server.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2791,6 +2837,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -2841,6 +2888,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     },
                     "webhookUri": "str"  # Optional. Uri for Contoso's Web Server.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -3011,6 +3059,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                         worker_selector_attachment
                     ]
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -3061,6 +3110,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     },
                     "webhookUri": "str"  # Optional. Uri for Contoso's Web Server.
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -3128,7 +3178,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3167,7 +3217,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3223,6 +3273,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -3290,7 +3341,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     ]
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3310,7 +3361,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3341,9 +3392,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         return deserialized  # type: ignore
 
-    # https://github.com/Azure/autorest.python/issues/2262
     @distributed_trace
-    def list_classification_policies(self, **kwargs: Any) -> ItemPaged["_models.ClassificationPolicy"]:
+    def list_classification_policies(self, **kwargs: Any) -> Iterable["_models.ClassificationPolicy"]:
         # pylint: disable=line-too-long
         """Retrieves existing classification policies.
 
@@ -3356,6 +3406,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -3429,7 +3480,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.ClassificationPolicy]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3447,9 +3498,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3467,9 +3516,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3515,7 +3562,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3535,7 +3582,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3803,7 +3850,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "name": "str"  # Optional. Friendly name of this policy.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3842,7 +3889,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3914,7 +3961,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "name": "str"  # Optional. Friendly name of this policy.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3934,7 +3981,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3965,9 +4012,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         return deserialized  # type: ignore
 
-    # https://github.com/Azure/autorest.python/issues/2262
     @distributed_trace
-    def list_exception_policies(self, **kwargs: Any) -> ItemPaged["_models.ExceptionPolicy"]:
+    def list_exception_policies(self, **kwargs: Any) -> Iterable["_models.ExceptionPolicy"]:
         """Retrieves existing exception policies.
 
         Retrieves existing exception policies.
@@ -4001,7 +4047,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.ExceptionPolicy]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4019,9 +4065,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4039,9 +4083,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4087,7 +4129,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4107,7 +4149,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4379,7 +4421,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "name": "str"  # Optional. Friendly name of this queue.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4418,7 +4460,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4491,7 +4533,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "name": "str"  # Optional. Friendly name of this queue.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4511,7 +4553,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4542,9 +4584,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         return deserialized  # type: ignore
 
-    # https://github.com/Azure/autorest.python/issues/2262
     @distributed_trace
-    def list_queues(self, **kwargs: Any) -> ItemPaged["_models.RouterQueue"]:
+    def list_queues(self, **kwargs: Any) -> Iterable["_models.RouterQueue"]:
         # pylint: disable=line-too-long
         """Retrieves existing queues.
 
@@ -4579,7 +4620,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.RouterQueue]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4597,9 +4638,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4617,9 +4656,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4663,7 +4700,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4683,7 +4720,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4705,6 +4742,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
 
 class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
+
     @overload
     def upsert_job(
         self,
@@ -4825,7 +4863,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -4858,6 +4897,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                           to this job. Values must be primitive values - number, string, boolean.
                     }
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -4876,6 +4916,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                 job_matching_mode = {
                     "kind": "suspend"
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -4957,7 +4998,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -5030,6 +5072,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5048,6 +5091,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                 job_matching_mode = {
                     "kind": "suspend"
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5129,7 +5173,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -5202,6 +5247,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5220,6 +5266,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                 job_matching_mode = {
                     "kind": "suspend"
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5301,7 +5348,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -5453,7 +5501,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -5486,6 +5535,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                           to this job. Values must be primitive values - number, string, boolean.
                     }
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5504,6 +5554,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                 job_matching_mode = {
                     "kind": "suspend"
                 }
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5585,7 +5636,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -5619,7 +5671,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5658,7 +5710,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5714,6 +5766,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -5795,7 +5848,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -5829,7 +5883,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5849,7 +5903,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5892,7 +5946,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5912,7 +5966,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5940,20 +5994,15 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.ReclassifyJobResult:
-        ...
-
+    ) -> _models._models.ReclassifyJobResult: ...
     @overload
     def _reclassify_job(  # pylint: disable=protected-access
         self, job_id: str, options: Optional[JSON] = None, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models._models.ReclassifyJobResult:
-        ...
-
+    ) -> _models._models.ReclassifyJobResult: ...
     @overload
     def _reclassify_job(  # pylint: disable=protected-access
         self, job_id: str, options: Optional[IO[bytes]] = None, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models._models.ReclassifyJobResult:
-        ...
+    ) -> _models._models.ReclassifyJobResult: ...
 
     @distributed_trace
     def _reclassify_job(  # pylint: disable=protected-access
@@ -5970,9 +6019,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :type job_id: str
         :param options: Request object for reclassifying a job. Is one of the following types:
          ReclassifyJobOptions, JSON, IO[bytes] Default value is None.
-        :type options: ~azure.communication.jobrouter.models.ReclassifyJobOptions or JSON or IO[bytes]
+        :type options: ~azure.communication.jobrouter.models._models.ReclassifyJobOptions or JSON or
+         IO[bytes]
         :return: ReclassifyJobResult. The ReclassifyJobResult is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ReclassifyJobResult
+        :rtype: ~azure.communication.jobrouter.models._models.ReclassifyJobResult
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -5981,7 +6031,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                 # JSON input template you can fill out and use as your body input.
                 options = {}
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6014,7 +6064,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6051,20 +6101,15 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CancelJobResult:
-        ...
-
+    ) -> _models._models.CancelJobResult: ...
     @overload
     def _cancel_job(  # pylint: disable=protected-access
         self, job_id: str, options: Optional[JSON] = None, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models._models.CancelJobResult:
-        ...
-
+    ) -> _models._models.CancelJobResult: ...
     @overload
     def _cancel_job(  # pylint: disable=protected-access
         self, job_id: str, options: Optional[IO[bytes]] = None, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models._models.CancelJobResult:
-        ...
+    ) -> _models._models.CancelJobResult: ...
 
     @distributed_trace
     def _cancel_job(  # pylint: disable=protected-access
@@ -6081,7 +6126,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
          CancelJobOptions, JSON, IO[bytes] Default value is None.
         :type options: ~azure.communication.jobrouter.models.CancelJobOptions or JSON or IO[bytes]
         :return: CancelJobResult. The CancelJobResult is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.CancelJobResult
+        :rtype: ~azure.communication.jobrouter.models._models.CancelJobResult
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -6096,7 +6141,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       collection with the current timestamp.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6129,7 +6174,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6167,9 +6212,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CompleteJobResult:
-        ...
-
+    ) -> _models._models.CompleteJobResult: ...
     @overload
     def _complete_job(  # pylint: disable=protected-access
         self,
@@ -6179,9 +6222,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CompleteJobResult:
-        ...
-
+    ) -> _models._models.CompleteJobResult: ...
     @overload
     def _complete_job(  # pylint: disable=protected-access
         self,
@@ -6191,8 +6232,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CompleteJobResult:
-        ...
+    ) -> _models._models.CompleteJobResult: ...
 
     @distributed_trace
     def _complete_job(  # pylint: disable=protected-access
@@ -6214,7 +6254,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
          CompleteJobOptions, JSON, IO[bytes] Default value is None.
         :type options: ~azure.communication.jobrouter.models.CompleteJobOptions or JSON or IO[bytes]
         :return: CompleteJobResult. The CompleteJobResult is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.CompleteJobResult
+        :rtype: ~azure.communication.jobrouter.models._models.CompleteJobResult
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -6226,7 +6266,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       collection with the current timestamp.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6260,7 +6300,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6298,9 +6338,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CloseJobResult:
-        ...
-
+    ) -> _models._models.CloseJobResult: ...
     @overload
     def _close_job(  # pylint: disable=protected-access
         self,
@@ -6310,9 +6348,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CloseJobResult:
-        ...
-
+    ) -> _models._models.CloseJobResult: ...
     @overload
     def _close_job(  # pylint: disable=protected-access
         self,
@@ -6322,8 +6358,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.CloseJobResult:
-        ...
+    ) -> _models._models.CloseJobResult: ...
 
     @distributed_trace
     def _close_job(  # pylint: disable=protected-access
@@ -6346,7 +6381,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
          JSON, IO[bytes] Default value is None.
         :type options: ~azure.communication.jobrouter.models.CloseJobOptions or JSON or IO[bytes]
         :return: CloseJobResult. The CloseJobResult is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.CloseJobResult
+        :rtype: ~azure.communication.jobrouter.models._models.CloseJobResult
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -6364,7 +6399,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       collection with the current timestamp.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6398,7 +6433,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6427,7 +6462,6 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         return deserialized  # type: ignore
 
-    # https://github.com/Azure/autorest.python/issues/2262
     @distributed_trace
     def list_jobs(
         self,
@@ -6439,7 +6473,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         scheduled_before: Optional[datetime.datetime] = None,
         scheduled_after: Optional[datetime.datetime] = None,
         **kwargs: Any
-    ) -> ItemPaged["_models.RouterJob"]:
+    ) -> Iterable["_models.RouterJob"]:
         # pylint: disable=line-too-long
         """Retrieves list of jobs based on filter parameters.
 
@@ -6469,6 +6503,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         Example:
             .. code-block:: python
+
                 # The response is polymorphic. The following are possible polymorphic responses based
                   off discriminator "kind":
 
@@ -6550,7 +6585,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               current time.
                         }
                     ],
-                    "priority": 0,  # Optional. Priority of this job.
+                    "priority": 0,  # Optional. Priority of this job. Value must be between -100
+                      to 100.
                     "queueId": "str",  # Optional. Id of a queue that this job is queued to.
                     "requestedWorkerSelectors": [
                         {
@@ -6590,7 +6626,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.RouterJob]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6614,9 +6650,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6634,9 +6668,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6696,7 +6728,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       Required.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6716,7 +6748,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6904,7 +6936,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       maximum 3. Required.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6938,7 +6970,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6993,7 +7025,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       Required.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7014,7 +7046,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7050,9 +7082,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.DeclineJobOfferResult:
-        ...
-
+    ) -> _models._models.DeclineJobOfferResult: ...
     @overload
     def _decline_job_offer(  # pylint: disable=protected-access
         self,
@@ -7062,9 +7092,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.DeclineJobOfferResult:
-        ...
-
+    ) -> _models._models.DeclineJobOfferResult: ...
     @overload
     def _decline_job_offer(  # pylint: disable=protected-access
         self,
@@ -7074,8 +7102,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.DeclineJobOfferResult:
-        ...
+    ) -> _models._models.DeclineJobOfferResult: ...
 
     @distributed_trace
     def _decline_job_offer(  # pylint: disable=protected-access
@@ -7099,7 +7126,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :type options: ~azure.communication.jobrouter.models.DeclineJobOfferOptions or JSON or
          IO[bytes]
         :return: DeclineJobOfferResult. The DeclineJobOfferResult is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.DeclineJobOfferResult
+        :rtype: ~azure.communication.jobrouter.models._models.DeclineJobOfferResult
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -7115,7 +7142,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       at that time.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7151,7 +7178,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7208,7 +7235,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                       has been enqueued in this queue for the longest.
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7228,7 +7255,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7319,7 +7346,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7381,7 +7409,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7483,7 +7512,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7585,7 +7615,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7684,7 +7715,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7746,7 +7778,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7783,7 +7816,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7822,7 +7855,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7904,7 +7937,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -7941,7 +7975,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     }
                 }
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7961,7 +7995,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8004,7 +8038,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8024,7 +8058,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8044,7 +8078,6 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
 
-    # https://github.com/Azure/autorest.python/issues/2262
     @distributed_trace
     def list_workers(
         self,
@@ -8054,7 +8087,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         queue_id: Optional[str] = None,
         has_capacity: Optional[bool] = None,
         **kwargs: Any
-    ) -> ItemPaged["_models.RouterWorker"]:
+    ) -> Iterable["_models.RouterWorker"]:
         # pylint: disable=line-too-long
         """Retrieves existing workers.
 
@@ -8106,7 +8139,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                               capacity. Required.
                             "channelId": "str",  # Id of a channel. Required.
                             "maxNumberOfJobs": 0  # Optional. The maximum number of jobs
-                              that can be supported concurrently for this channel.
+                              that can be supported concurrently for this channel. Value must be
+                              greater than zero.
                         }
                     ],
                     "labels": {
@@ -8149,7 +8183,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.RouterWorker]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8171,9 +8205,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -8191,9 +8223,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
