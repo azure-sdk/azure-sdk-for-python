@@ -57,6 +57,13 @@ class AgentPoolProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UPDATING = "Updating"
 
 
+class AllowRegistration(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The indicator of whether the image can be used to register machines."""
+
+    TRUE = "True"
+    FALSE = "False"
+
+
 class AvailabilityLifecycle(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The version lifecycle indicator."""
 
@@ -92,9 +99,8 @@ class BareMetalMachineEvacuate(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class BareMetalMachineHardwareValidationResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The outcome of the hardware validation."""
 
-    PASS = "Pass"
-    FAIL = "Fail"
     PASS_ENUM = "Pass"
+    FAIL = "Fail"
 
 
 class BareMetalMachineKeySetDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -238,8 +244,15 @@ class ClusterConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The latest heartbeat status between the cluster manager and the cluster."""
 
     CONNECTED = "Connected"
+    DISCONNECTED = "Disconnected"
     TIMEOUT = "Timeout"
     UNDEFINED = "Undefined"
+
+
+class ClusterContinueUpdateVersionMachineGroupTargetingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode by which the cluster will target the next grouping of servers to continue the update."""
+
+    ALPHA_BY_RACK = "AlphaByRack"
 
 
 class ClusterDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -249,6 +262,7 @@ class ClusterDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DEPLOYING = "Deploying"
     RUNNING = "Running"
     UPDATING = "Updating"
+    UPDATE_PAUSED = "UpdatePaused"
     DEGRADED = "Degraded"
     DELETING = "Deleting"
     DISCONNECTED = "Disconnected"
@@ -313,11 +327,32 @@ class ClusterProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UPDATING = "Updating"
 
 
+class ClusterScanRuntimeParametersScanActivity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The choice of if the scan operation should run the scan."""
+
+    SCAN = "Scan"
+    SKIP = "Skip"
+
+
+class ClusterSecretArchiveEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The indicator if the specified key vault should be used to archive the secrets of the cluster."""
+
+    TRUE = "True"
+    FALSE = "False"
+
+
 class ClusterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of rack configuration for the cluster."""
 
     SINGLE_RACK = "SingleRack"
     MULTI_RACK = "MultiRack"
+
+
+class ClusterUpdateStrategyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode of operation for runtime protection."""
+
+    RACK = "Rack"
+    PAUSE_AFTER_RACK = "PauseAfterRack"
 
 
 class ConsoleDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -328,7 +363,7 @@ class ConsoleDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ConsoleEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The credentials used to login to the image repository that has access to the specified image."""
+    """The indicator of whether the console access is enabled."""
 
     TRUE = "True"
     FALSE = "False"
@@ -381,6 +416,74 @@ class DiskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     HDD = "HDD"
     SSD = "SSD"
+
+
+class EdgeClusterLifecycleStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status representing the lifecycle stage of the edge cluster."""
+
+    DEFINED = "Defined"
+    CONTROL_PLANE_ONLY = "ControlPlaneOnly"
+    UPGRADING = "Upgrading"
+    READY = "Ready"
+    DELETING = "Deleting"
+
+
+class EdgeClusterNodeLifecycleStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The lifecycle status of the edge cluster node resource."""
+
+    UNASSOCIATED = "Unassociated"
+    REGISTERING = "Registering"
+    JOINED = "Joined"
+    PLATFORM_READY = "PlatformReady"
+    UPDATING_RUNTIME = "UpdatingRuntime"
+    FAILED = "Failed"
+
+
+class EdgeClusterNodeMatchingIdentifierName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Name is the name of the identifier."""
+
+    PRODUCT_SERIAL_NUMBER = "ProductSerialNumber"
+    ANY_MAC_ADDRESS = "AnyMacAddress"
+
+
+class EdgeClusterNodeProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the edge cluster node."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    ACCEPTED = "Accepted"
+
+
+class EdgeClusterProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the edge cluster."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    ACCEPTED = "Accepted"
+
+
+class EdgeClusterPtpConfigurationNetworkTransportType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The network transport type for PTP."""
+
+    UD_PV4 = "UDPv4"
+    UD_PV6 = "UDPv6"
+    L2 = "L2"
+
+
+class EdgeClusterSkuFabricManagedBy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the network fabric is managed by the user or by the system."""
+
+    SYSTEM = "System"
+    USER = "User"
+
+
+class EdgeClusterSkuPtpRequired(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the edge cluster uses the Precision Time Protocol (PTP) for time synchronization."""
+
+    TRUE = "True"
+    FALSE = "False"
 
 
 class FabricPeeringEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -439,6 +542,41 @@ class KubernetesClusterDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMe
     AVAILABLE = "Available"
     ERROR = "Error"
     PROVISIONING = "Provisioning"
+
+
+class KubernetesClusterFeatureAvailabilityLifecycle(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The lifecycle indicator of the feature."""
+
+    PREVIEW = "Preview"
+    GENERALLY_AVAILABLE = "GenerallyAvailable"
+
+
+class KubernetesClusterFeatureDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The detailed status of the feature."""
+
+    ERROR = "Error"
+    PROVISIONING = "Provisioning"
+    INSTALLED = "Installed"
+
+
+class KubernetesClusterFeatureProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the Kubernetes cluster feature."""
+
+    ACCEPTED = "Accepted"
+    CANCELED = "Canceled"
+    DELETING = "Deleting"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    UPDATING = "Updating"
+
+
+class KubernetesClusterFeatureRequired(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The indicator of if the feature is required or optional. Optional features may be deleted by
+    the user, while required features are managed with the kubernetes cluster lifecycle.
+    """
+
+    TRUE = "True"
+    FALSE = "False"
 
 
 class KubernetesClusterNodeDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -537,6 +675,23 @@ class L3NetworkProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACCEPTED = "Accepted"
 
 
+class ListEdgeClusterUserCredentialAccessMechanism(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The indicator of which credential to return based on the access mechanism specified. Utilize
+    Local for access from the same subnet as the edge cluster, and Relay for remote access across a
+    relay.
+    """
+
+    RELAY = "Relay"
+    LOCAL = "Local"
+
+
+class ListEdgeClusterUserCredentialClientProxy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Client proxy indicates if the returned credentials are for the client-side proxy."""
+
+    TRUE = "True"
+    FALSE = "False"
+
+
 class MachineSkuDiskConnectionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The connection type of the rack SKU resource."""
 
@@ -544,6 +699,24 @@ class MachineSkuDiskConnectionType(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     SATA = "SATA"
     RAID = "RAID"
     SAS = "SAS"
+
+
+class ManagedServiceIdentitySelectorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of managed identity that is being selected."""
+
+    SYSTEM_ASSIGNED_IDENTITY = "SystemAssignedIdentity"
+    USER_ASSIGNED_IDENTITY = "UserAssignedIdentity"
+
+
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -600,6 +773,42 @@ class RackSkuType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SINGLE = "Single"
 
 
+class RegistrationHubImageProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the registration hub image resource."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    ACCEPTED = "Accepted"
+
+
+class RegistrationHubMachineProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the registration hub machine resource."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    ACCEPTED = "Accepted"
+
+
+class RegistrationHubMachineRegistrationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The stage and disposition of the registration for the machine."""
+
+    UNAPPROVED = "Unapproved"
+    APPROVED = "Approved"
+    DECLINED = "Declined"
+    COMPLETE = "Complete"
+
+
+class RegistrationHubProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the registration hub resource."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    ACCEPTED = "Accepted"
+
+
 class RemoteVendorManagementFeature(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The indicator of whether the storage appliance supports remote vendor management."""
 
@@ -615,6 +824,16 @@ class RemoteVendorManagementStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     ENABLED = "Enabled"
     DISABLED = "Disabled"
     UNSUPPORTED = "Unsupported"
+
+
+class RuntimeProtectionEnforcementLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode of operation for runtime protection."""
+
+    AUDIT = "Audit"
+    DISABLED = "Disabled"
+    ON_DEMAND = "OnDemand"
+    PASSIVE = "Passive"
+    REAL_TIME = "RealTime"
 
 
 class SkipShutdown(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -660,6 +879,20 @@ class TrunkedNetworkProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMe
     CANCELED = "Canceled"
     PROVISIONING = "Provisioning"
     ACCEPTED = "Accepted"
+
+
+class UsageDomainPlatform(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The infrastructure category for the domain."""
+
+    EDGE = "Edge"
+    FAR_EDGE = "FarEdge"
+
+
+class UserCredentialAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode of client authentication."""
+
+    AAD = "AAD"
+    TOKEN = "Token"
 
 
 class ValidationThresholdGrouping(str, Enum, metaclass=CaseInsensitiveEnumMeta):

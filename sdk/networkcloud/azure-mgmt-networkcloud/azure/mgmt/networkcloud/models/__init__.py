@@ -9,6 +9,7 @@
 from ._models_py3 import AadConfiguration
 from ._models_py3 import AdministrativeCredentials
 from ._models_py3 import AdministratorConfiguration
+from ._models_py3 import AdministratorConfigurationPatch
 from ._models_py3 import AgentOptions
 from ._models_py3 import AgentPool
 from ._models_py3 import AgentPoolConfiguration
@@ -43,6 +44,7 @@ from ._models_py3 import Cluster
 from ._models_py3 import ClusterAvailableUpgradeVersion
 from ._models_py3 import ClusterAvailableVersion
 from ._models_py3 import ClusterCapacity
+from ._models_py3 import ClusterContinueUpdateVersionParameters
 from ._models_py3 import ClusterDeployParameters
 from ._models_py3 import ClusterList
 from ._models_py3 import ClusterManager
@@ -52,12 +54,40 @@ from ._models_py3 import ClusterMetricsConfiguration
 from ._models_py3 import ClusterMetricsConfigurationList
 from ._models_py3 import ClusterMetricsConfigurationPatchParameters
 from ._models_py3 import ClusterPatchParameters
+from ._models_py3 import ClusterScanRuntimeParameters
+from ._models_py3 import ClusterSecretArchive
+from ._models_py3 import ClusterUpdateStrategy
 from ._models_py3 import ClusterUpdateVersionParameters
+from ._models_py3 import CommandOutputSettings
 from ._models_py3 import Console
 from ._models_py3 import ConsoleList
 from ._models_py3 import ConsolePatchParameters
 from ._models_py3 import ControlPlaneNodeConfiguration
 from ._models_py3 import ControlPlaneNodePatchConfiguration
+from ._models_py3 import CredentialResult
+from ._models_py3 import CredentialResults
+from ._models_py3 import EdgeCluster
+from ._models_py3 import EdgeClusterAvailableUpgradeRuntimeVersion
+from ._models_py3 import EdgeClusterEntraConfiguration
+from ._models_py3 import EdgeClusterList
+from ._models_py3 import EdgeClusterMachineSku
+from ._models_py3 import EdgeClusterMachineSkuCpu
+from ._models_py3 import EdgeClusterMachineSkuDevice
+from ._models_py3 import EdgeClusterMachineSkuList
+from ._models_py3 import EdgeClusterMachineSkuMemory
+from ._models_py3 import EdgeClusterMachineSkuSystem
+from ._models_py3 import EdgeClusterNode
+from ._models_py3 import EdgeClusterNodeList
+from ._models_py3 import EdgeClusterNodeMatchingIdentifier
+from ._models_py3 import EdgeClusterNodeNetworkInterface
+from ._models_py3 import EdgeClusterNodePatchParameters
+from ._models_py3 import EdgeClusterPatchParameters
+from ._models_py3 import EdgeClusterPtpConfiguration
+from ._models_py3 import EdgeClusterRuntimeVersion
+from ._models_py3 import EdgeClusterRuntimeVersionList
+from ._models_py3 import EdgeClusterSku
+from ._models_py3 import EdgeClusterSkuList
+from ._models_py3 import EdgeClusterStageRuntimeParameters
 from ._models_py3 import EgressEndpoint
 from ._models_py3 import EndpointDependency
 from ._models_py3 import ErrorAdditionalInfo
@@ -68,12 +98,17 @@ from ._models_py3 import FeatureStatus
 from ._models_py3 import HardwareInventory
 from ._models_py3 import HardwareInventoryNetworkInterface
 from ._models_py3 import HardwareValidationStatus
+from ._models_py3 import HybridConnectionConfig
+from ._models_py3 import IdentitySelector
 from ._models_py3 import ImageRepositoryCredentials
 from ._models_py3 import InitialAgentPoolConfiguration
 from ._models_py3 import IpAddressPool
 from ._models_py3 import KeySetUser
 from ._models_py3 import KeySetUserStatus
 from ._models_py3 import KubernetesCluster
+from ._models_py3 import KubernetesClusterFeature
+from ._models_py3 import KubernetesClusterFeatureList
+from ._models_py3 import KubernetesClusterFeaturePatchParameters
 from ._models_py3 import KubernetesClusterList
 from ._models_py3 import KubernetesClusterNode
 from ._models_py3 import KubernetesClusterPatchParameters
@@ -83,30 +118,54 @@ from ._models_py3 import L2Network
 from ._models_py3 import L2NetworkAttachmentConfiguration
 from ._models_py3 import L2NetworkList
 from ._models_py3 import L2NetworkPatchParameters
+from ._models_py3 import L2ServiceLoadBalancerConfiguration
 from ._models_py3 import L3Network
 from ._models_py3 import L3NetworkAttachmentConfiguration
 from ._models_py3 import L3NetworkList
 from ._models_py3 import L3NetworkPatchParameters
+from ._models_py3 import ListUserCredentialParameters
 from ._models_py3 import LldpNeighbor
 from ._models_py3 import MachineDisk
 from ._models_py3 import MachineSkuSlot
+from ._models_py3 import MachineSkuSupportRange
 from ._models_py3 import ManagedResourceGroupConfiguration
+from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import NetworkAttachment
 from ._models_py3 import NetworkConfiguration
 from ._models_py3 import NetworkInterface
 from ._models_py3 import Nic
+from ._models_py3 import NodePoolAdministratorConfigurationPatch
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationStatusResult
 from ._models_py3 import OsDisk
+from ._models_py3 import ProxyResource
 from ._models_py3 import Rack
 from ._models_py3 import RackDefinition
 from ._models_py3 import RackList
 from ._models_py3 import RackPatchParameters
 from ._models_py3 import RackSku
 from ._models_py3 import RackSkuList
+from ._models_py3 import RegistrationHub
+from ._models_py3 import RegistrationHubImage
+from ._models_py3 import RegistrationHubImageList
+from ._models_py3 import RegistrationHubImagePatchParameters
+from ._models_py3 import RegistrationHubList
+from ._models_py3 import RegistrationHubMachine
+from ._models_py3 import RegistrationHubMachineConfiguration
+from ._models_py3 import RegistrationHubMachineCpu
+from ._models_py3 import RegistrationHubMachineDevice
+from ._models_py3 import RegistrationHubMachineList
+from ._models_py3 import RegistrationHubMachineMemory
+from ._models_py3 import RegistrationHubMachinePatchParameters
+from ._models_py3 import RegistrationHubMachineSystem
+from ._models_py3 import RegistrationHubPatchParameters
 from ._models_py3 import Resource
+from ._models_py3 import RuntimeProtectionConfiguration
+from ._models_py3 import RuntimeProtectionStatus
+from ._models_py3 import SecretArchiveReference
+from ._models_py3 import SecretRotationStatus
 from ._models_py3 import ServiceLoadBalancerBgpPeer
 from ._models_py3 import ServicePrincipalInformation
 from ._models_py3 import SshPublicKey
@@ -117,6 +176,7 @@ from ._models_py3 import StorageApplianceList
 from ._models_py3 import StorageAppliancePatchParameters
 from ._models_py3 import StorageApplianceSkuSlot
 from ._models_py3 import StorageProfile
+from ._models_py3 import StringKeyValuePair
 from ._models_py3 import SystemData
 from ._models_py3 import TagsParameter
 from ._models_py3 import TrackedResource
@@ -124,7 +184,10 @@ from ._models_py3 import TrunkedNetwork
 from ._models_py3 import TrunkedNetworkAttachmentConfiguration
 from ._models_py3 import TrunkedNetworkList
 from ._models_py3 import TrunkedNetworkPatchParameters
+from ._models_py3 import UsageDomain
+from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import ValidationThreshold
+from ._models_py3 import VersionRange
 from ._models_py3 import VirtualMachine
 from ._models_py3 import VirtualMachineList
 from ._models_py3 import VirtualMachinePatchParameters
@@ -139,6 +202,7 @@ from ._network_cloud_mgmt_client_enums import AdvertiseToFabric
 from ._network_cloud_mgmt_client_enums import AgentPoolDetailedStatus
 from ._network_cloud_mgmt_client_enums import AgentPoolMode
 from ._network_cloud_mgmt_client_enums import AgentPoolProvisioningState
+from ._network_cloud_mgmt_client_enums import AllowRegistration
 from ._network_cloud_mgmt_client_enums import AvailabilityLifecycle
 from ._network_cloud_mgmt_client_enums import BareMetalMachineCordonStatus
 from ._network_cloud_mgmt_client_enums import BareMetalMachineDetailedStatus
@@ -162,6 +226,7 @@ from ._network_cloud_mgmt_client_enums import CloudServicesNetworkDetailedStatus
 from ._network_cloud_mgmt_client_enums import CloudServicesNetworkEnableDefaultEgressEndpoints
 from ._network_cloud_mgmt_client_enums import CloudServicesNetworkProvisioningState
 from ._network_cloud_mgmt_client_enums import ClusterConnectionStatus
+from ._network_cloud_mgmt_client_enums import ClusterContinueUpdateVersionMachineGroupTargetingMode
 from ._network_cloud_mgmt_client_enums import ClusterDetailedStatus
 from ._network_cloud_mgmt_client_enums import ClusterManagerConnectionStatus
 from ._network_cloud_mgmt_client_enums import ClusterManagerDetailedStatus
@@ -169,7 +234,10 @@ from ._network_cloud_mgmt_client_enums import ClusterManagerProvisioningState
 from ._network_cloud_mgmt_client_enums import ClusterMetricsConfigurationDetailedStatus
 from ._network_cloud_mgmt_client_enums import ClusterMetricsConfigurationProvisioningState
 from ._network_cloud_mgmt_client_enums import ClusterProvisioningState
+from ._network_cloud_mgmt_client_enums import ClusterScanRuntimeParametersScanActivity
+from ._network_cloud_mgmt_client_enums import ClusterSecretArchiveEnabled
 from ._network_cloud_mgmt_client_enums import ClusterType
+from ._network_cloud_mgmt_client_enums import ClusterUpdateStrategyType
 from ._network_cloud_mgmt_client_enums import ConsoleDetailedStatus
 from ._network_cloud_mgmt_client_enums import ConsoleEnabled
 from ._network_cloud_mgmt_client_enums import ConsoleProvisioningState
@@ -178,6 +246,14 @@ from ._network_cloud_mgmt_client_enums import CreatedByType
 from ._network_cloud_mgmt_client_enums import DefaultGateway
 from ._network_cloud_mgmt_client_enums import DeviceConnectionType
 from ._network_cloud_mgmt_client_enums import DiskType
+from ._network_cloud_mgmt_client_enums import EdgeClusterLifecycleStatus
+from ._network_cloud_mgmt_client_enums import EdgeClusterNodeLifecycleStatus
+from ._network_cloud_mgmt_client_enums import EdgeClusterNodeMatchingIdentifierName
+from ._network_cloud_mgmt_client_enums import EdgeClusterNodeProvisioningState
+from ._network_cloud_mgmt_client_enums import EdgeClusterProvisioningState
+from ._network_cloud_mgmt_client_enums import EdgeClusterPtpConfigurationNetworkTransportType
+from ._network_cloud_mgmt_client_enums import EdgeClusterSkuFabricManagedBy
+from ._network_cloud_mgmt_client_enums import EdgeClusterSkuPtpRequired
 from ._network_cloud_mgmt_client_enums import FabricPeeringEnabled
 from ._network_cloud_mgmt_client_enums import FeatureDetailedStatus
 from ._network_cloud_mgmt_client_enums import HugepagesSize
@@ -185,6 +261,10 @@ from ._network_cloud_mgmt_client_enums import HybridAksIpamEnabled
 from ._network_cloud_mgmt_client_enums import HybridAksPluginType
 from ._network_cloud_mgmt_client_enums import IpAllocationType
 from ._network_cloud_mgmt_client_enums import KubernetesClusterDetailedStatus
+from ._network_cloud_mgmt_client_enums import KubernetesClusterFeatureAvailabilityLifecycle
+from ._network_cloud_mgmt_client_enums import KubernetesClusterFeatureDetailedStatus
+from ._network_cloud_mgmt_client_enums import KubernetesClusterFeatureProvisioningState
+from ._network_cloud_mgmt_client_enums import KubernetesClusterFeatureRequired
 from ._network_cloud_mgmt_client_enums import KubernetesClusterNodeDetailedStatus
 from ._network_cloud_mgmt_client_enums import KubernetesClusterProvisioningState
 from ._network_cloud_mgmt_client_enums import KubernetesNodePowerState
@@ -195,7 +275,11 @@ from ._network_cloud_mgmt_client_enums import L2NetworkProvisioningState
 from ._network_cloud_mgmt_client_enums import L3NetworkConfigurationIpamEnabled
 from ._network_cloud_mgmt_client_enums import L3NetworkDetailedStatus
 from ._network_cloud_mgmt_client_enums import L3NetworkProvisioningState
+from ._network_cloud_mgmt_client_enums import ListEdgeClusterUserCredentialAccessMechanism
+from ._network_cloud_mgmt_client_enums import ListEdgeClusterUserCredentialClientProxy
 from ._network_cloud_mgmt_client_enums import MachineSkuDiskConnectionType
+from ._network_cloud_mgmt_client_enums import ManagedServiceIdentitySelectorType
+from ._network_cloud_mgmt_client_enums import ManagedServiceIdentityType
 from ._network_cloud_mgmt_client_enums import Origin
 from ._network_cloud_mgmt_client_enums import OsDiskCreateOption
 from ._network_cloud_mgmt_client_enums import OsDiskDeleteOption
@@ -203,13 +287,20 @@ from ._network_cloud_mgmt_client_enums import RackDetailedStatus
 from ._network_cloud_mgmt_client_enums import RackProvisioningState
 from ._network_cloud_mgmt_client_enums import RackSkuProvisioningState
 from ._network_cloud_mgmt_client_enums import RackSkuType
+from ._network_cloud_mgmt_client_enums import RegistrationHubImageProvisioningState
+from ._network_cloud_mgmt_client_enums import RegistrationHubMachineProvisioningState
+from ._network_cloud_mgmt_client_enums import RegistrationHubMachineRegistrationState
+from ._network_cloud_mgmt_client_enums import RegistrationHubProvisioningState
 from ._network_cloud_mgmt_client_enums import RemoteVendorManagementFeature
 from ._network_cloud_mgmt_client_enums import RemoteVendorManagementStatus
+from ._network_cloud_mgmt_client_enums import RuntimeProtectionEnforcementLevel
 from ._network_cloud_mgmt_client_enums import SkipShutdown
 from ._network_cloud_mgmt_client_enums import StorageApplianceDetailedStatus
 from ._network_cloud_mgmt_client_enums import StorageApplianceProvisioningState
 from ._network_cloud_mgmt_client_enums import TrunkedNetworkDetailedStatus
 from ._network_cloud_mgmt_client_enums import TrunkedNetworkProvisioningState
+from ._network_cloud_mgmt_client_enums import UsageDomainPlatform
+from ._network_cloud_mgmt_client_enums import UserCredentialAuthenticationMethod
 from ._network_cloud_mgmt_client_enums import ValidationThresholdGrouping
 from ._network_cloud_mgmt_client_enums import ValidationThresholdType
 from ._network_cloud_mgmt_client_enums import VirtualMachineBootMethod
@@ -234,6 +325,7 @@ __all__ = [
     "AadConfiguration",
     "AdministrativeCredentials",
     "AdministratorConfiguration",
+    "AdministratorConfigurationPatch",
     "AgentOptions",
     "AgentPool",
     "AgentPoolConfiguration",
@@ -268,6 +360,7 @@ __all__ = [
     "ClusterAvailableUpgradeVersion",
     "ClusterAvailableVersion",
     "ClusterCapacity",
+    "ClusterContinueUpdateVersionParameters",
     "ClusterDeployParameters",
     "ClusterList",
     "ClusterManager",
@@ -277,12 +370,40 @@ __all__ = [
     "ClusterMetricsConfigurationList",
     "ClusterMetricsConfigurationPatchParameters",
     "ClusterPatchParameters",
+    "ClusterScanRuntimeParameters",
+    "ClusterSecretArchive",
+    "ClusterUpdateStrategy",
     "ClusterUpdateVersionParameters",
+    "CommandOutputSettings",
     "Console",
     "ConsoleList",
     "ConsolePatchParameters",
     "ControlPlaneNodeConfiguration",
     "ControlPlaneNodePatchConfiguration",
+    "CredentialResult",
+    "CredentialResults",
+    "EdgeCluster",
+    "EdgeClusterAvailableUpgradeRuntimeVersion",
+    "EdgeClusterEntraConfiguration",
+    "EdgeClusterList",
+    "EdgeClusterMachineSku",
+    "EdgeClusterMachineSkuCpu",
+    "EdgeClusterMachineSkuDevice",
+    "EdgeClusterMachineSkuList",
+    "EdgeClusterMachineSkuMemory",
+    "EdgeClusterMachineSkuSystem",
+    "EdgeClusterNode",
+    "EdgeClusterNodeList",
+    "EdgeClusterNodeMatchingIdentifier",
+    "EdgeClusterNodeNetworkInterface",
+    "EdgeClusterNodePatchParameters",
+    "EdgeClusterPatchParameters",
+    "EdgeClusterPtpConfiguration",
+    "EdgeClusterRuntimeVersion",
+    "EdgeClusterRuntimeVersionList",
+    "EdgeClusterSku",
+    "EdgeClusterSkuList",
+    "EdgeClusterStageRuntimeParameters",
     "EgressEndpoint",
     "EndpointDependency",
     "ErrorAdditionalInfo",
@@ -293,12 +414,17 @@ __all__ = [
     "HardwareInventory",
     "HardwareInventoryNetworkInterface",
     "HardwareValidationStatus",
+    "HybridConnectionConfig",
+    "IdentitySelector",
     "ImageRepositoryCredentials",
     "InitialAgentPoolConfiguration",
     "IpAddressPool",
     "KeySetUser",
     "KeySetUserStatus",
     "KubernetesCluster",
+    "KubernetesClusterFeature",
+    "KubernetesClusterFeatureList",
+    "KubernetesClusterFeaturePatchParameters",
     "KubernetesClusterList",
     "KubernetesClusterNode",
     "KubernetesClusterPatchParameters",
@@ -308,30 +434,54 @@ __all__ = [
     "L2NetworkAttachmentConfiguration",
     "L2NetworkList",
     "L2NetworkPatchParameters",
+    "L2ServiceLoadBalancerConfiguration",
     "L3Network",
     "L3NetworkAttachmentConfiguration",
     "L3NetworkList",
     "L3NetworkPatchParameters",
+    "ListUserCredentialParameters",
     "LldpNeighbor",
     "MachineDisk",
     "MachineSkuSlot",
+    "MachineSkuSupportRange",
     "ManagedResourceGroupConfiguration",
+    "ManagedServiceIdentity",
     "NetworkAttachment",
     "NetworkConfiguration",
     "NetworkInterface",
     "Nic",
+    "NodePoolAdministratorConfigurationPatch",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OperationStatusResult",
     "OsDisk",
+    "ProxyResource",
     "Rack",
     "RackDefinition",
     "RackList",
     "RackPatchParameters",
     "RackSku",
     "RackSkuList",
+    "RegistrationHub",
+    "RegistrationHubImage",
+    "RegistrationHubImageList",
+    "RegistrationHubImagePatchParameters",
+    "RegistrationHubList",
+    "RegistrationHubMachine",
+    "RegistrationHubMachineConfiguration",
+    "RegistrationHubMachineCpu",
+    "RegistrationHubMachineDevice",
+    "RegistrationHubMachineList",
+    "RegistrationHubMachineMemory",
+    "RegistrationHubMachinePatchParameters",
+    "RegistrationHubMachineSystem",
+    "RegistrationHubPatchParameters",
     "Resource",
+    "RuntimeProtectionConfiguration",
+    "RuntimeProtectionStatus",
+    "SecretArchiveReference",
+    "SecretRotationStatus",
     "ServiceLoadBalancerBgpPeer",
     "ServicePrincipalInformation",
     "SshPublicKey",
@@ -342,6 +492,7 @@ __all__ = [
     "StorageAppliancePatchParameters",
     "StorageApplianceSkuSlot",
     "StorageProfile",
+    "StringKeyValuePair",
     "SystemData",
     "TagsParameter",
     "TrackedResource",
@@ -349,7 +500,10 @@ __all__ = [
     "TrunkedNetworkAttachmentConfiguration",
     "TrunkedNetworkList",
     "TrunkedNetworkPatchParameters",
+    "UsageDomain",
+    "UserAssignedIdentity",
     "ValidationThreshold",
+    "VersionRange",
     "VirtualMachine",
     "VirtualMachineList",
     "VirtualMachinePatchParameters",
@@ -363,6 +517,7 @@ __all__ = [
     "AgentPoolDetailedStatus",
     "AgentPoolMode",
     "AgentPoolProvisioningState",
+    "AllowRegistration",
     "AvailabilityLifecycle",
     "BareMetalMachineCordonStatus",
     "BareMetalMachineDetailedStatus",
@@ -386,6 +541,7 @@ __all__ = [
     "CloudServicesNetworkEnableDefaultEgressEndpoints",
     "CloudServicesNetworkProvisioningState",
     "ClusterConnectionStatus",
+    "ClusterContinueUpdateVersionMachineGroupTargetingMode",
     "ClusterDetailedStatus",
     "ClusterManagerConnectionStatus",
     "ClusterManagerDetailedStatus",
@@ -393,7 +549,10 @@ __all__ = [
     "ClusterMetricsConfigurationDetailedStatus",
     "ClusterMetricsConfigurationProvisioningState",
     "ClusterProvisioningState",
+    "ClusterScanRuntimeParametersScanActivity",
+    "ClusterSecretArchiveEnabled",
     "ClusterType",
+    "ClusterUpdateStrategyType",
     "ConsoleDetailedStatus",
     "ConsoleEnabled",
     "ConsoleProvisioningState",
@@ -402,6 +561,14 @@ __all__ = [
     "DefaultGateway",
     "DeviceConnectionType",
     "DiskType",
+    "EdgeClusterLifecycleStatus",
+    "EdgeClusterNodeLifecycleStatus",
+    "EdgeClusterNodeMatchingIdentifierName",
+    "EdgeClusterNodeProvisioningState",
+    "EdgeClusterProvisioningState",
+    "EdgeClusterPtpConfigurationNetworkTransportType",
+    "EdgeClusterSkuFabricManagedBy",
+    "EdgeClusterSkuPtpRequired",
     "FabricPeeringEnabled",
     "FeatureDetailedStatus",
     "HugepagesSize",
@@ -409,6 +576,10 @@ __all__ = [
     "HybridAksPluginType",
     "IpAllocationType",
     "KubernetesClusterDetailedStatus",
+    "KubernetesClusterFeatureAvailabilityLifecycle",
+    "KubernetesClusterFeatureDetailedStatus",
+    "KubernetesClusterFeatureProvisioningState",
+    "KubernetesClusterFeatureRequired",
     "KubernetesClusterNodeDetailedStatus",
     "KubernetesClusterProvisioningState",
     "KubernetesNodePowerState",
@@ -419,7 +590,11 @@ __all__ = [
     "L3NetworkConfigurationIpamEnabled",
     "L3NetworkDetailedStatus",
     "L3NetworkProvisioningState",
+    "ListEdgeClusterUserCredentialAccessMechanism",
+    "ListEdgeClusterUserCredentialClientProxy",
     "MachineSkuDiskConnectionType",
+    "ManagedServiceIdentitySelectorType",
+    "ManagedServiceIdentityType",
     "Origin",
     "OsDiskCreateOption",
     "OsDiskDeleteOption",
@@ -427,13 +602,20 @@ __all__ = [
     "RackProvisioningState",
     "RackSkuProvisioningState",
     "RackSkuType",
+    "RegistrationHubImageProvisioningState",
+    "RegistrationHubMachineProvisioningState",
+    "RegistrationHubMachineRegistrationState",
+    "RegistrationHubProvisioningState",
     "RemoteVendorManagementFeature",
     "RemoteVendorManagementStatus",
+    "RuntimeProtectionEnforcementLevel",
     "SkipShutdown",
     "StorageApplianceDetailedStatus",
     "StorageApplianceProvisioningState",
     "TrunkedNetworkDetailedStatus",
     "TrunkedNetworkProvisioningState",
+    "UsageDomainPlatform",
+    "UserCredentialAuthenticationMethod",
     "ValidationThresholdGrouping",
     "ValidationThresholdType",
     "VirtualMachineBootMethod",

@@ -9,8 +9,10 @@
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
@@ -24,6 +26,12 @@ from .operations import (
     ClusterManagersOperations,
     ClustersOperations,
     ConsolesOperations,
+    EdgeClusterMachineSkusOperations,
+    EdgeClusterNodesOperations,
+    EdgeClusterRuntimeVersionsOperations,
+    EdgeClusterSkusOperations,
+    EdgeClustersOperations,
+    KubernetesClusterFeaturesOperations,
     KubernetesClustersOperations,
     L2NetworksOperations,
     L3NetworksOperations,
@@ -31,6 +39,9 @@ from .operations import (
     Operations,
     RackSkusOperations,
     RacksOperations,
+    RegistrationHubImagesOperations,
+    RegistrationHubMachinesOperations,
+    RegistrationHubsOperations,
     StorageAppliancesOperations,
     TrunkedNetworksOperations,
     VirtualMachinesOperations,
@@ -43,8 +54,8 @@ if TYPE_CHECKING:
 
 
 class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """The Network Cloud APIs provide management of the on-premises clusters and their resources, such
-    as, racks, bare metal hosts, virtual machines, workload networks and more.
+    """The Network Cloud APIs provide management of the Azure Operator Nexus compute resources such as
+    on-premises clusters, hardware resources, and workload infrastructure resources.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.networkcloud.aio.operations.Operations
@@ -58,6 +69,16 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
     :vartype cluster_managers: azure.mgmt.networkcloud.aio.operations.ClusterManagersOperations
     :ivar clusters: ClustersOperations operations
     :vartype clusters: azure.mgmt.networkcloud.aio.operations.ClustersOperations
+    :ivar edge_cluster_machine_skus: EdgeClusterMachineSkusOperations operations
+    :vartype edge_cluster_machine_skus:
+     azure.mgmt.networkcloud.aio.operations.EdgeClusterMachineSkusOperations
+    :ivar edge_cluster_runtime_versions: EdgeClusterRuntimeVersionsOperations operations
+    :vartype edge_cluster_runtime_versions:
+     azure.mgmt.networkcloud.aio.operations.EdgeClusterRuntimeVersionsOperations
+    :ivar edge_cluster_skus: EdgeClusterSkusOperations operations
+    :vartype edge_cluster_skus: azure.mgmt.networkcloud.aio.operations.EdgeClusterSkusOperations
+    :ivar edge_clusters: EdgeClustersOperations operations
+    :vartype edge_clusters: azure.mgmt.networkcloud.aio.operations.EdgeClustersOperations
     :ivar kubernetes_clusters: KubernetesClustersOperations operations
     :vartype kubernetes_clusters:
      azure.mgmt.networkcloud.aio.operations.KubernetesClustersOperations
@@ -69,6 +90,8 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
     :vartype rack_skus: azure.mgmt.networkcloud.aio.operations.RackSkusOperations
     :ivar racks: RacksOperations operations
     :vartype racks: azure.mgmt.networkcloud.aio.operations.RacksOperations
+    :ivar registration_hubs: RegistrationHubsOperations operations
+    :vartype registration_hubs: azure.mgmt.networkcloud.aio.operations.RegistrationHubsOperations
     :ivar storage_appliances: StorageAppliancesOperations operations
     :vartype storage_appliances: azure.mgmt.networkcloud.aio.operations.StorageAppliancesOperations
     :ivar trunked_networks: TrunkedNetworksOperations operations
@@ -85,8 +108,19 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
     :ivar metrics_configurations: MetricsConfigurationsOperations operations
     :vartype metrics_configurations:
      azure.mgmt.networkcloud.aio.operations.MetricsConfigurationsOperations
+    :ivar edge_cluster_nodes: EdgeClusterNodesOperations operations
+    :vartype edge_cluster_nodes: azure.mgmt.networkcloud.aio.operations.EdgeClusterNodesOperations
     :ivar agent_pools: AgentPoolsOperations operations
     :vartype agent_pools: azure.mgmt.networkcloud.aio.operations.AgentPoolsOperations
+    :ivar kubernetes_cluster_features: KubernetesClusterFeaturesOperations operations
+    :vartype kubernetes_cluster_features:
+     azure.mgmt.networkcloud.aio.operations.KubernetesClusterFeaturesOperations
+    :ivar registration_hub_images: RegistrationHubImagesOperations operations
+    :vartype registration_hub_images:
+     azure.mgmt.networkcloud.aio.operations.RegistrationHubImagesOperations
+    :ivar registration_hub_machines: RegistrationHubMachinesOperations operations
+    :vartype registration_hub_machines:
+     azure.mgmt.networkcloud.aio.operations.RegistrationHubMachinesOperations
     :ivar consoles: ConsolesOperations operations
     :vartype consoles: azure.mgmt.networkcloud.aio.operations.ConsolesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
@@ -95,8 +129,8 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-07-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-05-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -112,7 +146,25 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
         self._config = NetworkCloudMgmtClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -129,6 +181,16 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
             self._client, self._config, self._serialize, self._deserialize
         )
         self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.edge_cluster_machine_skus = EdgeClusterMachineSkusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.edge_cluster_runtime_versions = EdgeClusterRuntimeVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.edge_cluster_skus = EdgeClusterSkusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.edge_clusters = EdgeClustersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.kubernetes_clusters = KubernetesClustersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -136,6 +198,9 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
         self.l3_networks = L3NetworksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.rack_skus = RackSkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.racks = RacksOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.registration_hubs = RegistrationHubsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.storage_appliances = StorageAppliancesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -153,10 +218,24 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
         self.metrics_configurations = MetricsConfigurationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.edge_cluster_nodes = EdgeClusterNodesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.agent_pools = AgentPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.kubernetes_cluster_features = KubernetesClusterFeaturesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registration_hub_images = RegistrationHubImagesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registration_hub_machines = RegistrationHubMachinesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.consoles = ConsolesOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -176,7 +255,7 @@ class NetworkCloudMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()

@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.networkcloud import NetworkCloudMgmtClient
 
 """
@@ -59,7 +62,7 @@ def main():
                     },
                     "availabilityZones": ["1", "2", "3"],
                     "count": 3,
-                    "vmSkuName": "NC_G4_v1",
+                    "vmSkuName": "NC_XXXX",
                 },
                 "initialAgentPoolConfigurations": [
                     {
@@ -100,10 +103,10 @@ def main():
                         "name": "SystemPool-1",
                         "taints": [{"key": "kubernetes.taint", "value": "true"}],
                         "upgradeSettings": {"maxSurge": "1"},
-                        "vmSkuName": "NC_M16_v1",
+                        "vmSkuName": "NC_XXXX",
                     }
                 ],
-                "kubernetesVersion": "1.24.12-1",
+                "kubernetesVersion": "1.XX.Y",
                 "managedResourceGroupConfiguration": {"location": "East US", "name": "my-managed-rg"},
                 "networkConfiguration": {
                     "attachedNetworkConfiguration": {
@@ -172,6 +175,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/KubernetesClusters_Create.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-05-01-preview/examples/KubernetesClusters_Create.json
 if __name__ == "__main__":
     main()

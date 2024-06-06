@@ -11,11 +11,16 @@ from ._bare_metal_machines_operations import BareMetalMachinesOperations
 from ._cloud_services_networks_operations import CloudServicesNetworksOperations
 from ._cluster_managers_operations import ClusterManagersOperations
 from ._clusters_operations import ClustersOperations
+from ._edge_cluster_machine_skus_operations import EdgeClusterMachineSkusOperations
+from ._edge_cluster_runtime_versions_operations import EdgeClusterRuntimeVersionsOperations
+from ._edge_cluster_skus_operations import EdgeClusterSkusOperations
+from ._edge_clusters_operations import EdgeClustersOperations
 from ._kubernetes_clusters_operations import KubernetesClustersOperations
 from ._l2_networks_operations import L2NetworksOperations
 from ._l3_networks_operations import L3NetworksOperations
 from ._rack_skus_operations import RackSkusOperations
 from ._racks_operations import RacksOperations
+from ._registration_hubs_operations import RegistrationHubsOperations
 from ._storage_appliances_operations import StorageAppliancesOperations
 from ._trunked_networks_operations import TrunkedNetworksOperations
 from ._virtual_machines_operations import VirtualMachinesOperations
@@ -23,7 +28,11 @@ from ._volumes_operations import VolumesOperations
 from ._bare_metal_machine_key_sets_operations import BareMetalMachineKeySetsOperations
 from ._bmc_key_sets_operations import BmcKeySetsOperations
 from ._metrics_configurations_operations import MetricsConfigurationsOperations
+from ._edge_cluster_nodes_operations import EdgeClusterNodesOperations
 from ._agent_pools_operations import AgentPoolsOperations
+from ._kubernetes_cluster_features_operations import KubernetesClusterFeaturesOperations
+from ._registration_hub_images_operations import RegistrationHubImagesOperations
+from ._registration_hub_machines_operations import RegistrationHubMachinesOperations
 from ._consoles_operations import ConsolesOperations
 
 from ._patch import __all__ as _patch_all
@@ -36,11 +45,16 @@ __all__ = [
     "CloudServicesNetworksOperations",
     "ClusterManagersOperations",
     "ClustersOperations",
+    "EdgeClusterMachineSkusOperations",
+    "EdgeClusterRuntimeVersionsOperations",
+    "EdgeClusterSkusOperations",
+    "EdgeClustersOperations",
     "KubernetesClustersOperations",
     "L2NetworksOperations",
     "L3NetworksOperations",
     "RackSkusOperations",
     "RacksOperations",
+    "RegistrationHubsOperations",
     "StorageAppliancesOperations",
     "TrunkedNetworksOperations",
     "VirtualMachinesOperations",
@@ -48,7 +62,11 @@ __all__ = [
     "BareMetalMachineKeySetsOperations",
     "BmcKeySetsOperations",
     "MetricsConfigurationsOperations",
+    "EdgeClusterNodesOperations",
     "AgentPoolsOperations",
+    "KubernetesClusterFeaturesOperations",
+    "RegistrationHubImagesOperations",
+    "RegistrationHubMachinesOperations",
     "ConsolesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
