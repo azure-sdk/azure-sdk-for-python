@@ -27,22 +27,28 @@ class PolicyClientConfiguration:
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param policy_definition_version: The policy set definition version.  The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number. Required.
+    :type policy_definition_version: str
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     """
 
     def __init__(
         self,
         credential: "AsyncTokenCredential",
+        policy_definition_version: str,
         subscription_id: str,
         **kwargs: Any
     ) -> None:
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
+        if policy_definition_version is None:
+            raise ValueError("Parameter 'policy_definition_version' must not be None.")
         if subscription_id is None:
             raise ValueError("Parameter 'subscription_id' must not be None.")
 
         self.credential = credential
+        self.policy_definition_version = policy_definition_version
         self.subscription_id = subscription_id
         self.credential_scopes = kwargs.pop('credential_scopes', ['https://management.azure.com/.default'])
         kwargs.setdefault('sdk_moniker', 'azure-mgmt-resource/{}'.format(VERSION))

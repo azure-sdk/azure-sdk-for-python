@@ -27,6 +27,7 @@ from azure.mgmt.resource import PolicyClient
 def main():
     client = PolicyClient(
         credential=DefaultAzureCredential(),
+        policy_definition_version="POLICY_DEFINITION_VERSION",
         subscription_id="ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
     )
 
@@ -35,6 +36,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2022-06-01/examples/listPolicyAssignments.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/listPolicyAssignments.json
 if __name__ == "__main__":
     main()
