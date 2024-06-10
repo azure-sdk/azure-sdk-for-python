@@ -16,6 +16,10 @@ from ._models import ChatCompletionsNamedFunctionToolSelection
 from ._models import ChatCompletionsNamedToolSelection
 from ._models import ChatCompletionsToolCall
 from ._models import ChatCompletionsToolDefinition
+from ._models import ChatMessageContentItem
+from ._models import ChatMessageImageContentItem
+from ._models import ChatMessageImageUrl
+from ._models import ChatMessageTextContentItem
 from ._models import ChatRequestMessage
 from ._models import ChatResponseMessage
 from ._models import CompletionsUsage
@@ -34,19 +38,15 @@ from ._models import UserMessage
 
 from ._enums import ChatCompletionsResponseFormat
 from ._enums import ChatCompletionsToolSelectionPreset
+from ._enums import ChatMessageImageDetailLevel
 from ._enums import ChatRole
 from ._enums import EmbeddingEncodingFormat
 from ._enums import EmbeddingInputType
-from ._enums import CompletionsFinishReason
-from ._enums import ModelType
-
-from ._patch import StreamingChatCompletions
-from ._patch import AsyncStreamingChatCompletions
+from ._patch import __all__ as _patch_all
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "StreamingChatCompletions",
-    "AsyncStreamingChatCompletions",
     "AssistantMessage",
     "ChatChoice",
     "ChatCompletions",
@@ -57,6 +57,10 @@ __all__ = [
     "ChatCompletionsNamedToolSelection",
     "ChatCompletionsToolCall",
     "ChatCompletionsToolDefinition",
+    "ChatMessageContentItem",
+    "ChatMessageImageContentItem",
+    "ChatMessageImageUrl",
+    "ChatMessageTextContentItem",
     "ChatRequestMessage",
     "ChatResponseMessage",
     "CompletionsUsage",
@@ -74,11 +78,10 @@ __all__ = [
     "UserMessage",
     "ChatCompletionsResponseFormat",
     "ChatCompletionsToolSelectionPreset",
+    "ChatMessageImageDetailLevel",
     "ChatRole",
     "EmbeddingEncodingFormat",
     "EmbeddingInputType",
-    "CompletionsFinishReason",
-    "ModelType"
 ]
-
+__all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
