@@ -81,7 +81,7 @@ class AvailabilityStatus(_serialization.Model):
 class AvailabilityStatusListResult(_serialization.Model):
     """The List availabilityStatus operation response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of availabilityStatuses. Required.
     :vartype value: list[~azure.mgmt.resourcehealth.v2018_07_01.models.AvailabilityStatus]
@@ -311,7 +311,7 @@ class AvailabilityStatusProperties(_serialization.Model):  # pylint: disable=too
         self.service_impacting_events = service_impacting_events
 
 
-class AvailabilityStatusPropertiesRecentlyResolved(_serialization.Model):
+class AvailabilityStatusPropertiesRecentlyResolved(_serialization.Model):  # pylint: disable=name-too-long
     """An annotation describing a change in the availabilityState to Available from Unavailable with a
     reasonType of type Unplanned.
 
@@ -431,7 +431,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -466,7 +466,7 @@ class EmergingIssuesGetResult(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -559,7 +559,7 @@ class Event(Resource):  # pylint: disable=too-many-instance-attributes
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -890,7 +890,7 @@ class EventPropertiesRecommendedActionsItem(_serialization.Model):
 class Events(_serialization.Model):
     """The List events operation response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of event. Required.
     :vartype value: list[~azure.mgmt.resourcehealth.v2018_07_01.models.Event]
@@ -1173,7 +1173,7 @@ class MetadataEntity(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1373,7 +1373,7 @@ class OperationDisplay(_serialization.Model):
 class OperationListResult(_serialization.Model):
     """Lists the operations response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of operations available in the resourcehealth resource provider. Required.
     :vartype value: list[~azure.mgmt.resourcehealth.v2018_07_01.models.Operation]
