@@ -9,8 +9,10 @@
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
@@ -28,7 +30,15 @@ from .operations import (
     DatastoresOperations,
     EnvironmentContainersOperations,
     EnvironmentVersionsOperations,
+    FeaturesOperations,
+    FeaturesetContainersOperations,
+    FeaturesetVersionsOperations,
+    FeaturestoreEntityContainersOperations,
+    FeaturestoreEntityVersionsOperations,
     JobsOperations,
+    ManagedNetworkProvisionsOperations,
+    ManagedNetworkSettingsRuleOperations,
+    MarketplaceSubscriptionsOperations,
     ModelContainersOperations,
     ModelVersionsOperations,
     OnlineDeploymentsOperations,
@@ -43,12 +53,14 @@ from .operations import (
     RegistryComponentContainersOperations,
     RegistryComponentVersionsOperations,
     RegistryDataContainersOperations,
+    RegistryDataReferencesOperations,
     RegistryDataVersionsOperations,
     RegistryEnvironmentContainersOperations,
     RegistryEnvironmentVersionsOperations,
     RegistryModelContainersOperations,
     RegistryModelVersionsOperations,
     SchedulesOperations,
+    ServerlessEndpointsOperations,
     UsagesOperations,
     VirtualMachineSizesOperations,
     WorkspaceConnectionsOperations,
@@ -86,6 +98,12 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar workspace_connections: WorkspaceConnectionsOperations operations
     :vartype workspace_connections:
      azure.mgmt.machinelearningservices.aio.operations.WorkspaceConnectionsOperations
+    :ivar managed_network_settings_rule: ManagedNetworkSettingsRuleOperations operations
+    :vartype managed_network_settings_rule:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkSettingsRuleOperations
+    :ivar managed_network_provisions: ManagedNetworkProvisionsOperations operations
+    :vartype managed_network_provisions:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkProvisionsOperations
     :ivar registry_code_containers: RegistryCodeContainersOperations operations
     :vartype registry_code_containers:
      azure.mgmt.machinelearningservices.aio.operations.RegistryCodeContainersOperations
@@ -104,12 +122,18 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar registry_data_versions: RegistryDataVersionsOperations operations
     :vartype registry_data_versions:
      azure.mgmt.machinelearningservices.aio.operations.RegistryDataVersionsOperations
+    :ivar registry_data_references: RegistryDataReferencesOperations operations
+    :vartype registry_data_references:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryDataReferencesOperations
     :ivar registry_environment_containers: RegistryEnvironmentContainersOperations operations
     :vartype registry_environment_containers:
      azure.mgmt.machinelearningservices.aio.operations.RegistryEnvironmentContainersOperations
     :ivar registry_environment_versions: RegistryEnvironmentVersionsOperations operations
     :vartype registry_environment_versions:
      azure.mgmt.machinelearningservices.aio.operations.RegistryEnvironmentVersionsOperations
+    :ivar marketplace_subscriptions: MarketplaceSubscriptionsOperations operations
+    :vartype marketplace_subscriptions:
+     azure.mgmt.machinelearningservices.aio.operations.MarketplaceSubscriptionsOperations
     :ivar registry_model_containers: RegistryModelContainersOperations operations
     :vartype registry_model_containers:
      azure.mgmt.machinelearningservices.aio.operations.RegistryModelContainersOperations
@@ -148,6 +172,20 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar environment_versions: EnvironmentVersionsOperations operations
     :vartype environment_versions:
      azure.mgmt.machinelearningservices.aio.operations.EnvironmentVersionsOperations
+    :ivar featureset_containers: FeaturesetContainersOperations operations
+    :vartype featureset_containers:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturesetContainersOperations
+    :ivar features: FeaturesOperations operations
+    :vartype features: azure.mgmt.machinelearningservices.aio.operations.FeaturesOperations
+    :ivar featureset_versions: FeaturesetVersionsOperations operations
+    :vartype featureset_versions:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturesetVersionsOperations
+    :ivar featurestore_entity_containers: FeaturestoreEntityContainersOperations operations
+    :vartype featurestore_entity_containers:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturestoreEntityContainersOperations
+    :ivar featurestore_entity_versions: FeaturestoreEntityVersionsOperations operations
+    :vartype featurestore_entity_versions:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturestoreEntityVersionsOperations
     :ivar jobs: JobsOperations operations
     :vartype jobs: azure.mgmt.machinelearningservices.aio.operations.JobsOperations
     :ivar model_containers: ModelContainersOperations operations
@@ -164,6 +202,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
      azure.mgmt.machinelearningservices.aio.operations.OnlineDeploymentsOperations
     :ivar schedules: SchedulesOperations operations
     :vartype schedules: azure.mgmt.machinelearningservices.aio.operations.SchedulesOperations
+    :ivar serverless_endpoints: ServerlessEndpointsOperations operations
+    :vartype serverless_endpoints:
+     azure.mgmt.machinelearningservices.aio.operations.ServerlessEndpointsOperations
     :ivar registries: RegistriesOperations operations
     :vartype registries: azure.mgmt.machinelearningservices.aio.operations.RegistriesOperations
     :ivar workspace_features: WorkspaceFeaturesOperations operations
@@ -175,7 +216,7 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-04-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -192,7 +233,25 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self._config = MachineLearningServicesMgmtClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -215,6 +274,12 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self.workspace_connections = WorkspaceConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.managed_network_settings_rule = ManagedNetworkSettingsRuleOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_network_provisions = ManagedNetworkProvisionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.registry_code_containers = RegistryCodeContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -233,10 +298,16 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self.registry_data_versions = RegistryDataVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.registry_data_references = RegistryDataReferencesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.registry_environment_containers = RegistryEnvironmentContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.registry_environment_versions = RegistryEnvironmentVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.marketplace_subscriptions = MarketplaceSubscriptionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.registry_model_containers = RegistryModelContainersOperations(
@@ -266,6 +337,19 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self.environment_versions = EnvironmentVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.featureset_containers = FeaturesetContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.features = FeaturesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.featureset_versions = FeaturesetVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featurestore_entity_containers = FeaturestoreEntityContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featurestore_entity_versions = FeaturestoreEntityVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.model_containers = ModelContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -278,12 +362,17 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
             self._client, self._config, self._serialize, self._deserialize
         )
         self.schedules = SchedulesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.serverless_endpoints = ServerlessEndpointsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.registries = RegistriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.workspace_features = WorkspaceFeaturesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -303,7 +392,7 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
