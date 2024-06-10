@@ -80,8 +80,10 @@ async def load_client(
     :raises ~azure.core.exceptions.HttpResponseError
     """
 
-    async with ChatCompletionsClient(endpoint, credential, **kwargs) as client: # Pick any of the clients, it does not matter.
-        model_info = await client.get_model_info() # type: ignore
+    async with ChatCompletionsClient(
+        endpoint, credential, **kwargs
+    ) as client:  # Pick any of the clients, it does not matter.
+        model_info = await client.get_model_info()  # type: ignore
 
     _LOGGER.info("model_info=%s", model_info)
     if not model_info.model_type:
@@ -92,7 +94,9 @@ async def load_client(
     # TODO: Remove "completions" and "embedding" once Mistral Large and Cohere fixes their model type
     if model_info.model_type in (_models.ModelType.CHAT, "completion"):
         chat_completion_client = ChatCompletionsClient(endpoint, credential, **kwargs)
-        chat_completion_client._model_info = model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        chat_completion_client._model_info = (
+            model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        )
         return chat_completion_client
 
     if model_info.model_type in (_models.ModelType.EMBEDDINGS, "embedding"):
@@ -102,7 +106,9 @@ async def load_client(
 
     if model_info.model_type == _models.ModelType.IMAGE_EMBEDDINGS:
         image_embedding_client = ImageEmbeddingsClient(endpoint, credential, **kwargs)
-        image_embedding_client._model_info = model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        image_embedding_client._model_info = (
+            model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        )
         return image_embedding_client
 
     raise ValueError(f"No client available to support AI model type `{model_info.model_type}`")
@@ -151,9 +157,7 @@ class ChatCompletionsClient(ChatCompletionsClientGenerated):
         ] = None,
         seed: Optional[int] = None,
         **kwargs: Any,
-    ) -> _models.ChatCompletions:
-        ...
-
+    ) -> _models.ChatCompletions: ...
 
     @overload
     async def complete(
@@ -177,9 +181,7 @@ class ChatCompletionsClient(ChatCompletionsClientGenerated):
         ] = None,
         seed: Optional[int] = None,
         **kwargs: Any,
-    ) -> _models.AsyncStreamingChatCompletions:
-        ...
-
+    ) -> _models.AsyncStreamingChatCompletions: ...
 
     @overload
     async def complete(
@@ -539,7 +541,6 @@ class ChatCompletionsClient(ChatCompletionsClientGenerated):
 
         return _deserialize(_models.ChatCompletions, response.json())  # pylint: disable=protected-access
 
-
     @distributed_trace_async
     async def get_model_info(self, **kwargs: Any) -> _models.ModelInfo:
         # pylint: disable=line-too-long
@@ -550,14 +551,12 @@ class ChatCompletionsClient(ChatCompletionsClientGenerated):
         :raises ~azure.core.exceptions.HttpResponseError
         """
         if not self._model_info:
-            self._model_info = await self._get_model_info(**kwargs) # pylint: disable=attribute-defined-outside-init
+            self._model_info = await self._get_model_info(**kwargs)  # pylint: disable=attribute-defined-outside-init
         return self._model_info
-
 
     def __str__(self) -> str:
         # pylint: disable=client-method-name-no-double-underscore
         return super().__str__() + f"\n{self._model_info}" if self._model_info else super().__str__()
-
 
     # Remove this once https://github.com/Azure/autorest.python/issues/2619 is fixed,
     # and you see the equivalent auto-generated method in _client.py return "Self"
@@ -586,7 +585,6 @@ class EmbeddingsClient(EmbeddingsClientGenerated):
     ) -> None:
         self._model_info: Optional[_models.ModelInfo] = None
         super().__init__(endpoint=endpoint, credential=credential, **kwargs)
-
 
     @overload
     async def embed(
@@ -797,7 +795,6 @@ class EmbeddingsClient(EmbeddingsClientGenerated):
 
         return deserialized  # type: ignore
 
-
     @distributed_trace_async
     async def get_model_info(self, **kwargs: Any) -> _models.ModelInfo:
         # pylint: disable=line-too-long
@@ -808,14 +805,12 @@ class EmbeddingsClient(EmbeddingsClientGenerated):
         :raises ~azure.core.exceptions.HttpResponseError
         """
         if not self._model_info:
-            self._model_info = await self._get_model_info(**kwargs) # pylint: disable=attribute-defined-outside-init
+            self._model_info = await self._get_model_info(**kwargs)  # pylint: disable=attribute-defined-outside-init
         return self._model_info
-
 
     def __str__(self) -> str:
         # pylint: disable=client-method-name-no-double-underscore
         return super().__str__() + f"\n{self._model_info}" if self._model_info else super().__str__()
-
 
     # Remove this once https://github.com/Azure/autorest.python/issues/2619 is fixed,
     # and you see the equivalent auto-generated method in _client.py return "Self"
@@ -844,7 +839,6 @@ class ImageEmbeddingsClient(ImageEmbeddingsClientGenerated):
     ) -> None:
         self._model_info: Optional[_models.ModelInfo] = None
         super().__init__(endpoint=endpoint, credential=credential, **kwargs)
-
 
     @overload
     async def embed(
@@ -1055,7 +1049,6 @@ class ImageEmbeddingsClient(ImageEmbeddingsClientGenerated):
 
         return deserialized  # type: ignore
 
-
     @distributed_trace_async
     async def get_model_info(self, **kwargs: Any) -> _models.ModelInfo:
         # pylint: disable=line-too-long
@@ -1066,20 +1059,19 @@ class ImageEmbeddingsClient(ImageEmbeddingsClientGenerated):
         :raises ~azure.core.exceptions.HttpResponseError
         """
         if not self._model_info:
-            self._model_info = await self._get_model_info(**kwargs) # pylint: disable=attribute-defined-outside-init
+            self._model_info = await self._get_model_info(**kwargs)  # pylint: disable=attribute-defined-outside-init
         return self._model_info
-
 
     def __str__(self) -> str:
         # pylint: disable=client-method-name-no-double-underscore
         return super().__str__() + f"\n{self._model_info}" if self._model_info else super().__str__()
-
 
     # Remove this once https://github.com/Azure/autorest.python/issues/2619 is fixed,
     # and you see the equivalent auto-generated method in _client.py return "Self"
     async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
+
 
 __all__: List[str] = [
     "load_client",

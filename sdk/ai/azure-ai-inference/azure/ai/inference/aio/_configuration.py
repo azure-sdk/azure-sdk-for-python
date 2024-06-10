@@ -26,9 +26,10 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     AzureKeyCredential type or a TokenCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is one of the
+     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
+     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -55,6 +56,8 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
         self._configure(**kwargs)
 
     def _infer_policy(self, **kwargs):
+        if isinstance(self.credential, AzureKeyCredential):
+            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
         if hasattr(self.credential, "get_token"):
@@ -83,9 +86,10 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     AzureKeyCredential type or a TokenCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is one of the
+     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
+     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -112,6 +116,8 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
         self._configure(**kwargs)
 
     def _infer_policy(self, **kwargs):
+        if isinstance(self.credential, AzureKeyCredential):
+            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
         if hasattr(self.credential, "get_token"):
@@ -140,9 +146,10 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     AzureKeyCredential type or a TokenCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is one of the
+     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
+     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -169,6 +176,8 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
         self._configure(**kwargs)
 
     def _infer_policy(self, **kwargs):
+        if isinstance(self.credential, AzureKeyCredential):
+            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
         if hasattr(self.credential, "get_token"):
