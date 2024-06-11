@@ -66,23 +66,6 @@ class DocumentFilter(_model_base.Model):
      This is most often use for file extensions."""
 
 
-class DocumentsStatus(_model_base.Model):
-    """Documents Status Response.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar value: The detail status of individual documents. Required.
-    :vartype value: list[~azure.ai.translation.document.models._models.DocumentStatus]
-    :ivar next_link: Url for the next page.  Null if no more pages available.
-    :vartype next_link: str
-    """
-
-    value: List["_models._models.DocumentStatus"] = rest_field()
-    """The detail status of individual documents. Required."""
-    next_link: Optional[str] = rest_field(name="nextLink")
-    """Url for the next page.  Null if no more pages available."""
-
-
 class DocumentStatus(_model_base.Model):
     """Document Status Response.
 
@@ -452,23 +435,6 @@ class TranslationError(_model_base.Model):
      This
      contains required properties ErrorCode, message and optional properties target,
      details(key value pair), inner error(this can be nested)."""
-
-
-class TranslationsStatus(_model_base.Model):
-    """Translation job Status Response.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar value: The summary status of individual operation. Required.
-    :vartype value: list[~azure.ai.translation.document.models._models.TranslationStatus]
-    :ivar next_link: Url for the next page.  Null if no more pages available.
-    :vartype next_link: str
-    """
-
-    value: List["_models._models.TranslationStatus"] = rest_field()
-    """The summary status of individual operation. Required."""
-    next_link: Optional[str] = rest_field(name="nextLink")
-    """Url for the next page.  Null if no more pages available."""
 
 
 class TranslationStatus(_model_base.Model):
