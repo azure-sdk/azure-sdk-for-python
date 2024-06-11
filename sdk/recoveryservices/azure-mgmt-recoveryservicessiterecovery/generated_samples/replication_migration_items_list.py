@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +30,9 @@ def main():
         subscription_id="cb53d0c3-bd59-4721-89bc-06916a9147ef",
         resource_group_name="resourcegroup1",
         resource_name="migrationvault",
+        fabric_name="FABRIC_NAME",
+        protection_container_name="PROTECTION_CONTAINER_NAME",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_migration_items.list()
@@ -36,6 +40,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_List.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationMigrationItems_List.json
 if __name__ == "__main__":
     main()

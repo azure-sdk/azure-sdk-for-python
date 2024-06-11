@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +32,9 @@ def main():
         subscription_id="b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c",
         resource_group_name="wcusValidations",
         resource_name="WCUSVault",
+        fabric_name="WIN-JKKJ31QI8U2",
+        protection_container_name="cloud_c6780228-83bd-4f3e-a70e-cb46b7da33a0",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_protected_items.begin_update_mobility_service(
@@ -40,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
 if __name__ == "__main__":
     main()

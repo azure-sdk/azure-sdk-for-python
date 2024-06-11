@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +32,9 @@ def main():
         subscription_id="42195872-7e70-4f8a-837f-84b28ecbb78b",
         resource_group_name="priyanprg",
         resource_name="priyanponeboxvault",
+        fabric_name="CentralUSCanSite",
+        protection_container_name="CentralUSCancloud",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_protection_containers.begin_switch_protection(
@@ -44,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_SwitchProtection.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationProtectionContainers_SwitchProtection.json
 if __name__ == "__main__":
     main()

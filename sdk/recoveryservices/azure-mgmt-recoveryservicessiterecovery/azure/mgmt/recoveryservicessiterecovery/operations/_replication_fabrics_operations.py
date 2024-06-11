@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -82,7 +87,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -116,7 +121,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -150,7 +155,7 @@ def build_purge_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -177,7 +182,7 @@ def build_check_consistency_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -208,7 +213,7 @@ def build_migrate_to_aad_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -235,7 +240,7 @@ def build_reassociate_gateway_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -269,7 +274,7 @@ def build_delete_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -296,7 +301,7 @@ def build_renew_certificate_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -331,7 +336,7 @@ def build_remove_infra_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -386,7 +391,6 @@ class ReplicationFabricsOperations:
 
         Gets a list of the Azure Site Recovery fabrics in the vault.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Fabric or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -397,7 +401,7 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.FabricCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -408,17 +412,16 @@ class ReplicationFabricsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -430,13 +433,13 @@ class ReplicationFabricsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("FabricCollection", pipeline_response)
@@ -446,11 +449,11 @@ class ReplicationFabricsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -462,10 +465,6 @@ class ReplicationFabricsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics"
-    }
-
     @distributed_trace
     def get(self, fabric_name: str, filter: Optional[str] = None, **kwargs: Any) -> _models.Fabric:
         """Gets the details of an ASR fabric.
@@ -476,12 +475,11 @@ class ReplicationFabricsOperations:
         :type fabric_name: str
         :param filter: OData filter options. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Fabric or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Fabric
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -495,23 +493,22 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Fabric] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             filter=filter,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -523,18 +520,14 @@ class ReplicationFabricsOperations:
         deserialized = self._deserialize("Fabric", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_initial(
-        self, fabric_name: str, input: Union[_models.FabricCreationInput, IO], **kwargs: Any
+        self, fabric_name: str, input: Union[_models.FabricCreationInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Fabric]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -557,7 +550,7 @@ class ReplicationFabricsOperations:
         else:
             _json = self._serialize.body(input, "FabricCreationInput")
 
-        request = build_create_request(
+        _request = build_create_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -566,16 +559,15 @@ class ReplicationFabricsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -589,13 +581,9 @@ class ReplicationFabricsOperations:
             deserialized = self._deserialize("Fabric", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create(
@@ -617,14 +605,6 @@ class ReplicationFabricsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -632,7 +612,7 @@ class ReplicationFabricsOperations:
 
     @overload
     def begin_create(
-        self, fabric_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, fabric_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.Fabric]:
         """Creates an Azure Site Recovery fabric.
 
@@ -641,18 +621,10 @@ class ReplicationFabricsOperations:
         :param fabric_name: Name of the ASR fabric. Required.
         :type fabric_name: str
         :param input: Fabric creation input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -660,7 +632,7 @@ class ReplicationFabricsOperations:
 
     @distributed_trace
     def begin_create(
-        self, fabric_name: str, input: Union[_models.FabricCreationInput, IO], **kwargs: Any
+        self, fabric_name: str, input: Union[_models.FabricCreationInput, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Fabric]:
         """Creates an Azure Site Recovery fabric.
 
@@ -668,20 +640,9 @@ class ReplicationFabricsOperations:
 
         :param fabric_name: Name of the ASR fabric. Required.
         :type fabric_name: str
-        :param input: Fabric creation input. Is either a FabricCreationInput type or a IO type.
+        :param input: Fabric creation input. Is either a FabricCreationInput type or a IO[bytes] type.
          Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.FabricCreationInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.FabricCreationInput or IO[bytes]
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -711,7 +672,7 @@ class ReplicationFabricsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Fabric", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -721,20 +682,18 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Fabric].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
-    }
+        return LROPoller[_models.Fabric](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _purge_initial(self, fabric_name: str, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -748,22 +707,21 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_purge_request(
+        _request = build_purge_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._purge_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -773,11 +731,7 @@ class ReplicationFabricsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _purge_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_purge(self, fabric_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -787,14 +741,6 @@ class ReplicationFabricsOperations:
 
         :param fabric_name: ASR fabric to purge. Required.
         :type fabric_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -820,7 +766,7 @@ class ReplicationFabricsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -829,20 +775,16 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_purge.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _check_consistency_initial(self, fabric_name: str, **kwargs: Any) -> Optional[_models.Fabric]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -856,22 +798,21 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.Fabric]] = kwargs.pop("cls", None)
 
-        request = build_check_consistency_request(
+        _request = build_check_consistency_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._check_consistency_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -885,13 +826,9 @@ class ReplicationFabricsOperations:
             deserialized = self._deserialize("Fabric", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _check_consistency_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_check_consistency(self, fabric_name: str, **kwargs: Any) -> LROPoller[_models.Fabric]:
@@ -901,14 +838,6 @@ class ReplicationFabricsOperations:
 
         :param fabric_name: Fabric name. Required.
         :type fabric_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -935,7 +864,7 @@ class ReplicationFabricsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Fabric", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -945,22 +874,20 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Fabric].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_check_consistency.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency"
-    }
+        return LROPoller[_models.Fabric](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _migrate_to_aad_initial(  # pylint: disable=inconsistent-return-statements
         self, fabric_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -974,22 +901,21 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_migrate_to_aad_request(
+        _request = build_migrate_to_aad_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_to_aad_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -999,11 +925,7 @@ class ReplicationFabricsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _migrate_to_aad_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_migrate_to_aad(self, fabric_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1013,14 +935,6 @@ class ReplicationFabricsOperations:
 
         :param fabric_name: ASR fabric to migrate. Required.
         :type fabric_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1046,7 +960,7 @@ class ReplicationFabricsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -1055,25 +969,21 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate_to_aad.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _reassociate_gateway_initial(
         self,
         fabric_name: str,
-        failover_process_server_request: Union[_models.FailoverProcessServerRequest, IO],
+        failover_process_server_request: Union[_models.FailoverProcessServerRequest, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.Fabric]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1096,7 +1006,7 @@ class ReplicationFabricsOperations:
         else:
             _json = self._serialize.body(failover_process_server_request, "FailoverProcessServerRequest")
 
-        request = build_reassociate_gateway_request(
+        _request = build_reassociate_gateway_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -1105,16 +1015,15 @@ class ReplicationFabricsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._reassociate_gateway_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1128,13 +1037,9 @@ class ReplicationFabricsOperations:
             deserialized = self._deserialize("Fabric", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _reassociate_gateway_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_reassociate_gateway(
@@ -1158,14 +1063,6 @@ class ReplicationFabricsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1175,7 +1072,7 @@ class ReplicationFabricsOperations:
     def begin_reassociate_gateway(
         self,
         fabric_name: str,
-        failover_process_server_request: IO,
+        failover_process_server_request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1188,18 +1085,10 @@ class ReplicationFabricsOperations:
         :type fabric_name: str
         :param failover_process_server_request: The input to the failover process server operation.
          Required.
-        :type failover_process_server_request: IO
+        :type failover_process_server_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1209,7 +1098,7 @@ class ReplicationFabricsOperations:
     def begin_reassociate_gateway(
         self,
         fabric_name: str,
-        failover_process_server_request: Union[_models.FailoverProcessServerRequest, IO],
+        failover_process_server_request: Union[_models.FailoverProcessServerRequest, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.Fabric]:
         """Perform failover of the process server.
@@ -1219,20 +1108,9 @@ class ReplicationFabricsOperations:
         :param fabric_name: The name of the fabric containing the process server. Required.
         :type fabric_name: str
         :param failover_process_server_request: The input to the failover process server operation. Is
-         either a FailoverProcessServerRequest type or a IO type. Required.
+         either a FailoverProcessServerRequest type or a IO[bytes] type. Required.
         :type failover_process_server_request:
-         ~azure.mgmt.recoveryservicessiterecovery.models.FailoverProcessServerRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.FailoverProcessServerRequest or IO[bytes]
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1262,7 +1140,7 @@ class ReplicationFabricsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Fabric", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1272,22 +1150,20 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Fabric].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_reassociate_gateway.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway"
-    }
+        return LROPoller[_models.Fabric](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, fabric_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1301,22 +1177,21 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1326,11 +1201,7 @@ class ReplicationFabricsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete(self, fabric_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1340,14 +1211,6 @@ class ReplicationFabricsOperations:
 
         :param fabric_name: ASR fabric to delete. Required.
         :type fabric_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1373,7 +1236,7 @@ class ReplicationFabricsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -1382,22 +1245,18 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _renew_certificate_initial(
-        self, fabric_name: str, renew_certificate: Union[_models.RenewCertificateInput, IO], **kwargs: Any
+        self, fabric_name: str, renew_certificate: Union[_models.RenewCertificateInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Fabric]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1420,7 +1279,7 @@ class ReplicationFabricsOperations:
         else:
             _json = self._serialize.body(renew_certificate, "RenewCertificateInput")
 
-        request = build_renew_certificate_request(
+        _request = build_renew_certificate_request(
             fabric_name=fabric_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -1429,16 +1288,15 @@ class ReplicationFabricsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._renew_certificate_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1452,13 +1310,9 @@ class ReplicationFabricsOperations:
             deserialized = self._deserialize("Fabric", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _renew_certificate_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_renew_certificate(
@@ -1480,14 +1334,6 @@ class ReplicationFabricsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1495,7 +1341,7 @@ class ReplicationFabricsOperations:
 
     @overload
     def begin_renew_certificate(
-        self, fabric_name: str, renew_certificate: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, fabric_name: str, renew_certificate: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.Fabric]:
         """Renews certificate for the fabric.
 
@@ -1504,18 +1350,10 @@ class ReplicationFabricsOperations:
         :param fabric_name: fabric name to renew certs for. Required.
         :type fabric_name: str
         :param renew_certificate: Renew certificate input. Required.
-        :type renew_certificate: IO
+        :type renew_certificate: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1523,7 +1361,7 @@ class ReplicationFabricsOperations:
 
     @distributed_trace
     def begin_renew_certificate(
-        self, fabric_name: str, renew_certificate: Union[_models.RenewCertificateInput, IO], **kwargs: Any
+        self, fabric_name: str, renew_certificate: Union[_models.RenewCertificateInput, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Fabric]:
         """Renews certificate for the fabric.
 
@@ -1532,20 +1370,9 @@ class ReplicationFabricsOperations:
         :param fabric_name: fabric name to renew certs for. Required.
         :type fabric_name: str
         :param renew_certificate: Renew certificate input. Is either a RenewCertificateInput type or a
-         IO type. Required.
+         IO[bytes] type. Required.
         :type renew_certificate: ~azure.mgmt.recoveryservicessiterecovery.models.RenewCertificateInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either Fabric or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Fabric]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1575,7 +1402,7 @@ class ReplicationFabricsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Fabric", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1585,22 +1412,20 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Fabric].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_renew_certificate.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate"
-    }
+        return LROPoller[_models.Fabric](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _remove_infra_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_name: str, fabric_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1614,22 +1439,21 @@ class ReplicationFabricsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_remove_infra_request(
+        _request = build_remove_infra_request(
             resource_name=resource_name,
             fabric_name=fabric_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._remove_infra_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1643,11 +1467,7 @@ class ReplicationFabricsOperations:
         response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _remove_infra_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_remove_infra(self, resource_name: str, fabric_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1659,14 +1479,6 @@ class ReplicationFabricsOperations:
         :type resource_name: str
         :param fabric_name: Fabric name. Required.
         :type fabric_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1693,7 +1505,7 @@ class ReplicationFabricsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -1702,14 +1514,10 @@ class ReplicationFabricsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_remove_infra.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore

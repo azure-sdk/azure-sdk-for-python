@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +32,9 @@ def main():
         subscription_id="7c943c1b-5122-4097-90c8-861411bdd574",
         resource_group_name="MadhaviVRG",
         resource_name="MadhaviVault",
+        fabric_name="GRACE-V2A-1",
+        protection_container_name="PROTECTION_CONTAINER_NAME",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_fabrics.begin_reassociate_gateway(
@@ -46,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_ReassociateGateway.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationFabrics_ReassociateGateway.json
 if __name__ == "__main__":
     main()

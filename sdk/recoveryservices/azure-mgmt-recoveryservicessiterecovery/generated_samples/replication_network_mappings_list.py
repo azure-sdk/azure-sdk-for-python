@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +30,9 @@ def main():
         subscription_id="9112a37f-0f3e-46ec-9c00-060c6edca071",
         resource_group_name="srcBvte2a14C27",
         resource_name="srce2avaultbvtaC27",
+        fabric_name="FABRIC_NAME",
+        protection_container_name="PROTECTION_CONTAINER_NAME",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_network_mappings.list()
@@ -36,6 +40,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_List.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationNetworkMappings_List.json
 if __name__ == "__main__":
     main()

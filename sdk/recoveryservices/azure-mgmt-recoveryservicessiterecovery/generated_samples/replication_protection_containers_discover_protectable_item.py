@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +32,9 @@ def main():
         subscription_id="7c943c1b-5122-4097-90c8-861411bdd574",
         resource_group_name="MadhaviVRG",
         resource_name="MadhaviVault",
+        fabric_name="V2A-W2K12-660",
+        protection_container_name="cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_protection_containers.begin_discover_protectable_item(
@@ -41,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
 if __name__ == "__main__":
     main()

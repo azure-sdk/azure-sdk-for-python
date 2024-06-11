@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -76,7 +81,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -108,7 +113,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -142,7 +147,7 @@ def build_delete_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -169,7 +174,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -204,7 +209,7 @@ def build_failover_cancel_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -236,7 +241,7 @@ def build_failover_commit_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -268,7 +273,7 @@ def build_planned_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -303,7 +308,7 @@ def build_reprotect_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -335,7 +340,7 @@ def build_test_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -370,7 +375,7 @@ def build_test_failover_cleanup_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -405,7 +410,7 @@ def build_unplanned_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -459,7 +464,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         Lists the recovery plans in the vault.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RecoveryPlan or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlan]
@@ -471,7 +475,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.RecoveryPlanCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -482,17 +486,16 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -504,13 +507,13 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("RecoveryPlanCollection", pipeline_response)
@@ -520,11 +523,11 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -536,10 +539,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         return ItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans"
-    }
-
     @distributed_trace
     def get(self, recovery_plan_name: str, **kwargs: Any) -> _models.RecoveryPlan:
         """Gets the requested recovery plan.
@@ -548,12 +547,11 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Name of the recovery plan. Required.
         :type recovery_plan_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RecoveryPlan or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlan
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -567,22 +565,21 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.RecoveryPlan] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -594,18 +591,14 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_initial(
-        self, recovery_plan_name: str, input: Union[_models.CreateRecoveryPlanInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.CreateRecoveryPlanInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -628,7 +621,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             _json = self._serialize.body(input, "CreateRecoveryPlanInput")
 
-        request = build_create_request(
+        _request = build_create_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -637,16 +630,15 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -660,13 +652,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create(
@@ -688,14 +676,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -705,7 +685,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @overload
     def begin_create(
-        self, recovery_plan_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, recovery_plan_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Creates a recovery plan with the given details.
 
@@ -714,18 +694,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery Plan creation input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -735,7 +707,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @distributed_trace
     def begin_create(
-        self, recovery_plan_name: str, input: Union[_models.CreateRecoveryPlanInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.CreateRecoveryPlanInput, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Creates a recovery plan with the given details.
 
@@ -743,20 +715,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :param input: Recovery Plan creation input. Is either a CreateRecoveryPlanInput type or a IO
-         type. Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.CreateRecoveryPlanInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Recovery Plan creation input. Is either a CreateRecoveryPlanInput type or a
+         IO[bytes] type. Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.CreateRecoveryPlanInput or
+         IO[bytes]
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -788,7 +750,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -798,22 +760,20 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, recovery_plan_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -827,22 +787,21 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -852,11 +811,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete(self, recovery_plan_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -866,14 +821,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -899,7 +846,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -908,22 +855,18 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _update_initial(
-        self, recovery_plan_name: str, input: Union[_models.UpdateRecoveryPlanInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.UpdateRecoveryPlanInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -946,7 +889,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             _json = self._serialize.body(input, "UpdateRecoveryPlanInput")
 
-        request = build_update_request(
+        _request = build_update_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -955,16 +898,15 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -978,13 +920,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -1006,14 +944,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1023,7 +953,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @overload
     def begin_update(
-        self, recovery_plan_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, recovery_plan_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Updates the given recovery plan.
 
@@ -1032,18 +962,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Update recovery plan input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1053,7 +975,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @distributed_trace
     def begin_update(
-        self, recovery_plan_name: str, input: Union[_models.UpdateRecoveryPlanInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.UpdateRecoveryPlanInput, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Updates the given recovery plan.
 
@@ -1061,20 +983,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :param input: Update recovery plan input. Is either a UpdateRecoveryPlanInput type or a IO
-         type. Required.
-        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.UpdateRecoveryPlanInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param input: Update recovery plan input. Is either a UpdateRecoveryPlanInput type or a
+         IO[bytes] type. Required.
+        :type input: ~azure.mgmt.recoveryservicessiterecovery.models.UpdateRecoveryPlanInput or
+         IO[bytes]
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1106,7 +1018,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1116,20 +1028,18 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _failover_cancel_initial(self, recovery_plan_name: str, **kwargs: Any) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1143,22 +1053,21 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.RecoveryPlan]] = kwargs.pop("cls", None)
 
-        request = build_failover_cancel_request(
+        _request = build_failover_cancel_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._failover_cancel_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1172,13 +1081,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _failover_cancel_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCancel"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_failover_cancel(self, recovery_plan_name: str, **kwargs: Any) -> LROPoller[_models.RecoveryPlan]:
@@ -1188,14 +1093,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1224,7 +1121,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1234,20 +1131,18 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_failover_cancel.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCancel"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _failover_commit_initial(self, recovery_plan_name: str, **kwargs: Any) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1261,22 +1156,21 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.RecoveryPlan]] = kwargs.pop("cls", None)
 
-        request = build_failover_commit_request(
+        _request = build_failover_commit_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._failover_commit_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1290,13 +1184,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _failover_commit_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCommit"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_failover_commit(self, recovery_plan_name: str, **kwargs: Any) -> LROPoller[_models.RecoveryPlan]:
@@ -1306,14 +1196,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1342,7 +1224,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1352,22 +1234,20 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_failover_commit.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCommit"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _planned_failover_initial(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanPlannedFailoverInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanPlannedFailoverInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1390,7 +1270,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             _json = self._serialize.body(input, "RecoveryPlanPlannedFailoverInput")
 
-        request = build_planned_failover_request(
+        _request = build_planned_failover_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -1399,16 +1279,15 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._planned_failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1422,13 +1301,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _planned_failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_planned_failover(
@@ -1450,14 +1325,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1467,7 +1334,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @overload
     def begin_planned_failover(
-        self, recovery_plan_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, recovery_plan_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute planned failover of the recovery plan.
 
@@ -1476,18 +1343,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Failover input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1497,7 +1356,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @distributed_trace
     def begin_planned_failover(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanPlannedFailoverInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanPlannedFailoverInput, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute planned failover of the recovery plan.
 
@@ -1505,21 +1364,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :param input: Failover input. Is either a RecoveryPlanPlannedFailoverInput type or a IO type.
-         Required.
+        :param input: Failover input. Is either a RecoveryPlanPlannedFailoverInput type or a IO[bytes]
+         type. Required.
         :type input: ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlanPlannedFailoverInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1551,7 +1399,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1561,20 +1409,18 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_planned_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _reprotect_initial(self, recovery_plan_name: str, **kwargs: Any) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1588,22 +1434,21 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.RecoveryPlan]] = kwargs.pop("cls", None)
 
-        request = build_reprotect_request(
+        _request = build_reprotect_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._reprotect_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1617,13 +1462,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _reprotect_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/reProtect"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_reprotect(self, recovery_plan_name: str, **kwargs: Any) -> LROPoller[_models.RecoveryPlan]:
@@ -1633,14 +1474,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1669,7 +1502,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1679,22 +1512,20 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_reprotect.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/reProtect"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _test_failover_initial(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanTestFailoverInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanTestFailoverInput, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1717,7 +1548,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             _json = self._serialize.body(input, "RecoveryPlanTestFailoverInput")
 
-        request = build_test_failover_request(
+        _request = build_test_failover_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -1726,16 +1557,15 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1749,13 +1579,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailover"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_test_failover(
@@ -1777,14 +1603,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1794,7 +1612,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @overload
     def begin_test_failover(
-        self, recovery_plan_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, recovery_plan_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute test failover of the recovery plan.
 
@@ -1803,18 +1621,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery plan test failover input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1824,7 +1634,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @distributed_trace
     def begin_test_failover(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanTestFailoverInput, IO], **kwargs: Any
+        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanTestFailoverInput, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute test failover of the recovery plan.
 
@@ -1833,20 +1643,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery plan test failover input. Is either a RecoveryPlanTestFailoverInput type
-         or a IO type. Required.
+         or a IO[bytes] type. Required.
         :type input: ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlanTestFailoverInput or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -1878,7 +1677,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1888,22 +1687,23 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailover"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _test_failover_cleanup_initial(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanTestFailoverCleanupInput, IO], **kwargs: Any
+        self,
+        recovery_plan_name: str,
+        input: Union[_models.RecoveryPlanTestFailoverCleanupInput, IO[bytes]],
+        **kwargs: Any
     ) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1926,7 +1726,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             _json = self._serialize.body(input, "RecoveryPlanTestFailoverCleanupInput")
 
-        request = build_test_failover_cleanup_request(
+        _request = build_test_failover_cleanup_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -1935,16 +1735,15 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._test_failover_cleanup_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1958,13 +1757,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _test_failover_cleanup_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailoverCleanup"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_test_failover_cleanup(
@@ -1987,14 +1782,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -2004,7 +1791,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @overload
     def begin_test_failover_cleanup(
-        self, recovery_plan_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, recovery_plan_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute test failover cleanup of the recovery plan.
 
@@ -2013,18 +1800,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery plan test failover cleanup input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -2034,7 +1813,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @distributed_trace
     def begin_test_failover_cleanup(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanTestFailoverCleanupInput, IO], **kwargs: Any
+        self,
+        recovery_plan_name: str,
+        input: Union[_models.RecoveryPlanTestFailoverCleanupInput, IO[bytes]],
+        **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute test failover cleanup of the recovery plan.
 
@@ -2043,20 +1825,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery plan test failover cleanup input. Is either a
-         RecoveryPlanTestFailoverCleanupInput type or a IO type. Required.
+         RecoveryPlanTestFailoverCleanupInput type or a IO[bytes] type. Required.
         :type input:
-         ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlanTestFailoverCleanupInput or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlanTestFailoverCleanupInput or
+         IO[bytes]
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -2088,7 +1860,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2098,22 +1870,23 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_test_failover_cleanup.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailoverCleanup"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _unplanned_failover_initial(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanUnplannedFailoverInput, IO], **kwargs: Any
+        self,
+        recovery_plan_name: str,
+        input: Union[_models.RecoveryPlanUnplannedFailoverInput, IO[bytes]],
+        **kwargs: Any
     ) -> Optional[_models.RecoveryPlan]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2136,7 +1909,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             _json = self._serialize.body(input, "RecoveryPlanUnplannedFailoverInput")
 
-        request = build_unplanned_failover_request(
+        _request = build_unplanned_failover_request(
             recovery_plan_name=recovery_plan_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -2145,16 +1918,15 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._unplanned_failover_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2168,13 +1940,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _unplanned_failover_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/unplannedFailover"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_unplanned_failover(
@@ -2196,14 +1964,6 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -2213,7 +1973,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @overload
     def begin_unplanned_failover(
-        self, recovery_plan_name: str, input: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, recovery_plan_name: str, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute unplanned failover of the recovery plan.
 
@@ -2222,18 +1982,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery plan unplanned failover input. Required.
-        :type input: IO
+        :type input: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -2243,7 +1995,10 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
 
     @distributed_trace
     def begin_unplanned_failover(
-        self, recovery_plan_name: str, input: Union[_models.RecoveryPlanUnplannedFailoverInput, IO], **kwargs: Any
+        self,
+        recovery_plan_name: str,
+        input: Union[_models.RecoveryPlanUnplannedFailoverInput, IO[bytes]],
+        **kwargs: Any
     ) -> LROPoller[_models.RecoveryPlan]:
         """Execute unplanned failover of the recovery plan.
 
@@ -2252,20 +2007,9 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         :param recovery_plan_name: Recovery plan name. Required.
         :type recovery_plan_name: str
         :param input: Recovery plan unplanned failover input. Is either a
-         RecoveryPlanUnplannedFailoverInput type or a IO type. Required.
+         RecoveryPlanUnplannedFailoverInput type or a IO[bytes] type. Required.
         :type input: ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPlanUnplannedFailoverInput
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either RecoveryPlan or the result of
          cls(response)
         :rtype:
@@ -2297,7 +2041,7 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("RecoveryPlan", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2307,14 +2051,12 @@ class ReplicationRecoveryPlansOperations:  # pylint: disable=too-many-public-met
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.RecoveryPlan].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_unplanned_failover.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/unplannedFailover"
-    }
+        return LROPoller[_models.RecoveryPlan](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

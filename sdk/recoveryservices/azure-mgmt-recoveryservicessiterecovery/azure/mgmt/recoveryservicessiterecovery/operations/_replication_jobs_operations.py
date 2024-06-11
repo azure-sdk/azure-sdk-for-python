@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -78,7 +83,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -110,7 +115,7 @@ def build_cancel_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -142,7 +147,7 @@ def build_restart_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -174,7 +179,7 @@ def build_resume_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -209,7 +214,7 @@ def build_export_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -264,7 +269,6 @@ class ReplicationJobsOperations:
 
         :param filter: OData filter options. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Job or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -275,7 +279,7 @@ class ReplicationJobsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.JobCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -286,18 +290,17 @@ class ReplicationJobsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_name=self._config.resource_name,
                     resource_group_name=self._config.resource_group_name,
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -309,13 +312,13 @@ class ReplicationJobsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("JobCollection", pipeline_response)
@@ -325,11 +328,11 @@ class ReplicationJobsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -341,10 +344,6 @@ class ReplicationJobsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs"
-    }
-
     @distributed_trace
     def get(self, job_name: str, **kwargs: Any) -> _models.Job:
         """Gets the job details.
@@ -353,12 +352,11 @@ class ReplicationJobsOperations:
 
         :param job_name: Job identifier. Required.
         :type job_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Job or the result of cls(response)
         :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.Job
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -372,22 +370,21 @@ class ReplicationJobsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Job] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             job_name=job_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -399,16 +396,12 @@ class ReplicationJobsOperations:
         deserialized = self._deserialize("Job", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}"
-    }
+        return deserialized  # type: ignore
 
     def _cancel_initial(self, job_name: str, **kwargs: Any) -> Optional[_models.Job]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -422,22 +415,21 @@ class ReplicationJobsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.Job]] = kwargs.pop("cls", None)
 
-        request = build_cancel_request(
+        _request = build_cancel_request(
             job_name=job_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._cancel_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -451,13 +443,9 @@ class ReplicationJobsOperations:
             deserialized = self._deserialize("Job", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _cancel_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/cancel"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_cancel(self, job_name: str, **kwargs: Any) -> LROPoller[_models.Job]:
@@ -467,14 +455,6 @@ class ReplicationJobsOperations:
 
         :param job_name: Job identifier. Required.
         :type job_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -501,7 +481,7 @@ class ReplicationJobsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Job", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -511,20 +491,16 @@ class ReplicationJobsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Job].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_cancel.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/cancel"
-    }
+        return LROPoller[_models.Job](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _restart_initial(self, job_name: str, **kwargs: Any) -> Optional[_models.Job]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -538,22 +514,21 @@ class ReplicationJobsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.Job]] = kwargs.pop("cls", None)
 
-        request = build_restart_request(
+        _request = build_restart_request(
             job_name=job_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._restart_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -567,13 +542,9 @@ class ReplicationJobsOperations:
             deserialized = self._deserialize("Job", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _restart_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_restart(self, job_name: str, **kwargs: Any) -> LROPoller[_models.Job]:
@@ -583,14 +554,6 @@ class ReplicationJobsOperations:
 
         :param job_name: Job identifier. Required.
         :type job_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -617,7 +580,7 @@ class ReplicationJobsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Job", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -627,22 +590,18 @@ class ReplicationJobsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Job].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_restart.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart"
-    }
+        return LROPoller[_models.Job](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _resume_initial(
-        self, job_name: str, resume_job_params: Union[_models.ResumeJobParams, IO], **kwargs: Any
+        self, job_name: str, resume_job_params: Union[_models.ResumeJobParams, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Job]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -665,7 +624,7 @@ class ReplicationJobsOperations:
         else:
             _json = self._serialize.body(resume_job_params, "ResumeJobParams")
 
-        request = build_resume_request(
+        _request = build_resume_request(
             job_name=job_name,
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
@@ -674,16 +633,15 @@ class ReplicationJobsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._resume_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -697,13 +655,9 @@ class ReplicationJobsOperations:
             deserialized = self._deserialize("Job", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _resume_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/resume"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_resume(
@@ -725,14 +679,6 @@ class ReplicationJobsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -740,7 +686,7 @@ class ReplicationJobsOperations:
 
     @overload
     def begin_resume(
-        self, job_name: str, resume_job_params: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, job_name: str, resume_job_params: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.Job]:
         """Resumes the specified job.
 
@@ -749,18 +695,10 @@ class ReplicationJobsOperations:
         :param job_name: Job identifier. Required.
         :type job_name: str
         :param resume_job_params: Resume rob comments. Required.
-        :type resume_job_params: IO
+        :type resume_job_params: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -768,7 +706,7 @@ class ReplicationJobsOperations:
 
     @distributed_trace
     def begin_resume(
-        self, job_name: str, resume_job_params: Union[_models.ResumeJobParams, IO], **kwargs: Any
+        self, job_name: str, resume_job_params: Union[_models.ResumeJobParams, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Job]:
         """Resumes the specified job.
 
@@ -776,20 +714,10 @@ class ReplicationJobsOperations:
 
         :param job_name: Job identifier. Required.
         :type job_name: str
-        :param resume_job_params: Resume rob comments. Is either a ResumeJobParams type or a IO type.
-         Required.
-        :type resume_job_params: ~azure.mgmt.recoveryservicessiterecovery.models.ResumeJobParams or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param resume_job_params: Resume rob comments. Is either a ResumeJobParams type or a IO[bytes]
+         type. Required.
+        :type resume_job_params: ~azure.mgmt.recoveryservicessiterecovery.models.ResumeJobParams or
+         IO[bytes]
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -819,7 +747,7 @@ class ReplicationJobsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Job", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -829,22 +757,18 @@ class ReplicationJobsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Job].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resume.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/resume"
-    }
+        return LROPoller[_models.Job](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _export_initial(
-        self, job_query_parameter: Union[_models.JobQueryParameter, IO], **kwargs: Any
+        self, job_query_parameter: Union[_models.JobQueryParameter, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Job]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -867,7 +791,7 @@ class ReplicationJobsOperations:
         else:
             _json = self._serialize.body(job_query_parameter, "JobQueryParameter")
 
-        request = build_export_request(
+        _request = build_export_request(
             resource_name=self._config.resource_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
@@ -875,16 +799,15 @@ class ReplicationJobsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._export_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -898,13 +821,9 @@ class ReplicationJobsOperations:
             deserialized = self._deserialize("Job", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _export_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_export(
@@ -919,14 +838,6 @@ class ReplicationJobsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -934,25 +845,17 @@ class ReplicationJobsOperations:
 
     @overload
     def begin_export(
-        self, job_query_parameter: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, job_query_parameter: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.Job]:
         """Exports the details of the Azure Site Recovery jobs of the vault.
 
         The operation to export the details of the Azure Site Recovery jobs of the vault.
 
         :param job_query_parameter: job query filter. Required.
-        :type job_query_parameter: IO
+        :type job_query_parameter: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -960,27 +863,16 @@ class ReplicationJobsOperations:
 
     @distributed_trace
     def begin_export(
-        self, job_query_parameter: Union[_models.JobQueryParameter, IO], **kwargs: Any
+        self, job_query_parameter: Union[_models.JobQueryParameter, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Job]:
         """Exports the details of the Azure Site Recovery jobs of the vault.
 
         The operation to export the details of the Azure Site Recovery jobs of the vault.
 
-        :param job_query_parameter: job query filter. Is either a JobQueryParameter type or a IO type.
-         Required.
+        :param job_query_parameter: job query filter. Is either a JobQueryParameter type or a IO[bytes]
+         type. Required.
         :type job_query_parameter: ~azure.mgmt.recoveryservicessiterecovery.models.JobQueryParameter or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes]
         :return: An instance of LROPoller that returns either Job or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.Job]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1009,7 +901,7 @@ class ReplicationJobsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Job", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1019,14 +911,10 @@ class ReplicationJobsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.Job].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_export.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export"
-    }
+        return LROPoller[_models.Job](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore

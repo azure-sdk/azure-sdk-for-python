@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +32,9 @@ def main():
         subscription_id="7c943c1b-5122-4097-90c8-861411bdd574",
         resource_group_name="Ayan-0106-SA-RG",
         resource_name="Ayan-0106-SA-Vault",
+        fabric_name="Ayan-0106-SA-Vaultreplicationfabric",
+        protection_container_name="Ayan-0106-SA-Vaultreplicationcontainer",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_protected_items.begin_update_appliance(
@@ -45,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateAppliance.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationProtectedItems_UpdateAppliance.json
 if __name__ == "__main__":
     main()

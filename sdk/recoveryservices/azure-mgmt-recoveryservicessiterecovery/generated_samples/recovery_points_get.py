@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +30,9 @@ def main():
         subscription_id="c183865e-6077-46f2-a3b1-deb0f4f4650a",
         resource_group_name="resourceGroupPS1",
         resource_name="vault1",
+        fabric_name="cloud1",
+        protection_container_name="cloud_6d224fc6-f326-5d35-96de-fbf51efb3179",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.recovery_points.get(
@@ -40,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/RecoveryPoints_Get.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/RecoveryPoints_Get.json
 if __name__ == "__main__":
     main()

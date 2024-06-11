@@ -8,7 +8,6 @@
 
 from typing import Any, TYPE_CHECKING
 
-from azure.core.configuration import Configuration
 from azure.core.pipeline import policies
 from azure.mgmt.core.policies import ARMChallengeAuthenticationPolicy, ARMHttpLoggingPolicy
 
@@ -19,7 +18,7 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class SiteRecoveryManagementClientConfiguration(Configuration):  # pylint: disable=too-many-instance-attributes
+class SiteRecoveryManagementClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
     """Configuration for SiteRecoveryManagementClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -34,7 +33,13 @@ class SiteRecoveryManagementClientConfiguration(Configuration):  # pylint: disab
     :type resource_group_name: str
     :param resource_name: The name of the recovery services vault. Required.
     :type resource_name: str
-    :keyword api_version: Api Version. Default value is "2023-08-01". Note that overriding this
+    :param fabric_name: Fabric name. Required.
+    :type fabric_name: str
+    :param protection_container_name: Protection container name. Required.
+    :type protection_container_name: str
+    :param replication_protection_cluster_name: Replication protection cluster name. Required.
+    :type replication_protection_cluster_name: str
+    :keyword api_version: Api Version. Default value is "2024-04-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
@@ -45,10 +50,12 @@ class SiteRecoveryManagementClientConfiguration(Configuration):  # pylint: disab
         subscription_id: str,
         resource_group_name: str,
         resource_name: str,
+        fabric_name: str,
+        protection_container_name: str,
+        replication_protection_cluster_name: str,
         **kwargs: Any
     ) -> None:
-        super(SiteRecoveryManagementClientConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2023-08-01")
+        api_version: str = kwargs.pop("api_version", "2024-04-01")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
@@ -58,14 +65,24 @@ class SiteRecoveryManagementClientConfiguration(Configuration):  # pylint: disab
             raise ValueError("Parameter 'resource_group_name' must not be None.")
         if resource_name is None:
             raise ValueError("Parameter 'resource_name' must not be None.")
+        if fabric_name is None:
+            raise ValueError("Parameter 'fabric_name' must not be None.")
+        if protection_container_name is None:
+            raise ValueError("Parameter 'protection_container_name' must not be None.")
+        if replication_protection_cluster_name is None:
+            raise ValueError("Parameter 'replication_protection_cluster_name' must not be None.")
 
         self.credential = credential
         self.subscription_id = subscription_id
         self.resource_group_name = resource_group_name
         self.resource_name = resource_name
+        self.fabric_name = fabric_name
+        self.protection_container_name = protection_container_name
+        self.replication_protection_cluster_name = replication_protection_cluster_name
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-recoveryservicessiterecovery/{}".format(VERSION))
+        self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
 
     def _configure(self, **kwargs: Any) -> None:
@@ -74,9 +91,9 @@ class SiteRecoveryManagementClientConfiguration(Configuration):  # pylint: disab
         self.proxy_policy = kwargs.get("proxy_policy") or policies.ProxyPolicy(**kwargs)
         self.logging_policy = kwargs.get("logging_policy") or policies.NetworkTraceLoggingPolicy(**kwargs)
         self.http_logging_policy = kwargs.get("http_logging_policy") or ARMHttpLoggingPolicy(**kwargs)
-        self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
         self.custom_hook_policy = kwargs.get("custom_hook_policy") or policies.CustomHookPolicy(**kwargs)
         self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
+        self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
         if self.credential and not self.authentication_policy:
             self.authentication_policy = ARMChallengeAuthenticationPolicy(

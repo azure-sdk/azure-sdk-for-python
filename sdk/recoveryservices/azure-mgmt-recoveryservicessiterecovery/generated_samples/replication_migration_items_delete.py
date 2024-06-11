@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -29,6 +30,9 @@ def main():
         subscription_id="cb53d0c3-bd59-4721-89bc-06916a9147ef",
         resource_group_name="resourcegroup1",
         resource_name="migrationvault",
+        fabric_name="vmwarefabric1",
+        protection_container_name="vmwareContainer1",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     client.replication_migration_items.begin_delete(
@@ -38,6 +42,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Delete.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ReplicationMigrationItems_Delete.json
 if __name__ == "__main__":
     main()
