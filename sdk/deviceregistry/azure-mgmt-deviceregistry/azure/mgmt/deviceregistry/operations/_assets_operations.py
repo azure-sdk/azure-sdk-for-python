@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -266,7 +271,7 @@ class AssetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AssetListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -346,7 +351,7 @@ class AssetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AssetListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -423,7 +428,7 @@ class AssetsOperations:
         :rtype: ~azure.mgmt.deviceregistry.models.Asset
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -470,7 +475,7 @@ class AssetsOperations:
     def _create_or_replace_initial(
         self, resource_group_name: str, asset_name: str, resource: Union[_models.Asset, IO[bytes]], **kwargs: Any
     ) -> _models.Asset:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -654,13 +659,9 @@ class AssetsOperations:
         )
 
     def _update_initial(
-        self,
-        resource_group_name: str,
-        asset_name: str,
-        properties: Union[_models.AssetUpdate, IO[bytes]],
-        **kwargs: Any
+        self, resource_group_name: str, asset_name: str, properties: Union[_models.Asset, IO[bytes]], **kwargs: Any
     ) -> Optional[_models.Asset]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -681,7 +682,7 @@ class AssetsOperations:
         if isinstance(properties, (IOBase, bytes)):
             _content = properties
         else:
-            _json = self._serialize.body(properties, "AssetUpdate")
+            _json = self._serialize.body(properties, "Asset")
 
         _request = build_update_request(
             resource_group_name=resource_group_name,
@@ -728,7 +729,7 @@ class AssetsOperations:
         self,
         resource_group_name: str,
         asset_name: str,
-        properties: _models.AssetUpdate,
+        properties: _models.Asset,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -741,7 +742,7 @@ class AssetsOperations:
         :param asset_name: Asset name parameter. Required.
         :type asset_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetUpdate
+        :type properties: ~azure.mgmt.deviceregistry.models.Asset
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -779,11 +780,7 @@ class AssetsOperations:
 
     @distributed_trace
     def begin_update(
-        self,
-        resource_group_name: str,
-        asset_name: str,
-        properties: Union[_models.AssetUpdate, IO[bytes]],
-        **kwargs: Any
+        self, resource_group_name: str, asset_name: str, properties: Union[_models.Asset, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Asset]:
         """Update a Asset.
 
@@ -792,9 +789,9 @@ class AssetsOperations:
         :type resource_group_name: str
         :param asset_name: Asset name parameter. Required.
         :type asset_name: str
-        :param properties: The resource properties to be updated. Is either a AssetUpdate type or a
-         IO[bytes] type. Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetUpdate or IO[bytes]
+        :param properties: The resource properties to be updated. Is either a Asset type or a IO[bytes]
+         type. Required.
+        :type properties: ~azure.mgmt.deviceregistry.models.Asset or IO[bytes]
         :return: An instance of LROPoller that returns either Asset or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -850,7 +847,7 @@ class AssetsOperations:
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, asset_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

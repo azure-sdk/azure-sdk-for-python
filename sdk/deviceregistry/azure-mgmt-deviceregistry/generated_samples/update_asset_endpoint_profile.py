@@ -35,7 +35,14 @@ def main():
     response = client.asset_endpoint_profiles.begin_update(
         resource_group_name="myResourceGroup",
         asset_endpoint_profile_name="my-assetendpointprofile",
-        properties={"properties": {"targetAddress": "https://www.example.com/myTargetAddress"}},
+        properties={
+            "extendedLocation": {
+                "name": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.extendedlocation/customlocations/location1",
+                "type": "CustomLocation",
+            },
+            "location": "West Europe",
+            "properties": {"targetAddress": "https://www.example.com/myTargetAddress"},
+        },
     ).result()
     print(response)
 

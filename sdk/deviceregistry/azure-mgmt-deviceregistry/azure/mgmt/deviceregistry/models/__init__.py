@@ -10,14 +10,10 @@ from ._models_py3 import Asset
 from ._models_py3 import AssetEndpointProfile
 from ._models_py3 import AssetEndpointProfileListResult
 from ._models_py3 import AssetEndpointProfileProperties
-from ._models_py3 import AssetEndpointProfileUpdate
-from ._models_py3 import AssetEndpointProfileUpdateProperties
 from ._models_py3 import AssetListResult
 from ._models_py3 import AssetProperties
 from ._models_py3 import AssetStatus
 from ._models_py3 import AssetStatusError
-from ._models_py3 import AssetUpdate
-from ._models_py3 import AssetUpdateProperties
 from ._models_py3 import DataPoint
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
@@ -33,13 +29,9 @@ from ._models_py3 import Resource
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import TransportAuthentication
-from ._models_py3 import TransportAuthenticationUpdate
 from ._models_py3 import UserAuthentication
-from ._models_py3 import UserAuthenticationUpdate
 from ._models_py3 import UsernamePasswordCredentials
-from ._models_py3 import UsernamePasswordCredentialsUpdate
 from ._models_py3 import X509Credentials
-from ._models_py3 import X509CredentialsUpdate
 
 from ._device_registry_mgmt_client_enums import ActionType
 from ._device_registry_mgmt_client_enums import CreatedByType
@@ -57,14 +49,10 @@ __all__ = [
     "AssetEndpointProfile",
     "AssetEndpointProfileListResult",
     "AssetEndpointProfileProperties",
-    "AssetEndpointProfileUpdate",
-    "AssetEndpointProfileUpdateProperties",
     "AssetListResult",
     "AssetProperties",
     "AssetStatus",
     "AssetStatusError",
-    "AssetUpdate",
-    "AssetUpdateProperties",
     "DataPoint",
     "ErrorAdditionalInfo",
     "ErrorDetail",
@@ -80,13 +68,9 @@ __all__ = [
     "SystemData",
     "TrackedResource",
     "TransportAuthentication",
-    "TransportAuthenticationUpdate",
     "UserAuthentication",
-    "UserAuthenticationUpdate",
     "UsernamePasswordCredentials",
-    "UsernamePasswordCredentialsUpdate",
     "X509Credentials",
-    "X509CredentialsUpdate",
     "ActionType",
     "CreatedByType",
     "DataPointsObservabilityMode",

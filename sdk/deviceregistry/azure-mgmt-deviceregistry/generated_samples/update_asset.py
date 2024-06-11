@@ -35,7 +35,18 @@ def main():
     response = client.assets.begin_update(
         resource_group_name="myResourceGroup",
         asset_name="my-asset",
-        properties={"properties": {"displayName": "NewAssetDisplayName", "enabled": False}},
+        properties={
+            "extendedLocation": {
+                "name": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.extendedlocation/customlocations/location1",
+                "type": "CustomLocation",
+            },
+            "location": "West Europe",
+            "properties": {
+                "assetEndpointProfileUri": "https://www.example.com/myAssetEndpointProfile",
+                "displayName": "NewAssetDisplayName",
+                "enabled": False,
+            },
+        },
     ).result()
     print(response)
 
