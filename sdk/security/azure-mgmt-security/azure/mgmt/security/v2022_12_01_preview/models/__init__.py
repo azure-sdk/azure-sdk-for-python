@@ -8,9 +8,13 @@
 
 from ._models_py3 import CloudErrorBody
 from ._models_py3 import DefenderForStorageSetting
+from ._models_py3 import DefenderForStorageSettingProperties
 from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import MalwareScanningProperties
+from ._models_py3 import OnUploadProperties
 from ._models_py3 import OperationStatus
 from ._models_py3 import Resource
+from ._models_py3 import SensitiveDataDiscoveryProperties
 
 from ._security_center_enums import SettingName
 from ._patch import __all__ as _patch_all
@@ -20,9 +24,13 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "CloudErrorBody",
     "DefenderForStorageSetting",
+    "DefenderForStorageSettingProperties",
     "ErrorAdditionalInfo",
+    "MalwareScanningProperties",
+    "OnUploadProperties",
     "OperationStatus",
     "Resource",
+    "SensitiveDataDiscoveryProperties",
     "SettingName",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
