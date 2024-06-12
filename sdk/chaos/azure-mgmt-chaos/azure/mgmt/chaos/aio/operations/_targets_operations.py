@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -36,6 +37,10 @@ from ...operations._targets_operations import (
     build_list_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -83,7 +88,6 @@ class TargetsOperations:
         :param continuation_token_parameter: String that sets the continuation token. Default value is
          None.
         :type continuation_token_parameter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Target or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.chaos.models.Target]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -94,7 +98,7 @@ class TargetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.TargetListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -105,7 +109,7 @@ class TargetsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     parent_provider_namespace=parent_provider_namespace,
                     parent_resource_type=parent_resource_type,
@@ -113,12 +117,11 @@ class TargetsOperations:
                     subscription_id=self._config.subscription_id,
                     continuation_token_parameter=continuation_token_parameter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -130,13 +133,13 @@ class TargetsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("TargetListResult", pipeline_response)
@@ -146,11 +149,11 @@ class TargetsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -162,10 +165,6 @@ class TargetsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets"
-    }
 
     @distributed_trace_async
     async def get(
@@ -190,12 +189,11 @@ class TargetsOperations:
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -209,7 +207,7 @@ class TargetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Target] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             parent_provider_namespace=parent_provider_namespace,
             parent_resource_type=parent_resource_type,
@@ -217,16 +215,15 @@ class TargetsOperations:
             target_name=target_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -239,13 +236,9 @@ class TargetsOperations:
         deserialized = self._deserialize("Target", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
@@ -270,12 +263,11 @@ class TargetsOperations:
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -289,7 +281,7 @@ class TargetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             parent_provider_namespace=parent_provider_namespace,
             parent_resource_type=parent_resource_type,
@@ -297,16 +289,15 @@ class TargetsOperations:
             target_name=target_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -317,11 +308,7 @@ class TargetsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def create_or_update(
@@ -354,7 +341,6 @@ class TargetsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -368,7 +354,7 @@ class TargetsOperations:
         parent_resource_type: str,
         parent_resource_name: str,
         target_name: str,
-        target: IO,
+        target: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -387,11 +373,10 @@ class TargetsOperations:
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
         :param target: Target resource to be created or updated. Required.
-        :type target: IO
+        :type target: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -405,7 +390,7 @@ class TargetsOperations:
         parent_resource_type: str,
         parent_resource_name: str,
         target_name: str,
-        target: Union[_models.Target, IO],
+        target: Union[_models.Target, IO[bytes]],
         **kwargs: Any
     ) -> _models.Target:
         """Create or update a Target resource that extends a tracked regional resource.
@@ -421,18 +406,14 @@ class TargetsOperations:
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :param target: Target resource to be created or updated. Is either a Target type or a IO type.
-         Required.
-        :type target: ~azure.mgmt.chaos.models.Target or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param target: Target resource to be created or updated. Is either a Target type or a IO[bytes]
+         type. Required.
+        :type target: ~azure.mgmt.chaos.models.Target or IO[bytes]
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -455,7 +436,7 @@ class TargetsOperations:
         else:
             _json = self._serialize.body(target, "Target")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             parent_provider_namespace=parent_provider_namespace,
             parent_resource_type=parent_resource_type,
@@ -466,16 +447,15 @@ class TargetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -488,10 +468,6 @@ class TargetsOperations:
         deserialized = self._deserialize("Target", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}"
-    }
+        return deserialized  # type: ignore

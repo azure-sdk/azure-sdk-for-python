@@ -23,6 +23,7 @@ from ._models_py3 import ChaosTargetSelector
 from ._models_py3 import ChaosTargetSimpleFilter
 from ._models_py3 import ChaosTargetSimpleFilterParameters
 from ._models_py3 import ContinuousAction
+from ._models_py3 import CustomerDataStorageProperties
 from ._models_py3 import DelayAction
 from ._models_py3 import DiscreteAction
 from ._models_py3 import ErrorAdditionalInfo
@@ -37,15 +38,26 @@ from ._models_py3 import ExperimentExecutionDetailsProperties
 from ._models_py3 import ExperimentExecutionDetailsPropertiesRunInformation
 from ._models_py3 import ExperimentExecutionListResult
 from ._models_py3 import ExperimentExecutionProperties
+from ._models_py3 import ExperimentIdentity
 from ._models_py3 import ExperimentListResult
 from ._models_py3 import ExperimentUpdate
 from ._models_py3 import KeyValuePair
+from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationStatus
+from ._models_py3 import PrivateAccess
+from ._models_py3 import PrivateAccessListResult
+from ._models_py3 import PrivateAccessPatch
+from ._models_py3 import PrivateEndpoint
+from ._models_py3 import PrivateEndpointConnection
+from ._models_py3 import PrivateEndpointConnectionListResult
+from ._models_py3 import PrivateLinkResource
+from ._models_py3 import PrivateLinkResourceListResult
+from ._models_py3 import PrivateLinkServiceConnectionState
+from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
-from ._models_py3 import ResourceIdentity
 from ._models_py3 import StepStatus
 from ._models_py3 import SystemData
 from ._models_py3 import Target
@@ -59,9 +71,12 @@ from ._models_py3 import UserAssignedIdentity
 from ._chaos_management_client_enums import ActionType
 from ._chaos_management_client_enums import CreatedByType
 from ._chaos_management_client_enums import FilterType
+from ._chaos_management_client_enums import ManagedServiceIdentityType
 from ._chaos_management_client_enums import Origin
+from ._chaos_management_client_enums import PrivateEndpointConnectionProvisioningState
+from ._chaos_management_client_enums import PrivateEndpointServiceConnectionStatus
 from ._chaos_management_client_enums import ProvisioningState
-from ._chaos_management_client_enums import ResourceIdentityType
+from ._chaos_management_client_enums import PublicNetworkAccessOption
 from ._chaos_management_client_enums import SelectorType
 from ._chaos_management_client_enums import TargetReferenceType
 from ._patch import __all__ as _patch_all
@@ -86,6 +101,7 @@ __all__ = [
     "ChaosTargetSimpleFilter",
     "ChaosTargetSimpleFilterParameters",
     "ContinuousAction",
+    "CustomerDataStorageProperties",
     "DelayAction",
     "DiscreteAction",
     "ErrorAdditionalInfo",
@@ -100,15 +116,26 @@ __all__ = [
     "ExperimentExecutionDetailsPropertiesRunInformation",
     "ExperimentExecutionListResult",
     "ExperimentExecutionProperties",
+    "ExperimentIdentity",
     "ExperimentListResult",
     "ExperimentUpdate",
     "KeyValuePair",
+    "ManagedServiceIdentity",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OperationStatus",
+    "PrivateAccess",
+    "PrivateAccessListResult",
+    "PrivateAccessPatch",
+    "PrivateEndpoint",
+    "PrivateEndpointConnection",
+    "PrivateEndpointConnectionListResult",
+    "PrivateLinkResource",
+    "PrivateLinkResourceListResult",
+    "PrivateLinkServiceConnectionState",
+    "ProxyResource",
     "Resource",
-    "ResourceIdentity",
     "StepStatus",
     "SystemData",
     "Target",
@@ -121,9 +148,12 @@ __all__ = [
     "ActionType",
     "CreatedByType",
     "FilterType",
+    "ManagedServiceIdentityType",
     "Origin",
+    "PrivateEndpointConnectionProvisioningState",
+    "PrivateEndpointServiceConnectionStatus",
     "ProvisioningState",
-    "ResourceIdentityType",
+    "PublicNetworkAccessOption",
     "SelectorType",
     "TargetReferenceType",
 ]
