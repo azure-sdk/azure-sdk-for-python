@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMicrosoft365
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.appcomplianceautomation import AppComplianceAutomationToolForMic
     pip install azure-identity
     pip install azure-mgmt-appcomplianceautomation
 # USAGE
-    python snapshot_download_compliance_report.py
+    python scoping_configuration_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,18 +29,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.snapshot.begin_download(
+    response = client.scoping_configuration.list(
         report_name="testReportName",
-        snapshot_name="testSnapshotName",
-        parameters={
-            "downloadType": "ComplianceReport",
-            "offerGuid": "00000000-0000-0000-0000-000000000000",
-            "reportCreatorTenantId": "00000000-0000-0000-0000-000000000000",
-        },
-    ).result()
-    print(response)
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/preview/2022-11-16-preview/examples/Snapshot_ComplianceReport_Download.json
+# x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/ScopingConfiguration_List.json
 if __name__ == "__main__":
     main()
