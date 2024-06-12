@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -30,6 +31,10 @@ from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._server_parameters_operations import build_list_update_configurations_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -57,10 +62,10 @@ class ServerParametersOperations:
         self,
         resource_group_name: str,
         server_name: str,
-        value: Union[_models.ConfigurationListResult, IO],
+        value: Union[_models.ConfigurationListResult, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ConfigurationListResult]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -83,7 +88,7 @@ class ServerParametersOperations:
         else:
             _json = self._serialize.body(value, "ConfigurationListResult")
 
-        request = build_list_update_configurations_request(
+        _request = build_list_update_configurations_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             subscription_id=self._config.subscription_id,
@@ -91,16 +96,15 @@ class ServerParametersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._list_update_configurations_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -114,13 +118,9 @@ class ServerParametersOperations:
             deserialized = self._deserialize("ConfigurationListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _list_update_configurations_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/updateConfigurations"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_list_update_configurations(
@@ -144,14 +144,6 @@ class ServerParametersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ConfigurationListResult or the
          result of cls(response)
         :rtype:
@@ -164,7 +156,7 @@ class ServerParametersOperations:
         self,
         resource_group_name: str,
         server_name: str,
-        value: IO,
+        value: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -177,18 +169,10 @@ class ServerParametersOperations:
         :param server_name: The name of the server. Required.
         :type server_name: str
         :param value: The parameters for updating a list of server configuration. Required.
-        :type value: IO
+        :type value: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ConfigurationListResult or the
          result of cls(response)
         :rtype:
@@ -201,7 +185,7 @@ class ServerParametersOperations:
         self,
         resource_group_name: str,
         server_name: str,
-        value: Union[_models.ConfigurationListResult, IO],
+        value: Union[_models.ConfigurationListResult, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ConfigurationListResult]:
         """Update a list of configurations in a given server.
@@ -212,19 +196,8 @@ class ServerParametersOperations:
         :param server_name: The name of the server. Required.
         :type server_name: str
         :param value: The parameters for updating a list of server configuration. Is either a
-         ConfigurationListResult type or a IO type. Required.
-        :type value: ~azure.mgmt.rdbms.postgresql.models.ConfigurationListResult or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ConfigurationListResult type or a IO[bytes] type. Required.
+        :type value: ~azure.mgmt.rdbms.postgresql.models.ConfigurationListResult or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either ConfigurationListResult or the
          result of cls(response)
         :rtype:
@@ -257,7 +230,7 @@ class ServerParametersOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ConfigurationListResult", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -270,14 +243,12 @@ class ServerParametersOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ConfigurationListResult].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_list_update_configurations.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/updateConfigurations"
-    }
+        return AsyncLROPoller[_models.ConfigurationListResult](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
