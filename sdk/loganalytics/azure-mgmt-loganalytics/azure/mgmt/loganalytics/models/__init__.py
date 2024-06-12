@@ -6,6 +6,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AccessRule
+from ._models_py3 import AccessRuleProperties
+from ._models_py3 import AccessRulePropertiesSubscriptionsItem
 from ._models_py3 import AssociatedWorkspace
 from ._models_py3 import AvailableServiceTier
 from ._models_py3 import AzureEntityResource
@@ -39,16 +42,25 @@ from ._models_py3 import LogAnalyticsQueryPackQueryListResult
 from ._models_py3 import LogAnalyticsQueryPackQueryPropertiesRelated
 from ._models_py3 import LogAnalyticsQueryPackQuerySearchProperties
 from ._models_py3 import LogAnalyticsQueryPackQuerySearchPropertiesRelated
+from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import ManagementGroup
 from ._models_py3 import MetricName
+from ._models_py3 import NetworkSecurityPerimeter
+from ._models_py3 import NetworkSecurityPerimeterConfiguration
+from ._models_py3 import NetworkSecurityPerimeterConfigurationListResult
+from ._models_py3 import NetworkSecurityPerimeterConfigurationProperties
+from ._models_py3 import NetworkSecurityProfile
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationStatus
 from ._models_py3 import PrivateLinkScopedResource
+from ._models_py3 import ProvisioningIssue
+from ._models_py3 import ProvisioningIssueProperties
 from ._models_py3 import ProxyResource
 from ._models_py3 import QueryPacksResource
 from ._models_py3 import Resource
+from ._models_py3 import ResourceAssociation
 from ._models_py3 import RestoredLogs
 from ._models_py3 import ResultStatistics
 from ._models_py3 import SavedSearch
@@ -73,6 +85,7 @@ from ._models_py3 import Tag
 from ._models_py3 import TagsResource
 from ._models_py3 import TrackedResource
 from ._models_py3 import UsageMetric
+from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import UserIdentityProperties
 from ._models_py3 import Workspace
 from ._models_py3 import WorkspaceCapping
@@ -87,6 +100,7 @@ from ._models_py3 import WorkspacePurgeResponse
 from ._models_py3 import WorkspacePurgeStatusResponse
 from ._models_py3 import WorkspaceSku
 
+from ._log_analytics_management_client_enums import AccessRuleDirection
 from ._log_analytics_management_client_enums import BillingType
 from ._log_analytics_management_client_enums import Capacity
 from ._log_analytics_management_client_enums import CapacityReservationLevel
@@ -99,11 +113,16 @@ from ._log_analytics_management_client_enums import DataIngestionStatus
 from ._log_analytics_management_client_enums import DataSourceKind
 from ._log_analytics_management_client_enums import DataSourceType
 from ._log_analytics_management_client_enums import IdentityType
+from ._log_analytics_management_client_enums import IssueType
 from ._log_analytics_management_client_enums import LinkedServiceEntityStatus
+from ._log_analytics_management_client_enums import ManagedServiceIdentityType
+from ._log_analytics_management_client_enums import NetworkSecurityPerimeterConfigurationProvisioningState
 from ._log_analytics_management_client_enums import ProvisioningStateEnum
 from ._log_analytics_management_client_enums import PublicNetworkAccessType
 from ._log_analytics_management_client_enums import PurgeState
+from ._log_analytics_management_client_enums import ResourceAssociationAccessMode
 from ._log_analytics_management_client_enums import SearchSortEnum
+from ._log_analytics_management_client_enums import Severity
 from ._log_analytics_management_client_enums import SkuNameEnum
 from ._log_analytics_management_client_enums import SourceEnum
 from ._log_analytics_management_client_enums import StorageInsightState
@@ -118,6 +137,9 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AccessRule",
+    "AccessRuleProperties",
+    "AccessRulePropertiesSubscriptionsItem",
     "AssociatedWorkspace",
     "AvailableServiceTier",
     "AzureEntityResource",
@@ -151,16 +173,25 @@ __all__ = [
     "LogAnalyticsQueryPackQueryPropertiesRelated",
     "LogAnalyticsQueryPackQuerySearchProperties",
     "LogAnalyticsQueryPackQuerySearchPropertiesRelated",
+    "ManagedServiceIdentity",
     "ManagementGroup",
     "MetricName",
+    "NetworkSecurityPerimeter",
+    "NetworkSecurityPerimeterConfiguration",
+    "NetworkSecurityPerimeterConfigurationListResult",
+    "NetworkSecurityPerimeterConfigurationProperties",
+    "NetworkSecurityProfile",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OperationStatus",
     "PrivateLinkScopedResource",
+    "ProvisioningIssue",
+    "ProvisioningIssueProperties",
     "ProxyResource",
     "QueryPacksResource",
     "Resource",
+    "ResourceAssociation",
     "RestoredLogs",
     "ResultStatistics",
     "SavedSearch",
@@ -185,6 +216,7 @@ __all__ = [
     "TagsResource",
     "TrackedResource",
     "UsageMetric",
+    "UserAssignedIdentity",
     "UserIdentityProperties",
     "Workspace",
     "WorkspaceCapping",
@@ -198,6 +230,7 @@ __all__ = [
     "WorkspacePurgeResponse",
     "WorkspacePurgeStatusResponse",
     "WorkspaceSku",
+    "AccessRuleDirection",
     "BillingType",
     "Capacity",
     "CapacityReservationLevel",
@@ -210,11 +243,16 @@ __all__ = [
     "DataSourceKind",
     "DataSourceType",
     "IdentityType",
+    "IssueType",
     "LinkedServiceEntityStatus",
+    "ManagedServiceIdentityType",
+    "NetworkSecurityPerimeterConfigurationProvisioningState",
     "ProvisioningStateEnum",
     "PublicNetworkAccessType",
     "PurgeState",
+    "ResourceAssociationAccessMode",
     "SearchSortEnum",
+    "Severity",
     "SkuNameEnum",
     "SourceEnum",
     "StorageInsightState",

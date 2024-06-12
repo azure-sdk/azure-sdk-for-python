@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python data_sources_list_by_workspace.py
+    python query_pack_update_no_name.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,18 +29,16 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-00000000000",
+        subscription_id="86dc51d3-92ed-4d7e-947a-775ea79b4919",
     )
 
-    response = client.data_sources.list_by_workspace(
-        resource_group_name="OIAutoRest5123",
-        workspace_name="AzTest9724",
-        filter="kind='WindowsEvent'",
+    response = client.query_packs.create_or_update_without_name(
+        resource_group_name="my-resource-group",
+        log_analytics_query_pack_payload={"location": "South Central US", "properties": {}, "tags": {"Tag1": "Value1"}},
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataSourcesListByWorkspace.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackUpdateNoName.json
 if __name__ == "__main__":
     main()

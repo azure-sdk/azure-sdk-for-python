@@ -6,9 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
@@ -29,12 +35,11 @@ def main():
         subscription_id="00000000-0000-0000-0000-00000000000",
     )
 
-    response = client.linked_storage_accounts.delete(
+    client.linked_storage_accounts.delete(
         resource_group_name="mms-eus",
         workspace_name="testLinkStorageAccountsWS",
         data_source_type="CustomLogs",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/LinkedStorageAccountsDelete.json
