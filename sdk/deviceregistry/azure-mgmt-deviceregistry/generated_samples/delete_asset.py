@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/preview/2023-11-01-preview/examples/Delete_Asset.json
+# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/preview/2024-06-01-preview/examples/Delete_Asset.json
 if __name__ == "__main__":
     main()

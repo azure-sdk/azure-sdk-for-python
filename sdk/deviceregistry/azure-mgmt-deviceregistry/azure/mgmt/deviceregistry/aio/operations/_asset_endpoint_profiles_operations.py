@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -40,6 +41,10 @@ from ...operations._asset_endpoint_profiles_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -79,7 +84,7 @@ class AssetEndpointProfilesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AssetEndpointProfileListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -163,7 +168,7 @@ class AssetEndpointProfilesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AssetEndpointProfileListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -242,7 +247,7 @@ class AssetEndpointProfilesOperations:
         :rtype: ~azure.mgmt.deviceregistry.models.AssetEndpointProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -293,7 +298,7 @@ class AssetEndpointProfilesOperations:
         resource: Union[_models.AssetEndpointProfile, IO[bytes]],
         **kwargs: Any
     ) -> _models.AssetEndpointProfile:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -491,10 +496,10 @@ class AssetEndpointProfilesOperations:
         self,
         resource_group_name: str,
         asset_endpoint_profile_name: str,
-        properties: Union[_models.AssetEndpointProfileUpdate, IO[bytes]],
+        properties: Union[_models.AssetEndpointProfile, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.AssetEndpointProfile]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -515,7 +520,7 @@ class AssetEndpointProfilesOperations:
         if isinstance(properties, (IOBase, bytes)):
             _content = properties
         else:
-            _json = self._serialize.body(properties, "AssetEndpointProfileUpdate")
+            _json = self._serialize.body(properties, "AssetEndpointProfile")
 
         _request = build_update_request(
             resource_group_name=resource_group_name,
@@ -562,7 +567,7 @@ class AssetEndpointProfilesOperations:
         self,
         resource_group_name: str,
         asset_endpoint_profile_name: str,
-        properties: _models.AssetEndpointProfileUpdate,
+        properties: _models.AssetEndpointProfile,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -575,7 +580,7 @@ class AssetEndpointProfilesOperations:
         :param asset_endpoint_profile_name: Asset Endpoint Profile name parameter. Required.
         :type asset_endpoint_profile_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdate
+        :type properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfile
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -620,7 +625,7 @@ class AssetEndpointProfilesOperations:
         self,
         resource_group_name: str,
         asset_endpoint_profile_name: str,
-        properties: Union[_models.AssetEndpointProfileUpdate, IO[bytes]],
+        properties: Union[_models.AssetEndpointProfile, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.AssetEndpointProfile]:
         """Update a AssetEndpointProfile.
@@ -630,9 +635,9 @@ class AssetEndpointProfilesOperations:
         :type resource_group_name: str
         :param asset_endpoint_profile_name: Asset Endpoint Profile name parameter. Required.
         :type asset_endpoint_profile_name: str
-        :param properties: The resource properties to be updated. Is either a
-         AssetEndpointProfileUpdate type or a IO[bytes] type. Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdate or IO[bytes]
+        :param properties: The resource properties to be updated. Is either a AssetEndpointProfile type
+         or a IO[bytes] type. Required.
+        :type properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfile or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either AssetEndpointProfile or the result
          of cls(response)
         :rtype:
@@ -690,7 +695,7 @@ class AssetEndpointProfilesOperations:
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, asset_endpoint_profile_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
