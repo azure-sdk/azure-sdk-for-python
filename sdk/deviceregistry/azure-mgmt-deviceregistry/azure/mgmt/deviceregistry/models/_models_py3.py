@@ -365,94 +365,6 @@ class AssetEndpointProfileProperties(_serialization.Model):
         self.provisioning_state = None
 
 
-class AssetEndpointProfileUpdate(_serialization.Model):
-    """The type used for update operations of the AssetEndpointProfile.
-
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the AssetEndpointProfile.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdateProperties
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-        "properties": {"key": "properties", "type": "AssetEndpointProfileUpdateProperties"},
-    }
-
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.AssetEndpointProfileUpdateProperties"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the AssetEndpointProfile.
-        :paramtype properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdateProperties
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-        self.properties = properties
-
-
-class AssetEndpointProfileUpdateProperties(_serialization.Model):
-    """The updatable properties of the AssetEndpointProfile.
-
-    :ivar target_address: The local valid URI specifying the network address/DNS name of a
-     southbound device. The scheme part of the targetAddress URI specifies the type of the device.
-     The additionalConfiguration field holds further connector type specific configuration.
-    :vartype target_address: str
-    :ivar user_authentication: Defines the client authentication mechanism to the server.
-    :vartype user_authentication: ~azure.mgmt.deviceregistry.models.UserAuthenticationUpdate
-    :ivar transport_authentication: Defines the authentication mechanism for the southbound
-     connector connecting to the shop floor/OT device.
-    :vartype transport_authentication:
-     ~azure.mgmt.deviceregistry.models.TransportAuthenticationUpdate
-    :ivar additional_configuration: Contains connectivity type specific further configuration (e.g.
-     OPC UA, Modbus, ONVIF).
-    :vartype additional_configuration: str
-    """
-
-    _attribute_map = {
-        "target_address": {"key": "targetAddress", "type": "str"},
-        "user_authentication": {"key": "userAuthentication", "type": "UserAuthenticationUpdate"},
-        "transport_authentication": {"key": "transportAuthentication", "type": "TransportAuthenticationUpdate"},
-        "additional_configuration": {"key": "additionalConfiguration", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        target_address: Optional[str] = None,
-        user_authentication: Optional["_models.UserAuthenticationUpdate"] = None,
-        transport_authentication: Optional["_models.TransportAuthenticationUpdate"] = None,
-        additional_configuration: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword target_address: The local valid URI specifying the network address/DNS name of a
-         southbound device. The scheme part of the targetAddress URI specifies the type of the device.
-         The additionalConfiguration field holds further connector type specific configuration.
-        :paramtype target_address: str
-        :keyword user_authentication: Defines the client authentication mechanism to the server.
-        :paramtype user_authentication: ~azure.mgmt.deviceregistry.models.UserAuthenticationUpdate
-        :keyword transport_authentication: Defines the authentication mechanism for the southbound
-         connector connecting to the shop floor/OT device.
-        :paramtype transport_authentication:
-         ~azure.mgmt.deviceregistry.models.TransportAuthenticationUpdate
-        :keyword additional_configuration: Contains connectivity type specific further configuration
-         (e.g. OPC UA, Modbus, ONVIF).
-        :paramtype additional_configuration: str
-        """
-        super().__init__(**kwargs)
-        self.target_address = target_address
-        self.user_authentication = user_authentication
-        self.transport_authentication = transport_authentication
-        self.additional_configuration = additional_configuration
-
-
 class AssetListResult(_serialization.Model):
     """The response of a Asset list operation.
 
@@ -747,192 +659,6 @@ class AssetStatusError(_serialization.Model):
         super().__init__(**kwargs)
         self.code = code
         self.message = message
-
-
-class AssetUpdate(_serialization.Model):
-    """The type used for update operations of the Asset.
-
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the Asset.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.AssetUpdateProperties
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-        "properties": {"key": "properties", "type": "AssetUpdateProperties"},
-    }
-
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.AssetUpdateProperties"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the Asset.
-        :paramtype properties: ~azure.mgmt.deviceregistry.models.AssetUpdateProperties
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-        self.properties = properties
-
-
-class AssetUpdateProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """The updatable properties of the Asset.
-
-    :ivar asset_type: Resource path to asset type (model) definition.
-    :vartype asset_type: str
-    :ivar enabled: Enabled/Disabled status of the asset.
-    :vartype enabled: bool
-    :ivar display_name: Human-readable display name.
-    :vartype display_name: str
-    :ivar description: Human-readable description of the asset.
-    :vartype description: str
-    :ivar manufacturer: Asset manufacturer name.
-    :vartype manufacturer: str
-    :ivar manufacturer_uri: Asset manufacturer URI.
-    :vartype manufacturer_uri: str
-    :ivar model: Asset model name.
-    :vartype model: str
-    :ivar product_code: Asset product code.
-    :vartype product_code: str
-    :ivar hardware_revision: Revision number of the hardware.
-    :vartype hardware_revision: str
-    :ivar software_revision: Revision number of the software.
-    :vartype software_revision: str
-    :ivar documentation_uri: Reference to the documentation.
-    :vartype documentation_uri: str
-    :ivar serial_number: Asset serial number.
-    :vartype serial_number: str
-    :ivar attributes: A set of key-value pairs that contain custom attributes set by the customer.
-    :vartype attributes: dict[str, any]
-    :ivar default_data_points_configuration: Protocol-specific default configuration for all data
-     points. Each data point can have its own configuration that overrides the default settings
-     here. This assumes that each asset instance has one protocol.
-    :vartype default_data_points_configuration: str
-    :ivar default_events_configuration: Protocol-specific default configuration for all events.
-     Each event can have its own configuration that overrides the default settings here. This
-     assumes that each asset instance has one protocol.
-    :vartype default_events_configuration: str
-    :ivar data_points: Array of data points that are part of the asset. Each data point can
-     reference an asset type capability and have per-data point configuration. See below for more
-     details for the definition of the dataPoints element.
-    :vartype data_points: list[~azure.mgmt.deviceregistry.models.DataPoint]
-    :ivar events: Array of events that are part of the asset. Each event can reference an asset
-     type capability and have per-event configuration. See below for more details about the
-     definition of the events element.
-    :vartype events: list[~azure.mgmt.deviceregistry.models.Event]
-    """
-
-    _attribute_map = {
-        "asset_type": {"key": "assetType", "type": "str"},
-        "enabled": {"key": "enabled", "type": "bool"},
-        "display_name": {"key": "displayName", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "manufacturer": {"key": "manufacturer", "type": "str"},
-        "manufacturer_uri": {"key": "manufacturerUri", "type": "str"},
-        "model": {"key": "model", "type": "str"},
-        "product_code": {"key": "productCode", "type": "str"},
-        "hardware_revision": {"key": "hardwareRevision", "type": "str"},
-        "software_revision": {"key": "softwareRevision", "type": "str"},
-        "documentation_uri": {"key": "documentationUri", "type": "str"},
-        "serial_number": {"key": "serialNumber", "type": "str"},
-        "attributes": {"key": "attributes", "type": "{object}"},
-        "default_data_points_configuration": {"key": "defaultDataPointsConfiguration", "type": "str"},
-        "default_events_configuration": {"key": "defaultEventsConfiguration", "type": "str"},
-        "data_points": {"key": "dataPoints", "type": "[DataPoint]"},
-        "events": {"key": "events", "type": "[Event]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        asset_type: Optional[str] = None,
-        enabled: Optional[bool] = None,
-        display_name: Optional[str] = None,
-        description: Optional[str] = None,
-        manufacturer: Optional[str] = None,
-        manufacturer_uri: Optional[str] = None,
-        model: Optional[str] = None,
-        product_code: Optional[str] = None,
-        hardware_revision: Optional[str] = None,
-        software_revision: Optional[str] = None,
-        documentation_uri: Optional[str] = None,
-        serial_number: Optional[str] = None,
-        attributes: Optional[Dict[str, Any]] = None,
-        default_data_points_configuration: Optional[str] = None,
-        default_events_configuration: Optional[str] = None,
-        data_points: Optional[List["_models.DataPoint"]] = None,
-        events: Optional[List["_models.Event"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword asset_type: Resource path to asset type (model) definition.
-        :paramtype asset_type: str
-        :keyword enabled: Enabled/Disabled status of the asset.
-        :paramtype enabled: bool
-        :keyword display_name: Human-readable display name.
-        :paramtype display_name: str
-        :keyword description: Human-readable description of the asset.
-        :paramtype description: str
-        :keyword manufacturer: Asset manufacturer name.
-        :paramtype manufacturer: str
-        :keyword manufacturer_uri: Asset manufacturer URI.
-        :paramtype manufacturer_uri: str
-        :keyword model: Asset model name.
-        :paramtype model: str
-        :keyword product_code: Asset product code.
-        :paramtype product_code: str
-        :keyword hardware_revision: Revision number of the hardware.
-        :paramtype hardware_revision: str
-        :keyword software_revision: Revision number of the software.
-        :paramtype software_revision: str
-        :keyword documentation_uri: Reference to the documentation.
-        :paramtype documentation_uri: str
-        :keyword serial_number: Asset serial number.
-        :paramtype serial_number: str
-        :keyword attributes: A set of key-value pairs that contain custom attributes set by the
-         customer.
-        :paramtype attributes: dict[str, any]
-        :keyword default_data_points_configuration: Protocol-specific default configuration for all
-         data points. Each data point can have its own configuration that overrides the default settings
-         here. This assumes that each asset instance has one protocol.
-        :paramtype default_data_points_configuration: str
-        :keyword default_events_configuration: Protocol-specific default configuration for all events.
-         Each event can have its own configuration that overrides the default settings here. This
-         assumes that each asset instance has one protocol.
-        :paramtype default_events_configuration: str
-        :keyword data_points: Array of data points that are part of the asset. Each data point can
-         reference an asset type capability and have per-data point configuration. See below for more
-         details for the definition of the dataPoints element.
-        :paramtype data_points: list[~azure.mgmt.deviceregistry.models.DataPoint]
-        :keyword events: Array of events that are part of the asset. Each event can reference an asset
-         type capability and have per-event configuration. See below for more details about the
-         definition of the events element.
-        :paramtype events: list[~azure.mgmt.deviceregistry.models.Event]
-        """
-        super().__init__(**kwargs)
-        self.asset_type = asset_type
-        self.enabled = enabled
-        self.display_name = display_name
-        self.description = description
-        self.manufacturer = manufacturer
-        self.manufacturer_uri = manufacturer_uri
-        self.model = model
-        self.product_code = product_code
-        self.hardware_revision = hardware_revision
-        self.software_revision = software_revision
-        self.documentation_uri = documentation_uri
-        self.serial_number = serial_number
-        self.attributes = attributes
-        self.default_data_points_configuration = default_data_points_configuration
-        self.default_events_configuration = default_events_configuration
-        self.data_points = data_points
-        self.events = events
 
 
 class DataPoint(_serialization.Model):
@@ -1535,37 +1261,13 @@ class TransportAuthentication(_serialization.Model):
         self.own_certificates = own_certificates
 
 
-class TransportAuthenticationUpdate(_serialization.Model):
-    """Definition of the authentication mechanism for the southbound connector.
-
-    :ivar own_certificates: Defines a reference to a secret which contains all certificates and
-     private keys that can be used by the southbound connector connecting to the shop floor/OT
-     device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.
-    :vartype own_certificates: list[~azure.mgmt.deviceregistry.models.OwnCertificate]
-    """
-
-    _attribute_map = {
-        "own_certificates": {"key": "ownCertificates", "type": "[OwnCertificate]"},
-    }
-
-    def __init__(self, *, own_certificates: Optional[List["_models.OwnCertificate"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword own_certificates: Defines a reference to a secret which contains all certificates and
-         private keys that can be used by the southbound connector connecting to the shop floor/OT
-         device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.
-        :paramtype own_certificates: list[~azure.mgmt.deviceregistry.models.OwnCertificate]
-        """
-        super().__init__(**kwargs)
-        self.own_certificates = own_certificates
-
-
 class UserAuthentication(_serialization.Model):
     """Definition of the client authentication mechanism to the server.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar mode: Defines the mode to authenticate the user of the client at the server. Required.
-     Known values are: "Anonymous", "Certificate", and "UsernamePassword".
+    :ivar mode: Defines the mode to authenticate the user of the client at the server. Known values
+     are: "Anonymous", "Certificate", and "UsernamePassword".
     :vartype mode: str or ~azure.mgmt.deviceregistry.models.UserAuthenticationMode
     :ivar username_password_credentials: Defines the username and password references when
      UsernamePassword user authentication mode is selected.
@@ -1589,59 +1291,9 @@ class UserAuthentication(_serialization.Model):
     def __init__(
         self,
         *,
-        mode: Union[str, "_models.UserAuthenticationMode"],
+        mode: Union[str, "_models.UserAuthenticationMode"] = "Certificate",
         username_password_credentials: Optional["_models.UsernamePasswordCredentials"] = None,
         x509_credentials: Optional["_models.X509Credentials"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword mode: Defines the mode to authenticate the user of the client at the server. Required.
-         Known values are: "Anonymous", "Certificate", and "UsernamePassword".
-        :paramtype mode: str or ~azure.mgmt.deviceregistry.models.UserAuthenticationMode
-        :keyword username_password_credentials: Defines the username and password references when
-         UsernamePassword user authentication mode is selected.
-        :paramtype username_password_credentials:
-         ~azure.mgmt.deviceregistry.models.UsernamePasswordCredentials
-        :keyword x509_credentials: Defines the certificate reference when Certificate user
-         authentication mode is selected.
-        :paramtype x509_credentials: ~azure.mgmt.deviceregistry.models.X509Credentials
-        """
-        super().__init__(**kwargs)
-        self.mode = mode
-        self.username_password_credentials = username_password_credentials
-        self.x509_credentials = x509_credentials
-
-
-class UserAuthenticationUpdate(_serialization.Model):
-    """Definition of the client authentication mechanism to the server.
-
-    :ivar mode: Defines the mode to authenticate the user of the client at the server. Known values
-     are: "Anonymous", "Certificate", and "UsernamePassword".
-    :vartype mode: str or ~azure.mgmt.deviceregistry.models.UserAuthenticationMode
-    :ivar username_password_credentials: Defines the username and password references when
-     UsernamePassword user authentication mode is selected.
-    :vartype username_password_credentials:
-     ~azure.mgmt.deviceregistry.models.UsernamePasswordCredentialsUpdate
-    :ivar x509_credentials: Defines the certificate reference when Certificate user authentication
-     mode is selected.
-    :vartype x509_credentials: ~azure.mgmt.deviceregistry.models.X509CredentialsUpdate
-    """
-
-    _attribute_map = {
-        "mode": {"key": "mode", "type": "str"},
-        "username_password_credentials": {
-            "key": "usernamePasswordCredentials",
-            "type": "UsernamePasswordCredentialsUpdate",
-        },
-        "x509_credentials": {"key": "x509Credentials", "type": "X509CredentialsUpdate"},
-    }
-
-    def __init__(
-        self,
-        *,
-        mode: Optional[Union[str, "_models.UserAuthenticationMode"]] = None,
-        username_password_credentials: Optional["_models.UsernamePasswordCredentialsUpdate"] = None,
-        x509_credentials: Optional["_models.X509CredentialsUpdate"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1651,10 +1303,10 @@ class UserAuthenticationUpdate(_serialization.Model):
         :keyword username_password_credentials: Defines the username and password references when
          UsernamePassword user authentication mode is selected.
         :paramtype username_password_credentials:
-         ~azure.mgmt.deviceregistry.models.UsernamePasswordCredentialsUpdate
+         ~azure.mgmt.deviceregistry.models.UsernamePasswordCredentials
         :keyword x509_credentials: Defines the certificate reference when Certificate user
          authentication mode is selected.
-        :paramtype x509_credentials: ~azure.mgmt.deviceregistry.models.X509CredentialsUpdate
+        :paramtype x509_credentials: ~azure.mgmt.deviceregistry.models.X509Credentials
         """
         super().__init__(**kwargs)
         self.mode = mode
@@ -1695,34 +1347,6 @@ class UsernamePasswordCredentials(_serialization.Model):
         self.password_reference = password_reference
 
 
-class UsernamePasswordCredentialsUpdate(_serialization.Model):
-    """The credentials for authentication mode UsernamePassword.
-
-    :ivar username_reference: A reference to secret containing the username.
-    :vartype username_reference: str
-    :ivar password_reference: A reference to secret containing the password.
-    :vartype password_reference: str
-    """
-
-    _attribute_map = {
-        "username_reference": {"key": "usernameReference", "type": "str"},
-        "password_reference": {"key": "passwordReference", "type": "str"},
-    }
-
-    def __init__(
-        self, *, username_reference: Optional[str] = None, password_reference: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword username_reference: A reference to secret containing the username.
-        :paramtype username_reference: str
-        :keyword password_reference: A reference to secret containing the password.
-        :paramtype password_reference: str
-        """
-        super().__init__(**kwargs)
-        self.username_reference = username_reference
-        self.password_reference = password_reference
-
-
 class X509Credentials(_serialization.Model):
     """The x509 certificate for authentication mode Certificate.
 
@@ -1745,28 +1369,6 @@ class X509Credentials(_serialization.Model):
         """
         :keyword certificate_reference: A reference to secret containing the certificate and private
          key (e.g. stored as .der/.pem or .der/.pfx). Required.
-        :paramtype certificate_reference: str
-        """
-        super().__init__(**kwargs)
-        self.certificate_reference = certificate_reference
-
-
-class X509CredentialsUpdate(_serialization.Model):
-    """The x509 certificate for authentication mode Certificate.
-
-    :ivar certificate_reference: A reference to secret containing the certificate and private key
-     (e.g. stored as .der/.pem or .der/.pfx).
-    :vartype certificate_reference: str
-    """
-
-    _attribute_map = {
-        "certificate_reference": {"key": "certificateReference", "type": "str"},
-    }
-
-    def __init__(self, *, certificate_reference: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword certificate_reference: A reference to secret containing the certificate and private
-         key (e.g. stored as .der/.pem or .der/.pfx).
         :paramtype certificate_reference: str
         """
         super().__init__(**kwargs)
