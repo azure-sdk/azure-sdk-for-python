@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -37,6 +38,10 @@ from ...operations._metadata_schemas_operations import (
     build_list_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -73,7 +78,6 @@ class MetadataSchemasOperations:
         :type service_name: str
         :param filter: OData filter parameter. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MetadataSchema or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.apicenter.models.MetadataSchema]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -84,7 +88,7 @@ class MetadataSchemasOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MetadataSchemaListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -95,18 +99,17 @@ class MetadataSchemasOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     service_name=service_name,
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -118,13 +121,13 @@ class MetadataSchemasOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MetadataSchemaListResult", pipeline_response)
@@ -134,11 +137,11 @@ class MetadataSchemasOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -150,10 +153,6 @@ class MetadataSchemasOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/metadataSchemas"
-    }
 
     @distributed_trace_async
     async def get(
@@ -168,12 +167,11 @@ class MetadataSchemasOperations:
         :type service_name: str
         :param metadata_schema_name: The name of the metadata schema. Required.
         :type metadata_schema_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetadataSchema or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.MetadataSchema
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -187,22 +185,21 @@ class MetadataSchemasOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MetadataSchema] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             metadata_schema_name=metadata_schema_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -218,13 +215,9 @@ class MetadataSchemasOperations:
         deserialized = self._deserialize("MetadataSchema", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/metadataSchemas/{metadataSchemaName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create_or_update(
@@ -251,7 +244,6 @@ class MetadataSchemasOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetadataSchema or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.MetadataSchema
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -263,7 +255,7 @@ class MetadataSchemasOperations:
         resource_group_name: str,
         service_name: str,
         metadata_schema_name: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -278,11 +270,10 @@ class MetadataSchemasOperations:
         :param metadata_schema_name: The name of the metadata schema. Required.
         :type metadata_schema_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetadataSchema or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.MetadataSchema
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -294,7 +285,7 @@ class MetadataSchemasOperations:
         resource_group_name: str,
         service_name: str,
         metadata_schema_name: str,
-        resource: Union[_models.MetadataSchema, IO],
+        resource: Union[_models.MetadataSchema, IO[bytes]],
         **kwargs: Any
     ) -> _models.MetadataSchema:
         """Creates new or updates existing metadata schema.
@@ -306,18 +297,14 @@ class MetadataSchemasOperations:
         :type service_name: str
         :param metadata_schema_name: The name of the metadata schema. Required.
         :type metadata_schema_name: str
-        :param resource: Resource create parameters. Is either a MetadataSchema type or a IO type.
-         Required.
-        :type resource: ~azure.mgmt.apicenter.models.MetadataSchema or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param resource: Resource create parameters. Is either a MetadataSchema type or a IO[bytes]
+         type. Required.
+        :type resource: ~azure.mgmt.apicenter.models.MetadataSchema or IO[bytes]
         :return: MetadataSchema or the result of cls(response)
         :rtype: ~azure.mgmt.apicenter.models.MetadataSchema
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -340,7 +327,7 @@ class MetadataSchemasOperations:
         else:
             _json = self._serialize.body(resource, "MetadataSchema")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             metadata_schema_name=metadata_schema_name,
@@ -349,16 +336,15 @@ class MetadataSchemasOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -384,10 +370,6 @@ class MetadataSchemasOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/metadataSchemas/{metadataSchemaName}"
-    }
-
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, service_name: str, metadata_schema_name: str, **kwargs: Any
@@ -401,12 +383,11 @@ class MetadataSchemasOperations:
         :type service_name: str
         :param metadata_schema_name: The name of the metadata schema. Required.
         :type metadata_schema_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -420,22 +401,21 @@ class MetadataSchemasOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             metadata_schema_name=metadata_schema_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -446,11 +426,7 @@ class MetadataSchemasOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/metadataSchemas/{metadataSchemaName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def head(self, resource_group_name: str, service_name: str, metadata_schema_name: str, **kwargs: Any) -> bool:
@@ -463,12 +439,11 @@ class MetadataSchemasOperations:
         :type service_name: str
         :param metadata_schema_name: The name of the metadata schema. Required.
         :type metadata_schema_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: bool or the result of cls(response)
         :rtype: bool
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -482,22 +457,21 @@ class MetadataSchemasOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_head_request(
+        _request = build_head_request(
             resource_group_name=resource_group_name,
             service_name=service_name,
             metadata_schema_name=metadata_schema_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.head.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -508,9 +482,5 @@ class MetadataSchemasOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})  # type: ignore
         return 200 <= response.status_code <= 299
-
-    head.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/metadataSchemas/{metadataSchemaName}"
-    }
