@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -30,6 +31,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-05"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -52,12 +57,17 @@ def build_get_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "applicationGroupName": _SERIALIZER.url(
-            "application_group_name", application_group_name, "str", max_length=64, min_length=3
+            "application_group_name",
+            application_group_name,
+            "str",
+            max_length=64,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9@.\-_ ]*$",
         ),
     }
 
@@ -78,7 +88,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-05"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-08-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -88,12 +98,17 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "applicationGroupName": _SERIALIZER.url(
-            "application_group_name", application_group_name, "str", max_length=64, min_length=3
+            "application_group_name",
+            application_group_name,
+            "str",
+            max_length=64,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9@.\-_ ]*$",
         ),
     }
 
@@ -116,7 +131,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-05"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -125,12 +140,17 @@ def build_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "applicationGroupName": _SERIALIZER.url(
-            "application_group_name", application_group_name, "str", max_length=64, min_length=3
+            "application_group_name",
+            application_group_name,
+            "str",
+            max_length=64,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9@.\-_ ]*$",
         ),
     }
 
@@ -151,7 +171,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-05"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-08-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -161,12 +181,17 @@ def build_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "applicationGroupName": _SERIALIZER.url(
-            "application_group_name", application_group_name, "str", max_length=64, min_length=3
+            "application_group_name",
+            application_group_name,
+            "str",
+            max_length=64,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9@.\-_ ]*$",
         ),
     }
 
@@ -196,7 +221,7 @@ def build_list_by_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-05"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -205,7 +230,7 @@ def build_list_by_resource_group_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -236,7 +261,7 @@ def build_list_by_subscription_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-05"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -244,7 +269,7 @@ def build_list_by_subscription_request(
         "template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/applicationGroups"
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -288,12 +313,11 @@ class ApplicationGroupsOperations:
         :type resource_group_name: str
         :param application_group_name: The name of the application group. Required.
         :type application_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -307,21 +331,20 @@ class ApplicationGroupsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ApplicationGroup] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             application_group_name=application_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -333,13 +356,9 @@ class ApplicationGroupsOperations:
         deserialized = self._deserialize("ApplicationGroup", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -363,7 +382,6 @@ class ApplicationGroupsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -374,7 +392,7 @@ class ApplicationGroupsOperations:
         self,
         resource_group_name: str,
         application_group_name: str,
-        application_group: IO,
+        application_group: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -387,11 +405,10 @@ class ApplicationGroupsOperations:
         :param application_group_name: The name of the application group. Required.
         :type application_group_name: str
         :param application_group: Object containing ApplicationGroup definitions. Required.
-        :type application_group: IO
+        :type application_group: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -402,7 +419,7 @@ class ApplicationGroupsOperations:
         self,
         resource_group_name: str,
         application_group_name: str,
-        application_group: Union[_models.ApplicationGroup, IO],
+        application_group: Union[_models.ApplicationGroup, IO[bytes]],
         **kwargs: Any
     ) -> _models.ApplicationGroup:
         """Create or update an applicationGroup.
@@ -413,17 +430,13 @@ class ApplicationGroupsOperations:
         :param application_group_name: The name of the application group. Required.
         :type application_group_name: str
         :param application_group: Object containing ApplicationGroup definitions. Is either a
-         ApplicationGroup type or a IO type. Required.
-        :type application_group: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ApplicationGroup type or a IO[bytes] type. Required.
+        :type application_group: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup or IO[bytes]
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -446,7 +459,7 @@ class ApplicationGroupsOperations:
         else:
             _json = self._serialize.body(application_group, "ApplicationGroup")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             application_group_name=application_group_name,
             subscription_id=self._config.subscription_id,
@@ -454,16 +467,15 @@ class ApplicationGroupsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -483,10 +495,6 @@ class ApplicationGroupsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, application_group_name: str, **kwargs: Any
@@ -498,12 +506,11 @@ class ApplicationGroupsOperations:
         :type resource_group_name: str
         :param application_group_name: The name of the application group. Required.
         :type application_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -517,21 +524,20 @@ class ApplicationGroupsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             application_group_name=application_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -541,11 +547,7 @@ class ApplicationGroupsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def update(
@@ -570,7 +572,6 @@ class ApplicationGroupsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -581,7 +582,7 @@ class ApplicationGroupsOperations:
         self,
         resource_group_name: str,
         application_group_name: str,
-        application_group: Optional[IO] = None,
+        application_group: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -595,11 +596,10 @@ class ApplicationGroupsOperations:
         :type application_group_name: str
         :param application_group: Object containing ApplicationGroup definitions. Default value is
          None.
-        :type application_group: IO
+        :type application_group: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -610,7 +610,7 @@ class ApplicationGroupsOperations:
         self,
         resource_group_name: str,
         application_group_name: str,
-        application_group: Optional[Union[_models.ApplicationGroupPatch, IO]] = None,
+        application_group: Optional[Union[_models.ApplicationGroupPatch, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.ApplicationGroup:
         """Update an applicationGroup.
@@ -621,17 +621,14 @@ class ApplicationGroupsOperations:
         :param application_group_name: The name of the application group. Required.
         :type application_group_name: str
         :param application_group: Object containing ApplicationGroup definitions. Is either a
-         ApplicationGroupPatch type or a IO type. Default value is None.
-        :type application_group: ~azure.mgmt.desktopvirtualization.models.ApplicationGroupPatch or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ApplicationGroupPatch type or a IO[bytes] type. Default value is None.
+        :type application_group: ~azure.mgmt.desktopvirtualization.models.ApplicationGroupPatch or
+         IO[bytes]
         :return: ApplicationGroup or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.ApplicationGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -657,7 +654,7 @@ class ApplicationGroupsOperations:
             else:
                 _json = None
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             application_group_name=application_group_name,
             subscription_id=self._config.subscription_id,
@@ -665,16 +662,15 @@ class ApplicationGroupsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -686,13 +682,9 @@ class ApplicationGroupsOperations:
         deserialized = self._deserialize("ApplicationGroup", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_resource_group(
@@ -718,7 +710,6 @@ class ApplicationGroupsOperations:
         :type is_descending: bool
         :param initial_skip: Initial number of items to skip. Default value is None.
         :type initial_skip: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ApplicationGroup or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.desktopvirtualization.models.ApplicationGroup]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -729,7 +720,7 @@ class ApplicationGroupsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ApplicationGroupList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -740,7 +731,7 @@ class ApplicationGroupsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     filter=filter,
@@ -748,12 +739,11 @@ class ApplicationGroupsOperations:
                     is_descending=is_descending,
                     initial_skip=initial_skip,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -765,13 +755,13 @@ class ApplicationGroupsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ApplicationGroupList", pipeline_response)
@@ -781,11 +771,11 @@ class ApplicationGroupsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -796,10 +786,6 @@ class ApplicationGroupsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups"
-    }
 
     @distributed_trace
     def list_by_subscription(self, filter: Optional[str] = None, **kwargs: Any) -> Iterable["_models.ApplicationGroup"]:
@@ -808,7 +794,6 @@ class ApplicationGroupsOperations:
         :param filter: OData filter expression. Valid properties for filtering are
          applicationGroupType. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ApplicationGroup or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.desktopvirtualization.models.ApplicationGroup]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -819,7 +804,7 @@ class ApplicationGroupsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ApplicationGroupList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -830,16 +815,15 @@ class ApplicationGroupsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -851,13 +835,13 @@ class ApplicationGroupsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ApplicationGroupList", pipeline_response)
@@ -867,11 +851,11 @@ class ApplicationGroupsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -882,7 +866,3 @@ class ApplicationGroupsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/applicationGroups"
-    }
