@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -41,6 +42,10 @@ from ...operations._elastic_pools_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -90,7 +95,7 @@ class ElasticPoolsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
         cls: ClsType[_models.MetricListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -168,7 +173,7 @@ class ElasticPoolsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
         cls: ClsType[_models.MetricDefinitionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -245,7 +250,7 @@ class ElasticPoolsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-01-preview"))
         cls: ClsType[_models.ElasticPoolListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -316,7 +321,7 @@ class ElasticPoolsOperations:
         :rtype: ~azure.mgmt.sql.models.ElasticPool
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -368,7 +373,7 @@ class ElasticPoolsOperations:
         parameters: Union[_models.ElasticPool, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ElasticPool]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -570,7 +575,7 @@ class ElasticPoolsOperations:
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, elastic_pool_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -677,7 +682,7 @@ class ElasticPoolsOperations:
         parameters: Union[_models.ElasticPoolUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ElasticPool]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -875,7 +880,7 @@ class ElasticPoolsOperations:
     async def _failover_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, elastic_pool_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
