@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AzureResourceManagerCommonTypesManagedServiceIdentity
 from ._models_py3 import CheckQuotaAvailabilityResponse
 from ._models_py3 import EncryptionProperties
 from ._models_py3 import EncryptionPropertiesIdentity
@@ -15,18 +16,19 @@ from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import LoadTestResource
-from ._models_py3 import LoadTestResourcePageList
-from ._models_py3 import LoadTestResourcePatchRequestBody
+from ._models_py3 import LoadTestResourceListResult
+from ._models_py3 import LoadTestResourceUpdate
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OutboundEnvironmentEndpoint
-from ._models_py3 import OutboundEnvironmentEndpointCollection
+from ._models_py3 import PagedOutboundEnvironmentEndpoint
+from ._models_py3 import ProxyResource
 from ._models_py3 import QuotaBucketRequest
 from ._models_py3 import QuotaBucketRequestPropertiesDimensions
 from ._models_py3 import QuotaResource
-from ._models_py3 import QuotaResourceList
+from ._models_py3 import QuotaResourceListResult
 from ._models_py3 import Resource
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
@@ -43,6 +45,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AzureResourceManagerCommonTypesManagedServiceIdentity",
     "CheckQuotaAvailabilityResponse",
     "EncryptionProperties",
     "EncryptionPropertiesIdentity",
@@ -52,18 +55,19 @@ __all__ = [
     "ErrorDetail",
     "ErrorResponse",
     "LoadTestResource",
-    "LoadTestResourcePageList",
-    "LoadTestResourcePatchRequestBody",
+    "LoadTestResourceListResult",
+    "LoadTestResourceUpdate",
     "ManagedServiceIdentity",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OutboundEnvironmentEndpoint",
-    "OutboundEnvironmentEndpointCollection",
+    "PagedOutboundEnvironmentEndpoint",
+    "ProxyResource",
     "QuotaBucketRequest",
     "QuotaBucketRequestPropertiesDimensions",
     "QuotaResource",
-    "QuotaResourceList",
+    "QuotaResourceListResult",
     "Resource",
     "SystemData",
     "TrackedResource",
