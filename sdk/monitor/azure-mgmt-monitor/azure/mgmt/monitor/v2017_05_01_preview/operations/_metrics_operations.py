@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
-from typing import Any, Callable, Dict, Optional, TypeVar, Union
+import sys
+from typing import Any, Callable, Dict, Optional, Type, TypeVar, Union
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -26,8 +27,12 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -60,7 +65,7 @@ def build_list_request(
         "resourceUri": _SERIALIZER.url("resource_uri", resource_uri, "str", skip_quote=True),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     if timespan is not None:
@@ -105,6 +110,7 @@ class MetricsOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list(
@@ -144,24 +150,23 @@ class MetricsOperations:
         :type orderby: str
         :param filter: The **$filter** is used to reduce the set of metric data
          returned.:code:`<br>`Example::code:`<br>`Metric contains metadata A, B and C.:code:`<br>`-
-         Return all time series of C where A = a1 and B = b1 or b2:code:`<br>`\ **$filter=A eq ‘a1’ and
-         B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**\ :code:`<br>`- Invalid variant::code:`<br>`\ **$filter=A
-         eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**\ :code:`<br>`This is invalid because the
-         logical or operator cannot separate two different metadata names.:code:`<br>`- Return all time
-         series where A = a1, B = b1 and C = c1::code:`<br>`\ **$filter=A eq ‘a1’ and B eq ‘b1’ and C eq
-         ‘c1’**\ :code:`<br>`- Return all time series where A = a1:code:`<br>`\ **$filter=A eq ‘a1’ and
-         B eq ‘\ *’ and C eq ‘*\ ’**. Default value is None.
+         Return all time series of C where A = a1 and B = b1 or b2:code:`<br>`\\ **$filter=A eq ‘a1’ and
+         B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**\\ :code:`<br>`- Invalid variant::code:`<br>`\\
+         **$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**\\ :code:`<br>`This is invalid
+         because the logical or operator cannot separate two different metadata names.:code:`<br>`-
+         Return all time series where A = a1, B = b1 and C = c1::code:`<br>`\\ **$filter=A eq ‘a1’ and B
+         eq ‘b1’ and C eq ‘c1’**\\ :code:`<br>`- Return all time series where A = a1:code:`<br>`\\
+         **$filter=A eq ‘a1’ and B eq ‘\\ *’ and C eq ‘*\\ ’**. Default value is None.
         :type filter: str
         :param result_type: Reduces the set of data collected. The syntax allowed depends on the
          operation. See the operation's description for details. Known values are: "Data" and
          "Metadata". Default value is None.
         :type result_type: str or ~azure.mgmt.monitor.v2017_05_01_preview.models.ResultType
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Response or the result of cls(response)
         :rtype: ~azure.mgmt.monitor.v2017_05_01_preview.models.Response
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -172,10 +177,12 @@ class MetricsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2017-05-01-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2017-05-01-preview")
+        )
         cls: ClsType[_models.Response] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             resource_uri=resource_uri,
             timespan=timespan,
             interval=interval,
@@ -186,16 +193,15 @@ class MetricsOperations:
             filter=filter,
             result_type=result_type,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -208,8 +214,6 @@ class MetricsOperations:
         deserialized = self._deserialize("Response", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {"url": "/{resourceUri}/providers/microsoft.insights/metrics"}
+        return deserialized  # type: ignore

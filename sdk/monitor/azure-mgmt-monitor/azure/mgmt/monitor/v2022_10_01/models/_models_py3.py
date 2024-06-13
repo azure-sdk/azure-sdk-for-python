@@ -98,7 +98,7 @@ class AutoscaleNotification(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar operation: the operation associated with the notification and its value must be "scale".
      Required. Default value is "Scale".
@@ -142,7 +142,7 @@ class AutoscaleNotification(_serialization.Model):
 class AutoscaleProfile(_serialization.Model):
     """Autoscale profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: the name of the profile. Required.
     :vartype name: str
@@ -211,7 +211,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -271,7 +271,7 @@ class AutoscaleSettingResource(Resource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -392,7 +392,7 @@ class AutoscaleSettingResource(Resource):  # pylint: disable=too-many-instance-a
 class AutoscaleSettingResourceCollection(_serialization.Model):
     """Represents a collection of autoscale setting resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values for the autoscale setting resources. Required.
     :vartype value: list[~azure.mgmt.monitor.v2022_10_01.models.AutoscaleSettingResource]
@@ -562,7 +562,7 @@ class EmailNotification(_serialization.Model):
 class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """The trigger that results in a scaling action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar metric_name: the name of the metric that defines what the rule monitors. Required.
     :vartype metric_name: str
@@ -594,7 +594,7 @@ class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-
     :ivar threshold: the threshold of the metric that triggers the scale action. Required.
     :vartype threshold: float
     :ivar dimensions: List of dimension conditions. For example:
-     [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].
+     [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].  # pylint: disable=line-too-long
     :vartype dimensions: list[~azure.mgmt.monitor.v2022_10_01.models.ScaleRuleMetricDimension]
     :ivar divide_per_instance: a value indicating whether metric should divide per instance.
     :vartype divide_per_instance: bool
@@ -675,7 +675,7 @@ class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-
         :keyword threshold: the threshold of the metric that triggers the scale action. Required.
         :paramtype threshold: float
         :keyword dimensions: List of dimension conditions. For example:
-         [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].
+         [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].  # pylint: disable=line-too-long
         :paramtype dimensions: list[~azure.mgmt.monitor.v2022_10_01.models.ScaleRuleMetricDimension]
         :keyword divide_per_instance: a value indicating whether metric should divide per instance.
         :paramtype divide_per_instance: bool
@@ -698,7 +698,7 @@ class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-
 class PredictiveAutoscalePolicy(_serialization.Model):
     """The parameters for enabling predictive autoscale.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scale_mode: the predictive autoscale mode. Required. Known values are: "Disabled",
      "ForecastOnly", and "Enabled".
@@ -803,7 +803,7 @@ class PredictiveResponse(_serialization.Model):
 class PredictiveValue(_serialization.Model):
     """Represents a predictive metric value in the given bucket.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
@@ -837,7 +837,7 @@ class Recurrence(_serialization.Model):
     """The repeating times at which this profile begins. This element is not used if the FixedDate
     element is used.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar frequency: the recurrence frequency. How often the schedule profile should take effect.
      This value must be Week, meaning each week will have the same set of profiles. For example, to
@@ -884,7 +884,7 @@ class Recurrence(_serialization.Model):
 class RecurrentSchedule(_serialization.Model):
     """The scheduling constraints for when the profile begins.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_zone: the timezone for the hours of the profile. Some examples of valid time zones
      are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific
@@ -993,7 +993,7 @@ class RecurrentSchedule(_serialization.Model):
 class ScaleAction(_serialization.Model):
     """The parameters for the scaling action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar direction: the scale direction. Whether the scaling action increases or decreases the
      number of instances. Required. Known values are: "None", "Increase", and "Decrease".
@@ -1055,7 +1055,7 @@ class ScaleAction(_serialization.Model):
 class ScaleCapacity(_serialization.Model):
     """The number of instances that can be used during this profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar minimum: the minimum number of instances for the resource. Required.
     :vartype minimum: str
@@ -1101,7 +1101,7 @@ class ScaleCapacity(_serialization.Model):
 class ScaleRule(_serialization.Model):
     """A rule that provide the triggers and parameters for the scaling action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar metric_trigger: the trigger that results in a scaling action. Required.
     :vartype metric_trigger: ~azure.mgmt.monitor.v2022_10_01.models.MetricTrigger
@@ -1136,7 +1136,7 @@ class ScaleRule(_serialization.Model):
 class ScaleRuleMetricDimension(_serialization.Model):
     """Specifies an auto scale rule metric dimension.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar dimension_name: Name of the dimension. Required.
     :vartype dimension_name: str
@@ -1253,7 +1253,7 @@ class SystemData(_serialization.Model):
 class TimeWindow(_serialization.Model):
     """A specific date-time for the profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_zone: the timezone of the start and end times for the profile. Some examples of
      valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard

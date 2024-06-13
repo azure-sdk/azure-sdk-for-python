@@ -23,7 +23,7 @@ class KnownColumnDefinitionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the column data."""
 
     STRING = "string"
-    INT = "int"
+    INT_ENUM = "int"
     LONG = "long"
     REAL = "real"
     BOOLEAN = "boolean"
