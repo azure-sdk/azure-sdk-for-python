@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import ContainerAppsAPIClientMixinABC, _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -67,7 +72,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +104,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -132,7 +137,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -168,7 +173,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -201,7 +206,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -242,7 +247,7 @@ def build_list_custom_host_name_analysis_request(  # pylint: disable=name-too-lo
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -277,7 +282,7 @@ def build_list_secrets_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -310,7 +315,7 @@ def build_get_auth_token_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -343,7 +348,7 @@ def build_start_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -378,7 +383,7 @@ def build_stop_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-02-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -442,7 +447,7 @@ class ContainerAppsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ContainerAppCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -524,7 +529,7 @@ class ContainerAppsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ContainerAppCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -603,11 +608,14 @@ class ContainerAppsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.ContainerApp
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
-            404: lambda response: ResourceNotFoundError(response=response, error_format=ARMErrorFormat),
+            404: cast(
+                Type[HttpResponseError],
+                lambda response: ResourceNotFoundError(response=response, error_format=ARMErrorFormat),
+            ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
@@ -654,7 +662,7 @@ class ContainerAppsOperations:
         container_app_envelope: Union[_models.ContainerApp, IO[bytes]],
         **kwargs: Any
     ) -> _models.ContainerApp:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -850,7 +858,7 @@ class ContainerAppsOperations:
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, container_app_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -957,7 +965,7 @@ class ContainerAppsOperations:
         container_app_envelope: Union[_models.ContainerApp, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ContainerApp]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1169,7 +1177,7 @@ class ContainerAppsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.CustomHostnameAnalysisResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1231,7 +1239,7 @@ class ContainerAppsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.SecretsCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1292,11 +1300,14 @@ class ContainerAppsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.ContainerAppAuthToken
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
-            404: lambda response: ResourceNotFoundError(response=response, error_format=ARMErrorFormat),
+            404: cast(
+                Type[HttpResponseError],
+                lambda response: ResourceNotFoundError(response=response, error_format=ARMErrorFormat),
+            ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
@@ -1339,7 +1350,7 @@ class ContainerAppsOperations:
     def _start_initial(
         self, resource_group_name: str, container_app_name: str, **kwargs: Any
     ) -> Optional[_models.ContainerApp]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1455,7 +1466,7 @@ class ContainerAppsOperations:
     def _stop_initial(
         self, resource_group_name: str, container_app_name: str, **kwargs: Any
     ) -> Optional[_models.ContainerApp]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
