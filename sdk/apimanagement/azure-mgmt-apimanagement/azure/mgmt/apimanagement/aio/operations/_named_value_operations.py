@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -43,6 +44,10 @@ from ...operations._named_value_operations import (
 )
 from .._vendor import ApiManagementClientMixinABC
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -111,7 +116,7 @@ class NamedValueOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NamedValueCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -197,7 +202,7 @@ class NamedValueOperations:
         :rtype: bool
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -259,7 +264,7 @@ class NamedValueOperations:
         :rtype: ~azure.mgmt.apimanagement.models.NamedValueContract
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -315,8 +320,8 @@ class NamedValueOperations:
         parameters: Union[_models.NamedValueCreateContract, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
-    ) -> Optional[_models.NamedValueContract]:
-        error_map = {
+    ) -> _models.NamedValueContract:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -329,7 +334,7 @@ class NamedValueOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.NamedValueContract]] = kwargs.pop("cls", None)
+        cls: ClsType[_models.NamedValueContract] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -362,20 +367,27 @@ class NamedValueOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 201, 202]:
+        if response.status_code not in [200, 201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
         if response.status_code == 200:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
 
         if response.status_code == 201:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
 
@@ -513,6 +525,10 @@ class NamedValueOperations:
             response_headers = {}
             response = pipeline_response.http_response
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
             if cls:
@@ -547,7 +563,7 @@ class NamedValueOperations:
         parameters: Union[_models.NamedValueUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.NamedValueContract]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -604,6 +620,12 @@ class NamedValueOperations:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -784,7 +806,7 @@ class NamedValueOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -843,7 +865,7 @@ class NamedValueOperations:
         :rtype: ~azure.mgmt.apimanagement.models.NamedValueSecretContract
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -894,7 +916,7 @@ class NamedValueOperations:
     async def _refresh_secret_initial(
         self, resource_group_name: str, service_name: str, named_value_id: str, **kwargs: Any
     ) -> Optional[_models.NamedValueContract]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -938,6 +960,12 @@ class NamedValueOperations:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
