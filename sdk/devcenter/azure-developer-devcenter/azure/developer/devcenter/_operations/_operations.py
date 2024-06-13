@@ -32,15 +32,15 @@ from azure.core.utils import case_insensitive_dict
 from .. import models as _models
 from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
-from .._vendor import DevCenterClientMixinABC
+from .._vendor import DeploymentEnvironmentsClientMixinABC, DevBoxesClientMixinABC, DevCenterClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
@@ -89,7 +89,7 @@ def build_dev_center_get_project_request(project_name: str, **kwargs: Any) -> Ht
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_pools_request(project_name: str, **kwargs: Any) -> HttpRequest:
+def build_dev_boxes_list_pools_request(project_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -113,7 +113,7 @@ def build_dev_center_list_pools_request(project_name: str, **kwargs: Any) -> Htt
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_pool_request(project_name: str, pool_name: str, **kwargs: Any) -> HttpRequest:
+def build_dev_boxes_get_pool_request(project_name: str, pool_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -138,7 +138,7 @@ def build_dev_center_get_pool_request(project_name: str, pool_name: str, **kwarg
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_schedules_request(project_name: str, pool_name: str, **kwargs: Any) -> HttpRequest:
+def build_dev_boxes_list_schedules_request(project_name: str, pool_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -163,7 +163,7 @@ def build_dev_center_list_schedules_request(project_name: str, pool_name: str, *
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_schedule_request(
+def build_dev_boxes_get_schedule_request(
     project_name: str, pool_name: str, schedule_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -191,7 +191,7 @@ def build_dev_center_get_schedule_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_all_dev_boxes_request(**kwargs: Any) -> HttpRequest:  # pylint: disable=name-too-long
+def build_dev_boxes_list_all_dev_boxes_request(**kwargs: Any) -> HttpRequest:  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -210,7 +210,7 @@ def build_dev_center_list_all_dev_boxes_request(**kwargs: Any) -> HttpRequest:  
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_all_dev_boxes_by_user_request(  # pylint: disable=name-too-long
+def build_dev_boxes_list_all_dev_boxes_by_user_request(  # pylint: disable=name-too-long
     user_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -236,7 +236,7 @@ def build_dev_center_list_all_dev_boxes_by_user_request(  # pylint: disable=name
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_dev_boxes_request(project_name: str, user_id: str, **kwargs: Any) -> HttpRequest:
+def build_dev_boxes_list_dev_boxes_request(project_name: str, user_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -261,7 +261,7 @@ def build_dev_center_list_dev_boxes_request(project_name: str, user_id: str, **k
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_dev_box_request(
+def build_dev_boxes_get_dev_box_request(
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -289,7 +289,7 @@ def build_dev_center_get_dev_box_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_create_dev_box_request(
+def build_dev_boxes_create_dev_box_request(
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -320,7 +320,7 @@ def build_dev_center_create_dev_box_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_delete_dev_box_request(
+def build_dev_boxes_delete_dev_box_request(
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -348,7 +348,7 @@ def build_dev_center_delete_dev_box_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_start_dev_box_request(
+def build_dev_boxes_start_dev_box_request(
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -376,7 +376,7 @@ def build_dev_center_start_dev_box_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_stop_dev_box_request(
+def build_dev_boxes_stop_dev_box_request(
     project_name: str, user_id: str, dev_box_name: str, *, hibernate: Optional[bool] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -406,7 +406,7 @@ def build_dev_center_stop_dev_box_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_restart_dev_box_request(
+def build_dev_boxes_restart_dev_box_request(
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -434,7 +434,7 @@ def build_dev_center_restart_dev_box_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_remote_connection_request(  # pylint: disable=name-too-long
+def build_dev_boxes_get_remote_connection_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -462,7 +462,7 @@ def build_dev_center_get_remote_connection_request(  # pylint: disable=name-too-
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_dev_box_actions_request(  # pylint: disable=name-too-long
+def build_dev_boxes_list_dev_box_actions_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -490,7 +490,7 @@ def build_dev_center_list_dev_box_actions_request(  # pylint: disable=name-too-l
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_dev_box_action_request(  # pylint: disable=name-too-long
+def build_dev_boxes_get_dev_box_action_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, dev_box_name: str, action_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -519,7 +519,7 @@ def build_dev_center_get_dev_box_action_request(  # pylint: disable=name-too-lon
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_skip_dev_box_action_request(  # pylint: disable=name-too-long
+def build_dev_boxes_skip_action_request(
     project_name: str, user_id: str, dev_box_name: str, action_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -548,7 +548,7 @@ def build_dev_center_skip_dev_box_action_request(  # pylint: disable=name-too-lo
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_delay_dev_box_action_request(  # pylint: disable=name-too-long
+def build_dev_boxes_delay_action_request(
     project_name: str,
     user_id: str,
     dev_box_name: str,
@@ -584,7 +584,7 @@ def build_dev_center_delay_dev_box_action_request(  # pylint: disable=name-too-l
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_delay_all_dev_box_actions_request(  # pylint: disable=name-too-long
+def build_dev_boxes_delay_all_actions_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, dev_box_name: str, *, delay_until: datetime.datetime, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -613,7 +613,7 @@ def build_dev_center_delay_all_dev_box_actions_request(  # pylint: disable=name-
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_all_environments_request(  # pylint: disable=name-too-long
+def build_deployment_environments_list_all_environments_request(  # pylint: disable=name-too-long
     project_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -639,7 +639,7 @@ def build_dev_center_list_all_environments_request(  # pylint: disable=name-too-
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_environments_request(  # pylint: disable=name-too-long
+def build_deployment_environments_list_environments_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -666,7 +666,7 @@ def build_dev_center_list_environments_request(  # pylint: disable=name-too-long
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_environment_request(
+def build_deployment_environments_get_environment_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, environment_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -694,7 +694,7 @@ def build_dev_center_get_environment_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_create_or_update_environment_request(  # pylint: disable=name-too-long
+def build_deployment_environments_create_or_update_environment_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, environment_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -725,7 +725,7 @@ def build_dev_center_create_or_update_environment_request(  # pylint: disable=na
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_delete_environment_request(  # pylint: disable=name-too-long
+def build_deployment_environments_delete_environment_request(  # pylint: disable=name-too-long
     project_name: str, user_id: str, environment_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -753,7 +753,9 @@ def build_dev_center_delete_environment_request(  # pylint: disable=name-too-lon
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_catalogs_request(project_name: str, **kwargs: Any) -> HttpRequest:
+def build_deployment_environments_list_catalogs_request(  # pylint: disable=name-too-long
+    project_name: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -777,7 +779,9 @@ def build_dev_center_list_catalogs_request(project_name: str, **kwargs: Any) -> 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_catalog_request(project_name: str, catalog_name: str, **kwargs: Any) -> HttpRequest:
+def build_deployment_environments_get_catalog_request(  # pylint: disable=name-too-long
+    project_name: str, catalog_name: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -802,7 +806,7 @@ def build_dev_center_get_catalog_request(project_name: str, catalog_name: str, *
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_environment_definitions_request(  # pylint: disable=name-too-long
+def build_deployment_environments_list_environment_definitions_request(  # pylint: disable=name-too-long
     project_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -828,7 +832,7 @@ def build_dev_center_list_environment_definitions_request(  # pylint: disable=na
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_environment_definitions_by_catalog_request(  # pylint: disable=name-too-long
+def build_deployment_environments_list_environment_definitions_by_catalog_request(  # pylint: disable=name-too-long
     project_name: str, catalog_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -855,7 +859,7 @@ def build_dev_center_list_environment_definitions_by_catalog_request(  # pylint:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_get_environment_definition_request(  # pylint: disable=name-too-long
+def build_deployment_environments_get_environment_definition_request(  # pylint: disable=name-too-long
     project_name: str, catalog_name: str, definition_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -883,7 +887,7 @@ def build_dev_center_get_environment_definition_request(  # pylint: disable=name
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_dev_center_list_environment_types_request(  # pylint: disable=name-too-long
+def build_deployment_environments_list_environment_types_request(  # pylint: disable=name-too-long
     project_name: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -909,7 +913,7 @@ def build_dev_center_list_environment_types_request(  # pylint: disable=name-too
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disable=too-many-public-methods
+class DevCenterClientOperationsMixin(DevCenterClientMixinABC):
 
     @distributed_trace
     def list_projects(self, **kwargs: Any) -> Iterable["_models.Project"]:
@@ -1076,6 +1080,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         return deserialized  # type: ignore
 
+
+class DevBoxesClientOperationsMixin(DevBoxesClientMixinABC):  # pylint: disable=too-many-public-methods
+
     @distributed_trace
     def list_pools(self, project_name: str, **kwargs: Any) -> Iterable["_models.Pool"]:
         # pylint: disable=line-too-long
@@ -1165,7 +1172,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_pools_request(
+                _request = build_dev_boxes_list_pools_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -1314,7 +1321,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Pool] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_pool_request(
+        _request = build_dev_boxes_get_pool_request(
             project_name=project_name,
             pool_name=pool_name,
             api_version=self._config.api_version,
@@ -1393,7 +1400,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_schedules_request(
+                _request = build_dev_boxes_list_schedules_request(
                     project_name=project_name,
                     pool_name=pool_name,
                     api_version=self._config.api_version,
@@ -1498,7 +1505,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Schedule] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_schedule_request(
+        _request = build_dev_boxes_get_schedule_request(
             project_name=project_name,
             pool_name=pool_name,
             schedule_name=schedule_name,
@@ -1644,7 +1651,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_all_dev_boxes_request(
+                _request = build_dev_boxes_list_all_dev_boxes_request(
                     api_version=self._config.api_version,
                     headers=_headers,
                     params=_params,
@@ -1817,7 +1824,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_all_dev_boxes_by_user_request(
+                _request = build_dev_boxes_list_all_dev_boxes_by_user_request(
                     user_id=user_id,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -1993,7 +2000,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_dev_boxes_request(
+                _request = build_dev_boxes_list_dev_boxes_request(
                     project_name=project_name,
                     user_id=user_id,
                     api_version=self._config.api_version,
@@ -2169,7 +2176,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.DevBox] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_dev_box_request(
+        _request = build_dev_boxes_get_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2234,7 +2241,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_dev_center_create_dev_box_request(
+        _request = build_dev_boxes_create_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2978,7 +2985,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[Optional[JSON]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_delete_dev_box_request(
+        _request = build_dev_boxes_delete_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3022,7 +3029,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace
     def begin_delete_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> LROPoller[_models.OperationDetails]:
+    ) -> LROPoller[_models.OperationStatus]:
         # pylint: disable=line-too-long
         """Deletes a Dev Box.
 
@@ -3033,9 +3040,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param dev_box_name: The name of a Dev Box. Required.
         :type dev_box_name: str
-        :return: An instance of LROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of LROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -3075,7 +3082,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3099,7 +3106,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -3117,13 +3124,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.OperationDetails].from_continuation_token(
+            return LROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.OperationDetails](
+        return LROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -3141,7 +3148,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_start_dev_box_request(
+        _request = build_dev_boxes_start_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3180,7 +3187,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace
     def begin_start_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> LROPoller[_models.OperationDetails]:
+    ) -> LROPoller[_models.OperationStatus]:
         # pylint: disable=line-too-long
         """Starts a Dev Box.
 
@@ -3191,9 +3198,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param dev_box_name: Display name for the Dev Box. Required.
         :type dev_box_name: str
-        :return: An instance of LROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of LROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -3233,7 +3240,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3256,7 +3263,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -3274,13 +3281,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.OperationDetails].from_continuation_token(
+            return LROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.OperationDetails](
+        return LROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -3300,7 +3307,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_stop_dev_box_request(
+        _request = build_dev_boxes_stop_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3340,7 +3347,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace
     def begin_stop_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, *, hibernate: Optional[bool] = None, **kwargs: Any
-    ) -> LROPoller[_models.OperationDetails]:
+    ) -> LROPoller[_models.OperationStatus]:
         # pylint: disable=line-too-long
         """Stops a Dev Box.
 
@@ -3353,9 +3360,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type dev_box_name: str
         :keyword hibernate: Optional parameter to hibernate the dev box. Default value is None.
         :paramtype hibernate: bool
-        :return: An instance of LROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of LROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -3395,7 +3402,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3419,7 +3426,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -3437,13 +3444,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.OperationDetails].from_continuation_token(
+            return LROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.OperationDetails](
+        return LROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -3461,7 +3468,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_restart_dev_box_request(
+        _request = build_dev_boxes_restart_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3500,7 +3507,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace
     def begin_restart_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> LROPoller[_models.OperationDetails]:
+    ) -> LROPoller[_models.OperationStatus]:
         # pylint: disable=line-too-long
         """Restarts a Dev Box.
 
@@ -3511,9 +3518,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param dev_box_name: Display name for the Dev Box. Required.
         :type dev_box_name: str
-        :return: An instance of LROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of LROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -3553,7 +3560,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3576,7 +3583,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -3594,13 +3601,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.OperationDetails].from_continuation_token(
+            return LROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.OperationDetails](
+        return LROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -3644,7 +3651,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.RemoteConnection] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_remote_connection_request(
+        _request = build_dev_boxes_get_remote_connection_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3730,7 +3737,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_dev_box_actions_request(
+                _request = build_dev_boxes_list_dev_box_actions_request(
                     project_name=project_name,
                     user_id=user_id,
                     dev_box_name=dev_box_name,
@@ -3842,7 +3849,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.DevBoxAction] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_dev_box_action_request(
+        _request = build_dev_boxes_get_dev_box_action_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3880,7 +3887,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         return deserialized  # type: ignore
 
     @distributed_trace
-    def skip_dev_box_action(  # pylint: disable=inconsistent-return-statements
+    def skip_action(  # pylint: disable=inconsistent-return-statements
         self, project_name: str, user_id: str, dev_box_name: str, action_name: str, **kwargs: Any
     ) -> None:
         """Skips an occurrence of an action.
@@ -3911,7 +3918,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_skip_dev_box_action_request(
+        _request = build_dev_boxes_skip_action_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3942,7 +3949,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def delay_dev_box_action(
+    def delay_action(
         self,
         project_name: str,
         user_id: str,
@@ -3999,7 +4006,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.DevBoxAction] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_delay_dev_box_action_request(
+        _request = build_dev_boxes_delay_action_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -4038,7 +4045,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delay_all_dev_box_actions(
+    def delay_all_actions(
         self, project_name: str, user_id: str, dev_box_name: str, *, delay_until: datetime.datetime, **kwargs: Any
     ) -> Iterable["_models.DevBoxActionDelayResult"]:
         # pylint: disable=line-too-long
@@ -4111,7 +4118,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_delay_all_dev_box_actions_request(
+                _request = build_dev_boxes_delay_all_actions_request(
                     project_name=project_name,
                     user_id=user_id,
                     dev_box_name=dev_box_name,
@@ -4174,6 +4181,11 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
+
+
+class DeploymentEnvironmentsClientOperationsMixin(  # pylint: disable=name-too-long
+    DeploymentEnvironmentsClientMixinABC
+):
 
     @distributed_trace
     def list_all_environments(self, project_name: str, **kwargs: Any) -> Iterable["_models.Environment"]:
@@ -4240,7 +4252,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_all_environments_request(
+                _request = build_deployment_environments_list_all_environments_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -4369,7 +4381,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environments_request(
+                _request = build_deployment_environments_list_environments_request(
                     project_name=project_name,
                     user_id=user_id,
                     api_version=self._config.api_version,
@@ -4500,7 +4512,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Environment] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_environment_request(
+        _request = build_deployment_environments_get_environment_request(
             project_name=project_name,
             user_id=user_id,
             environment_name=environment_name,
@@ -4565,7 +4577,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_dev_center_create_or_update_environment_request(
+        _request = build_deployment_environments_create_or_update_environment_request(
             project_name=project_name,
             user_id=user_id,
             environment_name=environment_name,
@@ -5021,7 +5033,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[Optional[JSON]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_delete_environment_request(
+        _request = build_deployment_environments_delete_environment_request(
             project_name=project_name,
             user_id=user_id,
             environment_name=environment_name,
@@ -5065,7 +5077,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace
     def begin_delete_environment(
         self, project_name: str, user_id: str, environment_name: str, **kwargs: Any
-    ) -> LROPoller[_models.OperationDetails]:
+    ) -> LROPoller[_models.OperationStatus]:
         # pylint: disable=line-too-long
         """Deletes an environment and all its associated resources.
 
@@ -5076,9 +5088,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param environment_name: The name of the environment. Required.
         :type environment_name: str
-        :return: An instance of LROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of LROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.LROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -5118,7 +5130,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -5142,7 +5154,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -5160,13 +5172,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.OperationDetails].from_continuation_token(
+            return LROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.OperationDetails](
+        return LROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -5204,7 +5216,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_catalogs_request(
+                _request = build_deployment_environments_list_catalogs_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -5298,7 +5310,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Catalog] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_catalog_request(
+        _request = build_deployment_environments_get_catalog_request(
             project_name=project_name,
             catalog_name=catalog_name,
             api_version=self._config.api_version,
@@ -5398,7 +5410,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environment_definitions_request(
+                _request = build_deployment_environments_list_environment_definitions_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -5526,7 +5538,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environment_definitions_by_catalog_request(
+                _request = build_deployment_environments_list_environment_definitions_by_catalog_request(
                     project_name=project_name,
                     catalog_name=catalog_name,
                     api_version=self._config.api_version,
@@ -5654,7 +5666,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.EnvironmentDefinition] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_environment_definition_request(
+        _request = build_deployment_environments_get_environment_definition_request(
             project_name=project_name,
             catalog_name=catalog_name,
             definition_name=definition_name,
@@ -5695,7 +5707,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         # pylint: disable=line-too-long
         """Lists all environment types configured for a project.
 
-        :param project_name: The DevCenter Project upon which to execute operations. Required.
+        :param project_name: Name of the project. Required.
         :type project_name: str
         :return: An iterator like instance of EnvironmentType
         :rtype: ~azure.core.paging.ItemPaged[~azure.developer.devcenter.models.EnvironmentType]
@@ -5730,7 +5742,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environment_types_request(
+                _request = build_deployment_environments_list_environment_types_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
