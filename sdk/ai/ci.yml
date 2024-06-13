@@ -53,3 +53,5 @@ extends:
     #  safeName: azureaigenerative
     #- name: azure-ai-resources
     #  safeName: azureairesources
+    - name: azure-ai-runtime-inference
+      safeName: azureairuntimeinference
