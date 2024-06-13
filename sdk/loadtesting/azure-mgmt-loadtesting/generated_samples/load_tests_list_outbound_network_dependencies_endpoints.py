@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loadtesting import LoadTestMgmtClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.loadtesting import LoadTestMgmtClient
 def main():
     client = LoadTestMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.load_tests.list_outbound_network_dependencies_endpoints(
