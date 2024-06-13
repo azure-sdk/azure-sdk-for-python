@@ -86,4 +86,4 @@ class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     V1_PREVIEW = "2023-08-01"
     """Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview,
-    #: LiftrBase.Data.Versions.v1_preview"""
+    LiftrBase.Data.Versions.v1_preview"""
