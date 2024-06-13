@@ -8,6 +8,7 @@
 
 from ._models_py3 import APIServerAccessProfile
 from ._models_py3 import AgentProfile
+from ._models_py3 import AzureResourceManagerLegacyManagedServiceIdentityV4
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -63,6 +64,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "APIServerAccessProfile",
     "AgentProfile",
+    "AzureResourceManagerLegacyManagedServiceIdentityV4",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
