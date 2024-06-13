@@ -15,7 +15,7 @@ from azure.mgmt.apimanagement import ApiManagementClient
     pip install azure-identity
     pip install azure-mgmt-apimanagement
 # USAGE
-    python api_management_delete_documentation.py
+    python api_management_list_policy_restrictions.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,17 +27,17 @@ from azure.mgmt.apimanagement import ApiManagementClient
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.documentation.delete(
+    response = client.policy_restriction.list_by_service(
         resource_group_name="rg1",
         service_name="apimService1",
-        documentation_id="57d1f7558aa04f15146d9d8a",
-        if_match="*",
     )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteDocumentation.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2024-06-01-preview/examples/ApiManagementListPolicyRestrictions.json
 if __name__ == "__main__":
     main()
