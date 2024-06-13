@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -285,7 +285,7 @@ def build_add_user_role_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_generate_storage_account_sas_token_request(
+def build_generate_storage_account_sas_token_request(  # pylint: disable=name-too-long
     resource_group_name: str, data_product_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -460,7 +460,6 @@ class DataProductsOperations:
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.DataProduct"]:
         """List data products by subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DataProduct or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.networkanalytics.models.DataProduct]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -471,7 +470,7 @@ class DataProductsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DataProductListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -482,15 +481,14 @@ class DataProductsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -502,13 +500,13 @@ class DataProductsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DataProductListResult", pipeline_response)
@@ -518,11 +516,11 @@ class DataProductsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -534,10 +532,6 @@ class DataProductsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkAnalytics/dataProducts"
-    }
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.DataProduct"]:
@@ -546,7 +540,6 @@ class DataProductsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DataProduct or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.networkanalytics.models.DataProduct]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -557,7 +550,7 @@ class DataProductsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DataProductListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -568,16 +561,15 @@ class DataProductsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -589,13 +581,13 @@ class DataProductsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("DataProductListResult", pipeline_response)
@@ -605,11 +597,11 @@ class DataProductsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -621,10 +613,6 @@ class DataProductsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts"
-    }
 
     @distributed_trace
     def get(self, resource_group_name: str, data_product_name: str, **kwargs: Any) -> _models.DataProduct:
@@ -635,12 +623,11 @@ class DataProductsOperations:
         :type resource_group_name: str
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DataProduct or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.DataProduct
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -654,21 +641,20 @@ class DataProductsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DataProduct] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -681,18 +667,18 @@ class DataProductsOperations:
         deserialized = self._deserialize("DataProduct", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_initial(
-        self, resource_group_name: str, data_product_name: str, resource: Union[_models.DataProduct, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        data_product_name: str,
+        resource: Union[_models.DataProduct, IO[bytes]],
+        **kwargs: Any
     ) -> _models.DataProduct:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -715,7 +701,7 @@ class DataProductsOperations:
         else:
             _json = self._serialize.body(resource, "DataProduct")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
@@ -723,16 +709,15 @@ class DataProductsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -756,10 +741,6 @@ class DataProductsOperations:
 
         return deserialized  # type: ignore
 
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
-
     @overload
     def begin_create(
         self,
@@ -782,14 +763,6 @@ class DataProductsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either DataProduct or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -801,7 +774,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -814,18 +787,10 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either DataProduct or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -834,7 +799,11 @@ class DataProductsOperations:
 
     @distributed_trace
     def begin_create(
-        self, resource_group_name: str, data_product_name: str, resource: Union[_models.DataProduct, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        data_product_name: str,
+        resource: Union[_models.DataProduct, IO[bytes]],
+        **kwargs: Any
     ) -> LROPoller[_models.DataProduct]:
         """Create data product resource.
 
@@ -843,20 +812,9 @@ class DataProductsOperations:
         :type resource_group_name: str
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
-        :param resource: Resource create parameters. Is either a DataProduct type or a IO type.
+        :param resource: Resource create parameters. Is either a DataProduct type or a IO[bytes] type.
          Required.
-        :type resource: ~azure.mgmt.networkanalytics.models.DataProduct or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :type resource: ~azure.mgmt.networkanalytics.models.DataProduct or IO[bytes]
         :return: An instance of LROPoller that returns either DataProduct or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -888,7 +846,7 @@ class DataProductsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("DataProduct", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -900,26 +858,24 @@ class DataProductsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.DataProduct].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
+        return LROPoller[_models.DataProduct](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _update_initial(
         self,
         resource_group_name: str,
         data_product_name: str,
-        properties: Union[_models.DataProductUpdate, IO],
+        properties: Union[_models.DataProductUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.DataProduct]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -942,7 +898,7 @@ class DataProductsOperations:
         else:
             _json = self._serialize.body(properties, "DataProductUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
@@ -950,16 +906,15 @@ class DataProductsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -975,17 +930,13 @@ class DataProductsOperations:
             deserialized = self._deserialize("DataProduct", pipeline_response)
 
         if response.status_code == 202:
-            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update(
@@ -1009,14 +960,6 @@ class DataProductsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either DataProduct or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -1028,7 +971,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        properties: IO,
+        properties: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1041,18 +984,10 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either DataProduct or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -1064,7 +999,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        properties: Union[_models.DataProductUpdate, IO],
+        properties: Union[_models.DataProductUpdate, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.DataProduct]:
         """Update data product resource.
@@ -1075,19 +1010,8 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param properties: The resource properties to be updated. Is either a DataProductUpdate type or
-         a IO type. Required.
-        :type properties: ~azure.mgmt.networkanalytics.models.DataProductUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a IO[bytes] type. Required.
+        :type properties: ~azure.mgmt.networkanalytics.models.DataProductUpdate or IO[bytes]
         :return: An instance of LROPoller that returns either DataProduct or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -1119,7 +1043,7 @@ class DataProductsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("DataProduct", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1131,22 +1055,20 @@ class DataProductsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.DataProduct].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
+        return LROPoller[_models.DataProduct](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, data_product_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1160,21 +1082,20 @@ class DataProductsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1186,15 +1107,11 @@ class DataProductsOperations:
 
         response_headers = {}
         if response.status_code == 202:
-            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, data_product_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1205,14 +1122,6 @@ class DataProductsOperations:
         :type resource_group_name: str
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1239,7 +1148,7 @@ class DataProductsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1250,17 +1159,13 @@ class DataProductsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @overload
     def add_user_role(
@@ -1284,7 +1189,6 @@ class DataProductsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentDetail or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.RoleAssignmentDetail
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1295,7 +1199,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1308,11 +1212,10 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param body: The content of the action request. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentDetail or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.RoleAssignmentDetail
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1323,7 +1226,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        body: Union[_models.RoleAssignmentCommonProperties, IO],
+        body: Union[_models.RoleAssignmentCommonProperties, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleAssignmentDetail:
         """Assign role to the data product.
@@ -1334,17 +1237,13 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param body: The content of the action request. Is either a RoleAssignmentCommonProperties type
-         or a IO type. Required.
-        :type body: ~azure.mgmt.networkanalytics.models.RoleAssignmentCommonProperties or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or a IO[bytes] type. Required.
+        :type body: ~azure.mgmt.networkanalytics.models.RoleAssignmentCommonProperties or IO[bytes]
         :return: RoleAssignmentDetail or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.RoleAssignmentDetail
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1367,7 +1266,7 @@ class DataProductsOperations:
         else:
             _json = self._serialize.body(body, "RoleAssignmentCommonProperties")
 
-        request = build_add_user_role_request(
+        _request = build_add_user_role_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
@@ -1375,16 +1274,15 @@ class DataProductsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.add_user_role.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1397,13 +1295,9 @@ class DataProductsOperations:
         deserialized = self._deserialize("RoleAssignmentDetail", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    add_user_role.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/addUserRole"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def generate_storage_account_sas_token(
@@ -1427,7 +1321,6 @@ class DataProductsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccountSasToken or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.AccountSasToken
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1438,7 +1331,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1451,11 +1344,10 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param body: The content of the action request. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccountSasToken or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.AccountSasToken
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1463,7 +1355,11 @@ class DataProductsOperations:
 
     @distributed_trace
     def generate_storage_account_sas_token(
-        self, resource_group_name: str, data_product_name: str, body: Union[_models.AccountSas, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        data_product_name: str,
+        body: Union[_models.AccountSas, IO[bytes]],
+        **kwargs: Any
     ) -> _models.AccountSasToken:
         """Generate sas token for storage account.
 
@@ -1472,18 +1368,14 @@ class DataProductsOperations:
         :type resource_group_name: str
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
-        :param body: The content of the action request. Is either a AccountSas type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.networkanalytics.models.AccountSas or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: The content of the action request. Is either a AccountSas type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.networkanalytics.models.AccountSas or IO[bytes]
         :return: AccountSasToken or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.AccountSasToken
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1506,7 +1398,7 @@ class DataProductsOperations:
         else:
             _json = self._serialize.body(body, "AccountSas")
 
-        request = build_generate_storage_account_sas_token_request(
+        _request = build_generate_storage_account_sas_token_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
@@ -1514,16 +1406,15 @@ class DataProductsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.generate_storage_account_sas_token.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1536,13 +1427,9 @@ class DataProductsOperations:
         deserialized = self._deserialize("AccountSasToken", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    generate_storage_account_sas_token.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/generateStorageAccountSasToken"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_roles_assignments(
@@ -1557,12 +1444,11 @@ class DataProductsOperations:
         :type data_product_name: str
         :param body: The content of the action request. Required.
         :type body: JSON
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListRoleAssignments or the result of cls(response)
         :rtype: ~azure.mgmt.networkanalytics.models.ListRoleAssignments
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1579,23 +1465,22 @@ class DataProductsOperations:
 
         _json = self._serialize.body(body, "object")
 
-        request = build_list_roles_assignments_request(
+        _request = build_list_roles_assignments_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
-            template_url=self.list_roles_assignments.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1608,13 +1493,9 @@ class DataProductsOperations:
         deserialized = self._deserialize("ListRoleAssignments", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_roles_assignments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/listRolesAssignments"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def remove_user_role(  # pylint: disable=inconsistent-return-statements
@@ -1638,7 +1519,6 @@ class DataProductsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1649,7 +1529,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1662,11 +1542,10 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param body: The content of the action request. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1677,7 +1556,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        body: Union[_models.RoleAssignmentDetail, IO],
+        body: Union[_models.RoleAssignmentDetail, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """Remove role from the data product.
@@ -1687,18 +1566,14 @@ class DataProductsOperations:
         :type resource_group_name: str
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
-        :param body: The content of the action request. Is either a RoleAssignmentDetail type or a IO
-         type. Required.
-        :type body: ~azure.mgmt.networkanalytics.models.RoleAssignmentDetail or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: The content of the action request. Is either a RoleAssignmentDetail type or a
+         IO[bytes] type. Required.
+        :type body: ~azure.mgmt.networkanalytics.models.RoleAssignmentDetail or IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1721,7 +1596,7 @@ class DataProductsOperations:
         else:
             _json = self._serialize.body(body, "RoleAssignmentDetail")
 
-        request = build_remove_user_role_request(
+        _request = build_remove_user_role_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
@@ -1729,16 +1604,15 @@ class DataProductsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.remove_user_role.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1749,11 +1623,7 @@ class DataProductsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    remove_user_role.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/removeUserRole"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def rotate_key(  # pylint: disable=inconsistent-return-statements
@@ -1777,7 +1647,6 @@ class DataProductsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1788,7 +1657,7 @@ class DataProductsOperations:
         self,
         resource_group_name: str,
         data_product_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1801,11 +1670,10 @@ class DataProductsOperations:
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
         :param body: The content of the action request. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1813,7 +1681,11 @@ class DataProductsOperations:
 
     @distributed_trace
     def rotate_key(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, data_product_name: str, body: Union[_models.KeyVaultInfo, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        data_product_name: str,
+        body: Union[_models.KeyVaultInfo, IO[bytes]],
+        **kwargs: Any
     ) -> None:
         """Initiate key rotation on Data Product.
 
@@ -1822,18 +1694,14 @@ class DataProductsOperations:
         :type resource_group_name: str
         :param data_product_name: The data product resource name. Required.
         :type data_product_name: str
-        :param body: The content of the action request. Is either a KeyVaultInfo type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.networkanalytics.models.KeyVaultInfo or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: The content of the action request. Is either a KeyVaultInfo type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.networkanalytics.models.KeyVaultInfo or IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1856,7 +1724,7 @@ class DataProductsOperations:
         else:
             _json = self._serialize.body(body, "KeyVaultInfo")
 
-        request = build_rotate_key_request(
+        _request = build_rotate_key_request(
             resource_group_name=resource_group_name,
             data_product_name=data_product_name,
             subscription_id=self._config.subscription_id,
@@ -1864,16 +1732,15 @@ class DataProductsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.rotate_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1884,8 +1751,4 @@ class DataProductsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    rotate_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/rotateKey"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
