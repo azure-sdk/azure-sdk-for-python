@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.storagesync import MicrosoftStorageSync
 
 """
@@ -29,16 +32,15 @@ def main():
         subscription_id="52b8da2f-61e0-4a1f-8dde-336911f367fb",
     )
 
-    response = client.cloud_endpoints.begin_pre_backup(
+    client.cloud_endpoints.begin_pre_backup(
         resource_group_name="SampleResourceGroup_1",
         storage_sync_service_name="SampleStorageSyncService_1",
         sync_group_name="SampleSyncGroup_1",
         cloud_endpoint_name="SampleCloudEndpoint_1",
         parameters={"azureFileShare": "https://sampleserver.file.core.test-cint.azure-test.net/sampleFileShare"},
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/CloudEndpoints_PreBackup.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/CloudEndpoints_PreBackup.json
 if __name__ == "__main__":
     main()

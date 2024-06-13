@@ -85,6 +85,17 @@ class LocalCacheMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UPDATE_LOCALLY_CACHED_FILES = "UpdateLocallyCachedFiles"
 
 
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
 class NameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets the reason that a Storage Sync Service name could not be used. The Reason element is only
     returned if NameAvailable is false.
@@ -148,6 +159,13 @@ class RegisteredServerAgentVersionStatus(str, Enum, metaclass=CaseInsensitiveEnu
     BLOCKED = "Blocked"
 
 
+class ServerAuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the Server Auth type."""
+
+    CERTIFICATE = "Certificate"
+    MANAGED_IDENTITY = "ManagedIdentity"
+
+
 class ServerEndpointHealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of the server endpoint health state."""
 
@@ -181,6 +199,16 @@ class ServerEndpointSyncMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INITIAL_UPLOAD = "InitialUpload"
     SNAPSHOT_UPLOAD = "SnapshotUpload"
     INITIAL_FULL_DOWNLOAD = "InitialFullDownload"
+
+
+class ServerProvisioningStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Server provisioning status."""
+
+    NOT_STARTED = "NotStarted"
+    IN_PROGRESS = "InProgress"
+    READY_SYNC_NOT_FUNCTIONAL = "Ready_SyncNotFunctional"
+    READY_SYNC_FUNCTIONAL = "Ready_SyncFunctional"
+    ERROR = "Error"
 
 
 class WorkflowStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):

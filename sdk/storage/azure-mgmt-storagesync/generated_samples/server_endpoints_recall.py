@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.storagesync import MicrosoftStorageSync
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
     pip install azure-identity
     pip install azure-mgmt-storagesync
 # USAGE
-    python storage_sync_service_check_name_availability_already_exists.py
+    python server_endpoints_recall.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +29,18 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
 def main():
     client = MicrosoftStorageSync(
         credential=DefaultAzureCredential(),
-        subscription_id="5c6bc8e1-1eaf-4192-94d8-58ce463ac86c",
+        subscription_id="52b8da2f-61e0-4a1f-8dde-336911f367fb",
     )
 
-    response = client.storage_sync_services.check_name_availability(
-        location_name="westus",
-        parameters={"name": "newstoragesyncservicename", "type": "Microsoft.StorageSync/storageSyncServices"},
-    )
-    print(response)
+    client.server_endpoints.begin_recall_action(
+        resource_group_name="SampleResourceGroup_1",
+        storage_sync_service_name="SampleStorageSyncService_1",
+        sync_group_name="SampleSyncGroup_1",
+        server_endpoint_name="SampleServerEndpoint_1",
+        parameters={"pattern": "", "recallPath": ""},
+    ).result()
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/StorageSyncServiceCheckNameAvailability_AlreadyExists.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/ServerEndpoints_Recall.json
 if __name__ == "__main__":
     main()

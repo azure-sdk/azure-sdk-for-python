@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.storagesync import MicrosoftStorageSync
@@ -15,7 +17,7 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
     pip install azure-identity
     pip install azure-mgmt-storagesync
 # USAGE
-    python operations_list.py
+    python registered_servers_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,14 +29,18 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
 def main():
     client = MicrosoftStorageSync(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="52b8da2f-61e0-4a1f-8dde-336911f367fb",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.registered_servers.begin_update(
+        resource_group_name="SampleResourceGroup_1",
+        storage_sync_service_name="SampleStorageSyncService_1",
+        server_id="080d4133-bdb5-40a0-96a0-71a6057bfe9a",
+        parameters={"properties": {"identity": True}},
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/Operations_List.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/RegisteredServers_Update.json
 if __name__ == "__main__":
     main()

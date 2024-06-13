@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.storagesync import MicrosoftStorageSync
 
 """
@@ -26,7 +29,7 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
 def main():
     client = MicrosoftStorageSync(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscription-id}",
+        subscription_id="52b8da2f-61e0-4a1f-8dde-336911f367fb",
     )
 
     response = client.private_endpoint_connections.begin_create(
@@ -40,6 +43,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/PrivateEndpointConnections_Create.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/PrivateEndpointConnections_Create.json
 if __name__ == "__main__":
     main()
