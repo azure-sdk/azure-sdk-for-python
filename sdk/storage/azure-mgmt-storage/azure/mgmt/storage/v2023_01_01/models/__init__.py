@@ -37,6 +37,7 @@ from ._models_py3 import DeletedAccount
 from ._models_py3 import DeletedAccountListResult
 from ._models_py3 import DeletedShare
 from ._models_py3 import Dimension
+from ._models_py3 import DualStackEndpointPreference
 from ._models_py3 import Encryption
 from ._models_py3 import EncryptionIdentity
 from ._models_py3 import EncryptionScope
@@ -135,6 +136,8 @@ from ._models_py3 import StorageAccount
 from ._models_py3 import StorageAccountCheckNameAvailabilityParameters
 from ._models_py3 import StorageAccountCreateParameters
 from ._models_py3 import StorageAccountInternetEndpoints
+from ._models_py3 import StorageAccountIpv4Endpoints
+from ._models_py3 import StorageAccountIpv6Endpoints
 from ._models_py3 import StorageAccountKey
 from ._models_py3 import StorageAccountListKeysResult
 from ._models_py3 import StorageAccountListResult
@@ -265,6 +268,7 @@ __all__ = [
     "DeletedAccountListResult",
     "DeletedShare",
     "Dimension",
+    "DualStackEndpointPreference",
     "Encryption",
     "EncryptionIdentity",
     "EncryptionScope",
@@ -363,6 +367,8 @@ __all__ = [
     "StorageAccountCheckNameAvailabilityParameters",
     "StorageAccountCreateParameters",
     "StorageAccountInternetEndpoints",
+    "StorageAccountIpv4Endpoints",
+    "StorageAccountIpv6Endpoints",
     "StorageAccountKey",
     "StorageAccountListKeysResult",
     "StorageAccountListResult",

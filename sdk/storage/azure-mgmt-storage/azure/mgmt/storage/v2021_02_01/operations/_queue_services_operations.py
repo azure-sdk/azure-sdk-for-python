@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -176,7 +176,6 @@ class QueueServicesOperations:
          Storage account names must be between 3 and 24 characters in length and use numbers and
          lower-case letters only. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListQueueServices or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_02_01.models.ListQueueServices
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -195,21 +194,20 @@ class QueueServicesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-02-01"))
         cls: ClsType[_models.ListQueueServices] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -221,13 +219,9 @@ class QueueServicesOperations:
         deserialized = self._deserialize("ListQueueServices", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def set_service_properties(
@@ -259,7 +253,6 @@ class QueueServicesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueueServiceProperties or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_02_01.models.QueueServiceProperties
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -271,7 +264,7 @@ class QueueServicesOperations:
         resource_group_name: str,
         account_name: str,
         queue_service_name: Union[str, _models.Enum31],
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -291,11 +284,10 @@ class QueueServicesOperations:
         :type queue_service_name: str or ~azure.mgmt.storage.v2021_02_01.models.Enum31
         :param parameters: The properties of a storage account’s Queue service, only properties for
          Storage Analytics and CORS (Cross-Origin Resource Sharing) rules can be specified. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueueServiceProperties or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_02_01.models.QueueServiceProperties
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -307,7 +299,7 @@ class QueueServicesOperations:
         resource_group_name: str,
         account_name: str,
         queue_service_name: Union[str, _models.Enum31],
-        parameters: Union[_models.QueueServiceProperties, IO],
+        parameters: Union[_models.QueueServiceProperties, IO[bytes]],
         **kwargs: Any
     ) -> _models.QueueServiceProperties:
         """Sets the properties of a storage account’s Queue service, including properties for Storage
@@ -325,12 +317,8 @@ class QueueServicesOperations:
         :type queue_service_name: str or ~azure.mgmt.storage.v2021_02_01.models.Enum31
         :param parameters: The properties of a storage account’s Queue service, only properties for
          Storage Analytics and CORS (Cross-Origin Resource Sharing) rules can be specified. Is either a
-         QueueServiceProperties type or a IO type. Required.
-        :type parameters: ~azure.mgmt.storage.v2021_02_01.models.QueueServiceProperties or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         QueueServiceProperties type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.storage.v2021_02_01.models.QueueServiceProperties or IO[bytes]
         :return: QueueServiceProperties or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_02_01.models.QueueServiceProperties
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -358,7 +346,7 @@ class QueueServicesOperations:
         else:
             _json = self._serialize.body(parameters, "QueueServiceProperties")
 
-        request = build_set_service_properties_request(
+        _request = build_set_service_properties_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             queue_service_name=queue_service_name,
@@ -367,16 +355,15 @@ class QueueServicesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.set_service_properties.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -388,13 +375,9 @@ class QueueServicesOperations:
         deserialized = self._deserialize("QueueServiceProperties", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    set_service_properties.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get_service_properties(
@@ -413,7 +396,6 @@ class QueueServicesOperations:
         :param queue_service_name: The name of the Queue Service within the specified storage account.
          Queue Service Name must be 'default'. "default" Required.
         :type queue_service_name: str or ~azure.mgmt.storage.v2021_02_01.models.Enum31
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QueueServiceProperties or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2021_02_01.models.QueueServiceProperties
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -432,22 +414,21 @@ class QueueServicesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-02-01"))
         cls: ClsType[_models.QueueServiceProperties] = kwargs.pop("cls", None)
 
-        request = build_get_service_properties_request(
+        _request = build_get_service_properties_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             queue_service_name=queue_service_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_service_properties.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -459,10 +440,6 @@ class QueueServicesOperations:
         deserialized = self._deserialize("QueueServiceProperties", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_service_properties.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}"
-    }
+        return deserialized  # type: ignore

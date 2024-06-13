@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -272,7 +272,6 @@ class FileSharesOperations:
         :param filter: Optional. When specified, only share names starting with the filter will be
          listed. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either FileShareItem or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.storage.v2019_04_01.models.FileShareItem]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -294,7 +293,7 @@ class FileSharesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
@@ -302,12 +301,11 @@ class FileSharesOperations:
                     maxpagesize=maxpagesize,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -318,14 +316,14 @@ class FileSharesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("FileShareItems", pipeline_response)
@@ -335,11 +333,11 @@ class FileSharesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -350,10 +348,6 @@ class FileSharesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares"
-    }
 
     @overload
     def create(
@@ -387,7 +381,6 @@ class FileSharesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -399,7 +392,7 @@ class FileSharesOperations:
         resource_group_name: str,
         account_name: str,
         share_name: str,
-        file_share: IO,
+        file_share: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -421,11 +414,10 @@ class FileSharesOperations:
          or number. Required.
         :type share_name: str
         :param file_share: Properties of the file share to create. Required.
-        :type file_share: IO
+        :type file_share: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -437,7 +429,7 @@ class FileSharesOperations:
         resource_group_name: str,
         account_name: str,
         share_name: str,
-        file_share: Union[_models.FileShare, IO],
+        file_share: Union[_models.FileShare, IO[bytes]],
         **kwargs: Any
     ) -> _models.FileShare:
         """Creates a new share under the specified account as described by request body. The share
@@ -456,13 +448,9 @@ class FileSharesOperations:
          dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter
          or number. Required.
         :type share_name: str
-        :param file_share: Properties of the file share to create. Is either a FileShare type or a IO
-         type. Required.
-        :type file_share: ~azure.mgmt.storage.v2019_04_01.models.FileShare or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param file_share: Properties of the file share to create. Is either a FileShare type or a
+         IO[bytes] type. Required.
+        :type file_share: ~azure.mgmt.storage.v2019_04_01.models.FileShare or IO[bytes]
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -490,7 +478,7 @@ class FileSharesOperations:
         else:
             _json = self._serialize.body(file_share, "FileShare")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             share_name=share_name,
@@ -499,16 +487,15 @@ class FileSharesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -528,10 +515,6 @@ class FileSharesOperations:
 
         return deserialized  # type: ignore
 
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}"
-    }
-
     @overload
     def update(
         self,
@@ -563,7 +546,6 @@ class FileSharesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -575,7 +557,7 @@ class FileSharesOperations:
         resource_group_name: str,
         account_name: str,
         share_name: str,
-        file_share: IO,
+        file_share: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -596,11 +578,10 @@ class FileSharesOperations:
          or number. Required.
         :type share_name: str
         :param file_share: Properties to update for the file share. Required.
-        :type file_share: IO
+        :type file_share: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -612,7 +593,7 @@ class FileSharesOperations:
         resource_group_name: str,
         account_name: str,
         share_name: str,
-        file_share: Union[_models.FileShare, IO],
+        file_share: Union[_models.FileShare, IO[bytes]],
         **kwargs: Any
     ) -> _models.FileShare:
         """Updates share properties as specified in request body. Properties not mentioned in the request
@@ -630,13 +611,9 @@ class FileSharesOperations:
          dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter
          or number. Required.
         :type share_name: str
-        :param file_share: Properties to update for the file share. Is either a FileShare type or a IO
-         type. Required.
-        :type file_share: ~azure.mgmt.storage.v2019_04_01.models.FileShare or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param file_share: Properties to update for the file share. Is either a FileShare type or a
+         IO[bytes] type. Required.
+        :type file_share: ~azure.mgmt.storage.v2019_04_01.models.FileShare or IO[bytes]
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -664,7 +641,7 @@ class FileSharesOperations:
         else:
             _json = self._serialize.body(file_share, "FileShare")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             share_name=share_name,
@@ -673,16 +650,15 @@ class FileSharesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -694,13 +670,9 @@ class FileSharesOperations:
         deserialized = self._deserialize("FileShare", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get(self, resource_group_name: str, account_name: str, share_name: str, **kwargs: Any) -> _models.FileShare:
@@ -718,7 +690,6 @@ class FileSharesOperations:
          dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter
          or number. Required.
         :type share_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: FileShare or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2019_04_01.models.FileShare
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -737,22 +708,21 @@ class FileSharesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2019-04-01"))
         cls: ClsType[_models.FileShare] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             share_name=share_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -764,13 +734,9 @@ class FileSharesOperations:
         deserialized = self._deserialize("FileShare", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -790,7 +756,6 @@ class FileSharesOperations:
          dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter
          or number. Required.
         :type share_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -809,22 +774,21 @@ class FileSharesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2019-04-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             share_name=share_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -834,8 +798,4 @@ class FileSharesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
