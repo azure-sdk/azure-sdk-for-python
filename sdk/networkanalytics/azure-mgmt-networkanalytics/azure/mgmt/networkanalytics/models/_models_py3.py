@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class AccountSas(_serialization.Model):
     """The details for storage account sas creation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_time_stamp: Sas token start timestamp. Required.
     :vartype start_time_stamp: ~datetime.datetime
@@ -67,7 +67,7 @@ class AccountSas(_serialization.Model):
 class AccountSasToken(_serialization.Model):
     """Details of storage account sas token .
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_account_sas_token: Field to specify storage account sas token. Required.
     :vartype storage_account_sas_token: str
@@ -88,6 +88,42 @@ class AccountSasToken(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.storage_account_sas_token = storage_account_sas_token
+
+
+class AzureResourceManagerLegacyManagedServiceIdentityV4(_serialization.Model):  # pylint: disable=name-too-long
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    :ivar type: The type of managed identity assigned to this resource. Known values are: "None",
+     "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
+    :vartype type: str or ~azure.mgmt.networkanalytics.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The identities assigned to this resource by the user.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.networkanalytics.models.UserAssignedIdentity]
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.ManagedServiceIdentityType"]] = None,
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: The type of managed identity assigned to this resource. Known values are:
+         "None", "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
+        :paramtype type: str or ~azure.mgmt.networkanalytics.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The identities assigned to this resource by the user.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.networkanalytics.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class ConsumptionEndpointsProperties(_serialization.Model):
@@ -141,7 +177,7 @@ class ConsumptionEndpointsProperties(_serialization.Model):
 class ContainerSaS(_serialization.Model):
     """The details for container sas creation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_time_stamp: Sas token start timestamp. Required.
     :vartype start_time_stamp: ~datetime.datetime
@@ -188,7 +224,7 @@ class ContainerSaS(_serialization.Model):
 class ContainerSasToken(_serialization.Model):
     """Details of storage container account sas token .
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_container_sas_token: Field to specify storage container sas token. Required.
     :vartype storage_container_sas_token: str
@@ -217,7 +253,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -258,10 +294,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -311,10 +347,10 @@ class DataProduct(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -380,7 +416,7 @@ class DataProduct(TrackedResource):
 class DataProductInformation(_serialization.Model):
     """Data Product Information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_product_name: Name of data product. Required.
     :vartype data_product_name: str
@@ -427,7 +463,7 @@ class DataProductInformation(_serialization.Model):
 class DataProductListResult(_serialization.Model):
     """The response of a DataProduct list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The DataProduct items on this page. Required.
     :vartype value: list[~azure.mgmt.networkanalytics.models.DataProduct]
@@ -459,7 +495,7 @@ class DataProductListResult(_serialization.Model):
 class DataProductNetworkAcls(_serialization.Model):
     """Data Product Network rule set.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar virtual_network_rule: Virtual Network Rule. Required.
     :vartype virtual_network_rule: list[~azure.mgmt.networkanalytics.models.VirtualNetworkRule]
@@ -518,7 +554,7 @@ class DataProductProperties(_serialization.Model):  # pylint: disable=too-many-i
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_guid: The resource GUID property of the data product resource.
     :vartype resource_guid: str
@@ -693,7 +729,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -705,24 +741,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.networkanalytics.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class DataProductsCatalog(ProxyResource):
     """The data catalog resource.
@@ -730,7 +748,7 @@ class DataProductsCatalog(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -771,7 +789,7 @@ class DataProductsCatalog(ProxyResource):
 class DataProductsCatalogListResult(_serialization.Model):
     """The response of a DataProductsCatalog list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The DataProductsCatalog items on this page. Required.
     :vartype value: list[~azure.mgmt.networkanalytics.models.DataProductsCatalog]
@@ -807,7 +825,7 @@ class DataProductsCatalogProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The data catalog provisioning state. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
@@ -840,7 +858,8 @@ class DataProductUpdate(_serialization.Model):
     """The type used for update operations of the DataProduct.
 
     :ivar identity: The managed service identities assigned to this resource.
-    :vartype identity: ~azure.mgmt.networkanalytics.models.ManagedServiceIdentity
+    :vartype identity:
+     ~azure.mgmt.networkanalytics.models.AzureResourceManagerLegacyManagedServiceIdentityV4
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar properties: The updatable properties of the DataProduct.
@@ -848,7 +867,7 @@ class DataProductUpdate(_serialization.Model):
     """
 
     _attribute_map = {
-        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "identity": {"key": "identity", "type": "AzureResourceManagerLegacyManagedServiceIdentityV4"},
         "tags": {"key": "tags", "type": "{str}"},
         "properties": {"key": "properties", "type": "DataProductUpdateProperties"},
     }
@@ -856,14 +875,15 @@ class DataProductUpdate(_serialization.Model):
     def __init__(
         self,
         *,
-        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        identity: Optional["_models.AzureResourceManagerLegacyManagedServiceIdentityV4"] = None,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.DataProductUpdateProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword identity: The managed service identities assigned to this resource.
-        :paramtype identity: ~azure.mgmt.networkanalytics.models.ManagedServiceIdentity
+        :paramtype identity:
+         ~azure.mgmt.networkanalytics.models.AzureResourceManagerLegacyManagedServiceIdentityV4
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword properties: The updatable properties of the DataProduct.
@@ -933,7 +953,7 @@ class DataProductUpdateProperties(_serialization.Model):
 class DataProductVersion(_serialization.Model):
     """Data Product Version.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar version: Version of data product. Required.
     :vartype version: str
@@ -962,7 +982,7 @@ class DataType(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1003,7 +1023,7 @@ class DataType(ProxyResource):
 class DataTypeListResult(_serialization.Model):
     """The response of a DataType list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The DataType items on this page. Required.
     :vartype value: list[~azure.mgmt.networkanalytics.models.DataType]
@@ -1168,7 +1188,7 @@ class DataTypeUpdateProperties(_serialization.Model):
 class EncryptionKeyDetails(_serialization.Model):
     """Encryption key details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_vault_uri: The Uri of the key vault. Required.
     :vartype key_vault_uri: str
@@ -1300,7 +1320,7 @@ class ErrorResponse(_serialization.Model):
 class IPRules(_serialization.Model):
     """IP rule with specific IP or IP range in CIDR format.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: IP Rules Value.
     :vartype value: str
@@ -1332,7 +1352,7 @@ class IPRules(_serialization.Model):
 class KeyVaultInfo(_serialization.Model):
     """Details for KeyVault.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_vault_url: key vault url. Required.
     :vartype key_vault_url: str
@@ -1358,7 +1378,7 @@ class KeyVaultInfo(_serialization.Model):
 class ListRoleAssignments(_serialization.Model):
     """list role assignments.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar count: Count of role assignments. Required.
     :vartype count: int
@@ -1395,7 +1415,7 @@ class ListRoleAssignments(_serialization.Model):
 class ManagedResourceGroupConfiguration(_serialization.Model):
     """ManagedResourceGroup related properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of managed resource group. Required.
     :vartype name: str
@@ -1430,7 +1450,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -1444,7 +1464,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.networkanalytics.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.networkanalytics.models.UserAssignedIdentity]
@@ -1477,7 +1497,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.networkanalytics.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.networkanalytics.models.UserAssignedIdentity]
@@ -1613,7 +1633,7 @@ class OperationListResult(_serialization.Model):
 class PublisherInformation(_serialization.Model):
     """Details for Publisher Information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar publisher_name: Name of the publisher. Required.
     :vartype publisher_name: str
@@ -1648,7 +1668,7 @@ class PublisherInformation(_serialization.Model):
 class ResourceAccessRules(_serialization.Model):
     """Resource Access Rules.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant ID of resource. Required.
     :vartype tenant_id: str
@@ -1681,7 +1701,7 @@ class ResourceAccessRules(_serialization.Model):
 class RoleAssignmentCommonProperties(_serialization.Model):
     """The details for role assignment common properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar role_id: Role Id of the Built-In Role. Required.
     :vartype role_id: str
@@ -1754,7 +1774,7 @@ class RoleAssignmentCommonProperties(_serialization.Model):
 class RoleAssignmentDetail(_serialization.Model):
     """The details for role assignment response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar role_id: Role Id of the Built-In Role. Required.
     :vartype role_id: str
@@ -1927,7 +1947,7 @@ class UserAssignedIdentity(_serialization.Model):
 class VirtualNetworkRule(_serialization.Model):
     """Virtual Network Rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID of a subnet. Required.
     :vartype id: str

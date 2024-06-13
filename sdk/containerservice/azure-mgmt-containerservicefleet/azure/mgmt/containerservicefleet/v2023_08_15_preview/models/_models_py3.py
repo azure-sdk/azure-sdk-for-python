@@ -88,6 +88,44 @@ class APIServerAccessProfile(_serialization.Model):
         self.subnet_id = subnet_id
 
 
+class AzureResourceManagerLegacyManagedServiceIdentityV4(_serialization.Model):  # pylint: disable=name-too-long
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    :ivar type: The type of managed identity assigned to this resource. Known values are: "None",
+     "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
+    :vartype type: str or
+     ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The identities assigned to this resource by the user.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.UserAssignedIdentity]
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.ManagedServiceIdentityType"]] = None,
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: The type of managed identity assigned to this resource. Known values are:
+         "None", "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
+        :paramtype type: str or
+         ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The identities assigned to this resource by the user.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
+
+
 class ErrorAdditionalInfo(_serialization.Model):
     """The resource management error additional info.
 
@@ -675,19 +713,19 @@ class FleetPatch(_serialization.Model):
     :vartype tags: dict[str, str]
     :ivar identity: Managed identity.
     :vartype identity:
-     ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.ManagedServiceIdentity
+     ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.AzureResourceManagerLegacyManagedServiceIdentityV4
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
-        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "identity": {"key": "identity", "type": "AzureResourceManagerLegacyManagedServiceIdentityV4"},
     }
 
     def __init__(
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        identity: Optional["_models.AzureResourceManagerLegacyManagedServiceIdentityV4"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -695,7 +733,7 @@ class FleetPatch(_serialization.Model):
         :paramtype tags: dict[str, str]
         :keyword identity: Managed identity.
         :paramtype identity:
-         ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.ManagedServiceIdentity
+         ~azure.mgmt.containerservicefleet.v2023_08_15_preview.models.AzureResourceManagerLegacyManagedServiceIdentityV4
         """
         super().__init__(**kwargs)
         self.tags = tags
