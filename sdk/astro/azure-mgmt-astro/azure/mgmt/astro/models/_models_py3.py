@@ -114,7 +114,7 @@ class LiftrBaseDataOrganizationProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar marketplace: Marketplace details of the resource. Required.
     :vartype marketplace: ~azure.mgmt.astro.models.LiftrBaseMarketplaceDetails
@@ -168,10 +168,10 @@ class LiftrBaseDataOrganizationProperties(_serialization.Model):
         self.partner_organization_properties = partner_organization_properties
 
 
-class LiftrBaseDataPartnerOrganizationProperties(_serialization.Model):
+class LiftrBaseDataPartnerOrganizationProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties specific to Partner's organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar organization_id: Organization Id in partner's system.
     :vartype organization_id: str
@@ -233,7 +233,7 @@ class LiftrBaseDataPartnerOrganizationProperties(_serialization.Model):
         self.single_sign_on_properties = single_sign_on_properties
 
 
-class LiftrBaseDataPartnerOrganizationPropertiesUpdate(_serialization.Model):
+class LiftrBaseDataPartnerOrganizationPropertiesUpdate(_serialization.Model):  # pylint: disable=name-too-long
     """Properties specific to Partner's organization.
 
     :ivar organization_id: Organization Id in partner's system.
@@ -294,7 +294,7 @@ class LiftrBaseDataPartnerOrganizationPropertiesUpdate(_serialization.Model):
 class LiftrBaseMarketplaceDetails(_serialization.Model):
     """Marketplace details for an organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subscription_id: Azure subscription id for the the marketplace offer is purchased from.
      Required.
@@ -345,7 +345,7 @@ class LiftrBaseMarketplaceDetails(_serialization.Model):
 class LiftrBaseOfferDetails(_serialization.Model):
     """Offer details for the marketplace that is selected by the user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar publisher_id: Publisher Id for the marketplace offer. Required.
     :vartype publisher_id: str
@@ -474,7 +474,7 @@ class LiftrBaseSingleSignOnProperties(_serialization.Model):
 class LiftrBaseUserDetails(_serialization.Model):
     """User details for an organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar first_name: First name of the user. Required.
     :vartype first_name: str
@@ -594,7 +594,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -608,7 +608,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.astro.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str, ~azure.mgmt.astro.models.UserAssignedIdentity]
     """
@@ -640,7 +640,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.astro.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.astro.models.UserAssignedIdentity]
         """
@@ -778,7 +778,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -819,10 +819,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -872,10 +872,10 @@ class OrganizationResource(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -941,7 +941,7 @@ class OrganizationResource(TrackedResource):
 class OrganizationResourceListResult(_serialization.Model):
     """The response of a OrganizationResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The OrganizationResource items on this page. Required.
     :vartype value: list[~azure.mgmt.astro.models.OrganizationResource]
