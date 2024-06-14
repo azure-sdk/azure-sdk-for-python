@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.purview import PurviewManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python private_endpoint_connections_get.py
+    python features_subscription_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +32,13 @@ def main():
         subscription_id="12345678-1234-1234-12345678abc",
     )
 
-    response = client.private_endpoint_connections.get(
-        resource_group_name="SampleResourceGroup",
-        account_name="account1",
-        private_endpoint_connection_name="privateEndpointConnection1",
+    response = client.features.subscription_get(
+        locations="eastus",
+        feature_request={"features": ["Feature1", "Feature2", "FeatureThatDoesntExist"]},
     )
     print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/PrivateEndpointConnections_Get.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Features_SubscriptionGet.json
 if __name__ == "__main__":
     main()
