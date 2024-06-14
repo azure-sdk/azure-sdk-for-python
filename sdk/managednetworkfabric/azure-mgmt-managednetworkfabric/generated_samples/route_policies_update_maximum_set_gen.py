@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managednetworkfabric import ManagedNetworkFabricMgmtClient
 
 """
@@ -34,6 +37,7 @@ def main():
         route_policy_name="example-routePolicy",
         body={
             "properties": {
+                "defaultAction": "Deny",
                 "statements": [
                     {
                         "action": {
@@ -87,7 +91,7 @@ def main():
                         },
                         "sequenceNumber": 7,
                     }
-                ]
+                ],
             },
             "tags": {"keyID": "keyValue"},
         },

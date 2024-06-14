@@ -23,7 +23,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -64,10 +64,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -117,10 +117,10 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -141,6 +141,9 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -151,7 +154,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype last_synced_time: ~datetime.datetime
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -187,6 +190,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         "annotation": {"key": "properties.annotation", "type": "str"},
         "configuration_type": {"key": "properties.configurationType", "type": "str"},
         "acls_url": {"key": "properties.aclsUrl", "type": "str"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "match_configurations": {
             "key": "properties.matchConfigurations",
             "type": "[AccessControlListMatchConfiguration]",
@@ -209,6 +213,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         annotation: Optional[str] = None,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         **kwargs: Any
@@ -225,6 +230,9 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -236,6 +244,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         self.annotation = annotation
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
         self.last_synced_time = None
@@ -334,15 +343,15 @@ class AccessControlListMatchCondition(CommonMatchConditions):
     :vartype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
     :ivar ip_condition: IP condition that needs to be matched.
     :vartype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-    :ivar ether_types: List of ether type values that needs to be matched.
+    :ivar ether_types: List of ether type values that need to be matched.
     :vartype ether_types: list[str]
-    :ivar fragments: List of IP fragment packets that needs to be matched.
+    :ivar fragments: List of IP fragment packets that need to be matched.
     :vartype fragments: list[str]
-    :ivar ip_lengths: List of IP Lengths that needs to be matched.
+    :ivar ip_lengths: List of IP Lengths that need to be matched.
     :vartype ip_lengths: list[str]
-    :ivar ttl_values: List of TTL [Time To Live] values that needs to be matched.
+    :ivar ttl_values: List of TTL [Time To Live] values that need to be matched.
     :vartype ttl_values: list[str]
-    :ivar dscp_markings: List of DSCP Markings that needs to be matched.
+    :ivar dscp_markings: List of DSCP Markings that need to be matched.
     :vartype dscp_markings: list[str]
     :ivar port_condition: Defines the port condition that needs to be matched.
     :vartype port_condition: ~azure.mgmt.managednetworkfabric.models.AccessControlListPortCondition
@@ -390,15 +399,15 @@ class AccessControlListMatchCondition(CommonMatchConditions):
         :paramtype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
         :keyword ip_condition: IP condition that needs to be matched.
         :paramtype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-        :keyword ether_types: List of ether type values that needs to be matched.
+        :keyword ether_types: List of ether type values that need to be matched.
         :paramtype ether_types: list[str]
-        :keyword fragments: List of IP fragment packets that needs to be matched.
+        :keyword fragments: List of IP fragment packets that need to be matched.
         :paramtype fragments: list[str]
-        :keyword ip_lengths: List of IP Lengths that needs to be matched.
+        :keyword ip_lengths: List of IP Lengths that need to be matched.
         :paramtype ip_lengths: list[str]
-        :keyword ttl_values: List of TTL [Time To Live] values that needs to be matched.
+        :keyword ttl_values: List of TTL [Time To Live] values that need to be matched.
         :paramtype ttl_values: list[str]
-        :keyword dscp_markings: List of DSCP Markings that needs to be matched.
+        :keyword dscp_markings: List of DSCP Markings that need to be matched.
         :paramtype dscp_markings: list[str]
         :keyword port_condition: Defines the port condition that needs to be matched.
         :paramtype port_condition:
@@ -511,6 +520,9 @@ class AccessControlListPatch(TagsUpdate):
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -531,6 +543,7 @@ class AccessControlListPatch(TagsUpdate):
         "tags": {"key": "tags", "type": "{str}"},
         "configuration_type": {"key": "properties.configurationType", "type": "str"},
         "acls_url": {"key": "properties.aclsUrl", "type": "str"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "match_configurations": {
             "key": "properties.matchConfigurations",
             "type": "[AccessControlListMatchConfiguration]",
@@ -548,6 +561,7 @@ class AccessControlListPatch(TagsUpdate):
         tags: Optional[Dict[str, str]] = None,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         annotation: Optional[str] = None,
@@ -561,6 +575,9 @@ class AccessControlListPatch(TagsUpdate):
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -573,6 +590,7 @@ class AccessControlListPatch(TagsUpdate):
         super().__init__(tags=tags, **kwargs)
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
         self.annotation = annotation
@@ -586,6 +604,9 @@ class AccessControlListPatchableProperties(_serialization.Model):
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -603,6 +624,7 @@ class AccessControlListPatchableProperties(_serialization.Model):
     _attribute_map = {
         "configuration_type": {"key": "configurationType", "type": "str"},
         "acls_url": {"key": "aclsUrl", "type": "str"},
+        "default_action": {"key": "defaultAction", "type": "str"},
         "match_configurations": {"key": "matchConfigurations", "type": "[AccessControlListMatchConfiguration]"},
         "dynamic_match_configurations": {
             "key": "dynamicMatchConfigurations",
@@ -615,6 +637,7 @@ class AccessControlListPatchableProperties(_serialization.Model):
         *,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         **kwargs: Any
@@ -625,6 +648,9 @@ class AccessControlListPatchableProperties(_serialization.Model):
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -635,6 +661,7 @@ class AccessControlListPatchableProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
 
@@ -669,6 +696,9 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -687,6 +717,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         "annotation": {"key": "annotation", "type": "str"},
         "configuration_type": {"key": "configurationType", "type": "str"},
         "acls_url": {"key": "aclsUrl", "type": "str"},
+        "default_action": {"key": "defaultAction", "type": "str"},
         "match_configurations": {"key": "matchConfigurations", "type": "[AccessControlListMatchConfiguration]"},
         "dynamic_match_configurations": {
             "key": "dynamicMatchConfigurations",
@@ -700,6 +731,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         annotation: Optional[str] = None,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         **kwargs: Any
@@ -712,6 +744,9 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -722,6 +757,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         super().__init__(
             configuration_type=configuration_type,
             acls_url=acls_url,
+            default_action=default_action,
             match_configurations=match_configurations,
             dynamic_match_configurations=dynamic_match_configurations,
             annotation=annotation,
@@ -730,6 +766,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         self.annotation = annotation
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
 
@@ -737,7 +774,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
 class PortCondition(_serialization.Model):
     """Port condition that needs to be matched.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar port_type: Port type that needs to be matched. Known values are: "SourcePort" and
      "DestinationPort".
@@ -747,7 +784,7 @@ class PortCondition(_serialization.Model):
     :vartype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
     :ivar ports: List of the Ports that need to be matched.
     :vartype ports: list[str]
-    :ivar port_group_names: List of the port Group Names that to be matched.
+    :ivar port_group_names: List of the port Group Names that need to be matched.
     :vartype port_group_names: list[str]
     """
 
@@ -782,7 +819,7 @@ class PortCondition(_serialization.Model):
         :paramtype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
         :keyword ports: List of the Ports that need to be matched.
         :paramtype ports: list[str]
-        :keyword port_group_names: List of the port Group Names that to be matched.
+        :keyword port_group_names: List of the port Group Names that need to be matched.
         :paramtype port_group_names: list[str]
         """
         super().__init__(**kwargs)
@@ -795,7 +832,7 @@ class PortCondition(_serialization.Model):
 class AccessControlListPortCondition(PortCondition):
     """Defines the port condition that needs to be matched.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar port_type: Port type that needs to be matched. Known values are: "SourcePort" and
      "DestinationPort".
@@ -805,9 +842,11 @@ class AccessControlListPortCondition(PortCondition):
     :vartype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
     :ivar ports: List of the Ports that need to be matched.
     :vartype ports: list[str]
-    :ivar port_group_names: List of the port Group Names that to be matched.
+    :ivar port_group_names: List of the port Group Names that need to be matched.
     :vartype port_group_names: list[str]
-    :ivar flags: List of protocol flags that needs to be matched.
+    :ivar flags: List of protocol flags that need to be matched. Example: established | initial |
+     :code:`<List-of-TCP-flags>`. List of eligible TCP Flags are ack, fin, not-ack, not-fin,
+     not-psh, not-rst, not-syn, not-urg, psh, rst, syn, urg.
     :vartype flags: list[str]
     """
 
@@ -844,9 +883,11 @@ class AccessControlListPortCondition(PortCondition):
         :paramtype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
         :keyword ports: List of the Ports that need to be matched.
         :paramtype ports: list[str]
-        :keyword port_group_names: List of the port Group Names that to be matched.
+        :keyword port_group_names: List of the port Group Names that need to be matched.
         :paramtype port_group_names: list[str]
-        :keyword flags: List of protocol flags that needs to be matched.
+        :keyword flags: List of protocol flags that need to be matched. Example: established | initial
+         | :code:`<List-of-TCP-flags>`. List of eligible TCP Flags are ack, fin, not-ack, not-fin,
+         not-psh, not-rst, not-syn, not-urg, psh, rst, syn, urg.
         :paramtype flags: list[str]
         """
         super().__init__(
@@ -869,6 +910,9 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -881,7 +925,7 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
     :vartype last_synced_time: ~datetime.datetime
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -905,6 +949,7 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
     _attribute_map = {
         "configuration_type": {"key": "configurationType", "type": "str"},
         "acls_url": {"key": "aclsUrl", "type": "str"},
+        "default_action": {"key": "defaultAction", "type": "str"},
         "match_configurations": {"key": "matchConfigurations", "type": "[AccessControlListMatchConfiguration]"},
         "dynamic_match_configurations": {
             "key": "dynamicMatchConfigurations",
@@ -922,6 +967,7 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
         *,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         annotation: Optional[str] = None,
@@ -933,6 +979,9 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -946,12 +995,14 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
             annotation=annotation,
             configuration_type=configuration_type,
             acls_url=acls_url,
+            default_action=default_action,
             match_configurations=match_configurations,
             dynamic_match_configurations=dynamic_match_configurations,
             **kwargs
         )
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
         self.last_synced_time = None
@@ -1094,7 +1145,7 @@ class ActionIpCommunityProperties(
         self.add = add
 
 
-class IpExtendedCommunitySetOperationProperties(_serialization.Model):
+class IpExtendedCommunitySetOperationProperties(_serialization.Model):  # pylint: disable=name-too-long
     """IP Extended Community set operation properties.
 
     :ivar set: List of IP Extended Community IDs.
@@ -1114,7 +1165,7 @@ class IpExtendedCommunitySetOperationProperties(_serialization.Model):
         self.set = set
 
 
-class IpExtendedCommunityDeleteOperationProperties(_serialization.Model):
+class IpExtendedCommunityDeleteOperationProperties(_serialization.Model):  # pylint: disable=name-too-long
     """IP Extended Community delete operation properties.
 
     :ivar delete: List of IP Extended Community IDs.
@@ -1134,7 +1185,7 @@ class IpExtendedCommunityDeleteOperationProperties(_serialization.Model):
         self.delete = delete
 
 
-class IpExtendedCommunityAddOperationProperties(_serialization.Model):
+class IpExtendedCommunityAddOperationProperties(_serialization.Model):  # pylint: disable=name-too-long
     """IP Extended Community add operation properties.
 
     :ivar add: List of IP Extended Community IDs.
@@ -1200,7 +1251,7 @@ class ActionIpExtendedCommunityProperties(
 class AggregateRoute(_serialization.Model):
     """aggregateIpv4Route model.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar prefix: IPv4 Prefix of the aggregate Ipv4Route. Required.
     :vartype prefix: str
@@ -1414,7 +1465,7 @@ class CommonDynamicMatchConfiguration(_serialization.Model):
     :vartype ip_groups: list[~azure.mgmt.managednetworkfabric.models.IpGroupProperties]
     :ivar vlan_groups: List of vlan groups.
     :vartype vlan_groups: list[~azure.mgmt.managednetworkfabric.models.VlanGroupProperties]
-    :ivar port_groups: List of the port group.
+    :ivar port_groups: List of the port groups.
     :vartype port_groups: list[~azure.mgmt.managednetworkfabric.models.PortGroupProperties]
     """
 
@@ -1443,7 +1494,7 @@ class CommonDynamicMatchConfiguration(_serialization.Model):
         :paramtype ip_groups: list[~azure.mgmt.managednetworkfabric.models.IpGroupProperties]
         :keyword vlan_groups: List of vlan groups.
         :paramtype vlan_groups: list[~azure.mgmt.managednetworkfabric.models.VlanGroupProperties]
-        :keyword port_groups: List of the port group.
+        :keyword port_groups: List of the port groups.
         :paramtype port_groups: list[~azure.mgmt.managednetworkfabric.models.PortGroupProperties]
         """
         super().__init__(**kwargs)
@@ -1482,7 +1533,7 @@ class CommonPostActionResponseForDeviceUpdate(ErrorResponse):
     :vartype error: ~azure.mgmt.managednetworkfabric.models.ErrorDetail
     :ivar configuration_state: Gets the configuration state. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar successful_devices: List of ARM Resource IDs for which the given action applied
      successfully.
@@ -1534,7 +1585,7 @@ class CommonPostActionResponseForStateUpdate(ErrorResponse):
     :vartype error: ~azure.mgmt.managednetworkfabric.models.ErrorDetail
     :ivar configuration_state: Gets the configuration state. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     """
 
@@ -1559,7 +1610,7 @@ class CommonPostActionResponseForStateUpdate(ErrorResponse):
 class ConnectedSubnet(AnnotationResource):
     """Connected Subnet properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -1921,7 +1972,7 @@ class ExpressRouteConnectionInformation(_serialization.Model):
     """The ExpressRoute circuit ID and the Auth Key are required for you to successfully deploy NFC
     service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar express_route_circuit_id: The express route circuit Azure resource ID, must be of type
      Microsoft.Network/expressRouteCircuits/circuitName. The ExpressRoute Circuit is a mandatory
@@ -2014,7 +2065,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2026,34 +2077,16 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.managednetworkfabric.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Defines the External Network resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2065,6 +2098,9 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype system_data: ~azure.mgmt.managednetworkfabric.models.SystemData
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
+    :ivar network_to_network_interconnect_id: ARM Resource ID of the networkToNetworkInterconnectId
+     of the ExternalNetwork resource.
+    :vartype network_to_network_interconnect_id: str
     :ivar import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the backward
      compatibility.
     :vartype import_route_policy_id: str
@@ -2075,9 +2111,6 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype import_route_policy: ~azure.mgmt.managednetworkfabric.models.ImportRoutePolicy
     :ivar export_route_policy: Export Route Policy either IPv4 or IPv6.
     :vartype export_route_policy: ~azure.mgmt.managednetworkfabric.models.ExportRoutePolicy
-    :ivar network_to_network_interconnect_id: Gets the networkToNetworkInterconnectId of the
-     resource.
-    :vartype network_to_network_interconnect_id: str
     :ivar peering_option: Peering option list. Required. Known values are: "OptionA" and "OptionB".
     :vartype peering_option: str or ~azure.mgmt.managednetworkfabric.models.PeeringOption
     :ivar option_b_properties: option B properties object.
@@ -2087,7 +2120,7 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
      ~azure.mgmt.managednetworkfabric.models.ExternalNetworkPropertiesOptionAProperties
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -2103,7 +2136,6 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
-        "network_to_network_interconnect_id": {"readonly": True},
         "peering_option": {"required": True},
         "configuration_state": {"readonly": True},
         "provisioning_state": {"readonly": True},
@@ -2116,11 +2148,11 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "annotation": {"key": "properties.annotation", "type": "str"},
+        "network_to_network_interconnect_id": {"key": "properties.networkToNetworkInterconnectId", "type": "str"},
         "import_route_policy_id": {"key": "properties.importRoutePolicyId", "type": "str"},
         "export_route_policy_id": {"key": "properties.exportRoutePolicyId", "type": "str"},
         "import_route_policy": {"key": "properties.importRoutePolicy", "type": "ImportRoutePolicy"},
         "export_route_policy": {"key": "properties.exportRoutePolicy", "type": "ExportRoutePolicy"},
-        "network_to_network_interconnect_id": {"key": "properties.networkToNetworkInterconnectId", "type": "str"},
         "peering_option": {"key": "properties.peeringOption", "type": "str"},
         "option_b_properties": {"key": "properties.optionBProperties", "type": "L3OptionBProperties"},
         "option_a_properties": {
@@ -2137,6 +2169,7 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
         *,
         peering_option: Union[str, "_models.PeeringOption"],
         annotation: Optional[str] = None,
+        network_to_network_interconnect_id: Optional[str] = None,
         import_route_policy_id: Optional[str] = None,
         export_route_policy_id: Optional[str] = None,
         import_route_policy: Optional["_models.ImportRoutePolicy"] = None,
@@ -2148,6 +2181,9 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
         """
         :keyword annotation: Switch configuration description.
         :paramtype annotation: str
+        :keyword network_to_network_interconnect_id: ARM Resource ID of the
+         networkToNetworkInterconnectId of the ExternalNetwork resource.
+        :paramtype network_to_network_interconnect_id: str
         :keyword import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the
          backward compatibility.
         :paramtype import_route_policy_id: str
@@ -2169,11 +2205,11 @@ class ExternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
         """
         super().__init__(**kwargs)
         self.annotation = annotation
+        self.network_to_network_interconnect_id = network_to_network_interconnect_id
         self.import_route_policy_id = import_route_policy_id
         self.export_route_policy_id = export_route_policy_id
         self.import_route_policy = import_route_policy
         self.export_route_policy = export_route_policy
-        self.network_to_network_interconnect_id = None
         self.peering_option = peering_option
         self.option_b_properties = option_b_properties
         self.option_a_properties = option_a_properties
@@ -2187,6 +2223,9 @@ class ExternalNetworkPatch(_serialization.Model):
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
+    :ivar network_to_network_interconnect_id: ARM Resource ID of the networkToNetworkInterconnectId
+     of the ExternalNetwork resource.
+    :vartype network_to_network_interconnect_id: str
     :ivar import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the backward
      compatibility.
     :vartype import_route_policy_id: str
@@ -2208,6 +2247,7 @@ class ExternalNetworkPatch(_serialization.Model):
 
     _attribute_map = {
         "annotation": {"key": "properties.annotation", "type": "str"},
+        "network_to_network_interconnect_id": {"key": "properties.networkToNetworkInterconnectId", "type": "str"},
         "import_route_policy_id": {"key": "properties.importRoutePolicyId", "type": "str"},
         "export_route_policy_id": {"key": "properties.exportRoutePolicyId", "type": "str"},
         "import_route_policy": {"key": "properties.importRoutePolicy", "type": "ImportRoutePolicy"},
@@ -2224,6 +2264,7 @@ class ExternalNetworkPatch(_serialization.Model):
         self,
         *,
         annotation: Optional[str] = None,
+        network_to_network_interconnect_id: Optional[str] = None,
         import_route_policy_id: Optional[str] = None,
         export_route_policy_id: Optional[str] = None,
         import_route_policy: Optional["_models.ImportRoutePolicy"] = None,
@@ -2236,6 +2277,9 @@ class ExternalNetworkPatch(_serialization.Model):
         """
         :keyword annotation: Switch configuration description.
         :paramtype annotation: str
+        :keyword network_to_network_interconnect_id: ARM Resource ID of the
+         networkToNetworkInterconnectId of the ExternalNetwork resource.
+        :paramtype network_to_network_interconnect_id: str
         :keyword import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the
          backward compatibility.
         :paramtype import_route_policy_id: str
@@ -2256,6 +2300,7 @@ class ExternalNetworkPatch(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.annotation = annotation
+        self.network_to_network_interconnect_id = network_to_network_interconnect_id
         self.import_route_policy_id = import_route_policy_id
         self.export_route_policy_id = export_route_policy_id
         self.import_route_policy = import_route_policy
@@ -2268,6 +2313,9 @@ class ExternalNetworkPatch(_serialization.Model):
 class ExternalNetworkPatchableProperties(_serialization.Model):
     """The ExternalNetwork patchable properties.
 
+    :ivar network_to_network_interconnect_id: ARM Resource ID of the networkToNetworkInterconnectId
+     of the ExternalNetwork resource.
+    :vartype network_to_network_interconnect_id: str
     :ivar import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the backward
      compatibility.
     :vartype import_route_policy_id: str
@@ -2281,6 +2329,7 @@ class ExternalNetworkPatchableProperties(_serialization.Model):
     """
 
     _attribute_map = {
+        "network_to_network_interconnect_id": {"key": "networkToNetworkInterconnectId", "type": "str"},
         "import_route_policy_id": {"key": "importRoutePolicyId", "type": "str"},
         "export_route_policy_id": {"key": "exportRoutePolicyId", "type": "str"},
         "import_route_policy": {"key": "importRoutePolicy", "type": "ImportRoutePolicy"},
@@ -2290,6 +2339,7 @@ class ExternalNetworkPatchableProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        network_to_network_interconnect_id: Optional[str] = None,
         import_route_policy_id: Optional[str] = None,
         export_route_policy_id: Optional[str] = None,
         import_route_policy: Optional["_models.ImportRoutePolicy"] = None,
@@ -2297,6 +2347,9 @@ class ExternalNetworkPatchableProperties(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
+        :keyword network_to_network_interconnect_id: ARM Resource ID of the
+         networkToNetworkInterconnectId of the ExternalNetwork resource.
+        :paramtype network_to_network_interconnect_id: str
         :keyword import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the
          backward compatibility.
         :paramtype import_route_policy_id: str
@@ -2309,6 +2362,7 @@ class ExternalNetworkPatchableProperties(_serialization.Model):
         :paramtype export_route_policy: ~azure.mgmt.managednetworkfabric.models.ExportRoutePolicy
         """
         super().__init__(**kwargs)
+        self.network_to_network_interconnect_id = network_to_network_interconnect_id
         self.import_route_policy_id = import_route_policy_id
         self.export_route_policy_id = export_route_policy_id
         self.import_route_policy = import_route_policy
@@ -2318,6 +2372,9 @@ class ExternalNetworkPatchableProperties(_serialization.Model):
 class ExternalNetworkPatchProperties(AnnotationResource, ExternalNetworkPatchableProperties):
     """External Network Patch properties.
 
+    :ivar network_to_network_interconnect_id: ARM Resource ID of the networkToNetworkInterconnectId
+     of the ExternalNetwork resource.
+    :vartype network_to_network_interconnect_id: str
     :ivar import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the backward
      compatibility.
     :vartype import_route_policy_id: str
@@ -2340,6 +2397,7 @@ class ExternalNetworkPatchProperties(AnnotationResource, ExternalNetworkPatchabl
     """
 
     _attribute_map = {
+        "network_to_network_interconnect_id": {"key": "networkToNetworkInterconnectId", "type": "str"},
         "import_route_policy_id": {"key": "importRoutePolicyId", "type": "str"},
         "export_route_policy_id": {"key": "exportRoutePolicyId", "type": "str"},
         "import_route_policy": {"key": "importRoutePolicy", "type": "ImportRoutePolicy"},
@@ -2353,6 +2411,7 @@ class ExternalNetworkPatchProperties(AnnotationResource, ExternalNetworkPatchabl
     def __init__(
         self,
         *,
+        network_to_network_interconnect_id: Optional[str] = None,
         import_route_policy_id: Optional[str] = None,
         export_route_policy_id: Optional[str] = None,
         import_route_policy: Optional["_models.ImportRoutePolicy"] = None,
@@ -2364,6 +2423,9 @@ class ExternalNetworkPatchProperties(AnnotationResource, ExternalNetworkPatchabl
         **kwargs: Any
     ) -> None:
         """
+        :keyword network_to_network_interconnect_id: ARM Resource ID of the
+         networkToNetworkInterconnectId of the ExternalNetwork resource.
+        :paramtype network_to_network_interconnect_id: str
         :keyword import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the
          backward compatibility.
         :paramtype import_route_policy_id: str
@@ -2386,12 +2448,14 @@ class ExternalNetworkPatchProperties(AnnotationResource, ExternalNetworkPatchabl
         """
         super().__init__(
             annotation=annotation,
+            network_to_network_interconnect_id=network_to_network_interconnect_id,
             import_route_policy_id=import_route_policy_id,
             export_route_policy_id=export_route_policy_id,
             import_route_policy=import_route_policy,
             export_route_policy=export_route_policy,
             **kwargs
         )
+        self.network_to_network_interconnect_id = network_to_network_interconnect_id
         self.import_route_policy_id = import_route_policy_id
         self.export_route_policy_id = export_route_policy_id
         self.import_route_policy = import_route_policy
@@ -2523,7 +2587,7 @@ class Layer3IpPrefixProperties(_serialization.Model):
 
 class ExternalNetworkPatchPropertiesOptionAProperties(
     Layer3IpPrefixProperties, L3OptionAProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """option A properties object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2643,8 +2707,11 @@ class ExternalNetworkProperties(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
+    :ivar network_to_network_interconnect_id: ARM Resource ID of the networkToNetworkInterconnectId
+     of the ExternalNetwork resource.
+    :vartype network_to_network_interconnect_id: str
     :ivar import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the backward
      compatibility.
     :vartype import_route_policy_id: str
@@ -2657,9 +2724,6 @@ class ExternalNetworkProperties(
     :vartype export_route_policy: ~azure.mgmt.managednetworkfabric.models.ExportRoutePolicy
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
-    :ivar network_to_network_interconnect_id: Gets the networkToNetworkInterconnectId of the
-     resource.
-    :vartype network_to_network_interconnect_id: str
     :ivar peering_option: Peering option list. Required. Known values are: "OptionA" and "OptionB".
     :vartype peering_option: str or ~azure.mgmt.managednetworkfabric.models.PeeringOption
     :ivar option_b_properties: option B properties object.
@@ -2669,7 +2733,7 @@ class ExternalNetworkProperties(
      ~azure.mgmt.managednetworkfabric.models.ExternalNetworkPropertiesOptionAProperties
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -2681,7 +2745,6 @@ class ExternalNetworkProperties(
     """
 
     _validation = {
-        "network_to_network_interconnect_id": {"readonly": True},
         "peering_option": {"required": True},
         "configuration_state": {"readonly": True},
         "provisioning_state": {"readonly": True},
@@ -2689,12 +2752,12 @@ class ExternalNetworkProperties(
     }
 
     _attribute_map = {
+        "network_to_network_interconnect_id": {"key": "networkToNetworkInterconnectId", "type": "str"},
         "import_route_policy_id": {"key": "importRoutePolicyId", "type": "str"},
         "export_route_policy_id": {"key": "exportRoutePolicyId", "type": "str"},
         "import_route_policy": {"key": "importRoutePolicy", "type": "ImportRoutePolicy"},
         "export_route_policy": {"key": "exportRoutePolicy", "type": "ExportRoutePolicy"},
         "annotation": {"key": "annotation", "type": "str"},
-        "network_to_network_interconnect_id": {"key": "networkToNetworkInterconnectId", "type": "str"},
         "peering_option": {"key": "peeringOption", "type": "str"},
         "option_b_properties": {"key": "optionBProperties", "type": "L3OptionBProperties"},
         "option_a_properties": {"key": "optionAProperties", "type": "ExternalNetworkPropertiesOptionAProperties"},
@@ -2707,6 +2770,7 @@ class ExternalNetworkProperties(
         self,
         *,
         peering_option: Union[str, "_models.PeeringOption"],
+        network_to_network_interconnect_id: Optional[str] = None,
         import_route_policy_id: Optional[str] = None,
         export_route_policy_id: Optional[str] = None,
         import_route_policy: Optional["_models.ImportRoutePolicy"] = None,
@@ -2717,6 +2781,9 @@ class ExternalNetworkProperties(
         **kwargs: Any
     ) -> None:
         """
+        :keyword network_to_network_interconnect_id: ARM Resource ID of the
+         networkToNetworkInterconnectId of the ExternalNetwork resource.
+        :paramtype network_to_network_interconnect_id: str
         :keyword import_route_policy_id: ARM Resource ID of the RoutePolicy. This is used for the
          backward compatibility.
         :paramtype import_route_policy_id: str
@@ -2740,17 +2807,18 @@ class ExternalNetworkProperties(
         """
         super().__init__(
             annotation=annotation,
+            network_to_network_interconnect_id=network_to_network_interconnect_id,
             import_route_policy_id=import_route_policy_id,
             export_route_policy_id=export_route_policy_id,
             import_route_policy=import_route_policy,
             export_route_policy=export_route_policy,
             **kwargs
         )
+        self.network_to_network_interconnect_id = network_to_network_interconnect_id
         self.import_route_policy_id = import_route_policy_id
         self.export_route_policy_id = export_route_policy_id
         self.import_route_policy = import_route_policy
         self.export_route_policy = export_route_policy
-        self.network_to_network_interconnect_id = None
         self.peering_option = peering_option
         self.option_b_properties = option_b_properties
         self.option_a_properties = option_a_properties
@@ -2762,7 +2830,7 @@ class ExternalNetworkProperties(
 
 class ExternalNetworkPropertiesOptionAProperties(
     Layer3IpPrefixProperties, L3OptionAProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """option A properties object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2972,10 +3040,10 @@ class InternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3024,7 +3092,7 @@ class InternalNetwork(ProxyResource):  # pylint: disable=too-many-instance-attri
      ~azure.mgmt.managednetworkfabric.models.InternalNetworkPropertiesStaticRouteConfiguration
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -3545,7 +3613,7 @@ class InternalNetworkProperties(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar extension: Extension. Example: NoExtension | NPB. Known values are: "NoExtension" and
      "NPB".
@@ -3586,7 +3654,7 @@ class InternalNetworkProperties(
      ~azure.mgmt.managednetworkfabric.models.InternalNetworkPropertiesStaticRouteConfiguration
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -3727,7 +3795,9 @@ class InternalNetworkProperties(
         self.annotation = annotation
 
 
-class InternalNetworkPropertiesBgpConfiguration(BgpConfiguration):  # pylint: disable=too-many-instance-attributes
+class InternalNetworkPropertiesBgpConfiguration(
+    BgpConfiguration
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """BGP configuration properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3758,84 +3828,6 @@ class InternalNetworkPropertiesBgpConfiguration(BgpConfiguration):  # pylint: di
     :ivar ipv6_neighbor_address: List with stringified IPv6 Neighbor Address.
     :vartype ipv6_neighbor_address: list[~azure.mgmt.managednetworkfabric.models.NeighborAddress]
     """
-
-    _validation = {
-        "allow_as": {"maximum": 10, "minimum": 0},
-        "fabric_asn": {"readonly": True},
-        "peer_asn": {"maximum": 4294967295, "minimum": 1},
-        "ipv4_listen_range_prefixes": {"min_items": 1},
-        "ipv6_listen_range_prefixes": {"min_items": 1},
-        "ipv4_neighbor_address": {"min_items": 1},
-        "ipv6_neighbor_address": {"min_items": 1},
-    }
-
-    _attribute_map = {
-        "annotation": {"key": "annotation", "type": "str"},
-        "bfd_configuration": {"key": "bfdConfiguration", "type": "BfdConfiguration"},
-        "default_route_originate": {"key": "defaultRouteOriginate", "type": "str"},
-        "allow_as": {"key": "allowAS", "type": "int"},
-        "allow_as_override": {"key": "allowASOverride", "type": "str"},
-        "fabric_asn": {"key": "fabricASN", "type": "int"},
-        "peer_asn": {"key": "peerASN", "type": "int"},
-        "ipv4_listen_range_prefixes": {"key": "ipv4ListenRangePrefixes", "type": "[str]"},
-        "ipv6_listen_range_prefixes": {"key": "ipv6ListenRangePrefixes", "type": "[str]"},
-        "ipv4_neighbor_address": {"key": "ipv4NeighborAddress", "type": "[NeighborAddress]"},
-        "ipv6_neighbor_address": {"key": "ipv6NeighborAddress", "type": "[NeighborAddress]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        annotation: Optional[str] = None,
-        bfd_configuration: Optional["_models.BfdConfiguration"] = None,
-        default_route_originate: Optional[Union[str, "_models.BooleanEnumProperty"]] = None,
-        allow_as: int = 2,
-        allow_as_override: Optional[Union[str, "_models.AllowASOverride"]] = None,
-        peer_asn: Optional[int] = None,
-        ipv4_listen_range_prefixes: Optional[List[str]] = None,
-        ipv6_listen_range_prefixes: Optional[List[str]] = None,
-        ipv4_neighbor_address: Optional[List["_models.NeighborAddress"]] = None,
-        ipv6_neighbor_address: Optional[List["_models.NeighborAddress"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword annotation: Switch configuration description.
-        :paramtype annotation: str
-        :keyword bfd_configuration: BFD configuration properties.
-        :paramtype bfd_configuration: ~azure.mgmt.managednetworkfabric.models.BfdConfiguration
-        :keyword default_route_originate: Originate a defaultRoute. Ex: "True" | "False". Known values
-         are: "True" and "False".
-        :paramtype default_route_originate: str or
-         ~azure.mgmt.managednetworkfabric.models.BooleanEnumProperty
-        :keyword allow_as: Allows for routes to be received and processed even if the router detects
-         its own ASN in the AS-Path. 0 is disable, Possible values are 1-10, default is 2.
-        :paramtype allow_as: int
-        :keyword allow_as_override: Enable Or Disable state. Known values are: "Enable" and "Disable".
-        :paramtype allow_as_override: str or ~azure.mgmt.managednetworkfabric.models.AllowASOverride
-        :keyword peer_asn: Peer ASN. Example: 65047.
-        :paramtype peer_asn: int
-        :keyword ipv4_listen_range_prefixes: List of BGP IPv4 Listen Range prefixes.
-        :paramtype ipv4_listen_range_prefixes: list[str]
-        :keyword ipv6_listen_range_prefixes: List of BGP IPv6 Listen Ranges prefixes.
-        :paramtype ipv6_listen_range_prefixes: list[str]
-        :keyword ipv4_neighbor_address: List with stringified IPv4 Neighbor Addresses.
-        :paramtype ipv4_neighbor_address: list[~azure.mgmt.managednetworkfabric.models.NeighborAddress]
-        :keyword ipv6_neighbor_address: List with stringified IPv6 Neighbor Address.
-        :paramtype ipv6_neighbor_address: list[~azure.mgmt.managednetworkfabric.models.NeighborAddress]
-        """
-        super().__init__(
-            annotation=annotation,
-            bfd_configuration=bfd_configuration,
-            default_route_originate=default_route_originate,
-            allow_as=allow_as,
-            allow_as_override=allow_as_override,
-            peer_asn=peer_asn,
-            ipv4_listen_range_prefixes=ipv4_listen_range_prefixes,
-            ipv6_listen_range_prefixes=ipv6_listen_range_prefixes,
-            ipv4_neighbor_address=ipv4_neighbor_address,
-            ipv6_neighbor_address=ipv6_neighbor_address,
-            **kwargs
-        )
 
 
 class StaticRouteConfiguration(_serialization.Model):
@@ -3882,7 +3874,9 @@ class StaticRouteConfiguration(_serialization.Model):
         self.ipv6_routes = ipv6_routes
 
 
-class InternalNetworkPropertiesStaticRouteConfiguration(StaticRouteConfiguration, ExtensionEnumProperty):
+class InternalNetworkPropertiesStaticRouteConfiguration(
+    StaticRouteConfiguration, ExtensionEnumProperty
+):  # pylint: disable=name-too-long
     """Static Route Configuration properties.
 
     :ivar extension: Extension. Example: NoExtension | NPB. Known values are: "NoExtension" and
@@ -3974,10 +3968,10 @@ class InternetGateway(TrackedResource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4127,7 +4121,7 @@ class InternetGatewayProperties(AnnotationResource, InternetGatewayPatchableProp
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar internet_gateway_rule_id: ARM Resource ID of the Internet Gateway Rule.
     :vartype internet_gateway_rule_id: str
@@ -4201,10 +4195,10 @@ class InternetGatewayRule(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4286,24 +4280,13 @@ class InternetGatewayRulePatch(TagsUpdate):
     :vartype tags: dict[str, str]
     """
 
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
-
 
 class InternetGatewayRuleProperties(AnnotationResource):
     """Internet Gateway Rule Properties defines the resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -4437,10 +4420,10 @@ class IpCommunity(TrackedResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4460,7 +4443,7 @@ class IpCommunity(TrackedResource):  # pylint: disable=too-many-instance-attribu
     :vartype ip_community_rules: list[~azure.mgmt.managednetworkfabric.models.IpCommunityRule]
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -4605,7 +4588,7 @@ class IpCommunityProperties(AnnotationResource, IpCommunityPatchableProperties):
     :vartype annotation: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -4654,7 +4637,7 @@ class IpCommunityProperties(AnnotationResource, IpCommunityPatchableProperties):
 class IpCommunityRule(_serialization.Model):
     """IP Community patchable properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action: Action to be taken on the configuration. Example: Permit | Deny. Required. Known
      values are: "Permit" and "Deny".
@@ -4721,10 +4704,10 @@ class IpExtendedCommunity(TrackedResource):  # pylint: disable=too-many-instance
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4745,7 +4728,7 @@ class IpExtendedCommunity(TrackedResource):  # pylint: disable=too-many-instance
      list[~azure.mgmt.managednetworkfabric.models.IpExtendedCommunityRule]
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -4911,7 +4894,7 @@ class IpExtendedCommunityPatch(TagsUpdate):
 class IpExtendedCommunityPatchableProperties(_serialization.Model):
     """IP Extended Community patchable properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar ip_extended_community_rules: List of IP Extended Community Rules. Required.
     :vartype ip_extended_community_rules:
@@ -4939,7 +4922,7 @@ class IpExtendedCommunityPatchableProperties(_serialization.Model):
 class IpExtendedCommunityPatchProperties(IpExtendedCommunityPatchableProperties, AnnotationResource):
     """IP Extended Community patchable properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -4981,7 +4964,7 @@ class IpExtendedCommunityProperties(AnnotationResource, IpExtendedCommunityPatch
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar ip_extended_community_rules: List of IP Extended Community Rules. Required.
     :vartype ip_extended_community_rules:
@@ -4990,7 +4973,7 @@ class IpExtendedCommunityProperties(AnnotationResource, IpExtendedCommunityPatch
     :vartype annotation: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -5041,7 +5024,7 @@ class IpExtendedCommunityProperties(AnnotationResource, IpExtendedCommunityPatch
 class IpExtendedCommunityRule(_serialization.Model):
     """List of IP Extended Community Rules.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action: Action to be taken on the configuration. Example: Permit | Deny. Required. Known
      values are: "Permit" and "Deny".
@@ -5146,11 +5129,13 @@ class IpGroupProperties(_serialization.Model):
 class IpMatchCondition(_serialization.Model):
     """Defines the condition that can be filtered using the selected IPs.
 
-    :ivar type: IP Address type. Known values are: "SourceIP" and "DestinationIP".
+    :ivar type: IP Address type that needs to be matched. Known values are: "SourceIP" and
+     "DestinationIP".
     :vartype type: str or ~azure.mgmt.managednetworkfabric.models.SourceDestinationType
-    :ivar prefix_type: IP Prefix Type. Known values are: "Prefix" and "LongestPrefix".
+    :ivar prefix_type: IP Prefix Type that needs to be matched. Known values are: "Prefix" and
+     "LongestPrefix".
     :vartype prefix_type: str or ~azure.mgmt.managednetworkfabric.models.PrefixType
-    :ivar ip_prefix_values: The list of IP Prefixes.
+    :ivar ip_prefix_values: The list of IP Prefixes that need to be matched.
     :vartype ip_prefix_values: list[str]
     :ivar ip_group_names: The List of IP Group Names that need to be matched.
     :vartype ip_group_names: list[str]
@@ -5178,11 +5163,13 @@ class IpMatchCondition(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: IP Address type. Known values are: "SourceIP" and "DestinationIP".
+        :keyword type: IP Address type that needs to be matched. Known values are: "SourceIP" and
+         "DestinationIP".
         :paramtype type: str or ~azure.mgmt.managednetworkfabric.models.SourceDestinationType
-        :keyword prefix_type: IP Prefix Type. Known values are: "Prefix" and "LongestPrefix".
+        :keyword prefix_type: IP Prefix Type that needs to be matched. Known values are: "Prefix" and
+         "LongestPrefix".
         :paramtype prefix_type: str or ~azure.mgmt.managednetworkfabric.models.PrefixType
-        :keyword ip_prefix_values: The list of IP Prefixes.
+        :keyword ip_prefix_values: The list of IP Prefixes that need to be matched.
         :paramtype ip_prefix_values: list[str]
         :keyword ip_group_names: The List of IP Group Names that need to be matched.
         :paramtype ip_group_names: list[str]
@@ -5199,10 +5186,10 @@ class IpPrefix(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5222,7 +5209,7 @@ class IpPrefix(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype ip_prefix_rules: list[~azure.mgmt.managednetworkfabric.models.IpPrefixRule]
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -5414,7 +5401,7 @@ class IpPrefixProperties(AnnotationResource, IpPrefixPatchableProperties):
     :vartype annotation: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -5463,7 +5450,7 @@ class IpPrefixProperties(AnnotationResource, IpPrefixPatchableProperties):
 class IpPrefixRule(_serialization.Model):
     """IP Prefix Rule properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action: Action to be taken on the configuration. Example: Permit | Deny. Required. Known
      values are: "Permit" and "Deny".
@@ -5572,10 +5559,10 @@ class L2IsolationDomain(TrackedResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5599,7 +5586,7 @@ class L2IsolationDomain(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype mtu: int
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -5746,7 +5733,7 @@ class L2IsolationDomainProperties(AnnotationResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -5758,7 +5745,7 @@ class L2IsolationDomainProperties(AnnotationResource):
     :vartype mtu: int
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -5879,10 +5866,10 @@ class L3IsolationDomain(TrackedResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5916,7 +5903,7 @@ class L3IsolationDomain(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype network_fabric_id: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -6224,7 +6211,7 @@ class L3IsolationDomainProperties(AnnotationResource, L3IsolationDomainPatchable
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar redistribute_connected_subnets: Advertise Connected Subnets. Ex: "True" | "False". Known
      values are: "True" and "False".
@@ -6246,7 +6233,7 @@ class L3IsolationDomainProperties(AnnotationResource, L3IsolationDomainPatchable
     :vartype network_fabric_id: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -6458,7 +6445,7 @@ class ManagedResourceGroupConfiguration(_serialization.Model):
         self.location = location
 
 
-class ManagementNetworkConfigurationPatchableProperties(_serialization.Model):
+class ManagementNetworkConfigurationPatchableProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Configuration to be used to setup the management network.
 
     :ivar infrastructure_vpn_configuration: VPN Configuration properties.
@@ -6503,7 +6490,7 @@ class ManagementNetworkConfigurationPatchableProperties(_serialization.Model):
 class ManagementNetworkConfigurationProperties(_serialization.Model):
     """Configuration to be used to setup the management network.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar infrastructure_vpn_configuration: VPN Configuration properties. Required.
     :vartype infrastructure_vpn_configuration:
@@ -6555,7 +6542,7 @@ class NeighborAddress(_serialization.Model):
     :vartype address: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     """
 
@@ -6584,10 +6571,10 @@ class NeighborGroup(TrackedResource):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6875,10 +6862,10 @@ class NetworkDevice(TrackedResource):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6914,7 +6901,7 @@ class NetworkDevice(TrackedResource):  # pylint: disable=too-many-instance-attri
     :vartype management_ipv6_address: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -7165,7 +7152,7 @@ class NetworkDeviceProperties(
     :vartype management_ipv6_address: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -7244,10 +7231,10 @@ class NetworkDeviceSku(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7394,10 +7381,10 @@ class NetworkFabric(TrackedResource):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7451,7 +7438,7 @@ class NetworkFabric(TrackedResource):  # pylint: disable=too-many-instance-attri
     :vartype l3_isolation_domains: list[str]
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provides you the latest status of the NFC service, whether it is
      Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on
@@ -7471,7 +7458,7 @@ class NetworkFabric(TrackedResource):  # pylint: disable=too-many-instance-attri
         "system_data": {"readonly": True},
         "location": {"required": True},
         "network_fabric_sku": {"required": True, "min_length": 1},
-        "fabric_version": {"readonly": True},
+        "fabric_version": {"min_length": 1},
         "router_ids": {"readonly": True},
         "network_fabric_controller_id": {"required": True},
         "rack_count": {"maximum": 8, "minimum": 1},
@@ -7535,6 +7522,7 @@ class NetworkFabric(TrackedResource):  # pylint: disable=too-many-instance-attri
         management_network_configuration: "_models.ManagementNetworkConfigurationProperties",
         tags: Optional[Dict[str, str]] = None,
         annotation: Optional[str] = None,
+        fabric_version: Optional[str] = None,
         rack_count: Optional[int] = None,
         ipv6_prefix: Optional[str] = None,
         **kwargs: Any
@@ -7550,6 +7538,8 @@ class NetworkFabric(TrackedResource):  # pylint: disable=too-many-instance-attri
          Once the user chooses a particular SKU, only supported racks can be added to the Network
          Fabric. The SKU determines whether it is a single / multi rack Network Fabric. Required.
         :paramtype network_fabric_sku: str
+        :keyword fabric_version: The version of Network Fabric.
+        :paramtype fabric_version: str
         :keyword network_fabric_controller_id: Azure resource ID for the NetworkFabricController the
          NetworkFabric belongs. Required.
         :paramtype network_fabric_controller_id: str
@@ -7575,7 +7565,7 @@ class NetworkFabric(TrackedResource):  # pylint: disable=too-many-instance-attri
         super().__init__(tags=tags, location=location, **kwargs)
         self.annotation = annotation
         self.network_fabric_sku = network_fabric_sku
-        self.fabric_version = None
+        self.fabric_version = fabric_version
         self.router_ids = None
         self.network_fabric_controller_id = network_fabric_controller_id
         self.rack_count = rack_count
@@ -7598,10 +7588,10 @@ class NetworkFabricController(TrackedResource):  # pylint: disable=too-many-inst
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7837,7 +7827,7 @@ class NetworkFabricControllerPatch(TagsUpdate):
         self.workload_express_route_connections = workload_express_route_connections
 
 
-class NetworkFabricControllerPatchableProperties(_serialization.Model):
+class NetworkFabricControllerPatchableProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Network Fabric Controller updatable properties.
 
     :ivar infrastructure_express_route_connections: As part of an update, the Infrastructure
@@ -8319,7 +8309,7 @@ class TerminalServerPatchableProperties(_serialization.Model):
 
 class NetworkFabricPatchablePropertiesTerminalServerConfiguration(
     TerminalServerPatchableProperties, Layer3IpPrefixProperties
-):
+):  # pylint: disable=name-too-long
     """Network and credentials configuration already applied to terminal server.
 
     :ivar primary_ipv4_prefix: IPv4 Address Prefix.
@@ -8514,7 +8504,7 @@ class NetworkFabricProperties(AnnotationResource):  # pylint: disable=too-many-i
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -8556,7 +8546,7 @@ class NetworkFabricProperties(AnnotationResource):  # pylint: disable=too-many-i
     :vartype l3_isolation_domains: list[str]
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provides you the latest status of the NFC service, whether it is
      Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on
@@ -8571,7 +8561,7 @@ class NetworkFabricProperties(AnnotationResource):  # pylint: disable=too-many-i
 
     _validation = {
         "network_fabric_sku": {"required": True, "min_length": 1},
-        "fabric_version": {"readonly": True},
+        "fabric_version": {"min_length": 1},
         "router_ids": {"readonly": True},
         "network_fabric_controller_id": {"required": True},
         "rack_count": {"maximum": 8, "minimum": 1},
@@ -8624,6 +8614,7 @@ class NetworkFabricProperties(AnnotationResource):  # pylint: disable=too-many-i
         terminal_server_configuration: "_models.TerminalServerConfiguration",
         management_network_configuration: "_models.ManagementNetworkConfigurationProperties",
         annotation: Optional[str] = None,
+        fabric_version: Optional[str] = None,
         rack_count: Optional[int] = None,
         ipv6_prefix: Optional[str] = None,
         **kwargs: Any
@@ -8635,6 +8626,8 @@ class NetworkFabricProperties(AnnotationResource):  # pylint: disable=too-many-i
          Once the user chooses a particular SKU, only supported racks can be added to the Network
          Fabric. The SKU determines whether it is a single / multi rack Network Fabric. Required.
         :paramtype network_fabric_sku: str
+        :keyword fabric_version: The version of Network Fabric.
+        :paramtype fabric_version: str
         :keyword network_fabric_controller_id: Azure resource ID for the NetworkFabricController the
          NetworkFabric belongs. Required.
         :paramtype network_fabric_controller_id: str
@@ -8659,7 +8652,7 @@ class NetworkFabricProperties(AnnotationResource):  # pylint: disable=too-many-i
         """
         super().__init__(annotation=annotation, **kwargs)
         self.network_fabric_sku = network_fabric_sku
-        self.fabric_version = None
+        self.fabric_version = fabric_version
         self.router_ids = None
         self.network_fabric_controller_id = network_fabric_controller_id
         self.rack_count = rack_count
@@ -8683,7 +8676,7 @@ class NetworkFabricSku(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8819,7 +8812,7 @@ class NetworkInterface(ProxyResource):  # pylint: disable=too-many-instance-attr
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8923,17 +8916,6 @@ class NetworkInterfacePatchProperties(AnnotationResource):
     :vartype annotation: str
     """
 
-    _attribute_map = {
-        "annotation": {"key": "annotation", "type": "str"},
-    }
-
-    def __init__(self, *, annotation: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword annotation: Switch configuration description.
-        :paramtype annotation: str
-        """
-        super().__init__(annotation=annotation, **kwargs)
-
 
 class NetworkInterfaceProperties(AnnotationResource):
     """Network Interface Properties defines the properties of the resource.
@@ -9035,10 +9017,10 @@ class NetworkPacketBroker(TrackedResource):  # pylint: disable=too-many-instance
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9124,17 +9106,6 @@ class NetworkPacketBrokerPatch(TagsUpdate):
     :vartype tags: dict[str, str]
     """
 
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
-
 
 class NetworkPacketBrokersListResult(_serialization.Model):
     """List of NetworkPacketBrokers.
@@ -9173,10 +9144,10 @@ class NetworkRack(TrackedResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9265,7 +9236,7 @@ class NetworkRackProperties(AnnotationResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -9352,10 +9323,10 @@ class NetworkTap(TrackedResource):  # pylint: disable=too-many-instance-attribut
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9382,7 +9353,8 @@ class NetworkTap(TrackedResource):  # pylint: disable=too-many-instance-attribut
     :vartype polling_type: str or ~azure.mgmt.managednetworkfabric.models.PollingType
     :ivar configuration_state: Gets the configurations state of the resource. Known values are:
      "Succeeded", "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning",
-     "Deprovisioning", "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioning", "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning",
+     and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provides you the latest status of the NFC service, whether it is
      Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on
@@ -9550,7 +9522,7 @@ class NetworkTapPatchableParameters(AnnotationResource):
         self.destinations = destinations
 
 
-class NetworkTapPatchableParametersDestinationsItem(DestinationProperties):
+class NetworkTapPatchableParametersDestinationsItem(DestinationProperties):  # pylint: disable=name-too-long
     """Destination.
 
     :ivar name: Destination name.
@@ -9568,60 +9540,13 @@ class NetworkTapPatchableParametersDestinationsItem(DestinationProperties):
     :vartype destination_tap_rule_id: str
     """
 
-    _validation = {
-        "name": {"min_length": 1},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "destination_type": {"key": "destinationType", "type": "str"},
-        "destination_id": {"key": "destinationId", "type": "str"},
-        "isolation_domain_properties": {"key": "isolationDomainProperties", "type": "IsolationDomainProperties"},
-        "destination_tap_rule_id": {"key": "destinationTapRuleId", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        destination_type: Optional[Union[str, "_models.DestinationType"]] = None,
-        destination_id: Optional[str] = None,
-        isolation_domain_properties: Optional["_models.IsolationDomainProperties"] = None,
-        destination_tap_rule_id: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Destination name.
-        :paramtype name: str
-        :keyword destination_type: Type of destination. Input can be IsolationDomain or Direct. Known
-         values are: "IsolationDomain" and "Direct".
-        :paramtype destination_type: str or ~azure.mgmt.managednetworkfabric.models.DestinationType
-        :keyword destination_id: The destination Id. ARM Resource ID of either NNI or Internal
-         Networks.
-        :paramtype destination_id: str
-        :keyword isolation_domain_properties: Isolation Domain Properties.
-        :paramtype isolation_domain_properties:
-         ~azure.mgmt.managednetworkfabric.models.IsolationDomainProperties
-        :keyword destination_tap_rule_id: ARM Resource ID of destination Tap Rule that contains match
-         configurations.
-        :paramtype destination_tap_rule_id: str
-        """
-        super().__init__(
-            name=name,
-            destination_type=destination_type,
-            destination_id=destination_id,
-            isolation_domain_properties=isolation_domain_properties,
-            destination_tap_rule_id=destination_tap_rule_id,
-            **kwargs
-        )
-
 
 class NetworkTapProperties(AnnotationResource):
     """Network Tap Properties defines the properties of the resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -9636,7 +9561,8 @@ class NetworkTapProperties(AnnotationResource):
     :vartype polling_type: str or ~azure.mgmt.managednetworkfabric.models.PollingType
     :ivar configuration_state: Gets the configurations state of the resource. Known values are:
      "Succeeded", "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning",
-     "Deprovisioning", "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioning", "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning",
+     and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provides you the latest status of the NFC service, whether it is
      Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on
@@ -9717,63 +9643,16 @@ class NetworkTapPropertiesDestinationsItem(DestinationProperties):
     :vartype destination_tap_rule_id: str
     """
 
-    _validation = {
-        "name": {"min_length": 1},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "destination_type": {"key": "destinationType", "type": "str"},
-        "destination_id": {"key": "destinationId", "type": "str"},
-        "isolation_domain_properties": {"key": "isolationDomainProperties", "type": "IsolationDomainProperties"},
-        "destination_tap_rule_id": {"key": "destinationTapRuleId", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        destination_type: Optional[Union[str, "_models.DestinationType"]] = None,
-        destination_id: Optional[str] = None,
-        isolation_domain_properties: Optional["_models.IsolationDomainProperties"] = None,
-        destination_tap_rule_id: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Destination name.
-        :paramtype name: str
-        :keyword destination_type: Type of destination. Input can be IsolationDomain or Direct. Known
-         values are: "IsolationDomain" and "Direct".
-        :paramtype destination_type: str or ~azure.mgmt.managednetworkfabric.models.DestinationType
-        :keyword destination_id: The destination Id. ARM Resource ID of either NNI or Internal
-         Networks.
-        :paramtype destination_id: str
-        :keyword isolation_domain_properties: Isolation Domain Properties.
-        :paramtype isolation_domain_properties:
-         ~azure.mgmt.managednetworkfabric.models.IsolationDomainProperties
-        :keyword destination_tap_rule_id: ARM Resource ID of destination Tap Rule that contains match
-         configurations.
-        :paramtype destination_tap_rule_id: str
-        """
-        super().__init__(
-            name=name,
-            destination_type=destination_type,
-            destination_id=destination_id,
-            isolation_domain_properties=isolation_domain_properties,
-            destination_tap_rule_id=destination_tap_rule_id,
-            **kwargs
-        )
-
 
 class NetworkTapRule(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """The NetworkTapRule resource definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9810,7 +9689,7 @@ class NetworkTapRule(TrackedResource):  # pylint: disable=too-many-instance-attr
     :vartype last_synced_time: ~datetime.datetime
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -9989,7 +9868,8 @@ class NetworkTapRuleMatchCondition(CommonMatchConditions):
     :vartype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
     :ivar ip_condition: IP condition that needs to be matched.
     :vartype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-    :ivar encapsulation_type: Encapsulation Type. Known values are: "None" and "GTPv1".
+    :ivar encapsulation_type: Encapsulation Type that needs to be matched. Known values are: "None"
+     and "GTPv1".
     :vartype encapsulation_type: str or ~azure.mgmt.managednetworkfabric.models.EncapsulationType
     :ivar port_condition: Defines the port condition that needs to be matched.
     :vartype port_condition: ~azure.mgmt.managednetworkfabric.models.PortCondition
@@ -10024,7 +9904,8 @@ class NetworkTapRuleMatchCondition(CommonMatchConditions):
         :paramtype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
         :keyword ip_condition: IP condition that needs to be matched.
         :paramtype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-        :keyword encapsulation_type: Encapsulation Type. Known values are: "None" and "GTPv1".
+        :keyword encapsulation_type: Encapsulation Type that needs to be matched. Known values are:
+         "None" and "GTPv1".
         :paramtype encapsulation_type: str or ~azure.mgmt.managednetworkfabric.models.EncapsulationType
         :keyword port_condition: Defines the port condition that needs to be matched.
         :paramtype port_condition: ~azure.mgmt.managednetworkfabric.models.PortCondition
@@ -10342,7 +10223,7 @@ class NetworkTapRuleProperties(
     :vartype last_synced_time: ~datetime.datetime
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -10493,10 +10374,10 @@ class NetworkToNetworkInterconnect(ProxyResource):  # pylint: disable=too-many-i
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10534,7 +10415,7 @@ class NetworkToNetworkInterconnect(ProxyResource):  # pylint: disable=too-many-i
     :vartype ingress_acl_id: str
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -10649,7 +10530,7 @@ class NetworkToNetworkInterconnectPatch(ProxyResource):  # pylint: disable=too-m
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10822,7 +10703,9 @@ class OptionBLayer3Configuration(Layer3IpPrefixProperties):
         self.fabric_asn = None
 
 
-class NetworkToNetworkInterconnectPropertiesOptionBLayer3Configuration(OptionBLayer3Configuration):
+class NetworkToNetworkInterconnectPropertiesOptionBLayer3Configuration(
+    OptionBLayer3Configuration
+):  # pylint: disable=name-too-long
     """Common properties for Layer3Configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10842,57 +10725,6 @@ class NetworkToNetworkInterconnectPropertiesOptionBLayer3Configuration(OptionBLa
     :ivar fabric_asn: ASN of CE devices for CE/PE connectivity.
     :vartype fabric_asn: int
     """
-
-    _validation = {
-        "peer_asn": {"maximum": 4294967295, "minimum": 1},
-        "vlan_id": {"maximum": 4094, "minimum": 100},
-        "fabric_asn": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "primary_ipv4_prefix": {"key": "primaryIpv4Prefix", "type": "str"},
-        "primary_ipv6_prefix": {"key": "primaryIpv6Prefix", "type": "str"},
-        "secondary_ipv4_prefix": {"key": "secondaryIpv4Prefix", "type": "str"},
-        "secondary_ipv6_prefix": {"key": "secondaryIpv6Prefix", "type": "str"},
-        "peer_asn": {"key": "peerASN", "type": "int"},
-        "vlan_id": {"key": "vlanId", "type": "int"},
-        "fabric_asn": {"key": "fabricASN", "type": "int"},
-    }
-
-    def __init__(
-        self,
-        *,
-        primary_ipv4_prefix: Optional[str] = None,
-        primary_ipv6_prefix: Optional[str] = None,
-        secondary_ipv4_prefix: Optional[str] = None,
-        secondary_ipv6_prefix: Optional[str] = None,
-        peer_asn: Optional[int] = None,
-        vlan_id: Optional[int] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword primary_ipv4_prefix: IPv4 Address Prefix.
-        :paramtype primary_ipv4_prefix: str
-        :keyword primary_ipv6_prefix: IPv6 Address Prefix.
-        :paramtype primary_ipv6_prefix: str
-        :keyword secondary_ipv4_prefix: Secondary IPv4 Address Prefix.
-        :paramtype secondary_ipv4_prefix: str
-        :keyword secondary_ipv6_prefix: Secondary IPv6 Address Prefix.
-        :paramtype secondary_ipv6_prefix: str
-        :keyword peer_asn: ASN of PE devices for CE/PE connectivity.Example : 28.
-        :paramtype peer_asn: int
-        :keyword vlan_id: VLAN for CE/PE Layer 3 connectivity.Example : 501.
-        :paramtype vlan_id: int
-        """
-        super().__init__(
-            primary_ipv4_prefix=primary_ipv4_prefix,
-            primary_ipv6_prefix=primary_ipv6_prefix,
-            secondary_ipv4_prefix=secondary_ipv4_prefix,
-            secondary_ipv6_prefix=secondary_ipv6_prefix,
-            peer_asn=peer_asn,
-            vlan_id=vlan_id,
-            **kwargs
-        )
 
 
 class NetworkToNetworkInterconnectsList(_serialization.Model):
@@ -11192,7 +11024,7 @@ class PortGroupProperties(_serialization.Model):
 
     :ivar name: The name of the port group.
     :vartype name: str
-    :ivar ports: List of the ports that needs to be matched.
+    :ivar ports: List of the ports that need to be matched.
     :vartype ports: list[str]
     """
 
@@ -11210,7 +11042,7 @@ class PortGroupProperties(_serialization.Model):
         """
         :keyword name: The name of the port group.
         :paramtype name: str
-        :keyword ports: List of the ports that needs to be matched.
+        :keyword ports: List of the ports that need to be matched.
         :paramtype ports: list[str]
         """
         super().__init__(**kwargs)
@@ -11275,10 +11107,10 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11294,6 +11126,9 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
     :vartype location: str
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11304,7 +11139,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
     :vartype address_family_type: str or ~azure.mgmt.managednetworkfabric.models.AddressFamilyType
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -11335,6 +11170,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "annotation": {"key": "properties.annotation", "type": "str"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "statements": {"key": "properties.statements", "type": "[RoutePolicyStatementProperties]"},
         "network_fabric_id": {"key": "properties.networkFabricId", "type": "str"},
         "address_family_type": {"key": "properties.addressFamilyType", "type": "str"},
@@ -11350,6 +11186,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         network_fabric_id: str,
         tags: Optional[Dict[str, str]] = None,
         annotation: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
         address_family_type: Union[str, "_models.AddressFamilyType"] = "IPv4",
         **kwargs: Any
@@ -11361,6 +11198,9 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         :paramtype location: str
         :keyword annotation: Switch configuration description.
         :paramtype annotation: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11373,6 +11213,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.annotation = annotation
+        self.default_action = default_action
         self.statements = statements
         self.network_fabric_id = network_fabric_id
         self.address_family_type = address_family_type
@@ -11386,6 +11227,9 @@ class RoutePolicyPatch(TagsUpdate):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11393,6 +11237,7 @@ class RoutePolicyPatch(TagsUpdate):
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "statements": {"key": "properties.statements", "type": "[RoutePolicyStatementProperties]"},
     }
 
@@ -11400,41 +11245,58 @@ class RoutePolicyPatch(TagsUpdate):
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
         """
         super().__init__(tags=tags, **kwargs)
+        self.default_action = default_action
         self.statements = statements
 
 
 class RoutePolicyPatchableProperties(_serialization.Model):
     """Route Policy patchable properties.
 
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
     """
 
     _attribute_map = {
+        "default_action": {"key": "defaultAction", "type": "str"},
         "statements": {"key": "statements", "type": "[RoutePolicyStatementProperties]"},
     }
 
     def __init__(
-        self, *, statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None, **kwargs: Any
+        self,
+        *,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
+        statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
+        **kwargs: Any
     ) -> None:
         """
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
         """
         super().__init__(**kwargs)
+        self.default_action = default_action
         self.statements = statements
 
 
@@ -11443,8 +11305,11 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11457,7 +11322,7 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
     :vartype address_family_type: str or ~azure.mgmt.managednetworkfabric.models.AddressFamilyType
     :ivar configuration_state: Configuration state of the resource. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
      "Succeeded", "Updating", "Deleting", "Failed", and "Canceled".
@@ -11476,6 +11341,7 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
     }
 
     _attribute_map = {
+        "default_action": {"key": "defaultAction", "type": "str"},
         "statements": {"key": "statements", "type": "[RoutePolicyStatementProperties]"},
         "annotation": {"key": "annotation", "type": "str"},
         "network_fabric_id": {"key": "networkFabricId", "type": "str"},
@@ -11489,12 +11355,16 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
         self,
         *,
         network_fabric_id: str,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
         annotation: Optional[str] = None,
         address_family_type: Union[str, "_models.AddressFamilyType"] = "IPv4",
         **kwargs: Any
     ) -> None:
         """
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11507,7 +11377,8 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
         :paramtype address_family_type: str or
          ~azure.mgmt.managednetworkfabric.models.AddressFamilyType
         """
-        super().__init__(annotation=annotation, statements=statements, **kwargs)
+        super().__init__(annotation=annotation, default_action=default_action, statements=statements, **kwargs)
+        self.default_action = default_action
         self.statements = statements
         self.network_fabric_id = network_fabric_id
         self.address_family_type = address_family_type
@@ -11520,7 +11391,7 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
 class RoutePolicyStatementProperties(AnnotationResource):
     """Route Policy Statement properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
@@ -11626,7 +11497,7 @@ class RouteTargetInformation(_serialization.Model):
 class RuleProperties(_serialization.Model):
     """Rules for the InternetGateways.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action: Specify action. Required. Known values are: "Allow" and "Deny".
     :vartype action: str or ~azure.mgmt.managednetworkfabric.models.Action
@@ -11659,12 +11530,12 @@ class RuleProperties(_serialization.Model):
 class StatementActionProperties(_serialization.Model):
     """Route policy action properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar local_preference: Local Preference of the route policy.
     :vartype local_preference: int
     :ivar action_type: Action type. Example: Permit | Deny | Continue. Required. Known values are:
-     "Permit", "Deny", "Continue", and "Continue".
+     "Permit", "Deny", and "Continue".
     :vartype action_type: str or ~azure.mgmt.managednetworkfabric.models.RoutePolicyActionType
     :ivar ip_community_properties: IP Community Properties.
     :vartype ip_community_properties:
@@ -11702,7 +11573,7 @@ class StatementActionProperties(_serialization.Model):
         :keyword local_preference: Local Preference of the route policy.
         :paramtype local_preference: int
         :keyword action_type: Action type. Example: Permit | Deny | Continue. Required. Known values
-         are: "Permit", "Deny", "Continue", and "Continue".
+         are: "Permit", "Deny", and "Continue".
         :paramtype action_type: str or ~azure.mgmt.managednetworkfabric.models.RoutePolicyActionType
         :keyword ip_community_properties: IP Community Properties.
         :paramtype ip_community_properties:
@@ -11725,7 +11596,7 @@ class StatementConditionProperties(IpCommunityIdList, IpExtendedCommunityIdList)
     :vartype ip_extended_community_ids: list[str]
     :ivar ip_community_ids: List of IP Community resource IDs.
     :vartype ip_community_ids: list[str]
-    :ivar type: Type of the condition used. Known values are: "Or", "And", "Or", and "And".
+    :ivar type: Type of the condition used. Known values are: "Or" and "And".
     :vartype type: str or ~azure.mgmt.managednetworkfabric.models.RoutePolicyConditionType
     :ivar ip_prefix_id: Arm Resource Id of IpPrefix.
     :vartype ip_prefix_id: str
@@ -11752,7 +11623,7 @@ class StatementConditionProperties(IpCommunityIdList, IpExtendedCommunityIdList)
         :paramtype ip_extended_community_ids: list[str]
         :keyword ip_community_ids: List of IP Community resource IDs.
         :paramtype ip_community_ids: list[str]
-        :keyword type: Type of the condition used. Known values are: "Or", "And", "Or", and "And".
+        :keyword type: Type of the condition used. Known values are: "Or" and "And".
         :paramtype type: str or ~azure.mgmt.managednetworkfabric.models.RoutePolicyConditionType
         :keyword ip_prefix_id: Arm Resource Id of IpPrefix.
         :paramtype ip_prefix_id: str
@@ -11769,7 +11640,7 @@ class StatementConditionProperties(IpCommunityIdList, IpExtendedCommunityIdList)
 class StaticRouteProperties(_serialization.Model):
     """Route Properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar prefix: Prefix of the route. Required.
     :vartype prefix: str
@@ -12112,6 +11983,39 @@ class UpdateVersion(_serialization.Model):
         self.version = version
 
 
+class UpgradeNetworkFabricProperties(UpdateVersion):
+    """UpgradeNetworkFabricProperties.
+
+    :ivar version: Specify the version.
+    :vartype version: str
+    :ivar action: Action to be performed while upgrading the fabric. Known values are: "Start" and
+     "Complete".
+    :vartype action: str or ~azure.mgmt.managednetworkfabric.models.NetworkFabricUpgradeAction
+    """
+
+    _attribute_map = {
+        "version": {"key": "version", "type": "str"},
+        "action": {"key": "action", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        version: Optional[str] = None,
+        action: Optional[Union[str, "_models.NetworkFabricUpgradeAction"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword version: Specify the version.
+        :paramtype version: str
+        :keyword action: Action to be performed while upgrading the fabric. Known values are: "Start"
+         and "Complete".
+        :paramtype action: str or ~azure.mgmt.managednetworkfabric.models.NetworkFabricUpgradeAction
+        """
+        super().__init__(version=version, **kwargs)
+        self.action = action
+
+
 class ValidateConfigurationProperties(_serialization.Model):
     """Validation configuration properties.
 
@@ -12145,7 +12049,7 @@ class ValidateConfigurationResponse(ErrorResponse):
     :vartype error: ~azure.mgmt.managednetworkfabric.models.ErrorDetail
     :ivar configuration_state: Gets the configuration state. Known values are: "Succeeded",
      "Failed", "Rejected", "Accepted", "Provisioned", "ErrorProvisioning", "Deprovisioning",
-     "Deprovisioned", "ErrorDeprovisioning", and "DeferredControl".
+     "Deprovisioned", "ErrorDeprovisioning", "DeferredControl", "Provisioning", and "PendingCommit".
     :vartype configuration_state: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationState
     :ivar url: URL for the details of the response.
     :vartype url: str
@@ -12207,13 +12111,13 @@ class VlanGroupProperties(_serialization.Model):
 
 
 class VlanMatchCondition(_serialization.Model):
-    """The vlan match conditions that needs to be matched.
+    """The vlan match conditions that need to be matched.
 
-    :ivar vlans: List of vlans that needs to be matched.
+    :ivar vlans: List of vlans that need to be matched.
     :vartype vlans: list[str]
-    :ivar inner_vlans: List of inner vlans that needs to be matched.
+    :ivar inner_vlans: List of inner vlans that need to be matched.
     :vartype inner_vlans: list[str]
-    :ivar vlan_group_names: List of vlan group names that to be matched.
+    :ivar vlan_group_names: List of vlan group names that need to be matched.
     :vartype vlan_group_names: list[str]
     """
 
@@ -12238,11 +12142,11 @@ class VlanMatchCondition(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword vlans: List of vlans that needs to be matched.
+        :keyword vlans: List of vlans that need to be matched.
         :paramtype vlans: list[str]
-        :keyword inner_vlans: List of inner vlans that needs to be matched.
+        :keyword inner_vlans: List of inner vlans that need to be matched.
         :paramtype inner_vlans: list[str]
-        :keyword vlan_group_names: List of vlan group names that to be matched.
+        :keyword vlan_group_names: List of vlan group names that need to be matched.
         :paramtype vlan_group_names: list[str]
         """
         super().__init__(**kwargs)
@@ -12304,7 +12208,9 @@ class VpnConfigurationPatchableProperties(_serialization.Model):
         self.option_a_properties = option_a_properties
 
 
-class VpnConfigurationPatchablePropertiesOptionAProperties(OptionAProperties, Layer3IpPrefixProperties):
+class VpnConfigurationPatchablePropertiesOptionAProperties(
+    OptionAProperties, Layer3IpPrefixProperties
+):  # pylint: disable=name-too-long
     """option A properties.
 
     :ivar primary_ipv4_prefix: IPv4 Address Prefix.
@@ -12399,7 +12305,7 @@ class VpnConfigurationProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar network_to_network_interconnect_id: ARM Resource ID of the Network To Network
      Interconnect.
@@ -12460,7 +12366,9 @@ class VpnConfigurationProperties(_serialization.Model):
         self.option_a_properties = option_a_properties
 
 
-class VpnConfigurationPropertiesOptionAProperties(OptionAProperties, Layer3IpPrefixProperties):
+class VpnConfigurationPropertiesOptionAProperties(
+    OptionAProperties, Layer3IpPrefixProperties
+):  # pylint: disable=name-too-long
     """option A properties.
 
     :ivar primary_ipv4_prefix: IPv4 Address Prefix.

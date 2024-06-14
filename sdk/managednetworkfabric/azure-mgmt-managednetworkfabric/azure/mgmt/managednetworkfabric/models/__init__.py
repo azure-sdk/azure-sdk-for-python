@@ -213,6 +213,7 @@ from ._models_py3 import TrackedResource
 from ._models_py3 import UpdateAdministrativeState
 from ._models_py3 import UpdateDeviceAdministrativeState
 from ._models_py3 import UpdateVersion
+from ._models_py3 import UpgradeNetworkFabricProperties
 from ._models_py3 import ValidateConfigurationProperties
 from ._models_py3 import ValidateConfigurationResponse
 from ._models_py3 import VlanGroupProperties
@@ -251,6 +252,7 @@ from ._managed_network_fabric_mgmt_client_enums import IsWorkloadManagementNetwo
 from ._managed_network_fabric_mgmt_client_enums import Layer4Protocol
 from ._managed_network_fabric_mgmt_client_enums import NetworkDeviceRole
 from ._managed_network_fabric_mgmt_client_enums import NetworkDeviceRoleName
+from ._managed_network_fabric_mgmt_client_enums import NetworkFabricUpgradeAction
 from ._managed_network_fabric_mgmt_client_enums import NetworkRackType
 from ._managed_network_fabric_mgmt_client_enums import NfcSku
 from ._managed_network_fabric_mgmt_client_enums import NniType
@@ -482,6 +484,7 @@ __all__ = [
     "UpdateAdministrativeState",
     "UpdateDeviceAdministrativeState",
     "UpdateVersion",
+    "UpgradeNetworkFabricProperties",
     "ValidateConfigurationProperties",
     "ValidateConfigurationResponse",
     "VlanGroupProperties",
@@ -519,6 +522,7 @@ __all__ = [
     "Layer4Protocol",
     "NetworkDeviceRole",
     "NetworkDeviceRoleName",
+    "NetworkFabricUpgradeAction",
     "NetworkRackType",
     "NfcSku",
     "NniType",

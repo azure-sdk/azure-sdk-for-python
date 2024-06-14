@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -43,6 +44,10 @@ from ...operations._network_tap_rules_operations import (
     build_validate_configuration_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -70,10 +75,10 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: Union[_models.NetworkTapRule, IO],
+        body: Union[_models.NetworkTapRule, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkTapRule:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -96,7 +101,7 @@ class NetworkTapRulesOperations:
         else:
             _json = self._serialize.body(body, "NetworkTapRule")
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
@@ -104,16 +109,15 @@ class NetworkTapRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -139,10 +143,6 @@ class NetworkTapRulesOperations:
 
         return deserialized  # type: ignore
 
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
-
     @overload
     async def begin_create(
         self,
@@ -167,14 +167,6 @@ class NetworkTapRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either NetworkTapRule or the result of
          cls(response)
         :rtype:
@@ -187,7 +179,7 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -202,18 +194,10 @@ class NetworkTapRulesOperations:
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
         :param body: Request payload. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either NetworkTapRule or the result of
          cls(response)
         :rtype:
@@ -226,7 +210,7 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: Union[_models.NetworkTapRule, IO],
+        body: Union[_models.NetworkTapRule, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.NetworkTapRule]:
         """Create Network Tap Rule.
@@ -238,19 +222,8 @@ class NetworkTapRulesOperations:
         :type resource_group_name: str
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
-        :param body: Request payload. Is either a NetworkTapRule type or a IO type. Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.NetworkTapRule or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Request payload. Is either a NetworkTapRule type or a IO[bytes] type. Required.
+        :type body: ~azure.mgmt.managednetworkfabric.models.NetworkTapRule or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either NetworkTapRule or the result of
          cls(response)
         :rtype:
@@ -283,7 +256,7 @@ class NetworkTapRulesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("NetworkTapRule", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -296,17 +269,15 @@ class NetworkTapRulesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.NetworkTapRule].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
+        return AsyncLROPoller[_models.NetworkTapRule](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, network_tap_rule_name: str, **kwargs: Any) -> _models.NetworkTapRule:
@@ -319,12 +290,11 @@ class NetworkTapRulesOperations:
         :type resource_group_name: str
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkTapRule or the result of cls(response)
         :rtype: ~azure.mgmt.managednetworkfabric.models.NetworkTapRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -338,21 +308,20 @@ class NetworkTapRulesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NetworkTapRule] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -365,22 +334,18 @@ class NetworkTapRulesOperations:
         deserialized = self._deserialize("NetworkTapRule", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
+        return deserialized  # type: ignore
 
     async def _update_initial(
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: Union[_models.NetworkTapRulePatch, IO],
+        body: Union[_models.NetworkTapRulePatch, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.NetworkTapRule]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -403,7 +368,7 @@ class NetworkTapRulesOperations:
         else:
             _json = self._serialize.body(body, "NetworkTapRulePatch")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
@@ -411,16 +376,15 @@ class NetworkTapRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -439,13 +403,9 @@ class NetworkTapRulesOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_update(
@@ -471,14 +431,6 @@ class NetworkTapRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either NetworkTapRule or the result of
          cls(response)
         :rtype:
@@ -491,7 +443,7 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -506,18 +458,10 @@ class NetworkTapRulesOperations:
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
         :param body: Network Tap Rule properties to update. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either NetworkTapRule or the result of
          cls(response)
         :rtype:
@@ -530,7 +474,7 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: Union[_models.NetworkTapRulePatch, IO],
+        body: Union[_models.NetworkTapRulePatch, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.NetworkTapRule]:
         """Updates a Network Tap Rule.
@@ -543,19 +487,8 @@ class NetworkTapRulesOperations:
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
         :param body: Network Tap Rule properties to update. Is either a NetworkTapRulePatch type or a
-         IO type. Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.NetworkTapRulePatch or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         IO[bytes] type. Required.
+        :type body: ~azure.mgmt.managednetworkfabric.models.NetworkTapRulePatch or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either NetworkTapRule or the result of
          cls(response)
         :rtype:
@@ -588,7 +521,7 @@ class NetworkTapRulesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("NetworkTapRule", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -600,22 +533,20 @@ class NetworkTapRulesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.NetworkTapRule].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
+        return AsyncLROPoller[_models.NetworkTapRule](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_tap_rule_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -629,21 +560,20 @@ class NetworkTapRulesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -658,11 +588,7 @@ class NetworkTapRulesOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -677,14 +603,6 @@ class NetworkTapRulesOperations:
         :type resource_group_name: str
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -711,7 +629,7 @@ class NetworkTapRulesOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -722,17 +640,13 @@ class NetworkTapRulesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_resource_group(
@@ -745,7 +659,6 @@ class NetworkTapRulesOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkTapRule or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.managednetworkfabric.models.NetworkTapRule]
@@ -757,7 +670,7 @@ class NetworkTapRulesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NetworkTapRulesListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -768,16 +681,15 @@ class NetworkTapRulesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -789,13 +701,13 @@ class NetworkTapRulesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkTapRulesListResult", pipeline_response)
@@ -805,11 +717,11 @@ class NetworkTapRulesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -821,10 +733,6 @@ class NetworkTapRulesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules"
-    }
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.NetworkTapRule"]:
@@ -832,7 +740,6 @@ class NetworkTapRulesOperations:
 
         List all the Network Tap Rule resources in the given subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkTapRule or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.managednetworkfabric.models.NetworkTapRule]
@@ -844,7 +751,7 @@ class NetworkTapRulesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NetworkTapRulesListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -855,15 +762,14 @@ class NetworkTapRulesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -875,13 +781,13 @@ class NetworkTapRulesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkTapRulesListResult", pipeline_response)
@@ -891,11 +797,11 @@ class NetworkTapRulesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -908,18 +814,14 @@ class NetworkTapRulesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTapRules"
-    }
-
     async def _update_administrative_state_initial(
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: Union[_models.UpdateAdministrativeState, IO],
+        body: Union[_models.UpdateAdministrativeState, IO[bytes]],
         **kwargs: Any
     ) -> _models.CommonPostActionResponseForStateUpdate:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -942,7 +844,7 @@ class NetworkTapRulesOperations:
         else:
             _json = self._serialize.body(body, "UpdateAdministrativeState")
 
-        request = build_update_administrative_state_request(
+        _request = build_update_administrative_state_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
@@ -950,16 +852,15 @@ class NetworkTapRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_administrative_state_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -982,10 +883,6 @@ class NetworkTapRulesOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _update_administrative_state_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/updateAdministrativeState"
-    }
 
     @overload
     async def begin_update_administrative_state(
@@ -1011,14 +908,6 @@ class NetworkTapRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either
          CommonPostActionResponseForStateUpdate or the result of cls(response)
         :rtype:
@@ -1031,7 +920,7 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1046,18 +935,10 @@ class NetworkTapRulesOperations:
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
         :param body: Request payload. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either
          CommonPostActionResponseForStateUpdate or the result of cls(response)
         :rtype:
@@ -1070,7 +951,7 @@ class NetworkTapRulesOperations:
         self,
         resource_group_name: str,
         network_tap_rule_name: str,
-        body: Union[_models.UpdateAdministrativeState, IO],
+        body: Union[_models.UpdateAdministrativeState, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.CommonPostActionResponseForStateUpdate]:
         """Updates administrative state of  Network Tap Rules.
@@ -1082,20 +963,9 @@ class NetworkTapRulesOperations:
         :type resource_group_name: str
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
-        :param body: Request payload. Is either a UpdateAdministrativeState type or a IO type.
+        :param body: Request payload. Is either a UpdateAdministrativeState type or a IO[bytes] type.
          Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateAdministrativeState or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateAdministrativeState or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either
          CommonPostActionResponseForStateUpdate or the result of cls(response)
         :rtype:
@@ -1128,7 +998,7 @@ class NetworkTapRulesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CommonPostActionResponseForStateUpdate", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1140,22 +1010,20 @@ class NetworkTapRulesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.CommonPostActionResponseForStateUpdate].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_administrative_state.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/updateAdministrativeState"
-    }
+        return AsyncLROPoller[_models.CommonPostActionResponseForStateUpdate](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _resync_initial(
         self, resource_group_name: str, network_tap_rule_name: str, **kwargs: Any
     ) -> _models.CommonPostActionResponseForStateUpdate:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1169,21 +1037,20 @@ class NetworkTapRulesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CommonPostActionResponseForStateUpdate] = kwargs.pop("cls", None)
 
-        request = build_resync_request(
+        _request = build_resync_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._resync_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1207,10 +1074,6 @@ class NetworkTapRulesOperations:
 
         return deserialized  # type: ignore
 
-    _resync_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/resync"
-    }
-
     @distributed_trace_async
     async def begin_resync(
         self, resource_group_name: str, network_tap_rule_name: str, **kwargs: Any
@@ -1224,14 +1087,6 @@ class NetworkTapRulesOperations:
         :type resource_group_name: str
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either
          CommonPostActionResponseForStateUpdate or the result of cls(response)
         :rtype:
@@ -1261,7 +1116,7 @@ class NetworkTapRulesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CommonPostActionResponseForStateUpdate", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1273,22 +1128,20 @@ class NetworkTapRulesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.CommonPostActionResponseForStateUpdate].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resync.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/resync"
-    }
+        return AsyncLROPoller[_models.CommonPostActionResponseForStateUpdate](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _validate_configuration_initial(
         self, resource_group_name: str, network_tap_rule_name: str, **kwargs: Any
     ) -> _models.ValidateConfigurationResponse:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1302,21 +1155,20 @@ class NetworkTapRulesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ValidateConfigurationResponse] = kwargs.pop("cls", None)
 
-        request = build_validate_configuration_request(
+        _request = build_validate_configuration_request(
             resource_group_name=resource_group_name,
             network_tap_rule_name=network_tap_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._validate_configuration_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1340,10 +1192,6 @@ class NetworkTapRulesOperations:
 
         return deserialized  # type: ignore
 
-    _validate_configuration_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/validateConfiguration"
-    }
-
     @distributed_trace_async
     async def begin_validate_configuration(
         self, resource_group_name: str, network_tap_rule_name: str, **kwargs: Any
@@ -1357,14 +1205,6 @@ class NetworkTapRulesOperations:
         :type resource_group_name: str
         :param network_tap_rule_name: Name of the Network Tap Rule. Required.
         :type network_tap_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either ValidateConfigurationResponse or the
          result of cls(response)
         :rtype:
@@ -1394,7 +1234,7 @@ class NetworkTapRulesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ValidateConfigurationResponse", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1406,14 +1246,12 @@ class NetworkTapRulesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.ValidateConfigurationResponse].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_validate_configuration.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/validateConfiguration"
-    }
+        return AsyncLROPoller[_models.ValidateConfigurationResponse](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
