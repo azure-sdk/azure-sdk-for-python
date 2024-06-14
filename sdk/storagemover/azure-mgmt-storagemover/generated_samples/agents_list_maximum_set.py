@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.storagemover import StorageMoverMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.storagemover import StorageMoverMgmtClient
     pip install azure-identity
     pip install azure-mgmt-storagemover
 # USAGE
-    python agents_create_or_update.py
+    python agents_list_maximum_set.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,21 +30,14 @@ def main():
         subscription_id="60bcfc77-6589-4da2-b7fd-f9ec9322cf95",
     )
 
-    response = client.agents.create_or_update(
+    response = client.agents.list(
         resource_group_name="examples-rg",
         storage_mover_name="examples-storageMoverName",
-        agent_name="examples-agentName",
-        agent={
-            "properties": {
-                "arcResourceId": "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.HybridCompute/machines/examples-hybridComputeName",
-                "arcVmUuid": "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
-                "description": "Example Agent Description",
-            }
-        },
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Agents_CreateOrUpdate.json
+# x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/preview/2024-05-01-preview/examples/Agents_List_MaximumSet.json
 if __name__ == "__main__":
     main()
