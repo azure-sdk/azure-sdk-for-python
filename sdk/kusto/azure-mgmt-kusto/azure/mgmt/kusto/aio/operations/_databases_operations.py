@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -43,6 +44,10 @@ from ...operations._databases_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -88,7 +93,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -99,7 +103,7 @@ class DatabasesOperations:
         self,
         resource_group_name: str,
         cluster_name: str,
-        resource_name: IO,
+        resource_name: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -112,11 +116,10 @@ class DatabasesOperations:
         :param cluster_name: The name of the Kusto cluster. Required.
         :type cluster_name: str
         :param resource_name: The name of the resource. Required.
-        :type resource_name: IO
+        :type resource_name: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -127,7 +130,7 @@ class DatabasesOperations:
         self,
         resource_group_name: str,
         cluster_name: str,
-        resource_name: Union[_models.CheckNameRequest, IO],
+        resource_name: Union[_models.CheckNameRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.CheckNameResult:
         """Checks that the databases resource name is valid and is not already in use.
@@ -137,18 +140,14 @@ class DatabasesOperations:
         :type resource_group_name: str
         :param cluster_name: The name of the Kusto cluster. Required.
         :type cluster_name: str
-        :param resource_name: The name of the resource. Is either a CheckNameRequest type or a IO type.
-         Required.
-        :type resource_name: ~azure.mgmt.kusto.models.CheckNameRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param resource_name: The name of the resource. Is either a CheckNameRequest type or a
+         IO[bytes] type. Required.
+        :type resource_name: ~azure.mgmt.kusto.models.CheckNameRequest or IO[bytes]
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -171,7 +170,7 @@ class DatabasesOperations:
         else:
             _json = self._serialize.body(resource_name, "CheckNameRequest")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             subscription_id=self._config.subscription_id,
@@ -179,16 +178,15 @@ class DatabasesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -201,13 +199,9 @@ class DatabasesOperations:
         deserialized = self._deserialize("CheckNameResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/checkNameAvailability"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_cluster(
@@ -232,7 +226,6 @@ class DatabasesOperations:
          a skiptoken parameter that specifies a starting point to use for subsequent calls. Default
          value is None.
         :type skiptoken: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Database or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.kusto.models.Database]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -243,7 +236,7 @@ class DatabasesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DatabaseListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -254,19 +247,18 @@ class DatabasesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_cluster_request(
+                _request = build_list_by_cluster_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skiptoken=skiptoken,
                     api_version=api_version,
-                    template_url=self.list_by_cluster.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -278,13 +270,13 @@ class DatabasesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("DatabaseListResult", pipeline_response)
@@ -294,11 +286,11 @@ class DatabasesOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -310,10 +302,6 @@ class DatabasesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_cluster.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases"
-    }
 
     @distributed_trace_async
     async def get(
@@ -328,12 +316,11 @@ class DatabasesOperations:
         :type cluster_name: str
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Database or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.Database
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -347,22 +334,21 @@ class DatabasesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Database] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -375,24 +361,20 @@ class DatabasesOperations:
         deserialized = self._deserialize("Database", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: Union[_models.Database, IO],
+        parameters: Union[_models.Database, IO[bytes]],
         caller_role: Union[str, _models.CallerRole] = "Admin",
         **kwargs: Any
     ) -> _models.Database:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -415,7 +397,7 @@ class DatabasesOperations:
         else:
             _json = self._serialize.body(parameters, "Database")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -425,16 +407,15 @@ class DatabasesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -462,10 +443,6 @@ class DatabasesOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -497,14 +474,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Database or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.Database]
@@ -517,7 +486,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         caller_role: Union[str, _models.CallerRole] = "Admin",
         *,
         content_type: str = "application/json",
@@ -533,7 +502,7 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param parameters: The database parameters supplied to the CreateOrUpdate operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :param caller_role: By default, any user who run operation on a database become an Admin on it.
          This property allows the caller to exclude the caller from Admins list. Known values are:
          "Admin" and "None". Default value is "Admin".
@@ -541,14 +510,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Database or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.Database]
@@ -561,7 +522,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: Union[_models.Database, IO],
+        parameters: Union[_models.Database, IO[bytes]],
         caller_role: Union[str, _models.CallerRole] = "Admin",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Database]:
@@ -575,23 +536,12 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param parameters: The database parameters supplied to the CreateOrUpdate operation. Is either
-         a Database type or a IO type. Required.
-        :type parameters: ~azure.mgmt.kusto.models.Database or IO
+         a Database type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.kusto.models.Database or IO[bytes]
         :param caller_role: By default, any user who run operation on a database become an Admin on it.
          This property allows the caller to exclude the caller from Admins list. Known values are:
          "Admin" and "None". Default value is "Admin".
         :type caller_role: str or ~azure.mgmt.kusto.models.CallerRole
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Database or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.Database]
@@ -625,7 +575,7 @@ class DatabasesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Database", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -635,28 +585,26 @@ class DatabasesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Database].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
+        return AsyncLROPoller[_models.Database](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _update_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: Union[_models.Database, IO],
+        parameters: Union[_models.Database, IO[bytes]],
         caller_role: Union[str, _models.CallerRole] = "Admin",
         **kwargs: Any
     ) -> _models.Database:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -679,7 +627,7 @@ class DatabasesOperations:
         else:
             _json = self._serialize.body(parameters, "Database")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -689,16 +637,15 @@ class DatabasesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -733,10 +680,6 @@ class DatabasesOperations:
 
         return deserialized  # type: ignore
 
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
-
     @overload
     async def begin_update(
         self,
@@ -767,14 +710,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Database or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.Database]
@@ -787,7 +722,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         caller_role: Union[str, _models.CallerRole] = "Admin",
         *,
         content_type: str = "application/json",
@@ -803,7 +738,7 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param parameters: The database parameters supplied to the Update operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :param caller_role: By default, any user who run operation on a database become an Admin on it.
          This property allows the caller to exclude the caller from Admins list. Known values are:
          "Admin" and "None". Default value is "Admin".
@@ -811,14 +746,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Database or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.Database]
@@ -831,7 +758,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: Union[_models.Database, IO],
+        parameters: Union[_models.Database, IO[bytes]],
         caller_role: Union[str, _models.CallerRole] = "Admin",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Database]:
@@ -845,23 +772,12 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param parameters: The database parameters supplied to the Update operation. Is either a
-         Database type or a IO type. Required.
-        :type parameters: ~azure.mgmt.kusto.models.Database or IO
+         Database type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.kusto.models.Database or IO[bytes]
         :param caller_role: By default, any user who run operation on a database become an Admin on it.
          This property allows the caller to exclude the caller from Admins list. Known values are:
          "Admin" and "None". Default value is "Admin".
         :type caller_role: str or ~azure.mgmt.kusto.models.CallerRole
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Database or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.Database]
@@ -895,7 +811,7 @@ class DatabasesOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("Database", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -905,22 +821,20 @@ class DatabasesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Database].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
+        return AsyncLROPoller[_models.Database](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, cluster_name: str, database_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -934,22 +848,21 @@ class DatabasesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -967,11 +880,7 @@ class DatabasesOperations:
             )
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -986,14 +895,6 @@ class DatabasesOperations:
         :type cluster_name: str
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1021,7 +922,7 @@ class DatabasesOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -1030,17 +931,13 @@ class DatabasesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_principals(
@@ -1055,7 +952,6 @@ class DatabasesOperations:
         :type cluster_name: str
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DatabasePrincipal or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.kusto.models.DatabasePrincipal]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1066,7 +962,7 @@ class DatabasesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DatabasePrincipalListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1077,18 +973,17 @@ class DatabasesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_principals_request(
+                _request = build_list_principals_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_principals.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1100,13 +995,13 @@ class DatabasesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("DatabasePrincipalListResult", pipeline_response)
@@ -1116,11 +1011,11 @@ class DatabasesOperations:
             return None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1132,10 +1027,6 @@ class DatabasesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_principals.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/listPrincipals"
-    }
 
     @overload
     async def add_principals(
@@ -1162,7 +1053,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DatabasePrincipalListResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DatabasePrincipalListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1174,7 +1064,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        database_principals_to_add: IO,
+        database_principals_to_add: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1189,11 +1079,10 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param database_principals_to_add: List of database principals to add. Required.
-        :type database_principals_to_add: IO
+        :type database_principals_to_add: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DatabasePrincipalListResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DatabasePrincipalListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1205,7 +1094,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        database_principals_to_add: Union[_models.DatabasePrincipalListRequest, IO],
+        database_principals_to_add: Union[_models.DatabasePrincipalListRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.DatabasePrincipalListResult:
         """Add Database principals permissions.
@@ -1218,17 +1107,14 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param database_principals_to_add: List of database principals to add. Is either a
-         DatabasePrincipalListRequest type or a IO type. Required.
-        :type database_principals_to_add: ~azure.mgmt.kusto.models.DatabasePrincipalListRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         DatabasePrincipalListRequest type or a IO[bytes] type. Required.
+        :type database_principals_to_add: ~azure.mgmt.kusto.models.DatabasePrincipalListRequest or
+         IO[bytes]
         :return: DatabasePrincipalListResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DatabasePrincipalListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1251,7 +1137,7 @@ class DatabasesOperations:
         else:
             _json = self._serialize.body(database_principals_to_add, "DatabasePrincipalListRequest")
 
-        request = build_add_principals_request(
+        _request = build_add_principals_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -1260,16 +1146,15 @@ class DatabasesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.add_principals.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1282,13 +1167,9 @@ class DatabasesOperations:
         deserialized = self._deserialize("DatabasePrincipalListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    add_principals.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/addPrincipals"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def remove_principals(
@@ -1315,7 +1196,6 @@ class DatabasesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DatabasePrincipalListResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DatabasePrincipalListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1327,7 +1207,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        database_principals_to_remove: IO,
+        database_principals_to_remove: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1342,11 +1222,10 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param database_principals_to_remove: List of database principals to remove. Required.
-        :type database_principals_to_remove: IO
+        :type database_principals_to_remove: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DatabasePrincipalListResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DatabasePrincipalListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1358,7 +1237,7 @@ class DatabasesOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        database_principals_to_remove: Union[_models.DatabasePrincipalListRequest, IO],
+        database_principals_to_remove: Union[_models.DatabasePrincipalListRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.DatabasePrincipalListResult:
         """Remove Database principals permissions.
@@ -1371,18 +1250,14 @@ class DatabasesOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param database_principals_to_remove: List of database principals to remove. Is either a
-         DatabasePrincipalListRequest type or a IO type. Required.
+         DatabasePrincipalListRequest type or a IO[bytes] type. Required.
         :type database_principals_to_remove: ~azure.mgmt.kusto.models.DatabasePrincipalListRequest or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         IO[bytes]
         :return: DatabasePrincipalListResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DatabasePrincipalListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1405,7 +1280,7 @@ class DatabasesOperations:
         else:
             _json = self._serialize.body(database_principals_to_remove, "DatabasePrincipalListRequest")
 
-        request = build_remove_principals_request(
+        _request = build_remove_principals_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -1414,16 +1289,15 @@ class DatabasesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.remove_principals.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1436,10 +1310,6 @@ class DatabasesOperations:
         deserialized = self._deserialize("DatabasePrincipalListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    remove_principals.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/removePrincipals"
-    }
+        return deserialized  # type: ignore

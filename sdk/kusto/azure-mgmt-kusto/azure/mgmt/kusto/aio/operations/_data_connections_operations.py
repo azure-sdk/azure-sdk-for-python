@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -41,6 +42,10 @@ from ...operations._data_connections_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -77,7 +82,6 @@ class DataConnectionsOperations:
         :type cluster_name: str
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either DataConnection or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.kusto.models.DataConnection]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -88,7 +92,7 @@ class DataConnectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DataConnectionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -99,18 +103,17 @@ class DataConnectionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_database_request(
+                _request = build_list_by_database_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_database.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -122,13 +125,13 @@ class DataConnectionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("DataConnectionListResult", pipeline_response)
@@ -138,11 +141,11 @@ class DataConnectionsOperations:
             return None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -155,19 +158,15 @@ class DataConnectionsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections"
-    }
-
     async def _data_connection_validation_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: Union[_models.DataConnectionValidation, IO],
+        parameters: Union[_models.DataConnectionValidation, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.DataConnectionValidationListResult]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -190,7 +189,7 @@ class DataConnectionsOperations:
         else:
             _json = self._serialize.body(parameters, "DataConnectionValidation")
 
-        request = build_data_connection_validation_request(
+        _request = build_data_connection_validation_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -199,16 +198,15 @@ class DataConnectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._data_connection_validation_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -230,13 +228,9 @@ class DataConnectionsOperations:
             )
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _data_connection_validation_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_data_connection_validation(
@@ -264,14 +258,6 @@ class DataConnectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either DataConnectionValidationListResult
          or the result of cls(response)
         :rtype:
@@ -285,7 +271,7 @@ class DataConnectionsOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -301,18 +287,10 @@ class DataConnectionsOperations:
         :type database_name: str
         :param parameters: The data connection parameters supplied to the CreateOrUpdate operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either DataConnectionValidationListResult
          or the result of cls(response)
         :rtype:
@@ -326,7 +304,7 @@ class DataConnectionsOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        parameters: Union[_models.DataConnectionValidation, IO],
+        parameters: Union[_models.DataConnectionValidation, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DataConnectionValidationListResult]:
         """Checks that the data connection parameters are valid.
@@ -339,19 +317,8 @@ class DataConnectionsOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param parameters: The data connection parameters supplied to the CreateOrUpdate operation. Is
-         either a DataConnectionValidation type or a IO type. Required.
-        :type parameters: ~azure.mgmt.kusto.models.DataConnectionValidation or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         either a DataConnectionValidation type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.kusto.models.DataConnectionValidation or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either DataConnectionValidationListResult
          or the result of cls(response)
         :rtype:
@@ -385,7 +352,7 @@ class DataConnectionsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("DataConnectionValidationListResult", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -395,17 +362,15 @@ class DataConnectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.DataConnectionValidationListResult].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_data_connection_validation.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation"
-    }
+        return AsyncLROPoller[_models.DataConnectionValidationListResult](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def check_name_availability(
@@ -432,7 +397,6 @@ class DataConnectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -444,7 +408,7 @@ class DataConnectionsOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        data_connection_name: IO,
+        data_connection_name: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -459,11 +423,10 @@ class DataConnectionsOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param data_connection_name: The name of the data connection. Required.
-        :type data_connection_name: IO
+        :type data_connection_name: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -475,7 +438,7 @@ class DataConnectionsOperations:
         resource_group_name: str,
         cluster_name: str,
         database_name: str,
-        data_connection_name: Union[_models.DataConnectionCheckNameRequest, IO],
+        data_connection_name: Union[_models.DataConnectionCheckNameRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.CheckNameResult:
         """Checks that the data connection name is valid and is not already in use.
@@ -488,17 +451,14 @@ class DataConnectionsOperations:
         :param database_name: The name of the database in the Kusto cluster. Required.
         :type database_name: str
         :param data_connection_name: The name of the data connection. Is either a
-         DataConnectionCheckNameRequest type or a IO type. Required.
-        :type data_connection_name: ~azure.mgmt.kusto.models.DataConnectionCheckNameRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         DataConnectionCheckNameRequest type or a IO[bytes] type. Required.
+        :type data_connection_name: ~azure.mgmt.kusto.models.DataConnectionCheckNameRequest or
+         IO[bytes]
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -521,7 +481,7 @@ class DataConnectionsOperations:
         else:
             _json = self._serialize.body(data_connection_name, "DataConnectionCheckNameRequest")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -530,16 +490,15 @@ class DataConnectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -552,13 +511,9 @@ class DataConnectionsOperations:
         deserialized = self._deserialize("CheckNameResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(
@@ -575,12 +530,11 @@ class DataConnectionsOperations:
         :type database_name: str
         :param data_connection_name: The name of the data connection. Required.
         :type data_connection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DataConnection or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.DataConnection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -594,23 +548,22 @@ class DataConnectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DataConnection] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
             data_connection_name=data_connection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -623,13 +576,9 @@ class DataConnectionsOperations:
         deserialized = self._deserialize("DataConnection", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
@@ -637,10 +586,10 @@ class DataConnectionsOperations:
         cluster_name: str,
         database_name: str,
         data_connection_name: str,
-        parameters: Union[_models.DataConnection, IO],
+        parameters: Union[_models.DataConnection, IO[bytes]],
         **kwargs: Any
     ) -> _models.DataConnection:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -663,7 +612,7 @@ class DataConnectionsOperations:
         else:
             _json = self._serialize.body(parameters, "DataConnection")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -673,16 +622,15 @@ class DataConnectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -710,10 +658,6 @@ class DataConnectionsOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -744,14 +688,6 @@ class DataConnectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either DataConnection or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.DataConnection]
@@ -765,7 +701,7 @@ class DataConnectionsOperations:
         cluster_name: str,
         database_name: str,
         data_connection_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -783,18 +719,10 @@ class DataConnectionsOperations:
         :type data_connection_name: str
         :param parameters: The data connection parameters supplied to the CreateOrUpdate operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either DataConnection or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.DataConnection]
@@ -808,7 +736,7 @@ class DataConnectionsOperations:
         cluster_name: str,
         database_name: str,
         data_connection_name: str,
-        parameters: Union[_models.DataConnection, IO],
+        parameters: Union[_models.DataConnection, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DataConnection]:
         """Creates or updates a data connection.
@@ -823,19 +751,8 @@ class DataConnectionsOperations:
         :param data_connection_name: The name of the data connection. Required.
         :type data_connection_name: str
         :param parameters: The data connection parameters supplied to the CreateOrUpdate operation. Is
-         either a DataConnection type or a IO type. Required.
-        :type parameters: ~azure.mgmt.kusto.models.DataConnection or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         either a DataConnection type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.kusto.models.DataConnection or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either DataConnection or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.DataConnection]
@@ -869,7 +786,7 @@ class DataConnectionsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("DataConnection", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -879,17 +796,15 @@ class DataConnectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.DataConnection].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
+        return AsyncLROPoller[_models.DataConnection](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _update_initial(
         self,
@@ -897,10 +812,10 @@ class DataConnectionsOperations:
         cluster_name: str,
         database_name: str,
         data_connection_name: str,
-        parameters: Union[_models.DataConnection, IO],
+        parameters: Union[_models.DataConnection, IO[bytes]],
         **kwargs: Any
     ) -> _models.DataConnection:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -923,7 +838,7 @@ class DataConnectionsOperations:
         else:
             _json = self._serialize.body(parameters, "DataConnection")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
@@ -933,16 +848,15 @@ class DataConnectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -977,10 +891,6 @@ class DataConnectionsOperations:
 
         return deserialized  # type: ignore
 
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
-
     @overload
     async def begin_update(
         self,
@@ -1009,14 +919,6 @@ class DataConnectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either DataConnection or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.DataConnection]
@@ -1030,7 +932,7 @@ class DataConnectionsOperations:
         cluster_name: str,
         database_name: str,
         data_connection_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1047,18 +949,10 @@ class DataConnectionsOperations:
         :param data_connection_name: The name of the data connection. Required.
         :type data_connection_name: str
         :param parameters: The data connection parameters supplied to the Update operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either DataConnection or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.DataConnection]
@@ -1072,7 +966,7 @@ class DataConnectionsOperations:
         cluster_name: str,
         database_name: str,
         data_connection_name: str,
-        parameters: Union[_models.DataConnection, IO],
+        parameters: Union[_models.DataConnection, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DataConnection]:
         """Updates a data connection.
@@ -1087,19 +981,8 @@ class DataConnectionsOperations:
         :param data_connection_name: The name of the data connection. Required.
         :type data_connection_name: str
         :param parameters: The data connection parameters supplied to the Update operation. Is either a
-         DataConnection type or a IO type. Required.
-        :type parameters: ~azure.mgmt.kusto.models.DataConnection or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         DataConnection type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.kusto.models.DataConnection or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either DataConnection or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.kusto.models.DataConnection]
@@ -1133,7 +1016,7 @@ class DataConnectionsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("DataConnection", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1143,22 +1026,20 @@ class DataConnectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.DataConnection].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
+        return AsyncLROPoller[_models.DataConnection](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, cluster_name: str, database_name: str, data_connection_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1172,23 +1053,22 @@ class DataConnectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             database_name=database_name,
             data_connection_name=data_connection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1206,11 +1086,7 @@ class DataConnectionsOperations:
             )
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -1227,14 +1103,6 @@ class DataConnectionsOperations:
         :type database_name: str
         :param data_connection_name: The name of the data connection. Required.
         :type data_connection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1263,7 +1131,7 @@ class DataConnectionsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
@@ -1272,14 +1140,10 @@ class DataConnectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
