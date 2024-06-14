@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.imagebuilder import ImageBuilderClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.imagebuilder import ImageBuilderClient
     pip install azure-identity
     pip install azure-mgmt-imagebuilder
 # USAGE
-    python update_image_template_tags.py
+    python sample.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +27,13 @@ from azure.mgmt.imagebuilder import ImageBuilderClient
 def main():
     client = ImageBuilderClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscription-id}",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.virtual_machine_image_templates.begin_update(
-        resource_group_name="myResourceGroup",
-        image_template_name="myImageTemplate",
-        parameters={"tags": {"new-tag": "new-value"}},
-    ).result()
-    print(response)
+    response = client.virtual_machine_image_templates.list()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/UpdateImageTemplateTags.json
 if __name__ == "__main__":
     main()
