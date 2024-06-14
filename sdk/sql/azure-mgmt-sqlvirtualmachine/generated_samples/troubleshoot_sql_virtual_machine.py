@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.sqlvirtualmachine import SqlVirtualMachineManagementClient
 
 """
@@ -33,15 +36,15 @@ def main():
         resource_group_name="testrg",
         sql_virtual_machine_name="testvm",
         parameters={
-            "endTimeUtc": "2022-07-09T22:10:00Z",
+            "endTimeUtc": "2023-07-09T22:10:00Z",
             "properties": {"unhealthyReplicaInfo": {"availabilityGroupName": "AG1"}},
-            "startTimeUtc": "2022-07-09T17:10:00Z",
+            "startTimeUtc": "2023-07-09T17:10:00Z",
             "troubleshootingScenario": "UnhealthyReplica",
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/TroubleshootSqlVirtualMachine.json
+# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/stable/2023-10-01/examples/TroubleshootSqlVirtualMachine.json
 if __name__ == "__main__":
     main()

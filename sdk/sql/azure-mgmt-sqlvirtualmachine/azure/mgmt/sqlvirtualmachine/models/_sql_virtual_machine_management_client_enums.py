@@ -10,6 +10,21 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AdditionalOsPatch(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Additional VM Patching solution enabled on the Virtual Machine."""
+
+    WU = "WU"
+    WUMU = "WUMU"
+    WSUS = "WSUS"
+
+
+class AdditionalVmPatch(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Additional Patch to be enable or enabled on the SQL Virtual Machine."""
+
+    NOT_SET = "NotSet"
+    MICROSOFT_UPDATE = "MicrosoftUpdate"
+
+
 class AssessmentDayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Day of the week to run assessment."""
 
@@ -65,8 +80,8 @@ class ClusterSubnetType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class Commit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Replica commit mode in availability group."""
 
-    SYNCHRONOUS_COMMIT = "SYNCHRONOUS_COMMIT"
-    ASYNCHRONOUS_COMMIT = "ASYNCHRONOUS_COMMIT"
+    SYNCHRONOUS_COMMIT = "Synchronous_Commit"
+    ASYNCHRONOUS_COMMIT = "Asynchronous_Commit"
 
 
 class ConnectivityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -110,8 +125,8 @@ class DiskConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class Failover(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Replica failover mode in availability group."""
 
-    AUTOMATIC = "AUTOMATIC"
-    MANUAL = "MANUAL"
+    AUTOMATIC = "Automatic"
+    MANUAL = "Manual"
 
 
 class FullBackupFrequencyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -130,6 +145,8 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     NONE = "None"
     SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
 class LeastPrivilegeMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -146,19 +163,26 @@ class OperationOrigin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM = "system"
 
 
+class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Operating System of the current SQL Virtual Machine."""
+
+    WINDOWS = "Windows"
+    LINUX = "Linux"
+
+
 class ReadableSecondary(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Replica readable secondary mode in availability group."""
 
-    NO = "NO"
-    ALL = "ALL"
-    READ_ONLY = "READ_ONLY"
+    NO = "No"
+    ALL = "All"
+    READ_ONLY = "Read_Only"
 
 
 class Role(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Replica Role in availability group."""
 
-    PRIMARY = "PRIMARY"
-    SECONDARY = "SECONDARY"
+    PRIMARY = "Primary"
+    SECONDARY = "Secondary"
 
 
 class ScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -178,7 +202,9 @@ class SqlImageSku(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SqlManagementMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """SQL Server Management type."""
+    """SQL Server Management type. NOTE: This parameter is not used anymore. API will automatically
+    detect the Sql Management, refrain from using it.
+    """
 
     FULL = "Full"
     LIGHT_WEIGHT = "LightWeight"
@@ -220,3 +246,11 @@ class TroubleshootingScenario(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SQL VM troubleshooting scenario."""
 
     UNHEALTHY_REPLICA = "UnhealthyReplica"
+
+
+class VmIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Identity type of the virtual machine. Specify None to opt-out of Managed Identities."""
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
