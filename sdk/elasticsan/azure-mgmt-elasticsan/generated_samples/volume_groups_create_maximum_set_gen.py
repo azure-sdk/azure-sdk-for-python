@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
 """
@@ -26,33 +29,26 @@ from azure.mgmt.elasticsan import ElasticSanMgmtClient
 def main():
     client = ElasticSanMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionid",
+        subscription_id="6A3D9E72-4E5F-44D5-818D-99842AE75034",
     )
 
     response = client.volume_groups.begin_create(
-        resource_group_name="resourcegroupname",
+        resource_group_name="rgelasticsan",
         elastic_san_name="elasticsanname",
         volume_group_name="volumegroupname",
         parameters={
-            "identity": {"type": "None", "userAssignedIdentities": {"key7482": {}}},
+            "identity": {"type": "None", "userAssignedIdentities": {"key5": {}}},
             "properties": {
-                "encryption": "EncryptionAtRestWithCustomerManagedKey",
+                "encryption": "EncryptionAtRestWithPlatformKey",
                 "encryptionProperties": {
-                    "identity": {"userAssignedIdentity": "im"},
+                    "identity": {"userAssignedIdentity": "iugvrhjvdicpvezicozf"},
                     "keyVaultProperties": {
-                        "keyName": "sftaiernmrzypnrkpakrrawxcbsqzc",
-                        "keyVaultUri": "https://microsoft.com/axmblwp",
-                        "keyVersion": "c",
+                        "keyName": "odegvocpuhdqeswco",
+                        "keyVaultUri": "https://microsoft.com/a",
+                        "keyVersion": "q",
                     },
                 },
-                "networkAcls": {
-                    "virtualNetworkRules": [
-                        {
-                            "action": "Allow",
-                            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}",
-                        }
-                    ]
-                },
+                "networkAcls": {"virtualNetworkRules": [{"action": "Allow", "id": "hjiouaiusd"}]},
                 "protocolType": "Iscsi",
             },
         },
@@ -60,6 +56,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Create_MaximumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
