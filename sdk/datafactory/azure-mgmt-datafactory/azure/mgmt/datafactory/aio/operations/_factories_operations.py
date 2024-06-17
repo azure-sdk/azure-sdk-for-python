@@ -71,7 +71,7 @@ class FactoriesOperations:
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.Factory"]:
-        """Lists factories under the specified subscription.
+        """Lists factories under the specified subscription. test.
 
         :return: An iterator like instance of either Factory or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.datafactory.models.Factory]
