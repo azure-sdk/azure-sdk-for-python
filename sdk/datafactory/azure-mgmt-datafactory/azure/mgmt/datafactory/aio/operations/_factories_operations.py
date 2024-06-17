@@ -154,7 +154,7 @@ class FactoriesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.Factory:
-        """Updates a factory's repo information.
+        """Updates a factory's repo information. testtest.
 
         :param location_id: The location identifier. Required.
         :type location_id: str
@@ -172,7 +172,7 @@ class FactoriesOperations:
     async def configure_factory_repo(
         self, location_id: str, factory_repo_update: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Factory:
-        """Updates a factory's repo information.
+        """Updates a factory's repo information. testtest.
 
         :param location_id: The location identifier. Required.
         :type location_id: str
@@ -190,7 +190,7 @@ class FactoriesOperations:
     async def configure_factory_repo(
         self, location_id: str, factory_repo_update: Union[_models.FactoryRepoUpdate, IO[bytes]], **kwargs: Any
     ) -> _models.Factory:
-        """Updates a factory's repo information.
+        """Updates a factory's repo information. testtest.
 
         :param location_id: The location identifier. Required.
         :type location_id: str
