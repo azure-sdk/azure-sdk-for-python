@@ -827,7 +827,7 @@ class FaceLandmarks(_model_base.Model):  # pylint: disable=too-many-instance-att
     """The coordinates of the under lip bottom. Required."""
 
     @overload
-    def __init__(  # pylint: disable=too-many-locals
+    def __init__(
         self,
         *,
         pupil_left: "_models.LandmarkCoordinate",

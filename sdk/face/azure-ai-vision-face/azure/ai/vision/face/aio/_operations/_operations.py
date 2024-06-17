@@ -127,9 +127,12 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
         ..
 
            [!IMPORTANT]
-           To mitigate potential misuse that can subject people to stereotyping, discrimination, or
-        unfair denial of services, we are retiring Face API attributes that predict emotion, gender,
-        age, smile, facial hair, hair, and makeup. Read more about this decision
+           Microsoft has retired or restricted facial recognition capabilities that can be used to try
+        to infer emotional states and identity attributes which, if misused, can subject people to
+        stereotyping, discrimination or unfair denial of services. The retired capabilities are emotion
+        and gender. The restricted capabilities are age, smile, facial hair, hair and makeup. Email
+        Azure Face API azureface@microsoft.com if you have a responsible use case that would benefit
+        from the use of any of the restricted capabilities. Read more about this decision
         https://azure.microsoft.com/blog/responsible-ai-investments-and-safeguards-for-facial-recognition/.
 
 
@@ -584,9 +587,12 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
         ..
 
            [!IMPORTANT]
-           To mitigate potential misuse that can subject people to stereotyping, discrimination, or
-        unfair denial of services, we are retiring Face API attributes that predict emotion, gender,
-        age, smile, facial hair, hair, and makeup. Read more about this decision
+           Microsoft has retired or restricted facial recognition capabilities that can be used to try
+        to infer emotional states and identity attributes which, if misused, can subject people to
+        stereotyping, discrimination or unfair denial of services. The retired capabilities are emotion
+        and gender. The restricted capabilities are age, smile, facial hair, hair and makeup. Email
+        Azure Face API azureface@microsoft.com if you have a responsible use case that would benefit
+        from the use of any of the restricted capabilities. Read more about this decision
         https://azure.microsoft.com/blog/responsible-ai-investments-and-safeguards-for-facial-recognition/.
 
 
@@ -1285,9 +1291,9 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
             if face_ids is _Unset:
                 raise TypeError("missing required argument: face_ids")
             body = {
-                "faceid": face_id,
-                "faceids": face_ids,
-                "maxnumofcandidatesreturned": max_num_of_candidates_returned,
+                "faceId": face_id,
+                "faceIds": face_ids,
+                "maxNumOfCandidatesReturned": max_num_of_candidates_returned,
                 "mode": mode,
             }
             body = {k: v for k, v in body.items() if v is not None}
@@ -1543,7 +1549,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 raise TypeError("missing required argument: face_id1")
             if face_id2 is _Unset:
                 raise TypeError("missing required argument: face_id2")
-            body = {"faceid1": face_id1, "faceid2": face_id2}
+            body = {"faceId1": face_id1, "faceId2": face_id2}
             body = {k: v for k, v in body.items() if v is not None}
         content_type = content_type or "application/json"
         _content = None
@@ -1817,7 +1823,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
         if body is _Unset:
             if face_ids is _Unset:
                 raise TypeError("missing required argument: face_ids")
-            body = {"faceids": face_ids}
+            body = {"faceIds": face_ids}
             body = {k: v for k, v in body.items() if v is not None}
         content_type = content_type or "application/json"
         _content = None
