@@ -321,17 +321,6 @@ class MaintenanceOperationResultCodeTypes(str, Enum, metaclass=CaseInsensitiveEn
     MAINTENANCE_COMPLETED = "MaintenanceCompleted"
 
 
-class Mode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will
-    start to audit or monitor but not enforce access control over requests to host endpoints in
-    Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce
-    mode.
-    """
-
-    AUDIT = "Audit"
-    ENFORCE = "Enforce"
-
-
 class NetworkApiVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """specifies the Microsoft.Network API version used when creating networking resources in the
     Network Interface Configurations.
@@ -678,9 +667,9 @@ class VirtualMachineSizeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the size of the virtual machine. The enum data type is currently deprecated and will
     be removed by December 23rd 2023. The recommended way to get the list of available sizes is
     using these APIs: `List all available virtual machine sizes in an availability set
-    <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\ , `List
+    <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\\ , `List
     all available virtual machine sizes in a region
-    <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\ , `List all available
+    <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\\ , `List all available
     virtual machine sizes for resizing
     <https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes>`_. For more
     information about virtual machine sizes, see `Sizes for virtual machines

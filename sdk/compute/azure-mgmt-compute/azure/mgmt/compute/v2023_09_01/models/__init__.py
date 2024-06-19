@@ -310,7 +310,6 @@ from ._compute_management_client_enums import LinuxPatchAssessmentMode
 from ._compute_management_client_enums import LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 from ._compute_management_client_enums import LinuxVMGuestPatchMode
 from ._compute_management_client_enums import MaintenanceOperationResultCodeTypes
-from ._compute_management_client_enums import Mode
 from ._compute_management_client_enums import NetworkApiVersion
 from ._compute_management_client_enums import NetworkInterfaceAuxiliaryMode
 from ._compute_management_client_enums import NetworkInterfaceAuxiliarySku
@@ -667,7 +666,6 @@ __all__ = [
     "LinuxVMGuestPatchAutomaticByPlatformRebootSetting",
     "LinuxVMGuestPatchMode",
     "MaintenanceOperationResultCodeTypes",
-    "Mode",
     "NetworkApiVersion",
     "NetworkInterfaceAuxiliaryMode",
     "NetworkInterfaceAuxiliarySku",
