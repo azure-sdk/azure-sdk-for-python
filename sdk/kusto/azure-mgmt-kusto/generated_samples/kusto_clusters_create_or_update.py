@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.kusto import KustoManagementClient
 
 """
@@ -43,11 +46,7 @@ def main():
                 "enableStreamingIngest": True,
                 "languageExtensions": {
                     "value": [
-                        {
-                            "languageExtensionCustomImageName": "customImage8",
-                            "languageExtensionImageName": "Python_Custom_Image",
-                            "languageExtensionName": "PYTHON",
-                        },
+                        {"languageExtensionImageName": "Python3_10_8", "languageExtensionName": "PYTHON"},
                         {"languageExtensionImageName": "R", "languageExtensionName": "R"},
                     ]
                 },

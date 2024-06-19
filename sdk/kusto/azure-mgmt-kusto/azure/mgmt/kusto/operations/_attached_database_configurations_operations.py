@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -273,7 +278,6 @@ class AttachedDatabaseConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -284,7 +288,7 @@ class AttachedDatabaseConfigurationsOperations:
         self,
         resource_group_name: str,
         cluster_name: str,
-        resource_name: IO,
+        resource_name: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -298,11 +302,10 @@ class AttachedDatabaseConfigurationsOperations:
         :param cluster_name: The name of the Kusto cluster. Required.
         :type cluster_name: str
         :param resource_name: The name of the resource. Required.
-        :type resource_name: IO
+        :type resource_name: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -313,7 +316,7 @@ class AttachedDatabaseConfigurationsOperations:
         self,
         resource_group_name: str,
         cluster_name: str,
-        resource_name: Union[_models.AttachedDatabaseConfigurationsCheckNameRequest, IO],
+        resource_name: Union[_models.AttachedDatabaseConfigurationsCheckNameRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.CheckNameResult:
         """Checks that the attached database configuration resource name is valid and is not already in
@@ -325,18 +328,14 @@ class AttachedDatabaseConfigurationsOperations:
         :param cluster_name: The name of the Kusto cluster. Required.
         :type cluster_name: str
         :param resource_name: The name of the resource. Is either a
-         AttachedDatabaseConfigurationsCheckNameRequest type or a IO type. Required.
+         AttachedDatabaseConfigurationsCheckNameRequest type or a IO[bytes] type. Required.
         :type resource_name: ~azure.mgmt.kusto.models.AttachedDatabaseConfigurationsCheckNameRequest or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         IO[bytes]
         :return: CheckNameResult or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.CheckNameResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -359,7 +358,7 @@ class AttachedDatabaseConfigurationsOperations:
         else:
             _json = self._serialize.body(resource_name, "AttachedDatabaseConfigurationsCheckNameRequest")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             subscription_id=self._config.subscription_id,
@@ -367,16 +366,15 @@ class AttachedDatabaseConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -389,13 +387,9 @@ class AttachedDatabaseConfigurationsOperations:
         deserialized = self._deserialize("CheckNameResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_cluster(
@@ -408,7 +402,6 @@ class AttachedDatabaseConfigurationsOperations:
         :type resource_group_name: str
         :param cluster_name: The name of the Kusto cluster. Required.
         :type cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AttachedDatabaseConfiguration or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.kusto.models.AttachedDatabaseConfiguration]
@@ -420,7 +413,7 @@ class AttachedDatabaseConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AttachedDatabaseConfigurationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -431,17 +424,16 @@ class AttachedDatabaseConfigurationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_cluster_request(
+                _request = build_list_by_cluster_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_cluster.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -453,13 +445,13 @@ class AttachedDatabaseConfigurationsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("AttachedDatabaseConfigurationListResult", pipeline_response)
@@ -469,11 +461,11 @@ class AttachedDatabaseConfigurationsOperations:
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -485,10 +477,6 @@ class AttachedDatabaseConfigurationsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_cluster.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations"
-    }
 
     @distributed_trace
     def get(
@@ -504,12 +492,11 @@ class AttachedDatabaseConfigurationsOperations:
         :param attached_database_configuration_name: The name of the attached database configuration.
          Required.
         :type attached_database_configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AttachedDatabaseConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.kusto.models.AttachedDatabaseConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -523,22 +510,21 @@ class AttachedDatabaseConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AttachedDatabaseConfiguration] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             attached_database_configuration_name=attached_database_configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -551,23 +537,19 @@ class AttachedDatabaseConfigurationsOperations:
         deserialized = self._deserialize("AttachedDatabaseConfiguration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         attached_database_configuration_name: str,
-        parameters: Union[_models.AttachedDatabaseConfiguration, IO],
+        parameters: Union[_models.AttachedDatabaseConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> _models.AttachedDatabaseConfiguration:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -590,7 +572,7 @@ class AttachedDatabaseConfigurationsOperations:
         else:
             _json = self._serialize.body(parameters, "AttachedDatabaseConfiguration")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             attached_database_configuration_name=attached_database_configuration_name,
@@ -599,16 +581,15 @@ class AttachedDatabaseConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -637,10 +618,6 @@ class AttachedDatabaseConfigurationsOperations:
 
         return deserialized  # type: ignore
 
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}"
-    }
-
     @overload
     def begin_create_or_update(
         self,
@@ -667,14 +644,6 @@ class AttachedDatabaseConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either AttachedDatabaseConfiguration or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.kusto.models.AttachedDatabaseConfiguration]
@@ -687,7 +656,7 @@ class AttachedDatabaseConfigurationsOperations:
         resource_group_name: str,
         cluster_name: str,
         attached_database_configuration_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -703,18 +672,10 @@ class AttachedDatabaseConfigurationsOperations:
          Required.
         :type attached_database_configuration_name: str
         :param parameters: The database parameters supplied to the CreateOrUpdate operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either AttachedDatabaseConfiguration or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.kusto.models.AttachedDatabaseConfiguration]
@@ -727,7 +688,7 @@ class AttachedDatabaseConfigurationsOperations:
         resource_group_name: str,
         cluster_name: str,
         attached_database_configuration_name: str,
-        parameters: Union[_models.AttachedDatabaseConfiguration, IO],
+        parameters: Union[_models.AttachedDatabaseConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.AttachedDatabaseConfiguration]:
         """Creates or updates an attached database configuration.
@@ -741,19 +702,8 @@ class AttachedDatabaseConfigurationsOperations:
          Required.
         :type attached_database_configuration_name: str
         :param parameters: The database parameters supplied to the CreateOrUpdate operation. Is either
-         a AttachedDatabaseConfiguration type or a IO type. Required.
-        :type parameters: ~azure.mgmt.kusto.models.AttachedDatabaseConfiguration or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a AttachedDatabaseConfiguration type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.kusto.models.AttachedDatabaseConfiguration or IO[bytes]
         :return: An instance of LROPoller that returns either AttachedDatabaseConfiguration or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.kusto.models.AttachedDatabaseConfiguration]
@@ -786,7 +736,7 @@ class AttachedDatabaseConfigurationsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("AttachedDatabaseConfiguration", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -796,22 +746,20 @@ class AttachedDatabaseConfigurationsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.AttachedDatabaseConfiguration].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}"
-    }
+        return LROPoller[_models.AttachedDatabaseConfiguration](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, cluster_name: str, attached_database_configuration_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -825,22 +773,21 @@ class AttachedDatabaseConfigurationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             attached_database_configuration_name=attached_database_configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -858,11 +805,7 @@ class AttachedDatabaseConfigurationsOperations:
             )
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -878,14 +821,6 @@ class AttachedDatabaseConfigurationsOperations:
         :param attached_database_configuration_name: The name of the attached database configuration.
          Required.
         :type attached_database_configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -913,7 +848,7 @@ class AttachedDatabaseConfigurationsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -922,14 +857,10 @@ class AttachedDatabaseConfigurationsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
