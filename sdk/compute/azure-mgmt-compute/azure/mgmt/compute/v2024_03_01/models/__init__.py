@@ -150,6 +150,7 @@ from ._models_py3 import ScheduledEventsAdditionalPublishingTargets
 from ._models_py3 import ScheduledEventsPolicy
 from ._models_py3 import ScheduledEventsProfile
 from ._models_py3 import SecurityPostureReference
+from ._models_py3 import SecurityPostureReferenceUpdate
 from ._models_py3 import SecurityProfile
 from ._models_py3 import ServiceArtifactReference
 from ._models_py3 import Sku
@@ -315,7 +316,6 @@ from ._compute_management_client_enums import LinuxPatchAssessmentMode
 from ._compute_management_client_enums import LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 from ._compute_management_client_enums import LinuxVMGuestPatchMode
 from ._compute_management_client_enums import MaintenanceOperationResultCodeTypes
-from ._compute_management_client_enums import Mode
 from ._compute_management_client_enums import NetworkApiVersion
 from ._compute_management_client_enums import NetworkInterfaceAuxiliaryMode
 from ._compute_management_client_enums import NetworkInterfaceAuxiliarySku
@@ -514,6 +514,7 @@ __all__ = [
     "ScheduledEventsPolicy",
     "ScheduledEventsProfile",
     "SecurityPostureReference",
+    "SecurityPostureReferenceUpdate",
     "SecurityProfile",
     "ServiceArtifactReference",
     "Sku",
@@ -678,7 +679,6 @@ __all__ = [
     "LinuxVMGuestPatchAutomaticByPlatformRebootSetting",
     "LinuxVMGuestPatchMode",
     "MaintenanceOperationResultCodeTypes",
-    "Mode",
     "NetworkApiVersion",
     "NetworkInterfaceAuxiliaryMode",
     "NetworkInterfaceAuxiliarySku",

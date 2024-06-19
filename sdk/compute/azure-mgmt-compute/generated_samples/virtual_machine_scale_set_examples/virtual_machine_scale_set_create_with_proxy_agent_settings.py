@@ -67,7 +67,7 @@ def main():
                         "adminUsername": "{your-username}",
                         "computerNamePrefix": "{vmss-name}",
                     },
-                    "securityProfile": {"proxyAgentSettings": {"enabled": True, "mode": "Enforce"}},
+                    "securityProfile": {"proxyAgentSettings": {"enabled": True}},
                     "storageProfile": {
                         "imageReference": {
                             "offer": "WindowsServer",

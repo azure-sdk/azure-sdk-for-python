@@ -52,7 +52,7 @@ def main():
                     "adminUsername": "{your-username}",
                     "computerName": "myVM",
                 },
-                "securityProfile": {"proxyAgentSettings": {"enabled": True, "mode": "Enforce"}},
+                "securityProfile": {"proxyAgentSettings": {"enabled": True}},
                 "storageProfile": {
                     "imageReference": {
                         "offer": "WindowsServer",
