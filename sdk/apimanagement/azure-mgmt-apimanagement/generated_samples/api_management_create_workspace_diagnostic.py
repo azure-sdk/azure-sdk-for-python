@@ -17,7 +17,7 @@ from azure.mgmt.apimanagement import ApiManagementClient
     pip install azure-identity
     pip install azure-mgmt-apimanagement
 # USAGE
-    python api_management_update_documentation.py
+    python api_management_create_workspace_diagnostic.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,19 +29,33 @@ from azure.mgmt.apimanagement import ApiManagementClient
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.documentation.update(
+    response = client.workspace_diagnostic.create_or_update(
         resource_group_name="rg1",
         service_name="apimService1",
-        documentation_id="57d1f7558aa04f15146d9d8a",
-        if_match="*",
-        parameters={"properties": {"content": "content updated", "title": "Title updated"}},
+        workspace_id="wks1",
+        diagnostic_id="applicationinsights",
+        parameters={
+            "properties": {
+                "alwaysLog": "allErrors",
+                "backend": {
+                    "request": {"body": {"bytes": 512}, "headers": ["Content-type"]},
+                    "response": {"body": {"bytes": 512}, "headers": ["Content-type"]},
+                },
+                "frontend": {
+                    "request": {"body": {"bytes": 512}, "headers": ["Content-type"]},
+                    "response": {"body": {"bytes": 512}, "headers": ["Content-type"]},
+                },
+                "loggerId": "/workspaces/wks1/loggers/azuremonitor",
+                "sampling": {"percentage": 50, "samplingType": "fixed"},
+            }
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateDocumentation.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2024-06-01-preview/examples/ApiManagementCreateWorkspaceDiagnostic.json
 if __name__ == "__main__":
     main()
