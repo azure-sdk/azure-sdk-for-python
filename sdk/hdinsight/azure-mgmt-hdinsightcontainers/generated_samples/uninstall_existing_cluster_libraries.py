@@ -17,7 +17,7 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hdinsightcontainers
 # USAGE
-    python run_cluster_job.py
+    python uninstall_existing_cluster_libraries.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,28 +32,22 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.cluster_jobs.begin_run_job(
-        resource_group_name="hiloResourcegroup",
-        cluster_pool_name="clusterpool1",
-        cluster_name="cluster1",
-        cluster_job={
+    client.cluster_libraries.begin_manage_libraries(
+        resource_group_name="hiloResourceGroup",
+        cluster_pool_name="clusterPool",
+        cluster_name="cluster",
+        operation={
             "properties": {
-                "action": "START",
-                "entryClass": "com.microsoft.hilo.flink.job.streaming.SleepJob",
-                "flinkConfiguration": {
-                    "parallelism": "1",
-                    "savepoint.directory": "abfs://flinkjob@hilosa.dfs.core.windows.net/savepoint",
-                },
-                "jarName": "flink-sleep-job-0.0.1-SNAPSHOT.jar",
-                "jobJarDirectory": "abfs://flinkjob@hilosa.dfs.core.windows.net/jars",
-                "jobName": "flink-job-name",
-                "jobType": "FlinkJob",
+                "action": "Uninstall",
+                "libraries": [
+                    {"properties": {"name": "tensorflow", "type": "pypi"}},
+                    {"properties": {"groupId": "org.apache.flink", "name": "flink-connector-hudi", "type": "maven"}},
+                ],
             }
         },
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/RunClusterJob.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/UninstallExistingClusterLibraries.json
 if __name__ == "__main__":
     main()
