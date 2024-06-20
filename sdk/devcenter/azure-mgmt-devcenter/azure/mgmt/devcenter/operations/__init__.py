@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._plans_operations import PlansOperations
+from ._plan_members_operations import PlanMembersOperations
 from ._dev_centers_operations import DevCentersOperations
+from ._encryption_sets_operations import EncryptionSetsOperations
 from ._projects_operations import ProjectsOperations
 from ._attached_networks_operations import AttachedNetworksOperations
 from ._project_catalogs_operations import ProjectCatalogsOperations
@@ -15,6 +18,7 @@ from ._project_catalog_environment_definitions_operations import ProjectCatalogE
 from ._galleries_operations import GalleriesOperations
 from ._images_operations import ImagesOperations
 from ._image_versions_operations import ImageVersionsOperations
+from ._skus_operations import SkusOperations
 from ._catalogs_operations import CatalogsOperations
 from ._environment_types_operations import EnvironmentTypesOperations
 from ._project_allowed_environment_types_operations import ProjectAllowedEnvironmentTypesOperations
@@ -25,7 +29,8 @@ from ._operation_statuses_operations import OperationStatusesOperations
 from ._usages_operations import UsagesOperations
 from ._check_name_availability_operations import CheckNameAvailabilityOperations
 from ._check_scoped_name_availability_operations import CheckScopedNameAvailabilityOperations
-from ._skus_operations import SkusOperations
+from ._customization_tasks_operations import CustomizationTasksOperations
+from ._project_catalog_image_definitions_operations import ProjectCatalogImageDefinitionsOperations
 from ._pools_operations import PoolsOperations
 from ._schedules_operations import SchedulesOperations
 from ._network_connections_operations import NetworkConnectionsOperations
@@ -35,7 +40,10 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "PlansOperations",
+    "PlanMembersOperations",
     "DevCentersOperations",
+    "EncryptionSetsOperations",
     "ProjectsOperations",
     "AttachedNetworksOperations",
     "ProjectCatalogsOperations",
@@ -44,6 +52,7 @@ __all__ = [
     "GalleriesOperations",
     "ImagesOperations",
     "ImageVersionsOperations",
+    "SkusOperations",
     "CatalogsOperations",
     "EnvironmentTypesOperations",
     "ProjectAllowedEnvironmentTypesOperations",
@@ -54,7 +63,8 @@ __all__ = [
     "UsagesOperations",
     "CheckNameAvailabilityOperations",
     "CheckScopedNameAvailabilityOperations",
-    "SkusOperations",
+    "CustomizationTasksOperations",
+    "ProjectCatalogImageDefinitionsOperations",
     "PoolsOperations",
     "SchedulesOperations",
     "NetworkConnectionsOperations",
