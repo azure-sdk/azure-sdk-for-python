@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.signalr import SignalRManagementClient
 
 """
@@ -44,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRSharedPrivateLinkResources_CreateOrUpdate.json
+# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2024-04-01-preview/examples/SignalRSharedPrivateLinkResources_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

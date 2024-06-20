@@ -17,6 +17,14 @@ class ACLAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DENY = "Deny"
 
 
+class ClientConnectionCountRuleDiscriminator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ClientConnectionCountRuleDiscriminator."""
+
+    THROTTLE_BY_JWT_SIGNATURE_RULE = "ThrottleByJwtSignatureRule"
+    THROTTLE_BY_USER_ID_RULE = "ThrottleByUserIdRule"
+    THROTTLE_BY_JWT_CUSTOM_CLAIM_RULE = "ThrottleByJwtCustomClaimRule"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
