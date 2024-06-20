@@ -848,8 +848,10 @@ class ManagedClusterUpgradeSpec(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar type: ManagedClusterUpgradeType is the type of upgrade to be applied. Required. Known
-     values are: "Full", "NodeImageOnly", and "ControlPlaneOnly".
+    :ivar type: The upgrade type.
+     Full requires the KubernetesVersion property to be set.
+     NodeImageOnly requires the KubernetesVersion property not to be set. Required. Known values
+     are: "Full" and "NodeImageOnly".
     :vartype type: str or
      ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.ManagedClusterUpgradeType
     :ivar kubernetes_version: The Kubernetes version to upgrade the member clusters to.
@@ -873,8 +875,10 @@ class ManagedClusterUpgradeSpec(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: ManagedClusterUpgradeType is the type of upgrade to be applied. Required. Known
-         values are: "Full", "NodeImageOnly", and "ControlPlaneOnly".
+        :keyword type: The upgrade type.
+         Full requires the KubernetesVersion property to be set.
+         NodeImageOnly requires the KubernetesVersion property not to be set. Required. Known values
+         are: "Full" and "NodeImageOnly".
         :paramtype type: str or
          ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.ManagedClusterUpgradeType
         :keyword kubernetes_version: The Kubernetes version to upgrade the member clusters to.

@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -41,6 +42,10 @@ from ...operations._update_runs_operations import (
     build_stop_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -89,7 +94,7 @@ class UpdateRunsOperations:
         )
         cls: ClsType[_models.UpdateRunListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -171,7 +176,7 @@ class UpdateRunsOperations:
         :rtype: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -228,7 +233,7 @@ class UpdateRunsOperations:
         if_none_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.UpdateRun:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -474,7 +479,7 @@ class UpdateRunsOperations:
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -517,8 +522,8 @@ class UpdateRunsOperations:
 
         response_headers = {}
         if response.status_code == 202:
-            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
             return cls(pipeline_response, None, response_headers)  # type: ignore
@@ -593,7 +598,76 @@ class UpdateRunsOperations:
             )
         return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    async def _skip_initial(
+    @overload
+    async def skip(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        update_run_name: str,
+        body: _models.SkipProperties,
+        if_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.UpdateRun:
+        """Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param update_run_name: The name of the UpdateRun resource. Required.
+        :type update_run_name: str
+        :param body: The content of the action request. Required.
+        :type body: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.SkipProperties
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: UpdateRun or the result of cls(response)
+        :rtype: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def skip(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        update_run_name: str,
+        body: IO[bytes],
+        if_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.UpdateRun:
+        """Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param update_run_name: The name of the UpdateRun resource. Required.
+        :type update_run_name: str
+        :param body: The content of the action request. Required.
+        :type body: IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: UpdateRun or the result of cls(response)
+        :rtype: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def skip(
         self,
         resource_group_name: str,
         fleet_name: str,
@@ -601,8 +675,28 @@ class UpdateRunsOperations:
         body: Union[_models.SkipProperties, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
-    ) -> Optional[_models.UpdateRun]:
-        error_map = {
+    ) -> _models.UpdateRun:
+        """Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param update_run_name: The name of the UpdateRun resource. Required.
+        :type update_run_name: str
+        :param body: The content of the action request. Is either a SkipProperties type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.SkipProperties or
+         IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :return: UpdateRun or the result of cls(response)
+        :rtype: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -617,7 +711,7 @@ class UpdateRunsOperations:
             "api_version", _params.pop("api-version", self._api_version or "2024-02-02-preview")
         )
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.UpdateRun]] = kwargs.pop("cls", None)
+        cls: ClsType[_models.UpdateRun] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -650,180 +744,17 @@ class UpdateRunsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
-        response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("UpdateRun", pipeline_response)
-
-        if response.status_code == 202:
-            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
-            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+        deserialized = self._deserialize("UpdateRun", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    @overload
-    async def begin_skip(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_run_name: str,
-        body: _models.SkipProperties,
-        if_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.UpdateRun]:
-        """Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param update_run_name: The name of the UpdateRun resource. Required.
-        :type update_run_name: str
-        :param body: The content of the action request. Required.
-        :type body: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.SkipProperties
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either UpdateRun or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_skip(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_run_name: str,
-        body: IO[bytes],
-        if_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.UpdateRun]:
-        """Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param update_run_name: The name of the UpdateRun resource. Required.
-        :type update_run_name: str
-        :param body: The content of the action request. Required.
-        :type body: IO[bytes]
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either UpdateRun or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_skip(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_run_name: str,
-        body: Union[_models.SkipProperties, IO[bytes]],
-        if_match: Optional[str] = None,
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.UpdateRun]:
-        """Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param update_run_name: The name of the UpdateRun resource. Required.
-        :type update_run_name: str
-        :param body: The content of the action request. Is either a SkipProperties type or a IO[bytes]
-         type. Required.
-        :type body: ~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.SkipProperties or
-         IO[bytes]
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :return: An instance of AsyncLROPoller that returns either UpdateRun or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.v2024_02_02_preview.models.UpdateRun]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop(
-            "api_version", _params.pop("api-version", self._api_version or "2024-02-02-preview")
-        )
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.UpdateRun] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._skip_initial(
-                resource_group_name=resource_group_name,
-                fleet_name=fleet_name,
-                update_run_name=update_run_name,
-                body=body,
-                if_match=if_match,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("UpdateRun", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[_models.UpdateRun].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[_models.UpdateRun](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
 
     async def _start_initial(
         self,
@@ -833,7 +764,7 @@ class UpdateRunsOperations:
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> Optional[_models.UpdateRun]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -880,8 +811,8 @@ class UpdateRunsOperations:
             deserialized = self._deserialize("UpdateRun", pipeline_response)
 
         if response.status_code == 202:
-            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -972,7 +903,7 @@ class UpdateRunsOperations:
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> Optional[_models.UpdateRun]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1019,8 +950,8 @@ class UpdateRunsOperations:
             deserialized = self._deserialize("UpdateRun", pipeline_response)
 
         if response.status_code == 202:
-            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore

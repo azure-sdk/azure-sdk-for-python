@@ -74,15 +74,9 @@ class ManagedClusterUpgradeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of upgrade to perform when targeting ManagedClusters."""
 
     FULL = "Full"
-    """Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the
-    ManagedClusterUpgradeSpec.KubernetesVersion property to be set."""
+    """Full upgrades the control plane and all agent pools of the target ManagedClusters."""
     NODE_IMAGE_ONLY = "NodeImageOnly"
-    """NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the
-    ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set."""
-    CONTROL_PLANE_ONLY = "ControlPlaneOnly"
-    """ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will
-    not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion
-    property to be set."""
+    """NodeImageOnly upgrades only the node images of the target ManagedClusters."""
 
 
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
