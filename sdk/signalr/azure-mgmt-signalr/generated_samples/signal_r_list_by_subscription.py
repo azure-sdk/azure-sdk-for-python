@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.signalr import SignalRManagementClient
 
 """
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_ListBySubscription.json
+# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2024-04-01-preview/examples/SignalR_ListBySubscription.json
 if __name__ == "__main__":
     main()
