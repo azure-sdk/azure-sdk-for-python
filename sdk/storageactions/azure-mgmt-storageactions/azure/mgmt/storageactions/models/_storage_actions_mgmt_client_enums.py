@@ -39,11 +39,9 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class MatchedBlockName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents the condition block name that matched blob properties."""
 
-    IF = "If"
-    ELSE = "Else"
-    NONE = "None"
     IF_ENUM = "If"
     ELSE_ENUM = "Else"
+    NONE = "None"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):

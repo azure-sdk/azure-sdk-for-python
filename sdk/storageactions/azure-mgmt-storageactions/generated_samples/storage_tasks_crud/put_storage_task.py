@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.storageactions import StorageActionsMgmtClient
 
 """
@@ -33,6 +36,7 @@ def main():
         resource_group_name="res4228",
         storage_task_name="mytask1",
         parameters={
+            "identity": {"type": "SystemAssigned"},
             "location": "westus",
             "properties": {
                 "action": {
