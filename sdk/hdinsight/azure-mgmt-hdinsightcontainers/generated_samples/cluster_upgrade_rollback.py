@@ -17,7 +17,7 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hdinsightcontainers
 # USAGE
-    python run_cluster_job.py
+    python cluster_upgrade_rollback.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,31 +29,22 @@ from azure.mgmt.hdinsightcontainers import HDInsightContainersMgmtClient
 def main():
     client = HDInsightContainersMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="10e32bab-26da-4cc4-a441-52b318f824e6",
     )
 
-    response = client.cluster_jobs.begin_run_job(
+    response = client.clusters.begin_upgrade_manual_rollback(
         resource_group_name="hiloResourcegroup",
         cluster_pool_name="clusterpool1",
         cluster_name="cluster1",
-        cluster_job={
+        cluster_rollback_upgrade_request={
             "properties": {
-                "action": "START",
-                "entryClass": "com.microsoft.hilo.flink.job.streaming.SleepJob",
-                "flinkConfiguration": {
-                    "parallelism": "1",
-                    "savepoint.directory": "abfs://flinkjob@hilosa.dfs.core.windows.net/savepoint",
-                },
-                "jarName": "flink-sleep-job-0.0.1-SNAPSHOT.jar",
-                "jobJarDirectory": "abfs://flinkjob@hilosa.dfs.core.windows.net/jars",
-                "jobName": "flink-job-name",
-                "jobType": "FlinkJob",
+                "upgradeHistory": "/subscriptions/10e32bab-26da-4cc4-a441-52b318f824e6/resourceGroups/hiloResourcegroup/providers/Microsoft.HDInsight/clusterpools/clusterpool1/clusters/cluster1/upgradeHistories/01_11_2024_02_35_03_AM-HotfixUpgrade"
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/RunClusterJob.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ClusterUpgradeRollback.json
 if __name__ == "__main__":
     main()

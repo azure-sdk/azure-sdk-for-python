@@ -7,9 +7,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Iterable, Optional, Type, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar
 import urllib.parse
 
+from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -18,76 +19,38 @@ from azure.core.exceptions import (
     ResourceNotModifiedError,
     map_error,
 )
-from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
+from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.rest import HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
-from .. import models as _models
-from .._serialization import Serializer
-from .._vendor import _convert_request
+from ... import models as _models
+from ..._vendor import _convert_request
+from ...operations._cluster_upgrade_histories_operations import build_list_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
-
-_SERIALIZER = Serializer()
-_SERIALIZER.client_side_validation = False
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-def build_list_request(
-    resource_group_name: str, cluster_pool_name: str, cluster_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/availableUpgrades",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "clusterPoolName": _SERIALIZER.url("cluster_pool_name", cluster_pool_name, "str"),
-        "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-class ClusterAvailableUpgradesOperations:
+class ClusterUpgradeHistoriesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.hdinsightcontainers.HDInsightContainersMgmtClient`'s
-        :attr:`cluster_available_upgrades` attribute.
+        :class:`~azure.mgmt.hdinsightcontainers.aio.HDInsightContainersMgmtClient`'s
+        :attr:`cluster_upgrade_histories` attribute.
     """
 
     models = _models
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -97,8 +60,8 @@ class ClusterAvailableUpgradesOperations:
     @distributed_trace
     def list(
         self, resource_group_name: str, cluster_pool_name: str, cluster_name: str, **kwargs: Any
-    ) -> Iterable["_models.ClusterAvailableUpgrade"]:
-        """List a cluster available upgrade.
+    ) -> AsyncIterable["_models.ClusterUpgradeHistory"]:
+        """Returns a list of upgrade history.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -107,17 +70,17 @@ class ClusterAvailableUpgradesOperations:
         :type cluster_pool_name: str
         :param cluster_name: The name of the HDInsight cluster. Required.
         :type cluster_name: str
-        :return: An iterator like instance of either ClusterAvailableUpgrade or the result of
+        :return: An iterator like instance of either ClusterUpgradeHistory or the result of
          cls(response)
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterAvailableUpgrade]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hdinsightcontainers.models.ClusterUpgradeHistory]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ClusterAvailableUpgradeList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ClusterUpgradeHistoryListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -160,18 +123,18 @@ class ClusterAvailableUpgradesOperations:
                 _request.method = "GET"
             return _request
 
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("ClusterAvailableUpgradeList", pipeline_response)
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("ClusterUpgradeHistoryListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
+            return deserialized.next_link or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -183,4 +146,4 @@ class ClusterAvailableUpgradesOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
