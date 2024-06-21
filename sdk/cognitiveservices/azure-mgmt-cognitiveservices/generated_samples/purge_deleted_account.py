@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.cognitiveservices import CognitiveServicesManagementClient
 
 """
@@ -36,6 +37,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/PurgeDeletedAccount.json
+# x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/preview/2024-06-01-preview/examples/PurgeDeletedAccount.json
 if __name__ == "__main__":
     main()
