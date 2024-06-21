@@ -110,7 +110,9 @@ def load_client(
     # TODO: Remove "completions" and "embedding" once Mistral Large and Cohere fixes their model type
     if model_info.model_type in (_models.ModelType.CHAT, "completion"):
         chat_completion_client = ChatCompletionsClient(endpoint, credential, **kwargs)
-        chat_completion_client._model_info = model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        chat_completion_client._model_info = (
+            model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        )
         return chat_completion_client
 
     if model_info.model_type in (_models.ModelType.EMBEDDINGS, "embedding"):
@@ -120,7 +122,9 @@ def load_client(
 
     if model_info.model_type == _models.ModelType.IMAGE_EMBEDDINGS:
         image_embedding_client = ImageEmbeddingsClient(endpoint, credential, **kwargs)
-        image_embedding_client._model_info = model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        image_embedding_client._model_info = (
+            model_info  # pylint: disable=protected-access,attribute-defined-outside-init
+        )
         return image_embedding_client
 
     raise ValueError(f"No client available to support AI model type `{model_info.model_type}`")

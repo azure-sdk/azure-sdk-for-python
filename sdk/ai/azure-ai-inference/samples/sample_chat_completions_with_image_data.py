@@ -27,8 +27,12 @@ def sample_chat_completions_with_image_data():
     import os
     from azure.ai.inference import ChatCompletionsClient
     from azure.ai.inference.models import (
-        SystemMessage, UserMessage, TextContentItem,
-        ImageContentItem, ImageUrl, ImageDetailLevel
+        SystemMessage,
+        UserMessage,
+        TextContentItem,
+        ImageContentItem,
+        ImageUrl,
+        ImageDetailLevel,
     )
     from azure.core.credentials import AzureKeyCredential
 
@@ -76,6 +80,7 @@ def sample_chat_completions_with_image_data():
 
 def get_image_data_url(image_file: str, image_format: str) -> str:
     import base64
+
     try:
         with open(image_file, "rb") as f:
             image_data = base64.b64encode(f.read()).decode("utf-8")
