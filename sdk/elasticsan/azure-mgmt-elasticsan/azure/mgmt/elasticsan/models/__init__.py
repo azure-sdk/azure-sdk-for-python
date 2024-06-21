@@ -21,9 +21,6 @@ from ._models_py3 import IscsiTargetInfo
 from ._models_py3 import KeyVaultProperties
 from ._models_py3 import ManagedByInfo
 from ._models_py3 import NetworkRuleSet
-from ._models_py3 import Operation
-from ._models_py3 import OperationDisplay
-from ._models_py3 import OperationListResult
 from ._models_py3 import PrivateEndpoint
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionListResult
@@ -60,12 +57,10 @@ from ._models_py3 import VolumeUpdate
 from ._models_py3 import VolumeUpdateProperties
 
 from ._elastic_san_mgmt_client_enums import Action
-from ._elastic_san_mgmt_client_enums import ActionType
 from ._elastic_san_mgmt_client_enums import CreatedByType
 from ._elastic_san_mgmt_client_enums import EncryptionType
 from ._elastic_san_mgmt_client_enums import IdentityType
 from ._elastic_san_mgmt_client_enums import OperationalStatus
-from ._elastic_san_mgmt_client_enums import Origin
 from ._elastic_san_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
 from ._elastic_san_mgmt_client_enums import ProvisioningStates
 from ._elastic_san_mgmt_client_enums import PublicNetworkAccess
@@ -95,9 +90,6 @@ __all__ = [
     "KeyVaultProperties",
     "ManagedByInfo",
     "NetworkRuleSet",
-    "Operation",
-    "OperationDisplay",
-    "OperationListResult",
     "PrivateEndpoint",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionListResult",
@@ -133,12 +125,10 @@ __all__ = [
     "VolumeUpdate",
     "VolumeUpdateProperties",
     "Action",
-    "ActionType",
     "CreatedByType",
     "EncryptionType",
     "IdentityType",
     "OperationalStatus",
-    "Origin",
     "PrivateEndpointServiceConnectionStatus",
     "ProvisioningStates",
     "PublicNetworkAccess",

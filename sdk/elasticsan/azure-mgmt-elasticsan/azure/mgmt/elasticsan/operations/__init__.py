@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._operations import Operations
 from ._skus_operations import SkusOperations
 from ._elastic_sans_operations import ElasticSansOperations
 from ._volume_groups_operations import VolumeGroupsOperations
@@ -20,7 +19,6 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "Operations",
     "SkusOperations",
     "ElasticSansOperations",
     "VolumeGroupsOperations",

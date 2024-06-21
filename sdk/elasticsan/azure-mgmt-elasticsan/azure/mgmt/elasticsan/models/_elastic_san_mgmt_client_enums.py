@@ -16,12 +16,6 @@ class Action(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ALLOW = "Allow"
 
 
-class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
-
-    INTERNAL = "Internal"
-
-
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -38,7 +32,7 @@ class EncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Volume is encrypted at rest with Platform managed key. It is the default encryption type."""
     ENCRYPTION_AT_REST_WITH_CUSTOMER_MANAGED_KEY = "EncryptionAtRestWithCustomerManagedKey"
     """Volume is encrypted at rest with Customer managed key that can be changed and revoked by a
-    #: customer."""
+    customer."""
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -60,16 +54,6 @@ class OperationalStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     RUNNING = "Running"
     STOPPED = "Stopped"
     STOPPED_DEALLOCATED_ = "Stopped (deallocated)"
-
-
-class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
-    logs UX. Default value is "user,system".
-    """
-
-    USER = "user"
-    SYSTEM = "system"
-    USER_SYSTEM = "user,system"
 
 
 class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
