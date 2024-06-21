@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from .._serialization import Deserializer, Serializer
 
 
-class CognitiveServicesManagementClientMixinABC(ABC):
+class CognitiveServicesManagementClientMixinABC(ABC):  # pylint: disable=name-too-long
     """DO NOT use this class. It is for internal typing use only."""
 
     _client: "AsyncPipelineClient"
