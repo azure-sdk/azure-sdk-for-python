@@ -57,7 +57,7 @@ class DataProductUserRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Field to specify user of type Reader."""
     SENSITIVE_READER = "SensitiveReader"
     """Field to specify user of type SensitiveReader.
-    #: This user has privileged access to read sensitive data of a data product."""
+    This user has privileged access to read sensitive data of a data product."""
 
 
 class DataTypeState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -116,10 +116,3 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents an operation under deletion."""
     ACCEPTED = "Accepted"
     """Represents an accepted operation."""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The available API versions for the Microsoft.NetworkAnalytics RP."""
-
-    V2023_11_15 = "2023-11-15"
-    """The 2023-11-15 stable version."""
