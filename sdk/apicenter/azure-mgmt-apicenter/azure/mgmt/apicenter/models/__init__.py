@@ -9,24 +9,22 @@
 from ._models_py3 import Api
 from ._models_py3 import ApiDefinition
 from ._models_py3 import ApiDefinitionListResult
-from ._models_py3 import ApiDefinitionProperties
 from ._models_py3 import ApiDefinitionPropertiesSpecification
 from ._models_py3 import ApiListResult
-from ._models_py3 import ApiProperties
 from ._models_py3 import ApiSpecExportResult
 from ._models_py3 import ApiSpecImportRequest
 from ._models_py3 import ApiSpecImportRequestSpecification
 from ._models_py3 import ApiVersion
 from ._models_py3 import ApiVersionListResult
-from ._models_py3 import ApiVersionProperties
+from ._models_py3 import AzureResourceManagerCommonTypesManagedServiceIdentityUpdate
 from ._models_py3 import Contact
+from ._models_py3 import DeletedService
+from ._models_py3 import DeletedServiceListResult
 from ._models_py3 import Deployment
 from ._models_py3 import DeploymentListResult
-from ._models_py3 import DeploymentProperties
 from ._models_py3 import DeploymentServer
 from ._models_py3 import Environment
 from ._models_py3 import EnvironmentListResult
-from ._models_py3 import EnvironmentProperties
 from ._models_py3 import EnvironmentServer
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
@@ -39,7 +37,6 @@ from ._models_py3 import MetadataSchema
 from ._models_py3 import MetadataSchemaExportRequest
 from ._models_py3 import MetadataSchemaExportResult
 from ._models_py3 import MetadataSchemaListResult
-from ._models_py3 import MetadataSchemaProperties
 from ._models_py3 import Onboarding
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -48,7 +45,6 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
 from ._models_py3 import Service
 from ._models_py3 import ServiceListResult
-from ._models_py3 import ServiceProperties
 from ._models_py3 import ServiceUpdate
 from ._models_py3 import SystemData
 from ._models_py3 import TermsOfService
@@ -56,7 +52,6 @@ from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import Workspace
 from ._models_py3 import WorkspaceListResult
-from ._models_py3 import WorkspaceProperties
 
 from ._api_center_mgmt_client_enums import ActionType
 from ._api_center_mgmt_client_enums import ApiKind
@@ -72,7 +67,6 @@ from ._api_center_mgmt_client_enums import MetadataAssignmentEntity
 from ._api_center_mgmt_client_enums import MetadataSchemaExportFormat
 from ._api_center_mgmt_client_enums import Origin
 from ._api_center_mgmt_client_enums import ProvisioningState
-from ._api_center_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -81,24 +75,22 @@ __all__ = [
     "Api",
     "ApiDefinition",
     "ApiDefinitionListResult",
-    "ApiDefinitionProperties",
     "ApiDefinitionPropertiesSpecification",
     "ApiListResult",
-    "ApiProperties",
     "ApiSpecExportResult",
     "ApiSpecImportRequest",
     "ApiSpecImportRequestSpecification",
     "ApiVersion",
     "ApiVersionListResult",
-    "ApiVersionProperties",
+    "AzureResourceManagerCommonTypesManagedServiceIdentityUpdate",
     "Contact",
+    "DeletedService",
+    "DeletedServiceListResult",
     "Deployment",
     "DeploymentListResult",
-    "DeploymentProperties",
     "DeploymentServer",
     "Environment",
     "EnvironmentListResult",
-    "EnvironmentProperties",
     "EnvironmentServer",
     "ErrorAdditionalInfo",
     "ErrorDetail",
@@ -111,7 +103,6 @@ __all__ = [
     "MetadataSchemaExportRequest",
     "MetadataSchemaExportResult",
     "MetadataSchemaListResult",
-    "MetadataSchemaProperties",
     "Onboarding",
     "Operation",
     "OperationDisplay",
@@ -120,7 +111,6 @@ __all__ = [
     "Resource",
     "Service",
     "ServiceListResult",
-    "ServiceProperties",
     "ServiceUpdate",
     "SystemData",
     "TermsOfService",
@@ -128,7 +118,6 @@ __all__ = [
     "UserAssignedIdentity",
     "Workspace",
     "WorkspaceListResult",
-    "WorkspaceProperties",
     "ActionType",
     "ApiKind",
     "ApiSpecExportResultFormat",
@@ -143,7 +132,6 @@ __all__ = [
     "MetadataSchemaExportFormat",
     "Origin",
     "ProvisioningState",
-    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
