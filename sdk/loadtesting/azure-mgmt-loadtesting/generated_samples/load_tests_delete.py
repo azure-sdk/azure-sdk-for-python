@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loadtesting import LoadTestMgmtClient
 
 """
@@ -29,11 +30,10 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.load_tests.begin_delete(
+    client.load_tests.begin_delete(
         resource_group_name="dummyrg",
         load_test_name="myLoadTest",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Delete.json
