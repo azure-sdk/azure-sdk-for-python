@@ -17,63 +17,63 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
+class AzureResourceManagerCommonTypesManagedServiceIdentityUpdate(
+    _serialization.Model
+):  # pylint: disable=name-too-long
+    """Managed service identity (system assigned and/or user assigned identities).
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.loadtesting.models.SystemData
+    :ivar type: The type of managed identity assigned to this resource. Known values are: "None",
+     "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
+    :vartype type: str or ~azure.mgmt.loadtesting.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The identities assigned to this resource by the user.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.loadtesting.models.UserAssignedIdentity]
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.ManagedServiceIdentityType"]] = None,
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: The type of managed identity assigned to this resource. Known values are:
+         "None", "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
+        :paramtype type: str or ~azure.mgmt.loadtesting.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The identities assigned to this resource by the user.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.loadtesting.models.UserAssignedIdentity]
+        """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
-class CheckQuotaAvailabilityResponse(Resource):
+class CheckQuotaAvailabilityResponse(_serialization.Model):
     """Check quota availability response object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     Required.
     :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
+     "Microsoft.Storage/storageAccounts". Required.
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.loadtesting.models.SystemData
+    :ivar name: The name of the resource.
+    :vartype name: str
     :ivar is_available: True/False indicating whether the quota request be granted based on
      availability.
     :vartype is_available: bool
@@ -83,17 +83,17 @@ class CheckQuotaAvailabilityResponse(Resource):
     """
 
     _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
+        "id": {"required": True, "readonly": True},
+        "type": {"required": True, "readonly": True},
         "system_data": {"readonly": True},
+        "name": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "name": {"key": "name", "type": "str"},
         "is_available": {"key": "properties.isAvailable", "type": "bool"},
         "availability_status": {"key": "properties.availabilityStatus", "type": "str"},
     }
@@ -110,6 +110,10 @@ class CheckQuotaAvailabilityResponse(Resource):
         :paramtype availability_status: str
         """
         super().__init__(**kwargs)
+        self.id = None
+        self.type = None
+        self.system_data = None
+        self.name = None
         self.is_available = is_available
         self.availability_status = availability_status
 
@@ -159,7 +163,7 @@ class EncryptionPropertiesIdentity(_serialization.Model):
     :ivar type: Managed identity type to use for accessing encryption key Url. Known values are:
      "SystemAssigned" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.loadtesting.models.Type
-    :ivar resource_id: user assigned identity to use for accessing key encryption key Url. Ex:
+    :ivar resource_id: User assigned identity to use for accessing key encryption key Url. Ex:
      /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/:code:`<resource
      group>`/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId.
     :vartype resource_id: str
@@ -177,7 +181,7 @@ class EncryptionPropertiesIdentity(_serialization.Model):
         :keyword type: Managed identity type to use for accessing encryption key Url. Known values are:
          "SystemAssigned" and "UserAssigned".
         :paramtype type: str or ~azure.mgmt.loadtesting.models.Type
-        :keyword resource_id: user assigned identity to use for accessing key encryption key Url. Ex:
+        :keyword resource_id: User assigned identity to use for accessing key encryption key Url. Ex:
          /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/:code:`<resource
          group>`/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId.
         :paramtype resource_id: str
@@ -192,8 +196,10 @@ class EndpointDependency(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar domain_name: The domain name of the dependency. Domain names may be fully qualified or
-     may contain a * wildcard.
+     may contain a * wildcard. Required.
     :vartype domain_name: str
     :ivar description: Human-readable supplemental information about the dependency and when it is
      applicable.
@@ -203,7 +209,7 @@ class EndpointDependency(_serialization.Model):
     """
 
     _validation = {
-        "domain_name": {"readonly": True},
+        "domain_name": {"required": True, "readonly": True},
         "description": {"readonly": True},
         "endpoint_details": {"readonly": True},
     }
@@ -337,16 +343,57 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.loadtesting.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -396,10 +443,10 @@ class LoadTestResource(TrackedResource):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -413,7 +460,7 @@ class LoadTestResource(TrackedResource):  # pylint: disable=too-many-instance-at
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar identity: The type of identity used for the resource.
+    :ivar identity: The managed service identities assigned to this resource.
     :vartype identity: ~azure.mgmt.loadtesting.models.ManagedServiceIdentity
     :ivar description: Description of the resource.
     :vartype description: str
@@ -466,7 +513,7 @@ class LoadTestResource(TrackedResource):  # pylint: disable=too-many-instance-at
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword identity: The type of identity used for the resource.
+        :keyword identity: The managed service identities assigned to this resource.
         :paramtype identity: ~azure.mgmt.loadtesting.models.ManagedServiceIdentity
         :keyword description: Description of the resource.
         :paramtype description: str
@@ -481,14 +528,20 @@ class LoadTestResource(TrackedResource):  # pylint: disable=too-many-instance-at
         self.encryption = encryption
 
 
-class LoadTestResourcePageList(_serialization.Model):
-    """List of resources page result.
+class LoadTestResourceListResult(_serialization.Model):
+    """The response of a LoadTestResource list operation.
 
-    :ivar value: List of resources in current page.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The LoadTestResource items on this page. Required.
     :vartype value: list[~azure.mgmt.loadtesting.models.LoadTestResource]
-    :ivar next_link: Link to next page of resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[LoadTestResource]"},
@@ -496,16 +549,12 @@ class LoadTestResourcePageList(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.LoadTestResource"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.LoadTestResource"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: List of resources in current page.
+        :keyword value: The LoadTestResource items on this page. Required.
         :paramtype value: list[~azure.mgmt.loadtesting.models.LoadTestResource]
-        :keyword next_link: Link to next page of resources.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -513,13 +562,14 @@ class LoadTestResourcePageList(_serialization.Model):
         self.next_link = next_link
 
 
-class LoadTestResourcePatchRequestBody(_serialization.Model):
-    """LoadTest resource patch request body.
+class LoadTestResourceUpdate(_serialization.Model):
+    """The type used for update operations of the LoadTestResource.
 
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity:
+     ~azure.mgmt.loadtesting.models.AzureResourceManagerCommonTypesManagedServiceIdentityUpdate
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: The type of identity used for the resource.
-    :vartype identity: ~azure.mgmt.loadtesting.models.ManagedServiceIdentity
     :ivar description: Description of the resource.
     :vartype description: str
     :ivar encryption: CMK Encryption property.
@@ -531,8 +581,8 @@ class LoadTestResourcePatchRequestBody(_serialization.Model):
     }
 
     _attribute_map = {
+        "identity": {"key": "identity", "type": "AzureResourceManagerCommonTypesManagedServiceIdentityUpdate"},
         "tags": {"key": "tags", "type": "{str}"},
-        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "description": {"key": "properties.description", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "EncryptionProperties"},
     }
@@ -540,25 +590,26 @@ class LoadTestResourcePatchRequestBody(_serialization.Model):
     def __init__(
         self,
         *,
+        identity: Optional["_models.AzureResourceManagerCommonTypesManagedServiceIdentityUpdate"] = None,
         tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.ManagedServiceIdentity"] = None,
         description: Optional[str] = None,
         encryption: Optional["_models.EncryptionProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity:
+         ~azure.mgmt.loadtesting.models.AzureResourceManagerCommonTypesManagedServiceIdentityUpdate
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword identity: The type of identity used for the resource.
-        :paramtype identity: ~azure.mgmt.loadtesting.models.ManagedServiceIdentity
         :keyword description: Description of the resource.
         :paramtype description: str
         :keyword encryption: CMK Encryption property.
         :paramtype encryption: ~azure.mgmt.loadtesting.models.EncryptionProperties
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.identity = identity
+        self.tags = tags
         self.description = description
         self.encryption = encryption
 
@@ -568,7 +619,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -582,7 +633,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.loadtesting.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.loadtesting.models.UserAssignedIdentity]
@@ -615,7 +666,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.loadtesting.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.loadtesting.models.UserAssignedIdentity]
@@ -778,20 +829,19 @@ class OutboundEnvironmentEndpoint(_serialization.Model):
         self.endpoints = None
 
 
-class OutboundEnvironmentEndpointCollection(_serialization.Model):
+class PagedOutboundEnvironmentEndpoint(_serialization.Model):
     """Values returned by the List operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: The collection of outbound network dependency endpoints returned by the listing
-     operation.
+    :ivar value: The OutboundEnvironmentEndpoint items on this page. Required.
     :vartype value: list[~azure.mgmt.loadtesting.models.OutboundEnvironmentEndpoint]
-    :ivar next_link: The continuation token.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "value": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -799,23 +849,28 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self, *, value: List["_models.OutboundEnvironmentEndpoint"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword next_link: The continuation token.
+        :keyword value: The OutboundEnvironmentEndpoint items on this page. Required.
+        :paramtype value: list[~azure.mgmt.loadtesting.models.OutboundEnvironmentEndpoint]
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value = value
         self.next_link = next_link
 
 
-class QuotaBucketRequest(Resource):
-    """Request object of new quota for a quota bucket.
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -825,6 +880,12 @@ class QuotaBucketRequest(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.loadtesting.models.SystemData
+    """
+
+
+class QuotaBucketRequest(_serialization.Model):
+    """Request object of new quota for a quota bucket.
+
     :ivar current_usage: Current quota usage of the quota bucket.
     :vartype current_usage: int
     :ivar current_quota: Current quota limit of the quota bucket.
@@ -836,20 +897,12 @@ class QuotaBucketRequest(Resource):
     """
 
     _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
         "current_usage": {"minimum": 0},
         "current_quota": {"minimum": 0},
         "new_quota": {"minimum": 0},
     }
 
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "current_usage": {"key": "properties.currentUsage", "type": "int"},
         "current_quota": {"key": "properties.currentQuota", "type": "int"},
         "new_quota": {"key": "properties.newQuota", "type": "int"},
@@ -913,13 +966,13 @@ class QuotaBucketRequestPropertiesDimensions(_serialization.Model):
         self.location = location
 
 
-class QuotaResource(Resource):
+class QuotaResource(ProxyResource):
     """Quota bucket details object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -971,20 +1024,19 @@ class QuotaResource(Resource):
         self.provisioning_state = None
 
 
-class QuotaResourceList(_serialization.Model):
-    """List of quota bucket objects. It contains a URL link to get the next set of results.
+class QuotaResourceListResult(_serialization.Model):
+    """The response of a QuotaResource list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: List of quota bucket objects provided by the loadtestservice.
+    :ivar value: The QuotaResource items on this page. Required.
     :vartype value: list[~azure.mgmt.loadtesting.models.QuotaResource]
-    :ivar next_link: URL to get the next set of quota bucket objects results (if there are any).
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -992,11 +1044,16 @@ class QuotaResourceList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, value: List["_models.QuotaResource"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The QuotaResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.loadtesting.models.QuotaResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value = value
+        self.next_link = next_link
 
 
 class SystemData(_serialization.Model):
