@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AzureResourceManagerLegacyManagedServiceIdentityV4Update
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -61,6 +62,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
