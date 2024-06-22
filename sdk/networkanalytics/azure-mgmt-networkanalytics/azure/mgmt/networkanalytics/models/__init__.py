@@ -8,6 +8,7 @@
 
 from ._models_py3 import AccountSas
 from ._models_py3 import AccountSasToken
+from ._models_py3 import AzureResourceManagerLegacyManagedServiceIdentityV4Update
 from ._models_py3 import ConsumptionEndpointsProperties
 from ._models_py3 import ContainerSaS
 from ._models_py3 import ContainerSasToken
@@ -60,7 +61,6 @@ from ._network_analytics_mgmt_client_enums import DefaultAction
 from ._network_analytics_mgmt_client_enums import ManagedServiceIdentityType
 from ._network_analytics_mgmt_client_enums import Origin
 from ._network_analytics_mgmt_client_enums import ProvisioningState
-from ._network_analytics_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -68,6 +68,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "AccountSas",
     "AccountSasToken",
+    "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
     "ConsumptionEndpointsProperties",
     "ContainerSaS",
     "ContainerSasToken",
@@ -119,7 +120,6 @@ __all__ = [
     "ManagedServiceIdentityType",
     "Origin",
     "ProvisioningState",
-    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

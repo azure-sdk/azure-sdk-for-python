@@ -50,13 +50,19 @@ class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resources provisioning states."""
 
     SUCCEEDED = "Succeeded"
+    """Resource has been created."""
     FAILED = "Failed"
+    """Resource creation failed."""
     CANCELED = "Canceled"
+    """Resource creation was canceled."""
     DELETED = "Deleted"
+    """Deleted state."""
 
 
 class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Managed identity type to use for accessing encryption key Url."""
 
     SYSTEM_ASSIGNED = "SystemAssigned"
+    """System assigned identity."""
     USER_ASSIGNED = "UserAssigned"
+    """User assigned identity."""
