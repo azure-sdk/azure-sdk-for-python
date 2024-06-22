@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AzureResourceManagerLegacyManagedServiceIdentityV4Update
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -37,12 +38,12 @@ from ._astro_mgmt_client_enums import MarketplaceSubscriptionStatus
 from ._astro_mgmt_client_enums import Origin
 from ._astro_mgmt_client_enums import ResourceProvisioningState
 from ._astro_mgmt_client_enums import SingleSignOnStates
-from ._astro_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -73,7 +74,6 @@ __all__ = [
     "Origin",
     "ResourceProvisioningState",
     "SingleSignOnStates",
-    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
