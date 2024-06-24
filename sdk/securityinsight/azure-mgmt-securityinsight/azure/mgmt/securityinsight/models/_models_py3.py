@@ -9,7 +9,7 @@
 
 import datetime
 import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -17,10 +17,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -39,7 +35,7 @@ class DataConnectorsCheckRequirements(_serialization.Model):
     OfficeIRMCheckRequirements, OfficePowerBICheckRequirements, TICheckRequirements,
     TiTaxiiCheckRequirements
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -81,7 +77,7 @@ class DataConnectorsCheckRequirements(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -90,7 +86,7 @@ class DataConnectorsCheckRequirements(_serialization.Model):
 class AADCheckRequirements(DataConnectorsCheckRequirements):
     """Represents AAD (Azure Active Directory) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -113,7 +109,7 @@ class AADCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -126,7 +122,7 @@ class AADCheckRequirements(DataConnectorsCheckRequirements):
 class DataConnectorTenantId(_serialization.Model):
     """Properties data connector on tenant level.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -140,7 +136,7 @@ class DataConnectorTenantId(_serialization.Model):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -152,26 +148,11 @@ class DataConnectorTenantId(_serialization.Model):
 class AADCheckRequirementsProperties(DataConnectorTenantId):
     """AAD (Azure Active Directory) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class Resource(_serialization.Model):
@@ -180,7 +161,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -206,7 +187,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -221,7 +202,7 @@ class ResourceWithEtag(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -250,7 +231,7 @@ class ResourceWithEtag(Resource):
         "etag": {"key": "etag", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -272,10 +253,10 @@ class DataConnector(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -339,7 +320,7 @@ class DataConnector(ResourceWithEtag):
         }
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -353,10 +334,10 @@ class AADDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -407,8 +388,8 @@ class AADDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -434,7 +415,7 @@ class DataConnectorWithAlertsProperties(_serialization.Model):
         "data_types": {"key": "dataTypes", "type": "AlertsDataTypeOfDataConnector"},
     }
 
-    def __init__(self, *, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs):
+    def __init__(self, *, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -446,7 +427,7 @@ class DataConnectorWithAlertsProperties(_serialization.Model):
 class AADDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsProperties):
     """AAD (Azure Active Directory) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -464,8 +445,8 @@ class AADDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsP
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -480,7 +461,7 @@ class AADDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsP
 class AATPCheckRequirements(DataConnectorsCheckRequirements):
     """Represents AATP (Azure Advanced Threat Protection) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -503,7 +484,7 @@ class AATPCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -516,26 +497,11 @@ class AATPCheckRequirements(DataConnectorsCheckRequirements):
 class AATPCheckRequirementsProperties(DataConnectorTenantId):
     """AATP (Azure Advanced Threat Protection) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class AATPDataConnector(DataConnector):
@@ -543,10 +509,10 @@ class AATPDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -597,8 +563,8 @@ class AATPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -616,7 +582,7 @@ class AATPDataConnector(DataConnector):
 class AATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsProperties):
     """AATP (Azure Advanced Threat Protection) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -634,8 +600,8 @@ class AATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlerts
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -658,10 +624,10 @@ class Entity(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -721,7 +687,7 @@ class Entity(Resource):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -732,10 +698,10 @@ class AccountEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -831,7 +797,7 @@ class AccountEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "dns_domain": {"key": "properties.dnsDomain", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Account"
@@ -874,7 +840,7 @@ class EntityCommonProperties(_serialization.Model):
         "friendly_name": {"key": "friendlyName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.additional_data = None
@@ -957,7 +923,7 @@ class AccountEntityProperties(EntityCommonProperties):  # pylint: disable=too-ma
         "dns_domain": {"key": "dnsDomain", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.aad_tenant_id = None
@@ -977,10 +943,10 @@ class AccountEntityProperties(EntityCommonProperties):  # pylint: disable=too-ma
 class ActionPropertiesBase(_serialization.Model):
     """Action property bag base.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logic_app_resource_id: Logic App Resource Id,
-     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
      Required.
     :vartype logic_app_resource_id: str
     """
@@ -993,10 +959,10 @@ class ActionPropertiesBase(_serialization.Model):
         "logic_app_resource_id": {"key": "logicAppResourceId", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: str, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, **kwargs: Any) -> None:
         """
         :keyword logic_app_resource_id: Logic App Resource Id,
-         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
          Required.
         :paramtype logic_app_resource_id: str
         """
@@ -1010,7 +976,7 @@ class ActionRequest(ResourceWithEtag):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1023,7 +989,7 @@ class ActionRequest(ResourceWithEtag):
     :ivar etag: Etag of the azure resource.
     :vartype etag: str
     :ivar logic_app_resource_id: Logic App Resource Id,
-     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
     :vartype logic_app_resource_id: str
     :ivar trigger_uri: Logic App Callback URL for this specific workflow.
     :vartype trigger_uri: str
@@ -1052,13 +1018,13 @@ class ActionRequest(ResourceWithEtag):
         etag: Optional[str] = None,
         logic_app_resource_id: Optional[str] = None,
         trigger_uri: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
         :keyword logic_app_resource_id: Logic App Resource Id,
-         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
         :paramtype logic_app_resource_id: str
         :keyword trigger_uri: Logic App Callback URL for this specific workflow.
         :paramtype trigger_uri: str
@@ -1071,10 +1037,10 @@ class ActionRequest(ResourceWithEtag):
 class ActionRequestProperties(ActionPropertiesBase):
     """Action property bag.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logic_app_resource_id: Logic App Resource Id,
-     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
      Required.
     :vartype logic_app_resource_id: str
     :ivar trigger_uri: Logic App Callback URL for this specific workflow. Required.
@@ -1091,10 +1057,10 @@ class ActionRequestProperties(ActionPropertiesBase):
         "trigger_uri": {"key": "triggerUri", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: str, trigger_uri: str, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, trigger_uri: str, **kwargs: Any) -> None:
         """
         :keyword logic_app_resource_id: Logic App Resource Id,
-         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
          Required.
         :paramtype logic_app_resource_id: str
         :keyword trigger_uri: Logic App Callback URL for this specific workflow. Required.
@@ -1110,7 +1076,7 @@ class ActionResponse(ResourceWithEtag):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1123,7 +1089,7 @@ class ActionResponse(ResourceWithEtag):
     :ivar etag: Etag of the azure resource.
     :vartype etag: str
     :ivar logic_app_resource_id: Logic App Resource Id,
-     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
     :vartype logic_app_resource_id: str
     :ivar workflow_id: The name of the logic app's workflow.
     :vartype workflow_id: str
@@ -1152,13 +1118,13 @@ class ActionResponse(ResourceWithEtag):
         etag: Optional[str] = None,
         logic_app_resource_id: Optional[str] = None,
         workflow_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
         :keyword logic_app_resource_id: Logic App Resource Id,
-         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
         :paramtype logic_app_resource_id: str
         :keyword workflow_id: The name of the logic app's workflow.
         :paramtype workflow_id: str
@@ -1171,10 +1137,10 @@ class ActionResponse(ResourceWithEtag):
 class ActionResponseProperties(ActionPropertiesBase):
     """Action property bag.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logic_app_resource_id: Logic App Resource Id,
-     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+     /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
      Required.
     :vartype logic_app_resource_id: str
     :ivar workflow_id: The name of the logic app's workflow.
@@ -1190,10 +1156,10 @@ class ActionResponseProperties(ActionPropertiesBase):
         "workflow_id": {"key": "workflowId", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: str, workflow_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, workflow_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword logic_app_resource_id: Logic App Resource Id,
-         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
+         /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.  # pylint: disable=line-too-long
          Required.
         :paramtype logic_app_resource_id: str
         :keyword workflow_id: The name of the logic app's workflow.
@@ -1208,7 +1174,7 @@ class ActionsList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of actions.
     :vartype next_link: str
@@ -1226,7 +1192,7 @@ class ActionsList(_serialization.Model):
         "value": {"key": "value", "type": "[ActionResponse]"},
     }
 
-    def __init__(self, *, value: List["_models.ActionResponse"], **kwargs):
+    def __init__(self, *, value: List["_models.ActionResponse"], **kwargs: Any) -> None:
         """
         :keyword value: Array of actions. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.ActionResponse]
@@ -1244,10 +1210,10 @@ class CustomEntityQuery(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1282,7 +1248,7 @@ class CustomEntityQuery(ResourceWithEtag):
 
     _subtype_map = {"kind": {"Activity": "ActivityCustomEntityQuery"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1296,10 +1262,10 @@ class ActivityCustomEntityQuery(CustomEntityQuery):  # pylint: disable=too-many-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1389,8 +1355,8 @@ class ActivityCustomEntityQuery(CustomEntityQuery):  # pylint: disable=too-many-
         entities_filter: Optional[Dict[str, List[str]]] = None,
         template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1434,7 +1400,7 @@ class ActivityCustomEntityQuery(CustomEntityQuery):  # pylint: disable=too-many-
         self.last_modified_time_utc = None
 
 
-class ActivityEntityQueriesPropertiesQueryDefinitions(_serialization.Model):
+class ActivityEntityQueriesPropertiesQueryDefinitions(_serialization.Model):  # pylint: disable=name-too-long
     """The Activity query definitions.
 
     :ivar query: The Activity query to run on a given entity.
@@ -1445,7 +1411,7 @@ class ActivityEntityQueriesPropertiesQueryDefinitions(_serialization.Model):
         "query": {"key": "query", "type": "str"},
     }
 
-    def __init__(self, *, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword query: The Activity query to run on a given entity.
         :paramtype query: str
@@ -1462,10 +1428,10 @@ class EntityQuery(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1501,7 +1467,7 @@ class EntityQuery(ResourceWithEtag):
 
     _subtype_map = {"kind": {"Activity": "ActivityEntityQuery", "Expansion": "ExpansionEntityQuery"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1515,10 +1481,10 @@ class ActivityEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1609,8 +1575,8 @@ class ActivityEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-att
         entities_filter: Optional[Dict[str, List[str]]] = None,
         template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1662,10 +1628,10 @@ class EntityQueryTemplate(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1697,7 +1663,7 @@ class EntityQueryTemplate(Resource):
 
     _subtype_map = {"kind": {"Activity": "ActivityEntityQueryTemplate"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -1708,10 +1674,10 @@ class ActivityEntityQueryTemplate(EntityQueryTemplate):  # pylint: disable=too-m
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1785,8 +1751,8 @@ class ActivityEntityQueryTemplate(EntityQueryTemplate):  # pylint: disable=too-m
         input_entity_type: Optional[Union[str, "_models.EntityType"]] = None,
         required_input_fields_sets: Optional[List[List[str]]] = None,
         entities_filter: Optional[Dict[str, List[str]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: The entity query title.
         :paramtype title: str
@@ -1823,7 +1789,7 @@ class ActivityEntityQueryTemplate(EntityQueryTemplate):  # pylint: disable=too-m
         self.entities_filter = entities_filter
 
 
-class ActivityEntityQueryTemplatePropertiesQueryDefinitions(_serialization.Model):
+class ActivityEntityQueryTemplatePropertiesQueryDefinitions(_serialization.Model):  # pylint: disable=name-too-long
     """The Activity query definitions.
 
     :ivar query: The Activity query to run on a given entity.
@@ -1838,7 +1804,7 @@ class ActivityEntityQueryTemplatePropertiesQueryDefinitions(_serialization.Model
         "summarize_by": {"key": "summarizeBy", "type": "str"},
     }
 
-    def __init__(self, *, query: Optional[str] = None, summarize_by: Optional[str] = None, **kwargs):
+    def __init__(self, *, query: Optional[str] = None, summarize_by: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword query: The Activity query to run on a given entity.
         :paramtype query: str
@@ -1857,7 +1823,7 @@ class EntityTimelineItem(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ActivityTimelineItem, AnomalyTimelineItem, BookmarkTimelineItem, SecurityAlertTimelineItem
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: The entity query kind type. Required. Known values are: "Activity", "Bookmark",
      "SecurityAlert", and "Anomaly".
@@ -1881,7 +1847,7 @@ class EntityTimelineItem(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -1890,7 +1856,7 @@ class EntityTimelineItem(_serialization.Model):
 class ActivityTimelineItem(EntityTimelineItem):
     """Represents Activity timeline item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: The entity query kind type. Required. Known values are: "Activity", "Bookmark",
      "SecurityAlert", and "Anomaly".
@@ -1943,8 +1909,8 @@ class ActivityTimelineItem(EntityTimelineItem):
         last_activity_time_utc: datetime.datetime,
         content: str,
         title: str,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_id: The activity query id. Required.
         :paramtype query_id: str
@@ -1977,7 +1943,7 @@ class ActivityTimelineItem(EntityTimelineItem):
 class AddIncidentTaskActionProperties(_serialization.Model):
     """AddIncidentTaskActionProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar title: The title of the task. Required.
     :vartype title: str
@@ -1994,7 +1960,7 @@ class AddIncidentTaskActionProperties(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, title: str, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, title: str, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword title: The title of the task. Required.
         :paramtype title: str
@@ -2040,8 +2006,8 @@ class AlertDetailsOverride(_serialization.Model):
         alert_tactics_column_name: Optional[str] = None,
         alert_severity_column_name: Optional[str] = None,
         alert_dynamic_properties: Optional[List["_models.AlertPropertyMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_display_name_format: the format containing columns name(s) to override the alert
          name.
@@ -2086,8 +2052,8 @@ class AlertPropertyMapping(_serialization.Model):
         *,
         alert_property: Optional[Union[str, "_models.AlertProperty"]] = None,
         value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_property: The V3 alert property. Known values are: "AlertLink",
          "ConfidenceLevel", "ConfidenceScore", "ExtendedLinks", "ProductName", "ProviderName",
@@ -2110,10 +2076,10 @@ class AlertRule(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2159,7 +2125,7 @@ class AlertRule(ResourceWithEtag):
         }
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2173,7 +2139,7 @@ class AlertRulesList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of alert rules.
     :vartype next_link: str
@@ -2191,7 +2157,7 @@ class AlertRulesList(_serialization.Model):
         "value": {"key": "value", "type": "[AlertRule]"},
     }
 
-    def __init__(self, *, value: List["_models.AlertRule"], **kwargs):
+    def __init__(self, *, value: List["_models.AlertRule"], **kwargs: Any) -> None:
         """
         :keyword value: Array of alert rules. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.AlertRule]
@@ -2211,10 +2177,10 @@ class AlertRuleTemplate(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2257,7 +2223,7 @@ class AlertRuleTemplate(Resource):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -2277,7 +2243,9 @@ class AlertRuleTemplateDataSource(_serialization.Model):
         "data_types": {"key": "dataTypes", "type": "[str]"},
     }
 
-    def __init__(self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword connector_id: The connector id that provides the following data types.
         :paramtype connector_id: str
@@ -2336,8 +2304,8 @@ class AlertRuleTemplatePropertiesBase(_serialization.Model):
         display_name: Optional[str] = None,
         required_data_connectors: Optional[List["_models.AlertRuleTemplateDataSource"]] = None,
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -2368,7 +2336,7 @@ class AlertRuleTemplatesList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of alert rule templates.
     :vartype next_link: str
@@ -2386,7 +2354,7 @@ class AlertRuleTemplatesList(_serialization.Model):
         "value": {"key": "value", "type": "[AlertRuleTemplate]"},
     }
 
-    def __init__(self, *, value: List["_models.AlertRuleTemplate"], **kwargs):
+    def __init__(self, *, value: List["_models.AlertRuleTemplate"], **kwargs: Any) -> None:
         """
         :keyword value: Array of alert rule templates. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.AlertRuleTemplate]
@@ -2451,8 +2419,8 @@ class AlertRuleTemplateWithMitreProperties(AlertRuleTemplatePropertiesBase):
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -2487,7 +2455,7 @@ class AlertRuleTemplateWithMitreProperties(AlertRuleTemplatePropertiesBase):
 class AlertsDataTypeOfDataConnector(_serialization.Model):
     """Alerts data type for data connectors.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alerts: Alerts data type connection. Required.
     :vartype alerts: ~azure.mgmt.securityinsight.models.DataConnectorDataTypeCommon
@@ -2501,7 +2469,7 @@ class AlertsDataTypeOfDataConnector(_serialization.Model):
         "alerts": {"key": "alerts", "type": "DataConnectorDataTypeCommon"},
     }
 
-    def __init__(self, *, alerts: "_models.DataConnectorDataTypeCommon", **kwargs):
+    def __init__(self, *, alerts: "_models.DataConnectorDataTypeCommon", **kwargs: Any) -> None:
         """
         :keyword alerts: Alerts data type connection. Required.
         :paramtype alerts: ~azure.mgmt.securityinsight.models.DataConnectorDataTypeCommon
@@ -2518,10 +2486,10 @@ class Settings(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2559,7 +2527,7 @@ class Settings(ResourceWithEtag):
         "kind": {"Anomalies": "Anomalies", "EntityAnalytics": "EntityAnalytics", "EyesOn": "EyesOn", "Ueba": "Ueba"}
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2573,10 +2541,10 @@ class Anomalies(Settings):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2614,7 +2582,7 @@ class Anomalies(Settings):
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2632,10 +2600,10 @@ class SecurityMLAnalyticsSetting(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2670,7 +2638,7 @@ class SecurityMLAnalyticsSetting(ResourceWithEtag):
 
     _subtype_map = {"kind": {"Anomaly": "AnomalySecurityMLAnalyticsSettings"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2684,10 +2652,10 @@ class AnomalySecurityMLAnalyticsSettings(SecurityMLAnalyticsSetting):  # pylint:
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2788,8 +2756,8 @@ class AnomalySecurityMLAnalyticsSettings(SecurityMLAnalyticsSetting):  # pylint:
         is_default_settings: Optional[bool] = None,
         anomaly_settings_version: Optional[int] = None,
         settings_definition_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2848,7 +2816,7 @@ class AnomalySecurityMLAnalyticsSettings(SecurityMLAnalyticsSetting):  # pylint:
 class AnomalyTimelineItem(EntityTimelineItem):  # pylint: disable=too-many-instance-attributes
     """Represents anomaly timeline item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: The entity query kind type. Required. Known values are: "Activity", "Bookmark",
      "SecurityAlert", and "Anomaly".
@@ -2915,8 +2883,8 @@ class AnomalyTimelineItem(EntityTimelineItem):  # pylint: disable=too-many-insta
         intent: Optional[str] = None,
         techniques: Optional[List[str]] = None,
         reasons: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_resource_id: The anomaly azure resource id. Required.
         :paramtype azure_resource_id: str
@@ -2959,7 +2927,7 @@ class AnomalyTimelineItem(EntityTimelineItem):  # pylint: disable=too-many-insta
 class ASCCheckRequirements(DataConnectorsCheckRequirements):
     """Represents ASC (Azure Security Center) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -2982,7 +2950,7 @@ class ASCCheckRequirements(DataConnectorsCheckRequirements):
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword subscription_id: The subscription id to connect to, and get the data from.
         :paramtype subscription_id: str
@@ -2997,10 +2965,10 @@ class ASCDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3051,8 +3019,8 @@ class ASCDataConnector(DataConnector):
         etag: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -3086,8 +3054,8 @@ class ASCDataConnectorProperties(DataConnectorWithAlertsProperties):
         *,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -3103,10 +3071,10 @@ class AutomationRule(ResourceWithEtag):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3175,8 +3143,8 @@ class AutomationRule(ResourceWithEtag):  # pylint: disable=too-many-instance-att
         triggering_logic: "_models.AutomationRuleTriggeringLogic",
         actions: List["_models.AutomationRuleAction"],
         etag: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -3207,7 +3175,7 @@ class AutomationRuleAction(_serialization.Model):
     AutomationRuleAddIncidentTaskAction, AutomationRuleModifyPropertiesAction,
     AutomationRuleRunPlaybookAction
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar order: Required.
     :vartype order: int
@@ -3234,7 +3202,7 @@ class AutomationRuleAction(_serialization.Model):
         }
     }
 
-    def __init__(self, *, order: int, **kwargs):
+    def __init__(self, *, order: int, **kwargs: Any) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3247,7 +3215,7 @@ class AutomationRuleAction(_serialization.Model):
 class AutomationRuleAddIncidentTaskAction(AutomationRuleAction):
     """Describes an automation rule action to add a task to an incident.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar order: Required.
     :vartype order: int
@@ -3271,8 +3239,12 @@ class AutomationRuleAddIncidentTaskAction(AutomationRuleAction):
     }
 
     def __init__(
-        self, *, order: int, action_configuration: Optional["_models.AddIncidentTaskActionProperties"] = None, **kwargs
-    ):
+        self,
+        *,
+        order: int,
+        action_configuration: Optional["_models.AddIncidentTaskActionProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3309,8 +3281,8 @@ class AutomationRuleBooleanCondition(_serialization.Model):
         *,
         operator: Optional[Union[str, "_models.AutomationRuleBooleanConditionSupportedOperator"]] = None,
         inner_conditions: Optional[List["_models.AutomationRuleCondition"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword operator: Known values are: "And" and "Or".
         :paramtype operator: str or
@@ -3330,7 +3302,7 @@ class AutomationRuleCondition(_serialization.Model):
     BooleanConditionProperties, PropertyConditionProperties, PropertyArrayConditionProperties,
     PropertyArrayChangedConditionProperties, PropertyChangedConditionProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar condition_type: Required. Known values are: "Property", "PropertyArray",
      "PropertyChanged", "PropertyArrayChanged", and "Boolean".
@@ -3355,7 +3327,7 @@ class AutomationRuleCondition(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.condition_type: Optional[str] = None
@@ -3364,7 +3336,7 @@ class AutomationRuleCondition(_serialization.Model):
 class AutomationRuleModifyPropertiesAction(AutomationRuleAction):
     """Describes an automation rule action to modify an object's properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar order: Required.
     :vartype order: int
@@ -3387,8 +3359,8 @@ class AutomationRuleModifyPropertiesAction(AutomationRuleAction):
     }
 
     def __init__(
-        self, *, order: int, action_configuration: Optional["_models.IncidentPropertiesAction"] = None, **kwargs
-    ):
+        self, *, order: int, action_configuration: Optional["_models.IncidentPropertiesAction"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3400,7 +3372,7 @@ class AutomationRuleModifyPropertiesAction(AutomationRuleAction):
         self.action_configuration = action_configuration
 
 
-class AutomationRulePropertyArrayChangedValuesCondition(_serialization.Model):
+class AutomationRulePropertyArrayChangedValuesCondition(_serialization.Model):  # pylint: disable=name-too-long
     """AutomationRulePropertyArrayChangedValuesCondition.
 
     :ivar array_type: Known values are: "Alerts", "Labels", "Tactics", and "Comments".
@@ -3425,8 +3397,8 @@ class AutomationRulePropertyArrayChangedValuesCondition(_serialization.Model):
         change_type: Optional[
             Union[str, "_models.AutomationRulePropertyArrayChangedConditionSupportedChangeType"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword array_type: Known values are: "Alerts", "Labels", "Tactics", and "Comments".
         :paramtype array_type: str or
@@ -3440,7 +3412,7 @@ class AutomationRulePropertyArrayChangedValuesCondition(_serialization.Model):
         self.change_type = change_type
 
 
-class AutomationRulePropertyArrayValuesCondition(_serialization.Model):
+class AutomationRulePropertyArrayValuesCondition(_serialization.Model):  # pylint: disable=name-too-long
     """AutomationRulePropertyArrayValuesCondition.
 
     :ivar array_type: Known values are: "CustomDetails" and "CustomDetailValues".
@@ -3471,8 +3443,8 @@ class AutomationRulePropertyArrayValuesCondition(_serialization.Model):
             Union[str, "_models.AutomationRulePropertyArrayConditionSupportedArrayConditionType"]
         ] = None,
         item_conditions: Optional[List["_models.AutomationRuleCondition"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword array_type: Known values are: "CustomDetails" and "CustomDetailValues".
         :paramtype array_type: str or
@@ -3489,7 +3461,7 @@ class AutomationRulePropertyArrayValuesCondition(_serialization.Model):
         self.item_conditions = item_conditions
 
 
-class AutomationRulePropertyValuesChangedCondition(_serialization.Model):
+class AutomationRulePropertyValuesChangedCondition(_serialization.Model):  # pylint: disable=name-too-long
     """AutomationRulePropertyValuesChangedCondition.
 
     :ivar property_name: Known values are: "IncidentSeverity", "IncidentStatus", and
@@ -3523,8 +3495,8 @@ class AutomationRulePropertyValuesChangedCondition(_serialization.Model):
         change_type: Optional[Union[str, "_models.AutomationRulePropertyChangedConditionSupportedChangedType"]] = None,
         operator: Optional[Union[str, "_models.AutomationRulePropertyConditionSupportedOperator"]] = None,
         property_values: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword property_name: Known values are: "IncidentSeverity", "IncidentStatus", and
          "IncidentOwner".
@@ -3588,8 +3560,8 @@ class AutomationRulePropertyValuesCondition(_serialization.Model):
         property_name: Optional[Union[str, "_models.AutomationRulePropertyConditionSupportedProperty"]] = None,
         operator: Optional[Union[str, "_models.AutomationRulePropertyConditionSupportedOperator"]] = None,
         property_values: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword property_name: The property to evaluate in an automation rule property condition.
          Known values are: "IncidentTitle", "IncidentDescription", "IncidentSeverity", "IncidentStatus",
@@ -3625,7 +3597,7 @@ class AutomationRulePropertyValuesCondition(_serialization.Model):
 class AutomationRuleRunPlaybookAction(AutomationRuleAction):
     """Describes an automation rule action to run a playbook.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar order: Required.
     :vartype order: int
@@ -3648,8 +3620,8 @@ class AutomationRuleRunPlaybookAction(AutomationRuleAction):
     }
 
     def __init__(
-        self, *, order: int, action_configuration: Optional["_models.PlaybookActionProperties"] = None, **kwargs
-    ):
+        self, *, order: int, action_configuration: Optional["_models.PlaybookActionProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3676,8 +3648,8 @@ class AutomationRulesList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AutomationRule"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.AutomationRule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: list[~azure.mgmt.securityinsight.models.AutomationRule]
@@ -3692,7 +3664,7 @@ class AutomationRulesList(_serialization.Model):
 class AutomationRuleTriggeringLogic(_serialization.Model):
     """Describes automation rule triggering logic.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar is_enabled: Determines whether the automation rule is enabled or disabled. Required.
     :vartype is_enabled: bool
@@ -3731,8 +3703,8 @@ class AutomationRuleTriggeringLogic(_serialization.Model):
         triggers_when: Union[str, "_models.TriggersWhen"],
         expiration_time_utc: Optional[datetime.datetime] = None,
         conditions: Optional[List["_models.AutomationRuleCondition"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_enabled: Determines whether the automation rule is enabled or disabled. Required.
         :paramtype is_enabled: bool
@@ -3769,7 +3741,9 @@ class Availability(_serialization.Model):
         "is_preview": {"key": "isPreview", "type": "bool"},
     }
 
-    def __init__(self, *, status: Optional[Literal[1]] = None, is_preview: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, status: Optional[Literal[1]] = None, is_preview: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: The connector Availability Status. Default value is 1.
         :paramtype status: int
@@ -3784,7 +3758,7 @@ class Availability(_serialization.Model):
 class AwsCloudTrailCheckRequirements(DataConnectorsCheckRequirements):
     """Amazon Web Services CloudTrail requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -3804,7 +3778,7 @@ class AwsCloudTrailCheckRequirements(DataConnectorsCheckRequirements):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "AmazonWebServicesCloudTrail"
@@ -3815,10 +3789,10 @@ class AwsCloudTrailDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3870,8 +3844,8 @@ class AwsCloudTrailDataConnector(DataConnector):
         etag: Optional[str] = None,
         aws_role_arn: Optional[str] = None,
         data_types: Optional["_models.AwsCloudTrailDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -3890,7 +3864,7 @@ class AwsCloudTrailDataConnector(DataConnector):
 class AwsCloudTrailDataConnectorDataTypes(_serialization.Model):
     """The available data types for Amazon Web Services CloudTrail data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logs: Logs data type. Required.
     :vartype logs: ~azure.mgmt.securityinsight.models.AwsCloudTrailDataConnectorDataTypesLogs
@@ -3904,7 +3878,7 @@ class AwsCloudTrailDataConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "AwsCloudTrailDataConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.AwsCloudTrailDataConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.AwsCloudTrailDataConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.AwsCloudTrailDataConnectorDataTypesLogs
@@ -3916,7 +3890,7 @@ class AwsCloudTrailDataConnectorDataTypes(_serialization.Model):
 class DataConnectorDataTypeCommon(_serialization.Model):
     """Common field for data type in data connectors.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
@@ -3931,7 +3905,7 @@ class DataConnectorDataTypeCommon(_serialization.Model):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -3944,34 +3918,18 @@ class DataConnectorDataTypeCommon(_serialization.Model):
 class AwsCloudTrailDataConnectorDataTypesLogs(DataConnectorDataTypeCommon):
     """Logs data type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
 
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
-
 
 class AwsS3CheckRequirements(DataConnectorsCheckRequirements):
     """Amazon Web Services S3 requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -3991,7 +3949,7 @@ class AwsS3CheckRequirements(DataConnectorsCheckRequirements):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "AmazonWebServicesS3"
@@ -4002,10 +3960,10 @@ class AwsS3DataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4064,8 +4022,8 @@ class AwsS3DataConnector(DataConnector):
         sqs_urls: Optional[List[str]] = None,
         role_arn: Optional[str] = None,
         data_types: Optional["_models.AwsS3DataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -4089,7 +4047,7 @@ class AwsS3DataConnector(DataConnector):
 class AwsS3DataConnectorDataTypes(_serialization.Model):
     """The available data types for Amazon Web Services S3 data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logs: Logs data type. Required.
     :vartype logs: ~azure.mgmt.securityinsight.models.AwsS3DataConnectorDataTypesLogs
@@ -4103,7 +4061,7 @@ class AwsS3DataConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "AwsS3DataConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.AwsS3DataConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.AwsS3DataConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.AwsS3DataConnectorDataTypesLogs
@@ -4115,28 +4073,12 @@ class AwsS3DataConnectorDataTypes(_serialization.Model):
 class AwsS3DataConnectorDataTypesLogs(DataConnectorDataTypeCommon):
     """Logs data type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
-
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
 
 
 class AzureDevOpsResourceInfo(_serialization.Model):
@@ -4153,7 +4095,9 @@ class AzureDevOpsResourceInfo(_serialization.Model):
         "service_connection_id": {"key": "serviceConnectionId", "type": "str"},
     }
 
-    def __init__(self, *, pipeline_id: Optional[str] = None, service_connection_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, pipeline_id: Optional[str] = None, service_connection_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword pipeline_id: Id of the pipeline created for the source-control.
         :paramtype pipeline_id: str
@@ -4170,10 +4114,10 @@ class AzureResourceEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4224,7 +4168,7 @@ class AzureResourceEntity(Entity):
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "AzureResource"
@@ -4265,7 +4209,7 @@ class AzureResourceEntityProperties(EntityCommonProperties):
         "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.resource_id = None
@@ -4278,7 +4222,7 @@ class Bookmark(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4375,8 +4319,8 @@ class Bookmark(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         entity_mappings: Optional[List["_models.BookmarkEntityMappings"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -4451,8 +4395,8 @@ class BookmarkEntityMappings(_serialization.Model):
         *,
         entity_type: Optional[str] = None,
         field_mappings: Optional[List["_models.EntityFieldMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entity_type: The entity type.
         :paramtype entity_type: str
@@ -4489,8 +4433,8 @@ class BookmarkExpandParameters(_serialization.Model):
         end_time: Optional[datetime.datetime] = None,
         expansion_id: Optional[str] = None,
         start_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword end_time: The end date filter, so the only expansion results returned are before this
          date.
@@ -4526,8 +4470,8 @@ class BookmarkExpandResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.ExpansionResultsMetadata"] = None,
         value: Optional["_models.BookmarkExpandResponseValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the expansion operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.ExpansionResultsMetadata
@@ -4558,8 +4502,8 @@ class BookmarkExpandResponseValue(_serialization.Model):
         *,
         entities: Optional[List["_models.Entity"]] = None,
         edges: Optional[List["_models.ConnectedEntity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entities: Array of the expansion result entities.
         :paramtype entities: list[~azure.mgmt.securityinsight.models.Entity]
@@ -4576,7 +4520,7 @@ class BookmarkList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of bookmarks.
     :vartype next_link: str
@@ -4594,7 +4538,7 @@ class BookmarkList(_serialization.Model):
         "value": {"key": "value", "type": "[Bookmark]"},
     }
 
-    def __init__(self, *, value: List["_models.Bookmark"], **kwargs):
+    def __init__(self, *, value: List["_models.Bookmark"], **kwargs: Any) -> None:
         """
         :keyword value: Array of bookmarks. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Bookmark]
@@ -4607,7 +4551,7 @@ class BookmarkList(_serialization.Model):
 class BookmarkTimelineItem(EntityTimelineItem):
     """Represents bookmark timeline item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: The entity query kind type. Required. Known values are: "Activity", "Bookmark",
      "SecurityAlert", and "Anomaly".
@@ -4658,8 +4602,8 @@ class BookmarkTimelineItem(EntityTimelineItem):
         event_time: Optional[datetime.datetime] = None,
         created_by: Optional["_models.UserInfo"] = None,
         labels: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_resource_id: The bookmark azure resource id. Required.
         :paramtype azure_resource_id: str
@@ -4691,9 +4635,10 @@ class BookmarkTimelineItem(EntityTimelineItem):
 
 
 class BooleanConditionProperties(AutomationRuleCondition):
-    """Describes an automation rule condition that applies a boolean operator (e.g AND, OR) to conditions.
+    """Describes an automation rule condition that applies a boolean operator (e.g AND, OR) to
+    conditions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar condition_type: Required. Known values are: "Property", "PropertyArray",
      "PropertyChanged", "PropertyArrayChanged", and "Boolean".
@@ -4712,7 +4657,9 @@ class BooleanConditionProperties(AutomationRuleCondition):
         "condition_properties": {"key": "conditionProperties", "type": "AutomationRuleBooleanCondition"},
     }
 
-    def __init__(self, *, condition_properties: Optional["_models.AutomationRuleBooleanCondition"] = None, **kwargs):
+    def __init__(
+        self, *, condition_properties: Optional["_models.AutomationRuleBooleanCondition"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -4750,8 +4697,8 @@ class ClientInfo(_serialization.Model):
         name: Optional[str] = None,
         object_id: Optional[str] = None,
         user_principal_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword email: The email of the client.
         :paramtype email: str
@@ -4774,10 +4721,10 @@ class CloudApplicationEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4833,7 +4780,7 @@ class CloudApplicationEntity(Entity):
         "instance_name": {"key": "properties.instanceName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "CloudApplication"
@@ -4880,7 +4827,7 @@ class CloudApplicationEntityProperties(EntityCommonProperties):
         "instance_name": {"key": "instanceName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.app_id = None
@@ -4911,7 +4858,7 @@ class CloudErrorBody(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -4923,10 +4870,10 @@ class CodelessApiPollingDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4979,8 +4926,8 @@ class CodelessApiPollingDataConnector(DataConnector):
         etag: Optional[str] = None,
         connector_ui_config: Optional["_models.CodelessUiConnectorConfigProperties"] = None,
         polling_config: Optional["_models.CodelessConnectorPollingConfigProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -5000,7 +4947,7 @@ class CodelessApiPollingDataConnector(DataConnector):
 class CodelessConnectorPollingAuthProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Describe the authentication properties needed to successfully authenticate with the server.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar auth_type: The authentication type. Required.
     :vartype auth_type: str
@@ -5070,8 +5017,8 @@ class CodelessConnectorPollingAuthProperties(_serialization.Model):  # pylint: d
         token_endpoint_query_parameters: Optional[JSON] = None,
         is_client_secret_in_header: Optional[bool] = None,
         scope: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword auth_type: The authentication type. Required.
         :paramtype auth_type: str
@@ -5125,7 +5072,7 @@ class CodelessConnectorPollingAuthProperties(_serialization.Model):  # pylint: d
 class CodelessConnectorPollingConfigProperties(_serialization.Model):
     """Config to describe the polling config for API poller connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar is_active: The poller active status.
     :vartype is_active: bool
@@ -5161,8 +5108,8 @@ class CodelessConnectorPollingConfigProperties(_serialization.Model):
         is_active: Optional[bool] = None,
         paging: Optional["_models.CodelessConnectorPollingPagingProperties"] = None,
         response: Optional["_models.CodelessConnectorPollingResponseProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_active: The poller active status.
         :paramtype is_active: bool
@@ -5188,7 +5135,7 @@ class CodelessConnectorPollingConfigProperties(_serialization.Model):
 class CodelessConnectorPollingPagingProperties(_serialization.Model):
     """Describe the properties needed to make a pagination call.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar paging_type: Describes the type. could be 'None', 'PageToken', 'PageCount', 'TimeStamp'.
      Required.
@@ -5243,8 +5190,8 @@ class CodelessConnectorPollingPagingProperties(_serialization.Model):
         search_the_latest_time_stamp_from_events_list: Optional[str] = None,
         page_size_para_name: Optional[str] = None,
         page_size: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword paging_type: Describes the type. could be 'None', 'PageToken', 'PageCount',
          'TimeStamp'. Required.
@@ -5279,10 +5226,12 @@ class CodelessConnectorPollingPagingProperties(_serialization.Model):
         self.page_size = page_size
 
 
-class CodelessConnectorPollingRequestProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CodelessConnectorPollingRequestProperties(
+    _serialization.Model
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """Describe the request properties needed to successfully pull from the server.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar api_endpoint: Describe the endpoint we should pull the data from. Required.
     :vartype api_endpoint: str
@@ -5352,8 +5301,8 @@ class CodelessConnectorPollingRequestProperties(_serialization.Model):  # pylint
         query_parameters_template: Optional[str] = None,
         start_time_attribute_name: Optional[str] = None,
         end_time_attribute_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword api_endpoint: Describe the endpoint we should pull the data from. Required.
         :paramtype api_endpoint: str
@@ -5401,10 +5350,10 @@ class CodelessConnectorPollingRequestProperties(_serialization.Model):  # pylint
         self.end_time_attribute_name = end_time_attribute_name
 
 
-class CodelessConnectorPollingResponseProperties(_serialization.Model):
+class CodelessConnectorPollingResponseProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Describes the response from the external server.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar events_json_paths: Describes the path we should extract the data in the response.
      Required.
@@ -5437,8 +5386,8 @@ class CodelessConnectorPollingResponseProperties(_serialization.Model):
         success_status_json_path: Optional[str] = None,
         success_status_value: Optional[str] = None,
         is_gzip_compressed: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword events_json_paths: Describes the path we should extract the data in the response.
          Required.
@@ -5462,7 +5411,7 @@ class CodelessConnectorPollingResponseProperties(_serialization.Model):
 class CodelessUiConnectorConfigProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Config to describe the instructions blade.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar title: Connector blade title. Required.
     :vartype title: str
@@ -5547,8 +5496,8 @@ class CodelessUiConnectorConfigProperties(_serialization.Model):  # pylint: disa
         permissions: "_models.Permissions",
         instruction_steps: List["_models.CodelessUiConnectorConfigPropertiesInstructionStepsItem"],
         custom_image: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: Connector blade title. Required.
         :paramtype title: str
@@ -5616,8 +5565,8 @@ class ConnectivityCriteria(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ConnectivityType"]] = None,
         value: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: type of connectivity. "IsConnectedQuery"
         :paramtype type: str or ~azure.mgmt.securityinsight.models.ConnectivityType
@@ -5629,7 +5578,9 @@ class ConnectivityCriteria(_serialization.Model):
         self.value = value
 
 
-class CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem(ConnectivityCriteria):
+class CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem(
+    ConnectivityCriteria
+):  # pylint: disable=name-too-long
     """CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem.
 
     :ivar type: type of connectivity. "IsConnectedQuery"
@@ -5637,26 +5588,6 @@ class CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem(ConnectivityCr
     :ivar value: Queries for checking connectivity.
     :vartype value: list[str]
     """
-
-    _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-        "value": {"key": "value", "type": "[str]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        type: Optional[Union[str, "_models.ConnectivityType"]] = None,
-        value: Optional[List[str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword type: type of connectivity. "IsConnectedQuery"
-        :paramtype type: str or ~azure.mgmt.securityinsight.models.ConnectivityType
-        :keyword value: Queries for checking connectivity.
-        :paramtype value: list[str]
-        """
-        super().__init__(type=type, value=value, **kwargs)
 
 
 class LastDataReceivedDataType(_serialization.Model):
@@ -5674,7 +5605,9 @@ class LastDataReceivedDataType(_serialization.Model):
         "last_data_received_query": {"key": "lastDataReceivedQuery", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the data type to show in the graph. can be use with
          {{graphQueriesTableName}} placeholder.
@@ -5687,7 +5620,7 @@ class LastDataReceivedDataType(_serialization.Model):
         self.last_data_received_query = last_data_received_query
 
 
-class CodelessUiConnectorConfigPropertiesDataTypesItem(LastDataReceivedDataType):
+class CodelessUiConnectorConfigPropertiesDataTypesItem(LastDataReceivedDataType):  # pylint: disable=name-too-long
     """CodelessUiConnectorConfigPropertiesDataTypesItem.
 
     :ivar name: Name of the data type to show in the graph. can be use with
@@ -5696,21 +5629,6 @@ class CodelessUiConnectorConfigPropertiesDataTypesItem(LastDataReceivedDataType)
     :ivar last_data_received_query: Query for indicate last data received.
     :vartype last_data_received_query: str
     """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "last_data_received_query": {"key": "lastDataReceivedQuery", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs):
-        """
-        :keyword name: Name of the data type to show in the graph. can be use with
-         {{graphQueriesTableName}} placeholder.
-        :paramtype name: str
-        :keyword last_data_received_query: Query for indicate last data received.
-        :paramtype last_data_received_query: str
-        """
-        super().__init__(name=name, last_data_received_query=last_data_received_query, **kwargs)
 
 
 class GraphQueries(_serialization.Model):
@@ -5736,8 +5654,8 @@ class GraphQueries(_serialization.Model):
         metric_name: Optional[str] = None,
         legend: Optional[str] = None,
         base_query: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_name: the metric that the query is checking.
         :paramtype metric_name: str
@@ -5752,7 +5670,7 @@ class GraphQueries(_serialization.Model):
         self.base_query = base_query
 
 
-class CodelessUiConnectorConfigPropertiesGraphQueriesItem(GraphQueries):
+class CodelessUiConnectorConfigPropertiesGraphQueriesItem(GraphQueries):  # pylint: disable=name-too-long
     """CodelessUiConnectorConfigPropertiesGraphQueriesItem.
 
     :ivar metric_name: the metric that the query is checking.
@@ -5762,30 +5680,6 @@ class CodelessUiConnectorConfigPropertiesGraphQueriesItem(GraphQueries):
     :ivar base_query: The base query for the graph.
     :vartype base_query: str
     """
-
-    _attribute_map = {
-        "metric_name": {"key": "metricName", "type": "str"},
-        "legend": {"key": "legend", "type": "str"},
-        "base_query": {"key": "baseQuery", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        metric_name: Optional[str] = None,
-        legend: Optional[str] = None,
-        base_query: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword metric_name: the metric that the query is checking.
-        :paramtype metric_name: str
-        :keyword legend: The legend for the graph.
-        :paramtype legend: str
-        :keyword base_query: The base query for the graph.
-        :paramtype base_query: str
-        """
-        super().__init__(metric_name=metric_name, legend=legend, base_query=base_query, **kwargs)
 
 
 class InstructionSteps(_serialization.Model):
@@ -5812,8 +5706,8 @@ class InstructionSteps(_serialization.Model):
         title: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[List["_models.InstructionStepsInstructionsItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: Instruction step title.
         :paramtype title: str
@@ -5829,7 +5723,7 @@ class InstructionSteps(_serialization.Model):
         self.instructions = instructions
 
 
-class CodelessUiConnectorConfigPropertiesInstructionStepsItem(InstructionSteps):
+class CodelessUiConnectorConfigPropertiesInstructionStepsItem(InstructionSteps):  # pylint: disable=name-too-long
     """CodelessUiConnectorConfigPropertiesInstructionStepsItem.
 
     :ivar title: Instruction step title.
@@ -5840,31 +5734,6 @@ class CodelessUiConnectorConfigPropertiesInstructionStepsItem(InstructionSteps):
     :vartype instructions:
      list[~azure.mgmt.securityinsight.models.InstructionStepsInstructionsItem]
     """
-
-    _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "instructions": {"key": "instructions", "type": "[InstructionStepsInstructionsItem]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        title: Optional[str] = None,
-        description: Optional[str] = None,
-        instructions: Optional[List["_models.InstructionStepsInstructionsItem"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword title: Instruction step title.
-        :paramtype title: str
-        :keyword description: Instruction step description.
-        :paramtype description: str
-        :keyword instructions: Instruction step details.
-        :paramtype instructions:
-         list[~azure.mgmt.securityinsight.models.InstructionStepsInstructionsItem]
-        """
-        super().__init__(title=title, description=description, instructions=instructions, **kwargs)
 
 
 class SampleQueries(_serialization.Model):
@@ -5881,7 +5750,7 @@ class SampleQueries(_serialization.Model):
         "query": {"key": "query", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: The sample query description.
         :paramtype description: str
@@ -5893,7 +5762,7 @@ class SampleQueries(_serialization.Model):
         self.query = query
 
 
-class CodelessUiConnectorConfigPropertiesSampleQueriesItem(SampleQueries):
+class CodelessUiConnectorConfigPropertiesSampleQueriesItem(SampleQueries):  # pylint: disable=name-too-long
     """CodelessUiConnectorConfigPropertiesSampleQueriesItem.
 
     :ivar description: The sample query description.
@@ -5902,30 +5771,16 @@ class CodelessUiConnectorConfigPropertiesSampleQueriesItem(SampleQueries):
     :vartype query: str
     """
 
-    _attribute_map = {
-        "description": {"key": "description", "type": "str"},
-        "query": {"key": "query", "type": "str"},
-    }
-
-    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs):
-        """
-        :keyword description: The sample query description.
-        :paramtype description: str
-        :keyword query: the sample query.
-        :paramtype query: str
-        """
-        super().__init__(description=description, query=query, **kwargs)
-
 
 class CodelessUiDataConnector(DataConnector):
     """Represents Codeless UI data connector.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5973,8 +5828,8 @@ class CodelessUiDataConnector(DataConnector):
         *,
         etag: Optional[str] = None,
         connector_ui_config: Optional["_models.CodelessUiConnectorConfigProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -6001,7 +5856,9 @@ class ConnectedEntity(_serialization.Model):
         "additional_data": {"key": "additionalData", "type": "object"},
     }
 
-    def __init__(self, *, target_entity_id: Optional[str] = None, additional_data: Optional[JSON] = None, **kwargs):
+    def __init__(
+        self, *, target_entity_id: Optional[str] = None, additional_data: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword target_entity_id: Entity Id of the connected entity.
         :paramtype target_entity_id: str
@@ -6016,7 +5873,7 @@ class ConnectedEntity(_serialization.Model):
 class ConnectorInstructionModelBase(_serialization.Model):
     """Instruction step details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar parameters: The parameters for the setting.
     :vartype parameters: JSON
@@ -6034,7 +5891,9 @@ class ConnectorInstructionModelBase(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs):
+    def __init__(
+        self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: The parameters for the setting.
         :paramtype parameters: JSON
@@ -6050,7 +5909,7 @@ class ConnectorInstructionModelBase(_serialization.Model):
 class Content(_serialization.Model):
     """Content section of the recommendation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar title: Title of the content. Required.
     :vartype title: str
@@ -6068,7 +5927,7 @@ class Content(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, title: str, description: str, **kwargs):
+    def __init__(self, *, title: str, description: str, **kwargs: Any) -> None:
         """
         :keyword title: Title of the content. Required.
         :paramtype title: str
@@ -6095,8 +5954,12 @@ class ContentPathMap(_serialization.Model):
     }
 
     def __init__(
-        self, *, content_type: Optional[Union[str, "_models.ContentType"]] = None, path: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        content_type: Optional[Union[str, "_models.ContentType"]] = None,
+        path: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword content_type: Content type. Known values are: "AnalyticRule" and "Workbook".
         :paramtype content_type: str or ~azure.mgmt.securityinsight.models.ContentType
@@ -6122,7 +5985,7 @@ class CustomsPermission(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Customs permissions name.
         :paramtype name: str
@@ -6142,20 +6005,6 @@ class Customs(CustomsPermission):
     :ivar description: Customs permissions description.
     :vartype description: str
     """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
-        """
-        :keyword name: Customs permissions name.
-        :paramtype name: str
-        :keyword description: Customs permissions description.
-        :paramtype description: str
-        """
-        super().__init__(name=name, description=description, **kwargs)
 
 
 class DataConnectorConnectBody(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -6217,8 +6066,8 @@ class DataConnectorConnectBody(_serialization.Model):  # pylint: disable=too-man
         user_name: Optional[str] = None,
         password: Optional[str] = None,
         request_config_user_input_values: Optional[List[JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: The authentication kind used to poll the data. Known values are: "Basic",
          "OAuth2", and "APIKey".
@@ -6267,7 +6116,7 @@ class DataConnectorList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of data connectors.
     :vartype next_link: str
@@ -6285,7 +6134,7 @@ class DataConnectorList(_serialization.Model):
         "value": {"key": "value", "type": "[DataConnector]"},
     }
 
-    def __init__(self, *, value: List["_models.DataConnector"], **kwargs):
+    def __init__(self, *, value: List["_models.DataConnector"], **kwargs: Any) -> None:
         """
         :keyword value: Array of data connectors. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.DataConnector]
@@ -6317,8 +6166,8 @@ class DataConnectorRequirementsState(_serialization.Model):
         *,
         authorization_state: Optional[Union[str, "_models.DataConnectorAuthorizationState"]] = None,
         license_state: Optional[Union[str, "_models.DataConnectorLicenseState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword authorization_state: Authorization state for this connector. Known values are: "Valid"
          and "Invalid".
@@ -6344,7 +6193,7 @@ class DataTypeDefinitions(_serialization.Model):
         "data_type": {"key": "dataType", "type": "str"},
     }
 
-    def __init__(self, *, data_type: Optional[str] = None, **kwargs):
+    def __init__(self, *, data_type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword data_type: The data type name.
         :paramtype data_type: str
@@ -6386,8 +6235,8 @@ class Deployment(_serialization.Model):
         deployment_result: Optional[Union[str, "_models.DeploymentResult"]] = None,
         deployment_time: Optional[datetime.datetime] = None,
         deployment_logs_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword deployment_id: Deployment identifier.
         :paramtype deployment_id: str
@@ -6435,8 +6284,8 @@ class DeploymentInfo(_serialization.Model):
         deployment_fetch_status: Optional[Union[str, "_models.DeploymentFetchStatus"]] = None,
         deployment: Optional["_models.Deployment"] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword deployment_fetch_status: Status while fetching the last deployment. Known values are:
          "Success", "Unauthorized", and "NotFound".
@@ -6458,10 +6307,10 @@ class DnsEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6520,7 +6369,7 @@ class DnsEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "ip_address_entity_ids": {"key": "properties.ipAddressEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "DnsResolution"
@@ -6571,7 +6420,7 @@ class DnsEntityProperties(EntityCommonProperties):
         "ip_address_entity_ids": {"key": "ipAddressEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.dns_server_ip_entity_id = None
@@ -6583,7 +6432,7 @@ class DnsEntityProperties(EntityCommonProperties):
 class Dynamics365CheckRequirements(DataConnectorsCheckRequirements):
     """Represents Dynamics365 requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -6606,7 +6455,7 @@ class Dynamics365CheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -6619,26 +6468,11 @@ class Dynamics365CheckRequirements(DataConnectorsCheckRequirements):
 class Dynamics365CheckRequirementsProperties(DataConnectorTenantId):
     """Dynamics365 requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class Dynamics365DataConnector(DataConnector):
@@ -6646,10 +6480,10 @@ class Dynamics365DataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6700,8 +6534,8 @@ class Dynamics365DataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.Dynamics365DataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -6719,7 +6553,7 @@ class Dynamics365DataConnector(DataConnector):
 class Dynamics365DataConnectorDataTypes(_serialization.Model):
     """The available data types for Dynamics365 data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar dynamics365_cds_activities: Common Data Service data type connection. Required.
     :vartype dynamics365_cds_activities:
@@ -6741,8 +6575,8 @@ class Dynamics365DataConnectorDataTypes(_serialization.Model):
         self,
         *,
         dynamics365_cds_activities: "_models.Dynamics365DataConnectorDataTypesDynamics365CdsActivities",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword dynamics365_cds_activities: Common Data Service data type connection. Required.
         :paramtype dynamics365_cds_activities:
@@ -6752,37 +6586,23 @@ class Dynamics365DataConnectorDataTypes(_serialization.Model):
         self.dynamics365_cds_activities = dynamics365_cds_activities
 
 
-class Dynamics365DataConnectorDataTypesDynamics365CdsActivities(DataConnectorDataTypeCommon):
+class Dynamics365DataConnectorDataTypesDynamics365CdsActivities(
+    DataConnectorDataTypeCommon
+):  # pylint: disable=name-too-long
     """Common Data Service data type connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
 
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
-
 
 class Dynamics365DataConnectorProperties(DataConnectorTenantId):
     """Dynamics365 data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -6800,7 +6620,9 @@ class Dynamics365DataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "Dynamics365DataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.Dynamics365DataConnectorDataTypes", **kwargs):
+    def __init__(
+        self, *, tenant_id: str, data_types: "_models.Dynamics365DataConnectorDataTypes", **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -6846,8 +6668,8 @@ class EnrichmentDomainWhois(_serialization.Model):
         updated: Optional[datetime.datetime] = None,
         expires: Optional[datetime.datetime] = None,
         parsed_whois: Optional["_models.EnrichmentDomainWhoisDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword domain: The domain for this whois record.
         :paramtype domain: str
@@ -6922,8 +6744,8 @@ class EnrichmentDomainWhoisContact(_serialization.Model):
         phone: Optional[str] = None,
         fax: Optional[str] = None,
         email: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of this contact.
         :paramtype name: str
@@ -6986,8 +6808,8 @@ class EnrichmentDomainWhoisContacts(_serialization.Model):
         billing: Optional["_models.EnrichmentDomainWhoisContact"] = None,
         registrant: Optional["_models.EnrichmentDomainWhoisContact"] = None,
         tech: Optional["_models.EnrichmentDomainWhoisContact"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword admin: The admin contact for this whois record.
         :paramtype admin: ~azure.mgmt.securityinsight.models.EnrichmentDomainWhoisContact
@@ -7032,8 +6854,8 @@ class EnrichmentDomainWhoisDetails(_serialization.Model):
         contacts: Optional["_models.EnrichmentDomainWhoisContacts"] = None,
         name_servers: Optional[List[str]] = None,
         statuses: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword registrar: The registrar associated with this domain.
         :paramtype registrar: ~azure.mgmt.securityinsight.models.EnrichmentDomainWhoisRegistrarDetails
@@ -7086,8 +6908,8 @@ class EnrichmentDomainWhoisRegistrarDetails(_serialization.Model):
         iana_id: Optional[str] = None,
         url: Optional[str] = None,
         whois_server: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of this registrar.
         :paramtype name: str
@@ -7193,8 +7015,8 @@ class EnrichmentIpGeodata(_serialization.Model):  # pylint: disable=too-many-ins
         state: Optional[str] = None,
         state_cf: Optional[int] = None,
         state_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword asn: The autonomous system number associated with this IP address.
         :paramtype asn: str
@@ -7260,10 +7082,10 @@ class EntityAnalytics(Settings):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7305,8 +7127,8 @@ class EntityAnalytics(Settings):
         *,
         etag: Optional[str] = None,
         entity_providers: Optional[List[Union[str, "_models.EntityProviders"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -7334,8 +7156,8 @@ class EntityEdges(_serialization.Model):
     }
 
     def __init__(
-        self, *, target_entity_id: Optional[str] = None, additional_data: Optional[Dict[str, Any]] = None, **kwargs
-    ):
+        self, *, target_entity_id: Optional[str] = None, additional_data: Optional[Dict[str, Any]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword target_entity_id: The target entity Id.
         :paramtype target_entity_id: str
@@ -7373,8 +7195,8 @@ class EntityExpandParameters(_serialization.Model):
         end_time: Optional[datetime.datetime] = None,
         expansion_id: Optional[str] = None,
         start_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword end_time: The end date filter, so the only expansion results returned are before this
          date.
@@ -7410,8 +7232,8 @@ class EntityExpandResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.ExpansionResultsMetadata"] = None,
         value: Optional["_models.EntityExpandResponseValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the expansion operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.ExpansionResultsMetadata
@@ -7442,8 +7264,8 @@ class EntityExpandResponseValue(_serialization.Model):
         *,
         entities: Optional[List["_models.Entity"]] = None,
         edges: Optional[List["_models.EntityEdges"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entities: Array of the expansion result entities.
         :paramtype entities: list[~azure.mgmt.securityinsight.models.Entity]
@@ -7469,7 +7291,7 @@ class EntityFieldMapping(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, identifier: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, identifier: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword identifier: Alert V3 identifier.
         :paramtype identifier: str
@@ -7484,7 +7306,7 @@ class EntityFieldMapping(_serialization.Model):
 class EntityGetInsightsParameters(_serialization.Model):
     """The parameters required to execute insights operation on the given entity.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The start timeline date, so the results returned are after this date.
      Required.
@@ -7518,8 +7340,8 @@ class EntityGetInsightsParameters(_serialization.Model):
         end_time: datetime.datetime,
         add_default_extended_time_range: Optional[bool] = None,
         insight_query_ids: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: The start timeline date, so the results returned are after this date.
          Required.
@@ -7560,8 +7382,8 @@ class EntityGetInsightsResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.GetInsightsResultsMetadata"] = None,
         value: Optional[List["_models.EntityInsightItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the get insights operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.GetInsightsResultsMetadata
@@ -7601,8 +7423,8 @@ class EntityInsightItem(_serialization.Model):
         query_time_interval: Optional["_models.EntityInsightItemQueryTimeInterval"] = None,
         table_query_results: Optional["_models.InsightsTableResult"] = None,
         chart_query_results: Optional[List["_models.InsightsTableResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_id: The query id of the insight.
         :paramtype query_id: str
@@ -7636,8 +7458,12 @@ class EntityInsightItemQueryTimeInterval(_serialization.Model):
     }
 
     def __init__(
-        self, *, start_time: Optional[datetime.datetime] = None, end_time: Optional[datetime.datetime] = None, **kwargs
-    ):
+        self,
+        *,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: Insight query start time.
         :paramtype start_time: ~datetime.datetime
@@ -7654,7 +7480,7 @@ class EntityList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of entities.
     :vartype next_link: str
@@ -7672,7 +7498,7 @@ class EntityList(_serialization.Model):
         "value": {"key": "value", "type": "[Entity]"},
     }
 
-    def __init__(self, *, value: List["_models.Entity"], **kwargs):
+    def __init__(self, *, value: List["_models.Entity"], **kwargs: Any) -> None:
         """
         :keyword value: Array of entities. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Entity]
@@ -7704,8 +7530,8 @@ class EntityMapping(_serialization.Model):
         *,
         entity_type: Optional[Union[str, "_models.EntityMappingType"]] = None,
         field_mappings: Optional[List["_models.FieldMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entity_type: The V3 type of the mapped entity. Known values are: "Account", "Host",
          "IP", "Malware", "File", "Process", "CloudApplication", "DNS", "AzureResource", "FileHash",
@@ -7728,7 +7554,7 @@ class EntityQueryItem(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Query Template ARM ID.
     :vartype id: str
@@ -7755,7 +7581,7 @@ class EntityQueryItem(_serialization.Model):
 
     _subtype_map = {"kind": {"Insight": "InsightQueryItem"}}
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Query Template ARM Name.
         :paramtype name: str
@@ -7800,8 +7626,8 @@ class EntityQueryItemProperties(_serialization.Model):
         input_entity_type: Optional[Union[str, "_models.EntityType"]] = None,
         required_input_fields_sets: Optional[List[List[str]]] = None,
         entities_filter: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: Data types for template.
         :paramtype data_types:
@@ -7834,7 +7660,7 @@ class EntityQueryItemPropertiesDataTypesItem(_serialization.Model):
         "data_type": {"key": "dataType", "type": "str"},
     }
 
-    def __init__(self, *, data_type: Optional[str] = None, **kwargs):
+    def __init__(self, *, data_type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword data_type: Data type name.
         :paramtype data_type: str
@@ -7848,7 +7674,7 @@ class EntityQueryList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of entity queries.
     :vartype next_link: str
@@ -7866,7 +7692,7 @@ class EntityQueryList(_serialization.Model):
         "value": {"key": "value", "type": "[EntityQuery]"},
     }
 
-    def __init__(self, *, value: List["_models.EntityQuery"], **kwargs):
+    def __init__(self, *, value: List["_models.EntityQuery"], **kwargs: Any) -> None:
         """
         :keyword value: Array of entity queries. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.EntityQuery]
@@ -7881,7 +7707,7 @@ class EntityQueryTemplateList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of entity query templates.
     :vartype next_link: str
@@ -7899,7 +7725,7 @@ class EntityQueryTemplateList(_serialization.Model):
         "value": {"key": "value", "type": "[EntityQueryTemplate]"},
     }
 
-    def __init__(self, *, value: List["_models.EntityQueryTemplate"], **kwargs):
+    def __init__(self, *, value: List["_models.EntityQueryTemplate"], **kwargs: Any) -> None:
         """
         :keyword value: Array of entity query templates. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.EntityQueryTemplate]
@@ -7912,7 +7738,7 @@ class EntityQueryTemplateList(_serialization.Model):
 class EntityTimelineParameters(_serialization.Model):
     """The parameters required to execute s timeline operation on the given entity.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kinds: Array of timeline Item kinds.
     :vartype kinds: list[str or ~azure.mgmt.securityinsight.models.EntityTimelineKind]
@@ -7944,8 +7770,8 @@ class EntityTimelineParameters(_serialization.Model):
         end_time: datetime.datetime,
         kinds: Optional[List[Union[str, "_models.EntityTimelineKind"]]] = None,
         number_of_bucket: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kinds: Array of timeline Item kinds.
         :paramtype kinds: list[str or ~azure.mgmt.securityinsight.models.EntityTimelineKind]
@@ -7984,8 +7810,8 @@ class EntityTimelineResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.TimelineResultsMetadata"] = None,
         value: Optional[List["_models.EntityTimelineItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the timeline operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.TimelineResultsMetadata
@@ -8011,8 +7837,8 @@ class EventGroupingSettings(_serialization.Model):
     }
 
     def __init__(
-        self, *, aggregation_kind: Optional[Union[str, "_models.EventGroupingAggregationKind"]] = None, **kwargs
-    ):
+        self, *, aggregation_kind: Optional[Union[str, "_models.EventGroupingAggregationKind"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword aggregation_kind: The event grouping aggregation kinds. Known values are:
          "SingleAlert" and "AlertPerResult".
@@ -8028,10 +7854,10 @@ class ExpansionEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8097,8 +7923,8 @@ class ExpansionEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-at
         input_fields: Optional[List[str]] = None,
         output_entity_types: Optional[List[Union[str, "_models.EntityType"]]] = None,
         query_template: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -8134,7 +7960,7 @@ class ExpansionEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-at
 class ExpansionResultAggregation(_serialization.Model):
     """Information of a specific aggregation in the expansion result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar aggregation_type: The common type of the aggregation. (for e.g. entity field name).
     :vartype aggregation_type: str
@@ -8170,8 +7996,8 @@ class ExpansionResultAggregation(_serialization.Model):
         entity_kind: Union[str, "_models.EntityKind"],
         aggregation_type: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword aggregation_type: The common type of the aggregation. (for e.g. entity field name).
         :paramtype aggregation_type: str
@@ -8205,7 +8031,9 @@ class ExpansionResultsMetadata(_serialization.Model):
         "aggregations": {"key": "aggregations", "type": "[ExpansionResultAggregation]"},
     }
 
-    def __init__(self, *, aggregations: Optional[List["_models.ExpansionResultAggregation"]] = None, **kwargs):
+    def __init__(
+        self, *, aggregations: Optional[List["_models.ExpansionResultAggregation"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword aggregations: Information of the aggregated nodes in the expansion result.
         :paramtype aggregations: list[~azure.mgmt.securityinsight.models.ExpansionResultAggregation]
@@ -8219,10 +8047,10 @@ class EyesOn(Settings):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8260,7 +8088,7 @@ class EyesOn(Settings):
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -8284,7 +8112,7 @@ class FieldMapping(_serialization.Model):
         "column_name": {"key": "columnName", "type": "str"},
     }
 
-    def __init__(self, *, identifier: Optional[str] = None, column_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, identifier: Optional[str] = None, column_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword identifier: the V3 identifier of the entity.
         :paramtype identifier: str
@@ -8301,10 +8129,10 @@ class FileEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8363,7 +8191,7 @@ class FileEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "host_entity_id": {"key": "properties.hostEntityId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "File"
@@ -8414,7 +8242,7 @@ class FileEntityProperties(EntityCommonProperties):
         "host_entity_id": {"key": "hostEntityId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.directory = None
@@ -8428,10 +8256,10 @@ class FileHashEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8483,7 +8311,7 @@ class FileHashEntity(Entity):
         "hash_value": {"key": "properties.hashValue", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "FileHash"
@@ -8525,7 +8353,7 @@ class FileHashEntityProperties(EntityCommonProperties):
         "hash_value": {"key": "hashValue", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.algorithm = None
@@ -8538,7 +8366,7 @@ class FileImport(Resource):  # pylint: disable=too-many-instance-attributes
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8626,8 +8454,8 @@ class FileImport(Resource):  # pylint: disable=too-many-instance-attributes
         content_type: Optional[Union[str, "_models.FileImportContentType"]] = None,
         import_file: Optional["_models.FileMetadata"] = None,
         source: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ingestion_mode: Describes how to ingest the records in the file. Known values are:
          "IngestOnlyIfAllAreValid", "IngestAnyValidRecords", and "Unspecified".
@@ -8661,7 +8489,7 @@ class FileImportList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of file imports.
     :vartype next_link: str
@@ -8679,7 +8507,7 @@ class FileImportList(_serialization.Model):
         "value": {"key": "value", "type": "[FileImport]"},
     }
 
-    def __init__(self, *, value: List["_models.FileImport"], **kwargs):
+    def __init__(self, *, value: List["_models.FileImport"], **kwargs: Any) -> None:
         """
         :keyword value: Array of file imports. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.FileImport]
@@ -8726,8 +8554,8 @@ class FileMetadata(_serialization.Model):
         file_format: Optional[Union[str, "_models.FileFormat"]] = None,
         file_name: Optional[str] = None,
         file_size: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_format: The format of the file. Known values are: "CSV", "JSON", and
          "Unspecified".
@@ -8750,10 +8578,10 @@ class FusionAlertRule(AlertRule):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8837,8 +8665,8 @@ class FusionAlertRule(AlertRule):  # pylint: disable=too-many-instance-attribute
         enabled: Optional[bool] = None,
         source_settings: Optional[List["_models.FusionSourceSettings"]] = None,
         scenario_exclusion_patterns: Optional[List["_models.FusionScenarioExclusionPattern"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -8872,10 +8700,10 @@ class FusionAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-in
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8961,8 +8789,8 @@ class FusionAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-in
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         source_settings: Optional[List["_models.FusionTemplateSourceSetting"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -9007,7 +8835,7 @@ class FusionAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-in
 class FusionScenarioExclusionPattern(_serialization.Model):
     """Represents a Fusion scenario exclusion patterns in Fusion detection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar exclusion_pattern: Scenario exclusion pattern. Required.
     :vartype exclusion_pattern: str
@@ -9025,7 +8853,7 @@ class FusionScenarioExclusionPattern(_serialization.Model):
         "date_added_in_utc": {"key": "dateAddedInUTC", "type": "str"},
     }
 
-    def __init__(self, *, exclusion_pattern: str, date_added_in_utc: str, **kwargs):
+    def __init__(self, *, exclusion_pattern: str, date_added_in_utc: str, **kwargs: Any) -> None:
         """
         :keyword exclusion_pattern: Scenario exclusion pattern. Required.
         :paramtype exclusion_pattern: str
@@ -9040,7 +8868,7 @@ class FusionScenarioExclusionPattern(_serialization.Model):
 class FusionSourceSettings(_serialization.Model):
     """Represents a supported source signal configuration in Fusion detection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: Determines whether this source signal is enabled or disabled in Fusion
      detection. Required.
@@ -9070,8 +8898,8 @@ class FusionSourceSettings(_serialization.Model):
         enabled: bool,
         source_name: str,
         source_sub_types: Optional[List["_models.FusionSourceSubTypeSetting"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Determines whether this source signal is enabled or disabled in Fusion
          detection. Required.
@@ -9095,7 +8923,7 @@ class FusionSourceSubTypeSetting(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: Determines whether this source subtype under source signal is enabled or
      disabled in Fusion detection. Required.
@@ -9131,8 +8959,8 @@ class FusionSourceSubTypeSetting(_serialization.Model):
         enabled: bool,
         source_sub_type_name: str,
         severity_filters: "_models.FusionSubTypeSeverityFilter",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Determines whether this source subtype under source signal is enabled or
          disabled in Fusion detection. Required.
@@ -9173,7 +9001,9 @@ class FusionSubTypeSeverityFilter(_serialization.Model):
         "filters": {"key": "filters", "type": "[FusionSubTypeSeverityFiltersItem]"},
     }
 
-    def __init__(self, *, filters: Optional[List["_models.FusionSubTypeSeverityFiltersItem"]] = None, **kwargs):
+    def __init__(
+        self, *, filters: Optional[List["_models.FusionSubTypeSeverityFiltersItem"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword filters: Individual Severity configuration settings for a given source subtype
          consumed in Fusion detection.
@@ -9187,7 +9017,7 @@ class FusionSubTypeSeverityFilter(_serialization.Model):
 class FusionSubTypeSeverityFiltersItem(_serialization.Model):
     """Represents a Severity filter setting for a given source subtype consumed in Fusion detection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar severity: The Severity for a given source subtype consumed in Fusion detection. Required.
      Known values are: "High", "Medium", "Low", and "Informational".
@@ -9207,7 +9037,7 @@ class FusionSubTypeSeverityFiltersItem(_serialization.Model):
         "enabled": {"key": "enabled", "type": "bool"},
     }
 
-    def __init__(self, *, severity: Union[str, "_models.AlertSeverity"], enabled: bool, **kwargs):
+    def __init__(self, *, severity: Union[str, "_models.AlertSeverity"], enabled: bool, **kwargs: Any) -> None:
         """
         :keyword severity: The Severity for a given source subtype consumed in Fusion detection.
          Required. Known values are: "High", "Medium", "Low", and "Informational".
@@ -9224,7 +9054,7 @@ class FusionSubTypeSeverityFiltersItem(_serialization.Model):
 class FusionTemplateSourceSetting(_serialization.Model):
     """Represents a source signal consumed in Fusion detection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_name: The name of a source signal consumed in Fusion detection. Required.
     :vartype source_name: str
@@ -9247,8 +9077,8 @@ class FusionTemplateSourceSetting(_serialization.Model):
         *,
         source_name: str,
         source_sub_types: Optional[List["_models.FusionTemplateSourceSubType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_name: The name of a source signal consumed in Fusion detection. Required.
         :paramtype source_name: str
@@ -9267,7 +9097,7 @@ class FusionTemplateSourceSubType(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_sub_type_name: The name of source subtype under a source signal consumed in Fusion
      detection. Required.
@@ -9294,8 +9124,12 @@ class FusionTemplateSourceSubType(_serialization.Model):
     }
 
     def __init__(
-        self, *, source_sub_type_name: str, severity_filter: "_models.FusionTemplateSubTypeSeverityFilter", **kwargs
-    ):
+        self,
+        *,
+        source_sub_type_name: str,
+        severity_filter: "_models.FusionTemplateSubTypeSeverityFilter",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_sub_type_name: The name of source subtype under a source signal consumed in
          Fusion detection. Required.
@@ -9314,7 +9148,7 @@ class FusionTemplateSourceSubType(_serialization.Model):
 class FusionTemplateSubTypeSeverityFilter(_serialization.Model):
     """Represents severity configurations available for a source subtype consumed in Fusion detection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar is_supported: Determines whether severity configuration is supported for this source
      subtype consumed in Fusion detection. Required.
@@ -9338,8 +9172,8 @@ class FusionTemplateSubTypeSeverityFilter(_serialization.Model):
         *,
         is_supported: bool,
         severity_filters: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_supported: Determines whether severity configuration is supported for this source
          subtype consumed in Fusion detection. Required.
@@ -9399,7 +9233,7 @@ class GeoLocation(_serialization.Model):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.asn = None
@@ -9414,7 +9248,7 @@ class GeoLocation(_serialization.Model):
 class GetInsightsErrorKind(_serialization.Model):
     """GetInsights Query Errors.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: the query kind. Required. "Insight"
     :vartype kind: str or ~azure.mgmt.securityinsight.models.GetInsightsError
@@ -9441,8 +9275,8 @@ class GetInsightsErrorKind(_serialization.Model):
         kind: Union[str, "_models.GetInsightsError"],
         error_message: str,
         query_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: the query kind. Required. "Insight"
         :paramtype kind: str or ~azure.mgmt.securityinsight.models.GetInsightsError
@@ -9460,7 +9294,7 @@ class GetInsightsErrorKind(_serialization.Model):
 class GetInsightsResultsMetadata(_serialization.Model):
     """Get Insights result metadata.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar total_count: the total items found for the insights request. Required.
     :vartype total_count: int
@@ -9477,7 +9311,9 @@ class GetInsightsResultsMetadata(_serialization.Model):
         "errors": {"key": "errors", "type": "[GetInsightsErrorKind]"},
     }
 
-    def __init__(self, *, total_count: int, errors: Optional[List["_models.GetInsightsErrorKind"]] = None, **kwargs):
+    def __init__(
+        self, *, total_count: int, errors: Optional[List["_models.GetInsightsErrorKind"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword total_count: the total items found for the insights request. Required.
         :paramtype total_count: int
@@ -9500,7 +9336,7 @@ class GetQueriesResponse(_serialization.Model):
         "value": {"key": "value", "type": "[EntityQueryItem]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EntityQueryItem"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EntityQueryItem"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The query result values.
         :paramtype value: list[~azure.mgmt.securityinsight.models.EntityQueryItem]
@@ -9520,7 +9356,7 @@ class GitHubResourceInfo(_serialization.Model):
         "app_installation_id": {"key": "appInstallationId", "type": "str"},
     }
 
-    def __init__(self, *, app_installation_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, app_installation_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword app_installation_id: GitHub application installation id.
         :paramtype app_installation_id: str
@@ -9532,7 +9368,7 @@ class GitHubResourceInfo(_serialization.Model):
 class GroupingConfiguration(_serialization.Model):
     """Grouping configuration property bag.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: Grouping enabled. Required.
     :vartype enabled: bool
@@ -9583,8 +9419,8 @@ class GroupingConfiguration(_serialization.Model):
         group_by_entities: Optional[List[Union[str, "_models.EntityMappingType"]]] = None,
         group_by_alert_details: Optional[List[Union[str, "_models.AlertDetail"]]] = None,
         group_by_custom_details: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Grouping enabled. Required.
         :paramtype enabled: bool
@@ -9622,10 +9458,10 @@ class HostEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9707,7 +9543,7 @@ class HostEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "os_version": {"key": "properties.osVersion", "type": "str"},
     }
 
-    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs):
+    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs: Any) -> None:
         """
         :keyword os_family: The operating system type. Known values are: "Linux", "Windows", "Android",
          "IOS", and "Unknown".
@@ -9790,7 +9626,7 @@ class HostEntityProperties(EntityCommonProperties):  # pylint: disable=too-many-
         "os_version": {"key": "osVersion", "type": "str"},
     }
 
-    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs):
+    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs: Any) -> None:
         """
         :keyword os_family: The operating system type. Known values are: "Linux", "Windows", "Android",
          "IOS", and "Unknown".
@@ -9813,10 +9649,10 @@ class HuntingBookmark(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9906,8 +9742,8 @@ class HuntingBookmark(Entity):  # pylint: disable=too-many-instance-attributes
         updated: Optional[datetime.datetime] = None,
         updated_by: Optional["_models.UserInfo"] = None,
         incident_info: Optional["_models.IncidentInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created: The time the bookmark was created.
         :paramtype created: ~datetime.datetime
@@ -9954,7 +9790,7 @@ class HuntingBookmarkProperties(EntityCommonProperties):  # pylint: disable=too-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
@@ -10023,8 +9859,8 @@ class HuntingBookmarkProperties(EntityCommonProperties):  # pylint: disable=too-
         updated: Optional[datetime.datetime] = None,
         updated_by: Optional["_models.UserInfo"] = None,
         incident_info: Optional["_models.IncidentInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created: The time the bookmark was created.
         :paramtype created: ~datetime.datetime
@@ -10069,7 +9905,7 @@ class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10188,8 +10024,8 @@ class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         provider_name: Optional[str] = None,
         provider_incident_id: Optional[str] = None,
         team_information: Optional["_models.TeamInformation"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -10292,7 +10128,7 @@ class IncidentAdditionalData(_serialization.Model):
         "provider_incident_url": {"key": "providerIncidentUrl", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.alerts_count = None
@@ -10307,7 +10143,7 @@ class IncidentAdditionalData(_serialization.Model):
 class IncidentAlertList(_serialization.Model):
     """List of incident alerts.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Array of incident alerts. Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.SecurityAlert]
@@ -10321,7 +10157,7 @@ class IncidentAlertList(_serialization.Model):
         "value": {"key": "value", "type": "[SecurityAlert]"},
     }
 
-    def __init__(self, *, value: List["_models.SecurityAlert"], **kwargs):
+    def __init__(self, *, value: List["_models.SecurityAlert"], **kwargs: Any) -> None:
         """
         :keyword value: Array of incident alerts. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SecurityAlert]
@@ -10333,7 +10169,7 @@ class IncidentAlertList(_serialization.Model):
 class IncidentBookmarkList(_serialization.Model):
     """List of incident bookmarks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Array of incident bookmarks. Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.HuntingBookmark]
@@ -10347,7 +10183,7 @@ class IncidentBookmarkList(_serialization.Model):
         "value": {"key": "value", "type": "[HuntingBookmark]"},
     }
 
-    def __init__(self, *, value: List["_models.HuntingBookmark"], **kwargs):
+    def __init__(self, *, value: List["_models.HuntingBookmark"], **kwargs: Any) -> None:
         """
         :keyword value: Array of incident bookmarks. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.HuntingBookmark]
@@ -10362,7 +10198,7 @@ class IncidentComment(ResourceWithEtag):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10406,7 +10242,7 @@ class IncidentComment(ResourceWithEtag):
         "author": {"key": "properties.author", "type": "ClientInfo"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -10425,7 +10261,7 @@ class IncidentCommentList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.IncidentComment]
@@ -10443,7 +10279,7 @@ class IncidentCommentList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.IncidentComment"], **kwargs):
+    def __init__(self, *, value: List["_models.IncidentComment"], **kwargs: Any) -> None:
         """
         :keyword value: Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.IncidentComment]
@@ -10456,7 +10292,7 @@ class IncidentCommentList(_serialization.Model):
 class IncidentConfiguration(_serialization.Model):
     """Incident Configuration property bag.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar create_incident: Create incidents from alerts triggered by this analytics rule. Required.
     :vartype create_incident: bool
@@ -10479,8 +10315,8 @@ class IncidentConfiguration(_serialization.Model):
         *,
         create_incident: bool,
         grouping_configuration: Optional["_models.GroupingConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword create_incident: Create incidents from alerts triggered by this analytics rule.
          Required.
@@ -10513,8 +10349,8 @@ class IncidentEntitiesResponse(_serialization.Model):
         *,
         entities: Optional[List["_models.Entity"]] = None,
         meta_data: Optional[List["_models.IncidentEntitiesResultsMetadata"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entities: Array of the incident related entities.
         :paramtype entities: list[~azure.mgmt.securityinsight.models.Entity]
@@ -10529,7 +10365,7 @@ class IncidentEntitiesResponse(_serialization.Model):
 class IncidentEntitiesResultsMetadata(_serialization.Model):
     """Information of a specific aggregation in the incident related entities result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar entity_kind: The kind of the aggregated entity. Required. Known values are: "Account",
      "Host", "File", "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip",
@@ -10552,7 +10388,7 @@ class IncidentEntitiesResultsMetadata(_serialization.Model):
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, *, entity_kind: Union[str, "_models.EntityKind"], count: int, **kwargs):
+    def __init__(self, *, entity_kind: Union[str, "_models.EntityKind"], count: int, **kwargs: Any) -> None:
         """
         :keyword entity_kind: The kind of the aggregated entity. Required. Known values are: "Account",
          "Host", "File", "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip",
@@ -10597,8 +10433,8 @@ class IncidentInfo(_serialization.Model):
         severity: Optional[Union[str, "_models.IncidentSeverity"]] = None,
         title: Optional[str] = None,
         relation_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword incident_id: Incident Id.
         :paramtype incident_id: str
@@ -10622,7 +10458,7 @@ class IncidentLabel(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar label_name: The name of the label. Required.
     :vartype label_name: str
@@ -10640,7 +10476,7 @@ class IncidentLabel(_serialization.Model):
         "label_type": {"key": "labelType", "type": "str"},
     }
 
-    def __init__(self, *, label_name: str, **kwargs):
+    def __init__(self, *, label_name: str, **kwargs: Any) -> None:
         """
         :keyword label_name: The name of the label. Required.
         :paramtype label_name: str
@@ -10655,7 +10491,7 @@ class IncidentList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.Incident]
@@ -10673,7 +10509,7 @@ class IncidentList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Incident"], **kwargs):
+    def __init__(self, *, value: List["_models.Incident"], **kwargs: Any) -> None:
         """
         :keyword value: Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Incident]
@@ -10715,8 +10551,8 @@ class IncidentOwnerInfo(_serialization.Model):
         object_id: Optional[str] = None,
         user_principal_name: Optional[str] = None,
         owner_type: Optional[Union[str, "_models.OwnerType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword email: The email of the user the incident is assigned to.
         :paramtype email: str
@@ -10782,8 +10618,8 @@ class IncidentPropertiesAction(_serialization.Model):
         classification_comment: Optional[str] = None,
         owner: Optional["_models.IncidentOwnerInfo"] = None,
         labels: Optional[List["_models.IncidentLabel"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword severity: The severity of the incident. Known values are: "High", "Medium", "Low", and
          "Informational".
@@ -10820,10 +10656,10 @@ class IncidentTask(ResourceWithEtag):  # pylint: disable=too-many-instance-attri
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10886,8 +10722,8 @@ class IncidentTask(ResourceWithEtag):  # pylint: disable=too-many-instance-attri
         description: Optional[str] = None,
         created_by: Optional["_models.ClientInfo"] = None,
         last_modified_by: Optional["_models.ClientInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -10928,8 +10764,8 @@ class IncidentTaskList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.IncidentTask"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.IncidentTask"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: list[~azure.mgmt.securityinsight.models.IncidentTask]
@@ -10946,7 +10782,7 @@ class InsightQueryItem(EntityQueryItem):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Query Template ARM ID.
     :vartype id: str
@@ -10980,8 +10816,8 @@ class InsightQueryItem(EntityQueryItem):
         name: Optional[str] = None,
         type: Optional[str] = None,
         properties: Optional["_models.InsightQueryItemProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Query Template ARM Name.
         :paramtype name: str
@@ -11061,8 +10897,8 @@ class InsightQueryItemProperties(EntityQueryItemProperties):  # pylint: disable=
         additional_query: Optional["_models.InsightQueryItemPropertiesAdditionalQuery"] = None,
         default_time_range: Optional["_models.InsightQueryItemPropertiesDefaultTimeRange"] = None,
         reference_time_range: Optional["_models.InsightQueryItemPropertiesReferenceTimeRange"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: Data types for template.
         :paramtype data_types:
@@ -11113,7 +10949,7 @@ class InsightQueryItemProperties(EntityQueryItemProperties):  # pylint: disable=
         self.reference_time_range = reference_time_range
 
 
-class InsightQueryItemPropertiesAdditionalQuery(_serialization.Model):
+class InsightQueryItemPropertiesAdditionalQuery(_serialization.Model):  # pylint: disable=name-too-long
     """The activity query definitions.
 
     :ivar query: The insight query.
@@ -11127,7 +10963,7 @@ class InsightQueryItemPropertiesAdditionalQuery(_serialization.Model):
         "text": {"key": "text", "type": "str"},
     }
 
-    def __init__(self, *, query: Optional[str] = None, text: Optional[str] = None, **kwargs):
+    def __init__(self, *, query: Optional[str] = None, text: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword query: The insight query.
         :paramtype query: str
@@ -11139,7 +10975,7 @@ class InsightQueryItemPropertiesAdditionalQuery(_serialization.Model):
         self.text = text
 
 
-class InsightQueryItemPropertiesDefaultTimeRange(_serialization.Model):
+class InsightQueryItemPropertiesDefaultTimeRange(_serialization.Model):  # pylint: disable=name-too-long
     """The insight chart query.
 
     :ivar before_range: The padding for the start time of the query.
@@ -11153,7 +10989,7 @@ class InsightQueryItemPropertiesDefaultTimeRange(_serialization.Model):
         "after_range": {"key": "afterRange", "type": "str"},
     }
 
-    def __init__(self, *, before_range: Optional[str] = None, after_range: Optional[str] = None, **kwargs):
+    def __init__(self, *, before_range: Optional[str] = None, after_range: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword before_range: The padding for the start time of the query.
         :paramtype before_range: str
@@ -11165,7 +11001,7 @@ class InsightQueryItemPropertiesDefaultTimeRange(_serialization.Model):
         self.after_range = after_range
 
 
-class InsightQueryItemPropertiesReferenceTimeRange(_serialization.Model):
+class InsightQueryItemPropertiesReferenceTimeRange(_serialization.Model):  # pylint: disable=name-too-long
     """The insight chart query.
 
     :ivar before_range: Additional query time for looking back.
@@ -11176,7 +11012,7 @@ class InsightQueryItemPropertiesReferenceTimeRange(_serialization.Model):
         "before_range": {"key": "beforeRange", "type": "str"},
     }
 
-    def __init__(self, *, before_range: Optional[str] = None, **kwargs):
+    def __init__(self, *, before_range: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword before_range: Additional query time for looking back.
         :paramtype before_range: str
@@ -11216,8 +11052,8 @@ class InsightQueryItemPropertiesTableQuery(_serialization.Model):
         queries_definitions: Optional[
             List["_models.InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword columns_definitions: List of insight column definitions.
         :paramtype columns_definitions:
@@ -11231,7 +11067,7 @@ class InsightQueryItemPropertiesTableQuery(_serialization.Model):
         self.queries_definitions = queries_definitions
 
 
-class InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem(_serialization.Model):
+class InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem(_serialization.Model):  # pylint: disable=name-too-long
     """InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem.
 
     :ivar header: Insight column header.
@@ -11255,8 +11091,8 @@ class InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem(_serialization.
         header: Optional[str] = None,
         output_type: Optional[Union[str, "_models.OutputType"]] = None,
         support_deep_link: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword header: Insight column header.
         :paramtype header: str
@@ -11272,7 +11108,7 @@ class InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem(_serialization.
         self.support_deep_link = support_deep_link
 
 
-class InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem(_serialization.Model):
+class InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem(_serialization.Model):  # pylint: disable=name-too-long
     """InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem.
 
     :ivar filter: Insight column header.
@@ -11305,8 +11141,8 @@ class InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem(_serialization.
         link_columns_definitions: Optional[
             List["_models.InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword filter: Insight column header.
         :paramtype filter: str
@@ -11316,7 +11152,7 @@ class InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem(_serialization.
         :paramtype project: str
         :keyword link_columns_definitions: Insight column header.
         :paramtype link_columns_definitions:
-         list[~azure.mgmt.securityinsight.models.InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem]
+         list[~azure.mgmt.securityinsight.models.InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem]  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.filter = filter
@@ -11325,7 +11161,9 @@ class InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem(_serialization.
         self.link_columns_definitions = link_columns_definitions
 
 
-class InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem(_serialization.Model):
+class InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem.
 
     :ivar projected_name: Insight Link Definition Projected Name.
@@ -11339,7 +11177,7 @@ class InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem(
         "query": {"key": "Query", "type": "str"},
     }
 
-    def __init__(self, *, projected_name: Optional[str] = None, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, projected_name: Optional[str] = None, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword projected_name: Insight Link Definition Projected Name.
         :paramtype projected_name: str
@@ -11370,8 +11208,8 @@ class InsightsTableResult(_serialization.Model):
         *,
         columns: Optional[List["_models.InsightsTableResultColumnsItem"]] = None,
         rows: Optional[List[List[str]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword columns: Columns Metadata of the table.
         :paramtype columns: list[~azure.mgmt.securityinsight.models.InsightsTableResultColumnsItem]
@@ -11397,7 +11235,7 @@ class InsightsTableResultColumnsItem(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[str] = None, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, type: Optional[str] = None, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword type: the type of the colum.
         :paramtype type: str
@@ -11412,7 +11250,7 @@ class InsightsTableResultColumnsItem(_serialization.Model):
 class Instructions(_serialization.Model):
     """Instructions section of a recommendation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar actions_to_be_performed: What actions should be taken to complete the recommendation.
      Required.
@@ -11440,8 +11278,8 @@ class Instructions(_serialization.Model):
         actions_to_be_performed: str,
         recommendation_importance: str,
         how_to_perform_action_details: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword actions_to_be_performed: What actions should be taken to complete the recommendation.
          Required.
@@ -11460,7 +11298,7 @@ class Instructions(_serialization.Model):
 class InstructionStepsInstructionsItem(ConnectorInstructionModelBase):
     """InstructionStepsInstructionsItem.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar parameters: The parameters for the setting.
     :vartype parameters: JSON
@@ -11469,30 +11307,11 @@ class InstructionStepsInstructionsItem(ConnectorInstructionModelBase):
     :vartype type: str or ~azure.mgmt.securityinsight.models.SettingType
     """
 
-    _validation = {
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "parameters": {"key": "parameters", "type": "object"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs):
-        """
-        :keyword parameters: The parameters for the setting.
-        :paramtype parameters: JSON
-        :keyword type: The kind of the setting. Required. Known values are: "CopyableLabel",
-         "InstructionStepsGroup", and "InfoMessage".
-        :paramtype type: str or ~azure.mgmt.securityinsight.models.SettingType
-        """
-        super().__init__(parameters=parameters, type=type, **kwargs)
-
 
 class IoTCheckRequirements(DataConnectorsCheckRequirements):
     """Represents IoT requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -11515,7 +11334,7 @@ class IoTCheckRequirements(DataConnectorsCheckRequirements):
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword subscription_id: The subscription id to connect to, and get the data from.
         :paramtype subscription_id: str
@@ -11530,10 +11349,10 @@ class IoTDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11584,8 +11403,8 @@ class IoTDataConnector(DataConnector):
         etag: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -11619,8 +11438,8 @@ class IoTDataConnectorProperties(DataConnectorWithAlertsProperties):
         *,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -11636,10 +11455,10 @@ class IoTDeviceEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11795,8 +11614,8 @@ class IoTDeviceEntity(Entity):  # pylint: disable=too-many-instance-attributes
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs
-    ):
+        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword importance: Device importance, determines if the device classified as 'crown jewel'.
          Known values are: "Unknown", "Low", "Normal", and "High".
@@ -11972,8 +11791,8 @@ class IoTDeviceEntityProperties(EntityCommonProperties):  # pylint: disable=too-
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs
-    ):
+        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword importance: Device importance, determines if the device classified as 'crown jewel'.
          Known values are: "Unknown", "Low", "Normal", and "High".
@@ -12015,10 +11834,10 @@ class IpEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -12073,7 +11892,7 @@ class IpEntity(Entity):
         "threat_intelligence": {"key": "properties.threatIntelligence", "type": "[ThreatIntelligence]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Ip"
@@ -12119,7 +11938,7 @@ class IpEntityProperties(EntityCommonProperties):
         "threat_intelligence": {"key": "threatIntelligence", "type": "[ThreatIntelligence]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.address = None
@@ -12132,10 +11951,10 @@ class MailboxEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -12195,7 +12014,7 @@ class MailboxEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "external_directory_object_id": {"key": "properties.externalDirectoryObjectId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Mailbox"
@@ -12247,7 +12066,7 @@ class MailboxEntityProperties(EntityCommonProperties):
         "external_directory_object_id": {"key": "externalDirectoryObjectId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.mailbox_primary_address = None
@@ -12261,10 +12080,10 @@ class MailClusterEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -12368,7 +12187,7 @@ class MailClusterEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "cluster_group": {"key": "properties.clusterGroup", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "MailCluster"
@@ -12475,7 +12294,7 @@ class MailClusterEntityProperties(EntityCommonProperties):  # pylint: disable=to
         "cluster_group": {"key": "clusterGroup", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.network_message_ids = None
@@ -12500,10 +12319,10 @@ class MailMessageEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -12655,8 +12474,8 @@ class MailMessageEntity(Entity):  # pylint: disable=too-many-instance-attributes
         antispam_direction: Optional[Union[str, "_models.AntispamMailDirection"]] = None,
         delivery_action: Optional[Union[str, "_models.DeliveryAction"]] = None,
         delivery_location: Optional[Union[str, "_models.DeliveryLocation"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword body_fingerprint_bin1: The bodyFingerprintBin1.
         :paramtype body_fingerprint_bin1: int
@@ -12843,8 +12662,8 @@ class MailMessageEntityProperties(EntityCommonProperties):  # pylint: disable=to
         antispam_direction: Optional[Union[str, "_models.AntispamMailDirection"]] = None,
         delivery_action: Optional[Union[str, "_models.DeliveryAction"]] = None,
         delivery_location: Optional[Union[str, "_models.DeliveryLocation"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword body_fingerprint_bin1: The bodyFingerprintBin1.
         :paramtype body_fingerprint_bin1: int
@@ -12901,10 +12720,10 @@ class MalwareEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -12964,7 +12783,7 @@ class MalwareEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "process_entity_ids": {"key": "properties.processEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Malware"
@@ -13016,7 +12835,7 @@ class MalwareEntityProperties(EntityCommonProperties):
         "process_entity_ids": {"key": "processEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.category = None
@@ -13028,7 +12847,7 @@ class MalwareEntityProperties(EntityCommonProperties):
 class ManualTriggerRequestBody(_serialization.Model):
     """ManualTriggerRequestBody.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id:
     :vartype tenant_id: str
@@ -13045,7 +12864,7 @@ class ManualTriggerRequestBody(_serialization.Model):
         "logic_apps_resource_id": {"key": "logicAppsResourceId", "type": "str"},
     }
 
-    def __init__(self, *, logic_apps_resource_id: str, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, logic_apps_resource_id: str, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id:
         :paramtype tenant_id: str
@@ -13060,7 +12879,7 @@ class ManualTriggerRequestBody(_serialization.Model):
 class MCASCheckRequirements(DataConnectorsCheckRequirements):
     """Represents MCAS (Microsoft Cloud App Security) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -13083,7 +12902,7 @@ class MCASCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -13096,26 +12915,11 @@ class MCASCheckRequirements(DataConnectorsCheckRequirements):
 class MCASCheckRequirementsProperties(DataConnectorTenantId):
     """MCAS (Microsoft Cloud App Security) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class MCASDataConnector(DataConnector):
@@ -13123,10 +12927,10 @@ class MCASDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13177,8 +12981,8 @@ class MCASDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.MCASDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13196,7 +13000,7 @@ class MCASDataConnector(DataConnector):
 class MCASDataConnectorDataTypes(AlertsDataTypeOfDataConnector):
     """The available data types for MCAS (Microsoft Cloud App Security) data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alerts: Alerts data type connection. Required.
     :vartype alerts: ~azure.mgmt.securityinsight.models.DataConnectorDataTypeCommon
@@ -13218,8 +13022,8 @@ class MCASDataConnectorDataTypes(AlertsDataTypeOfDataConnector):
         *,
         alerts: "_models.DataConnectorDataTypeCommon",
         discovery_logs: Optional["_models.DataConnectorDataTypeCommon"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alerts: Alerts data type connection. Required.
         :paramtype alerts: ~azure.mgmt.securityinsight.models.DataConnectorDataTypeCommon
@@ -13233,7 +13037,7 @@ class MCASDataConnectorDataTypes(AlertsDataTypeOfDataConnector):
 class MCASDataConnectorProperties(DataConnectorTenantId):
     """MCAS (Microsoft Cloud App Security) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -13251,7 +13055,7 @@ class MCASDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "MCASDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.MCASDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.MCASDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -13265,7 +13069,7 @@ class MCASDataConnectorProperties(DataConnectorTenantId):
 class MDATPCheckRequirements(DataConnectorsCheckRequirements):
     """Represents MDATP (Microsoft Defender Advanced Threat Protection) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -13288,7 +13092,7 @@ class MDATPCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -13301,26 +13105,11 @@ class MDATPCheckRequirements(DataConnectorsCheckRequirements):
 class MDATPCheckRequirementsProperties(DataConnectorTenantId):
     """MDATP (Microsoft Defender Advanced Threat Protection) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class MDATPDataConnector(DataConnector):
@@ -13328,10 +13117,10 @@ class MDATPDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13382,8 +13171,8 @@ class MDATPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13401,7 +13190,7 @@ class MDATPDataConnector(DataConnector):
 class MDATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsProperties):
     """MDATP (Microsoft Defender Advanced Threat Protection) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -13419,8 +13208,8 @@ class MDATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlert
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -13450,8 +13239,8 @@ class MetadataAuthor(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, email: Optional[str] = None, link: Optional[str] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, email: Optional[str] = None, link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the author. Company or person.
         :paramtype name: str
@@ -13480,7 +13269,9 @@ class MetadataCategories(_serialization.Model):
         "verticals": {"key": "verticals", "type": "[str]"},
     }
 
-    def __init__(self, *, domains: Optional[List[str]] = None, verticals: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, domains: Optional[List[str]] = None, verticals: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword domains: domain for the solution content item.
         :paramtype domains: list[str]
@@ -13493,7 +13284,9 @@ class MetadataCategories(_serialization.Model):
 
 
 class MetadataDependencies(_serialization.Model):
-    """Dependencies for the content item, what other content items it requires to work.  Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex dependencies.
+    """Dependencies for the content item, what other content items it requires to work.  Can describe
+    more complex dependencies using a recursive/nested structure. For a single dependency an
+    id/kind/version can be supplied or operator/criteria for complex dependencies.
 
     :ivar content_id: Id of the content item we depend on.
     :vartype content_id: str
@@ -13535,8 +13328,8 @@ class MetadataDependencies(_serialization.Model):
         name: Optional[str] = None,
         operator: Optional[Union[str, "_models.Operator"]] = None,
         criteria: Optional[List["_models.MetadataDependencies"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword content_id: Id of the content item we depend on.
         :paramtype content_id: str
@@ -13573,7 +13366,7 @@ class MetadataList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Array of metadata. Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.MetadataModel]
@@ -13591,7 +13384,7 @@ class MetadataList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.MetadataModel"], **kwargs):
+    def __init__(self, *, value: List["_models.MetadataModel"], **kwargs: Any) -> None:
         """
         :keyword value: Array of metadata. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.MetadataModel]
@@ -13607,7 +13400,7 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13731,8 +13524,8 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         threat_analysis_techniques: Optional[List[str]] = None,
         preview_images: Optional[List[str]] = None,
         preview_images_dark: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13818,7 +13611,7 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13942,8 +13735,8 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         threat_analysis_techniques: Optional[List[str]] = None,
         preview_images: Optional[List[str]] = None,
         preview_images_dark: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -14026,7 +13819,7 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
 class MetadataSource(_serialization.Model):
     """The original source of the content item, where it comes from.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Source type of the content. Required. Known values are: "LocalWorkspace",
      "Community", "Solution", and "SourceRepository".
@@ -14053,8 +13846,8 @@ class MetadataSource(_serialization.Model):
         kind: Union[str, "_models.SourceKind"],
         name: Optional[str] = None,
         source_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: Source type of the content. Required. Known values are: "LocalWorkspace",
          "Community", "Solution", and "SourceRepository".
@@ -14074,7 +13867,7 @@ class MetadataSource(_serialization.Model):
 class MetadataSupport(_serialization.Model):
     """Support information for the content item.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tier: Type of support for content item. Required. Known values are: "Microsoft",
      "Partner", and "Community".
@@ -14105,8 +13898,8 @@ class MetadataSupport(_serialization.Model):
         name: Optional[str] = None,
         email: Optional[str] = None,
         link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tier: Type of support for content item. Required. Known values are: "Microsoft",
          "Partner", and "Community".
@@ -14125,15 +13918,17 @@ class MetadataSupport(_serialization.Model):
         self.link = link
 
 
-class MicrosoftSecurityIncidentCreationAlertRule(AlertRule):  # pylint: disable=too-many-instance-attributes
+class MicrosoftSecurityIncidentCreationAlertRule(
+    AlertRule
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """Represents MicrosoftSecurityIncidentCreation rule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -14212,8 +14007,8 @@ class MicrosoftSecurityIncidentCreationAlertRule(AlertRule):  # pylint: disable=
         description: Optional[str] = None,
         display_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -14253,10 +14048,10 @@ class MicrosoftSecurityIncidentCreationAlertRule(AlertRule):  # pylint: disable=
         self.last_modified_utc = None
 
 
-class MicrosoftSecurityIncidentCreationAlertRuleCommonProperties(_serialization.Model):
+class MicrosoftSecurityIncidentCreationAlertRuleCommonProperties(_serialization.Model):  # pylint: disable=name-too-long
     """MicrosoftSecurityIncidentCreation rule common property bag.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar display_names_filter: the alerts' displayNames on which the cases will be generated.
     :vartype display_names_filter: list[str]
@@ -14291,8 +14086,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleCommonProperties(_serialization.
         display_names_filter: Optional[List[str]] = None,
         display_names_exclude_filter: Optional[List[str]] = None,
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_names_filter: the alerts' displayNames on which the cases will be generated.
         :paramtype display_names_filter: list[str]
@@ -14316,12 +14111,14 @@ class MicrosoftSecurityIncidentCreationAlertRuleCommonProperties(_serialization.
         self.severities_filter = severities_filter
 
 
-class MicrosoftSecurityIncidentCreationAlertRuleProperties(MicrosoftSecurityIncidentCreationAlertRuleCommonProperties):
+class MicrosoftSecurityIncidentCreationAlertRuleProperties(
+    MicrosoftSecurityIncidentCreationAlertRuleCommonProperties
+):  # pylint: disable=name-too-long
     """MicrosoftSecurityIncidentCreation rule property bag.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar display_names_filter: the alerts' displayNames on which the cases will be generated.
     :vartype display_names_filter: list[str]
@@ -14378,8 +14175,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleProperties(MicrosoftSecurityInci
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
         alert_rule_template_name: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_names_filter: the alerts' displayNames on which the cases will be generated.
         :paramtype display_names_filter: list[str]
@@ -14421,15 +14218,15 @@ class MicrosoftSecurityIncidentCreationAlertRuleProperties(MicrosoftSecurityInci
 
 class MicrosoftSecurityIncidentCreationAlertRuleTemplate(
     AlertRuleTemplate
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """Represents MicrosoftSecurityIncidentCreation rule template.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -14518,8 +14315,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleTemplate(
         display_names_exclude_filter: Optional[List[str]] = None,
         product_filter: Optional[Union[str, "_models.MicrosoftSecurityProductName"]] = None,
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -14565,7 +14362,7 @@ class MicrosoftSecurityIncidentCreationAlertRuleTemplate(
 
 class MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties(
     AlertRuleTemplatePropertiesBase
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """MicrosoftSecurityIncidentCreation rule template properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -14632,8 +14429,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties(
         display_names_exclude_filter: Optional[List[str]] = None,
         product_filter: Optional[Union[str, "_models.MicrosoftSecurityProductName"]] = None,
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -14681,10 +14478,10 @@ class MLBehaviorAnalyticsAlertRule(AlertRule):  # pylint: disable=too-many-insta
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -14756,8 +14553,8 @@ class MLBehaviorAnalyticsAlertRule(AlertRule):  # pylint: disable=too-many-insta
         etag: Optional[str] = None,
         alert_rule_template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -14784,10 +14581,10 @@ class MLBehaviorAnalyticsAlertRuleTemplate(AlertRuleTemplate):  # pylint: disabl
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -14869,8 +14666,8 @@ class MLBehaviorAnalyticsAlertRuleTemplate(AlertRuleTemplate):  # pylint: disabl
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         severity: Optional[Union[str, "_models.AlertSeverity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -14907,12 +14704,14 @@ class MLBehaviorAnalyticsAlertRuleTemplate(AlertRuleTemplate):  # pylint: disabl
         self.severity = severity
 
 
-class MLBehaviorAnalyticsAlertRuleTemplateProperties(AlertRuleTemplateWithMitreProperties):
+class MLBehaviorAnalyticsAlertRuleTemplateProperties(
+    AlertRuleTemplateWithMitreProperties
+):  # pylint: disable=name-too-long
     """MLBehaviorAnalytics alert rule template properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_rules_created_by_template_count: the number of alert rules that were created by
      this template.
@@ -14970,8 +14769,8 @@ class MLBehaviorAnalyticsAlertRuleTemplateProperties(AlertRuleTemplateWithMitreP
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -15010,7 +14809,7 @@ class MLBehaviorAnalyticsAlertRuleTemplateProperties(AlertRuleTemplateWithMitreP
 class MSTICheckRequirements(DataConnectorsCheckRequirements):
     """Represents Microsoft Threat Intelligence requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -15033,7 +14832,7 @@ class MSTICheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -15046,26 +14845,11 @@ class MSTICheckRequirements(DataConnectorsCheckRequirements):
 class MSTICheckRequirementsProperties(DataConnectorTenantId):
     """Microsoft Threat Intelligence requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class MSTIDataConnector(DataConnector):
@@ -15073,10 +14857,10 @@ class MSTIDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -15127,8 +14911,8 @@ class MSTIDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.MSTIDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -15146,7 +14930,7 @@ class MSTIDataConnector(DataConnector):
 class MSTIDataConnectorDataTypes(_serialization.Model):
     """The available data types for Microsoft Threat Intelligence Platforms data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar bing_safety_phishing_url: Data type for Microsoft Threat Intelligence Platforms data
      connector. Required.
@@ -15179,8 +14963,8 @@ class MSTIDataConnectorDataTypes(_serialization.Model):
         *,
         bing_safety_phishing_url: "_models.MSTIDataConnectorDataTypesBingSafetyPhishingURL",
         microsoft_emerging_threat_feed: "_models.MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword bing_safety_phishing_url: Data type for Microsoft Threat Intelligence Platforms data
          connector. Required.
@@ -15196,10 +14980,10 @@ class MSTIDataConnectorDataTypes(_serialization.Model):
         self.microsoft_emerging_threat_feed = microsoft_emerging_threat_feed
 
 
-class MSTIDataConnectorDataTypesBingSafetyPhishingURL(DataConnectorDataTypeCommon):
+class MSTIDataConnectorDataTypesBingSafetyPhishingURL(DataConnectorDataTypeCommon):  # pylint: disable=name-too-long
     """Data type for Microsoft Threat Intelligence Platforms data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
@@ -15218,7 +15002,7 @@ class MSTIDataConnectorDataTypesBingSafetyPhishingURL(DataConnectorDataTypeCommo
         "lookback_period": {"key": "lookbackPeriod", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -15230,10 +15014,12 @@ class MSTIDataConnectorDataTypesBingSafetyPhishingURL(DataConnectorDataTypeCommo
         self.lookback_period = lookback_period
 
 
-class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(DataConnectorDataTypeCommon):
+class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(
+    DataConnectorDataTypeCommon
+):  # pylint: disable=name-too-long
     """Data type for Microsoft Threat Intelligence Platforms data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
@@ -15252,7 +15038,7 @@ class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(DataConnectorDataTyp
         "lookback_period": {"key": "lookbackPeriod", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -15267,7 +15053,7 @@ class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(DataConnectorDataTyp
 class MSTIDataConnectorProperties(DataConnectorTenantId):
     """Microsoft Threat Intelligence data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -15285,7 +15071,7 @@ class MSTIDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "MSTIDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.MSTIDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.MSTIDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -15299,7 +15085,7 @@ class MSTIDataConnectorProperties(DataConnectorTenantId):
 class MtpCheckRequirements(DataConnectorsCheckRequirements):
     """Represents MTP (Microsoft Threat Protection) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -15322,7 +15108,7 @@ class MtpCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -15335,26 +15121,11 @@ class MtpCheckRequirements(DataConnectorsCheckRequirements):
 class MTPCheckRequirementsProperties(DataConnectorTenantId):
     """MTP (Microsoft Threat Protection) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class MTPDataConnector(DataConnector):
@@ -15362,10 +15133,10 @@ class MTPDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -15416,8 +15187,8 @@ class MTPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.MTPDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -15435,7 +15206,7 @@ class MTPDataConnector(DataConnector):
 class MTPDataConnectorDataTypes(_serialization.Model):
     """The available data types for Microsoft Threat Protection Platforms data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar incidents: Data type for Microsoft Threat Protection Platforms data connector. Required.
     :vartype incidents: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypesIncidents
@@ -15449,7 +15220,7 @@ class MTPDataConnectorDataTypes(_serialization.Model):
         "incidents": {"key": "incidents", "type": "MTPDataConnectorDataTypesIncidents"},
     }
 
-    def __init__(self, *, incidents: "_models.MTPDataConnectorDataTypesIncidents", **kwargs):
+    def __init__(self, *, incidents: "_models.MTPDataConnectorDataTypesIncidents", **kwargs: Any) -> None:
         """
         :keyword incidents: Data type for Microsoft Threat Protection Platforms data connector.
          Required.
@@ -15462,34 +15233,18 @@ class MTPDataConnectorDataTypes(_serialization.Model):
 class MTPDataConnectorDataTypesIncidents(DataConnectorDataTypeCommon):
     """Data type for Microsoft Threat Protection Platforms data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
 
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
-
 
 class MTPDataConnectorProperties(DataConnectorTenantId):
     """MTP (Microsoft Threat Protection) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -15507,7 +15262,7 @@ class MTPDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "MTPDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.MTPDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.MTPDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -15523,10 +15278,10 @@ class NicEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -15581,7 +15336,7 @@ class NicEntity(Entity):
         "vlans": {"key": "properties.vlans", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Nic"
@@ -15627,7 +15382,7 @@ class NicEntityProperties(EntityCommonProperties):
         "vlans": {"key": "vlans", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.mac_address = None
@@ -15640,10 +15395,10 @@ class NrtAlertRule(AlertRule):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -15761,8 +15516,8 @@ class NrtAlertRule(AlertRule):  # pylint: disable=too-many-instance-attributes
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         event_grouping_settings: Optional["_models.EventGroupingSettings"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -15836,10 +15591,10 @@ class NrtAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-insta
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -15952,8 +15707,8 @@ class NrtAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-insta
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         event_grouping_settings: Optional["_models.EventGroupingSettings"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -16061,8 +15816,8 @@ class QueryBasedAlertRuleTemplateProperties(_serialization.Model):
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         event_grouping_settings: Optional["_models.EventGroupingSettings"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -16189,8 +15944,8 @@ class NrtAlertRuleTemplateProperties(
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -16270,7 +16025,7 @@ class NrtAlertRuleTemplateProperties(
 class Office365ProjectCheckRequirements(DataConnectorsCheckRequirements):
     """Represents Office365 Project requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -16293,7 +16048,7 @@ class Office365ProjectCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -16303,35 +16058,20 @@ class Office365ProjectCheckRequirements(DataConnectorsCheckRequirements):
         self.tenant_id = tenant_id
 
 
-class Office365ProjectCheckRequirementsProperties(DataConnectorTenantId):
+class Office365ProjectCheckRequirementsProperties(DataConnectorTenantId):  # pylint: disable=name-too-long
     """Office365 Project requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
 
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
-
 
 class Office365ProjectConnectorDataTypes(_serialization.Model):
     """The available data types for Office Microsoft Project data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logs: Logs data type. Required.
     :vartype logs: ~azure.mgmt.securityinsight.models.Office365ProjectConnectorDataTypesLogs
@@ -16345,7 +16085,7 @@ class Office365ProjectConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "Office365ProjectConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.Office365ProjectConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.Office365ProjectConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.Office365ProjectConnectorDataTypesLogs
@@ -16357,28 +16097,12 @@ class Office365ProjectConnectorDataTypes(_serialization.Model):
 class Office365ProjectConnectorDataTypesLogs(DataConnectorDataTypeCommon):
     """Logs data type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
-
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
 
 
 class Office365ProjectDataConnector(DataConnector):
@@ -16386,10 +16110,10 @@ class Office365ProjectDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -16440,8 +16164,8 @@ class Office365ProjectDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.Office365ProjectConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -16459,7 +16183,7 @@ class Office365ProjectDataConnector(DataConnector):
 class Office365ProjectDataConnectorProperties(DataConnectorTenantId):
     """Office Microsoft Project data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -16477,7 +16201,9 @@ class Office365ProjectDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "Office365ProjectConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.Office365ProjectConnectorDataTypes", **kwargs):
+    def __init__(
+        self, *, tenant_id: str, data_types: "_models.Office365ProjectConnectorDataTypes", **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -16491,7 +16217,7 @@ class Office365ProjectDataConnectorProperties(DataConnectorTenantId):
 class OfficeATPCheckRequirements(DataConnectorsCheckRequirements):
     """Represents OfficeATP (Office 365 Advanced Threat Protection) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -16514,7 +16240,7 @@ class OfficeATPCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -16527,26 +16253,11 @@ class OfficeATPCheckRequirements(DataConnectorsCheckRequirements):
 class OfficeATPCheckRequirementsProperties(DataConnectorTenantId):
     """OfficeATP (Office 365 Advanced Threat Protection) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class OfficeATPDataConnector(DataConnector):
@@ -16554,10 +16265,10 @@ class OfficeATPDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -16608,8 +16319,8 @@ class OfficeATPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -16627,7 +16338,7 @@ class OfficeATPDataConnector(DataConnector):
 class OfficeATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsProperties):
     """OfficeATP (Office 365 Advanced Threat Protection) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -16645,8 +16356,8 @@ class OfficeATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithA
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -16664,7 +16375,7 @@ class OfficeConsent(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -16696,7 +16407,7 @@ class OfficeConsent(Resource):
         "consent_id": {"key": "properties.consentId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, consent_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, consent_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenantId of the Office365 with the consent.
         :paramtype tenant_id: str
@@ -16713,7 +16424,7 @@ class OfficeConsentList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of office consents.
     :vartype next_link: str
@@ -16731,7 +16442,7 @@ class OfficeConsentList(_serialization.Model):
         "value": {"key": "value", "type": "[OfficeConsent]"},
     }
 
-    def __init__(self, *, value: List["_models.OfficeConsent"], **kwargs):
+    def __init__(self, *, value: List["_models.OfficeConsent"], **kwargs: Any) -> None:
         """
         :keyword value: Array of the consents. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.OfficeConsent]
@@ -16746,10 +16457,10 @@ class OfficeDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -16800,8 +16511,8 @@ class OfficeDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.OfficeDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -16819,7 +16530,7 @@ class OfficeDataConnector(DataConnector):
 class OfficeDataConnectorDataTypes(_serialization.Model):
     """The available data types for office data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar exchange: Exchange data type connection. Required.
     :vartype exchange: ~azure.mgmt.securityinsight.models.OfficeDataConnectorDataTypesExchange
@@ -16847,8 +16558,8 @@ class OfficeDataConnectorDataTypes(_serialization.Model):
         exchange: "_models.OfficeDataConnectorDataTypesExchange",
         share_point: "_models.OfficeDataConnectorDataTypesSharePoint",
         teams: "_models.OfficeDataConnectorDataTypesTeams",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword exchange: Exchange data type connection. Required.
         :paramtype exchange: ~azure.mgmt.securityinsight.models.OfficeDataConnectorDataTypesExchange
@@ -16867,88 +16578,40 @@ class OfficeDataConnectorDataTypes(_serialization.Model):
 class OfficeDataConnectorDataTypesExchange(DataConnectorDataTypeCommon):
     """Exchange data type connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
-
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
 
 
 class OfficeDataConnectorDataTypesSharePoint(DataConnectorDataTypeCommon):
     """SharePoint data type connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
-
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
 
 
 class OfficeDataConnectorDataTypesTeams(DataConnectorDataTypeCommon):
     """Teams data type connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
 
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
-
 
 class OfficeDataConnectorProperties(DataConnectorTenantId):
     """Office data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -16966,7 +16629,7 @@ class OfficeDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "OfficeDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.OfficeDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.OfficeDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -16980,7 +16643,7 @@ class OfficeDataConnectorProperties(DataConnectorTenantId):
 class OfficeIRMCheckRequirements(DataConnectorsCheckRequirements):
     """Represents OfficeIRM (Microsoft Insider Risk Management) requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -17003,7 +16666,7 @@ class OfficeIRMCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -17016,26 +16679,11 @@ class OfficeIRMCheckRequirements(DataConnectorsCheckRequirements):
 class OfficeIRMCheckRequirementsProperties(DataConnectorTenantId):
     """OfficeIRM (Microsoft Insider Risk Management) requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class OfficeIRMDataConnector(DataConnector):
@@ -17043,10 +16691,10 @@ class OfficeIRMDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -17097,8 +16745,8 @@ class OfficeIRMDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -17116,7 +16764,7 @@ class OfficeIRMDataConnector(DataConnector):
 class OfficeIRMDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsProperties):
     """OfficeIRM (Microsoft Insider Risk Management) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -17134,8 +16782,8 @@ class OfficeIRMDataConnectorProperties(DataConnectorTenantId, DataConnectorWithA
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -17150,7 +16798,7 @@ class OfficeIRMDataConnectorProperties(DataConnectorTenantId, DataConnectorWithA
 class OfficePowerBICheckRequirements(DataConnectorsCheckRequirements):
     """Represents Office PowerBI requirements check request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -17173,7 +16821,7 @@ class OfficePowerBICheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -17186,32 +16834,17 @@ class OfficePowerBICheckRequirements(DataConnectorsCheckRequirements):
 class OfficePowerBICheckRequirementsProperties(DataConnectorTenantId):
     """Office PowerBI requirements check properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
 
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
-
 
 class OfficePowerBIConnectorDataTypes(_serialization.Model):
     """The available data types for Office Microsoft PowerBI data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar logs: Logs data type. Required.
     :vartype logs: ~azure.mgmt.securityinsight.models.OfficePowerBIConnectorDataTypesLogs
@@ -17225,7 +16858,7 @@ class OfficePowerBIConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "OfficePowerBIConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.OfficePowerBIConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.OfficePowerBIConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.OfficePowerBIConnectorDataTypesLogs
@@ -17237,28 +16870,12 @@ class OfficePowerBIConnectorDataTypes(_serialization.Model):
 class OfficePowerBIConnectorDataTypesLogs(DataConnectorDataTypeCommon):
     """Logs data type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
-
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
 
 
 class OfficePowerBIDataConnector(DataConnector):
@@ -17266,10 +16883,10 @@ class OfficePowerBIDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -17320,8 +16937,8 @@ class OfficePowerBIDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.OfficePowerBIConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -17339,7 +16956,7 @@ class OfficePowerBIDataConnector(DataConnector):
 class OfficePowerBIDataConnectorProperties(DataConnectorTenantId):
     """Office Microsoft PowerBI data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -17357,7 +16974,7 @@ class OfficePowerBIDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "OfficePowerBIConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.OfficePowerBIConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.OfficePowerBIConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -17395,8 +17012,8 @@ class Operation(_serialization.Model):
         name: Optional[str] = None,
         origin: Optional[str] = None,
         is_data_action: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display: Properties of the operation.
         :paramtype display: ~azure.mgmt.securityinsight.models.OperationDisplay
@@ -17441,8 +17058,8 @@ class OperationDisplay(_serialization.Model):
         operation: Optional[str] = None,
         provider: Optional[str] = None,
         resource: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: Description of the operation.
         :paramtype description: str
@@ -17465,7 +17082,7 @@ class OperationsList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of operations.
     :vartype next_link: str
@@ -17483,7 +17100,7 @@ class OperationsList(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: List["_models.Operation"], **kwargs):
+    def __init__(self, *, value: List["_models.Operation"], **kwargs: Any) -> None:
         """
         :keyword value: Array of operations. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Operation]
@@ -17513,8 +17130,8 @@ class Permissions(_serialization.Model):
         *,
         resource_provider: Optional[List["_models.PermissionsResourceProviderItem"]] = None,
         customs: Optional[List["_models.PermissionsCustomsItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_provider: Resource provider permissions required for the connector.
         :paramtype resource_provider:
@@ -17535,20 +17152,6 @@ class PermissionsCustomsItem(Customs):
     :ivar description: Customs permissions description.
     :vartype description: str
     """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
-        """
-        :keyword name: Customs permissions name.
-        :paramtype name: str
-        :keyword description: Customs permissions description.
-        :paramtype description: str
-        """
-        super().__init__(name=name, description=description, **kwargs)
 
 
 class ResourceProvider(_serialization.Model):
@@ -17587,8 +17190,8 @@ class ResourceProvider(_serialization.Model):
         provider_display_name: Optional[str] = None,
         scope: Optional[Union[str, "_models.PermissionProviderScope"]] = None,
         required_permissions: Optional["_models.RequiredPermissions"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Provider name. Known values are: "Microsoft.OperationalInsights/solutions",
          "Microsoft.OperationalInsights/workspaces",
@@ -17634,50 +17237,6 @@ class PermissionsResourceProviderItem(ResourceProvider):
     :vartype required_permissions: ~azure.mgmt.securityinsight.models.RequiredPermissions
     """
 
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "permissions_display_text": {"key": "permissionsDisplayText", "type": "str"},
-        "provider_display_name": {"key": "providerDisplayName", "type": "str"},
-        "scope": {"key": "scope", "type": "str"},
-        "required_permissions": {"key": "requiredPermissions", "type": "RequiredPermissions"},
-    }
-
-    def __init__(
-        self,
-        *,
-        provider: Optional[Union[str, "_models.ProviderName"]] = None,
-        permissions_display_text: Optional[str] = None,
-        provider_display_name: Optional[str] = None,
-        scope: Optional[Union[str, "_models.PermissionProviderScope"]] = None,
-        required_permissions: Optional["_models.RequiredPermissions"] = None,
-        **kwargs
-    ):
-        """
-        :keyword provider: Provider name. Known values are: "Microsoft.OperationalInsights/solutions",
-         "Microsoft.OperationalInsights/workspaces",
-         "Microsoft.OperationalInsights/workspaces/datasources", "microsoft.aadiam/diagnosticSettings",
-         "Microsoft.OperationalInsights/workspaces/sharedKeys", and
-         "Microsoft.Authorization/policyAssignments".
-        :paramtype provider: str or ~azure.mgmt.securityinsight.models.ProviderName
-        :keyword permissions_display_text: Permission description text.
-        :paramtype permissions_display_text: str
-        :keyword provider_display_name: Permission provider display name.
-        :paramtype provider_display_name: str
-        :keyword scope: Permission provider scope. Known values are: "ResourceGroup", "Subscription",
-         and "Workspace".
-        :paramtype scope: str or ~azure.mgmt.securityinsight.models.PermissionProviderScope
-        :keyword required_permissions: Required permissions for the connector.
-        :paramtype required_permissions: ~azure.mgmt.securityinsight.models.RequiredPermissions
-        """
-        super().__init__(
-            provider=provider,
-            permissions_display_text=permissions_display_text,
-            provider_display_name=provider_display_name,
-            scope=scope,
-            required_permissions=required_permissions,
-            **kwargs
-        )
-
 
 class PlaybookActionProperties(_serialization.Model):
     """PlaybookActionProperties.
@@ -17693,7 +17252,9 @@ class PlaybookActionProperties(_serialization.Model):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: Optional[str] = None, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, logic_app_resource_id: Optional[str] = None, tenant_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword logic_app_resource_id: The resource id of the playbook resource.
         :paramtype logic_app_resource_id: str
@@ -17710,10 +17271,10 @@ class ProcessEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -17792,7 +17353,9 @@ class ProcessEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "process_id": {"key": "properties.processId", "type": "str"},
     }
 
-    def __init__(self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs):
+    def __init__(
+        self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword elevation_token: The elevation token associated with the process. Known values are:
          "Default", "Full", and "Limited".
@@ -17872,7 +17435,9 @@ class ProcessEntityProperties(EntityCommonProperties):  # pylint: disable=too-ma
         "process_id": {"key": "processId", "type": "str"},
     }
 
-    def __init__(self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs):
+    def __init__(
+        self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword elevation_token: The elevation token associated with the process. Known values are:
          "Default", "Full", and "Limited".
@@ -17893,7 +17458,7 @@ class ProcessEntityProperties(EntityCommonProperties):  # pylint: disable=too-ma
 class PropertyArrayChangedConditionProperties(AutomationRuleCondition):
     """Describes an automation rule condition that evaluates an array property's value change.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar condition_type: Required. Known values are: "Property", "PropertyArray",
      "PropertyChanged", "PropertyArrayChanged", and "Boolean".
@@ -17919,8 +17484,8 @@ class PropertyArrayChangedConditionProperties(AutomationRuleCondition):
         self,
         *,
         condition_properties: Optional["_models.AutomationRulePropertyArrayChangedValuesCondition"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -17934,7 +17499,7 @@ class PropertyArrayChangedConditionProperties(AutomationRuleCondition):
 class PropertyArrayConditionProperties(AutomationRuleCondition):
     """Describes an automation rule condition that evaluates an array property's value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar condition_type: Required. Known values are: "Property", "PropertyArray",
      "PropertyChanged", "PropertyArrayChanged", and "Boolean".
@@ -17954,8 +17519,11 @@ class PropertyArrayConditionProperties(AutomationRuleCondition):
     }
 
     def __init__(
-        self, *, condition_properties: Optional["_models.AutomationRulePropertyArrayValuesCondition"] = None, **kwargs
-    ):
+        self,
+        *,
+        condition_properties: Optional["_models.AutomationRulePropertyArrayValuesCondition"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -17969,7 +17537,7 @@ class PropertyArrayConditionProperties(AutomationRuleCondition):
 class PropertyChangedConditionProperties(AutomationRuleCondition):
     """Describes an automation rule condition that evaluates a property's value change.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar condition_type: Required. Known values are: "Property", "PropertyArray",
      "PropertyChanged", "PropertyArrayChanged", and "Boolean".
@@ -17989,8 +17557,11 @@ class PropertyChangedConditionProperties(AutomationRuleCondition):
     }
 
     def __init__(
-        self, *, condition_properties: Optional["_models.AutomationRulePropertyValuesChangedCondition"] = None, **kwargs
-    ):
+        self,
+        *,
+        condition_properties: Optional["_models.AutomationRulePropertyValuesChangedCondition"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -18004,7 +17575,7 @@ class PropertyChangedConditionProperties(AutomationRuleCondition):
 class PropertyConditionProperties(AutomationRuleCondition):
     """Describes an automation rule condition that evaluates a property's value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar condition_type: Required. Known values are: "Property", "PropertyArray",
      "PropertyChanged", "PropertyArrayChanged", and "Boolean".
@@ -18024,8 +17595,8 @@ class PropertyConditionProperties(AutomationRuleCondition):
     }
 
     def __init__(
-        self, *, condition_properties: Optional["_models.AutomationRulePropertyValuesCondition"] = None, **kwargs
-    ):
+        self, *, condition_properties: Optional["_models.AutomationRulePropertyValuesCondition"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -18039,7 +17610,7 @@ class PropertyConditionProperties(AutomationRuleCondition):
 class Recommendation(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Recommendation object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: id of recommendation. Required.
     :vartype id: str
@@ -18148,8 +17719,8 @@ class Recommendation(_serialization.Model):  # pylint: disable=too-many-instance
         hide_until_time_utc: Optional[datetime.datetime] = None,
         display_until_time_utc: Optional[datetime.datetime] = None,
         visible: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: id of recommendation. Required.
         :paramtype id: str
@@ -18230,7 +17801,7 @@ class RecommendationList(_serialization.Model):
         "value": {"key": "value", "type": "[Recommendation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Recommendation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Recommendation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: An list of recommendations.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Recommendation]
@@ -18260,8 +17831,8 @@ class RecommendationPatch(_serialization.Model):
         *,
         state: Optional[Union[str, "_models.State"]] = None,
         hide_until_time_utc: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: State of the recommendation. Known values are: "Active", "Disabled",
          "CompletedByUser", "CompletedByAction", and "Hidden".
@@ -18278,7 +17849,7 @@ class RecommendationPatch(_serialization.Model):
 class RecommendedAction(_serialization.Model):
     """What actions should be taken to complete the recommendation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar link_text: Text of the link to complete the action. Required.
     :vartype link_text: str
@@ -18300,8 +17871,8 @@ class RecommendedAction(_serialization.Model):
     }
 
     def __init__(
-        self, *, link_text: str, link_url: str, state: Optional[Union[str, "_models.Priority"]] = None, **kwargs
-    ):
+        self, *, link_text: str, link_url: str, state: Optional[Union[str, "_models.Priority"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword link_text: Text of the link to complete the action. Required.
         :paramtype link_text: str
@@ -18321,10 +17892,10 @@ class RegistryKeyEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -18378,7 +17949,7 @@ class RegistryKeyEntity(Entity):
         "key": {"key": "properties.key", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "RegistryKey"
@@ -18422,7 +17993,7 @@ class RegistryKeyEntityProperties(EntityCommonProperties):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.hive = None
@@ -18434,10 +18005,10 @@ class RegistryValueEntity(Entity):  # pylint: disable=too-many-instance-attribut
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -18498,7 +18069,7 @@ class RegistryValueEntity(Entity):  # pylint: disable=too-many-instance-attribut
         "value_type": {"key": "properties.valueType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "RegistryValue"
@@ -18551,7 +18122,7 @@ class RegistryValueEntityProperties(EntityCommonProperties):
         "value_type": {"key": "valueType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.key_entity_id = None
@@ -18566,7 +18137,7 @@ class Relation(ResourceWithEtag):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -18610,7 +18181,7 @@ class Relation(ResourceWithEtag):
         "related_resource_kind": {"key": "properties.relatedResourceKind", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, related_resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, related_resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -18629,7 +18200,7 @@ class RelationList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of relations.
     :vartype next_link: str
@@ -18647,7 +18218,7 @@ class RelationList(_serialization.Model):
         "value": {"key": "value", "type": "[Relation]"},
     }
 
-    def __init__(self, *, value: List["_models.Relation"], **kwargs):
+    def __init__(self, *, value: List["_models.Relation"], **kwargs: Any) -> None:
         """
         :keyword value: Array of relations. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Relation]
@@ -18680,8 +18251,8 @@ class Repo(_serialization.Model):
         url: Optional[str] = None,
         full_name: Optional[str] = None,
         branches: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword url: The url to access the repository.
         :paramtype url: str
@@ -18701,7 +18272,7 @@ class RepoList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of repositories.
     :vartype next_link: str
@@ -18719,7 +18290,7 @@ class RepoList(_serialization.Model):
         "value": {"key": "value", "type": "[Repo]"},
     }
 
-    def __init__(self, *, value: List["_models.Repo"], **kwargs):
+    def __init__(self, *, value: List["_models.Repo"], **kwargs: Any) -> None:
         """
         :keyword value: Array of repositories. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Repo]
@@ -18760,8 +18331,8 @@ class Repository(_serialization.Model):
         display_url: Optional[str] = None,
         deployment_logs_url: Optional[str] = None,
         path_mapping: Optional[List["_models.ContentPathMap"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword url: Url of repository.
         :paramtype url: str
@@ -18806,8 +18377,8 @@ class RepositoryResourceInfo(_serialization.Model):
         webhook: Optional["_models.Webhook"] = None,
         git_hub_resource_info: Optional["_models.GitHubResourceInfo"] = None,
         azure_dev_ops_resource_info: Optional["_models.AzureDevOpsResourceInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword webhook: The webhook object created for the source-control.
         :paramtype webhook: ~azure.mgmt.securityinsight.models.Webhook
@@ -18851,8 +18422,8 @@ class RequiredPermissions(_serialization.Model):
         write: Optional[bool] = None,
         read: Optional[bool] = None,
         delete: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword action: action permission.
         :paramtype action: bool
@@ -18875,10 +18446,10 @@ class ScheduledAlertRule(AlertRule):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -19013,8 +18584,8 @@ class ScheduledAlertRule(AlertRule):  # pylint: disable=too-many-instance-attrib
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         incident_configuration: Optional["_models.IncidentConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -19156,8 +18727,8 @@ class ScheduledAlertRuleCommonProperties(_serialization.Model):  # pylint: disab
         entity_mappings: Optional[List["_models.EntityMapping"]] = None,
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -19206,7 +18777,7 @@ class ScheduledAlertRuleProperties(ScheduledAlertRuleCommonProperties):  # pylin
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar query: The query that creates alerts for this rule.
     :vartype query: str
@@ -19319,8 +18890,8 @@ class ScheduledAlertRuleProperties(ScheduledAlertRuleCommonProperties):  # pylin
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         incident_configuration: Optional["_models.IncidentConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -19407,10 +18978,10 @@ class ScheduledAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -19540,8 +19111,8 @@ class ScheduledAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many
         entity_mappings: Optional[List["_models.EntityMapping"]] = None,
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -19621,10 +19192,10 @@ class SecurityAlert(Entity):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -19784,8 +19355,8 @@ class SecurityAlert(Entity):  # pylint: disable=too-many-instance-attributes
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs
-    ):
+        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword severity: The severity of the alert. Known values are: "High", "Medium", "Low", and
          "Informational".
@@ -19959,8 +19530,8 @@ class SecurityAlertProperties(EntityCommonProperties):  # pylint: disable=too-ma
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs
-    ):
+        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword severity: The severity of the alert. Known values are: "High", "Medium", "Low", and
          "Informational".
@@ -19994,7 +19565,7 @@ class SecurityAlertProperties(EntityCommonProperties):  # pylint: disable=too-ma
         self.resource_identifiers = None
 
 
-class SecurityAlertPropertiesConfidenceReasonsItem(_serialization.Model):
+class SecurityAlertPropertiesConfidenceReasonsItem(_serialization.Model):  # pylint: disable=name-too-long
     """confidence reason item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -20015,7 +19586,7 @@ class SecurityAlertPropertiesConfidenceReasonsItem(_serialization.Model):
         "reason_type": {"key": "reasonType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.reason = None
@@ -20027,7 +19598,7 @@ class SecurityAlertTimelineItem(EntityTimelineItem):  # pylint: disable=too-many
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: The entity query kind type. Required. Known values are: "Activity", "Bookmark",
      "SecurityAlert", and "Anomaly".
@@ -20100,8 +19671,8 @@ class SecurityAlertTimelineItem(EntityTimelineItem):  # pylint: disable=too-many
         product_name: Optional[str] = None,
         description: Optional[str] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_resource_id: The alert azure resource id. Required.
         :paramtype azure_resource_id: str
@@ -20145,10 +19716,10 @@ class SecurityGroupEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -20205,7 +19776,7 @@ class SecurityGroupEntity(Entity):
         "sid": {"key": "properties.sid", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "SecurityGroup"
@@ -20253,7 +19824,7 @@ class SecurityGroupEntityProperties(EntityCommonProperties):
         "sid": {"key": "sid", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.distinguished_name = None
@@ -20275,7 +19846,9 @@ class SecurityMLAnalyticsSettingsDataSource(_serialization.Model):
         "data_types": {"key": "dataTypes", "type": "[str]"},
     }
 
-    def __init__(self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword connector_id: The connector id that provides the following data types.
         :paramtype connector_id: str
@@ -20292,7 +19865,7 @@ class SecurityMLAnalyticsSettingsList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of SecurityMLAnalyticsSettings.
     :vartype next_link: str
@@ -20310,7 +19883,7 @@ class SecurityMLAnalyticsSettingsList(_serialization.Model):
         "value": {"key": "value", "type": "[SecurityMLAnalyticsSetting]"},
     }
 
-    def __init__(self, *, value: List["_models.SecurityMLAnalyticsSetting"], **kwargs):
+    def __init__(self, *, value: List["_models.SecurityMLAnalyticsSetting"], **kwargs: Any) -> None:
         """
         :keyword value: Array of SecurityMLAnalyticsSettings. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SecurityMLAnalyticsSetting]
@@ -20331,7 +19904,7 @@ class SentinelEntityMapping(_serialization.Model):
         "column_name": {"key": "columnName", "type": "str"},
     }
 
-    def __init__(self, *, column_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, column_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword column_name: the column name to be mapped to the SentinelEntities.
         :paramtype column_name: str
@@ -20346,7 +19919,7 @@ class SentinelOnboardingState(ResourceWithEtag):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -20378,7 +19951,9 @@ class SentinelOnboardingState(ResourceWithEtag):
         "customer_managed_key": {"key": "properties.customerManagedKey", "type": "bool"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, customer_managed_key: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, etag: Optional[str] = None, customer_managed_key: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -20392,7 +19967,7 @@ class SentinelOnboardingState(ResourceWithEtag):
 class SentinelOnboardingStatesList(_serialization.Model):
     """List of the Sentinel onboarding states.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Array of Sentinel onboarding states. Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.SentinelOnboardingState]
@@ -20406,7 +19981,7 @@ class SentinelOnboardingStatesList(_serialization.Model):
         "value": {"key": "value", "type": "[SentinelOnboardingState]"},
     }
 
-    def __init__(self, *, value: List["_models.SentinelOnboardingState"], **kwargs):
+    def __init__(self, *, value: List["_models.SentinelOnboardingState"], **kwargs: Any) -> None:
         """
         :keyword value: Array of Sentinel onboarding states. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SentinelOnboardingState]
@@ -20418,7 +19993,7 @@ class SentinelOnboardingStatesList(_serialization.Model):
 class SettingList(_serialization.Model):
     """List of all the settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Array of settings. Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.Settings]
@@ -20432,7 +20007,7 @@ class SettingList(_serialization.Model):
         "value": {"key": "value", "type": "[Settings]"},
     }
 
-    def __init__(self, *, value: List["_models.Settings"], **kwargs):
+    def __init__(self, *, value: List["_models.Settings"], **kwargs: Any) -> None:
         """
         :keyword value: Array of settings. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Settings]
@@ -20447,7 +20022,7 @@ class SourceControl(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -20519,8 +20094,8 @@ class SourceControl(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         repository: Optional["_models.Repository"] = None,
         repository_resource_info: Optional["_models.RepositoryResourceInfo"] = None,
         last_deployment_info: Optional["_models.DeploymentInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -20564,7 +20139,7 @@ class SourceControlList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of source controls.
     :vartype next_link: str
@@ -20582,7 +20157,7 @@ class SourceControlList(_serialization.Model):
         "value": {"key": "value", "type": "[SourceControl]"},
     }
 
-    def __init__(self, *, value: List["_models.SourceControl"], **kwargs):
+    def __init__(self, *, value: List["_models.SourceControl"], **kwargs: Any) -> None:
         """
         :keyword value: Array of source controls. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SourceControl]
@@ -20597,10 +20172,10 @@ class SubmissionMailEntity(Entity):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -20684,7 +20259,7 @@ class SubmissionMailEntity(Entity):  # pylint: disable=too-many-instance-attribu
         "report_type": {"key": "properties.reportType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "SubmissionMail"
@@ -20766,7 +20341,7 @@ class SubmissionMailEntityProperties(EntityCommonProperties):  # pylint: disable
         "report_type": {"key": "reportType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.network_message_id = None
@@ -20818,8 +20393,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -20878,7 +20453,7 @@ class TeamInformation(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.team_id = None
@@ -20891,7 +20466,7 @@ class TeamInformation(_serialization.Model):
 class TeamProperties(_serialization.Model):
     """Describes team properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar team_name: The name of the team. Required.
     :vartype team_name: str
@@ -20921,8 +20496,8 @@ class TeamProperties(_serialization.Model):
         team_description: Optional[str] = None,
         group_ids: Optional[List[str]] = None,
         member_ids: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword team_name: The name of the team. Required.
         :paramtype team_name: str
@@ -20978,7 +20553,7 @@ class ThreatIntelligence(_serialization.Model):
         "threat_type": {"key": "threatType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.confidence = None
@@ -20994,10 +20569,10 @@ class ThreatIntelligenceAlertRule(AlertRule):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -21069,8 +20644,8 @@ class ThreatIntelligenceAlertRule(AlertRule):  # pylint: disable=too-many-instan
         etag: Optional[str] = None,
         alert_rule_template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -21097,10 +20672,10 @@ class ThreatIntelligenceAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -21182,8 +20757,8 @@ class ThreatIntelligenceAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         severity: Optional[Union[str, "_models.AlertSeverity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -21220,12 +20795,14 @@ class ThreatIntelligenceAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable
         self.severity = severity
 
 
-class ThreatIntelligenceAlertRuleTemplateProperties(AlertRuleTemplateWithMitreProperties):
+class ThreatIntelligenceAlertRuleTemplateProperties(
+    AlertRuleTemplateWithMitreProperties
+):  # pylint: disable=name-too-long
     """Threat Intelligence alert rule template properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_rules_created_by_template_count: the number of alert rules that were created by
      this template.
@@ -21283,8 +20860,8 @@ class ThreatIntelligenceAlertRuleTemplateProperties(AlertRuleTemplateWithMitrePr
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -21331,7 +20908,7 @@ class ThreatIntelligenceAppendTags(_serialization.Model):
         "threat_intelligence_tags": {"key": "threatIntelligenceTags", "type": "[str]"},
     }
 
-    def __init__(self, *, threat_intelligence_tags: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, threat_intelligence_tags: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword threat_intelligence_tags: List of tags to be appended.
         :paramtype threat_intelligence_tags: list[str]
@@ -21371,8 +20948,8 @@ class ThreatIntelligenceExternalReference(_serialization.Model):
         source_name: Optional[str] = None,
         url: Optional[str] = None,
         hashes: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: External reference description.
         :paramtype description: str
@@ -21456,8 +21033,8 @@ class ThreatIntelligenceFilteringCriteria(_serialization.Model):  # pylint: disa
         ids: Optional[List[str]] = None,
         keywords: Optional[List[str]] = None,
         skip_token: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword page_size: Page size.
         :paramtype page_size: int
@@ -21525,8 +21102,8 @@ class ThreatIntelligenceGranularMarkingModel(_serialization.Model):
         language: Optional[str] = None,
         marking_ref: Optional[int] = None,
         selectors: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword language: Language granular marking model.
         :paramtype language: str
@@ -21549,10 +21126,10 @@ class ThreatIntelligenceInformation(ResourceWithEtag):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -21587,7 +21164,7 @@ class ThreatIntelligenceInformation(ResourceWithEtag):
 
     _subtype_map = {"kind": {"indicator": "ThreatIntelligenceIndicatorModel"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -21601,10 +21178,10 @@ class ThreatIntelligenceIndicatorModel(ThreatIntelligenceInformation):  # pylint
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -21770,8 +21347,8 @@ class ThreatIntelligenceIndicatorModel(ThreatIntelligenceInformation):  # pylint
         created: Optional[str] = None,
         modified: Optional[str] = None,
         extensions: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -22012,8 +21589,8 @@ class ThreatIntelligenceIndicatorProperties(EntityCommonProperties):  # pylint: 
         created: Optional[str] = None,
         modified: Optional[str] = None,
         extensions: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword threat_intelligence_tags: List of tags.
         :paramtype threat_intelligence_tags: list[str]
@@ -22112,7 +21689,7 @@ class ThreatIntelligenceInformationList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of information objects.
     :vartype next_link: str
@@ -22130,7 +21707,7 @@ class ThreatIntelligenceInformationList(_serialization.Model):
         "value": {"key": "value", "type": "[ThreatIntelligenceInformation]"},
     }
 
-    def __init__(self, *, value: List["_models.ThreatIntelligenceInformation"], **kwargs):
+    def __init__(self, *, value: List["_models.ThreatIntelligenceInformation"], **kwargs: Any) -> None:
         """
         :keyword value: Array of threat intelligence information objects. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.ThreatIntelligenceInformation]
@@ -22154,7 +21731,9 @@ class ThreatIntelligenceKillChainPhase(_serialization.Model):
         "phase_name": {"key": "phaseName", "type": "str"},
     }
 
-    def __init__(self, *, kill_chain_name: Optional[str] = None, phase_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, kill_chain_name: Optional[str] = None, phase_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword kill_chain_name: Kill chainName name.
         :paramtype kill_chain_name: str
@@ -22196,8 +21775,8 @@ class ThreatIntelligenceMetric(_serialization.Model):
         threat_type_metrics: Optional[List["_models.ThreatIntelligenceMetricEntity"]] = None,
         pattern_type_metrics: Optional[List["_models.ThreatIntelligenceMetricEntity"]] = None,
         source_metrics: Optional[List["_models.ThreatIntelligenceMetricEntity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_updated_time_utc: Last updated indicator metric.
         :paramtype last_updated_time_utc: str
@@ -22232,7 +21811,7 @@ class ThreatIntelligenceMetricEntity(_serialization.Model):
         "metric_value": {"key": "metricValue", "type": "int"},
     }
 
-    def __init__(self, *, metric_name: Optional[str] = None, metric_value: Optional[int] = None, **kwargs):
+    def __init__(self, *, metric_name: Optional[str] = None, metric_value: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword metric_name: Metric name.
         :paramtype metric_name: str
@@ -22255,7 +21834,7 @@ class ThreatIntelligenceMetrics(_serialization.Model):
         "properties": {"key": "properties", "type": "ThreatIntelligenceMetric"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ThreatIntelligenceMetric"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.ThreatIntelligenceMetric"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Threat intelligence metrics.
         :paramtype properties: ~azure.mgmt.securityinsight.models.ThreatIntelligenceMetric
@@ -22267,7 +21846,7 @@ class ThreatIntelligenceMetrics(_serialization.Model):
 class ThreatIntelligenceMetricsList(_serialization.Model):
     """List of all the threat intelligence metric fields (type/threat type/source).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: Array of threat intelligence metric fields (type/threat type/source). Required.
     :vartype value: list[~azure.mgmt.securityinsight.models.ThreatIntelligenceMetrics]
@@ -22281,7 +21860,7 @@ class ThreatIntelligenceMetricsList(_serialization.Model):
         "value": {"key": "value", "type": "[ThreatIntelligenceMetrics]"},
     }
 
-    def __init__(self, *, value: List["_models.ThreatIntelligenceMetrics"], **kwargs):
+    def __init__(self, *, value: List["_models.ThreatIntelligenceMetrics"], **kwargs: Any) -> None:
         """
         :keyword value: Array of threat intelligence metric fields (type/threat type/source). Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.ThreatIntelligenceMetrics]
@@ -22310,8 +21889,8 @@ class ThreatIntelligenceParsedPattern(_serialization.Model):
         *,
         pattern_type_key: Optional[str] = None,
         pattern_type_values: Optional[List["_models.ThreatIntelligenceParsedPatternTypeValue"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pattern_type_key: Pattern type key.
         :paramtype pattern_type_key: str
@@ -22338,7 +21917,7 @@ class ThreatIntelligenceParsedPatternTypeValue(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, value_type: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value_type: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value_type: Type of the value.
         :paramtype value_type: str
@@ -22371,8 +21950,8 @@ class ThreatIntelligenceSortingCriteria(_serialization.Model):
         *,
         item_key: Optional[str] = None,
         sort_order: Optional[Union[str, "_models.ThreatIntelligenceSortingCriteriaEnum"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword item_key: Column name.
         :paramtype item_key: str
@@ -22389,7 +21968,7 @@ class ThreatIntelligenceSortingCriteria(_serialization.Model):
 class TICheckRequirements(DataConnectorsCheckRequirements):
     """Threat Intelligence Platforms data connector check requirements.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -22412,7 +21991,7 @@ class TICheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -22425,26 +22004,11 @@ class TICheckRequirements(DataConnectorsCheckRequirements):
 class TICheckRequirementsProperties(DataConnectorTenantId):
     """Threat Intelligence Platforms data connector required properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class TIDataConnector(DataConnector):
@@ -22452,10 +22016,10 @@ class TIDataConnector(DataConnector):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -22510,8 +22074,8 @@ class TIDataConnector(DataConnector):
         tenant_id: Optional[str] = None,
         tip_lookback_period: Optional[datetime.datetime] = None,
         data_types: Optional["_models.TIDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -22532,7 +22096,7 @@ class TIDataConnector(DataConnector):
 class TIDataConnectorDataTypes(_serialization.Model):
     """The available data types for TI (Threat Intelligence) data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar indicators: Data type for indicators connection. Required.
     :vartype indicators: ~azure.mgmt.securityinsight.models.TIDataConnectorDataTypesIndicators
@@ -22546,7 +22110,7 @@ class TIDataConnectorDataTypes(_serialization.Model):
         "indicators": {"key": "indicators", "type": "TIDataConnectorDataTypesIndicators"},
     }
 
-    def __init__(self, *, indicators: "_models.TIDataConnectorDataTypesIndicators", **kwargs):
+    def __init__(self, *, indicators: "_models.TIDataConnectorDataTypesIndicators", **kwargs: Any) -> None:
         """
         :keyword indicators: Data type for indicators connection. Required.
         :paramtype indicators: ~azure.mgmt.securityinsight.models.TIDataConnectorDataTypesIndicators
@@ -22558,34 +22122,18 @@ class TIDataConnectorDataTypes(_serialization.Model):
 class TIDataConnectorDataTypesIndicators(DataConnectorDataTypeCommon):
     """Data type for indicators connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
 
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
-
 
 class TIDataConnectorProperties(DataConnectorTenantId):
     """TI (Threat Intelligence) data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -22612,8 +22160,8 @@ class TIDataConnectorProperties(DataConnectorTenantId):
         tenant_id: str,
         data_types: "_models.TIDataConnectorDataTypes",
         tip_lookback_period: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -22630,7 +22178,7 @@ class TIDataConnectorProperties(DataConnectorTenantId):
 class TimelineAggregation(_serialization.Model):
     """timeline aggregation information per kind.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar count: the total items found for a kind. Required.
     :vartype count: int
@@ -22649,7 +22197,7 @@ class TimelineAggregation(_serialization.Model):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, *, count: int, kind: Union[str, "_models.EntityTimelineKind"], **kwargs):
+    def __init__(self, *, count: int, kind: Union[str, "_models.EntityTimelineKind"], **kwargs: Any) -> None:
         """
         :keyword count: the total items found for a kind. Required.
         :paramtype count: int
@@ -22665,7 +22213,7 @@ class TimelineAggregation(_serialization.Model):
 class TimelineError(_serialization.Model):
     """Timeline Query Errors.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: the query kind. Required. Known values are: "Activity", "Bookmark",
      "SecurityAlert", and "Anomaly".
@@ -22693,8 +22241,8 @@ class TimelineError(_serialization.Model):
         kind: Union[str, "_models.EntityTimelineKind"],
         error_message: str,
         query_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: the query kind. Required. Known values are: "Activity", "Bookmark",
          "SecurityAlert", and "Anomaly".
@@ -22713,7 +22261,7 @@ class TimelineError(_serialization.Model):
 class TimelineResultsMetadata(_serialization.Model):
     """Expansion result metadata.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar total_count: the total items found for the timeline request. Required.
     :vartype total_count: int
@@ -22740,8 +22288,8 @@ class TimelineResultsMetadata(_serialization.Model):
         total_count: int,
         aggregations: List["_models.TimelineAggregation"],
         errors: Optional[List["_models.TimelineError"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_count: the total items found for the timeline request. Required.
         :paramtype total_count: int
@@ -22759,7 +22307,7 @@ class TimelineResultsMetadata(_serialization.Model):
 class TiTaxiiCheckRequirements(DataConnectorsCheckRequirements):
     """Threat Intelligence TAXII data connector check requirements.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
@@ -22782,7 +22330,7 @@ class TiTaxiiCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -22795,26 +22343,11 @@ class TiTaxiiCheckRequirements(DataConnectorsCheckRequirements):
 class TiTaxiiCheckRequirementsProperties(DataConnectorTenantId):
     """Threat Intelligence TAXII data connector required properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
     """
-
-    _validation = {
-        "tenant_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-    }
-
-    def __init__(self, *, tenant_id: str, **kwargs):
-        """
-        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
-        :paramtype tenant_id: str
-        """
-        super().__init__(tenant_id=tenant_id, **kwargs)
 
 
 class TiTaxiiDataConnector(DataConnector):  # pylint: disable=too-many-instance-attributes
@@ -22822,10 +22355,10 @@ class TiTaxiiDataConnector(DataConnector):  # pylint: disable=too-many-instance-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -22909,8 +22442,8 @@ class TiTaxiiDataConnector(DataConnector):  # pylint: disable=too-many-instance-
         taxii_lookback_period: Optional[datetime.datetime] = None,
         polling_frequency: Optional[Union[str, "_models.PollingFrequency"]] = None,
         data_types: Optional["_models.TiTaxiiDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -22953,7 +22486,7 @@ class TiTaxiiDataConnector(DataConnector):  # pylint: disable=too-many-instance-
 class TiTaxiiDataConnectorDataTypes(_serialization.Model):
     """The available data types for Threat Intelligence TAXII data connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar taxii_client: Data type for TAXII connector. Required.
     :vartype taxii_client:
@@ -22968,7 +22501,7 @@ class TiTaxiiDataConnectorDataTypes(_serialization.Model):
         "taxii_client": {"key": "taxiiClient", "type": "TiTaxiiDataConnectorDataTypesTaxiiClient"},
     }
 
-    def __init__(self, *, taxii_client: "_models.TiTaxiiDataConnectorDataTypesTaxiiClient", **kwargs):
+    def __init__(self, *, taxii_client: "_models.TiTaxiiDataConnectorDataTypesTaxiiClient", **kwargs: Any) -> None:
         """
         :keyword taxii_client: Data type for TAXII connector. Required.
         :paramtype taxii_client:
@@ -22981,34 +22514,18 @@ class TiTaxiiDataConnectorDataTypes(_serialization.Model):
 class TiTaxiiDataConnectorDataTypesTaxiiClient(DataConnectorDataTypeCommon):
     """Data type for TAXII connector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
     """
 
-    _validation = {
-        "state": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        """
-        super().__init__(state=state, **kwargs)
-
 
 class TiTaxiiDataConnectorProperties(DataConnectorTenantId):
     """Threat Intelligence TAXII data connector properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
     :vartype tenant_id: str
@@ -23066,8 +22583,8 @@ class TiTaxiiDataConnectorProperties(DataConnectorTenantId):
         user_name: Optional[str] = None,
         password: Optional[str] = None,
         taxii_lookback_period: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -23109,10 +22626,10 @@ class Ueba(Settings):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -23154,8 +22671,8 @@ class Ueba(Settings):
         *,
         etag: Optional[str] = None,
         data_sources: Optional[List[Union[str, "_models.UebaDataSources"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -23172,10 +22689,10 @@ class UrlEntity(Entity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -23222,7 +22739,7 @@ class UrlEntity(Entity):
         "url": {"key": "properties.url", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Url"
@@ -23258,7 +22775,7 @@ class UrlEntityProperties(EntityCommonProperties):
         "url": {"key": "url", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.url = None
@@ -23288,7 +22805,7 @@ class UserInfo(_serialization.Model):
         "object_id": {"key": "objectId", "type": "str"},
     }
 
-    def __init__(self, *, object_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, object_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword object_id: The object id of the user.
         :paramtype object_id: str
@@ -23319,7 +22836,7 @@ class ValidationError(_serialization.Model):
         "error_messages": {"key": "errorMessages", "type": "[str]"},
     }
 
-    def __init__(self, *, record_index: Optional[int] = None, **kwargs):
+    def __init__(self, *, record_index: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword record_index: The number of the record that has the error.
         :paramtype record_index: int
@@ -23335,7 +22852,7 @@ class Watchlist(ResourceWithEtag):  # pylint: disable=too-many-instance-attribut
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -23459,8 +22976,8 @@ class Watchlist(ResourceWithEtag):  # pylint: disable=too-many-instance-attribut
         items_search_key: Optional[str] = None,
         content_type: Optional[str] = None,
         upload_status: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -23544,7 +23061,7 @@ class WatchlistItem(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -23617,8 +23134,8 @@ class WatchlistItem(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         updated_by: Optional["_models.UserInfo"] = None,
         items_key_value: Optional[Dict[str, Any]] = None,
         entity_mapping: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -23661,7 +23178,7 @@ class WatchlistItemList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of watchlist item.
     :vartype next_link: str
@@ -23679,7 +23196,7 @@ class WatchlistItemList(_serialization.Model):
         "value": {"key": "value", "type": "[WatchlistItem]"},
     }
 
-    def __init__(self, *, value: List["_models.WatchlistItem"], **kwargs):
+    def __init__(self, *, value: List["_models.WatchlistItem"], **kwargs: Any) -> None:
         """
         :keyword value: Array of watchlist items. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.WatchlistItem]
@@ -23694,7 +23211,7 @@ class WatchlistList(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: URL to fetch the next set of watchlists.
     :vartype next_link: str
@@ -23712,7 +23229,7 @@ class WatchlistList(_serialization.Model):
         "value": {"key": "value", "type": "[Watchlist]"},
     }
 
-    def __init__(self, *, value: List["_models.Watchlist"], **kwargs):
+    def __init__(self, *, value: List["_models.Watchlist"], **kwargs: Any) -> None:
         """
         :keyword value: Array of watchlist. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Watchlist]
@@ -23749,8 +23266,8 @@ class Webhook(_serialization.Model):
         webhook_url: Optional[str] = None,
         webhook_secret_update_time: Optional[str] = None,
         rotate_webhook_secret: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword webhook_id: Unique identifier for the webhook.
         :paramtype webhook_id: str
