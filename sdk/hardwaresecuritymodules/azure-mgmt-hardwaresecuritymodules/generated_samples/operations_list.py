@@ -15,7 +15,7 @@ from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hardwaresecuritymodules
 # USAGE
-    python dedicated_hsm_get.py
+    python operations_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,14 @@ from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
 def main():
     client = HardwareSecurityModulesMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.dedicated_hsm.get(
-        resource_group_name="hsm-group",
-        dedicated_hsm_name="hsm1",
-    )
-    print(response)
+    response = client.operations.list()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2024-06-30/examples/DedicatedHsm_Get.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2024-06-30/examples/OperationsList.json
 if __name__ == "__main__":
     main()

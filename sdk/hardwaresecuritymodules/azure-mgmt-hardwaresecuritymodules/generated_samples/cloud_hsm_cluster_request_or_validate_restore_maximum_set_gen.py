@@ -15,7 +15,7 @@ from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hardwaresecuritymodules
 # USAGE
-    python dedicated_hsm_get.py
+    python cloud_hsm_cluster_request_or_validate_restore_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.dedicated_hsm.get(
-        resource_group_name="hsm-group",
-        dedicated_hsm_name="hsm1",
-    )
+    response = client.cloud_hsm_clusters.begin_pre_restore(
+        resource_group_name="rgcloudhsm",
+        cloud_hsm_cluster_name="chsm1",
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2024-06-30/examples/DedicatedHsm_Get.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2024-06-30/examples/CloudHsmCluster_RequestOrValidate_Restore_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
