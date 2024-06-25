@@ -26,6 +26,7 @@ from ._models_py3 import GuestConfigurationNavigation
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationList
+from ._models_py3 import OperationProperties
 from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
 from ._models_py3 import SystemData
@@ -41,7 +42,7 @@ from ._guest_configuration_client_enums import Kind
 from ._guest_configuration_client_enums import ProvisioningState
 from ._guest_configuration_client_enums import Type
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -65,6 +66,7 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationList",
+    "OperationProperties",
     "ProxyResource",
     "Resource",
     "SystemData",
