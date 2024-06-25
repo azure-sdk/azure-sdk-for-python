@@ -15,7 +15,7 @@ from azure.mgmt.storagecache import StorageCacheManagementClient
     pip install azure-identity
     pip install azure-mgmt-storagecache
 # USAGE
-    python storage_targets_resume.py
+    python auto_export_jobs_list_by_aml_filesystem.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.storage_target.begin_resume(
+    response = client.auto_export_jobs.list_by_aml_filesystem(
         resource_group_name="scgroup",
-        cache_name="sc",
-        storage_target_name="st1",
-    ).result()
+        aml_filesystem_name="fs1",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-07-01/examples/StorageTargets_Resume.json
+# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-07-01/examples/autoExportJobs_ListByAmlFilesystem.json
 if __name__ == "__main__":
     main()

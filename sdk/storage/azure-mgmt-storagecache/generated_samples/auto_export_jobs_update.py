@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.storagecache import StorageCacheManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.storagecache import StorageCacheManagementClient
     pip install azure-identity
     pip install azure-mgmt-storagecache
 # USAGE
-    python storage_targets_resume.py
+    python auto_export_jobs_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +32,15 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.storage_target.begin_resume(
+    response = client.auto_export_jobs.begin_update(
         resource_group_name="scgroup",
-        cache_name="sc",
-        storage_target_name="st1",
+        aml_filesystem_name="fs1",
+        auto_export_job_name="job1",
+        auto_export_job={"tags": {"Dept": "ContosoAds"}},
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-07-01/examples/StorageTargets_Resume.json
+# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-07-01/examples/autoExportJobs_Update.json
 if __name__ == "__main__":
     main()

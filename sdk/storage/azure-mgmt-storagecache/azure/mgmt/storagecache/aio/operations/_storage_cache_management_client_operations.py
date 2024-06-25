@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -32,6 +33,10 @@ from ...operations._storage_cache_management_client_operations import (
 )
 from .._vendor import StorageCacheManagementClientMixinABC
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -39,6 +44,7 @@ ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T
 class StorageCacheManagementClientOperationsMixin(  # pylint: disable=name-too-long
     StorageCacheManagementClientMixinABC
 ):
+
     @overload
     async def check_aml_fs_subnets(  # pylint: disable=inconsistent-return-statements
         self,
@@ -97,15 +103,18 @@ class StorageCacheManagementClientOperationsMixin(  # pylint: disable=name-too-l
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
-            400: lambda response: HttpResponseError(
-                response=response,
-                model=self._deserialize(_models.AmlFilesystemCheckSubnetError, response),
-                error_format=ARMErrorFormat,
+            400: cast(
+                Type[HttpResponseError],
+                lambda response: HttpResponseError(
+                    response=response,
+                    model=self._deserialize(_models.AmlFilesystemCheckSubnetError, response),
+                    error_format=ARMErrorFormat,
+                ),
             ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
@@ -216,7 +225,7 @@ class StorageCacheManagementClientOperationsMixin(  # pylint: disable=name-too-l
         :rtype: ~azure.mgmt.storagecache.models.RequiredAmlFilesystemSubnetsSize
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
