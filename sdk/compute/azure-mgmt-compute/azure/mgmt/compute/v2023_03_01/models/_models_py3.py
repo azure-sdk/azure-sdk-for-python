@@ -2449,7 +2449,7 @@ class DiagnosticsProfile(_serialization.Model):
     """Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15.
 
     :ivar boot_diagnostics: Boot Diagnostics is a debugging feature which allows you to view
-     Console Output and Screenshot to diagnose VM status. **NOTE**\ : If storageUri is being
+     Console Output and Screenshot to diagnose VM status. **NOTE**\\ : If storageUri is being
      specified then ensure that the storage account is in the same region and subscription as the
      VM. You can easily view the output of your console log. Azure also enables you to see a
      screenshot of the VM from the hypervisor.
@@ -2463,7 +2463,7 @@ class DiagnosticsProfile(_serialization.Model):
     def __init__(self, *, boot_diagnostics: Optional["_models.BootDiagnostics"] = None, **kwargs: Any) -> None:
         """
         :keyword boot_diagnostics: Boot Diagnostics is a debugging feature which allows you to view
-         Console Output and Screenshot to diagnose VM status. **NOTE**\ : If storageUri is being
+         Console Output and Screenshot to diagnose VM status. **NOTE**\\ : If storageUri is being
          specified then ensure that the storage account is in the same region and subscription as the
          VM. You can easily view the output of your console log. Azure also enables you to see a
          screenshot of the VM from the hypervisor.
@@ -2823,9 +2823,9 @@ class HardwareProfile(_serialization.Model):
      deprecated and will be removed by December 23rd 2023. The recommended way to get the list of
      available sizes is using these APIs: `List all available virtual machine sizes in an
      availability set
-     <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\ , `List
+     <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\\ , `List
      all available virtual machine sizes in a region
-     <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\ , `List all available
+     <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\\ , `List all available
      virtual machine sizes for resizing
      <https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes>`_. For more
      information about virtual machine sizes, see `Sizes for virtual machines
@@ -2890,9 +2890,9 @@ class HardwareProfile(_serialization.Model):
          deprecated and will be removed by December 23rd 2023. The recommended way to get the list of
          available sizes is using these APIs: `List all available virtual machine sizes in an
          availability set
-         <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\ , `List
+         <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\\ , `List
          all available virtual machine sizes in a region
-         <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\ , `List all available
+         <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\\ , `List all available
          virtual machine sizes for resizing
          <https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes>`_. For more
          information about virtual machine sizes, see `Sizes for virtual machines
@@ -3883,6 +3883,8 @@ class LinuxConfiguration(_serialization.Model):
     Linux distributions, see `Linux on Azure-Endorsed Distributions
     <https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros>`_.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar disable_password_authentication: Specifies whether password authentication should be
      disabled.
     :vartype disable_password_authentication: bool
@@ -3896,10 +3898,14 @@ class LinuxConfiguration(_serialization.Model):
     :ivar patch_settings: [Preview Feature] Specifies settings related to VM Guest Patching on
      Linux.
     :vartype patch_settings: ~azure.mgmt.compute.v2023_03_01.models.LinuxPatchSettings
-    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is enabled
-     for the Linux virtual machine. Default value is false.
+    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates are enabled
+     for the Linux Virtual Machine.
     :vartype enable_vm_agent_platform_updates: bool
     """
+
+    _validation = {
+        "enable_vm_agent_platform_updates": {"readonly": True},
+    }
 
     _attribute_map = {
         "disable_password_authentication": {"key": "disablePasswordAuthentication", "type": "bool"},
@@ -3916,7 +3922,6 @@ class LinuxConfiguration(_serialization.Model):
         ssh: Optional["_models.SshConfiguration"] = None,
         provision_vm_agent: Optional[bool] = None,
         patch_settings: Optional["_models.LinuxPatchSettings"] = None,
-        enable_vm_agent_platform_updates: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3933,16 +3938,13 @@ class LinuxConfiguration(_serialization.Model):
         :keyword patch_settings: [Preview Feature] Specifies settings related to VM Guest Patching on
          Linux.
         :paramtype patch_settings: ~azure.mgmt.compute.v2023_03_01.models.LinuxPatchSettings
-        :keyword enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is
-         enabled for the Linux virtual machine. Default value is false.
-        :paramtype enable_vm_agent_platform_updates: bool
         """
         super().__init__(**kwargs)
         self.disable_password_authentication = disable_password_authentication
         self.ssh = ssh
         self.provision_vm_agent = provision_vm_agent
         self.patch_settings = patch_settings
-        self.enable_vm_agent_platform_updates = enable_vm_agent_platform_updates
+        self.enable_vm_agent_platform_updates = None
 
 
 class LinuxParameters(_serialization.Model):
@@ -4815,7 +4817,7 @@ class OSProfile(_serialization.Model):
      characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
      :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
      fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-     digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+     digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
      **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
      "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
      resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -4906,7 +4908,7 @@ class OSProfile(_serialization.Model):
          characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
          :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
          fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-         digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+         digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
          **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
          "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
          resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -4967,7 +4969,7 @@ class OSProfileProvisioningData(_serialization.Model):
      characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
      :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
      fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-     digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+     digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
      **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
      "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
      resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -5002,7 +5004,7 @@ class OSProfileProvisioningData(_serialization.Model):
          characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
          :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
          fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-         digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+         digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
          **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
          "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
          resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -7237,7 +7239,7 @@ class Sku(_serialization.Model):
     :ivar name: The sku name.
     :vartype name: str
     :ivar tier: Specifies the tier of virtual machines in a scale set.:code:`<br />`:code:`<br />`
-     Possible Values::code:`<br />`:code:`<br />` **Standard**\ :code:`<br />`:code:`<br />`
+     Possible Values::code:`<br />`:code:`<br />` **Standard**\\ :code:`<br />`:code:`<br />`
      **Basic**.
     :vartype tier: str
     :ivar capacity: Specifies the number of virtual machines in the scale set.
@@ -7257,7 +7259,7 @@ class Sku(_serialization.Model):
         :keyword name: The sku name.
         :paramtype name: str
         :keyword tier: Specifies the tier of virtual machines in a scale set.:code:`<br />`:code:`<br
-         />` Possible Values::code:`<br />`:code:`<br />` **Standard**\ :code:`<br />`:code:`<br />`
+         />` Possible Values::code:`<br />`:code:`<br />` **Standard**\\ :code:`<br />`:code:`<br />`
          **Basic**.
         :paramtype tier: str
         :keyword capacity: Specifies the number of virtual machines in the scale set.
@@ -12542,7 +12544,7 @@ class VirtualMachineScaleSetOSProfile(_serialization.Model):
      characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
      :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
      fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-     digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+     digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
      **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
      "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
      resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -12626,7 +12628,7 @@ class VirtualMachineScaleSetOSProfile(_serialization.Model):
          characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
          :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
          fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-         digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+         digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
          **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
          "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
          resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -15677,6 +15679,8 @@ class VMSizeProperties(_serialization.Model):
 class WindowsConfiguration(_serialization.Model):
     """Specifies Windows operating system settings on the virtual machine.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar provision_vm_agent: Indicates whether virtual machine agent should be provisioned on the
      virtual machine. When this property is not specified in the request body, it is set to true by
      default. This will ensure that VM Agent is installed on the VM so that extensions can be added
@@ -15702,10 +15706,14 @@ class WindowsConfiguration(_serialization.Model):
     :ivar win_rm: Specifies the Windows Remote Management listeners. This enables remote Windows
      PowerShell.
     :vartype win_rm: ~azure.mgmt.compute.v2023_03_01.models.WinRMConfiguration
-    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is enabled
-     for the Windows virtual machine. Default value is false.
+    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates are enabled
+     for the Windows Virtual Machine.
     :vartype enable_vm_agent_platform_updates: bool
     """
+
+    _validation = {
+        "enable_vm_agent_platform_updates": {"readonly": True},
+    }
 
     _attribute_map = {
         "provision_vm_agent": {"key": "provisionVMAgent", "type": "bool"},
@@ -15726,7 +15734,6 @@ class WindowsConfiguration(_serialization.Model):
         additional_unattend_content: Optional[List["_models.AdditionalUnattendContent"]] = None,
         patch_settings: Optional["_models.PatchSettings"] = None,
         win_rm: Optional["_models.WinRMConfiguration"] = None,
-        enable_vm_agent_platform_updates: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -15755,9 +15762,6 @@ class WindowsConfiguration(_serialization.Model):
         :keyword win_rm: Specifies the Windows Remote Management listeners. This enables remote Windows
          PowerShell.
         :paramtype win_rm: ~azure.mgmt.compute.v2023_03_01.models.WinRMConfiguration
-        :keyword enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is
-         enabled for the Windows virtual machine. Default value is false.
-        :paramtype enable_vm_agent_platform_updates: bool
         """
         super().__init__(**kwargs)
         self.provision_vm_agent = provision_vm_agent
@@ -15766,7 +15770,7 @@ class WindowsConfiguration(_serialization.Model):
         self.additional_unattend_content = additional_unattend_content
         self.patch_settings = patch_settings
         self.win_rm = win_rm
-        self.enable_vm_agent_platform_updates = enable_vm_agent_platform_updates
+        self.enable_vm_agent_platform_updates = None
 
 
 class WindowsParameters(_serialization.Model):

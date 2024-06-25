@@ -1517,8 +1517,8 @@ class DataDisk(_serialization.Model):  # pylint: disable=too-many-instance-attri
      disabled on the disk.
     :vartype write_accelerator_enabled: bool
     :ivar create_option: Specifies how the virtual machine should be created. Possible values are:
-     **Attach** \u2013 This value is used when you are using a specialized disk to create the
-     virtual machine. **FromImage** \u2013 This value is used when you are using an image to create
+     **Attach** \\u2013 This value is used when you are using a specialized disk to create the
+     virtual machine. **FromImage** \\u2013 This value is used when you are using an image to create
      the virtual machine. If you are using a platform image, you also use the imageReference element
      described above. If you are using a marketplace image, you  also use the plan element
      previously described. Required. Known values are: "FromImage", "Empty", and "Attach".
@@ -1619,8 +1619,8 @@ class DataDisk(_serialization.Model):  # pylint: disable=too-many-instance-attri
          disabled on the disk.
         :paramtype write_accelerator_enabled: bool
         :keyword create_option: Specifies how the virtual machine should be created. Possible values
-         are: **Attach** \u2013 This value is used when you are using a specialized disk to create the
-         virtual machine. **FromImage** \u2013 This value is used when you are using an image to create
+         are: **Attach** \\u2013 This value is used when you are using a specialized disk to create the
+         virtual machine. **FromImage** \\u2013 This value is used when you are using an image to create
          the virtual machine. If you are using a platform image, you also use the imageReference element
          described above. If you are using a marketplace image, you  also use the plan element
          previously described. Required. Known values are: "FromImage", "Empty", and "Attach".
@@ -2393,7 +2393,7 @@ class DiagnosticsProfile(_serialization.Model):
     """Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15.
 
     :ivar boot_diagnostics: Boot Diagnostics is a debugging feature which allows you to view
-     Console Output and Screenshot to diagnose VM status. **NOTE**\ : If storageUri is being
+     Console Output and Screenshot to diagnose VM status. **NOTE**\\ : If storageUri is being
      specified then ensure that the storage account is in the same region and subscription as the
      VM.  You can easily view the output of your console log.  Azure also enables you to see a
      screenshot of the VM from the hypervisor.
@@ -2407,7 +2407,7 @@ class DiagnosticsProfile(_serialization.Model):
     def __init__(self, *, boot_diagnostics: Optional["_models.BootDiagnostics"] = None, **kwargs: Any) -> None:
         """
         :keyword boot_diagnostics: Boot Diagnostics is a debugging feature which allows you to view
-         Console Output and Screenshot to diagnose VM status. **NOTE**\ : If storageUri is being
+         Console Output and Screenshot to diagnose VM status. **NOTE**\\ : If storageUri is being
          specified then ensure that the storage account is in the same region and subscription as the
          VM.  You can easily view the output of your console log.  Azure also enables you to see a
          screenshot of the VM from the hypervisor.
@@ -3724,6 +3724,8 @@ class LinuxConfiguration(_serialization.Model):
     Linux distributions, see `Linux on Azure-Endorsed Distributions
     <https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros>`_.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar disable_password_authentication: Specifies whether password authentication should be
      disabled.
     :vartype disable_password_authentication: bool
@@ -3737,10 +3739,14 @@ class LinuxConfiguration(_serialization.Model):
     :ivar patch_settings: [Preview Feature] Specifies settings related to VM Guest Patching on
      Linux.
     :vartype patch_settings: ~azure.mgmt.compute.v2022_08_01.models.LinuxPatchSettings
-    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is enabled
-     for the Linux virtual machine. Default value is false.
+    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates are enabled
+     for the Linux Virtual Machine.
     :vartype enable_vm_agent_platform_updates: bool
     """
+
+    _validation = {
+        "enable_vm_agent_platform_updates": {"readonly": True},
+    }
 
     _attribute_map = {
         "disable_password_authentication": {"key": "disablePasswordAuthentication", "type": "bool"},
@@ -3757,7 +3763,6 @@ class LinuxConfiguration(_serialization.Model):
         ssh: Optional["_models.SshConfiguration"] = None,
         provision_vm_agent: Optional[bool] = None,
         patch_settings: Optional["_models.LinuxPatchSettings"] = None,
-        enable_vm_agent_platform_updates: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3774,16 +3779,13 @@ class LinuxConfiguration(_serialization.Model):
         :keyword patch_settings: [Preview Feature] Specifies settings related to VM Guest Patching on
          Linux.
         :paramtype patch_settings: ~azure.mgmt.compute.v2022_08_01.models.LinuxPatchSettings
-        :keyword enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is
-         enabled for the Linux virtual machine. Default value is false.
-        :paramtype enable_vm_agent_platform_updates: bool
         """
         super().__init__(**kwargs)
         self.disable_password_authentication = disable_password_authentication
         self.ssh = ssh
         self.provision_vm_agent = provision_vm_agent
         self.patch_settings = patch_settings
-        self.enable_vm_agent_platform_updates = enable_vm_agent_platform_updates
+        self.enable_vm_agent_platform_updates = None
 
 
 class LinuxParameters(_serialization.Model):
@@ -4437,8 +4439,8 @@ class OSDisk(_serialization.Model):  # pylint: disable=too-many-instance-attribu
      used by the virtual machine.
     :vartype diff_disk_settings: ~azure.mgmt.compute.v2022_08_01.models.DiffDiskSettings
     :ivar create_option: Specifies how the virtual machine should be created. Possible values are:
-     **Attach** \u2013 This value is used when you are using a specialized disk to create the
-     virtual machine. **FromImage** \u2013 This value is used when you are using an image to create
+     **Attach** \\u2013 This value is used when you are using a specialized disk to create the
+     virtual machine. **FromImage** \\u2013 This value is used when you are using an image to create
      the virtual machine. If you are using a platform image, you also use the imageReference element
      described above. If you are using a marketplace image, you  also use the plan element
      previously described. Required. Known values are: "FromImage", "Empty", and "Attach".
@@ -4521,8 +4523,8 @@ class OSDisk(_serialization.Model):  # pylint: disable=too-many-instance-attribu
          disk used by the virtual machine.
         :paramtype diff_disk_settings: ~azure.mgmt.compute.v2022_08_01.models.DiffDiskSettings
         :keyword create_option: Specifies how the virtual machine should be created. Possible values
-         are: **Attach** \u2013 This value is used when you are using a specialized disk to create the
-         virtual machine. **FromImage** \u2013 This value is used when you are using an image to create
+         are: **Attach** \\u2013 This value is used when you are using a specialized disk to create the
+         virtual machine. **FromImage** \\u2013 This value is used when you are using an image to create
          the virtual machine. If you are using a platform image, you also use the imageReference element
          described above. If you are using a marketplace image, you  also use the plan element
          previously described. Required. Known values are: "FromImage", "Empty", and "Attach".
@@ -4606,7 +4608,7 @@ class OSProfile(_serialization.Model):
      (Windows):** 8 characters **Minimum-length (Linux):** 6 characters **Max-length (Windows):**
      123 characters **Max-length (Linux):** 72 characters **Complexity requirements:** 3 out of 4
      conditions below need to be fulfilled Has lower characters Has upper characters  Has a digit
-     Has a special character (Regex match [\W_])  **Disallowed values:** "abc@123", "P@$$w0rd",
+     Has a special character (Regex match [\\W_])  **Disallowed values:** "abc@123", "P@$$w0rd",
      "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22",
      "iloveyou!"  For resetting the password, see `How to reset the Remote Desktop service or its
      login password in a Windows VM
@@ -4692,7 +4694,7 @@ class OSProfile(_serialization.Model):
          (Windows):** 8 characters **Minimum-length (Linux):** 6 characters **Max-length (Windows):**
          123 characters **Max-length (Linux):** 72 characters **Complexity requirements:** 3 out of 4
          conditions below need to be fulfilled Has lower characters Has upper characters  Has a digit
-         Has a special character (Regex match [\W_])  **Disallowed values:** "abc@123", "P@$$w0rd",
+         Has a special character (Regex match [\\W_])  **Disallowed values:** "abc@123", "P@$$w0rd",
          "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22",
          "iloveyou!"  For resetting the password, see `How to reset the Remote Desktop service or its
          login password in a Windows VM
@@ -6771,7 +6773,7 @@ class Sku(_serialization.Model):
     :ivar name: The sku name.
     :vartype name: str
     :ivar tier: Specifies the tier of virtual machines in a scale set.:code:`<br />`:code:`<br />`
-     Possible Values::code:`<br />`:code:`<br />` **Standard**\ :code:`<br />`:code:`<br />`
+     Possible Values::code:`<br />`:code:`<br />` **Standard**\\ :code:`<br />`:code:`<br />`
      **Basic**.
     :vartype tier: str
     :ivar capacity: Specifies the number of virtual machines in the scale set.
@@ -6791,7 +6793,7 @@ class Sku(_serialization.Model):
         :keyword name: The sku name.
         :paramtype name: str
         :keyword tier: Specifies the tier of virtual machines in a scale set.:code:`<br />`:code:`<br
-         />` Possible Values::code:`<br />`:code:`<br />` **Standard**\ :code:`<br />`:code:`<br />`
+         />` Possible Values::code:`<br />`:code:`<br />` **Standard**\\ :code:`<br />`:code:`<br />`
          **Basic**.
         :paramtype tier: str
         :keyword capacity: Specifies the number of virtual machines in the scale set.
@@ -11775,7 +11777,7 @@ class VirtualMachineScaleSetOSDisk(_serialization.Model):  # pylint: disable=too
      disabled on the disk.
     :vartype write_accelerator_enabled: bool
     :ivar create_option: Specifies how the virtual machines in the scale set should be
-     created.:code:`<br>`:code:`<br>` The only allowed value is: **FromImage** \u2013 This value is
+     created.:code:`<br>`:code:`<br>` The only allowed value is: **FromImage** \\u2013 This value is
      used when you are using an image to create the virtual machine. If you are using a platform
      image, you also use the imageReference element described above. If you are using a marketplace
      image, you  also use the plan element previously described. Required. Known values are:
@@ -11859,7 +11861,7 @@ class VirtualMachineScaleSetOSDisk(_serialization.Model):  # pylint: disable=too
          disabled on the disk.
         :paramtype write_accelerator_enabled: bool
         :keyword create_option: Specifies how the virtual machines in the scale set should be
-         created.:code:`<br>`:code:`<br>` The only allowed value is: **FromImage** \u2013 This value is
+         created.:code:`<br>`:code:`<br>` The only allowed value is: **FromImage** \\u2013 This value is
          used when you are using an image to create the virtual machine. If you are using a platform
          image, you also use the imageReference element described above. If you are using a marketplace
          image, you  also use the plan element previously described. Required. Known values are:
@@ -11931,7 +11933,7 @@ class VirtualMachineScaleSetOSProfile(_serialization.Model):
      characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
      :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
      fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-     digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+     digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
      **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
      "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
      resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -12011,7 +12013,7 @@ class VirtualMachineScaleSetOSProfile(_serialization.Model):
          characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
          :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
          fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-         digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+         digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
          **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
          "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
          resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -14971,6 +14973,8 @@ class VMSizeProperties(_serialization.Model):
 class WindowsConfiguration(_serialization.Model):
     """Specifies Windows operating system settings on the virtual machine.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar provision_vm_agent: Indicates whether virtual machine agent should be provisioned on the
      virtual machine. When this property is not specified in the request body, default behavior is
      to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions
@@ -14996,10 +15000,14 @@ class WindowsConfiguration(_serialization.Model):
     :ivar win_rm: Specifies the Windows Remote Management listeners. This enables remote Windows
      PowerShell.
     :vartype win_rm: ~azure.mgmt.compute.v2022_08_01.models.WinRMConfiguration
-    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is enabled
-     for the Windows virtual machine. Default value is false.
+    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates are enabled
+     for the Windows Virtual Machine.
     :vartype enable_vm_agent_platform_updates: bool
     """
+
+    _validation = {
+        "enable_vm_agent_platform_updates": {"readonly": True},
+    }
 
     _attribute_map = {
         "provision_vm_agent": {"key": "provisionVMAgent", "type": "bool"},
@@ -15020,7 +15028,6 @@ class WindowsConfiguration(_serialization.Model):
         additional_unattend_content: Optional[List["_models.AdditionalUnattendContent"]] = None,
         patch_settings: Optional["_models.PatchSettings"] = None,
         win_rm: Optional["_models.WinRMConfiguration"] = None,
-        enable_vm_agent_platform_updates: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -15049,9 +15056,6 @@ class WindowsConfiguration(_serialization.Model):
         :keyword win_rm: Specifies the Windows Remote Management listeners. This enables remote Windows
          PowerShell.
         :paramtype win_rm: ~azure.mgmt.compute.v2022_08_01.models.WinRMConfiguration
-        :keyword enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is
-         enabled for the Windows virtual machine. Default value is false.
-        :paramtype enable_vm_agent_platform_updates: bool
         """
         super().__init__(**kwargs)
         self.provision_vm_agent = provision_vm_agent
@@ -15060,7 +15064,7 @@ class WindowsConfiguration(_serialization.Model):
         self.additional_unattend_content = additional_unattend_content
         self.patch_settings = patch_settings
         self.win_rm = win_rm
-        self.enable_vm_agent_platform_updates = enable_vm_agent_platform_updates
+        self.enable_vm_agent_platform_updates = None
 
 
 class WindowsParameters(_serialization.Model):
