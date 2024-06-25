@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -39,6 +40,10 @@ from ...operations._bare_metal_machine_key_sets_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -75,7 +80,6 @@ class BareMetalMachineKeySetsOperations:
         :type resource_group_name: str
         :param cluster_name: The name of the cluster. Required.
         :type cluster_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BareMetalMachineKeySet or the result of
          cls(response)
         :rtype:
@@ -88,7 +92,7 @@ class BareMetalMachineKeySetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BareMetalMachineKeySetList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -99,17 +103,16 @@ class BareMetalMachineKeySetsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_cluster_request(
+                _request = build_list_by_cluster_request(
                     resource_group_name=resource_group_name,
                     cluster_name=cluster_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_cluster.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -121,13 +124,13 @@ class BareMetalMachineKeySetsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("BareMetalMachineKeySetList", pipeline_response)
@@ -137,11 +140,11 @@ class BareMetalMachineKeySetsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -153,10 +156,6 @@ class BareMetalMachineKeySetsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_cluster.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets"
-    }
 
     @distributed_trace_async
     async def get(
@@ -173,12 +172,11 @@ class BareMetalMachineKeySetsOperations:
         :type cluster_name: str
         :param bare_metal_machine_key_set_name: The name of the bare metal machine key set. Required.
         :type bare_metal_machine_key_set_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BareMetalMachineKeySet or the result of cls(response)
         :rtype: ~azure.mgmt.networkcloud.models.BareMetalMachineKeySet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -192,22 +190,21 @@ class BareMetalMachineKeySetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BareMetalMachineKeySet] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             bare_metal_machine_key_set_name=bare_metal_machine_key_set_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -220,23 +217,19 @@ class BareMetalMachineKeySetsOperations:
         deserialized = self._deserialize("BareMetalMachineKeySet", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
         self,
         resource_group_name: str,
         cluster_name: str,
         bare_metal_machine_key_set_name: str,
-        bare_metal_machine_key_set_parameters: Union[_models.BareMetalMachineKeySet, IO],
+        bare_metal_machine_key_set_parameters: Union[_models.BareMetalMachineKeySet, IO[bytes]],
         **kwargs: Any
     ) -> _models.BareMetalMachineKeySet:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -259,7 +252,7 @@ class BareMetalMachineKeySetsOperations:
         else:
             _json = self._serialize.body(bare_metal_machine_key_set_parameters, "BareMetalMachineKeySet")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             bare_metal_machine_key_set_name=bare_metal_machine_key_set_name,
@@ -268,16 +261,15 @@ class BareMetalMachineKeySetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -302,10 +294,6 @@ class BareMetalMachineKeySetsOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -335,14 +323,6 @@ class BareMetalMachineKeySetsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BareMetalMachineKeySet or the result
          of cls(response)
         :rtype:
@@ -356,7 +336,7 @@ class BareMetalMachineKeySetsOperations:
         resource_group_name: str,
         cluster_name: str,
         bare_metal_machine_key_set_name: str,
-        bare_metal_machine_key_set_parameters: IO,
+        bare_metal_machine_key_set_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -373,18 +353,10 @@ class BareMetalMachineKeySetsOperations:
         :param bare_metal_machine_key_set_name: The name of the bare metal machine key set. Required.
         :type bare_metal_machine_key_set_name: str
         :param bare_metal_machine_key_set_parameters: The request body. Required.
-        :type bare_metal_machine_key_set_parameters: IO
+        :type bare_metal_machine_key_set_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BareMetalMachineKeySet or the result
          of cls(response)
         :rtype:
@@ -398,7 +370,7 @@ class BareMetalMachineKeySetsOperations:
         resource_group_name: str,
         cluster_name: str,
         bare_metal_machine_key_set_name: str,
-        bare_metal_machine_key_set_parameters: Union[_models.BareMetalMachineKeySet, IO],
+        bare_metal_machine_key_set_parameters: Union[_models.BareMetalMachineKeySet, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.BareMetalMachineKeySet]:
         """Create or update the bare metal machine key set of the cluster.
@@ -413,20 +385,9 @@ class BareMetalMachineKeySetsOperations:
         :param bare_metal_machine_key_set_name: The name of the bare metal machine key set. Required.
         :type bare_metal_machine_key_set_name: str
         :param bare_metal_machine_key_set_parameters: The request body. Is either a
-         BareMetalMachineKeySet type or a IO type. Required.
+         BareMetalMachineKeySet type or a IO[bytes] type. Required.
         :type bare_metal_machine_key_set_parameters:
-         ~azure.mgmt.networkcloud.models.BareMetalMachineKeySet or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.networkcloud.models.BareMetalMachineKeySet or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either BareMetalMachineKeySet or the result
          of cls(response)
         :rtype:
@@ -460,7 +421,7 @@ class BareMetalMachineKeySetsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BareMetalMachineKeySet", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -473,22 +434,20 @@ class BareMetalMachineKeySetsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.BareMetalMachineKeySet].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.BareMetalMachineKeySet](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
-
-    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
+    async def _delete_initial(
         self, resource_group_name: str, cluster_name: str, bare_metal_machine_key_set_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> Optional[_models.OperationStatusResult]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -500,24 +459,23 @@ class BareMetalMachineKeySetsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.OperationStatusResult]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             bare_metal_machine_key_set_name=bare_metal_machine_key_set_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -527,21 +485,23 @@ class BareMetalMachineKeySetsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        deserialized = None
         response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("OperationStatusResult", pipeline_response)
+
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
         self, resource_group_name: str, cluster_name: str, bare_metal_machine_key_set_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
+    ) -> AsyncLROPoller[_models.OperationStatusResult]:
         """Delete the bare metal machine key set of the cluster.
 
         Delete the bare metal machine key set of the provided cluster.
@@ -553,28 +513,22 @@ class BareMetalMachineKeySetsOperations:
         :type cluster_name: str
         :param bare_metal_machine_key_set_name: The name of the bare metal machine key set. Required.
         :type bare_metal_machine_key_set_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :return: An instance of AsyncLROPoller that returns either OperationStatusResult or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.networkcloud.models.OperationStatusResult]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatusResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._delete_initial(  # type: ignore
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 cluster_name=cluster_name,
                 bare_metal_machine_key_set_name=bare_metal_machine_key_set_name,
@@ -586,9 +540,11 @@ class BareMetalMachineKeySetsOperations:
             )
         kwargs.pop("error_map", None)
 
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("OperationStatusResult", pipeline_response)
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -599,17 +555,15 @@ class BareMetalMachineKeySetsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatusResult].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
+        return AsyncLROPoller[_models.OperationStatusResult](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _update_initial(
         self,
@@ -617,11 +571,11 @@ class BareMetalMachineKeySetsOperations:
         cluster_name: str,
         bare_metal_machine_key_set_name: str,
         bare_metal_machine_key_set_update_parameters: Optional[
-            Union[_models.BareMetalMachineKeySetPatchParameters, IO]
+            Union[_models.BareMetalMachineKeySetPatchParameters, IO[bytes]]
         ] = None,
         **kwargs: Any
     ) -> _models.BareMetalMachineKeySet:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -649,7 +603,7 @@ class BareMetalMachineKeySetsOperations:
             else:
                 _json = None
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             bare_metal_machine_key_set_name=bare_metal_machine_key_set_name,
@@ -658,16 +612,15 @@ class BareMetalMachineKeySetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -685,6 +638,7 @@ class BareMetalMachineKeySetsOperations:
             response_headers["Azure-AsyncOperation"] = self._deserialize(
                 "str", response.headers.get("Azure-AsyncOperation")
             )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
             deserialized = self._deserialize("BareMetalMachineKeySet", pipeline_response)
 
@@ -692,10 +646,6 @@ class BareMetalMachineKeySetsOperations:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
 
     @overload
     async def begin_update(
@@ -726,14 +676,6 @@ class BareMetalMachineKeySetsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BareMetalMachineKeySet or the result
          of cls(response)
         :rtype:
@@ -747,7 +689,7 @@ class BareMetalMachineKeySetsOperations:
         resource_group_name: str,
         cluster_name: str,
         bare_metal_machine_key_set_name: str,
-        bare_metal_machine_key_set_update_parameters: Optional[IO] = None,
+        bare_metal_machine_key_set_update_parameters: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -765,18 +707,10 @@ class BareMetalMachineKeySetsOperations:
         :param bare_metal_machine_key_set_name: The name of the bare metal machine key set. Required.
         :type bare_metal_machine_key_set_name: str
         :param bare_metal_machine_key_set_update_parameters: The request body. Default value is None.
-        :type bare_metal_machine_key_set_update_parameters: IO
+        :type bare_metal_machine_key_set_update_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either BareMetalMachineKeySet or the result
          of cls(response)
         :rtype:
@@ -791,7 +725,7 @@ class BareMetalMachineKeySetsOperations:
         cluster_name: str,
         bare_metal_machine_key_set_name: str,
         bare_metal_machine_key_set_update_parameters: Optional[
-            Union[_models.BareMetalMachineKeySetPatchParameters, IO]
+            Union[_models.BareMetalMachineKeySetPatchParameters, IO[bytes]]
         ] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.BareMetalMachineKeySet]:
@@ -808,20 +742,9 @@ class BareMetalMachineKeySetsOperations:
         :param bare_metal_machine_key_set_name: The name of the bare metal machine key set. Required.
         :type bare_metal_machine_key_set_name: str
         :param bare_metal_machine_key_set_update_parameters: The request body. Is either a
-         BareMetalMachineKeySetPatchParameters type or a IO type. Default value is None.
+         BareMetalMachineKeySetPatchParameters type or a IO[bytes] type. Default value is None.
         :type bare_metal_machine_key_set_update_parameters:
-         ~azure.mgmt.networkcloud.models.BareMetalMachineKeySetPatchParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.networkcloud.models.BareMetalMachineKeySetPatchParameters or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either BareMetalMachineKeySet or the result
          of cls(response)
         :rtype:
@@ -855,7 +778,7 @@ class BareMetalMachineKeySetsOperations:
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BareMetalMachineKeySet", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -868,14 +791,12 @@ class BareMetalMachineKeySetsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.BareMetalMachineKeySet].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}"
-    }
+        return AsyncLROPoller[_models.BareMetalMachineKeySet](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
