@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import StorageCacheManagementClientMixinABC, _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -93,7 +98,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -141,7 +146,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -192,7 +197,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -243,7 +248,7 @@ def build_list_by_aml_filesystem_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -299,7 +304,7 @@ class ImportJobsOperations:
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, aml_filesystem_name: str, import_job_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -427,7 +432,7 @@ class ImportJobsOperations:
         :rtype: ~azure.mgmt.storagecache.models.ImportJob
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -480,7 +485,7 @@ class ImportJobsOperations:
         import_job: Union[_models.ImportJob, IO[bytes]],
         **kwargs: Any
     ) -> _models.ImportJob:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -557,8 +562,7 @@ class ImportJobsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.ImportJob]:
-        """Create or update an import job. Import jobs are automatically deleted 72 hours after
-        completion.
+        """Create or update an import job.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -592,8 +596,7 @@ class ImportJobsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.ImportJob]:
-        """Create or update an import job. Import jobs are automatically deleted 72 hours after
-        completion.
+        """Create or update an import job.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -625,8 +628,7 @@ class ImportJobsOperations:
         import_job: Union[_models.ImportJob, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ImportJob]:
-        """Create or update an import job. Import jobs are automatically deleted 72 hours after
-        completion.
+        """Create or update an import job.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -702,7 +704,7 @@ class ImportJobsOperations:
         import_job: Union[_models.ImportJobUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ImportJob]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -935,7 +937,7 @@ class ImportJobsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ImportJobsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
