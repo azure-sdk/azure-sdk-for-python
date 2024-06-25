@@ -57,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectEnvironmentTypes_Put.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2024-07-01-preview/examples/ProjectEnvironmentTypes_Put.json
 if __name__ == "__main__":
     main()
