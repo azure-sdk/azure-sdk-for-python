@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import List, Optional, TYPE_CHECKING, Union
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -37,7 +37,7 @@ class AssignmentInfo(_serialization.Model):
         "configuration": {"key": "configuration", "type": "ConfigurationInfo"},
     }
 
-    def __init__(self, *, configuration: Optional["_models.ConfigurationInfo"] = None, **kwargs):
+    def __init__(self, *, configuration: Optional["_models.ConfigurationInfo"] = None, **kwargs: Any) -> None:
         """
         :keyword configuration: Information about the configuration.
         :paramtype configuration: ~azure.mgmt.guestconfig.models.ConfigurationInfo
@@ -105,8 +105,8 @@ class AssignmentReport(_serialization.Model):
         assignment: Optional["_models.AssignmentInfo"] = None,
         vm: Optional["_models.VMInfo"] = None,
         resources: Optional[List["_models.AssignmentReportResource"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword assignment: Configuration details of the guest configuration assignment.
         :paramtype assignment: ~azure.mgmt.guestconfig.models.AssignmentInfo
@@ -169,7 +169,7 @@ class AssignmentReportDetails(_serialization.Model):
         "resources": {"key": "resources", "type": "[AssignmentReportResource]"},
     }
 
-    def __init__(self, *, resources: Optional[List["_models.AssignmentReportResource"]] = None, **kwargs):
+    def __init__(self, *, resources: Optional[List["_models.AssignmentReportResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword resources: The list of resources for which guest configuration assignment compliance
          is checked.
@@ -213,7 +213,9 @@ class AssignmentReportResource(_serialization.Model):
         "properties": {"key": "properties", "type": "object"},
     }
 
-    def __init__(self, *, reasons: Optional[List["_models.AssignmentReportResourceComplianceReason"]] = None, **kwargs):
+    def __init__(
+        self, *, reasons: Optional[List["_models.AssignmentReportResourceComplianceReason"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword reasons: Compliance reason and reason code for a resource.
         :paramtype reasons:
@@ -247,7 +249,7 @@ class AssignmentReportResourceComplianceReason(_serialization.Model):
         "code": {"key": "code", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.phrase = None
@@ -275,7 +277,7 @@ class ConfigurationInfo(_serialization.Model):
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -296,7 +298,7 @@ class ConfigurationParameter(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the configuration parameter.
         :paramtype name: str
@@ -359,7 +361,7 @@ class ConfigurationSetting(_serialization.Model):
         "configuration_mode_frequency_mins": {"key": "configurationModeFrequencyMins", "type": "float"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.configuration_mode = None
@@ -381,7 +383,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorResponseError"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorResponseError"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorResponseError"] = None, **kwargs: Any) -> None:
         """
         :keyword error:
         :paramtype error: ~azure.mgmt.guestconfig.models.ErrorResponseError
@@ -404,7 +406,7 @@ class ErrorResponseError(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -443,7 +445,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, location: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, location: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the guest configuration assignment.
         :paramtype name: str
@@ -471,27 +473,6 @@ class ProxyResource(Resource):
     :ivar type: The type of the resource.
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, location: Optional[str] = None, **kwargs):
-        """
-        :keyword name: Name of the guest configuration assignment.
-        :paramtype name: str
-        :keyword location: Region where the VM is located.
-        :paramtype location: str
-        """
-        super().__init__(name=name, location=location, **kwargs)
 
 
 class GuestConfigurationAssignment(ProxyResource):
@@ -535,8 +516,8 @@ class GuestConfigurationAssignment(ProxyResource):
         name: Optional[str] = None,
         location: Optional[str] = None,
         properties: Optional["_models.GuestConfigurationAssignmentProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the guest configuration assignment.
         :paramtype name: str
@@ -561,7 +542,7 @@ class GuestConfigurationAssignmentList(_serialization.Model):
         "value": {"key": "value", "type": "[GuestConfigurationAssignment]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.GuestConfigurationAssignment"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.GuestConfigurationAssignment"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Result of the list guest configuration assignment operation.
         :paramtype value: list[~azure.mgmt.guestconfig.models.GuestConfigurationAssignment]
@@ -636,8 +617,8 @@ class GuestConfigurationAssignmentProperties(_serialization.Model):  # pylint: d
         latest_assignment_report: Optional["_models.AssignmentReport"] = None,
         context: Optional[str] = None,
         vmss_vm_list: Optional[List["_models.VMSSVMInfo"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword guest_configuration: The guest configuration to assign.
         :paramtype guest_configuration: ~azure.mgmt.guestconfig.models.GuestConfigurationNavigation
@@ -665,7 +646,8 @@ class GuestConfigurationAssignmentProperties(_serialization.Model):  # pylint: d
 
 
 class GuestConfigurationAssignmentReport(_serialization.Model):
-    """Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more.
+    """Report for the guest configuration assignment. Report contains information such as compliance
+    status, reason, and more.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -691,8 +673,8 @@ class GuestConfigurationAssignmentReport(_serialization.Model):
     }
 
     def __init__(
-        self, *, properties: Optional["_models.GuestConfigurationAssignmentReportProperties"] = None, **kwargs
-    ):
+        self, *, properties: Optional["_models.GuestConfigurationAssignmentReportProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Properties of the guest configuration report.
         :paramtype properties:
@@ -716,7 +698,9 @@ class GuestConfigurationAssignmentReportList(_serialization.Model):
         "value": {"key": "value", "type": "[GuestConfigurationAssignmentReport]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.GuestConfigurationAssignmentReport"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.GuestConfigurationAssignmentReport"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of reports for the guest configuration. Report contains information such
          as compliance status, reason and more.
@@ -726,8 +710,9 @@ class GuestConfigurationAssignmentReportList(_serialization.Model):
         self.value = value
 
 
-class GuestConfigurationAssignmentReportProperties(_serialization.Model):
-    """Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more.
+class GuestConfigurationAssignmentReportProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """Report for the guest configuration assignment. Report contains information such as compliance
+    status, reason, and more.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -778,8 +763,8 @@ class GuestConfigurationAssignmentReportProperties(_serialization.Model):
         assignment: Optional["_models.AssignmentInfo"] = None,
         vm: Optional["_models.VMInfo"] = None,
         details: Optional["_models.AssignmentReportDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword assignment: Configuration details of the guest configuration assignment.
         :paramtype assignment: ~azure.mgmt.guestconfig.models.AssignmentInfo
@@ -800,7 +785,9 @@ class GuestConfigurationAssignmentReportProperties(_serialization.Model):
 
 
 class GuestConfigurationNavigation(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules.
+    """Guest configuration is an artifact that encapsulates DSC configuration and its dependencies.
+    The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and
+    other dependencies like modules.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -815,6 +802,9 @@ class GuestConfigurationNavigation(_serialization.Model):  # pylint: disable=too
     :ivar content_hash: Combined hash of the guest configuration package and configuration
      parameters.
     :vartype content_hash: str
+    :ivar content_managed_identity: Managed identity with storage access of the guest configuration
+     package and configuration parameters.
+    :vartype content_managed_identity: str
     :ivar assignment_type: Specifies the assignment type and execution of the configuration.
      Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. Known
      values are: "Audit", "DeployAndAutoCorrect", "ApplyAndAutoCorrect", and "ApplyAndMonitor".
@@ -846,6 +836,7 @@ class GuestConfigurationNavigation(_serialization.Model):  # pylint: disable=too
         "version": {"key": "version", "type": "str"},
         "content_uri": {"key": "contentUri", "type": "str"},
         "content_hash": {"key": "contentHash", "type": "str"},
+        "content_managed_identity": {"key": "contentManagedIdentity", "type": "str"},
         "assignment_type": {"key": "assignmentType", "type": "str"},
         "assignment_source": {"key": "assignmentSource", "type": "str"},
         "content_type": {"key": "contentType", "type": "str"},
@@ -865,11 +856,12 @@ class GuestConfigurationNavigation(_serialization.Model):  # pylint: disable=too
         version: Optional[str] = None,
         content_uri: Optional[str] = None,
         content_hash: Optional[str] = None,
+        content_managed_identity: Optional[str] = None,
         assignment_type: Optional[Union[str, "_models.AssignmentType"]] = None,
         configuration_parameter: Optional[List["_models.ConfigurationParameter"]] = None,
         configuration_protected_parameter: Optional[List["_models.ConfigurationParameter"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: Kind of the guest configuration. For example:DSC. "DSC"
         :paramtype kind: str or ~azure.mgmt.guestconfig.models.Kind
@@ -882,6 +874,9 @@ class GuestConfigurationNavigation(_serialization.Model):  # pylint: disable=too
         :keyword content_hash: Combined hash of the guest configuration package and configuration
          parameters.
         :paramtype content_hash: str
+        :keyword content_managed_identity: Managed identity with storage access of the guest
+         configuration package and configuration parameters.
+        :paramtype content_managed_identity: str
         :keyword assignment_type: Specifies the assignment type and execution of the configuration.
          Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. Known
          values are: "Audit", "DeployAndAutoCorrect", "ApplyAndAutoCorrect", and "ApplyAndMonitor".
@@ -899,6 +894,7 @@ class GuestConfigurationNavigation(_serialization.Model):  # pylint: disable=too
         self.version = version
         self.content_uri = content_uri
         self.content_hash = content_hash
+        self.content_managed_identity = content_managed_identity
         self.assignment_type = assignment_type
         self.assignment_source = None
         self.content_type = None
@@ -915,14 +911,14 @@ class Operation(_serialization.Model):
     :vartype name: str
     :ivar display: Provider, Resource, Operation and description values.
     :vartype display: ~azure.mgmt.guestconfig.models.OperationDisplay
-    :ivar status_code: Service provider: Microsoft.GuestConfiguration.
-    :vartype status_code: str
+    :ivar properties: Provider, Resource, Operation and description values.
+    :vartype properties: ~azure.mgmt.guestconfig.models.OperationProperties
     """
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "display": {"key": "display", "type": "OperationDisplay"},
-        "status_code": {"key": "properties.statusCode", "type": "str"},
+        "properties": {"key": "properties", "type": "OperationProperties"},
     }
 
     def __init__(
@@ -930,22 +926,22 @@ class Operation(_serialization.Model):
         *,
         name: Optional[str] = None,
         display: Optional["_models.OperationDisplay"] = None,
-        status_code: Optional[str] = None,
-        **kwargs
-    ):
+        properties: Optional["_models.OperationProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: For ex.
          providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/write or read.
         :paramtype name: str
         :keyword display: Provider, Resource, Operation and description values.
         :paramtype display: ~azure.mgmt.guestconfig.models.OperationDisplay
-        :keyword status_code: Service provider: Microsoft.GuestConfiguration.
-        :paramtype status_code: str
+        :keyword properties: Provider, Resource, Operation and description values.
+        :paramtype properties: ~azure.mgmt.guestconfig.models.OperationProperties
         """
         super().__init__(**kwargs)
         self.name = name
         self.display = display
-        self.status_code = status_code
+        self.properties = properties
 
 
 class OperationDisplay(_serialization.Model):
@@ -975,8 +971,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft.GuestConfiguration.
         :paramtype provider: str
@@ -1005,13 +1001,33 @@ class OperationList(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of Automation operations supported by the Automation resource provider.
         :paramtype value: list[~azure.mgmt.guestconfig.models.Operation]
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class OperationProperties(_serialization.Model):
+    """Provider, Resource, Operation and description values.
+
+    :ivar status_code: Service provider: Microsoft.GuestConfiguration.
+    :vartype status_code: str
+    """
+
+    _attribute_map = {
+        "status_code": {"key": "statusCode", "type": "str"},
+    }
+
+    def __init__(self, *, status_code: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword status_code: Service provider: Microsoft.GuestConfiguration.
+        :paramtype status_code: str
+        """
+        super().__init__(**kwargs)
+        self.status_code = status_code
 
 
 class SystemData(_serialization.Model):
@@ -1051,8 +1067,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -1099,7 +1115,7 @@ class VMInfo(_serialization.Model):
         "uuid": {"key": "uuid", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1140,7 +1156,7 @@ class VMSSVMInfo(_serialization.Model):
         "last_compliance_checked": {"key": "lastComplianceChecked", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.vm_id = None
