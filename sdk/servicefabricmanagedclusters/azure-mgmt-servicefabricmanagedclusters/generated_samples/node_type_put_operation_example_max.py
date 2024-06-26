@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.servicefabricmanagedclusters import ServiceFabricManagedClustersManagementClient
 
 """
@@ -32,7 +35,7 @@ def main():
     response = client.node_types.begin_create_or_update(
         resource_group_name="resRg",
         cluster_name="myCluster",
-        node_type_name="BE",
+        node_type_name="BE-testResourceGroup-testRegion-test",
         parameters={
             "properties": {
                 "additionalDataDisks": [
@@ -78,6 +81,7 @@ def main():
                     }
                 ],
                 "capacities": {"ClientConnections": "65536"},
+                "computerNamePrefix": "BE",
                 "dataDiskLetter": "S",
                 "dataDiskSizeGB": 200,
                 "dataDiskType": "Premium_LRS",
@@ -108,6 +112,16 @@ def main():
                 "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
                 "useDefaultPublicLoadBalancer": True,
                 "useEphemeralOSDisk": True,
+                "vmApplications": [
+                    {
+                        "configurationReference": "https://mystorageaccount.blob.core.windows.net/containername/blobname",
+                        "enableAutomaticUpgrade": True,
+                        "order": 1,
+                        "packageReferenceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Compute/galleries/myGallery/applications/myApplication/versions/1.0.0",
+                        "treatFailureAsDeploymentFailure": False,
+                        "vmGalleryTags": '{"Tag1":"Value1","Tag2":"Value2"}',
+                    }
+                ],
                 "vmExtensions": [
                     {
                         "name": "Microsoft.Azure.Geneva.GenevaMonitoring",
@@ -155,6 +169,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-12-01-preview/examples/NodeTypePutOperation_example_max.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePutOperation_example_max.json
 if __name__ == "__main__":
     main()
