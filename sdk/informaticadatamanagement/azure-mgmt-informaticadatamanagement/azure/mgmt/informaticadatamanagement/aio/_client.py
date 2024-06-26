@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
@@ -36,7 +37,7 @@ class InformaticaDataMgmtClient:  # pylint: disable=client-accepts-api-version-k
      azure.mgmt.informaticadatamanagement.aio.operations.ServerlessRuntimesOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
@@ -113,7 +114,7 @@ class InformaticaDataMgmtClient:  # pylint: disable=client-accepts-api-version-k
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "InformaticaDataMgmtClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
