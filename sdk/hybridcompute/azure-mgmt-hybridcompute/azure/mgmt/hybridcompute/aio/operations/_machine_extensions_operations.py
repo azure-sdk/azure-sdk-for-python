@@ -361,7 +361,7 @@ class MachineExtensionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MachineExtension]:
-        """The operation to create or update the extension.
+        """The operation to update the extension.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -394,7 +394,7 @@ class MachineExtensionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MachineExtension]:
-        """The operation to create or update the extension.
+        """The operation to update the extension.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -425,7 +425,7 @@ class MachineExtensionsOperations:
         extension_parameters: Union[_models.MachineExtensionUpdate, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MachineExtension]:
-        """The operation to create or update the extension.
+        """The operation to update the extension.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
