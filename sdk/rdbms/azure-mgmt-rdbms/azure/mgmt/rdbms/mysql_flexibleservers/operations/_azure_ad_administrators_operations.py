@@ -53,7 +53,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -94,7 +94,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -132,7 +132,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -166,7 +166,7 @@ def build_list_by_server_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -231,7 +231,7 @@ class AzureADAdministratorsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.AzureADAdministrator]] = kwargs.pop("cls", None)
 
@@ -382,7 +382,7 @@ class AzureADAdministratorsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AzureADAdministrator] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
@@ -444,7 +444,7 @@ class AzureADAdministratorsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
@@ -499,7 +499,7 @@ class AzureADAdministratorsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -571,7 +571,7 @@ class AzureADAdministratorsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         cls: ClsType[_models.AzureADAdministrator] = kwargs.pop("cls", None)
 
         _request = build_get_request(
@@ -625,7 +625,7 @@ class AzureADAdministratorsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         cls: ClsType[_models.AdministratorListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {

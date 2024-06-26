@@ -44,7 +44,7 @@ def build_execute_request(location_name: str, subscription_id: str, **kwargs: An
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -162,7 +162,7 @@ class CheckVirtualNetworkSubnetUsageOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.VirtualNetworkSubnetUsageResult] = kwargs.pop("cls", None)
 
