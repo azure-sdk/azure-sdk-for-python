@@ -6,9 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.privatedns import PrivateDnsManagementClient
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
@@ -29,15 +35,14 @@ def main():
         subscription_id="subscriptionId",
     )
 
-    response = client.record_sets.delete(
+    client.record_sets.delete(
         resource_group_name="resourceGroup1",
         private_zone_name="privatezone1.com",
         record_type="A",
         relative_record_set_name="recordA",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetADelete.json
+# x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetADelete.json
 if __name__ == "__main__":
     main()

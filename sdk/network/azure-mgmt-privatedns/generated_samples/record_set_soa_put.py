@@ -6,9 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.privatedns import PrivateDnsManagementClient
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
@@ -41,7 +47,7 @@ def main():
                     "email": "azureprivatedns-hostmaster.microsoft.com",
                     "expireTime": 2419200,
                     "host": "azureprivatedns.net",
-                    "minimumTTL": 300,
+                    "minimumTtl": 300,
                     "refreshTime": 3600,
                     "retryTime": 300,
                     "serialNumber": 1,
@@ -53,6 +59,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSOAPut.json
+# x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAPut.json
 if __name__ == "__main__":
     main()
