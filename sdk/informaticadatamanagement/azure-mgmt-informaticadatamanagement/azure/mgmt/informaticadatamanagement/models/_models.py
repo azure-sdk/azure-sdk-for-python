@@ -183,7 +183,6 @@ class CdiConfigProps(_model_base.Model):
 class CheckDependenciesResponse(_model_base.Model):
     """Model for the check dependencies API for an informatica serverless runtime resource.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar count: Count of dependencies. Required.
     :vartype count: int
@@ -442,7 +441,6 @@ class InfaRuntimeResourceFetchMetaData(_model_base.Model):  # pylint: disable=to
     """Informatica runtime resource metadata as received via the informatica fetch all runtime
     environments API.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: Environment name. Required.
     :vartype name: str
@@ -622,7 +620,7 @@ class InfaServerlessFetchConfigProperties(_model_base.Model):  # pylint: disable
 
 
 class Resource(_model_base.Model):
-    """Common properties for all Azure Resource Manager resources.
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
@@ -670,16 +668,16 @@ class TrackedResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.informaticadatamanagement.models.SystemData
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     """
 
-    location: str = rest_field(visibility=["read", "create"])
-    """The geo-location where the resource lives. Required."""
     tags: Optional[Dict[str, str]] = rest_field()
     """Resource tags."""
+    location: str = rest_field(visibility=["read", "create"])
+    """The geo-location where the resource lives. Required."""
 
     @overload
     def __init__(
@@ -718,15 +716,15 @@ class InformaticaOrganizationResource(TrackedResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.informaticadatamanagement.models.SystemData
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.informaticadatamanagement.models.OrganizationProperties
     """
 
-    properties: Optional["_models.OrganizationProperties"] = rest_field(visibility=["read", "create"])
+    properties: Optional["_models.OrganizationProperties"] = rest_field()
     """The resource-specific properties for this resource."""
 
     @overload
@@ -940,7 +938,8 @@ class InformaticaServerlessRuntimeProperties(_model_base.Model):  # pylint: disa
 
 
 class ProxyResource(Resource):
-    """The base proxy resource.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
@@ -979,7 +978,7 @@ class InformaticaServerlessRuntimeResource(ProxyResource):
      ~azure.mgmt.informaticadatamanagement.models.InformaticaServerlessRuntimeProperties
     """
 
-    properties: Optional["_models.InformaticaServerlessRuntimeProperties"] = rest_field(visibility=["read", "create"])
+    properties: Optional["_models.InformaticaServerlessRuntimeProperties"] = rest_field()
     """The resource-specific properties for this resource."""
 
     @overload
@@ -1003,7 +1002,6 @@ class InformaticaServerlessRuntimeResource(ProxyResource):
 class InformaticaServerlessRuntimeResourceList(_model_base.Model):
     """A list of serverless runtime resources as fetched using the informatica APIs.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar informatica_runtime_resources: List of runtime resources for the fetch all API. Required.
     :vartype informatica_runtime_resources:
@@ -1097,14 +1095,14 @@ class MarketplaceDetails(_model_base.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar marketplace_subscription_id: Marketplace Subscription Id. Required.
+    :ivar marketplace_subscription_id: Marketplace Subscription Id.
     :vartype marketplace_subscription_id: str
     :ivar offer_details: Marketplace offer details. Required.
     :vartype offer_details: ~azure.mgmt.informaticadatamanagement.models.OfferDetails
     """
 
-    marketplace_subscription_id: str = rest_field(name="marketplaceSubscriptionId")
-    """Marketplace Subscription Id. Required."""
+    marketplace_subscription_id: Optional[str] = rest_field(name="marketplaceSubscriptionId")
+    """Marketplace Subscription Id."""
     offer_details: "_models.OfferDetails" = rest_field(name="offerDetails")
     """Marketplace offer details. Required."""
 
@@ -1112,8 +1110,8 @@ class MarketplaceDetails(_model_base.Model):
     def __init__(
         self,
         *,
-        marketplace_subscription_id: str,
         offer_details: "_models.OfferDetails",
+        marketplace_subscription_id: Optional[str] = None,
     ): ...
 
     @overload
@@ -1763,7 +1761,6 @@ class ServerlessRuntimeConfigPropertiesUpdate(_model_base.Model):
 class ServerlessRuntimeDependency(_model_base.Model):
     """Dependency reference for a serverless runtime resource.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: Dependency ID. Required.
     :vartype id: str
@@ -2075,15 +2072,13 @@ class ServerlessRuntimeUserContextPropertiesUpdate(_model_base.Model):  # pylint
 class SystemData(_model_base.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar created_by: The identity that created the resource.
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
     :vartype created_by_type: str or ~azure.mgmt.informaticadatamanagement.models.CreatedByType
-    :ivar created_at: The type of identity that created the resource.
-    :vartype created_at: ~datetime.date
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
@@ -2091,27 +2086,45 @@ class SystemData(_model_base.Model):
     :vartype last_modified_by_type: str or
      ~azure.mgmt.informaticadatamanagement.models.CreatedByType
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.date
+    :vartype last_modified_at: ~datetime.datetime
     """
 
-    created_by: Optional[str] = rest_field(name="createdBy", visibility=["read"])
+    created_by: Optional[str] = rest_field(name="createdBy")
     """The identity that created the resource."""
-    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
-        name="createdByType", visibility=["read"]
-    )
+    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="createdByType")
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    created_at: Optional[datetime.date] = rest_field(name="createdAt", visibility=["read"])
-    """The type of identity that created the resource."""
-    last_modified_by: Optional[str] = rest_field(name="lastModifiedBy", visibility=["read"])
+    created_at: Optional[datetime.datetime] = rest_field(name="createdAt", format="rfc3339")
+    """The timestamp of resource creation (UTC)."""
+    last_modified_by: Optional[str] = rest_field(name="lastModifiedBy")
     """The identity that last modified the resource."""
-    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
-        name="lastModifiedByType", visibility=["read"]
-    )
+    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="lastModifiedByType")
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    last_modified_at: Optional[datetime.date] = rest_field(name="lastModifiedAt", visibility=["read"])
+    last_modified_at: Optional[datetime.datetime] = rest_field(name="lastModifiedAt", format="rfc3339")
     """The timestamp of resource last modification (UTC)."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
 
 
 class UserDetails(_model_base.Model):
