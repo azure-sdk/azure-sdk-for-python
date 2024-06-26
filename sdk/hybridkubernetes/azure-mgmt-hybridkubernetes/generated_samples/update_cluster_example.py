@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.hybridkubernetes import ConnectedKubernetesClient
@@ -15,7 +17,7 @@ from azure.mgmt.hybridkubernetes import ConnectedKubernetesClient
     pip install azure-identity
     pip install azure-mgmt-hybridkubernetes
 # USAGE
-    python list_connected_cluster_operations_example.py
+    python update_cluster_example.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,14 +29,20 @@ from azure.mgmt.hybridkubernetes import ConnectedKubernetesClient
 def main():
     client = ConnectedKubernetesClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="1bfbb5d0-917e-4346-9026-1d3b344417f5",
     )
 
-    response = client.operations.get()
-    for item in response:
-        print(item)
+    response = client.connected_cluster.update(
+        resource_group_name="k8sc-rg",
+        cluster_name="testCluster",
+        connected_cluster_patch={
+            "properties": {"azureHybridBenefit": "NotApplicable", "distribution": "AKS", "distributionVersion": "1.0"},
+            "tags": {"tag1": "value1", "tag2": "value2"},
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-06-01-preview/examples/ListConnectedClusterOperationsExample.json
+# x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-06-01-preview/examples/UpdateClusterExample.json
 if __name__ == "__main__":
     main()
