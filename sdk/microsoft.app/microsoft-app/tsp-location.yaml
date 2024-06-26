@@ -1,0 +1,4 @@
+directory: specification/app/Microsoft.App
+commit: ae0a4ea4f2ba1e873eec72fb2009732c9a0ac578
+repo: Azure/azure-rest-api-specs
+additionalDirectories:
