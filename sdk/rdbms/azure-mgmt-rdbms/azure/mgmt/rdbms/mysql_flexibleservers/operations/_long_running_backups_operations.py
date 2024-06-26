@@ -46,7 +46,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -78,7 +78,7 @@ def build_list_request(resource_group_name: str, server_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -152,7 +152,7 @@ class LongRunningBackupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         cls: ClsType[_models.ServerBackupV2] = kwargs.pop("cls", None)
 
         _request = build_get_request(
@@ -203,7 +203,7 @@ class LongRunningBackupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-12-30"))
         cls: ClsType[_models.ServerBackupV2ListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
