@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -30,6 +31,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -53,11 +58,18 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -79,7 +91,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -89,11 +101,18 @@ def build_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -115,7 +134,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -124,11 +143,18 @@ def build_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -146,7 +172,7 @@ def build_get_request(resource_group_name: str, account_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -155,11 +181,18 @@ def build_get_request(resource_group_name: str, account_name: str, subscription_
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -177,7 +210,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -186,7 +219,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -207,13 +240,13 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.Maps/accounts")
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -233,7 +266,7 @@ def build_list_sas_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -243,11 +276,18 @@ def build_list_sas_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -269,7 +309,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -278,11 +318,18 @@ def build_list_keys_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -302,7 +349,7 @@ def build_regenerate_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -312,11 +359,18 @@ def build_regenerate_keys_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -374,7 +428,6 @@ class AccountsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -385,7 +438,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        maps_account: IO,
+        maps_account: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -399,11 +452,10 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param maps_account: The new or updated parameters for the Maps Account. Required.
-        :type maps_account: IO
+        :type maps_account: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -411,7 +463,11 @@ class AccountsOperations:
 
     @distributed_trace
     def create_or_update(
-        self, resource_group_name: str, account_name: str, maps_account: Union[_models.MapsAccount, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        account_name: str,
+        maps_account: Union[_models.MapsAccount, IO[bytes]],
+        **kwargs: Any
     ) -> _models.MapsAccount:
         """Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps
         REST APIs.
@@ -422,17 +478,13 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param maps_account: The new or updated parameters for the Maps Account. Is either a
-         MapsAccount type or a IO type. Required.
-        :type maps_account: ~azure.mgmt.maps.models.MapsAccount or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         MapsAccount type or a IO[bytes] type. Required.
+        :type maps_account: ~azure.mgmt.maps.models.MapsAccount or IO[bytes]
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -455,7 +507,7 @@ class AccountsOperations:
         else:
             _json = self._serialize.body(maps_account, "MapsAccount")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -463,16 +515,15 @@ class AccountsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -492,10 +543,6 @@ class AccountsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}"
-    }
 
     @overload
     def update(
@@ -520,7 +567,6 @@ class AccountsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -531,7 +577,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        maps_account_update_parameters: IO,
+        maps_account_update_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -545,11 +591,10 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param maps_account_update_parameters: The updated parameters for the Maps Account. Required.
-        :type maps_account_update_parameters: IO
+        :type maps_account_update_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -560,7 +605,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        maps_account_update_parameters: Union[_models.MapsAccountUpdateParameters, IO],
+        maps_account_update_parameters: Union[_models.MapsAccountUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.MapsAccount:
         """Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as
@@ -572,17 +617,14 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param maps_account_update_parameters: The updated parameters for the Maps Account. Is either a
-         MapsAccountUpdateParameters type or a IO type. Required.
-        :type maps_account_update_parameters: ~azure.mgmt.maps.models.MapsAccountUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         MapsAccountUpdateParameters type or a IO[bytes] type. Required.
+        :type maps_account_update_parameters: ~azure.mgmt.maps.models.MapsAccountUpdateParameters or
+         IO[bytes]
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -605,7 +647,7 @@ class AccountsOperations:
         else:
             _json = self._serialize.body(maps_account_update_parameters, "MapsAccountUpdateParameters")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -613,16 +655,15 @@ class AccountsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -635,13 +676,9 @@ class AccountsOperations:
         deserialized = self._deserialize("MapsAccount", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -654,12 +691,11 @@ class AccountsOperations:
         :type resource_group_name: str
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -673,21 +709,20 @@ class AccountsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -698,11 +733,7 @@ class AccountsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def get(self, resource_group_name: str, account_name: str, **kwargs: Any) -> _models.MapsAccount:
@@ -713,12 +744,11 @@ class AccountsOperations:
         :type resource_group_name: str
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccount or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccount
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -732,21 +762,20 @@ class AccountsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MapsAccount] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -759,13 +788,9 @@ class AccountsOperations:
         deserialized = self._deserialize("MapsAccount", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.MapsAccount"]:
@@ -774,7 +799,6 @@ class AccountsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MapsAccount or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.maps.models.MapsAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -785,7 +809,7 @@ class AccountsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MapsAccounts] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -796,16 +820,15 @@ class AccountsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -817,13 +840,13 @@ class AccountsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MapsAccounts", pipeline_response)
@@ -833,11 +856,11 @@ class AccountsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -849,16 +872,11 @@ class AccountsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts"
-    }
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.MapsAccount"]:
         """Get all Maps Accounts in a Subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MapsAccount or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.maps.models.MapsAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -869,7 +887,7 @@ class AccountsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MapsAccounts] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -880,15 +898,14 @@ class AccountsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -900,13 +917,13 @@ class AccountsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MapsAccounts", pipeline_response)
@@ -916,11 +933,11 @@ class AccountsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -932,8 +949,6 @@ class AccountsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Maps/accounts"}
 
     @overload
     def list_sas(
@@ -953,7 +968,7 @@ class AccountsOperations:
 
         #. Create or have an existing User Assigned Managed Identity in the same Azure region as the
         account.
-        #. Create or update an Azure Map account with the same Azure region as the User Assigned
+        #. Create or update an Azure Maps account with the same Azure region as the User Assigned
         Managed Identity is placed.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -966,7 +981,6 @@ class AccountsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccountSasToken or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountSasToken
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -977,7 +991,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        maps_account_sas_parameters: IO,
+        maps_account_sas_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -990,7 +1004,7 @@ class AccountsOperations:
 
         #. Create or have an existing User Assigned Managed Identity in the same Azure region as the
         account.
-        #. Create or update an Azure Map account with the same Azure region as the User Assigned
+        #. Create or update an Azure Maps account with the same Azure region as the User Assigned
         Managed Identity is placed.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -999,11 +1013,10 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param maps_account_sas_parameters: The updated parameters for the Maps Account. Required.
-        :type maps_account_sas_parameters: IO
+        :type maps_account_sas_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccountSasToken or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountSasToken
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1014,7 +1027,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        maps_account_sas_parameters: Union[_models.AccountSasParameters, IO],
+        maps_account_sas_parameters: Union[_models.AccountSasParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.MapsAccountSasToken:
         """Create and list an account shared access signature token. Use this SAS token for authentication
@@ -1025,7 +1038,7 @@ class AccountsOperations:
 
         #. Create or have an existing User Assigned Managed Identity in the same Azure region as the
         account.
-        #. Create or update an Azure Map account with the same Azure region as the User Assigned
+        #. Create or update an Azure Maps account with the same Azure region as the User Assigned
         Managed Identity is placed.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1034,17 +1047,13 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param maps_account_sas_parameters: The updated parameters for the Maps Account. Is either a
-         AccountSasParameters type or a IO type. Required.
-        :type maps_account_sas_parameters: ~azure.mgmt.maps.models.AccountSasParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         AccountSasParameters type or a IO[bytes] type. Required.
+        :type maps_account_sas_parameters: ~azure.mgmt.maps.models.AccountSasParameters or IO[bytes]
         :return: MapsAccountSasToken or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountSasToken
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1067,7 +1076,7 @@ class AccountsOperations:
         else:
             _json = self._serialize.body(maps_account_sas_parameters, "AccountSasParameters")
 
-        request = build_list_sas_request(
+        _request = build_list_sas_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -1075,16 +1084,15 @@ class AccountsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_sas.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1097,13 +1105,9 @@ class AccountsOperations:
         deserialized = self._deserialize("MapsAccountSasToken", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_sas.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_keys(self, resource_group_name: str, account_name: str, **kwargs: Any) -> _models.MapsAccountKeys:
@@ -1116,12 +1120,11 @@ class AccountsOperations:
         :type resource_group_name: str
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccountKeys or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountKeys
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1135,21 +1138,20 @@ class AccountsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MapsAccountKeys] = kwargs.pop("cls", None)
 
-        request = build_list_keys_request(
+        _request = build_list_keys_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_keys.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1162,13 +1164,9 @@ class AccountsOperations:
         deserialized = self._deserialize("MapsAccountKeys", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_keys.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def regenerate_keys(
@@ -1193,7 +1191,6 @@ class AccountsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccountKeys or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountKeys
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1204,7 +1201,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        key_specification: IO,
+        key_specification: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1218,11 +1215,10 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param key_specification: Which key to regenerate:  primary or secondary. Required.
-        :type key_specification: IO
+        :type key_specification: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MapsAccountKeys or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountKeys
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1233,7 +1229,7 @@ class AccountsOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        key_specification: Union[_models.MapsKeySpecification, IO],
+        key_specification: Union[_models.MapsKeySpecification, IO[bytes]],
         **kwargs: Any
     ) -> _models.MapsAccountKeys:
         """Regenerate either the primary or secondary key for use with the Maps APIs. The old key will
@@ -1245,17 +1241,13 @@ class AccountsOperations:
         :param account_name: The name of the Maps Account. Required.
         :type account_name: str
         :param key_specification: Which key to regenerate:  primary or secondary. Is either a
-         MapsKeySpecification type or a IO type. Required.
-        :type key_specification: ~azure.mgmt.maps.models.MapsKeySpecification or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         MapsKeySpecification type or a IO[bytes] type. Required.
+        :type key_specification: ~azure.mgmt.maps.models.MapsKeySpecification or IO[bytes]
         :return: MapsAccountKeys or the result of cls(response)
         :rtype: ~azure.mgmt.maps.models.MapsAccountKeys
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1278,7 +1270,7 @@ class AccountsOperations:
         else:
             _json = self._serialize.body(key_specification, "MapsKeySpecification")
 
-        request = build_regenerate_keys_request(
+        _request = build_regenerate_keys_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
@@ -1286,16 +1278,15 @@ class AccountsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.regenerate_keys.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1308,10 +1299,6 @@ class AccountsOperations:
         deserialized = self._deserialize("MapsAccountKeys", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    regenerate_keys.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey"
-    }
+        return deserialized  # type: ignore

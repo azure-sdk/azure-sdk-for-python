@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.maps import AzureMapsManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.maps import AzureMapsManagementClient
     pip install azure-identity
     pip install azure-mgmt-maps
 # USAGE
-    python list_maps_creators_by_account.py
+    python private_endpoint_connections_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +32,17 @@ def main():
         subscription_id="21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
     )
 
-    response = client.creators.list_by_account(
+    response = client.private_endpoint_connections.begin_create(
         resource_group_name="myResourceGroup",
         account_name="myMapsAccount",
-    )
-    for item in response:
-        print(item)
+        private_endpoint_connection_name="privateEndpointConnectionName",
+        properties={
+            "properties": {"privateLinkServiceConnectionState": {"description": "Auto-Approved", "status": "Approved"}}
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-01-01-preview/examples/ListMapsCreatorsByAccount.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-01-01-preview/examples/PrivateEndpointConnections_Create.json
 if __name__ == "__main__":
     main()

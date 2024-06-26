@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.maps import AzureMapsManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.maps import AzureMapsManagementClient
     pip install azure-identity
     pip install azure-mgmt-maps
 # USAGE
-    python update_account_gen1.py
+    python private_endpoint_connections_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +30,13 @@ def main():
         subscription_id="21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
     )
 
-    response = client.accounts.update(
+    client.private_endpoint_connections.begin_delete(
         resource_group_name="myResourceGroup",
         account_name="myMapsAccount",
-        maps_account_update_parameters={"kind": "Gen1", "sku": {"name": "S1"}},
-    )
-    print(response)
+        private_endpoint_connection_name="privateEndpointConnectionName",
+    ).result()
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountGen1.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-01-01-preview/examples/PrivateEndpointConnections_Delete.json
 if __name__ == "__main__":
     main()

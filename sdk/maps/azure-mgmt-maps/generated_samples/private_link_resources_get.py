@@ -15,7 +15,7 @@ from azure.mgmt.maps import AzureMapsManagementClient
     pip install azure-identity
     pip install azure-mgmt-maps
 # USAGE
-    python list_maps_creators_by_account.py
+    python private_link_resources_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,14 @@ def main():
         subscription_id="21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
     )
 
-    response = client.creators.list_by_account(
+    response = client.private_link_resources.get(
         resource_group_name="myResourceGroup",
         account_name="myMapsAccount",
+        private_link_resource_name="mapsAccount",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-01-01-preview/examples/ListMapsCreatorsByAccount.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-01-01-preview/examples/PrivateLinkResources_Get.json
 if __name__ == "__main__":
     main()

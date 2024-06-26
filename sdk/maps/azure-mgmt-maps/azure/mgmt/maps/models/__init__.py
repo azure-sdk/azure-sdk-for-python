@@ -13,14 +13,14 @@ from ._models_py3 import Creator
 from ._models_py3 import CreatorList
 from ._models_py3 import CreatorProperties
 from ._models_py3 import CreatorUpdateParameters
-from ._models_py3 import CustomerManagedKeyEncryption
-from ._models_py3 import CustomerManagedKeyEncryptionKeyIdentity
-from ._models_py3 import Dimension
 from ._models_py3 import Encryption
+from ._models_py3 import EncryptionCustomerManagedKeyEncryption
+from ._models_py3 import EncryptionCustomerManagedKeyEncryptionKeyIdentity
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import LinkedResource
+from ._models_py3 import LocationsItem
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import MapsAccount
 from ._models_py3 import MapsAccountKeys
@@ -29,24 +29,33 @@ from ._models_py3 import MapsAccountSasToken
 from ._models_py3 import MapsAccountUpdateParameters
 from ._models_py3 import MapsAccounts
 from ._models_py3 import MapsKeySpecification
-from ._models_py3 import MapsOperations
-from ._models_py3 import MetricSpecification
-from ._models_py3 import OperationDetail
+from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
+from ._models_py3 import OperationListResult
+from ._models_py3 import PrivateEndpoint
+from ._models_py3 import PrivateEndpointConnection
+from ._models_py3 import PrivateEndpointConnectionList
+from ._models_py3 import PrivateLinkResource
+from ._models_py3 import PrivateLinkResourceList
+from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import Resource
-from ._models_py3 import ServiceSpecification
 from ._models_py3 import Sku
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
 
+from ._azure_maps_management_client_enums import ActionType
 from ._azure_maps_management_client_enums import CreatedByType
-from ._azure_maps_management_client_enums import IdentityType
+from ._azure_maps_management_client_enums import EncryptionCustomerManagedKeyEncryptionKeyIdentityType
 from ._azure_maps_management_client_enums import InfrastructureEncryption
 from ._azure_maps_management_client_enums import KeyType
 from ._azure_maps_management_client_enums import Kind
 from ._azure_maps_management_client_enums import ManagedServiceIdentityType
 from ._azure_maps_management_client_enums import Name
+from ._azure_maps_management_client_enums import Origin
+from ._azure_maps_management_client_enums import PrivateEndpointConnectionProvisioningState
+from ._azure_maps_management_client_enums import PrivateEndpointServiceConnectionStatus
+from ._azure_maps_management_client_enums import PublicNetworkAccess
 from ._azure_maps_management_client_enums import SigningKey
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -60,14 +69,14 @@ __all__ = [
     "CreatorList",
     "CreatorProperties",
     "CreatorUpdateParameters",
-    "CustomerManagedKeyEncryption",
-    "CustomerManagedKeyEncryptionKeyIdentity",
-    "Dimension",
     "Encryption",
+    "EncryptionCustomerManagedKeyEncryption",
+    "EncryptionCustomerManagedKeyEncryptionKeyIdentity",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
     "LinkedResource",
+    "LocationsItem",
     "ManagedServiceIdentity",
     "MapsAccount",
     "MapsAccountKeys",
@@ -76,23 +85,32 @@ __all__ = [
     "MapsAccountUpdateParameters",
     "MapsAccounts",
     "MapsKeySpecification",
-    "MapsOperations",
-    "MetricSpecification",
-    "OperationDetail",
+    "Operation",
     "OperationDisplay",
+    "OperationListResult",
+    "PrivateEndpoint",
+    "PrivateEndpointConnection",
+    "PrivateEndpointConnectionList",
+    "PrivateLinkResource",
+    "PrivateLinkResourceList",
+    "PrivateLinkServiceConnectionState",
     "Resource",
-    "ServiceSpecification",
     "Sku",
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
+    "ActionType",
     "CreatedByType",
-    "IdentityType",
+    "EncryptionCustomerManagedKeyEncryptionKeyIdentityType",
     "InfrastructureEncryption",
     "KeyType",
     "Kind",
     "ManagedServiceIdentityType",
     "Name",
+    "Origin",
+    "PrivateEndpointConnectionProvisioningState",
+    "PrivateEndpointServiceConnectionStatus",
+    "PublicNetworkAccess",
     "SigningKey",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
