@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.containerinstance import ContainerInstanceManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.containerinstance import ContainerInstanceManagementClient
     pip install azure-identity
     pip install azure-mgmt-containerinstance
 # USAGE
-    python container_groups_get_succeeded.py
+    python container_groups_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +32,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.container_groups.get(
-        resource_group_name="demo",
+    response = client.container_groups.update(
+        resource_group_name="demoResource",
         container_group_name="demo1",
+        resource={"tags": {"tag1key": "tag1Value", "tag2key": "tag2Value"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupsGet_Succeeded.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupsUpdate.json
 if __name__ == "__main__":
     main()

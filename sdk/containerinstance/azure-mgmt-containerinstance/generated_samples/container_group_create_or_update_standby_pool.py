@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.containerinstance import ContainerInstanceManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.containerinstance import ContainerInstanceManagementClient
     pip install azure-identity
     pip install azure-mgmt-containerinstance
 # USAGE
-    python container_groups_get_succeeded.py
+    python container_group_create_or_update_standby_pool.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +32,26 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.container_groups.get(
+    response = client.container_groups.begin_create_or_update(
         resource_group_name="demo",
         container_group_name="demo1",
-    )
+        container_group={
+            "location": "west us",
+            "properties": {
+                "containerGroupProfile": {
+                    "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroupProfiles/democgp",
+                    "revision": 1,
+                },
+                "containers": [{"name": "demo1", "properties": {"configMap": {"keyValuePairs": {"Newkey": "value"}}}}],
+                "standbyPoolProfile": {
+                    "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.StandbyPool/standbyContainerGroupPools/demopool"
+                },
+            },
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupsGet_Succeeded.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupCreateOrUpdateStandbyPool.json
 if __name__ == "__main__":
     main()
