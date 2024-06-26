@@ -17,7 +17,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python create_or_update_prometheus_rule_group.py
+    python create_or_update_cluster_centric_rule_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -39,26 +39,11 @@ def main():
             "location": "East US",
             "properties": {
                 "clusterName": "myClusterName",
-                "description": "This is the description of the following rule group",
-                "enabled": True,
+                "description": "This is a rule group with culster centric configuration",
                 "interval": "PT10M",
                 "rules": [
                     {
-                        "expression": 'histogram_quantile(0.99, sum(rate(jobs_duration_seconds_bucket{service="billing-processing"}[5m])) by (job_type))',
-                        "labels": {"team": "prod"},
-                        "record": "job_type:billing_jobs_duration_seconds:99p5m",
-                    },
-                    {
-                        "actions": [
-                            {
-                                "actionGroupId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/myrg/providers/microsoft.insights/actiongroups/myactiongroup",
-                                "actionProperties": {"key11": "value11", "key12": "value12"},
-                            },
-                            {
-                                "actionGroupId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/myrg/providers/microsoft.insights/actiongroups/myotheractiongroup",
-                                "actionProperties": {"key21": "value21", "key22": "value22"},
-                            },
-                        ],
+                        "actions": [],
                         "alert": "Billing_Processing_Very_Slow",
                         "annotations": {"annotationName1": "annotationValue1"},
                         "enabled": True,
@@ -67,10 +52,11 @@ def main():
                         "labels": {"team": "prod"},
                         "resolveConfiguration": {"autoResolved": True, "timeToResolve": "PT10M"},
                         "severity": 2,
-                    },
+                    }
                 ],
                 "scopes": [
-                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace"
+                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace",
+                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroup/providers/Microsoft.ContainerService/managedClusters/myClusterName",
                 ],
             },
         },
@@ -78,6 +64,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2023-03-01/examples/createOrUpdatePrometheusRuleGroup.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2023-03-01/examples/createOrUpdateClusterCentricRuleGroup.json
 if __name__ == "__main__":
     main()
