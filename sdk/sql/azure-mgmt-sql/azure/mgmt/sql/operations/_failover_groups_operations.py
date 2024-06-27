@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -31,6 +32,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -44,7 +49,7 @@ def build_list_by_server_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -75,7 +80,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -107,7 +112,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -141,7 +146,7 @@ def build_delete_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -168,7 +173,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -203,7 +208,7 @@ def build_failover_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -235,7 +240,7 @@ def build_force_failover_allow_data_loss_request(  # pylint: disable=name-too-lo
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -267,7 +272,7 @@ def build_try_planned_before_forced_failover_request(  # pylint: disable=name-to
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -330,10 +335,10 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[_models.FailoverGroupListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -403,7 +408,7 @@ class FailoverGroupsOperations:
         :rtype: ~azure.mgmt.sql.models.FailoverGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -414,7 +419,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[_models.FailoverGroup] = kwargs.pop("cls", None)
 
         _request = build_get_request(
@@ -455,7 +460,7 @@ class FailoverGroupsOperations:
         parameters: Union[_models.FailoverGroup, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.FailoverGroup]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -466,7 +471,7 @@ class FailoverGroupsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.FailoverGroup]] = kwargs.pop("cls", None)
 
@@ -607,7 +612,7 @@ class FailoverGroupsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.FailoverGroup] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
@@ -654,7 +659,7 @@ class FailoverGroupsOperations:
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, server_name: str, failover_group_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -665,7 +670,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
@@ -714,7 +719,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -759,7 +764,7 @@ class FailoverGroupsOperations:
         parameters: Union[_models.FailoverGroupUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.FailoverGroup]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -770,7 +775,7 @@ class FailoverGroupsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.FailoverGroup]] = kwargs.pop("cls", None)
 
@@ -908,7 +913,7 @@ class FailoverGroupsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.FailoverGroup] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
@@ -955,7 +960,7 @@ class FailoverGroupsOperations:
     def _failover_initial(
         self, resource_group_name: str, server_name: str, failover_group_name: str, **kwargs: Any
     ) -> Optional[_models.FailoverGroup]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -966,7 +971,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[Optional[_models.FailoverGroup]] = kwargs.pop("cls", None)
 
         _request = build_failover_request(
@@ -1022,7 +1027,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[_models.FailoverGroup] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1066,7 +1071,7 @@ class FailoverGroupsOperations:
     def _force_failover_allow_data_loss_initial(
         self, resource_group_name: str, server_name: str, failover_group_name: str, **kwargs: Any
     ) -> Optional[_models.FailoverGroup]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1077,7 +1082,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[Optional[_models.FailoverGroup]] = kwargs.pop("cls", None)
 
         _request = build_force_failover_allow_data_loss_request(
@@ -1134,7 +1139,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[_models.FailoverGroup] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1178,7 +1183,7 @@ class FailoverGroupsOperations:
     def _try_planned_before_forced_failover_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, server_name: str, failover_group_name: str, **kwargs: Any
     ) -> Optional[_models.FailoverGroup]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1189,7 +1194,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[Optional[_models.FailoverGroup]] = kwargs.pop("cls", None)
 
         _request = build_try_planned_before_forced_failover_request(
@@ -1250,7 +1255,7 @@ class FailoverGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
         cls: ClsType[_models.FailoverGroup] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)

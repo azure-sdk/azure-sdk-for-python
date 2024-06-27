@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Literal, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Literal, Optional, Type, TypeVar, Union, overload
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -30,6 +31,10 @@ from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._data_masking_rules_operations import build_create_or_update_request, build_list_by_database_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -149,7 +154,7 @@ class DataMaskingRulesOperations:
         :rtype: ~azure.mgmt.sql.models.DataMaskingRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -236,7 +241,7 @@ class DataMaskingRulesOperations:
         data_masking_policy_name: Literal["Default"] = kwargs.pop("data_masking_policy_name", "Default")
         cls: ClsType[_models.DataMaskingRuleListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
