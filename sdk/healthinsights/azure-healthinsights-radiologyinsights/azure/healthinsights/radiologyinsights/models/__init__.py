@@ -8,6 +8,7 @@
 
 from ._models import AgeMismatchInference
 from ._models import Annotation
+from ._models import AssessmentValueRange
 from ._models import CodeableConcept
 from ._models import Coding
 from ._models import CompleteOrderDiscrepancyInference
@@ -22,7 +23,6 @@ from ._models import DocumentAuthor
 from ._models import DocumentContent
 from ._models import DomainResource
 from ._models import Element
-from ._models import Encounter
 from ._models import Error
 from ._models import Extension
 from ._models import FindingInference
@@ -31,7 +31,9 @@ from ._models import FollowupCommunicationInference
 from ._models import FollowupRecommendationInference
 from ._models import FollowupRecommendationOptions
 from ._models import GenericProcedureRecommendation
-from ._models import HealthInsightsOperationStatus
+from ._models import GuidanceInference
+from ._models import GuidanceOptions
+from ._models import HealthInsightsErrorResponse
 from ._models import Identifier
 from ._models import ImagingProcedure
 from ._models import ImagingProcedureRecommendation
@@ -46,18 +48,22 @@ from ._models import ObservationReferenceRange
 from ._models import OrderedProcedure
 from ._models import PatientDetails
 from ._models import PatientDocument
+from ._models import PatientEncounter
 from ._models import PatientRecord
 from ._models import Period
+from ._models import PresentGuidanceInformation
 from ._models import ProcedureRecommendation
+from ._models import QualityMeasureInference
+from ._models import QualityMeasureOptions
 from ._models import Quantity
 from ._models import RadiologyCodeWithTypes
 from ._models import RadiologyInsightsData
 from ._models import RadiologyInsightsInference
 from ._models import RadiologyInsightsInferenceOptions
 from ._models import RadiologyInsightsInferenceResult
+from ._models import RadiologyInsightsJob
 from ._models import RadiologyInsightsModelConfiguration
 from ._models import RadiologyInsightsPatientResult
-from ._models import RadiologyInsightsResult
 from ._models import RadiologyProcedureInference
 from ._models import Range
 from ._models import Ratio
@@ -68,6 +74,7 @@ from ._models import ResearchStudyArm
 from ._models import ResearchStudyObjective
 from ._models import Resource
 from ._models import SampledData
+from ._models import ScoringAndAssessmentInference
 from ._models import SexMismatchInference
 from ._models import TimePeriod
 
@@ -77,15 +84,18 @@ from ._enums import ContactPointUse
 from ._enums import DocumentContentSourceType
 from ._enums import DocumentType
 from ._enums import EncounterClass
+from ._enums import GuidanceRankingType
 from ._enums import JobStatus
 from ._enums import LateralityDiscrepancyType
 from ._enums import MedicalProfessionalType
 from ._enums import ObservationStatusCodeType
 from ._enums import PatientSex
+from ._enums import QualityMeasureComplianceType
+from ._enums import QualityMeasureType
 from ._enums import RadiologyInsightsInferenceType
 from ._enums import RecommendationFindingStatusType
-from ._enums import RepeatabilityResult
 from ._enums import ResearchStudyStatusCodeType
+from ._enums import ScoringAndAssessmentCategoryType
 from ._enums import SpecialtyType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -94,6 +104,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "AgeMismatchInference",
     "Annotation",
+    "AssessmentValueRange",
     "CodeableConcept",
     "Coding",
     "CompleteOrderDiscrepancyInference",
@@ -108,7 +119,6 @@ __all__ = [
     "DocumentContent",
     "DomainResource",
     "Element",
-    "Encounter",
     "Error",
     "Extension",
     "FindingInference",
@@ -117,7 +127,9 @@ __all__ = [
     "FollowupRecommendationInference",
     "FollowupRecommendationOptions",
     "GenericProcedureRecommendation",
-    "HealthInsightsOperationStatus",
+    "GuidanceInference",
+    "GuidanceOptions",
+    "HealthInsightsErrorResponse",
     "Identifier",
     "ImagingProcedure",
     "ImagingProcedureRecommendation",
@@ -132,18 +144,22 @@ __all__ = [
     "OrderedProcedure",
     "PatientDetails",
     "PatientDocument",
+    "PatientEncounter",
     "PatientRecord",
     "Period",
+    "PresentGuidanceInformation",
     "ProcedureRecommendation",
+    "QualityMeasureInference",
+    "QualityMeasureOptions",
     "Quantity",
     "RadiologyCodeWithTypes",
     "RadiologyInsightsData",
     "RadiologyInsightsInference",
     "RadiologyInsightsInferenceOptions",
     "RadiologyInsightsInferenceResult",
+    "RadiologyInsightsJob",
     "RadiologyInsightsModelConfiguration",
     "RadiologyInsightsPatientResult",
-    "RadiologyInsightsResult",
     "RadiologyProcedureInference",
     "Range",
     "Ratio",
@@ -154,6 +170,7 @@ __all__ = [
     "ResearchStudyObjective",
     "Resource",
     "SampledData",
+    "ScoringAndAssessmentInference",
     "SexMismatchInference",
     "TimePeriod",
     "ClinicalDocumentType",
@@ -162,15 +179,18 @@ __all__ = [
     "DocumentContentSourceType",
     "DocumentType",
     "EncounterClass",
+    "GuidanceRankingType",
     "JobStatus",
     "LateralityDiscrepancyType",
     "MedicalProfessionalType",
     "ObservationStatusCodeType",
     "PatientSex",
+    "QualityMeasureComplianceType",
+    "QualityMeasureType",
     "RadiologyInsightsInferenceType",
     "RecommendationFindingStatusType",
-    "RepeatabilityResult",
     "ResearchStudyStatusCodeType",
+    "ScoringAndAssessmentCategoryType",
     "SpecialtyType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
