@@ -964,6 +964,7 @@ class SqlServerAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     SQL = "SQL"
     WINDOWS = "Windows"
+    USER_ASSIGNED_MANAGED_IDENTITY = "UserAssignedManagedIdentity"
 
 
 class SqlWriteBehaviorEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
