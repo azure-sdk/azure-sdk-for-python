@@ -6,15 +6,21 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.portal import Portal
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-portal
 # USAGE
-    python list_the_portal_operations.py
+    python create_or_update_tenant_configuration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +35,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.tenant_configurations.create(
+        configuration_name="default",
+        tenant_configuration={"properties": {"enforcePrivateMarkdownStorage": True}},
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/operationsList.json
+# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2022-12-01-preview/examples/TenantConfiguration/CreateOrUpdateTenantConfiguration.json
 if __name__ == "__main__":
     main()

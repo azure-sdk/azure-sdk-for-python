@@ -29,7 +29,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -50,7 +50,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -59,12 +59,13 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -73,22 +74,6 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-
 
 class Configuration(ProxyResource):
     """Tenant configuration.
@@ -96,7 +81,7 @@ class Configuration(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -121,7 +106,7 @@ class Configuration(ProxyResource):
         "enforce_private_markdown_storage": {"key": "properties.enforcePrivateMarkdownStorage", "type": "bool"},
     }
 
-    def __init__(self, *, enforce_private_markdown_storage: Optional[bool] = None, **kwargs):
+    def __init__(self, *, enforce_private_markdown_storage: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword enforce_private_markdown_storage: When flag is set to true Markdown tile will require
          external storage configuration (URI). The inline content configuration will be prohibited.
@@ -146,8 +131,8 @@ class ConfigurationList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Configuration"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Configuration"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The array of tenant configurations.
         :paramtype value: list[~azure.mgmt.portal.models.Configuration]
@@ -164,7 +149,7 @@ class Dashboard(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -206,8 +191,8 @@ class Dashboard(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         lenses: Optional[List["_models.DashboardLens"]] = None,
         metadata: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -231,7 +216,7 @@ class Dashboard(_serialization.Model):
 class DashboardLens(_serialization.Model):
     """A dashboard lens.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar order: The lens order. Required.
     :vartype order: int
@@ -253,8 +238,13 @@ class DashboardLens(_serialization.Model):
     }
 
     def __init__(
-        self, *, order: int, parts: List["_models.DashboardParts"], metadata: Optional[Dict[str, JSON]] = None, **kwargs
-    ):
+        self,
+        *,
+        order: int,
+        parts: List["_models.DashboardParts"],
+        metadata: Optional[Dict[str, JSON]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword order: The lens order. Required.
         :paramtype order: int
@@ -283,7 +273,9 @@ class DashboardListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Dashboard"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Dashboard"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The array of custom resource provider manifests.
         :paramtype value: list[~azure.mgmt.portal.models.Dashboard]
@@ -301,7 +293,7 @@ class DashboardPartMetadata(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MarkdownPartMetadata
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -321,7 +313,7 @@ class DashboardPartMetadata(_serialization.Model):
 
     _subtype_map = {"type": {"Extension/HubsExtension/PartType/MarkdownPart": "MarkdownPartMetadata"}}
 
-    def __init__(self, *, additional_properties: Optional[Dict[str, Any]] = None, **kwargs):
+    def __init__(self, *, additional_properties: Optional[Dict[str, Any]] = None, **kwargs: Any) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -329,13 +321,13 @@ class DashboardPartMetadata(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = None  # type: Optional[str]
+        self.type: Optional[str] = None
 
 
 class DashboardParts(_serialization.Model):
     """A dashboard part.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar position: The dashboard's part position. Required.
     :vartype position: ~azure.mgmt.portal.models.DashboardPartsPosition
@@ -357,8 +349,8 @@ class DashboardParts(_serialization.Model):
         *,
         position: "_models.DashboardPartsPosition",
         metadata: Optional["_models.DashboardPartMetadata"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword position: The dashboard's part position. Required.
         :paramtype position: ~azure.mgmt.portal.models.DashboardPartsPosition
@@ -373,7 +365,7 @@ class DashboardParts(_serialization.Model):
 class DashboardPartsPosition(_serialization.Model):
     """The dashboard's part position.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar x: The dashboard's part x coordinate. Required.
     :vartype x: int
@@ -403,8 +395,8 @@ class DashboardPartsPosition(_serialization.Model):
     }
 
     def __init__(
-        self, *, x: int, y: int, row_span: int, col_span: int, metadata: Optional[Dict[str, JSON]] = None, **kwargs
-    ):
+        self, *, x: int, y: int, row_span: int, col_span: int, metadata: Optional[Dict[str, JSON]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword x: The dashboard's part x coordinate. Required.
         :paramtype x: int
@@ -450,7 +442,7 @@ class ErrorDefinition(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorDefinition]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -469,7 +461,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDefinition"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error details.
         :paramtype error: ~azure.mgmt.portal.models.ErrorDefinition
@@ -481,7 +473,7 @@ class ErrorResponse(_serialization.Model):
 class MarkdownPartMetadata(DashboardPartMetadata):
     """Markdown part metadata.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -511,8 +503,8 @@ class MarkdownPartMetadata(DashboardPartMetadata):
         additional_properties: Optional[Dict[str, Any]] = None,
         inputs: Optional[List[JSON]] = None,
         settings: Optional["_models.MarkdownPartMetadataSettings"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -523,7 +515,7 @@ class MarkdownPartMetadata(DashboardPartMetadata):
         :paramtype settings: ~azure.mgmt.portal.models.MarkdownPartMetadataSettings
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
-        self.type = "Extension/HubsExtension/PartType/MarkdownPart"  # type: str
+        self.type: str = "Extension/HubsExtension/PartType/MarkdownPart"
         self.inputs = inputs
         self.settings = settings
 
@@ -539,7 +531,9 @@ class MarkdownPartMetadataSettings(_serialization.Model):
         "content": {"key": "content", "type": "MarkdownPartMetadataSettingsContent"},
     }
 
-    def __init__(self, *, content: Optional["_models.MarkdownPartMetadataSettingsContent"] = None, **kwargs):
+    def __init__(
+        self, *, content: Optional["_models.MarkdownPartMetadataSettingsContent"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword content: The content of markdown part.
         :paramtype content: ~azure.mgmt.portal.models.MarkdownPartMetadataSettingsContent
@@ -559,7 +553,9 @@ class MarkdownPartMetadataSettingsContent(_serialization.Model):
         "settings": {"key": "settings", "type": "MarkdownPartMetadataSettingsContentSettings"},
     }
 
-    def __init__(self, *, settings: Optional["_models.MarkdownPartMetadataSettingsContentSettings"] = None, **kwargs):
+    def __init__(
+        self, *, settings: Optional["_models.MarkdownPartMetadataSettingsContentSettings"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword settings: The setting of the content of markdown part.
         :paramtype settings: ~azure.mgmt.portal.models.MarkdownPartMetadataSettingsContentSettings
@@ -568,7 +564,7 @@ class MarkdownPartMetadataSettingsContent(_serialization.Model):
         self.settings = settings
 
 
-class MarkdownPartMetadataSettingsContentSettings(_serialization.Model):
+class MarkdownPartMetadataSettingsContentSettings(_serialization.Model):  # pylint: disable=name-too-long
     """The setting of the content of markdown part.
 
     :ivar content: The content of the markdown part.
@@ -599,8 +595,8 @@ class MarkdownPartMetadataSettingsContentSettings(_serialization.Model):
         subtitle: Optional[str] = None,
         markdown_source: Optional[int] = None,
         markdown_uri: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword content: The content of the markdown part.
         :paramtype content: str
@@ -644,8 +640,8 @@ class PatchableDashboard(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         lenses: Optional[List["_models.DashboardLens"]] = None,
         metadata: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -683,8 +679,8 @@ class ResourceProviderOperation(_serialization.Model):
         name: Optional[str] = None,
         is_data_action: Optional[str] = None,
         display: Optional["_models.ResourceProviderOperationDisplay"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name, in format of {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -726,8 +722,8 @@ class ResourceProviderOperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Resource provider: Microsoft Custom Providers.
         :paramtype provider: str
@@ -764,8 +760,8 @@ class ResourceProviderOperationList(_serialization.Model):
         *,
         value: Optional[List["_models.ResourceProviderOperation"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of operations supported by this resource provider.
         :paramtype value: list[~azure.mgmt.portal.models.ResourceProviderOperation]
@@ -802,7 +798,7 @@ class Violation(_serialization.Model):
         "error_message": {"key": "errorMessage", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -824,7 +820,9 @@ class ViolationsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Violation"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Violation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The array of violations.
         :paramtype value: list[~azure.mgmt.portal.models.Violation]

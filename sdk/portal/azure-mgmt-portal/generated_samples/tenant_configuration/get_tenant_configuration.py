@@ -6,15 +6,21 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.portal import Portal
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-portal
 # USAGE
-    python delete_a_dashboard.py
+    python get_tenant_configuration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +32,15 @@ from azure.mgmt.portal import Portal
 def main():
     client = Portal(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.dashboards.delete(
-        resource_group_name="testRG",
-        dashboard_name="testDashboard",
+    response = client.tenant_configurations.get(
+        configuration_name="default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/deleteDashboard.json
+# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2022-12-01-preview/examples/TenantConfiguration/GetTenantConfiguration.json
 if __name__ == "__main__":
     main()
