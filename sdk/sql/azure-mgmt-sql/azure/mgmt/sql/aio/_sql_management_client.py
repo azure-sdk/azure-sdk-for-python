@@ -488,8 +488,6 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
      ManagedInstanceAdvancedThreatProtectionSettingsOperations operations
     :vartype managed_instance_advanced_threat_protection_settings:
      azure.mgmt.sql.aio.operations.ManagedInstanceAdvancedThreatProtectionSettingsOperations
-    :ivar replication_links: ReplicationLinksOperations operations
-    :vartype replication_links: azure.mgmt.sql.aio.operations.ReplicationLinksOperations
     :ivar managed_database_move_operations: ManagedDatabaseMoveOperationsOperations operations
     :vartype managed_database_move_operations:
      azure.mgmt.sql.aio.operations.ManagedDatabaseMoveOperationsOperations
@@ -604,6 +602,8 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype managed_instances: azure.mgmt.sql.aio.operations.ManagedInstancesOperations
     :ivar servers: ServersOperations operations
     :vartype servers: azure.mgmt.sql.aio.operations.ServersOperations
+    :ivar replication_links: ReplicationLinksOperations operations
+    :vartype replication_links: azure.mgmt.sql.aio.operations.ReplicationLinksOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The subscription ID that identifies an Azure subscription. Required.
@@ -942,9 +942,6 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
                 self._client, self._config, self._serialize, self._deserialize
             )
         )
-        self.replication_links = ReplicationLinksOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
         self.managed_database_move_operations = ManagedDatabaseMoveOperationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -1054,6 +1051,9 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
             self._client, self._config, self._serialize, self._deserialize
         )
         self.servers = ServersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.replication_links = ReplicationLinksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
