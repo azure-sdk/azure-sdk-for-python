@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.devhub import DevHubMgmtClient
@@ -15,7 +17,7 @@ from azure.mgmt.devhub import DevHubMgmtClient
     pip install azure-identity
     pip install azure-mgmt-devhub
 # USAGE
-    python git_hub_oauth_callback.py
+    python iac_profile_export_template.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,17 +29,25 @@ from azure.mgmt.devhub import DevHubMgmtClient
 def main():
     client = DevHubMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="a0a37f63-7183-4e86-9ac7-ce8036a3ed31",
     )
 
-    response = client.git_hub_o_auth_callback(
-        location="eastus2euap",
-        code="3584d83530557fdd1f46af8289938c8ef79f9dc5",
-        state="12345678-3456-7890-5678-012345678901",
+    response = client.iac_profiles.export(
+        resource_group_name="resourceGroup1",
+        iac_profile_name="iacprofile",
+        parameters={
+            "instanceName": "sample",
+            "instanceStage": "dev",
+            "resourceGroupIds": [
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourceGroup1",
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourceGroup2",
+            ],
+            "templateName": "base",
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-07-01-preview/examples/GitHubOAuthCallback.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-07-01-preview/examples/IacProfile_ExportTemplate.json
 if __name__ == "__main__":
     main()

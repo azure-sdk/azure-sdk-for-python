@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.devhub import DevHubMgmtClient
 
 """
@@ -26,7 +29,7 @@ from azure.mgmt.devhub import DevHubMgmtClient
 def main():
     client = DevHubMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId1",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.generate_preview_artifacts(
@@ -49,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GeneratePreviewArtifacts.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-07-01-preview/examples/GeneratePreviewArtifacts.json
 if __name__ == "__main__":
     main()
