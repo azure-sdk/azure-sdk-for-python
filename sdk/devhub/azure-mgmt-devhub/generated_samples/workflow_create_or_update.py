@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.devhub import DevHubMgmtClient
 
 """
@@ -26,7 +29,7 @@ from azure.mgmt.devhub import DevHubMgmtClient
 def main():
     client = DevHubMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId1",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.workflow.create_or_update(
@@ -40,9 +43,9 @@ def main():
                         "acrRegistryName": "registry1",
                         "acrRepositoryName": "repo1",
                         "acrResourceGroup": "resourceGroup1",
-                        "acrSubscriptionId": "subscriptionId1",
+                        "acrSubscriptionId": "00000000-0000-0000-0000-000000000000",
                     },
-                    "aksResourceId": "/subscriptions/subscriptionId1/resourcegroups/resourceGroup1/providers/Microsoft.ContainerService/managedClusters/cluster1",
+                    "aksResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resourceGroup1/providers/Microsoft.ContainerService/managedClusters/cluster1",
                     "branchName": "branch1",
                     "deploymentProperties": {
                         "kubeManifestLocations": ["/src/manifests/"],
@@ -66,6 +69,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_CreateOrUpdate.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-07-01-preview/examples/Workflow_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
