@@ -1545,9 +1545,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Default value is None.
+        :param if_match: The entity state (ETag) version of the immutability policy to update. Default
+         value is None.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be created or updated to a blob
          container. Default value is None.
@@ -1587,9 +1586,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Default value is None.
+        :param if_match: The entity state (ETag) version of the immutability policy to update. Default
+         value is None.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be created or updated to a blob
          container. Default value is None.
@@ -1627,9 +1625,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Default value is None.
+        :param if_match: The entity state (ETag) version of the immutability policy to update. Default
+         value is None.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be created or updated to a blob
          container. Is either a ImmutabilityPolicy type or a IO[bytes] type. Default value is None.
@@ -1727,9 +1724,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Default value is None.
+        :param if_match: The entity state (ETag) version of the immutability policy to update. Default
+         value is None.
         :type if_match: str
         :return: ImmutabilityPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2023_05_01.models.ImmutabilityPolicy
@@ -1806,9 +1802,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Required.
+        :param if_match: The entity state (ETag) version of the immutability policy to update.
+         Required.
         :type if_match: str
         :return: ImmutabilityPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2023_05_01.models.ImmutabilityPolicy
@@ -1883,9 +1878,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Required.
+        :param if_match: The entity state (ETag) version of the immutability policy to update.
+         Required.
         :type if_match: str
         :return: ImmutabilityPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2023_05_01.models.ImmutabilityPolicy
@@ -1967,9 +1961,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Required.
+        :param if_match: The entity state (ETag) version of the immutability policy to update.
+         Required.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be extended for a blob
          container. Default value is None.
@@ -2010,9 +2003,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Required.
+        :param if_match: The entity state (ETag) version of the immutability policy to update.
+         Required.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be extended for a blob
          container. Default value is None.
@@ -2051,9 +2043,8 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
-         of "*" can be used to apply the operation only if the immutability policy already exists. If
-         omitted, this operation will always be applied. Required.
+        :param if_match: The entity state (ETag) version of the immutability policy to update.
+         Required.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be extended for a blob
          container. Is either a ImmutabilityPolicy type or a IO[bytes] type. Default value is None.
