@@ -354,6 +354,59 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
+class ExportTemplateRequest(_serialization.Model):
+    """ExportTemplateRequest.
+
+    :ivar template_name: Template Name.
+    :vartype template_name: str
+    :ivar resource_group_ids:
+    :vartype resource_group_ids: list[str]
+    :ivar site_id:
+    :vartype site_id: str
+    :ivar instance_name:
+    :vartype instance_name: str
+    :ivar instance_stage:
+    :vartype instance_stage: str
+    """
+
+    _attribute_map = {
+        "template_name": {"key": "templateName", "type": "str"},
+        "resource_group_ids": {"key": "resourceGroupIds", "type": "[str]"},
+        "site_id": {"key": "siteId", "type": "str"},
+        "instance_name": {"key": "instanceName", "type": "str"},
+        "instance_stage": {"key": "instanceStage", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        template_name: Optional[str] = None,
+        resource_group_ids: Optional[List[str]] = None,
+        site_id: Optional[str] = None,
+        instance_name: Optional[str] = None,
+        instance_stage: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword template_name: Template Name.
+        :paramtype template_name: str
+        :keyword resource_group_ids:
+        :paramtype resource_group_ids: list[str]
+        :keyword site_id:
+        :paramtype site_id: str
+        :keyword instance_name:
+        :paramtype instance_name: str
+        :keyword instance_stage:
+        :paramtype instance_stage: str
+        """
+        super().__init__(**kwargs)
+        self.template_name = template_name
+        self.resource_group_ids = resource_group_ids
+        self.site_id = site_id
+        self.instance_name = instance_name
+        self.instance_stage = instance_stage
+
+
 class GitHubOAuthCallRequest(_serialization.Model):
     """GitHubOAuth request object.
 
@@ -427,8 +480,8 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -469,8 +522,8 @@ class ProxyResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -482,32 +535,14 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.devhub.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class GitHubOAuthResponse(ProxyResource):
     """Singleton response of GitHubOAuth containing.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -571,6 +606,346 @@ class GitHubWorkflowProfileOidcCredentials(_serialization.Model):
         super().__init__(**kwargs)
         self.azure_client_id = azure_client_id
         self.azure_tenant_id = azure_tenant_id
+
+
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devhub.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
+class IacProfile(TrackedResource):  # pylint: disable=too-many-instance-attributes
+    """Resource representation of a IacProfile.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devhub.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar etag: A unique read-only string that changes whenever the resource is updated.
+    :vartype etag: str
+    :ivar stages:
+    :vartype stages: list[~azure.mgmt.devhub.models.StageProperties]
+    :ivar templates:
+    :vartype templates: list[~azure.mgmt.devhub.models.IacTemplateProperties]
+    :ivar storage_account_subscription: Terraform Storage Account Subscription.
+    :vartype storage_account_subscription: str
+    :ivar storage_account_resource_group: Terraform Storage Account Resource Group.
+    :vartype storage_account_resource_group: str
+    :ivar storage_account_name: Terraform Storage Account Name.
+    :vartype storage_account_name: str
+    :ivar storage_container_name: Terraform Container Name.
+    :vartype storage_container_name: str
+    :ivar repository_name: Repository Name.
+    :vartype repository_name: str
+    :ivar repository_main_branch: Repository Main Branch.
+    :vartype repository_main_branch: str
+    :ivar repository_owner: Repository Owner.
+    :vartype repository_owner: str
+    :ivar auth_status: Determines the authorization status of requests. Known values are:
+     "Authorized", "NotFound", and "Error".
+    :vartype auth_status: str or ~azure.mgmt.devhub.models.AuthorizationStatus
+    :ivar pull_number: The number associated with the submitted pull request.
+    :vartype pull_number: int
+    :ivar pr_status: The status of the Pull Request submitted against the users repository. Known
+     values are: "unknown", "submitted", "merged", and "removed".
+    :vartype pr_status: str or ~azure.mgmt.devhub.models.PullRequestStatus
+    :ivar branch_name: Repository Branch Name.
+    :vartype branch_name: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "etag": {"readonly": True},
+        "auth_status": {"readonly": True},
+        "pull_number": {"readonly": True},
+        "pr_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "etag": {"key": "etag", "type": "str"},
+        "stages": {"key": "properties.stages", "type": "[StageProperties]"},
+        "templates": {"key": "properties.templates", "type": "[IacTemplateProperties]"},
+        "storage_account_subscription": {
+            "key": "properties.terraformProfile.storageAccountSubscription",
+            "type": "str",
+        },
+        "storage_account_resource_group": {
+            "key": "properties.terraformProfile.storageAccountResourceGroup",
+            "type": "str",
+        },
+        "storage_account_name": {"key": "properties.terraformProfile.storageAccountName", "type": "str"},
+        "storage_container_name": {"key": "properties.terraformProfile.storageContainerName", "type": "str"},
+        "repository_name": {"key": "properties.githubProfile.repositoryName", "type": "str"},
+        "repository_main_branch": {"key": "properties.githubProfile.repositoryMainBranch", "type": "str"},
+        "repository_owner": {"key": "properties.githubProfile.repositoryOwner", "type": "str"},
+        "auth_status": {"key": "properties.githubProfile.authStatus", "type": "str"},
+        "pull_number": {"key": "properties.githubProfile.pullNumber", "type": "int"},
+        "pr_status": {"key": "properties.githubProfile.prStatus", "type": "str"},
+        "branch_name": {"key": "properties.githubProfile.branchName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        stages: Optional[List["_models.StageProperties"]] = None,
+        templates: Optional[List["_models.IacTemplateProperties"]] = None,
+        storage_account_subscription: Optional[str] = None,
+        storage_account_resource_group: Optional[str] = None,
+        storage_account_name: Optional[str] = None,
+        storage_container_name: Optional[str] = None,
+        repository_name: Optional[str] = None,
+        repository_main_branch: Optional[str] = None,
+        repository_owner: Optional[str] = None,
+        branch_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword stages:
+        :paramtype stages: list[~azure.mgmt.devhub.models.StageProperties]
+        :keyword templates:
+        :paramtype templates: list[~azure.mgmt.devhub.models.IacTemplateProperties]
+        :keyword storage_account_subscription: Terraform Storage Account Subscription.
+        :paramtype storage_account_subscription: str
+        :keyword storage_account_resource_group: Terraform Storage Account Resource Group.
+        :paramtype storage_account_resource_group: str
+        :keyword storage_account_name: Terraform Storage Account Name.
+        :paramtype storage_account_name: str
+        :keyword storage_container_name: Terraform Container Name.
+        :paramtype storage_container_name: str
+        :keyword repository_name: Repository Name.
+        :paramtype repository_name: str
+        :keyword repository_main_branch: Repository Main Branch.
+        :paramtype repository_main_branch: str
+        :keyword repository_owner: Repository Owner.
+        :paramtype repository_owner: str
+        :keyword branch_name: Repository Branch Name.
+        :paramtype branch_name: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.etag = None
+        self.stages = stages
+        self.templates = templates
+        self.storage_account_subscription = storage_account_subscription
+        self.storage_account_resource_group = storage_account_resource_group
+        self.storage_account_name = storage_account_name
+        self.storage_container_name = storage_container_name
+        self.repository_name = repository_name
+        self.repository_main_branch = repository_main_branch
+        self.repository_owner = repository_owner
+        self.auth_status = None
+        self.pull_number = None
+        self.pr_status = None
+        self.branch_name = branch_name
+
+
+class IacProfileListResult(_serialization.Model):
+    """IacProfileListResult.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of IacProfiles.
+    :vartype value: list[~azure.mgmt.devhub.models.IacProfile]
+    :ivar next_link: The URL to the next set of IacProfile results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[IacProfile]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.IacProfile"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of IacProfiles.
+        :paramtype value: list[~azure.mgmt.devhub.models.IacProfile]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class IacTemplateDetails(_serialization.Model):
+    """IacTemplateDetails.
+
+    :ivar product_name: The name of the products.
+    :vartype product_name: str
+    :ivar count: Count of the product.
+    :vartype count: int
+    :ivar naming_convention: Naming convention of this product.
+    :vartype naming_convention: str
+    """
+
+    _attribute_map = {
+        "product_name": {"key": "productName", "type": "str"},
+        "count": {"key": "count", "type": "int"},
+        "naming_convention": {"key": "namingConvention", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        product_name: Optional[str] = None,
+        count: Optional[int] = None,
+        naming_convention: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword product_name: The name of the products.
+        :paramtype product_name: str
+        :keyword count: Count of the product.
+        :paramtype count: int
+        :keyword naming_convention: Naming convention of this product.
+        :paramtype naming_convention: str
+        """
+        super().__init__(**kwargs)
+        self.product_name = product_name
+        self.count = count
+        self.naming_convention = naming_convention
+
+
+class IacTemplateProperties(_serialization.Model):
+    """Properties of a IacTemplate.
+
+    :ivar template_name: Template Name.
+    :vartype template_name: str
+    :ivar source_resource_id: the source store of the template.
+    :vartype source_resource_id: str
+    :ivar instance_stage: the source stage of the template.
+    :vartype instance_stage: str
+    :ivar instance_name: the sample instance name of the template.
+    :vartype instance_name: str
+    :ivar template_details:
+    :vartype template_details: list[~azure.mgmt.devhub.models.IacTemplateDetails]
+    :ivar quick_start_template_type: Determines the authorization status of requests. Known values
+     are: "None", "HCI", "HCIAKS", and "HCIARCVM".
+    :vartype quick_start_template_type: str or ~azure.mgmt.devhub.models.QuickStartTemplateType
+    """
+
+    _attribute_map = {
+        "template_name": {"key": "templateName", "type": "str"},
+        "source_resource_id": {"key": "sourceResourceId", "type": "str"},
+        "instance_stage": {"key": "instanceStage", "type": "str"},
+        "instance_name": {"key": "instanceName", "type": "str"},
+        "template_details": {"key": "templateDetails", "type": "[IacTemplateDetails]"},
+        "quick_start_template_type": {"key": "quickStartTemplateType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        template_name: Optional[str] = None,
+        source_resource_id: Optional[str] = None,
+        instance_stage: Optional[str] = None,
+        instance_name: Optional[str] = None,
+        template_details: Optional[List["_models.IacTemplateDetails"]] = None,
+        quick_start_template_type: Optional[Union[str, "_models.QuickStartTemplateType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword template_name: Template Name.
+        :paramtype template_name: str
+        :keyword source_resource_id: the source store of the template.
+        :paramtype source_resource_id: str
+        :keyword instance_stage: the source stage of the template.
+        :paramtype instance_stage: str
+        :keyword instance_name: the sample instance name of the template.
+        :paramtype instance_name: str
+        :keyword template_details:
+        :paramtype template_details: list[~azure.mgmt.devhub.models.IacTemplateDetails]
+        :keyword quick_start_template_type: Determines the authorization status of requests. Known
+         values are: "None", "HCI", "HCIAKS", and "HCIARCVM".
+        :paramtype quick_start_template_type: str or ~azure.mgmt.devhub.models.QuickStartTemplateType
+        """
+        super().__init__(**kwargs)
+        self.template_name = template_name
+        self.source_resource_id = source_resource_id
+        self.instance_stage = instance_stage
+        self.instance_name = instance_name
+        self.template_details = template_details
+        self.quick_start_template_type = quick_start_template_type
 
 
 class Operation(_serialization.Model):
@@ -694,6 +1069,170 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
+class PrLinkResponse(_serialization.Model):
+    """PrLinkResponse.
+
+    :ivar pr_link: The link of the pull request.
+    :vartype pr_link: str
+    """
+
+    _attribute_map = {
+        "pr_link": {"key": "prLink", "type": "str"},
+    }
+
+    def __init__(self, *, pr_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword pr_link: The link of the pull request.
+        :paramtype pr_link: str
+        """
+        super().__init__(**kwargs)
+        self.pr_link = pr_link
+
+
+class QuickTemplateRequest(_serialization.Model):
+    """QuickTemplateRequest.
+
+    :ivar template_name: Template Name.
+    :vartype template_name: str
+    :ivar quick_start_template_type: The type of quick start template. Known values are: "None",
+     "HCI", "HCIAKS", and "HCIARCVM".
+    :vartype quick_start_template_type: str or ~azure.mgmt.devhub.models.QuickStartTemplateType
+    """
+
+    _attribute_map = {
+        "template_name": {"key": "templateName", "type": "str"},
+        "quick_start_template_type": {"key": "quickStartTemplateType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        template_name: Optional[str] = None,
+        quick_start_template_type: Optional[Union[str, "_models.QuickStartTemplateType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword template_name: Template Name.
+        :paramtype template_name: str
+        :keyword quick_start_template_type: The type of quick start template. Known values are: "None",
+         "HCI", "HCIAKS", and "HCIARCVM".
+        :paramtype quick_start_template_type: str or ~azure.mgmt.devhub.models.QuickStartTemplateType
+        """
+        super().__init__(**kwargs)
+        self.template_name = template_name
+        self.quick_start_template_type = quick_start_template_type
+
+
+class ScaleProperty(_serialization.Model):
+    """ScaleProperty.
+
+    :ivar region: The region of the store.
+    :vartype region: str
+    :ivar stage: The stage of the store.
+    :vartype stage: str
+    :ivar number_of_store: Number of the store.
+    :vartype number_of_store: int
+    """
+
+    _attribute_map = {
+        "region": {"key": "region", "type": "str"},
+        "stage": {"key": "stage", "type": "str"},
+        "number_of_store": {"key": "numberOfStore", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        region: Optional[str] = None,
+        stage: Optional[str] = None,
+        number_of_store: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword region: The region of the store.
+        :paramtype region: str
+        :keyword stage: The stage of the store.
+        :paramtype stage: str
+        :keyword number_of_store: Number of the store.
+        :paramtype number_of_store: int
+        """
+        super().__init__(**kwargs)
+        self.region = region
+        self.stage = stage
+        self.number_of_store = number_of_store
+
+
+class ScaleTemplateRequest(_serialization.Model):
+    """ScaleTemplateRequest.
+
+    :ivar template_name: Template Name.
+    :vartype template_name: str
+    :ivar scale_requirement:
+    :vartype scale_requirement: list[~azure.mgmt.devhub.models.ScaleProperty]
+    """
+
+    _attribute_map = {
+        "template_name": {"key": "templateName", "type": "str"},
+        "scale_requirement": {"key": "scaleRequirement", "type": "[ScaleProperty]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        template_name: Optional[str] = None,
+        scale_requirement: Optional[List["_models.ScaleProperty"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword template_name: Template Name.
+        :paramtype template_name: str
+        :keyword scale_requirement:
+        :paramtype scale_requirement: list[~azure.mgmt.devhub.models.ScaleProperty]
+        """
+        super().__init__(**kwargs)
+        self.template_name = template_name
+        self.scale_requirement = scale_requirement
+
+
+class StageProperties(_serialization.Model):
+    """Properties of a Stage.
+
+    :ivar stage_name: Stage Name.
+    :vartype stage_name: str
+    :ivar dependencies:
+    :vartype dependencies: list[str]
+    :ivar git_environment:
+    :vartype git_environment: str
+    """
+
+    _attribute_map = {
+        "stage_name": {"key": "stageName", "type": "str"},
+        "dependencies": {"key": "dependencies", "type": "[str]"},
+        "git_environment": {"key": "gitEnvironment", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        stage_name: Optional[str] = None,
+        dependencies: Optional[List[str]] = None,
+        git_environment: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword stage_name: Stage Name.
+        :paramtype stage_name: str
+        :keyword dependencies:
+        :paramtype dependencies: list[str]
+        :keyword git_environment:
+        :paramtype git_environment: str
+        """
+        super().__init__(**kwargs)
+        self.stage_name = stage_name
+        self.dependencies = dependencies
+        self.git_environment = git_environment
+
+
 class SystemData(_serialization.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
@@ -778,69 +1317,15 @@ class TagsObject(_serialization.Model):
         self.tags = tags
 
 
-class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which
-    has 'tags' and a 'location'.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.devhub.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
-    }
-
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-        self.location = location
-
-
 class Workflow(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Resource representation of a workflow.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str

@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -26,8 +27,12 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import DevHubMgmtClientMixinABC, _convert_request, _format_url_section
+from .._vendor import DevHubMgmtClientMixinABC, _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -39,7 +44,7 @@ def build_git_hub_o_auth_request(location: str, subscription_id: str, **kwargs: 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-11-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -49,11 +54,11 @@ def build_git_hub_o_auth_request(location: str, subscription_id: str, **kwargs: 
         "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default/getGitHubOAuthInfo",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -72,7 +77,7 @@ def build_git_hub_o_auth_callback_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-11-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -81,11 +86,11 @@ def build_git_hub_o_auth_callback_request(
         "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -102,7 +107,7 @@ def build_list_git_hub_o_auth_request(location: str, subscription_id: str, **kwa
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-11-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -110,11 +115,11 @@ def build_list_git_hub_o_auth_request(location: str, subscription_id: str, **kwa
         "template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth"
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -129,7 +134,7 @@ def build_generate_preview_artifacts_request(location: str, subscription_id: str
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-11-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -139,11 +144,11 @@ def build_generate_preview_artifacts_request(location: str, subscription_id: str
         "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/generatePreviewArtifacts",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -157,6 +162,7 @@ def build_generate_preview_artifacts_request(location: str, subscription_id: str
 
 
 class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
+
     @overload
     def git_hub_o_auth(
         self,
@@ -170,14 +176,13 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
 
         Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param parameters: Default value is None.
         :type parameters: ~azure.mgmt.devhub.models.GitHubOAuthCallRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GitHubOAuthInfoResponse or the result of cls(response)
         :rtype: ~azure.mgmt.devhub.models.GitHubOAuthInfoResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -185,20 +190,24 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
 
     @overload
     def git_hub_o_auth(
-        self, location: str, parameters: Optional[IO] = None, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        location: str,
+        parameters: Optional[IO[bytes]] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.GitHubOAuthInfoResponse:
         """Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
 
         Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param parameters: Default value is None.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GitHubOAuthInfoResponse or the result of cls(response)
         :rtype: ~azure.mgmt.devhub.models.GitHubOAuthInfoResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -206,25 +215,25 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
 
     @distributed_trace
     def git_hub_o_auth(
-        self, location: str, parameters: Optional[Union[_models.GitHubOAuthCallRequest, IO]] = None, **kwargs: Any
+        self,
+        location: str,
+        parameters: Optional[Union[_models.GitHubOAuthCallRequest, IO[bytes]]] = None,
+        **kwargs: Any
     ) -> _models.GitHubOAuthInfoResponse:
         """Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
 
         Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
-        :param parameters: Is either a GitHubOAuthCallRequest type or a IO type. Default value is None.
-        :type parameters: ~azure.mgmt.devhub.models.GitHubOAuthCallRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: Is either a GitHubOAuthCallRequest type or a IO[bytes] type. Default value
+         is None.
+        :type parameters: ~azure.mgmt.devhub.models.GitHubOAuthCallRequest or IO[bytes]
         :return: GitHubOAuthInfoResponse or the result of cls(response)
         :rtype: ~azure.mgmt.devhub.models.GitHubOAuthInfoResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -250,23 +259,22 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
             else:
                 _json = None
 
-        request = build_git_hub_o_auth_request(
+        _request = build_git_hub_o_auth_request(
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.git_hub_o_auth.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -279,13 +287,9 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         deserialized = self._deserialize("GitHubOAuthInfoResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    git_hub_o_auth.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default/getGitHubOAuthInfo"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def git_hub_o_auth_callback(
@@ -297,18 +301,17 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         Callback URL to hit once authenticated with GitHub App to have the service store the OAuth
         token.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param code: The code response from authenticating the GitHub App. Required.
         :type code: str
         :param state: The state response from authenticating the GitHub App. Required.
         :type state: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GitHubOAuthResponse or the result of cls(response)
         :rtype: ~azure.mgmt.devhub.models.GitHubOAuthResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -322,22 +325,21 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GitHubOAuthResponse] = kwargs.pop("cls", None)
 
-        request = build_git_hub_o_auth_callback_request(
+        _request = build_git_hub_o_auth_callback_request(
             location=location,
             subscription_id=self._config.subscription_id,
             code=code,
             state=state,
             api_version=api_version,
-            template_url=self.git_hub_o_auth_callback.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -350,13 +352,9 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         deserialized = self._deserialize("GitHubOAuthResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    git_hub_o_auth_callback.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_git_hub_o_auth(self, location: str, **kwargs: Any) -> _models.GitHubOAuthListResponse:
@@ -366,14 +364,13 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         Callback URL to hit once authenticated with GitHub App to have the service store the OAuth
         token.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GitHubOAuthListResponse or the result of cls(response)
         :rtype: ~azure.mgmt.devhub.models.GitHubOAuthListResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -387,20 +384,19 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GitHubOAuthListResponse] = kwargs.pop("cls", None)
 
-        request = build_list_git_hub_o_auth_request(
+        _request = build_list_git_hub_o_auth_request(
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_git_hub_o_auth.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -413,13 +409,9 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         deserialized = self._deserialize("GitHubOAuthListResponse", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_git_hub_o_auth.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def generate_preview_artifacts(
@@ -434,14 +426,13 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
 
         Generate preview dockerfile and manifests.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param parameters: Required.
         :type parameters: ~azure.mgmt.devhub.models.ArtifactGenerationProperties
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: dict mapping str to str or the result of cls(response)
         :rtype: dict[str, str]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -449,20 +440,19 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
 
     @overload
     def generate_preview_artifacts(
-        self, location: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, location: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> Dict[str, str]:
         """Generate preview dockerfile and manifests.
 
         Generate preview dockerfile and manifests.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param parameters: Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: dict mapping str to str or the result of cls(response)
         :rtype: dict[str, str]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -470,25 +460,21 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
 
     @distributed_trace
     def generate_preview_artifacts(
-        self, location: str, parameters: Union[_models.ArtifactGenerationProperties, IO], **kwargs: Any
+        self, location: str, parameters: Union[_models.ArtifactGenerationProperties, IO[bytes]], **kwargs: Any
     ) -> Dict[str, str]:
         """Generate preview dockerfile and manifests.
 
         Generate preview dockerfile and manifests.
 
-        :param location: The name of Azure region. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
-        :param parameters: Is either a ArtifactGenerationProperties type or a IO type. Required.
-        :type parameters: ~azure.mgmt.devhub.models.ArtifactGenerationProperties or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param parameters: Is either a ArtifactGenerationProperties type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.devhub.models.ArtifactGenerationProperties or IO[bytes]
         :return: dict mapping str to str or the result of cls(response)
         :rtype: dict[str, str]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -511,23 +497,22 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         else:
             _json = self._serialize.body(parameters, "ArtifactGenerationProperties")
 
-        request = build_generate_preview_artifacts_request(
+        _request = build_generate_preview_artifacts_request(
             location=location,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.generate_preview_artifacts.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -540,10 +525,6 @@ class DevHubMgmtClientOperationsMixin(DevHubMgmtClientMixinABC):
         deserialized = self._deserialize("{str}", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    generate_preview_artifacts.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/generatePreviewArtifacts"
-    }
+        return deserialized  # type: ignore
