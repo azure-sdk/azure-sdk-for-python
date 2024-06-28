@@ -9,7 +9,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, List, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -546,12 +546,12 @@ class Operations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
-        # pylint: disable=line-too-long
+    def list(self, **kwargs: Any) -> Iterable["_models._models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.informaticadatamanagement.models.Operation]
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.mgmt.informaticadatamanagement.models._models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -559,36 +559,22 @@ class Operations:
 
                 # response body for status code(s): 200
                 response == {
-                    "actionType": "str",  # Optional. Extensible enum. Indicates the action type.
-                      "Internal" refers to actions that are for internal only APIs. "Internal"
+                    "actionType": "str",
                     "display": {
-                        "description": "str",  # Optional. The short, localized friendly
-                          description of the operation; suitable for tool tips and detailed views.
-                        "operation": "str",  # Optional. The concise, localized friendly name
-                          for the operation; suitable for dropdowns. E.g. "Create or Update Virtual
-                          Machine", "Restart Virtual Machine".
-                        "provider": "str",  # Optional. The localized friendly form of the
-                          resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft
-                          Compute".
-                        "resource": "str"  # Optional. The localized friendly name of the
-                          resource type related to this operation. E.g. "Virtual Machines" or "Job
-                          Schedule Collections".
+                        "description": "str",
+                        "operation": "str",
+                        "provider": "str",
+                        "resource": "str"
                     },
-                    "isDataAction": bool,  # Optional. Whether the operation applies to
-                      data-plane. This is "true" for data-plane operations and "false" for Azure
-                      Resource Manager/control-plane operations.
-                    "name": "str",  # Optional. The name of the operation, as per Resource-Based
-                      Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write",
-                      "Microsoft.Compute/virtualMachines/capture/action".
-                    "origin": "str"  # Optional. The intended executor of the operation; as in
-                      Resource Based Access Control (RBAC) and audit logs UX. Default value is
-                      "user,system". Known values are: "user", "system", and "user,system".
+                    "isDataAction": bool,
+                    "name": "str",
+                    "origin": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models._models.Operation]] = kwargs.pop("cls", None)  # pylint: disable=protected-access
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -627,7 +613,7 @@ class Operations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models._models.Operation], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -642,8 +628,6 @@ class Operations:
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 error = _deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -674,7 +658,6 @@ class OrganizationsOperations:
     def get(
         self, resource_group_name: str, organization_name: str, **kwargs: Any
     ) -> _models.InformaticaOrganizationResource:
-        # pylint: disable=line-too-long
         """Get a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -692,79 +675,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -820,7 +783,7 @@ class OrganizationsOperations:
         organization_name: str,
         resource: Union[_models.InformaticaOrganizationResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> JSON:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -833,7 +796,7 @@ class OrganizationsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -854,7 +817,7 @@ class OrganizationsOperations:
         )
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -862,20 +825,19 @@ class OrganizationsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
-            if _stream:
-                response.read()  # Load the body in memory and close the socket
+            response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
         if response.status_code == 200:
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
 
         if response.status_code == 201:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -892,7 +854,6 @@ class OrganizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaOrganizationResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -916,156 +877,116 @@ class OrganizationsOperations:
 
                 # JSON input template you can fill out and use as your body input.
                 resource = {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -1079,7 +1000,6 @@ class OrganizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaOrganizationResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1103,79 +1023,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -1189,7 +1089,6 @@ class OrganizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaOrganizationResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1213,79 +1112,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -1297,7 +1176,6 @@ class OrganizationsOperations:
         resource: Union[_models.InformaticaOrganizationResource, JSON, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaOrganizationResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1320,156 +1198,116 @@ class OrganizationsOperations:
 
                 # JSON input template you can fill out and use as your body input.
                 resource = {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1491,6 +1329,7 @@ class OrganizationsOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1527,7 +1366,6 @@ class OrganizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.InformaticaOrganizationResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1553,120 +1391,94 @@ class OrganizationsOperations:
                 properties = {
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
-                        "existingResourceId": "str",  # Optional. Existing Resource Id.
+                        "existingResourceId": "str",
                         "informaticaOrganizationProperties": ...,
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Optional. Marketplace
-                              Subscription Id.
+                            "marketplaceSubscriptionId": "str",
                             "offerDetails": {
-                                "offerId": "str",  # Optional. Id of the product
-                                  offering.
-                                "planId": "str",  # Optional. Id of the product offer
-                                  plan.
-                                "planName": "str",  # Optional. Name of the product
-                                  offer plan.
-                                "publisherId": "str",  # Optional. Id of the product
-                                  publisher.
-                                "termId": "str",  # Optional. Offer plan term id.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
                             }
                         },
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     }
                 }
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -1680,7 +1492,6 @@ class OrganizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.InformaticaOrganizationResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1703,79 +1514,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -1789,7 +1580,6 @@ class OrganizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.InformaticaOrganizationResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1812,79 +1602,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -1896,7 +1666,6 @@ class OrganizationsOperations:
         properties: Union[_models.InformaticaOrganizationResourceUpdate, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.InformaticaOrganizationResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1921,120 +1690,94 @@ class OrganizationsOperations:
                 properties = {
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
-                        "existingResourceId": "str",  # Optional. Existing Resource Id.
+                        "existingResourceId": "str",
                         "informaticaOrganizationProperties": ...,
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Optional. Marketplace
-                              Subscription Id.
+                            "marketplaceSubscriptionId": "str",
                             "offerDetails": {
-                                "offerId": "str",  # Optional. Id of the product
-                                  offering.
-                                "planId": "str",  # Optional. Id of the product offer
-                                  plan.
-                                "planName": "str",  # Optional. Name of the product
-                                  offer plan.
-                                "publisherId": "str",  # Optional. Id of the product
-                                  publisher.
-                                "termId": "str",  # Optional. Offer plan term id.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
                             }
                         },
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     }
                 }
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -2094,9 +1837,7 @@ class OrganizationsOperations:
 
         return deserialized  # type: ignore
 
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, organization_name: str, **kwargs: Any
-    ) -> None:
+    def _delete_initial(self, resource_group_name: str, organization_name: str, **kwargs: Any) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2108,7 +1849,7 @@ class OrganizationsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_organizations_delete_request(
             resource_group_name=resource_group_name,
@@ -2120,7 +1861,7 @@ class OrganizationsOperations:
         )
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2128,8 +1869,7 @@ class OrganizationsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            if _stream:
-                response.read()  # Load the body in memory and close the socket
+            response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2139,8 +1879,15 @@ class OrganizationsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
+            deserialized = response.iter_bytes()
+
+        if response.status_code == 204:
+            deserialized = response.iter_bytes()
+
         if cls:
-            return cls(pipeline_response, None, response_headers)  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, organization_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -2163,7 +1910,7 @@ class OrganizationsOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 organization_name=organization_name,
                 cls=lambda x, y, z: x,
@@ -2171,6 +1918,7 @@ class OrganizationsOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -2196,7 +1944,6 @@ class OrganizationsOperations:
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
     ) -> Iterable["_models.InformaticaOrganizationResource"]:
-        # pylint: disable=line-too-long
         """List InformaticaOrganizationResource resources by resource group.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2212,79 +1959,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2346,8 +2073,6 @@ class OrganizationsOperations:
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 error = _deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2358,7 +2083,6 @@ class OrganizationsOperations:
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.InformaticaOrganizationResource"]:
-        # pylint: disable=line-too-long
         """List InformaticaOrganizationResource resources by subscription ID.
 
         :return: An iterator like instance of InformaticaOrganizationResource
@@ -2371,79 +2095,59 @@ class OrganizationsOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "location": "str",  # The geo-location where the resource lives. Required.
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "companyDetails": {
-                            "business": "str",  # Optional. Business phone number.
-                            "companyName": "str",  # Optional. company Name.
-                            "country": "str",  # Optional. Country name.
-                            "domain": "str",  # Optional. Domain name.
-                            "numberOfEmployees": 0,  # Optional. Number Of Employees.
-                            "officeAddress": "str"  # Optional. Office Address.
+                            "business": "str",
+                            "companyName": "str",
+                            "country": "str",
+                            "domain": "str",
+                            "numberOfEmployees": 0,
+                            "officeAddress": "str"
                         },
                         "informaticaProperties": {
-                            "informaticaRegion": "str",  # Optional. Informatica
-                              organization region.
-                            "organizationId": "str",  # Optional. Organization id.
-                            "organizationName": "str",  # Optional. Organization name.
-                            "singleSignOnUrl": "str"  # Optional. Single sing on URL for
-                              informatica organization.
+                            "informaticaRegion": "str",
+                            "organizationId": "str",
+                            "organizationName": "str",
+                            "singleSignOnUrl": "str"
                         },
                         "linkOrganization": {
-                            "token": "str"  # Optional. Link organization token.
+                            "token": "str"
                         },
                         "marketplaceDetails": {
-                            "marketplaceSubscriptionId": "str",  # Marketplace
-                              Subscription Id. Required.
                             "offerDetails": {
-                                "offerId": "str",  # Id of the product offering.
-                                  Required.
-                                "planId": "str",  # Id of the product offer plan.
-                                  Required.
-                                "planName": "str",  # Name of the product offer plan.
-                                  Required.
-                                "publisherId": "str",  # Id of the product publisher.
-                                  Required.
-                                "termId": "str",  # Offer plan term id. Required.
-                                "termUnit": "str"  # Optional. Offer plan term unit.
-                            }
+                                "offerId": "str",
+                                "planId": "str",
+                                "planName": "str",
+                                "publisherId": "str",
+                                "termId": "str",
+                                "termUnit": "str"
+                            },
+                            "marketplaceSubscriptionId": "str"
                         },
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "provisioningState": "str",
                         "userDetails": {
-                            "emailAddress": "str",  # Optional. User email address.
-                            "firstName": "str",  # Optional. User first name.
-                            "lastName": "str",  # Optional. User last name.
-                            "phoneNumber": "str",  # Optional. Phone number of the user
-                              used by for contacting them if needed.
-                            "upn": "str"  # Optional. UPN of user.
+                            "emailAddress": "str",
+                            "firstName": "str",
+                            "lastName": "str",
+                            "phoneNumber": "str",
+                            "upn": "str"
                         }
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
-                        "str": "str"  # Optional. Resource tags.
+                        "str": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2504,8 +2208,6 @@ class OrganizationsOperations:
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 error = _deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2538,25 +2240,24 @@ class OrganizationsOperations:
                     "serverlessConfigProperties": {
                         "applicationTypes": [
                             {
-                                "name": "str",  # Optional. Application type name.
-                                "value": "str"  # Optional. Application type value.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "computeUnits": [
                             {
-                                "name": "str",  # Optional. ComputeUnit name.
+                                "name": "str",
                                 "value": [
-                                    "str"  # Optional. ComputeUnit value.
+                                    "str"
                                 ]
                             }
                         ],
-                        "executionTimeout": "str",  # Optional. Serverless Runtime execution
-                          timeout.
-                        "platform": "str",  # Optional. Platform types. "AZURE"
+                        "executionTimeout": "str",
+                        "platform": "str",
                         "regions": [
                             {
-                                "id": "str",  # Optional. Region Id.
-                                "name": "str"  # Optional. Region name.
+                                "id": "str",
+                                "name": "str"
                             }
                         ]
                     },
@@ -2565,52 +2266,36 @@ class OrganizationsOperations:
                             {
                                 "applicationConfigs": [
                                     {
-                                        "customized": "str",  # Customized
-                                          value of the application config. Required.
-                                        "defaultValue": "str",  # Default
-                                          value of the application config. Required.
-                                        "name": "str",  # Name of the
-                                          application config. Required.
-                                        "platform": "str",  # Platform type
-                                          of the application config. Required.
-                                        "type": "str",  # Type of the
-                                          application config. Required.
-                                        "value": "str"  # Value of the
-                                          application config. Required.
+                                        "customized": "str",
+                                        "defaultValue": "str",
+                                        "name": "str",
+                                        "platform": "str",
+                                        "type": "str",
+                                        "value": "str"
                                     }
                                 ],
-                                "engineName": "str",  # EngineName of the application
-                                  config. Required.
-                                "engineVersion": "str"  # EngineVersion of the
-                                  application config. Required.
+                                "engineName": "str",
+                                "engineVersion": "str"
                             }
                         ],
                         "cdieConfigProps": [
                             {
                                 "applicationConfigs": [
                                     {
-                                        "customized": "str",  # Customized
-                                          value of the application config. Required.
-                                        "defaultValue": "str",  # Default
-                                          value of the application config. Required.
-                                        "name": "str",  # Name of the
-                                          application config. Required.
-                                        "platform": "str",  # Platform type
-                                          of the application config. Required.
-                                        "type": "str",  # Type of the
-                                          application config. Required.
-                                        "value": "str"  # Value of the
-                                          application config. Required.
+                                        "customized": "str",
+                                        "defaultValue": "str",
+                                        "name": "str",
+                                        "platform": "str",
+                                        "type": "str",
+                                        "value": "str"
                                     }
                                 ],
-                                "engineName": "str",  # EngineName of the application
-                                  config. Required.
-                                "engineVersion": "str"  # EngineVersion of the
-                                  application config. Required.
+                                "engineName": "str",
+                                "engineVersion": "str"
                             }
                         ]
                     },
-                    "type": "str"  # Optional. type of the runtime environment. "SERVERLESS"
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -2683,44 +2368,33 @@ class OrganizationsOperations:
                 response == {
                     "informaticaRuntimeResources": [
                         {
-                            "createdBy": "str",  # Created by. Required.
-                            "createdTime": "str",  # Created time. Required.
-                            "id": "str",  # Informatica serverless runtime id. Required.
-                            "name": "str",  # Environment name. Required.
+                            "createdBy": "str",
+                            "createdTime": "str",
+                            "id": "str",
+                            "name": "str",
                             "serverlessConfigProperties": {
-                                "advancedCustomProperties": "str",  # Optional.
-                                  Advanced custom properties.
-                                "applicationType": "str",  # Optional.
-                                  applicationType name.
-                                "computeUnits": "str",  # Optional. Compute Units.
-                                "executionTimeout": "str",  # Optional. Execution
-                                  timeout.
-                                "platform": "str",  # Optional. Serverless Account
-                                  Platform.
-                                "region": "str",  # Optional. region name for the
-                                  runtime environment.
-                                "resourceGroupName": "str",  # Optional. Resource
-                                  group name.
-                                "serverlessArmResourceId": "str",  # Optional.
-                                  Serverless Arm Resource ID.
-                                "subnet": "str",  # Optional. subnet name.
-                                "subscriptionId": "str",  # Optional. subscription
-                                  ID.
-                                "supplementaryFileLocation": "str",  # Optional.
-                                  Supplementary File location.
-                                "tags": "str",  # Optional. Tags for the resource.
-                                "tenantId": "str",  # Optional. Tenant ID.
-                                "vnet": "str"  # Optional. virtual network.
+                                "advancedCustomProperties": "str",
+                                "applicationType": "str",
+                                "computeUnits": "str",
+                                "executionTimeout": "str",
+                                "platform": "str",
+                                "region": "str",
+                                "resourceGroupName": "str",
+                                "serverlessArmResourceId": "str",
+                                "subnet": "str",
+                                "subscriptionId": "str",
+                                "supplementaryFileLocation": "str",
+                                "tags": "str",
+                                "tenantId": "str",
+                                "vnet": "str"
                             },
-                            "status": "str",  # Status of the environment. Required.
-                            "statusLocalized": "str",  # Display message for the given
-                              status. Required.
-                            "statusMessage": "str",  # status message. Required.
-                            "type": "str",  # Environment Type. Required. "SERVERLESS"
-                            "updatedBy": "str",  # Last Updated by. Required.
-                            "updatedTime": "str",  # Updated Time. Required.
-                            "description": "str"  # Optional. Description of the runtime
-                              resource.
+                            "status": "str",
+                            "statusLocalized": "str",
+                            "statusMessage": "str",
+                            "type": "str",
+                            "updatedBy": "str",
+                            "updatedTime": "str",
+                            "description": "str"
                         }
                     ]
                 }
@@ -2794,7 +2468,6 @@ class ServerlessRuntimesOperations:
     def get(
         self, resource_group_name: str, organization_name: str, serverless_runtime_name: str, **kwargs: Any
     ) -> _models.InformaticaServerlessRuntimeResource:
-        # pylint: disable=line-too-long
         """Get a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2814,124 +2487,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -2989,7 +2621,7 @@ class ServerlessRuntimesOperations:
         serverless_runtime_name: str,
         resource: Union[_models.InformaticaServerlessRuntimeResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> JSON:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3002,7 +2634,7 @@ class ServerlessRuntimesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -3024,7 +2656,7 @@ class ServerlessRuntimesOperations:
         )
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -3032,20 +2664,19 @@ class ServerlessRuntimesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
-            if _stream:
-                response.read()  # Load the body in memory and close the socket
+            response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
         if response.status_code == 200:
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
 
         if response.status_code == 201:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -3063,7 +2694,6 @@ class ServerlessRuntimesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaServerlessRuntimeResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3090,246 +2720,164 @@ class ServerlessRuntimesOperations:
 
                 # JSON input template you can fill out and use as your body input.
                 resource = {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -3344,7 +2892,6 @@ class ServerlessRuntimesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaServerlessRuntimeResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3370,124 +2917,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -3502,7 +3008,6 @@ class ServerlessRuntimesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaServerlessRuntimeResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3528,124 +3033,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -3658,7 +3122,6 @@ class ServerlessRuntimesOperations:
         resource: Union[_models.InformaticaServerlessRuntimeResource, JSON, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.InformaticaServerlessRuntimeResource]:
-        # pylint: disable=line-too-long
         """Create a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3684,246 +3147,164 @@ class ServerlessRuntimesOperations:
 
                 # JSON input template you can fill out and use as your body input.
                 resource = {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -3946,6 +3327,7 @@ class ServerlessRuntimesOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -3972,9 +3354,9 @@ class ServerlessRuntimesOperations:
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
+    def _delete_initial(
         self, resource_group_name: str, organization_name: str, serverless_runtime_name: str, **kwargs: Any
-    ) -> None:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3986,7 +3368,7 @@ class ServerlessRuntimesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_serverless_runtimes_delete_request(
             resource_group_name=resource_group_name,
@@ -3999,7 +3381,7 @@ class ServerlessRuntimesOperations:
         )
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -4007,8 +3389,7 @@ class ServerlessRuntimesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            if _stream:
-                response.read()  # Load the body in memory and close the socket
+            response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -4018,8 +3399,15 @@ class ServerlessRuntimesOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
+            deserialized = response.iter_bytes()
+
+        if response.status_code == 204:
+            deserialized = response.iter_bytes()
+
         if cls:
-            return cls(pipeline_response, None, response_headers)  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -4046,7 +3434,7 @@ class ServerlessRuntimesOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 organization_name=organization_name,
                 serverless_runtime_name=serverless_runtime_name,
@@ -4055,6 +3443,7 @@ class ServerlessRuntimesOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -4080,7 +3469,6 @@ class ServerlessRuntimesOperations:
     def list_by_informatica_organization_resource(  # pylint: disable=name-too-long
         self, resource_group_name: str, organization_name: str, **kwargs: Any
     ) -> Iterable["_models.InformaticaServerlessRuntimeResource"]:
-        # pylint: disable=line-too-long
         """List InformaticaServerlessRuntimeResource resources by InformaticaOrganizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4098,124 +3486,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -4278,8 +3625,6 @@ class ServerlessRuntimesOperations:
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 error = _deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -4299,7 +3644,6 @@ class ServerlessRuntimesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.InformaticaServerlessRuntimeResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4328,219 +3672,149 @@ class ServerlessRuntimesOperations:
                     "properties": {
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "serverlessAccountLocation": "str",  # Optional. Serverless account
-                          creation location.
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "serverlessAccountLocation": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Optional. Virtual network
-                                  subnet resource id.
-                                "vnetId": "str",  # Optional. Virtual network
-                                  resource id.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # Optional. User context token for
-                              OBO flow.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     }
                 }
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -4555,7 +3829,6 @@ class ServerlessRuntimesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.InformaticaServerlessRuntimeResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4580,124 +3853,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -4712,7 +3944,6 @@ class ServerlessRuntimesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.InformaticaServerlessRuntimeResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4737,124 +3968,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
 
@@ -4867,7 +4057,6 @@ class ServerlessRuntimesOperations:
         properties: Union[_models.InformaticaServerlessRuntimeResourceUpdate, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.InformaticaServerlessRuntimeResource:
-        # pylint: disable=line-too-long
         """Update a InformaticaServerlessRuntimeResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4895,219 +4084,149 @@ class ServerlessRuntimesOperations:
                     "properties": {
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "serverlessAccountLocation": "str",  # Optional. Serverless account
-                          creation location.
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "serverlessAccountLocation": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Optional. Virtual network
-                                  subnet resource id.
-                                "vnetId": "str",  # Optional. Virtual network
-                                  resource id.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # Optional. User context token for
-                              OBO flow.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     }
                 }
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -5191,16 +4310,16 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "count": 0,  # Count of dependencies. Required.
-                    "id": "str",  # id of resource. Required.
+                    "count": 0,
+                    "id": "str",
                     "references": [
                         {
-                            "appContextId": "str",  # Application context ID. Required.
-                            "description": "str",  # description of Dependency. Required.
-                            "documentType": "str",  # document type. Required.
-                            "id": "str",  # Dependency ID. Required.
-                            "lastUpdatedTime": "str",  # Last Update Time. Required.
-                            "path": "str"  # Dependency path. Required.
+                            "appContextId": "str",
+                            "description": "str",
+                            "documentType": "str",
+                            "id": "str",
+                            "lastUpdatedTime": "str",
+                            "path": "str"
                         }
                     ]
                 }
@@ -5302,8 +4421,6 @@ class ServerlessRuntimesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [204]:
-            if _stream:
-                response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -5315,7 +4432,6 @@ class ServerlessRuntimesOperations:
     def serverless_resource_by_id(
         self, resource_group_name: str, organization_name: str, serverless_runtime_name: str, **kwargs: Any
     ) -> _models.InformaticaServerlessRuntimeResource:
-        # pylint: disable=line-too-long
         """Returns a serverless runtime resource by ID.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -5335,124 +4451,83 @@ class ServerlessRuntimesOperations:
 
                 # response body for status code(s): 200
                 response == {
-                    "id": "str",  # Optional. Fully qualified resource ID for the resource. Ex -
-                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-                    "name": "str",  # Optional. The name of the resource.
+                    "id": "str",
+                    "name": "str",
                     "properties": {
-                        "serverlessAccountLocation": "str",  # Serverless account creation
-                          location. Required.
+                        "serverlessAccountLocation": "str",
                         "advancedCustomProperties": [
                             {
-                                "key": "str",  # Optional. advanced custom properties
-                                  key.
-                                "value": "str"  # Optional. advanced custom
-                                  properties value.
+                                "key": "str",
+                                "value": "str"
                             }
                         ],
-                        "applicationType": "str",  # Optional. Application type of the
-                          Serverless Runtime environment. Known values are: "CDI" and "CDIE".
-                        "computeUnits": "str",  # Optional. Compute units of the serverless
-                          runtime.
-                        "description": "str",  # Optional. description of the serverless
-                          runtime.
-                        "executionTimeout": "str",  # Optional. Serverless Execution timeout.
-                        "platform": "str",  # Optional. Platform type of the Serverless
-                          Runtime. "AZURE"
-                        "provisioningState": "str",  # Optional. Provisioning State of the
-                          resource. Known values are: "Accepted", "Creating", "Updating", "Deleting",
-                          "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+                        "applicationType": "str",
+                        "computeUnits": "str",
+                        "description": "str",
+                        "executionTimeout": "str",
+                        "platform": "str",
+                        "provisioningState": "str",
                         "serverlessRuntimeConfig": {
                             "cdiConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ],
                             "cdieConfigProps": [
                                 {
                                     "applicationConfigs": [
                                         {
-                                            "customized": "str",  #
-                                              Customized value of the application config. Required.
-                                            "defaultValue": "str",  #
-                                              Default value of the application config. Required.
-                                            "name": "str",  # Name of the
-                                              application config. Required.
-                                            "platform": "str",  #
-                                              Platform type of the application config. Required.
-                                            "type": "str",  # Type of the
-                                              application config. Required.
-                                            "value": "str"  # Value of
-                                              the application config. Required.
+                                            "customized": "str",
+                                            "defaultValue": "str",
+                                            "name": "str",
+                                            "platform": "str",
+                                            "type": "str",
+                                            "value": "str"
                                         }
                                     ],
-                                    "engineName": "str",  # EngineName of the
-                                      application config. Required.
-                                    "engineVersion": "str"  # EngineVersion of
-                                      the application config. Required.
+                                    "engineName": "str",
+                                    "engineVersion": "str"
                                 }
                             ]
                         },
                         "serverlessRuntimeNetworkProfile": {
                             "networkInterfaceConfiguration": {
-                                "subnetId": "str",  # Virtual network subnet resource
-                                  id. Required.
-                                "vnetId": "str",  # Virtual network resource id.
-                                  Required.
-                                "vnetResourceGuid": "str"  # Optional. Virtual
-                                  network resource guid.
+                                "subnetId": "str",
+                                "vnetId": "str",
+                                "vnetResourceGuid": "str"
                             }
                         },
                         "serverlessRuntimeTags": [
                             {
-                                "name": "str",  # Optional. The name (also known as
-                                  the key) of the tag.
-                                "value": "str"  # Optional. The value of the tag.
+                                "name": "str",
+                                "value": "str"
                             }
                         ],
                         "serverlessRuntimeUserContextProperties": {
-                            "userContextToken": "str"  # User context token for OBO flow.
-                              Required.
+                            "userContextToken": "str"
                         },
-                        "supplementaryFileLocation": "str"  # Optional. Supplementary file
-                          location.
+                        "supplementaryFileLocation": "str"
                     },
                     "systemData": {
-                        "createdAt": "2020-02-20",  # Optional. The type of identity that
-                          created the resource.
-                        "createdBy": "str",  # Optional. The identity that created the
-                          resource.
-                        "createdByType": "str",  # Optional. The type of identity that
-                          created the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
-                        "lastModifiedAt": "2020-02-20",  # Optional. The timestamp of
-                          resource last modification (UTC).
-                        "lastModifiedBy": "str",  # Optional. The identity that last modified
-                          the resource.
-                        "lastModifiedByType": "str"  # Optional. The type of identity that
-                          last modified the resource. Known values are: "User", "Application",
-                          "ManagedIdentity", and "Key".
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
-                    "type": "str"  # Optional. The type of the resource. E.g.
-                      "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
