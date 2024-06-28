@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.oracledatabase import OracleDatabaseMgmtClient
@@ -15,7 +17,7 @@ from azure.mgmt.oracledatabase import OracleDatabaseMgmtClient
     pip install azure-identity
     pip install azure-mgmt-oracledatabase
 # USAGE
-    python virtual_network_addresses_get.py
+    python oracle_subscriptions_add_azure_subscriptions.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +32,11 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.virtual_network_addresses.get(
-        resource_group_name="rg000",
-        cloudvmclustername="cluster1",
-        virtualnetworkaddressname="hostname1",
-    )
-    print(response)
+    client.oracle_subscriptions.begin_add_azure_subscriptions(
+        body={"azureSubscriptionIds": ["00000000-0000-0000-0000-000000000001"]},
+    ).result()
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2024-06-01/examples/virtualNetworkAddresses_get.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2024-06-01/examples/oracleSubscriptions_addAzureSubscriptions.json
 if __name__ == "__main__":
     main()
