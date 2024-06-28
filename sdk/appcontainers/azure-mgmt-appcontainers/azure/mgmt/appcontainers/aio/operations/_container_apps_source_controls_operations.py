@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -39,6 +40,10 @@ from ...operations._container_apps_source_controls_operations import (
 )
 from .._vendor import ContainerAppsAPIClientMixinABC
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -85,7 +90,7 @@ class ContainerAppsSourceControlsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SourceControlCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -169,7 +174,7 @@ class ContainerAppsSourceControlsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.SourceControl
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -219,10 +224,11 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: Union[_models.SourceControl, IO[bytes]],
         **kwargs: Any
     ) -> _models.SourceControl:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -250,6 +256,7 @@ class ContainerAppsSourceControlsOperations:
             container_app_name=container_app_name,
             source_control_name=source_control_name,
             subscription_id=self._config.subscription_id,
+            x_ms_github_auxiliary=x_ms_github_auxiliary,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -289,6 +296,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: _models.SourceControl,
         *,
         content_type: str = "application/json",
@@ -305,6 +313,8 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
         :param source_control_envelope: Properties used to create a Container App SourceControl.
          Required.
         :type source_control_envelope: ~azure.mgmt.appcontainers.models.SourceControl
@@ -323,6 +333,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
@@ -339,6 +350,8 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
         :param source_control_envelope: Properties used to create a Container App SourceControl.
          Required.
         :type source_control_envelope: IO[bytes]
@@ -357,6 +370,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: Union[_models.SourceControl, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.SourceControl]:
@@ -371,6 +385,8 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
         :param source_control_envelope: Properties used to create a Container App SourceControl. Is
          either a SourceControl type or a IO[bytes] type. Required.
         :type source_control_envelope: ~azure.mgmt.appcontainers.models.SourceControl or IO[bytes]
@@ -393,6 +409,7 @@ class ContainerAppsSourceControlsOperations:
                 resource_group_name=resource_group_name,
                 container_app_name=container_app_name,
                 source_control_name=source_control_name,
+                x_ms_github_auxiliary=x_ms_github_auxiliary,
                 source_control_envelope=source_control_envelope,
                 api_version=api_version,
                 content_type=content_type,
@@ -427,9 +444,16 @@ class ContainerAppsSourceControlsOperations:
         )
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, container_app_name: str, source_control_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        container_app_name: str,
+        source_control_name: str,
+        x_ms_github_auxiliary: str,
+        ignore_workflow_deletion_failure: Optional[bool] = None,
+        delete_workflow: Optional[bool] = None,
+        **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -448,6 +472,9 @@ class ContainerAppsSourceControlsOperations:
             container_app_name=container_app_name,
             source_control_name=source_control_name,
             subscription_id=self._config.subscription_id,
+            x_ms_github_auxiliary=x_ms_github_auxiliary,
+            ignore_workflow_deletion_failure=ignore_workflow_deletion_failure,
+            delete_workflow=delete_workflow,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -472,7 +499,14 @@ class ContainerAppsSourceControlsOperations:
 
     @distributed_trace_async
     async def begin_delete(
-        self, resource_group_name: str, container_app_name: str, source_control_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        container_app_name: str,
+        source_control_name: str,
+        x_ms_github_auxiliary: str,
+        ignore_workflow_deletion_failure: Optional[bool] = None,
+        delete_workflow: Optional[bool] = None,
+        **kwargs: Any
     ) -> AsyncLROPoller[None]:
         """Delete a Container App SourceControl.
 
@@ -485,6 +519,13 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
+        :param ignore_workflow_deletion_failure: Ignore Workflow Deletion Failure. Default value is
+         None.
+        :type ignore_workflow_deletion_failure: bool
+        :param delete_workflow: Delete workflow. Default value is None.
+        :type delete_workflow: bool
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -502,6 +543,9 @@ class ContainerAppsSourceControlsOperations:
                 resource_group_name=resource_group_name,
                 container_app_name=container_app_name,
                 source_control_name=source_control_name,
+                x_ms_github_auxiliary=x_ms_github_auxiliary,
+                ignore_workflow_deletion_failure=ignore_workflow_deletion_failure,
+                delete_workflow=delete_workflow,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
