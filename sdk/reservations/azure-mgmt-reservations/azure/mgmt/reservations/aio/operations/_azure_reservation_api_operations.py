@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -34,15 +34,16 @@ from ...operations._azure_reservation_api_operations import (
 )
 from .._vendor import AzureReservationAPIMixinABC
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
 class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
+
     @distributed_trace
     def get_catalog(
         self,
@@ -85,7 +86,6 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
         :type skip: float
         :param take: To number of reservations to return. Default value is None.
         :type take: float
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Catalog or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.reservations.models.Catalog]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -93,10 +93,10 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-11-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01"))
         cls: ClsType[_models.CatalogsResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -107,7 +107,7 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_catalog_request(
+                _request = build_get_catalog_request(
                     subscription_id=subscription_id,
                     reserved_resource_type=reserved_resource_type,
                     location=location,
@@ -118,19 +118,18 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
                     skip=skip,
                     take=take,
                     api_version=api_version,
-                    template_url=self.get_catalog.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = HttpRequest("GET", next_link)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("CatalogsResult", pipeline_response)
@@ -140,10 +139,11 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -156,23 +156,20 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
 
         return AsyncItemPaged(get_next, extract_data)
 
-    get_catalog.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs"}
-
     @distributed_trace_async
     async def get_applied_reservation_list(self, subscription_id: str, **kwargs: Any) -> _models.AppliedReservations:
-        """Get list of applicable ``Reservation``\ s.
+        """Get list of applicable ``Reservation``\\ s.
 
-        Get applicable ``Reservation``\ s that are applied to this subscription or a resource group
+        Get applicable ``Reservation``\\ s that are applied to this subscription or a resource group
         under this subscription.
 
         :param subscription_id: Id of the subscription. Required.
         :type subscription_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AppliedReservations or the result of cls(response)
         :rtype: ~azure.mgmt.reservations.models.AppliedReservations
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -183,21 +180,21 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-11-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01"))
         cls: ClsType[_models.AppliedReservations] = kwargs.pop("cls", None)
 
-        request = build_get_applied_reservation_list_request(
+        _request = build_get_applied_reservation_list_request(
             subscription_id=subscription_id,
             api_version=api_version,
-            template_url=self.get_applied_reservation_list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -210,10 +207,6 @@ class AzureReservationAPIOperationsMixin(AzureReservationAPIMixinABC):
         deserialized = self._deserialize("AppliedReservations", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_applied_reservation_list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/appliedReservations"
-    }
+        return deserialized  # type: ignore
