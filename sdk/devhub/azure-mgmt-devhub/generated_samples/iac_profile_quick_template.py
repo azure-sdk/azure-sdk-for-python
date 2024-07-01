@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.devhub import DevHubMgmtClient
@@ -15,7 +17,7 @@ from azure.mgmt.devhub import DevHubMgmtClient
     pip install azure-identity
     pip install azure-mgmt-devhub
 # USAGE
-    python git_hub_oauth_list.py
+    python iac_profile_quick_template.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,15 +29,22 @@ from azure.mgmt.devhub import DevHubMgmtClient
 def main():
     client = DevHubMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="a0a37f63-7183-4e86-9ac7-ce8036a3ed31",
     )
 
-    response = client.list_git_hub_o_auth(
-        location="eastus2euap",
+    response = client.iac_profiles.quick_template(
+        resource_group_name="resourceGroup1",
+        iac_profile_name="iacprofile",
+        parameters={
+            "instanceName": "contoso",
+            "quickStartTemplateType": "HCI",
+            "stageName": "dev",
+            "templateName": "base",
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-05-01-preview/examples/GitHubOAuth_List.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-05-01-preview/examples/IacProfile_QuickTemplate.json
 if __name__ == "__main__":
     main()
