@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.resourcegraph import ResourceGraphClient
 
 """
@@ -26,6 +29,7 @@ from azure.mgmt.resourcegraph import ResourceGraphClient
 def main():
     client = ResourceGraphClient(
         credential=DefaultAzureCredential(),
+        base_url="BASE_URL",
     )
 
     response = client.resources(
@@ -37,6 +41,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/stable/2022-10-01/examples/ResourcesFilterQuery.json
+# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2023-09-01-preview/examples/ResourcesFilterQuery.json
 if __name__ == "__main__":
     main()
