@@ -6,9 +6,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._reservation_operations import ReservationOperations
 from ._azure_reservation_api_operations import AzureReservationAPIOperationsMixin
 from ._reservation_order_operations import ReservationOrderOperations
+from ._reservation_operations import ReservationOperations
 from ._operation_operations import OperationOperations
 from ._calculate_refund_operations import CalculateRefundOperations
 from ._return_operations_operations import ReturnOperations
@@ -22,9 +22,9 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "ReservationOperations",
     "AzureReservationAPIOperationsMixin",
     "ReservationOrderOperations",
+    "ReservationOperations",
     "OperationOperations",
     "CalculateRefundOperations",
     "ReturnOperations",
