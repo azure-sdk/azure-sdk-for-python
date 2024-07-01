@@ -27,7 +27,7 @@ JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 class Column(_serialization.Model):
     """Query result column descriptor.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Column name. Required.
     :vartype name: str
@@ -46,7 +46,7 @@ class Column(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, type: Union[str, "_models.ColumnDataType"], **kwargs):
+    def __init__(self, *, name: str, type: Union[str, "_models.ColumnDataType"], **kwargs: Any) -> None:
         """
         :keyword name: Column name. Required.
         :paramtype name: str
@@ -60,17 +60,18 @@ class Column(_serialization.Model):
 
 
 class DateTimeInterval(_serialization.Model):
-    """An interval in time specifying the date and time for the inclusive start and exclusive end, i.e. ``[start, end)``.
+    """An interval in time specifying the date and time for the inclusive start and exclusive end,
+    i.e. ``[start, end)``.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar start: A datetime indicating the inclusive/closed start of the time interval, i.e. ``[``\
-     **\ ``start``\ **\ ``, end)``. Specifying a ``start`` that occurs chronologically after ``end``
-     will result in an error. Required.
+    :ivar start: A datetime indicating the inclusive/closed start of the time interval, i.e.
+     ``[``\\ **\\ ``start``\\ **\\ ``, end)``. Specifying a ``start`` that occurs chronologically
+     after ``end`` will result in an error. Required.
     :vartype start: ~datetime.datetime
-    :ivar end: A datetime indicating the exclusive/open end of the time interval, i.e. ``[start,``\
-     **\ ``end``\ **\ ``)``. Specifying an ``end`` that occurs chronologically before ``start`` will
-     result in an error. Required.
+    :ivar end: A datetime indicating the exclusive/open end of the time interval, i.e.
+     ``[start,``\\ **\\ ``end``\\ **\\ ``)``. Specifying an ``end`` that occurs chronologically
+     before ``start`` will result in an error. Required.
     :vartype end: ~datetime.datetime
     """
 
@@ -84,15 +85,15 @@ class DateTimeInterval(_serialization.Model):
         "end": {"key": "end", "type": "iso-8601"},
     }
 
-    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs):
+    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword start: A datetime indicating the inclusive/closed start of the time interval, i.e.
-         ``[``\ **\ ``start``\ **\ ``, end)``. Specifying a ``start`` that occurs chronologically after
-         ``end`` will result in an error. Required.
+         ``[``\\ **\\ ``start``\\ **\\ ``, end)``. Specifying a ``start`` that occurs chronologically
+         after ``end`` will result in an error. Required.
         :paramtype start: ~datetime.datetime
         :keyword end: A datetime indicating the exclusive/open end of the time interval, i.e.
-         ``[start,``\ **\ ``end``\ **\ ``)``. Specifying an ``end`` that occurs chronologically before
-         ``start`` will result in an error. Required.
+         ``[start,``\\ **\\ ``end``\\ **\\ ``)``. Specifying an ``end`` that occurs chronologically
+         before ``start`` will result in an error. Required.
         :paramtype end: ~datetime.datetime
         """
         super().__init__(**kwargs)
@@ -103,7 +104,7 @@ class DateTimeInterval(_serialization.Model):
 class Error(_serialization.Model):
     """Error details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: Error code identifying the specific error. Required.
     :vartype code: str
@@ -124,7 +125,9 @@ class Error(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorDetails]"},
     }
 
-    def __init__(self, *, code: str, message: str, details: Optional[List["_models.ErrorDetails"]] = None, **kwargs):
+    def __init__(
+        self, *, code: str, message: str, details: Optional[List["_models.ErrorDetails"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword code: Error code identifying the specific error. Required.
         :paramtype code: str
@@ -142,7 +145,7 @@ class Error(_serialization.Model):
 class ErrorDetails(_serialization.Model):
     """Error details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -164,7 +167,9 @@ class ErrorDetails(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: str, message: str, additional_properties: Optional[Dict[str, JSON]] = None, **kwargs):
+    def __init__(
+        self, *, code: str, message: str, additional_properties: Optional[Dict[str, JSON]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -183,7 +188,7 @@ class ErrorDetails(_serialization.Model):
 class ErrorResponse(_serialization.Model):
     """An error response from the API.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar error: Error information. Required.
     :vartype error: ~azure.mgmt.resourcegraph.models.Error
@@ -197,7 +202,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "Error"},
     }
 
-    def __init__(self, *, error: "_models.Error", **kwargs):
+    def __init__(self, *, error: "_models.Error", **kwargs: Any) -> None:
         """
         :keyword error: Error information. Required.
         :paramtype error: ~azure.mgmt.resourcegraph.models.Error
@@ -207,12 +212,13 @@ class ErrorResponse(_serialization.Model):
 
 
 class Facet(_serialization.Model):
-    """A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError.
+    """A facet containing additional statistics on the response of a query. Can be either FacetResult
+    or FacetError.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     FacetError, FacetResult
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expression: Facet expression, same as in the corresponding facet request. Required.
     :vartype expression: str
@@ -232,7 +238,7 @@ class Facet(_serialization.Model):
 
     _subtype_map = {"result_type": {"FacetError": "FacetError", "FacetResult": "FacetResult"}}
 
-    def __init__(self, *, expression: str, **kwargs):
+    def __init__(self, *, expression: str, **kwargs: Any) -> None:
         """
         :keyword expression: Facet expression, same as in the corresponding facet request. Required.
         :paramtype expression: str
@@ -245,7 +251,7 @@ class Facet(_serialization.Model):
 class FacetError(Facet):
     """A facet whose execution resulted in an error.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expression: Facet expression, same as in the corresponding facet request. Required.
     :vartype expression: str
@@ -267,7 +273,7 @@ class FacetError(Facet):
         "errors": {"key": "errors", "type": "[ErrorDetails]"},
     }
 
-    def __init__(self, *, expression: str, errors: List["_models.ErrorDetails"], **kwargs):
+    def __init__(self, *, expression: str, errors: List["_models.ErrorDetails"], **kwargs: Any) -> None:
         """
         :keyword expression: Facet expression, same as in the corresponding facet request. Required.
         :paramtype expression: str
@@ -282,7 +288,7 @@ class FacetError(Facet):
 class FacetRequest(_serialization.Model):
     """A request to compute additional statistics (facets) over the query results.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expression: The column or list of columns to summarize by. Required.
     :vartype expression: str
@@ -299,7 +305,9 @@ class FacetRequest(_serialization.Model):
         "options": {"key": "options", "type": "FacetRequestOptions"},
     }
 
-    def __init__(self, *, expression: str, options: Optional["_models.FacetRequestOptions"] = None, **kwargs):
+    def __init__(
+        self, *, expression: str, options: Optional["_models.FacetRequestOptions"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword expression: The column or list of columns to summarize by. Required.
         :paramtype expression: str
@@ -345,8 +353,8 @@ class FacetRequestOptions(_serialization.Model):
         sort_order: Union[str, "_models.FacetSortOrder"] = "desc",
         filter: Optional[str] = None,  # pylint: disable=redefined-builtin
         top: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sort_by: The column name or query expression to sort on. Defaults to count if not
          present.
@@ -370,7 +378,7 @@ class FacetRequestOptions(_serialization.Model):
 class FacetResult(Facet):
     """Successfully executed facet containing additional statistics on the response of a query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expression: Facet expression, same as in the corresponding facet request. Required.
     :vartype expression: str
@@ -401,7 +409,7 @@ class FacetResult(Facet):
         "data": {"key": "data", "type": "object"},
     }
 
-    def __init__(self, *, expression: str, total_records: int, count: int, data: JSON, **kwargs):
+    def __init__(self, *, expression: str, total_records: int, count: int, data: JSON, **kwargs: Any) -> None:
         """
         :keyword expression: Facet expression, same as in the corresponding facet request. Required.
         :paramtype expression: str
@@ -418,6 +426,41 @@ class FacetResult(Facet):
         self.total_records = total_records
         self.count = count
         self.data = data
+
+
+class HistoryContext(_serialization.Model):
+    """History content generated by a user, assistant or system role.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar content: Content generated by a given role. Required.
+    :vartype content: str
+    :ivar role: Role which generates the content e.g., user, assistant or system. Required. Known
+     values are: "user", "assistant", and "system".
+    :vartype role: str or ~azure.mgmt.resourcegraph.models.Role
+    """
+
+    _validation = {
+        "content": {"required": True},
+        "role": {"required": True},
+    }
+
+    _attribute_map = {
+        "content": {"key": "content", "type": "str"},
+        "role": {"key": "role", "type": "str"},
+    }
+
+    def __init__(self, *, content: str, role: Union[str, "_models.Role"], **kwargs: Any) -> None:
+        """
+        :keyword content: Content generated by a given role. Required.
+        :paramtype content: str
+        :keyword role: Role which generates the content e.g., user, assistant or system. Required.
+         Known values are: "user", "assistant", and "system".
+        :paramtype role: str or ~azure.mgmt.resourcegraph.models.Role
+        """
+        super().__init__(**kwargs)
+        self.content = content
+        self.role = role
 
 
 class Operation(_serialization.Model):
@@ -443,8 +486,8 @@ class Operation(_serialization.Model):
         name: Optional[str] = None,
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -486,8 +529,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft Resource Graph.
         :paramtype provider: str
@@ -506,7 +549,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list Resource Graph operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list Resource Graph operations. It contains a list of operations and a
+    URL link to get the next set of results.
 
     :ivar value: List of Resource Graph operations supported by the Resource Graph resource
      provider.
@@ -517,7 +561,7 @@ class OperationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of Resource Graph operations supported by the Resource Graph resource
          provider.
@@ -527,10 +571,75 @@ class OperationListResult(_serialization.Model):
         self.value = value
 
 
+class QueryGenerationRequest(_serialization.Model):
+    """Query Generation Request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar history: A collection of chat history to provide context in query generation.
+    :vartype history: list[~azure.mgmt.resourcegraph.models.HistoryContext]
+    :ivar prompt: Prompt text from user. Required.
+    :vartype prompt: str
+    """
+
+    _validation = {
+        "prompt": {"required": True},
+    }
+
+    _attribute_map = {
+        "history": {"key": "history", "type": "[HistoryContext]"},
+        "prompt": {"key": "prompt", "type": "str"},
+    }
+
+    def __init__(self, *, prompt: str, history: Optional[List["_models.HistoryContext"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword history: A collection of chat history to provide context in query generation.
+        :paramtype history: list[~azure.mgmt.resourcegraph.models.HistoryContext]
+        :keyword prompt: Prompt text from user. Required.
+        :paramtype prompt: str
+        """
+        super().__init__(**kwargs)
+        self.history = history
+        self.prompt = prompt
+
+
+class QueryGenerationResponse(_serialization.Model):
+    """Query Generation Response.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar query: Query generated for a given user prompt text. Required.
+    :vartype query: str
+    :ivar status: Status for the query generation result. Required.
+    :vartype status: ~azure.mgmt.resourcegraph.models.StatusResponse
+    """
+
+    _validation = {
+        "query": {"required": True},
+        "status": {"required": True},
+    }
+
+    _attribute_map = {
+        "query": {"key": "query", "type": "str"},
+        "status": {"key": "status", "type": "StatusResponse"},
+    }
+
+    def __init__(self, *, query: str, status: "_models.StatusResponse", **kwargs: Any) -> None:
+        """
+        :keyword query: Query generated for a given user prompt text. Required.
+        :paramtype query: str
+        :keyword status: Status for the query generation result. Required.
+        :paramtype status: ~azure.mgmt.resourcegraph.models.StatusResponse
+        """
+        super().__init__(**kwargs)
+        self.query = query
+        self.status = status
+
+
 class QueryRequest(_serialization.Model):
     """Describes a query to be executed.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subscriptions: Azure subscriptions against which to execute the query.
     :vartype subscriptions: list[str]
@@ -565,8 +674,8 @@ class QueryRequest(_serialization.Model):
         management_groups: Optional[List[str]] = None,
         options: Optional["_models.QueryRequestOptions"] = None,
         facets: Optional[List["_models.FacetRequest"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscriptions: Azure subscriptions against which to execute the query.
         :paramtype subscriptions: list[str]
@@ -637,8 +746,8 @@ class QueryRequestOptions(_serialization.Model):
         result_format: Optional[Union[str, "_models.ResultFormat"]] = None,
         allow_partial_scopes: bool = False,
         authorization_scope_filter: Union[str, "_models.AuthorizationScopeFilter"] = "AtScopeAndBelow",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword skip_token: Continuation token for pagination, capturing the next page size and
          offset, as well as the context of the query.
@@ -674,7 +783,7 @@ class QueryRequestOptions(_serialization.Model):
 class QueryResponse(_serialization.Model):
     """Query result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar total_records: Number of total records matching the query. Required.
     :vartype total_records: int
@@ -718,8 +827,8 @@ class QueryResponse(_serialization.Model):
         data: JSON,
         skip_token: Optional[str] = None,
         facets: Optional[List["_models.Facet"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_records: Number of total records matching the query. Required.
         :paramtype total_records: int
@@ -749,7 +858,7 @@ class QueryResponse(_serialization.Model):
 class ResourceChangeData(_serialization.Model):
     """Data on a specific change, represented by a pair of before and after resource snapshots.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_id: The resource for a change.
     :vartype resource_id: str
@@ -790,8 +899,8 @@ class ResourceChangeData(_serialization.Model):
         resource_id: Optional[str] = None,
         change_type: Optional[Union[str, "_models.ChangeType"]] = None,
         property_changes: Optional[List["_models.ResourcePropertyChange"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The resource for a change.
         :paramtype resource_id: str
@@ -820,7 +929,7 @@ class ResourceChangeData(_serialization.Model):
 class ResourceSnapshotData(_serialization.Model):
     """Data on a specific resource snapshot.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar snapshot_id: The ID of the snapshot.
     :vartype snapshot_id: str
@@ -850,8 +959,8 @@ class ResourceSnapshotData(_serialization.Model):
         timestamp: datetime.datetime,
         snapshot_id: Optional[str] = None,
         content: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword snapshot_id: The ID of the snapshot.
         :paramtype snapshot_id: str
@@ -873,7 +982,7 @@ class ResourceSnapshotData(_serialization.Model):
 class ResourceChangeDataAfterSnapshot(ResourceSnapshotData):
     """The snapshot after the change.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar snapshot_id: The ID of the snapshot.
     :vartype snapshot_id: str
@@ -886,44 +995,12 @@ class ResourceChangeDataAfterSnapshot(ResourceSnapshotData):
     :ivar content: The resource snapshot content (in resourceChangeDetails response only).
     :vartype content: JSON
     """
-
-    _validation = {
-        "timestamp": {"required": True},
-    }
-
-    _attribute_map = {
-        "snapshot_id": {"key": "snapshotId", "type": "str"},
-        "timestamp": {"key": "timestamp", "type": "iso-8601"},
-        "content": {"key": "content", "type": "object"},
-    }
-
-    def __init__(
-        self,
-        *,
-        timestamp: datetime.datetime,
-        snapshot_id: Optional[str] = None,
-        content: Optional[JSON] = None,
-        **kwargs
-    ):
-        """
-        :keyword snapshot_id: The ID of the snapshot.
-        :paramtype snapshot_id: str
-        :keyword timestamp: The time when the snapshot was created.
-         The snapshot timestamp provides an approximation as to when a modification to a resource was
-         detected.  There can be a difference between the actual modification time and the detection
-         time.  This is due to differences in how operations that modify a resource are processed,
-         versus how operation that record resource snapshots are processed. Required.
-        :paramtype timestamp: ~datetime.datetime
-        :keyword content: The resource snapshot content (in resourceChangeDetails response only).
-        :paramtype content: JSON
-        """
-        super().__init__(snapshot_id=snapshot_id, timestamp=timestamp, content=content, **kwargs)
 
 
 class ResourceChangeDataBeforeSnapshot(ResourceSnapshotData):
     """The snapshot before the change.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar snapshot_id: The ID of the snapshot.
     :vartype snapshot_id: str
@@ -937,43 +1014,11 @@ class ResourceChangeDataBeforeSnapshot(ResourceSnapshotData):
     :vartype content: JSON
     """
 
-    _validation = {
-        "timestamp": {"required": True},
-    }
-
-    _attribute_map = {
-        "snapshot_id": {"key": "snapshotId", "type": "str"},
-        "timestamp": {"key": "timestamp", "type": "iso-8601"},
-        "content": {"key": "content", "type": "object"},
-    }
-
-    def __init__(
-        self,
-        *,
-        timestamp: datetime.datetime,
-        snapshot_id: Optional[str] = None,
-        content: Optional[JSON] = None,
-        **kwargs
-    ):
-        """
-        :keyword snapshot_id: The ID of the snapshot.
-        :paramtype snapshot_id: str
-        :keyword timestamp: The time when the snapshot was created.
-         The snapshot timestamp provides an approximation as to when a modification to a resource was
-         detected.  There can be a difference between the actual modification time and the detection
-         time.  This is due to differences in how operations that modify a resource are processed,
-         versus how operation that record resource snapshots are processed. Required.
-        :paramtype timestamp: ~datetime.datetime
-        :keyword content: The resource snapshot content (in resourceChangeDetails response only).
-        :paramtype content: JSON
-        """
-        super().__init__(snapshot_id=snapshot_id, timestamp=timestamp, content=content, **kwargs)
-
 
 class ResourceChangeDetailsRequestParameters(_serialization.Model):
     """The parameters for a specific change details request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_ids: Specifies the list of resources for a change details request. Required.
     :vartype resource_ids: list[str]
@@ -991,7 +1036,7 @@ class ResourceChangeDetailsRequestParameters(_serialization.Model):
         "change_ids": {"key": "changeIds", "type": "[str]"},
     }
 
-    def __init__(self, *, resource_ids: List[str], change_ids: List[str], **kwargs):
+    def __init__(self, *, resource_ids: List[str], change_ids: List[str], **kwargs: Any) -> None:
         """
         :keyword resource_ids: Specifies the list of resources for a change details request. Required.
         :paramtype resource_ids: list[str]
@@ -1030,8 +1075,8 @@ class ResourceChangeList(_serialization.Model):
         *,
         changes: Optional[List["_models.ResourceChangeData"]] = None,
         skip_token: Optional[Any] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword changes: The pageable value returned by the operation, i.e. a list of changes to the
          resource.
@@ -1054,7 +1099,7 @@ class ResourceChangeList(_serialization.Model):
 class ResourceChangesRequestParameters(_serialization.Model):
     """The parameters for a specific changes request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_ids: Specifies the list of resources for a changes request.
     :vartype resource_ids: list[str]
@@ -1101,8 +1146,8 @@ class ResourceChangesRequestParameters(_serialization.Model):
         table: Optional[str] = None,
         fetch_property_changes: Optional[bool] = None,
         fetch_snapshots: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_ids: Specifies the list of resources for a changes request.
         :paramtype resource_ids: list[str]
@@ -1135,46 +1180,23 @@ class ResourceChangesRequestParameters(_serialization.Model):
 class ResourceChangesRequestParametersInterval(DateTimeInterval):
     """Specifies the date and time interval for a changes request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar start: A datetime indicating the inclusive/closed start of the time interval, i.e. ``[``\
-     **\ ``start``\ **\ ``, end)``. Specifying a ``start`` that occurs chronologically after ``end``
-     will result in an error. Required.
+    :ivar start: A datetime indicating the inclusive/closed start of the time interval, i.e.
+     ``[``\\ **\\ ``start``\\ **\\ ``, end)``. Specifying a ``start`` that occurs chronologically
+     after ``end`` will result in an error. Required.
     :vartype start: ~datetime.datetime
-    :ivar end: A datetime indicating the exclusive/open end of the time interval, i.e. ``[start,``\
-     **\ ``end``\ **\ ``)``. Specifying an ``end`` that occurs chronologically before ``start`` will
-     result in an error. Required.
+    :ivar end: A datetime indicating the exclusive/open end of the time interval, i.e.
+     ``[start,``\\ **\\ ``end``\\ **\\ ``)``. Specifying an ``end`` that occurs chronologically
+     before ``start`` will result in an error. Required.
     :vartype end: ~datetime.datetime
     """
-
-    _validation = {
-        "start": {"required": True},
-        "end": {"required": True},
-    }
-
-    _attribute_map = {
-        "start": {"key": "start", "type": "iso-8601"},
-        "end": {"key": "end", "type": "iso-8601"},
-    }
-
-    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs):
-        """
-        :keyword start: A datetime indicating the inclusive/closed start of the time interval, i.e.
-         ``[``\ **\ ``start``\ **\ ``, end)``. Specifying a ``start`` that occurs chronologically after
-         ``end`` will result in an error. Required.
-        :paramtype start: ~datetime.datetime
-        :keyword end: A datetime indicating the exclusive/open end of the time interval, i.e.
-         ``[start,``\ **\ ``end``\ **\ ``)``. Specifying an ``end`` that occurs chronologically before
-         ``start`` will result in an error. Required.
-        :paramtype end: ~datetime.datetime
-        """
-        super().__init__(start=start, end=end, **kwargs)
 
 
 class ResourcePropertyChange(_serialization.Model):
     """The resource property change.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar property_name: The property name. Required.
     :vartype property_name: str
@@ -1211,8 +1233,8 @@ class ResourcePropertyChange(_serialization.Model):
         property_change_type: Union[str, "_models.PropertyChangeType"],
         before_value: Optional[str] = None,
         after_value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword property_name: The property name. Required.
         :paramtype property_name: str
@@ -1262,8 +1284,8 @@ class ResourcesHistoryRequest(_serialization.Model):
         query: Optional[str] = None,
         options: Optional["_models.ResourcesHistoryRequestOptions"] = None,
         management_groups: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscriptions: Azure subscriptions against which to execute the query.
         :paramtype subscriptions: list[str]
@@ -1322,8 +1344,8 @@ class ResourcesHistoryRequestOptions(_serialization.Model):
         skip: Optional[int] = None,
         skip_token: Optional[str] = None,
         result_format: Optional[Union[str, "_models.ResultFormat"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword interval: The time interval used to fetch history.
         :paramtype interval: ~azure.mgmt.resourcegraph.models.DateTimeInterval
@@ -1348,10 +1370,45 @@ class ResourcesHistoryRequestOptions(_serialization.Model):
         self.result_format = result_format
 
 
+class StatusResponse(_serialization.Model):
+    """Status.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar category: Status category for query generation result. Required. Known values are:
+     "Succeeded" and "Failed".
+    :vartype category: str or ~azure.mgmt.resourcegraph.models.StatusCategory
+    :ivar message: Status message for query generation result. Required.
+    :vartype message: str
+    """
+
+    _validation = {
+        "category": {"required": True},
+        "message": {"required": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(self, *, category: Union[str, "_models.StatusCategory"], message: str, **kwargs: Any) -> None:
+        """
+        :keyword category: Status category for query generation result. Required. Known values are:
+         "Succeeded" and "Failed".
+        :paramtype category: str or ~azure.mgmt.resourcegraph.models.StatusCategory
+        :keyword message: Status message for query generation result. Required.
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.category = category
+        self.message = message
+
+
 class Table(_serialization.Model):
     """Query output in tabular format.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar columns: Query result column descriptors. Required.
     :vartype columns: list[~azure.mgmt.resourcegraph.models.Column]
@@ -1369,7 +1426,7 @@ class Table(_serialization.Model):
         "rows": {"key": "rows", "type": "[[object]]"},
     }
 
-    def __init__(self, *, columns: List["_models.Column"], rows: List[List[JSON]], **kwargs):
+    def __init__(self, *, columns: List["_models.Column"], rows: List[List[JSON]], **kwargs: Any) -> None:
         """
         :keyword columns: Query result column descriptors. Required.
         :paramtype columns: list[~azure.mgmt.resourcegraph.models.Column]
