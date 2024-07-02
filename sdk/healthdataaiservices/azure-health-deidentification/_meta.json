@@ -1,0 +1,7 @@
+{
+  "commit": "417a0ffd16b4799cc8be2cad4aefeec306cee77f",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/healthdataaiservices/HealthDataAIServices.Deidentification",
+  "@azure-tools/typespec-python": "0.24.3",
+  "@autorest/python": "6.14.3"
+}
