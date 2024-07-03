@@ -79,7 +79,7 @@ class JobRunScanStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class JobRunStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The current status of the Job Run in a non-terminal state, if exists."""
+    """The state of the Job Run execution."""
 
     QUEUED = "Queued"
     STARTED = "Started"
