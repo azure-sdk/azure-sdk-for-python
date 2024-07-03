@@ -36,7 +36,7 @@ def main():
         resource_uri="gtgclehcbsyave",
         resource={
             "properties": {
-                "credentials": {"password": "gkvbnmuahumuoibvscoxzfdqwvfuf", "username": "jqxuwirrcpfv"},
+                "credentials": {"password": "SecretPlaceholder", "username": "jqxuwirrcpfv"},
                 "httpProxyConfig": {"httpsProxy": "uoyzyticmohohomlkwct"},
                 "provisioningAction": "install",
             }
