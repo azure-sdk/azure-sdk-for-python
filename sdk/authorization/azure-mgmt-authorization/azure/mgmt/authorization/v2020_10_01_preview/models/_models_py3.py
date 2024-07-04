@@ -955,7 +955,7 @@ class RoleAssignmentCreateParameters(_serialization.Model):  # pylint: disable=t
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scope: The role assignment scope.
     :vartype scope: str
@@ -1908,7 +1908,7 @@ class RoleAssignmentScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role assignment schedule.
 
     :ivar start_date_time: Start DateTime of the role assignment schedule.
@@ -1935,14 +1935,16 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
         :paramtype start_date_time: ~datetime.datetime
         :keyword expiration: Expiration of the role assignment schedule.
         :paramtype expiration:
-         ~azure.mgmt.authorization.v2020_10_01_preview.models.RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration
+         ~azure.mgmt.authorization.v2020_10_01_preview.models.RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.start_date_time = start_date_time
         self.expiration = expiration
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role assignment schedule.
 
     :ivar type: Type of the role assignment schedule expiration. Known values are: "AfterDuration",
@@ -1983,7 +1985,7 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serializati
         self.duration = duration
 
 
-class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role assignment.
 
     :ivar ticket_number: Ticket number for the role assignment.
@@ -2415,7 +2417,7 @@ class RoleEligibilityScheduleInstanceFilter(_serialization.Model):
         self.role_eligibility_schedule_id = role_eligibility_schedule_id
 
 
-class RoleEligibilityScheduleInstanceListResult(_serialization.Model):
+class RoleEligibilityScheduleInstanceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """Role eligibility schedule instance list operation result.
 
     :ivar value: Role eligibility schedule instance list.
@@ -2739,7 +2741,7 @@ class RoleEligibilityScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role eligibility schedule.
 
     :ivar start_date_time: Start DateTime of the role eligibility schedule.
@@ -2766,14 +2768,16 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model)
         :paramtype start_date_time: ~datetime.datetime
         :keyword expiration: Expiration of the role eligibility schedule.
         :paramtype expiration:
-         ~azure.mgmt.authorization.v2020_10_01_preview.models.RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration
+         ~azure.mgmt.authorization.v2020_10_01_preview.models.RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.start_date_time = start_date_time
         self.expiration = expiration
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role eligibility schedule.
 
     :ivar type: Type of the role eligibility schedule expiration. Known values are:
@@ -2814,7 +2818,7 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serializat
         self.duration = duration
 
 
-class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role eligibility.
 
     :ivar ticket_number: Ticket number for the role eligibility.
@@ -2947,7 +2951,7 @@ class RoleManagementPolicyRule(_serialization.Model):
     RoleManagementPolicyEnablementRule, RoleManagementPolicyExpirationRule,
     RoleManagementPolicyNotificationRule
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3005,7 +3009,7 @@ class RoleManagementPolicyRule(_serialization.Model):
 class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
     """The role management policy approval rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3157,10 +3161,10 @@ class RoleManagementPolicyAssignmentListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
+class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):  # pylint: disable=name-too-long
     """The role management policy authentication context rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3220,7 +3224,7 @@ class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
 class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
     """The role management policy rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3275,7 +3279,7 @@ class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
 class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     """The role management policy expiration rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3368,7 +3372,7 @@ class RoleManagementPolicyListResult(_serialization.Model):
 class RoleManagementPolicyNotificationRule(RoleManagementPolicyRule):
     """The role management policy notification rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
