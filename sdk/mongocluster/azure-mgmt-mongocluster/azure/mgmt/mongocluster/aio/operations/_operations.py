@@ -1008,7 +1008,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        properties: Union[_models.MongoClusterUpdate, JSON, IO[bytes]],
+        properties: Union[_models.MongoCluster, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -1077,7 +1077,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        properties: _models.MongoClusterUpdate,
+        properties: _models.MongoCluster,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1091,7 +1091,7 @@ class MongoClustersOperations:
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.mongocluster.models.MongoClusterUpdate
+        :type properties: ~azure.mgmt.mongocluster.models.MongoCluster
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1105,9 +1105,16 @@ class MongoClustersOperations:
 
                 # JSON input template you can fill out and use as your body input.
                 properties = {
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "administratorLogin": "str",
                         "administratorLoginPassword": "str",
+                        "clusterStatus": "str",
+                        "connectionString": "str",
+                        "createMode": "str",
+                        "earliestRestoreTime": "str",
                         "nodeGroupSpecs": [
                             {
                                 "diskSizeGB": 0,
@@ -1117,12 +1124,55 @@ class MongoClustersOperations:
                                 "sku": "str"
                             }
                         ],
+                        "privateEndpointConnections": [
+                            {
+                                "id": "str",
+                                "name": "str",
+                                "properties": {
+                                    "privateLinkServiceConnectionState": {
+                                        "actionsRequired": "str",
+                                        "description": "str",
+                                        "status": "str"
+                                    },
+                                    "groupIds": [
+                                        "str"
+                                    ],
+                                    "privateEndpoint": {
+                                        "id": "str"
+                                    },
+                                    "provisioningState": "str"
+                                },
+                                "systemData": {
+                                    "createdAt": "2020-02-20 00:00:00",
+                                    "createdBy": "str",
+                                    "createdByType": "str",
+                                    "lastModifiedAt": "2020-02-20 00:00:00",
+                                    "lastModifiedBy": "str",
+                                    "lastModifiedByType": "str"
+                                },
+                                "type": "str"
+                            }
+                        ],
+                        "provisioningState": "str",
                         "publicNetworkAccess": "str",
+                        "restoreParameters": {
+                            "pointInTimeUTC": "2020-02-20 00:00:00",
+                            "sourceResourceId": "str"
+                        },
                         "serverVersion": "str"
+                    },
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
                         "str": "str"
-                    }
+                    },
+                    "type": "str"
                 }
 
                 # response body for status code(s): 200, 202
@@ -1411,7 +1461,7 @@ class MongoClustersOperations:
         self,
         resource_group_name: str,
         mongo_cluster_name: str,
-        properties: Union[_models.MongoClusterUpdate, JSON, IO[bytes]],
+        properties: Union[_models.MongoCluster, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.MongoCluster]:
         """Updates an existing mongo cluster. The request body can contain one to many of the properties
@@ -1423,8 +1473,8 @@ class MongoClustersOperations:
         :param mongo_cluster_name: The name of the mongo cluster. Required.
         :type mongo_cluster_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
-         MongoClusterUpdate, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.mongocluster.models.MongoClusterUpdate or JSON or IO[bytes]
+         MongoCluster, JSON, IO[bytes] Required.
+        :type properties: ~azure.mgmt.mongocluster.models.MongoCluster or JSON or IO[bytes]
         :return: An instance of AsyncLROPoller that returns MongoCluster. The MongoCluster is
          compatible with MutableMapping
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.mongocluster.models.MongoCluster]
@@ -1435,9 +1485,16 @@ class MongoClustersOperations:
 
                 # JSON input template you can fill out and use as your body input.
                 properties = {
+                    "location": "str",
+                    "id": "str",
+                    "name": "str",
                     "properties": {
                         "administratorLogin": "str",
                         "administratorLoginPassword": "str",
+                        "clusterStatus": "str",
+                        "connectionString": "str",
+                        "createMode": "str",
+                        "earliestRestoreTime": "str",
                         "nodeGroupSpecs": [
                             {
                                 "diskSizeGB": 0,
@@ -1447,12 +1504,55 @@ class MongoClustersOperations:
                                 "sku": "str"
                             }
                         ],
+                        "privateEndpointConnections": [
+                            {
+                                "id": "str",
+                                "name": "str",
+                                "properties": {
+                                    "privateLinkServiceConnectionState": {
+                                        "actionsRequired": "str",
+                                        "description": "str",
+                                        "status": "str"
+                                    },
+                                    "groupIds": [
+                                        "str"
+                                    ],
+                                    "privateEndpoint": {
+                                        "id": "str"
+                                    },
+                                    "provisioningState": "str"
+                                },
+                                "systemData": {
+                                    "createdAt": "2020-02-20 00:00:00",
+                                    "createdBy": "str",
+                                    "createdByType": "str",
+                                    "lastModifiedAt": "2020-02-20 00:00:00",
+                                    "lastModifiedBy": "str",
+                                    "lastModifiedByType": "str"
+                                },
+                                "type": "str"
+                            }
+                        ],
+                        "provisioningState": "str",
                         "publicNetworkAccess": "str",
+                        "restoreParameters": {
+                            "pointInTimeUTC": "2020-02-20 00:00:00",
+                            "sourceResourceId": "str"
+                        },
                         "serverVersion": "str"
+                    },
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str"
                     },
                     "tags": {
                         "str": "str"
-                    }
+                    },
+                    "type": "str"
                 }
 
                 # response body for status code(s): 200, 202
