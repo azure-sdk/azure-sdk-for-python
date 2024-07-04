@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -18,25 +19,27 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._scope_role_assignment_approval_step_operations import (
     build_get_by_id_request,
     build_patch_request,
     build_put_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ScopeRoleAssignmentApprovalStepOperations:
+class ScopeRoleAssignmentApprovalStepOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -68,12 +71,11 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :type stage_id: str
         :param scope: The scope of the resource. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -89,21 +91,19 @@ class ScopeRoleAssignmentApprovalStepOperations:
         )
         cls: ClsType[_models.RoleAssignmentApprovalStep] = kwargs.pop("cls", None)
 
-        request = build_get_by_id_request(
+        _request = build_get_by_id_request(
             approval_id=approval_id,
             stage_id=stage_id,
             scope=scope,
             api_version=api_version,
-            template_url=self.get_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -113,16 +113,12 @@ class ScopeRoleAssignmentApprovalStepOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignmentApprovalStep", pipeline_response)
+        deserialized = self._deserialize("RoleAssignmentApprovalStep", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_id.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def patch(
@@ -149,7 +145,6 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -161,7 +156,7 @@ class ScopeRoleAssignmentApprovalStepOperations:
         approval_id: str,
         stage_id: str,
         scope: str,
-        properties: IO,
+        properties: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -175,11 +170,10 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :param scope: The scope of the resource. Required.
         :type scope: str
         :param properties: Role Assignment Approval stage properties to patch. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -191,7 +185,7 @@ class ScopeRoleAssignmentApprovalStepOperations:
         approval_id: str,
         stage_id: str,
         scope: str,
-        properties: Union[_models.RoleAssignmentApprovalStepProperties, IO],
+        properties: Union[_models.RoleAssignmentApprovalStepProperties, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleAssignmentApprovalStep:
         """Record a decision.
@@ -203,18 +197,15 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :param scope: The scope of the resource. Required.
         :type scope: str
         :param properties: Role Assignment Approval stage properties to patch. Is either a
-         RoleAssignmentApprovalStepProperties type or a IO type. Required.
+         RoleAssignmentApprovalStepProperties type or a IO[bytes] type. Required.
         :type properties:
-         ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStepProperties or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStepProperties or
+         IO[bytes]
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -239,7 +230,7 @@ class ScopeRoleAssignmentApprovalStepOperations:
         else:
             _json = self._serialize.body(properties, "RoleAssignmentApprovalStepProperties")
 
-        request = build_patch_request(
+        _request = build_patch_request(
             approval_id=approval_id,
             stage_id=stage_id,
             scope=scope,
@@ -247,16 +238,14 @@ class ScopeRoleAssignmentApprovalStepOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.patch.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -266,16 +255,12 @@ class ScopeRoleAssignmentApprovalStepOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignmentApprovalStep", pipeline_response)
+        deserialized = self._deserialize("RoleAssignmentApprovalStep", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    patch.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def put(
@@ -302,7 +287,6 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -314,7 +298,7 @@ class ScopeRoleAssignmentApprovalStepOperations:
         approval_id: str,
         stage_id: str,
         scope: str,
-        properties: IO,
+        properties: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -328,11 +312,10 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :param scope: The scope of the resource. Required.
         :type scope: str
         :param properties: Role Assignment Approval stage properties to put. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -344,7 +327,7 @@ class ScopeRoleAssignmentApprovalStepOperations:
         approval_id: str,
         stage_id: str,
         scope: str,
-        properties: Union[_models.RoleAssignmentApprovalStepProperties, IO],
+        properties: Union[_models.RoleAssignmentApprovalStepProperties, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleAssignmentApprovalStep:
         """Record a decision.
@@ -356,18 +339,15 @@ class ScopeRoleAssignmentApprovalStepOperations:
         :param scope: The scope of the resource. Required.
         :type scope: str
         :param properties: Role Assignment Approval stage properties to put. Is either a
-         RoleAssignmentApprovalStepProperties type or a IO type. Required.
+         RoleAssignmentApprovalStepProperties type or a IO[bytes] type. Required.
         :type properties:
-         ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStepProperties or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStepProperties or
+         IO[bytes]
         :return: RoleAssignmentApprovalStep or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -392,7 +372,7 @@ class ScopeRoleAssignmentApprovalStepOperations:
         else:
             _json = self._serialize.body(properties, "RoleAssignmentApprovalStepProperties")
 
-        request = build_put_request(
+        _request = build_put_request(
             approval_id=approval_id,
             stage_id=stage_id,
             scope=scope,
@@ -400,16 +380,14 @@ class ScopeRoleAssignmentApprovalStepOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.put.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -419,13 +397,9 @@ class ScopeRoleAssignmentApprovalStepOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignmentApprovalStep", pipeline_response)
+        deserialized = self._deserialize("RoleAssignmentApprovalStep", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    put.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}"
-    }
+        return deserialized  # type: ignore

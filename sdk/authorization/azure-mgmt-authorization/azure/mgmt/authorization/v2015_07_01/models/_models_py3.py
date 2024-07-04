@@ -488,7 +488,7 @@ class RoleAssignment(_serialization.Model):
 class RoleAssignmentCreateParameters(_serialization.Model):
     """Role assignment create parameters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Role assignment properties. Required.
     :vartype properties: ~azure.mgmt.authorization.v2015_07_01.models.RoleAssignmentProperties
@@ -562,7 +562,7 @@ class RoleAssignmentListResult(_serialization.Model):
 class RoleAssignmentProperties(_serialization.Model):
     """Role assignment properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar role_definition_id: The role definition ID used in the role assignment. Required.
     :vartype role_definition_id: str

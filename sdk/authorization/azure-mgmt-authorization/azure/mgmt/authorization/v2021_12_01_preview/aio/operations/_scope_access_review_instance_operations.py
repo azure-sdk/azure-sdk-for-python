@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -18,14 +19,12 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._scope_access_review_instance_operations import (
     build_apply_decisions_request,
     build_record_all_decisions_request,
@@ -34,6 +33,10 @@ from ...operations._scope_access_review_instance_operations import (
     build_stop_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -70,12 +73,11 @@ class ScopeAccessReviewInstanceOperations:
         :type schedule_definition_id: str
         :param id: The id of the access review instance. Required.
         :type id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -91,21 +93,19 @@ class ScopeAccessReviewInstanceOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_stop_request(
+        _request = build_stop_request(
             scope=scope,
             schedule_definition_id=schedule_definition_id,
             id=id,
             api_version=api_version,
-            template_url=self.stop.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -116,11 +116,7 @@ class ScopeAccessReviewInstanceOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    stop.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/stop"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def record_all_decisions(  # pylint: disable=inconsistent-return-statements
@@ -147,7 +143,6 @@ class ScopeAccessReviewInstanceOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -159,7 +154,7 @@ class ScopeAccessReviewInstanceOperations:
         scope: str,
         schedule_definition_id: str,
         id: str,
-        properties: IO,
+        properties: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -173,11 +168,10 @@ class ScopeAccessReviewInstanceOperations:
         :param id: The id of the access review instance. Required.
         :type id: str
         :param properties: Record all decisions payload. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -189,7 +183,7 @@ class ScopeAccessReviewInstanceOperations:
         scope: str,
         schedule_definition_id: str,
         id: str,
-        properties: Union[_models.RecordAllDecisionsProperties, IO],
+        properties: Union[_models.RecordAllDecisionsProperties, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """An action to approve/deny all decisions for a review with certain filters.
@@ -201,18 +195,14 @@ class ScopeAccessReviewInstanceOperations:
         :param id: The id of the access review instance. Required.
         :type id: str
         :param properties: Record all decisions payload. Is either a RecordAllDecisionsProperties type
-         or a IO type. Required.
+         or a IO[bytes] type. Required.
         :type properties:
-         ~azure.mgmt.authorization.v2021_12_01_preview.models.RecordAllDecisionsProperties or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2021_12_01_preview.models.RecordAllDecisionsProperties or IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -237,7 +227,7 @@ class ScopeAccessReviewInstanceOperations:
         else:
             _json = self._serialize.body(properties, "RecordAllDecisionsProperties")
 
-        request = build_record_all_decisions_request(
+        _request = build_record_all_decisions_request(
             scope=scope,
             schedule_definition_id=schedule_definition_id,
             id=id,
@@ -245,16 +235,14 @@ class ScopeAccessReviewInstanceOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.record_all_decisions.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -265,11 +253,7 @@ class ScopeAccessReviewInstanceOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    record_all_decisions.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/recordAllDecisions"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def reset_decisions(  # pylint: disable=inconsistent-return-statements
@@ -283,12 +267,11 @@ class ScopeAccessReviewInstanceOperations:
         :type schedule_definition_id: str
         :param id: The id of the access review instance. Required.
         :type id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -304,21 +287,19 @@ class ScopeAccessReviewInstanceOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_reset_decisions_request(
+        _request = build_reset_decisions_request(
             scope=scope,
             schedule_definition_id=schedule_definition_id,
             id=id,
             api_version=api_version,
-            template_url=self.reset_decisions.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -329,11 +310,7 @@ class ScopeAccessReviewInstanceOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    reset_decisions.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/resetDecisions"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def apply_decisions(  # pylint: disable=inconsistent-return-statements
@@ -347,12 +324,11 @@ class ScopeAccessReviewInstanceOperations:
         :type schedule_definition_id: str
         :param id: The id of the access review instance. Required.
         :type id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -368,21 +344,19 @@ class ScopeAccessReviewInstanceOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_apply_decisions_request(
+        _request = build_apply_decisions_request(
             scope=scope,
             schedule_definition_id=schedule_definition_id,
             id=id,
             api_version=api_version,
-            template_url=self.apply_decisions.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -393,11 +367,7 @@ class ScopeAccessReviewInstanceOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    apply_decisions.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/applyDecisions"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def send_reminders(  # pylint: disable=inconsistent-return-statements
@@ -411,12 +381,11 @@ class ScopeAccessReviewInstanceOperations:
         :type schedule_definition_id: str
         :param id: The id of the access review instance. Required.
         :type id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -432,21 +401,19 @@ class ScopeAccessReviewInstanceOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_send_reminders_request(
+        _request = build_send_reminders_request(
             scope=scope,
             schedule_definition_id=schedule_definition_id,
             id=id,
             api_version=api_version,
-            template_url=self.send_reminders.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -457,8 +424,4 @@ class ScopeAccessReviewInstanceOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    send_reminders.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/sendReminders"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore

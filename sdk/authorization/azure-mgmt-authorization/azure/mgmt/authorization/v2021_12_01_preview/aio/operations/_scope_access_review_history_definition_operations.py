@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -18,24 +19,26 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._scope_access_review_history_definition_operations import (
     build_create_request,
     build_delete_by_id_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ScopeAccessReviewHistoryDefinitionOperations:
+class ScopeAccessReviewHistoryDefinitionOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -77,7 +80,6 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewHistoryDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewHistoryDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -88,7 +90,7 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         self,
         scope: str,
         history_definition_id: str,
-        properties: IO,
+        properties: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -100,11 +102,10 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         :param history_definition_id: The id of the access review history definition. Required.
         :type history_definition_id: str
         :param properties: Access review history definition properties. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewHistoryDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewHistoryDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -115,7 +116,7 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         self,
         scope: str,
         history_definition_id: str,
-        properties: Union[_models.AccessReviewHistoryDefinitionProperties, IO],
+        properties: Union[_models.AccessReviewHistoryDefinitionProperties, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessReviewHistoryDefinition:
         """Create a scheduled or one-time Access Review History Definition.
@@ -125,19 +126,15 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         :param history_definition_id: The id of the access review history definition. Required.
         :type history_definition_id: str
         :param properties: Access review history definition properties. Is either a
-         AccessReviewHistoryDefinitionProperties type or a IO type. Required.
+         AccessReviewHistoryDefinitionProperties type or a IO[bytes] type. Required.
         :type properties:
          ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewHistoryDefinitionProperties or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         IO[bytes]
         :return: AccessReviewHistoryDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewHistoryDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -162,23 +159,21 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         else:
             _json = self._serialize.body(properties, "AccessReviewHistoryDefinitionProperties")
 
-        request = build_create_request(
+        _request = build_create_request(
             scope=scope,
             history_definition_id=history_definition_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -188,16 +183,12 @@ class ScopeAccessReviewHistoryDefinitionOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessReviewHistoryDefinition", pipeline_response)
+        deserialized = self._deserialize("AccessReviewHistoryDefinition", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete_by_id(  # pylint: disable=inconsistent-return-statements
@@ -209,12 +200,11 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         :type scope: str
         :param history_definition_id: The id of the access review history definition. Required.
         :type history_definition_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -230,20 +220,18 @@ class ScopeAccessReviewHistoryDefinitionOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_by_id_request(
+        _request = build_delete_by_id_request(
             scope=scope,
             history_definition_id=history_definition_id,
             api_version=api_version,
-            template_url=self.delete_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -254,8 +242,4 @@ class ScopeAccessReviewHistoryDefinitionOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete_by_id.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore

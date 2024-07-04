@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -20,15 +21,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._access_review_schedule_definitions_operations import (
     build_create_or_update_by_id_request,
     build_delete_by_id_request,
@@ -37,11 +36,15 @@ from ...operations._access_review_schedule_definitions_operations import (
     build_stop_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class AccessReviewScheduleDefinitionsOperations:
+class AccessReviewScheduleDefinitionsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -72,7 +75,6 @@ class AccessReviewScheduleDefinitionsOperations:
          $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are
          returned. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AccessReviewScheduleDefinition or the result of
          cls(response)
         :rtype:
@@ -87,7 +89,7 @@ class AccessReviewScheduleDefinitionsOperations:
         )
         cls: ClsType[_models.AccessReviewScheduleDefinitionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -98,16 +100,14 @@ class AccessReviewScheduleDefinitionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -118,14 +118,13 @@ class AccessReviewScheduleDefinitionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("AccessReviewScheduleDefinitionListResult", pipeline_response)
@@ -135,11 +134,11 @@ class AccessReviewScheduleDefinitionsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -152,22 +151,17 @@ class AccessReviewScheduleDefinitionsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions"
-    }
-
     @distributed_trace_async
     async def get_by_id(self, schedule_definition_id: str, **kwargs: Any) -> _models.AccessReviewScheduleDefinition:
         """Get single access review definition.
 
         :param schedule_definition_id: The id of the access review schedule definition. Required.
         :type schedule_definition_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewScheduleDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -183,20 +177,18 @@ class AccessReviewScheduleDefinitionsOperations:
         )
         cls: ClsType[_models.AccessReviewScheduleDefinition] = kwargs.pop("cls", None)
 
-        request = build_get_by_id_request(
+        _request = build_get_by_id_request(
             schedule_definition_id=schedule_definition_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -206,16 +198,12 @@ class AccessReviewScheduleDefinitionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessReviewScheduleDefinition", pipeline_response)
+        deserialized = self._deserialize("AccessReviewScheduleDefinition", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete_by_id(  # pylint: disable=inconsistent-return-statements
@@ -225,12 +213,11 @@ class AccessReviewScheduleDefinitionsOperations:
 
         :param schedule_definition_id: The id of the access review schedule definition. Required.
         :type schedule_definition_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -246,20 +233,18 @@ class AccessReviewScheduleDefinitionsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_by_id_request(
+        _request = build_delete_by_id_request(
             schedule_definition_id=schedule_definition_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -270,11 +255,7 @@ class AccessReviewScheduleDefinitionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def create_or_update_by_id(
@@ -295,7 +276,6 @@ class AccessReviewScheduleDefinitionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewScheduleDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -303,18 +283,22 @@ class AccessReviewScheduleDefinitionsOperations:
 
     @overload
     async def create_or_update_by_id(
-        self, schedule_definition_id: str, properties: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        schedule_definition_id: str,
+        properties: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.AccessReviewScheduleDefinition:
         """Create or Update access review schedule definition.
 
         :param schedule_definition_id: The id of the access review schedule definition. Required.
         :type schedule_definition_id: str
         :param properties: Access review schedule definition properties. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewScheduleDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -324,7 +308,7 @@ class AccessReviewScheduleDefinitionsOperations:
     async def create_or_update_by_id(
         self,
         schedule_definition_id: str,
-        properties: Union[_models.AccessReviewScheduleDefinitionProperties, IO],
+        properties: Union[_models.AccessReviewScheduleDefinitionProperties, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessReviewScheduleDefinition:
         """Create or Update access review schedule definition.
@@ -332,19 +316,15 @@ class AccessReviewScheduleDefinitionsOperations:
         :param schedule_definition_id: The id of the access review schedule definition. Required.
         :type schedule_definition_id: str
         :param properties: Access review schedule definition properties. Is either a
-         AccessReviewScheduleDefinitionProperties type or a IO type. Required.
+         AccessReviewScheduleDefinitionProperties type or a IO[bytes] type. Required.
         :type properties:
          ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleDefinitionProperties
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or IO[bytes]
         :return: AccessReviewScheduleDefinition or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -369,23 +349,21 @@ class AccessReviewScheduleDefinitionsOperations:
         else:
             _json = self._serialize.body(properties, "AccessReviewScheduleDefinitionProperties")
 
-        request = build_create_or_update_by_id_request(
+        _request = build_create_or_update_by_id_request(
             schedule_definition_id=schedule_definition_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -395,16 +373,12 @@ class AccessReviewScheduleDefinitionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessReviewScheduleDefinition", pipeline_response)
+        deserialized = self._deserialize("AccessReviewScheduleDefinition", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_or_update_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def stop(  # pylint: disable=inconsistent-return-statements
@@ -414,12 +388,11 @@ class AccessReviewScheduleDefinitionsOperations:
 
         :param schedule_definition_id: The id of the access review schedule definition. Required.
         :type schedule_definition_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -435,20 +408,18 @@ class AccessReviewScheduleDefinitionsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_stop_request(
+        _request = build_stop_request(
             schedule_definition_id=schedule_definition_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.stop.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -459,8 +430,4 @@ class AccessReviewScheduleDefinitionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    stop.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/stop"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore

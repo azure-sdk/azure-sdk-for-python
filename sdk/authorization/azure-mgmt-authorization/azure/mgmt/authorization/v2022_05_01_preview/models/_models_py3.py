@@ -534,7 +534,7 @@ class RoleManagementPolicyRule(_serialization.Model):
     RoleManagementPolicyEnablementRule, RoleManagementPolicyExpirationRule,
     RoleManagementPolicyNotificationRule
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -592,7 +592,7 @@ class RoleManagementPolicyRule(_serialization.Model):
 class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
     """The role management policy approval rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -642,10 +642,10 @@ class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
         self.setting = setting
 
 
-class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
+class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):  # pylint: disable=name-too-long
     """The role management policy authentication context rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -705,7 +705,7 @@ class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
 class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
     """The role management policy enablement rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -760,7 +760,7 @@ class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
 class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     """The role management policy expiration rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -820,7 +820,7 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
 class RoleManagementPolicyNotificationRule(RoleManagementPolicyRule):
     """The role management policy notification rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
