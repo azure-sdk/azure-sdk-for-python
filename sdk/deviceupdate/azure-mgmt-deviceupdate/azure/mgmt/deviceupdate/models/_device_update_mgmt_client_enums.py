@@ -22,13 +22,6 @@ class AuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY_BASED = "KeyBased"
 
 
-class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The reason why the given name is not available."""
-
-    INVALID = "Invalid"
-    ALREADY_EXISTS = "AlreadyExists"
-
-
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 

@@ -9,8 +9,6 @@
 from ._models_py3 import Account
 from ._models_py3 import AccountList
 from ._models_py3 import AccountUpdate
-from ._models_py3 import CheckNameAvailabilityRequest
-from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import ConnectionDetails
 from ._models_py3 import DiagnosticStorageProperties
 from ._models_py3 import Encryption
@@ -52,7 +50,6 @@ from ._models_py3 import UserAssignedIdentity
 
 from ._device_update_mgmt_client_enums import ActionType
 from ._device_update_mgmt_client_enums import AuthenticationType
-from ._device_update_mgmt_client_enums import CheckNameAvailabilityReason
 from ._device_update_mgmt_client_enums import CreatedByType
 from ._device_update_mgmt_client_enums import GroupIdProvisioningState
 from ._device_update_mgmt_client_enums import ManagedServiceIdentityType
@@ -72,8 +69,6 @@ __all__ = [
     "Account",
     "AccountList",
     "AccountUpdate",
-    "CheckNameAvailabilityRequest",
-    "CheckNameAvailabilityResponse",
     "ConnectionDetails",
     "DiagnosticStorageProperties",
     "Encryption",
@@ -114,7 +109,6 @@ __all__ = [
     "UserAssignedIdentity",
     "ActionType",
     "AuthenticationType",
-    "CheckNameAvailabilityReason",
     "CreatedByType",
     "GroupIdProvisioningState",
     "ManagedServiceIdentityType",
