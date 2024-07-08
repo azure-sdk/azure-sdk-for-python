@@ -34,7 +34,7 @@ class Channel(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -82,7 +82,7 @@ class Channel(_serialization.Model):
         }
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -101,7 +101,7 @@ class AcsChatChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -125,7 +125,7 @@ class AcsChatChannel(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -141,7 +141,7 @@ class AlexaChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -174,8 +174,8 @@ class AlexaChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.AlexaChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -194,7 +194,7 @@ class AlexaChannelProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alexa_skill_id: The Alexa skill Id. Required.
     :vartype alexa_skill_id: str
@@ -220,7 +220,7 @@ class AlexaChannelProperties(_serialization.Model):
         "is_enabled": {"key": "isEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, alexa_skill_id: str, is_enabled: bool, **kwargs):
+    def __init__(self, *, alexa_skill_id: str, is_enabled: bool, **kwargs: Any) -> None:
         """
         :keyword alexa_skill_id: The Alexa skill Id. Required.
         :paramtype alexa_skill_id: str
@@ -287,8 +287,8 @@ class Resource(_serialization.Model):
         sku: Optional["_models.Sku"] = None,
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -371,8 +371,8 @@ class Bot(Resource):
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
         properties: Optional["_models.BotProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -449,8 +449,8 @@ class BotChannel(Resource):
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
         properties: Optional["_models.Channel"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -475,7 +475,7 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar display_name: The Name of the bot. Required.
     :vartype display_name: str
@@ -525,7 +525,7 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
     :ivar tenant_id: The Tenant Id for the bot.
     :vartype tenant_id: str
     :ivar public_network_access: Whether the bot is in an isolated network. Known values are:
-     "Enabled" and "Disabled".
+     "Enabled", "Disabled", and "SecuredByPerimeter".
     :vartype public_network_access: str or ~azure.mgmt.botservice.models.PublicNetworkAccess
     :ivar is_streaming_supported: Whether the bot is streaming supported.
     :vartype is_streaming_supported: bool
@@ -544,6 +544,10 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
      bot.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.botservice.models.PrivateEndpointConnection]
+    :ivar network_security_perimeter_configurations: List of Network Security Perimeter
+     configurations for the bot.
+    :vartype network_security_perimeter_configurations:
+     list[~azure.mgmt.botservice.models.NetworkSecurityPerimeterConfiguration]
     :ivar open_with_hint: The hint to browser (e.g. protocol handler) on how to open the bot for
      authoring.
     :vartype open_with_hint: str
@@ -567,6 +571,7 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
         "is_developer_app_insights_api_key_set": {"readonly": True},
         "migration_token": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
+        "network_security_perimeter_configurations": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -602,6 +607,10 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
         "schema_transformation_version": {"key": "schemaTransformationVersion", "type": "str"},
         "storage_resource_id": {"key": "storageResourceId", "type": "str"},
         "private_endpoint_connections": {"key": "privateEndpointConnections", "type": "[PrivateEndpointConnection]"},
+        "network_security_perimeter_configurations": {
+            "key": "networkSecurityPerimeterConfigurations",
+            "type": "[NetworkSecurityPerimeterConfiguration]",
+        },
         "open_with_hint": {"key": "openWithHint", "type": "str"},
         "app_password_hint": {"key": "appPasswordHint", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
@@ -638,8 +647,8 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
         open_with_hint: Optional[str] = None,
         app_password_hint: Optional[str] = None,
         publishing_credentials: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The Name of the bot. Required.
         :paramtype display_name: str
@@ -681,7 +690,7 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
         :keyword tenant_id: The Tenant Id for the bot.
         :paramtype tenant_id: str
         :keyword public_network_access: Whether the bot is in an isolated network. Known values are:
-         "Enabled" and "Disabled".
+         "Enabled", "Disabled", and "SecuredByPerimeter".
         :paramtype public_network_access: str or ~azure.mgmt.botservice.models.PublicNetworkAccess
         :keyword is_streaming_supported: Whether the bot is streaming supported.
         :paramtype is_streaming_supported: bool
@@ -733,6 +742,7 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
         self.schema_transformation_version = schema_transformation_version
         self.storage_resource_id = storage_resource_id
         self.private_endpoint_connections = None
+        self.network_security_perimeter_configurations = None
         self.open_with_hint = open_with_hint
         self.app_password_hint = app_password_hint
         self.provisioning_state = None
@@ -759,7 +769,7 @@ class BotResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[Bot]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service resources.
         :paramtype next_link: str
@@ -789,7 +799,7 @@ class ChannelResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[BotChannel]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service channel resources.
         :paramtype next_link: str
@@ -851,8 +861,8 @@ class ChannelSettings(_serialization.Model):
         is_enabled: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
         require_terms_agreement: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword extension_key1: The extensionKey1.
         :paramtype extension_key1: str
@@ -903,7 +913,7 @@ class CheckNameAvailabilityRequestBody(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: the name of the bot for which availability needs to be checked.
         :paramtype name: str
@@ -916,7 +926,8 @@ class CheckNameAvailabilityRequestBody(_serialization.Model):
 
 
 class CheckNameAvailabilityResponseBody(_serialization.Model):
-    """The response body returned for a request to Bot Service Management to check availability of a bot name.
+    """The response body returned for a request to Bot Service Management to check availability of a
+    bot name.
 
     :ivar valid: indicates if the bot name is valid.
     :vartype valid: bool
@@ -934,8 +945,13 @@ class CheckNameAvailabilityResponseBody(_serialization.Model):
     }
 
     def __init__(
-        self, *, valid: Optional[bool] = None, message: Optional[str] = None, abs_code: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        valid: Optional[bool] = None,
+        message: Optional[str] = None,
+        abs_code: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword valid: indicates if the bot name is valid.
         :paramtype valid: bool
@@ -968,7 +984,7 @@ class ConnectionItemName(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1031,8 +1047,8 @@ class ConnectionSetting(Resource):
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
         properties: Optional["_models.ConnectionSettingProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -1053,7 +1069,8 @@ class ConnectionSetting(Resource):
 
 
 class ConnectionSettingParameter(_serialization.Model):
-    """Extra Parameter in a Connection Setting Properties to indicate service provider specific properties.
+    """Extra Parameter in a Connection Setting Properties to indicate service provider specific
+    properties.
 
     :ivar key: Key for the Connection Setting Parameter.
     :vartype key: str
@@ -1066,7 +1083,7 @@ class ConnectionSettingParameter(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key: Key for the Connection Setting Parameter.
         :paramtype key: str
@@ -1083,6 +1100,10 @@ class ConnectionSettingProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar id: Id of the Connection Setting.
+    :vartype id: str
+    :ivar name: Name of the Connection Setting.
+    :vartype name: str
     :ivar client_id: Client Id associated with the Connection Setting.
     :vartype client_id: str
     :ivar setting_id: Setting Id set by the service for the Connection Setting.
@@ -1107,6 +1128,8 @@ class ConnectionSettingProperties(_serialization.Model):
     }
 
     _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
         "client_id": {"key": "clientId", "type": "str"},
         "setting_id": {"key": "settingId", "type": "str"},
         "client_secret": {"key": "clientSecret", "type": "str"},
@@ -1120,6 +1143,8 @@ class ConnectionSettingProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
         client_id: Optional[str] = None,
         client_secret: Optional[str] = None,
         scopes: str = "",
@@ -1127,9 +1152,13 @@ class ConnectionSettingProperties(_serialization.Model):
         service_provider_display_name: Optional[str] = None,
         parameters: Optional[List["_models.ConnectionSettingParameter"]] = None,
         provisioning_state: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword id: Id of the Connection Setting.
+        :paramtype id: str
+        :keyword name: Name of the Connection Setting.
+        :paramtype name: str
         :keyword client_id: Client Id associated with the Connection Setting.
         :paramtype client_id: str
         :keyword client_secret: Client Secret associated with the Connection Setting.
@@ -1147,6 +1176,8 @@ class ConnectionSettingProperties(_serialization.Model):
         :paramtype provisioning_state: str
         """
         super().__init__(**kwargs)
+        self.id = id
+        self.name = name
         self.client_id = client_id
         self.setting_id = None
         self.client_secret = client_secret
@@ -1178,7 +1209,7 @@ class ConnectionSettingResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[ConnectionSetting]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service connection setting
          resources.
@@ -1217,8 +1248,8 @@ class CreateEmailSignInUrlResponse(_serialization.Model):
         *,
         location: Optional[str] = None,
         properties: Optional["_models.CreateEmailSignInUrlResponseProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -1242,7 +1273,7 @@ class CreateEmailSignInUrlResponseProperties(_serialization.Model):
         "url": {"key": "url", "type": "str"},
     }
 
-    def __init__(self, *, url: Optional[str] = None, **kwargs):
+    def __init__(self, *, url: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword url: Sign in url.
         :paramtype url: str
@@ -1256,7 +1287,7 @@ class DirectLineChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -1289,8 +1320,8 @@ class DirectLineChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.DirectLineChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -1331,8 +1362,8 @@ class DirectLineChannelProperties(_serialization.Model):
         extension_key1: str = "",
         extension_key2: str = "",
         direct_line_embed_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sites: The list of Direct Line sites.
         :paramtype sites: list[~azure.mgmt.botservice.models.DirectLineSite]
@@ -1355,7 +1386,7 @@ class Site(_serialization.Model):  # pylint: disable=too-many-instance-attribute
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id.
     :vartype tenant_id: str
@@ -1451,8 +1482,8 @@ class Site(_serialization.Model):  # pylint: disable=too-many-instance-attribute
         trusted_origins: Optional[List[str]] = None,
         is_web_chat_speech_enabled: bool = False,
         is_webchat_preview_enabled: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: Tenant Id.
         :paramtype tenant_id: str
@@ -1516,7 +1547,7 @@ class DirectLineSite(Site):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id.
     :vartype tenant_id: str
@@ -1563,119 +1594,13 @@ class DirectLineSite(Site):  # pylint: disable=too-many-instance-attributes
     :vartype is_webchat_preview_enabled: bool
     """
 
-    _validation = {
-        "site_id": {"readonly": True},
-        "site_name": {"required": True},
-        "key": {"readonly": True},
-        "key2": {"readonly": True},
-        "is_enabled": {"required": True},
-        "is_token_enabled": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "site_id": {"key": "siteId", "type": "str"},
-        "site_name": {"key": "siteName", "type": "str"},
-        "key": {"key": "key", "type": "str"},
-        "key2": {"key": "key2", "type": "str"},
-        "is_enabled": {"key": "isEnabled", "type": "bool"},
-        "is_token_enabled": {"key": "isTokenEnabled", "type": "bool"},
-        "is_endpoint_parameters_enabled": {"key": "isEndpointParametersEnabled", "type": "bool"},
-        "is_detailed_logging_enabled": {"key": "isDetailedLoggingEnabled", "type": "bool"},
-        "is_block_user_upload_enabled": {"key": "isBlockUserUploadEnabled", "type": "bool"},
-        "is_no_storage_enabled": {"key": "isNoStorageEnabled", "type": "bool"},
-        "e_tag": {"key": "eTag", "type": "str"},
-        "app_id": {"key": "appId", "type": "str"},
-        "is_v1_enabled": {"key": "isV1Enabled", "type": "bool"},
-        "is_v3_enabled": {"key": "isV3Enabled", "type": "bool"},
-        "is_secure_site_enabled": {"key": "isSecureSiteEnabled", "type": "bool"},
-        "trusted_origins": {"key": "trustedOrigins", "type": "[str]"},
-        "is_web_chat_speech_enabled": {"key": "isWebChatSpeechEnabled", "type": "bool"},
-        "is_webchat_preview_enabled": {"key": "isWebchatPreviewEnabled", "type": "bool"},
-    }
-
-    def __init__(
-        self,
-        *,
-        site_name: str,
-        is_enabled: bool,
-        tenant_id: Optional[str] = None,
-        is_endpoint_parameters_enabled: Optional[bool] = None,
-        is_detailed_logging_enabled: Optional[bool] = None,
-        is_block_user_upload_enabled: Optional[bool] = None,
-        is_no_storage_enabled: Optional[bool] = None,
-        e_tag: Optional[str] = None,
-        app_id: Optional[str] = None,
-        is_v1_enabled: Optional[bool] = None,
-        is_v3_enabled: Optional[bool] = None,
-        is_secure_site_enabled: Optional[bool] = None,
-        trusted_origins: Optional[List[str]] = None,
-        is_web_chat_speech_enabled: bool = False,
-        is_webchat_preview_enabled: bool = False,
-        **kwargs
-    ):
-        """
-        :keyword tenant_id: Tenant Id.
-        :paramtype tenant_id: str
-        :keyword site_name: Site name. Required.
-        :paramtype site_name: str
-        :keyword is_enabled: Whether this site is enabled for DirectLine channel. Required.
-        :paramtype is_enabled: bool
-        :keyword is_endpoint_parameters_enabled: Whether this site is EndpointParameters enabled for
-         channel.
-        :paramtype is_endpoint_parameters_enabled: bool
-        :keyword is_detailed_logging_enabled: Whether this site is disabled detailed logging for.
-        :paramtype is_detailed_logging_enabled: bool
-        :keyword is_block_user_upload_enabled: Whether this site is enabled for block user upload.
-        :paramtype is_block_user_upload_enabled: bool
-        :keyword is_no_storage_enabled: Whether this no-storage site is disabled detailed logging for.
-        :paramtype is_no_storage_enabled: bool
-        :keyword e_tag: Entity Tag.
-        :paramtype e_tag: str
-        :keyword app_id: DirectLine application id.
-        :paramtype app_id: str
-        :keyword is_v1_enabled: Whether this site is enabled for Bot Framework V1 protocol.
-        :paramtype is_v1_enabled: bool
-        :keyword is_v3_enabled: Whether this site is enabled for Bot Framework V3 protocol.
-        :paramtype is_v3_enabled: bool
-        :keyword is_secure_site_enabled: Whether this site is enabled for authentication with Bot
-         Framework.
-        :paramtype is_secure_site_enabled: bool
-        :keyword trusted_origins: List of Trusted Origin URLs for this site. This field is applicable
-         only if isSecureSiteEnabled is True.
-        :paramtype trusted_origins: list[str]
-        :keyword is_web_chat_speech_enabled: Whether this site is enabled for Webchat Speech.
-        :paramtype is_web_chat_speech_enabled: bool
-        :keyword is_webchat_preview_enabled: Whether this site is enabled for preview versions of
-         Webchat.
-        :paramtype is_webchat_preview_enabled: bool
-        """
-        super().__init__(
-            tenant_id=tenant_id,
-            site_name=site_name,
-            is_enabled=is_enabled,
-            is_endpoint_parameters_enabled=is_endpoint_parameters_enabled,
-            is_detailed_logging_enabled=is_detailed_logging_enabled,
-            is_block_user_upload_enabled=is_block_user_upload_enabled,
-            is_no_storage_enabled=is_no_storage_enabled,
-            e_tag=e_tag,
-            app_id=app_id,
-            is_v1_enabled=is_v1_enabled,
-            is_v3_enabled=is_v3_enabled,
-            is_secure_site_enabled=is_secure_site_enabled,
-            trusted_origins=trusted_origins,
-            is_web_chat_speech_enabled=is_web_chat_speech_enabled,
-            is_webchat_preview_enabled=is_webchat_preview_enabled,
-            **kwargs
-        )
-
 
 class DirectLineSpeechChannel(Channel):
     """DirectLine Speech channel definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -1708,8 +1633,8 @@ class DirectLineSpeechChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.DirectLineSpeechChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -1764,8 +1689,8 @@ class DirectLineSpeechChannelProperties(_serialization.Model):
         custom_voice_deployment_id: Optional[str] = None,
         custom_speech_model_id: Optional[str] = None,
         is_default_bot_for_cog_svc_account: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword cognitive_service_resource_id: The cognitive service id with this channel
          registration.
@@ -1800,7 +1725,7 @@ class EmailChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -1833,8 +1758,8 @@ class EmailChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.EmailChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -1851,7 +1776,7 @@ class EmailChannel(Channel):
 class EmailChannelProperties(_serialization.Model):
     """The parameters to provide for the Email channel.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar email_address: The email address. Required.
     :vartype email_address: str
@@ -1888,8 +1813,8 @@ class EmailChannelProperties(_serialization.Model):
         auth_method: Optional[Union[float, "_models.EmailChannelAuthMethod"]] = None,
         password: Optional[str] = None,
         magic_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword email_address: The email address. Required.
         :paramtype email_address: str
@@ -1923,7 +1848,7 @@ class Error(_serialization.Model):
         "error": {"key": "error", "type": "ErrorBody"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorBody"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorBody"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error body.
         :paramtype error: ~azure.mgmt.botservice.models.ErrorBody
@@ -1932,10 +1857,38 @@ class Error(_serialization.Model):
         self.error = error
 
 
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
 class ErrorBody(_serialization.Model):
     """Bot Service error body.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: error code. Required.
     :vartype code: str
@@ -1953,7 +1906,7 @@ class ErrorBody(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: str, message: str, **kwargs):
+    def __init__(self, *, code: str, message: str, **kwargs: Any) -> None:
         """
         :keyword code: error code. Required.
         :paramtype code: str
@@ -1965,12 +1918,76 @@ class ErrorBody(_serialization.Model):
         self.message = message
 
 
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.botservice.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.botservice.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.botservice.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.botservice.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class FacebookChannel(Channel):
     """Facebook channel definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2003,8 +2020,8 @@ class FacebookChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.FacebookChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2023,7 +2040,7 @@ class FacebookChannelProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar verify_token: Verify token. Value only returned through POST to the action Channel List
      API, otherwise empty.
@@ -2064,8 +2081,8 @@ class FacebookChannelProperties(_serialization.Model):
         is_enabled: bool,
         pages: Optional[List["_models.FacebookPage"]] = None,
         app_secret: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pages: The list of Facebook pages.
         :paramtype pages: list[~azure.mgmt.botservice.models.FacebookPage]
@@ -2089,7 +2106,7 @@ class FacebookChannelProperties(_serialization.Model):
 class FacebookPage(_serialization.Model):
     """A Facebook page for Facebook channel registration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Page id. Required.
     :vartype id: str
@@ -2107,7 +2124,9 @@ class FacebookPage(_serialization.Model):
         "access_token": {"key": "accessToken", "type": "str"},
     }
 
-    def __init__(self, *, id: str, access_token: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(
+        self, *, id: str, access_token: Optional[str] = None, **kwargs: Any  # pylint: disable=redefined-builtin
+    ) -> None:
         """
         :keyword id: Page id. Required.
         :paramtype id: str
@@ -2121,7 +2140,8 @@ class FacebookPage(_serialization.Model):
 
 
 class HostSettingsResponse(_serialization.Model):
-    """The response body returned for a request to Bot Service Management to check per subscription hostSettings.
+    """The response body returned for a request to Bot Service Management to check per subscription
+    hostSettings.
 
     :ivar o_auth_url: For in-conversation bot user authentication.
     :vartype o_auth_url: str
@@ -2165,8 +2185,8 @@ class HostSettingsResponse(_serialization.Model):
         to_channel_from_bot_o_auth_scope: Optional[str] = None,
         validate_authority: Optional[bool] = None,
         bot_open_id_metadata: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword o_auth_url: For in-conversation bot user authentication.
         :paramtype o_auth_url: str
@@ -2203,7 +2223,7 @@ class KikChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2236,8 +2256,8 @@ class KikChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.KikChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2254,7 +2274,7 @@ class KikChannel(Channel):
 class KikChannelProperties(_serialization.Model):
     """The parameters to provide for the Kik channel.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar user_name: The Kik user name. Required.
     :vartype user_name: str
@@ -2286,8 +2306,8 @@ class KikChannelProperties(_serialization.Model):
         is_enabled: bool,
         api_key: Optional[str] = None,
         is_validated: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: The Kik user name. Required.
         :paramtype user_name: str
@@ -2311,7 +2331,7 @@ class LineChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2344,8 +2364,8 @@ class LineChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.LineChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2364,7 +2384,7 @@ class LineChannelProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar line_registrations: The list of line channel registrations. Required.
     :vartype line_registrations: list[~azure.mgmt.botservice.models.LineRegistration]
@@ -2386,7 +2406,7 @@ class LineChannelProperties(_serialization.Model):
         "is_validated": {"key": "isValidated", "type": "bool"},
     }
 
-    def __init__(self, *, line_registrations: List["_models.LineRegistration"], **kwargs):
+    def __init__(self, *, line_registrations: List["_models.LineRegistration"], **kwargs: Any) -> None:
         """
         :keyword line_registrations: The list of line channel registrations. Required.
         :paramtype line_registrations: list[~azure.mgmt.botservice.models.LineRegistration]
@@ -2420,7 +2440,9 @@ class LineRegistration(_serialization.Model):
         "channel_access_token": {"key": "channelAccessToken", "type": "str"},
     }
 
-    def __init__(self, *, channel_secret: Optional[str] = None, channel_access_token: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, channel_secret: Optional[str] = None, channel_access_token: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword channel_secret: Secret for the line channel registration.
         :paramtype channel_secret: str
@@ -2510,8 +2532,8 @@ class ListChannelWithKeysResponse(BotChannel):  # pylint: disable=too-many-insta
         provisioning_state: Optional[str] = None,
         entity_tag: Optional[str] = None,
         changed_time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -2550,7 +2572,7 @@ class M365Extensions(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2574,7 +2596,7 @@ class M365Extensions(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2590,7 +2612,7 @@ class MsTeamsChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2623,8 +2645,8 @@ class MsTeamsChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.MsTeamsChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2641,7 +2663,7 @@ class MsTeamsChannel(Channel):
 class MsTeamsChannelProperties(_serialization.Model):
     """The parameters to provide for the Microsoft Teams channel.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enable_calling: Enable calling for Microsoft Teams channel.
     :vartype enable_calling: bool
@@ -2677,10 +2699,10 @@ class MsTeamsChannelProperties(_serialization.Model):
         enable_calling: bool = False,
         calling_webhook: Optional[str] = None,
         incoming_call_route: Optional[str] = None,
-        deployment_environment: str = "FallbackDeploymentEnvironment",
+        deployment_environment: str = "CommercialDeployment",
         accepted_terms: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enable_calling: Enable calling for Microsoft Teams channel.
         :paramtype enable_calling: bool
@@ -2704,12 +2726,298 @@ class MsTeamsChannelProperties(_serialization.Model):
         self.accepted_terms = accepted_terms
 
 
+class NetworkSecurityPerimeter(_serialization.Model):
+    """Information about Network Security Perimeter.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar perimeter_guid: Guid of the Network Security Perimeter.
+    :vartype perimeter_guid: str
+    :ivar location: Location of the Network Security Perimeter.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "perimeter_guid": {"key": "perimeterGuid", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, perimeter_guid: Optional[str] = None, location: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword perimeter_guid: Guid of the Network Security Perimeter.
+        :paramtype perimeter_guid: str
+        :keyword location: Location of the Network Security Perimeter.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.id = None
+        self.perimeter_guid = perimeter_guid
+        self.location = location
+
+
+class NetworkSecurityPerimeterConfiguration(_serialization.Model):
+    """Network Security Perimeter configuration.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified identifier of the resource.
+    :vartype id: str
+    :ivar name: Name of the resource.
+    :vartype name: str
+    :ivar type: Type of the resource.
+    :vartype type: str
+    :ivar properties: Properties of the Network Security Perimeter configuration.
+    :vartype properties:
+     ~azure.mgmt.botservice.models.NetworkSecurityPerimeterConfigurationProperties
+    """
+
+    _validation = {
+        "properties": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "properties": {"key": "properties", "type": "NetworkSecurityPerimeterConfigurationProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        type: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Fully qualified identifier of the resource.
+        :paramtype id: str
+        :keyword name: Name of the resource.
+        :paramtype name: str
+        :keyword type: Type of the resource.
+        :paramtype type: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.type = type
+        self.properties = None
+
+
+class NetworkSecurityPerimeterConfigurationList(_serialization.Model):  # pylint: disable=name-too-long
+    """Result of the List NetworkSecurityPerimeterConfiguration operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: A collection of Network Security Perimeter configurations.
+    :vartype value: list[~azure.mgmt.botservice.models.NetworkSecurityPerimeterConfiguration]
+    :ivar next_link: Link to retrieve next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[NetworkSecurityPerimeterConfiguration]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class NetworkSecurityPerimeterConfigurationProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """Properties of Network Security Perimeter configuration.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provisioning_state: Known values are: "Creating", "Updating", "Accepted", "Succeeded",
+     "Failed", and "Deleting".
+    :vartype provisioning_state: str or ~azure.mgmt.botservice.models.ProvisioningState
+    :ivar provisioning_issues: List of Provisioning Issues if any.
+    :vartype provisioning_issues: list[~azure.mgmt.botservice.models.ProvisioningIssue]
+    :ivar network_security_perimeter: Information about Network Security Perimeter.
+    :vartype network_security_perimeter: ~azure.mgmt.botservice.models.NetworkSecurityPerimeter
+    :ivar resource_association: Information about resource association.
+    :vartype resource_association: ~azure.mgmt.botservice.models.ResourceAssociation
+    :ivar profile: Information about profile.
+    :vartype profile: ~azure.mgmt.botservice.models.Profile
+    """
+
+    _validation = {
+        "network_security_perimeter": {"readonly": True},
+        "resource_association": {"readonly": True},
+        "profile": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "provisioning_issues": {"key": "provisioningIssues", "type": "[ProvisioningIssue]"},
+        "network_security_perimeter": {"key": "networkSecurityPerimeter", "type": "NetworkSecurityPerimeter"},
+        "resource_association": {"key": "resourceAssociation", "type": "ResourceAssociation"},
+        "profile": {"key": "profile", "type": "Profile"},
+    }
+
+    def __init__(
+        self,
+        *,
+        provisioning_state: Union[str, "_models.ProvisioningState"] = "Succeeded",
+        provisioning_issues: Optional[List["_models.ProvisioningIssue"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword provisioning_state: Known values are: "Creating", "Updating", "Accepted", "Succeeded",
+         "Failed", and "Deleting".
+        :paramtype provisioning_state: str or ~azure.mgmt.botservice.models.ProvisioningState
+        :keyword provisioning_issues: List of Provisioning Issues if any.
+        :paramtype provisioning_issues: list[~azure.mgmt.botservice.models.ProvisioningIssue]
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = provisioning_state
+        self.provisioning_issues = provisioning_issues
+        self.network_security_perimeter = None
+        self.resource_association = None
+        self.profile = None
+
+
+class NspAccessRule(_serialization.Model):
+    """Information of Access Rule in a profile.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: Name of the access rule.
+    :vartype name: str
+    :ivar properties: Properties of Access Rule.
+    :vartype properties: ~azure.mgmt.botservice.models.NspAccessRuleProperties
+    """
+
+    _validation = {
+        "properties": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "properties": {"key": "properties", "type": "NspAccessRuleProperties"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of the access rule.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.properties = None
+
+
+class NspAccessRuleProperties(_serialization.Model):
+    """Properties of Access Rule.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar direction: Direction of Access Rule. Known values are: "Inbound" and "Outbound".
+    :vartype direction: str or ~azure.mgmt.botservice.models.NspAccessRuleDirection
+    :ivar address_prefixes: Address prefixes in the CIDR format for inbound rules.
+    :vartype address_prefixes: list[str]
+    :ivar subscriptions: Subscriptions for inbound rules.
+    :vartype subscriptions:
+     list[~azure.mgmt.botservice.models.NspAccessRulePropertiesSubscriptionsItem]
+    :ivar network_security_perimeters: NetworkSecurityPerimeters for inbound rules.
+    :vartype network_security_perimeters:
+     list[~azure.mgmt.botservice.models.NetworkSecurityPerimeter]
+    :ivar fully_qualified_domain_names: FQDN for outbound rules.
+    :vartype fully_qualified_domain_names: list[str]
+    :ivar email_addresses: Email addresses for outbound rules.
+    :vartype email_addresses: list[str]
+    :ivar phone_numbers: Phone numbers for outbound rules.
+    :vartype phone_numbers: list[str]
+    """
+
+    _validation = {
+        "network_security_perimeters": {"readonly": True},
+        "fully_qualified_domain_names": {"readonly": True},
+        "email_addresses": {"readonly": True},
+        "phone_numbers": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "direction": {"key": "direction", "type": "str"},
+        "address_prefixes": {"key": "addressPrefixes", "type": "[str]"},
+        "subscriptions": {"key": "subscriptions", "type": "[NspAccessRulePropertiesSubscriptionsItem]"},
+        "network_security_perimeters": {"key": "networkSecurityPerimeters", "type": "[NetworkSecurityPerimeter]"},
+        "fully_qualified_domain_names": {"key": "fullyQualifiedDomainNames", "type": "[str]"},
+        "email_addresses": {"key": "emailAddresses", "type": "[str]"},
+        "phone_numbers": {"key": "phoneNumbers", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        direction: Optional[Union[str, "_models.NspAccessRuleDirection"]] = None,
+        address_prefixes: Optional[List[str]] = None,
+        subscriptions: Optional[List["_models.NspAccessRulePropertiesSubscriptionsItem"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword direction: Direction of Access Rule. Known values are: "Inbound" and "Outbound".
+        :paramtype direction: str or ~azure.mgmt.botservice.models.NspAccessRuleDirection
+        :keyword address_prefixes: Address prefixes in the CIDR format for inbound rules.
+        :paramtype address_prefixes: list[str]
+        :keyword subscriptions: Subscriptions for inbound rules.
+        :paramtype subscriptions:
+         list[~azure.mgmt.botservice.models.NspAccessRulePropertiesSubscriptionsItem]
+        """
+        super().__init__(**kwargs)
+        self.direction = direction
+        self.address_prefixes = address_prefixes
+        self.subscriptions = subscriptions
+        self.network_security_perimeters = None
+        self.fully_qualified_domain_names = None
+        self.email_addresses = None
+        self.phone_numbers = None
+
+
+class NspAccessRulePropertiesSubscriptionsItem(_serialization.Model):
+    """Subscription for inbound rule.
+
+    :ivar id: Fully qualified identifier of subscription.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Fully qualified identifier of subscription.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+
+
 class Omnichannel(Channel):
     """Omnichannel channel definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2733,7 +3041,7 @@ class Omnichannel(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2771,8 +3079,8 @@ class OperationDisplayInfo(_serialization.Model):
         operation: Optional[str] = None,
         provider: Optional[str] = None,
         resource: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: The description of the operation.
         :paramtype description: str
@@ -2817,8 +3125,8 @@ class OperationEntity(_serialization.Model):
         display: Optional["_models.OperationDisplayInfo"] = None,
         origin: Optional[str] = None,
         properties: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -2851,8 +3159,8 @@ class OperationEntityListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of operations.
         :paramtype next_link: str
@@ -2894,7 +3202,7 @@ class OperationResultsDescription(_serialization.Model):
         "start_time": {"key": "startTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2908,7 +3216,7 @@ class OutlookChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -2932,7 +3240,7 @@ class OutlookChannel(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2960,7 +3268,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2972,7 +3280,7 @@ class PrivateLinkResourceBase(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2993,7 +3301,7 @@ class PrivateLinkResourceBase(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -3007,7 +3315,7 @@ class PrivateEndpointConnection(PrivateLinkResourceBase):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3054,8 +3362,8 @@ class PrivateEndpointConnection(PrivateLinkResourceBase):
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
         group_ids: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The resource of private end point.
         :paramtype private_endpoint: ~azure.mgmt.botservice.models.PrivateEndpoint
@@ -3084,7 +3392,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.botservice.models.PrivateEndpointConnection]
@@ -3099,7 +3407,7 @@ class PrivateLinkResource(PrivateLinkResourceBase):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3131,7 +3439,7 @@ class PrivateLinkResource(PrivateLinkResourceBase):
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
     }
 
-    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword required_zone_names: The private link resource Private link DNS zone name.
         :paramtype required_zone_names: list[str]
@@ -3153,7 +3461,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.botservice.models.PrivateLinkResource]
@@ -3163,7 +3471,8 @@ class PrivateLinkResourceListResult(_serialization.Model):
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -3187,8 +3496,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -3205,6 +3514,153 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
+class Profile(_serialization.Model):
+    """Information about profile.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: Name of the profile.
+    :vartype name: str
+    :ivar access_rules_version: Current access rules version.
+    :vartype access_rules_version: int
+    :ivar access_rules: List of Access Rules.
+    :vartype access_rules: list[~azure.mgmt.botservice.models.NspAccessRule]
+    :ivar diagnostic_settings_version: Current diagnostic settings version.
+    :vartype diagnostic_settings_version: int
+    :ivar enabled_log_categories: List of log categories.
+    :vartype enabled_log_categories: list[str]
+    """
+
+    _validation = {
+        "enabled_log_categories": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "access_rules_version": {"key": "accessRulesVersion", "type": "int"},
+        "access_rules": {"key": "accessRules", "type": "[NspAccessRule]"},
+        "diagnostic_settings_version": {"key": "diagnosticSettingsVersion", "type": "int"},
+        "enabled_log_categories": {"key": "enabledLogCategories", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        access_rules_version: Optional[int] = None,
+        access_rules: Optional[List["_models.NspAccessRule"]] = None,
+        diagnostic_settings_version: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Name of the profile.
+        :paramtype name: str
+        :keyword access_rules_version: Current access rules version.
+        :paramtype access_rules_version: int
+        :keyword access_rules: List of Access Rules.
+        :paramtype access_rules: list[~azure.mgmt.botservice.models.NspAccessRule]
+        :keyword diagnostic_settings_version: Current diagnostic settings version.
+        :paramtype diagnostic_settings_version: int
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.access_rules_version = access_rules_version
+        self.access_rules = access_rules
+        self.diagnostic_settings_version = diagnostic_settings_version
+        self.enabled_log_categories = None
+
+
+class ProvisioningIssue(_serialization.Model):
+    """Describes Provisioning issue for given Network Security Perimeter configuration.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: Name of the issue.
+    :vartype name: str
+    :ivar properties: Properties of Provisioning Issue.
+    :vartype properties: ~azure.mgmt.botservice.models.ProvisioningIssueProperties
+    """
+
+    _validation = {
+        "properties": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "properties": {"key": "properties", "type": "ProvisioningIssueProperties"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of the issue.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.properties = None
+
+
+class ProvisioningIssueProperties(_serialization.Model):
+    """Properties of Provisioning Issue.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar issue_type: Type of Issue.
+    :vartype issue_type: str
+    :ivar severity: Provisioning state of Network Security Perimeter configuration propagation.
+     Known values are: "Warning" and "Error".
+    :vartype severity: str or ~azure.mgmt.botservice.models.Severity
+    :ivar description: Description of the issue.
+    :vartype description: str
+    :ivar suggested_resource_ids: ARM IDs of resources that can be associated to the same perimeter
+     to remediate the issue.
+    :vartype suggested_resource_ids: list[str]
+    :ivar suggested_access_rules: Access rules that can be added to the same profile to remediate
+     the issue.
+    :vartype suggested_access_rules: list[~azure.mgmt.botservice.models.NspAccessRule]
+    """
+
+    _validation = {
+        "suggested_resource_ids": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "issue_type": {"key": "issueType", "type": "str"},
+        "severity": {"key": "severity", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "suggested_resource_ids": {"key": "suggestedResourceIds", "type": "[str]"},
+        "suggested_access_rules": {"key": "suggestedAccessRules", "type": "[NspAccessRule]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        issue_type: Optional[str] = None,
+        severity: Optional[Union[str, "_models.Severity"]] = None,
+        description: Optional[str] = None,
+        suggested_access_rules: Optional[List["_models.NspAccessRule"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword issue_type: Type of Issue.
+        :paramtype issue_type: str
+        :keyword severity: Provisioning state of Network Security Perimeter configuration propagation.
+         Known values are: "Warning" and "Error".
+        :paramtype severity: str or ~azure.mgmt.botservice.models.Severity
+        :keyword description: Description of the issue.
+        :paramtype description: str
+        :keyword suggested_access_rules: Access rules that can be added to the same profile to
+         remediate the issue.
+        :paramtype suggested_access_rules: list[~azure.mgmt.botservice.models.NspAccessRule]
+        """
+        super().__init__(**kwargs)
+        self.issue_type = issue_type
+        self.severity = severity
+        self.description = description
+        self.suggested_resource_ids = None
+        self.suggested_access_rules = suggested_access_rules
+
+
 class QnAMakerEndpointKeysRequestBody(_serialization.Model):
     """The request body for a request to Bot Service Management to list QnA Maker endpoint keys.
 
@@ -3219,7 +3675,7 @@ class QnAMakerEndpointKeysRequestBody(_serialization.Model):
         "authkey": {"key": "authkey", "type": "str"},
     }
 
-    def __init__(self, *, hostname: Optional[str] = None, authkey: Optional[str] = None, **kwargs):
+    def __init__(self, *, hostname: Optional[str] = None, authkey: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword hostname: the host name of the QnA Maker endpoint.
         :paramtype hostname: str
@@ -3258,8 +3714,8 @@ class QnAMakerEndpointKeysResponse(_serialization.Model):
         secondary_endpoint_key: Optional[str] = None,
         installed_version: Optional[str] = None,
         last_stable_version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword primary_endpoint_key: Primary Access Key.
         :paramtype primary_endpoint_key: str
@@ -3277,12 +3733,46 @@ class QnAMakerEndpointKeysResponse(_serialization.Model):
         self.last_stable_version = last_stable_version
 
 
+class ResourceAssociation(_serialization.Model):
+    """Information about resource association.
+
+    :ivar name: Name of the resource association.
+    :vartype name: str
+    :ivar access_mode: Access Mode of the resource association. Known values are: "Enforced",
+     "Learning", and "Audit".
+    :vartype access_mode: str or ~azure.mgmt.botservice.models.AccessMode
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "access_mode": {"key": "accessMode", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        access_mode: Optional[Union[str, "_models.AccessMode"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Name of the resource association.
+        :paramtype name: str
+        :keyword access_mode: Access Mode of the resource association. Known values are: "Enforced",
+         "Learning", and "Audit".
+        :paramtype access_mode: str or ~azure.mgmt.botservice.models.AccessMode
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.access_mode = access_mode
+
+
 class SearchAssistant(Channel):
     """SearchAssistant definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -3306,7 +3796,7 @@ class SearchAssistant(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3328,7 +3818,7 @@ class ServiceProvider(_serialization.Model):
         "properties": {"key": "properties", "type": "ServiceProviderProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ServiceProviderProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.ServiceProviderProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: The Properties of a Service Provider Object.
         :paramtype properties: ~azure.mgmt.botservice.models.ServiceProviderProperties
@@ -3378,7 +3868,7 @@ class ServiceProviderParameter(_serialization.Model):
         "metadata": {"key": "metadata", "type": "ServiceProviderParameterMetadata"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -3402,8 +3892,8 @@ class ServiceProviderParameterMetadata(_serialization.Model):
     }
 
     def __init__(
-        self, *, constraints: Optional["_models.ServiceProviderParameterMetadataConstraints"] = None, **kwargs
-    ):
+        self, *, constraints: Optional["_models.ServiceProviderParameterMetadataConstraints"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword constraints: the constraints of the bot meta data.
         :paramtype constraints:
@@ -3413,7 +3903,7 @@ class ServiceProviderParameterMetadata(_serialization.Model):
         self.constraints = constraints
 
 
-class ServiceProviderParameterMetadataConstraints(_serialization.Model):
+class ServiceProviderParameterMetadataConstraints(_serialization.Model):  # pylint: disable=name-too-long
     """the constraints of the bot meta data.
 
     :ivar required: Whether required the constraints of the bot meta data.
@@ -3424,7 +3914,7 @@ class ServiceProviderParameterMetadataConstraints(_serialization.Model):
         "required": {"key": "required", "type": "bool"},
     }
 
-    def __init__(self, *, required: Optional[bool] = None, **kwargs):
+    def __init__(self, *, required: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword required: Whether required the constraints of the bot meta data.
         :paramtype required: bool
@@ -3469,8 +3959,12 @@ class ServiceProviderProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, icon_url: str = "", parameters: Optional[List["_models.ServiceProviderParameter"]] = None, **kwargs
-    ):
+        self,
+        *,
+        icon_url: str = "",
+        parameters: Optional[List["_models.ServiceProviderParameter"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword icon_url: The URL of icon.
         :paramtype icon_url: str
@@ -3506,7 +4000,7 @@ class ServiceProviderResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[ServiceProvider]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service providers.
         :paramtype next_link: str
@@ -3517,9 +4011,10 @@ class ServiceProviderResponseList(_serialization.Model):
 
 
 class SiteInfo(_serialization.Model):
-    """Site information for WebChat or DirectLine Channels to identify which site to regenerate keys for.
+    """Site information for WebChat or DirectLine Channels to identify which site to regenerate keys
+    for.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar site_name: The site name. Required.
     :vartype site_name: str
@@ -3538,7 +4033,7 @@ class SiteInfo(_serialization.Model):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, *, site_name: str, key: Union[str, "_models.Key"], **kwargs):
+    def __init__(self, *, site_name: str, key: Union[str, "_models.Key"], **kwargs: Any) -> None:
         """
         :keyword site_name: The site name. Required.
         :paramtype site_name: str
@@ -3556,7 +4051,7 @@ class Sku(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The sku name. Required. Known values are: "F0" and "S1".
     :vartype name: str or ~azure.mgmt.botservice.models.SkuName
@@ -3575,7 +4070,7 @@ class Sku(_serialization.Model):
         "tier": {"key": "tier", "type": "str"},
     }
 
-    def __init__(self, *, name: Union[str, "_models.SkuName"], **kwargs):
+    def __init__(self, *, name: Union[str, "_models.SkuName"], **kwargs: Any) -> None:
         """
         :keyword name: The sku name. Required. Known values are: "F0" and "S1".
         :paramtype name: str or ~azure.mgmt.botservice.models.SkuName
@@ -3590,7 +4085,7 @@ class SkypeChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -3623,8 +4118,8 @@ class SkypeChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.SkypeChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3641,7 +4136,7 @@ class SkypeChannel(Channel):
 class SkypeChannelProperties(_serialization.Model):
     """The parameters to provide for the Microsoft Teams channel.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enable_messaging: Enable messaging for Skype channel.
     :vartype enable_messaging: bool
@@ -3695,8 +4190,8 @@ class SkypeChannelProperties(_serialization.Model):
         groups_mode: Optional[str] = None,
         calling_web_hook: Optional[str] = None,
         incoming_call_route: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enable_messaging: Enable messaging for Skype channel.
         :paramtype enable_messaging: bool
@@ -3737,7 +4232,7 @@ class SlackChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -3770,8 +4265,8 @@ class SlackChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.SlackChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3790,7 +4285,7 @@ class SlackChannelProperties(_serialization.Model):  # pylint: disable=too-many-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar client_id: The Slack client id.
     :vartype client_id: str
@@ -3851,8 +4346,8 @@ class SlackChannelProperties(_serialization.Model):  # pylint: disable=too-many-
         landing_page_url: Optional[str] = None,
         register_before_o_auth_flow: Optional[bool] = None,
         signing_secret: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_id: The Slack client id.
         :paramtype client_id: str
@@ -3893,7 +4388,7 @@ class SmsChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -3926,8 +4421,8 @@ class SmsChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.SmsChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3944,7 +4439,7 @@ class SmsChannel(Channel):
 class SmsChannelProperties(_serialization.Model):
     """The parameters to provide for the Sms channel.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar phone: The Sms phone. Required.
     :vartype phone: str
@@ -3982,8 +4477,8 @@ class SmsChannelProperties(_serialization.Model):
         is_enabled: bool,
         auth_token: Optional[str] = None,
         is_validated: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword phone: The Sms phone. Required.
         :paramtype phone: str
@@ -4011,7 +4506,7 @@ class TelegramChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -4044,8 +4539,8 @@ class TelegramChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.TelegramChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -4062,7 +4557,7 @@ class TelegramChannel(Channel):
 class TelegramChannelProperties(_serialization.Model):
     """The parameters to provide for the Telegram channel.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar access_token: The Telegram access token. Value only returned through POST to the action
      Channel List API, otherwise empty.
@@ -4084,8 +4579,13 @@ class TelegramChannelProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, is_enabled: bool, access_token: Optional[str] = None, is_validated: Optional[bool] = None, **kwargs
-    ):
+        self,
+        *,
+        is_enabled: bool,
+        access_token: Optional[str] = None,
+        is_validated: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword access_token: The Telegram access token. Value only returned through POST to the
          action Channel List API, otherwise empty.
@@ -4106,7 +4606,7 @@ class TelephonyChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -4139,8 +4639,8 @@ class TelephonyChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.TelephonyChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -4194,8 +4694,8 @@ class TelephonyChannelProperties(_serialization.Model):
         default_locale: Optional[str] = None,
         premium_sku: Optional[str] = None,
         is_enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword phone_numbers: The list of Telephony phone numbers.
         :paramtype phone_numbers: list[~azure.mgmt.botservice.models.TelephonyPhoneNumbers]
@@ -4258,8 +4758,8 @@ class TelephonyChannelResourceApiConfiguration(_serialization.Model):
         cognitive_service_region: Optional[str] = None,
         cognitive_service_resource_id: Optional[str] = None,
         default_locale: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id of config.
         :paramtype id: str
@@ -4334,8 +4834,8 @@ class TelephonyPhoneNumbers(_serialization.Model):
         cognitive_service_resource_id: Optional[str] = None,
         default_locale: Optional[str] = None,
         offer_type: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The element id.
         :paramtype id: str
@@ -4376,7 +4876,7 @@ class WebChatChannel(Channel):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar channel_name: The channel name. Required.
     :vartype channel_name: str
@@ -4409,8 +4909,8 @@ class WebChatChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.WebChatChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -4444,7 +4944,7 @@ class WebChatChannelProperties(_serialization.Model):
         "sites": {"key": "sites", "type": "[WebChatSite]"},
     }
 
-    def __init__(self, *, sites: Optional[List["_models.WebChatSite"]] = None, **kwargs):
+    def __init__(self, *, sites: Optional[List["_models.WebChatSite"]] = None, **kwargs: Any) -> None:
         """
         :keyword sites: The list of Web Chat sites.
         :paramtype sites: list[~azure.mgmt.botservice.models.WebChatSite]
@@ -4459,7 +4959,7 @@ class WebChatSite(Site):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id.
     :vartype tenant_id: str
@@ -4505,109 +5005,3 @@ class WebChatSite(Site):  # pylint: disable=too-many-instance-attributes
     :ivar is_webchat_preview_enabled: Whether this site is enabled for preview versions of Webchat.
     :vartype is_webchat_preview_enabled: bool
     """
-
-    _validation = {
-        "site_id": {"readonly": True},
-        "site_name": {"required": True},
-        "key": {"readonly": True},
-        "key2": {"readonly": True},
-        "is_enabled": {"required": True},
-        "is_token_enabled": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "site_id": {"key": "siteId", "type": "str"},
-        "site_name": {"key": "siteName", "type": "str"},
-        "key": {"key": "key", "type": "str"},
-        "key2": {"key": "key2", "type": "str"},
-        "is_enabled": {"key": "isEnabled", "type": "bool"},
-        "is_token_enabled": {"key": "isTokenEnabled", "type": "bool"},
-        "is_endpoint_parameters_enabled": {"key": "isEndpointParametersEnabled", "type": "bool"},
-        "is_detailed_logging_enabled": {"key": "isDetailedLoggingEnabled", "type": "bool"},
-        "is_block_user_upload_enabled": {"key": "isBlockUserUploadEnabled", "type": "bool"},
-        "is_no_storage_enabled": {"key": "isNoStorageEnabled", "type": "bool"},
-        "e_tag": {"key": "eTag", "type": "str"},
-        "app_id": {"key": "appId", "type": "str"},
-        "is_v1_enabled": {"key": "isV1Enabled", "type": "bool"},
-        "is_v3_enabled": {"key": "isV3Enabled", "type": "bool"},
-        "is_secure_site_enabled": {"key": "isSecureSiteEnabled", "type": "bool"},
-        "trusted_origins": {"key": "trustedOrigins", "type": "[str]"},
-        "is_web_chat_speech_enabled": {"key": "isWebChatSpeechEnabled", "type": "bool"},
-        "is_webchat_preview_enabled": {"key": "isWebchatPreviewEnabled", "type": "bool"},
-    }
-
-    def __init__(
-        self,
-        *,
-        site_name: str,
-        is_enabled: bool,
-        tenant_id: Optional[str] = None,
-        is_endpoint_parameters_enabled: Optional[bool] = None,
-        is_detailed_logging_enabled: Optional[bool] = None,
-        is_block_user_upload_enabled: Optional[bool] = None,
-        is_no_storage_enabled: Optional[bool] = None,
-        e_tag: Optional[str] = None,
-        app_id: Optional[str] = None,
-        is_v1_enabled: Optional[bool] = None,
-        is_v3_enabled: Optional[bool] = None,
-        is_secure_site_enabled: Optional[bool] = None,
-        trusted_origins: Optional[List[str]] = None,
-        is_web_chat_speech_enabled: bool = False,
-        is_webchat_preview_enabled: bool = False,
-        **kwargs
-    ):
-        """
-        :keyword tenant_id: Tenant Id.
-        :paramtype tenant_id: str
-        :keyword site_name: Site name. Required.
-        :paramtype site_name: str
-        :keyword is_enabled: Whether this site is enabled for DirectLine channel. Required.
-        :paramtype is_enabled: bool
-        :keyword is_endpoint_parameters_enabled: Whether this site is EndpointParameters enabled for
-         channel.
-        :paramtype is_endpoint_parameters_enabled: bool
-        :keyword is_detailed_logging_enabled: Whether this site is disabled detailed logging for.
-        :paramtype is_detailed_logging_enabled: bool
-        :keyword is_block_user_upload_enabled: Whether this site is enabled for block user upload.
-        :paramtype is_block_user_upload_enabled: bool
-        :keyword is_no_storage_enabled: Whether this no-storage site is disabled detailed logging for.
-        :paramtype is_no_storage_enabled: bool
-        :keyword e_tag: Entity Tag.
-        :paramtype e_tag: str
-        :keyword app_id: DirectLine application id.
-        :paramtype app_id: str
-        :keyword is_v1_enabled: Whether this site is enabled for Bot Framework V1 protocol.
-        :paramtype is_v1_enabled: bool
-        :keyword is_v3_enabled: Whether this site is enabled for Bot Framework V3 protocol.
-        :paramtype is_v3_enabled: bool
-        :keyword is_secure_site_enabled: Whether this site is enabled for authentication with Bot
-         Framework.
-        :paramtype is_secure_site_enabled: bool
-        :keyword trusted_origins: List of Trusted Origin URLs for this site. This field is applicable
-         only if isSecureSiteEnabled is True.
-        :paramtype trusted_origins: list[str]
-        :keyword is_web_chat_speech_enabled: Whether this site is enabled for Webchat Speech.
-        :paramtype is_web_chat_speech_enabled: bool
-        :keyword is_webchat_preview_enabled: Whether this site is enabled for preview versions of
-         Webchat.
-        :paramtype is_webchat_preview_enabled: bool
-        """
-        super().__init__(
-            tenant_id=tenant_id,
-            site_name=site_name,
-            is_enabled=is_enabled,
-            is_endpoint_parameters_enabled=is_endpoint_parameters_enabled,
-            is_detailed_logging_enabled=is_detailed_logging_enabled,
-            is_block_user_upload_enabled=is_block_user_upload_enabled,
-            is_no_storage_enabled=is_no_storage_enabled,
-            e_tag=e_tag,
-            app_id=app_id,
-            is_v1_enabled=is_v1_enabled,
-            is_v3_enabled=is_v3_enabled,
-            is_secure_site_enabled=is_secure_site_enabled,
-            trusted_origins=trusted_origins,
-            is_web_chat_speech_enabled=is_web_chat_speech_enabled,
-            is_webchat_preview_enabled=is_webchat_preview_enabled,
-            **kwargs
-        )

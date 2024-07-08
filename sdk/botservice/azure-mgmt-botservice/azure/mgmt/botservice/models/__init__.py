@@ -33,7 +33,10 @@ from ._models_py3 import DirectLineSpeechChannelProperties
 from ._models_py3 import EmailChannel
 from ._models_py3 import EmailChannelProperties
 from ._models_py3 import Error
+from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorBody
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import FacebookChannel
 from ._models_py3 import FacebookChannelProperties
 from ._models_py3 import FacebookPage
@@ -47,6 +50,13 @@ from ._models_py3 import ListChannelWithKeysResponse
 from ._models_py3 import M365Extensions
 from ._models_py3 import MsTeamsChannel
 from ._models_py3 import MsTeamsChannelProperties
+from ._models_py3 import NetworkSecurityPerimeter
+from ._models_py3 import NetworkSecurityPerimeterConfiguration
+from ._models_py3 import NetworkSecurityPerimeterConfigurationList
+from ._models_py3 import NetworkSecurityPerimeterConfigurationProperties
+from ._models_py3 import NspAccessRule
+from ._models_py3 import NspAccessRuleProperties
+from ._models_py3 import NspAccessRulePropertiesSubscriptionsItem
 from ._models_py3 import Omnichannel
 from ._models_py3 import OperationDisplayInfo
 from ._models_py3 import OperationEntity
@@ -60,9 +70,13 @@ from ._models_py3 import PrivateLinkResource
 from ._models_py3 import PrivateLinkResourceBase
 from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
+from ._models_py3 import Profile
+from ._models_py3 import ProvisioningIssue
+from ._models_py3 import ProvisioningIssueProperties
 from ._models_py3 import QnAMakerEndpointKeysRequestBody
 from ._models_py3 import QnAMakerEndpointKeysResponse
 from ._models_py3 import Resource
+from ._models_py3 import ResourceAssociation
 from ._models_py3 import SearchAssistant
 from ._models_py3 import ServiceProvider
 from ._models_py3 import ServiceProviderParameter
@@ -89,16 +103,20 @@ from ._models_py3 import WebChatChannel
 from ._models_py3 import WebChatChannelProperties
 from ._models_py3 import WebChatSite
 
+from ._azure_bot_service_enums import AccessMode
 from ._azure_bot_service_enums import ChannelName
 from ._azure_bot_service_enums import EmailChannelAuthMethod
 from ._azure_bot_service_enums import Key
 from ._azure_bot_service_enums import Kind
 from ._azure_bot_service_enums import MsaAppType
+from ._azure_bot_service_enums import NspAccessRuleDirection
 from ._azure_bot_service_enums import OperationResultStatus
 from ._azure_bot_service_enums import PrivateEndpointConnectionProvisioningState
 from ._azure_bot_service_enums import PrivateEndpointServiceConnectionStatus
+from ._azure_bot_service_enums import ProvisioningState
 from ._azure_bot_service_enums import PublicNetworkAccess
 from ._azure_bot_service_enums import RegenerateKeysChannelName
+from ._azure_bot_service_enums import Severity
 from ._azure_bot_service_enums import SkuName
 from ._azure_bot_service_enums import SkuTier
 from ._patch import __all__ as _patch_all
@@ -133,7 +151,10 @@ __all__ = [
     "EmailChannel",
     "EmailChannelProperties",
     "Error",
+    "ErrorAdditionalInfo",
     "ErrorBody",
+    "ErrorDetail",
+    "ErrorResponse",
     "FacebookChannel",
     "FacebookChannelProperties",
     "FacebookPage",
@@ -147,6 +168,13 @@ __all__ = [
     "M365Extensions",
     "MsTeamsChannel",
     "MsTeamsChannelProperties",
+    "NetworkSecurityPerimeter",
+    "NetworkSecurityPerimeterConfiguration",
+    "NetworkSecurityPerimeterConfigurationList",
+    "NetworkSecurityPerimeterConfigurationProperties",
+    "NspAccessRule",
+    "NspAccessRuleProperties",
+    "NspAccessRulePropertiesSubscriptionsItem",
     "Omnichannel",
     "OperationDisplayInfo",
     "OperationEntity",
@@ -160,9 +188,13 @@ __all__ = [
     "PrivateLinkResourceBase",
     "PrivateLinkResourceListResult",
     "PrivateLinkServiceConnectionState",
+    "Profile",
+    "ProvisioningIssue",
+    "ProvisioningIssueProperties",
     "QnAMakerEndpointKeysRequestBody",
     "QnAMakerEndpointKeysResponse",
     "Resource",
+    "ResourceAssociation",
     "SearchAssistant",
     "ServiceProvider",
     "ServiceProviderParameter",
@@ -188,16 +220,20 @@ __all__ = [
     "WebChatChannel",
     "WebChatChannelProperties",
     "WebChatSite",
+    "AccessMode",
     "ChannelName",
     "EmailChannelAuthMethod",
     "Key",
     "Kind",
     "MsaAppType",
+    "NspAccessRuleDirection",
     "OperationResultStatus",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
+    "ProvisioningState",
     "PublicNetworkAccess",
     "RegenerateKeysChannelName",
+    "Severity",
     "SkuName",
     "SkuTier",
 ]

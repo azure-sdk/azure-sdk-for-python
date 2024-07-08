@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.botservice import AzureBotService
 
 """
@@ -35,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/OperationResultsGet.json
+# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/preview/2023-09-15-preview/examples/OperationResultsGet.json
 if __name__ == "__main__":
     main()

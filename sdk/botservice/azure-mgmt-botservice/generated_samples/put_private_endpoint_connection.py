@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.botservice import AzureBotService
 
 """
@@ -40,6 +43,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutPrivateEndpointConnection.json
+# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/preview/2023-09-15-preview/examples/PutPrivateEndpointConnection.json
 if __name__ == "__main__":
     main()

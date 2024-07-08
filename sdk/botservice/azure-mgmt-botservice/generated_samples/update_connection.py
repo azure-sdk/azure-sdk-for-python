@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.botservice import AzureBotService
 
 """
@@ -39,6 +42,8 @@ def main():
             "properties": {
                 "clientId": "sampleclientid",
                 "clientSecret": "samplesecret",
+                "id": "sampleId",
+                "name": "sampleName",
                 "parameters": [{"key": "key1", "value": "value1"}, {"key": "key2", "value": "value2"}],
                 "scopes": "samplescope",
                 "serviceProviderDisplayName": "serviceProviderDisplayName",
@@ -49,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateConnection.json
+# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/preview/2023-09-15-preview/examples/UpdateConnection.json
 if __name__ == "__main__":
     main()
