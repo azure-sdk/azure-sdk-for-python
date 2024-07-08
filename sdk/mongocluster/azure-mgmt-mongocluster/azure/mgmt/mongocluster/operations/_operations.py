@@ -2970,7 +2970,7 @@ class FirewallRulesOperations:
                     "type": "str"
                 }
 
-                # response body for status code(s): 200, 201, 202
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -3024,7 +3024,7 @@ class FirewallRulesOperations:
         Example:
             .. code-block:: python
 
-                # response body for status code(s): 200, 201, 202
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -3078,7 +3078,7 @@ class FirewallRulesOperations:
         Example:
             .. code-block:: python
 
-                # response body for status code(s): 200, 201, 202
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -3148,7 +3148,7 @@ class FirewallRulesOperations:
                     "type": "str"
                 }
 
-                # response body for status code(s): 200, 201, 202
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -3172,7 +3172,7 @@ class FirewallRulesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.FirewallRule] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3802,7 +3802,7 @@ class PrivateEndpointConnectionsOperations:
                     "type": "str"
                 }
 
-                # response body for status code(s): 202, 200, 201
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -3867,7 +3867,7 @@ class PrivateEndpointConnectionsOperations:
         Example:
             .. code-block:: python
 
-                # response body for status code(s): 202, 200, 201
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -3932,7 +3932,7 @@ class PrivateEndpointConnectionsOperations:
         Example:
             .. code-block:: python
 
-                # response body for status code(s): 202, 200, 201
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -4023,7 +4023,7 @@ class PrivateEndpointConnectionsOperations:
                     "type": "str"
                 }
 
-                # response body for status code(s): 202, 200, 201
+                # response body for status code(s): 200, 201
                 response == {
                     "id": "str",
                     "name": "str",
@@ -4056,7 +4056,7 @@ class PrivateEndpointConnectionsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PrivateEndpointConnectionResource] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -4076,14 +4076,10 @@ class PrivateEndpointConnectionsOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            response_headers = {}
             response = pipeline_response.http_response
-            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
-            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
-
             deserialized = _deserialize(_models.PrivateEndpointConnectionResource, response.json())
             if cls:
-                return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
