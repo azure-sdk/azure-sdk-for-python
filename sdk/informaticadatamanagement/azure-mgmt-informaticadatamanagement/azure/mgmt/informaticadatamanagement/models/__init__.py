@@ -33,8 +33,6 @@ from ._models import NetworkInterfaceConfiguration
 from ._models import NetworkInterfaceConfigurationUpdate
 from ._models import OfferDetails
 from ._models import OfferDetailsUpdate
-from ._models import Operation
-from ._models import OperationDisplay
 from ._models import OrganizationProperties
 from ._models import OrganizationPropertiesCustomUpdate
 from ._models import ProxyResource
@@ -56,10 +54,8 @@ from ._models import TrackedResource
 from ._models import UserDetails
 from ._models import UserDetailsUpdate
 
-from ._enums import ActionType
 from ._enums import ApplicationType
 from ._enums import CreatedByType
-from ._enums import Origin
 from ._enums import PlatformType
 from ._enums import ProvisioningState
 from ._enums import RuntimeType
@@ -95,8 +91,6 @@ __all__ = [
     "NetworkInterfaceConfigurationUpdate",
     "OfferDetails",
     "OfferDetailsUpdate",
-    "Operation",
-    "OperationDisplay",
     "OrganizationProperties",
     "OrganizationPropertiesCustomUpdate",
     "ProxyResource",
@@ -117,10 +111,8 @@ __all__ = [
     "TrackedResource",
     "UserDetails",
     "UserDetailsUpdate",
-    "ActionType",
     "ApplicationType",
     "CreatedByType",
-    "Origin",
     "PlatformType",
     "ProvisioningState",
     "RuntimeType",

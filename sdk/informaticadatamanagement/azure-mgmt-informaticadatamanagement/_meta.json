@@ -1,7 +1,6 @@
 {
-  "commit": "53af822b054f0ae1cfa3858e6b7441b6a917d7f9",
+  "commit": "df40a83dfc701bcde5a68a450a345464cd84a2ae",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "typespec_src": "specification/informatica/Informatica.DataManagement",
-  "@azure-tools/typespec-python": "0.23.11",
-  "@autorest/python": "6.13.17"
+  "typespec_src": "specification/informatica/Informatica.DataManagement.Management",
+  "@azure-tools/typespec-python": "0.25.0"
 }
