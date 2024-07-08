@@ -109,13 +109,120 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
+class FileSystemResourceListResult(_serialization.Model):
+    """The response of a FileSystemResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The FileSystemResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.qumulo.models.LiftrBaseStorageFileSystemResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[LiftrBaseStorageFileSystemResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: List["_models.LiftrBaseStorageFileSystemResource"],
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The FileSystemResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.qumulo.models.LiftrBaseStorageFileSystemResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class LiftrBaseMarketplaceDetails(_serialization.Model):
+    """MarketplaceDetails of Qumulo FileSystem resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar marketplace_subscription_id: Marketplace Subscription Id.
+    :vartype marketplace_subscription_id: str
+    :ivar plan_id: Plan Id. Required.
+    :vartype plan_id: str
+    :ivar offer_id: Offer Id. Required.
+    :vartype offer_id: str
+    :ivar publisher_id: Publisher Id.
+    :vartype publisher_id: str
+    :ivar term_unit: Term Unit.
+    :vartype term_unit: str
+    :ivar marketplace_subscription_status: Marketplace subscription status. Known values are:
+     "PendingFulfillmentStart", "Subscribed", "Suspended", and "Unsubscribed".
+    :vartype marketplace_subscription_status: str or
+     ~azure.mgmt.qumulo.models.MarketplaceSubscriptionStatus
+    """
+
+    _validation = {
+        "plan_id": {"required": True},
+        "offer_id": {"required": True},
+        "marketplace_subscription_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "marketplace_subscription_id": {"key": "marketplaceSubscriptionId", "type": "str"},
+        "plan_id": {"key": "planId", "type": "str"},
+        "offer_id": {"key": "offerId", "type": "str"},
+        "publisher_id": {"key": "publisherId", "type": "str"},
+        "term_unit": {"key": "termUnit", "type": "str"},
+        "marketplace_subscription_status": {"key": "marketplaceSubscriptionStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        plan_id: str,
+        offer_id: str,
+        marketplace_subscription_id: Optional[str] = None,
+        publisher_id: Optional[str] = None,
+        term_unit: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_subscription_id: Marketplace Subscription Id.
+        :paramtype marketplace_subscription_id: str
+        :keyword plan_id: Plan Id. Required.
+        :paramtype plan_id: str
+        :keyword offer_id: Offer Id. Required.
+        :paramtype offer_id: str
+        :keyword publisher_id: Publisher Id.
+        :paramtype publisher_id: str
+        :keyword term_unit: Term Unit.
+        :paramtype term_unit: str
+        """
+        super().__init__(**kwargs)
+        self.marketplace_subscription_id = marketplace_subscription_id
+        self.plan_id = plan_id
+        self.offer_id = offer_id
+        self.publisher_id = publisher_id
+        self.term_unit = term_unit
+        self.marketplace_subscription_status = None
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -156,10 +263,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -204,15 +311,16 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
-    """A FileSystem Resource by Qumulo.
+class LiftrBaseStorageFileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+    """Concrete tracked resource types can be created by aliasing this type using a specific property
+    type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -228,26 +336,23 @@ class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-
     :vartype location: str
     :ivar identity: The managed service identities assigned to this resource.
     :vartype identity: ~azure.mgmt.qumulo.models.ManagedServiceIdentity
-    :ivar marketplace_details: Marketplace details. Required.
-    :vartype marketplace_details: ~azure.mgmt.qumulo.models.MarketplaceDetails
+    :ivar marketplace_details: Marketplace details.
+    :vartype marketplace_details: ~azure.mgmt.qumulo.models.LiftrBaseMarketplaceDetails
     :ivar provisioning_state: Provisioning State of the resource. Known values are: "Accepted",
-     "Creating", "Updating", "Deleting", "Succeeded", "Failed", "Canceled", "Deleted", and
-     "NotSpecified".
+     "Creating", "Updating", "Deleting", "Succeeded", "Failed", "Canceled", and "Deleted".
     :vartype provisioning_state: str or ~azure.mgmt.qumulo.models.ProvisioningState
-    :ivar storage_sku: Storage Sku. Required. Known values are: "Standard" and "Performance".
-    :vartype storage_sku: str or ~azure.mgmt.qumulo.models.StorageSku
-    :ivar user_details: User Details. Required.
-    :vartype user_details: ~azure.mgmt.qumulo.models.UserDetails
-    :ivar delegated_subnet_id: Delegated subnet id for Vnet injection. Required.
+    :ivar storage_sku: Storage Sku.
+    :vartype storage_sku: str
+    :ivar user_details: User Details.
+    :vartype user_details: ~azure.mgmt.qumulo.models.LiftrBaseUserDetails
+    :ivar delegated_subnet_id: Delegated subnet id for Vnet injection.
     :vartype delegated_subnet_id: str
     :ivar cluster_login_url: File system Id of the resource.
     :vartype cluster_login_url: str
     :ivar private_i_ps: Private IPs of the resource.
     :vartype private_i_ps: list[str]
-    :ivar admin_password: Initial administrator password of the resource. Required.
+    :ivar admin_password: Initial administrator password of the resource.
     :vartype admin_password: str
-    :ivar initial_capacity: Storage capacity in TB. Required.
-    :vartype initial_capacity: int
     :ivar availability_zone: Availability zone.
     :vartype availability_zone: str
     """
@@ -258,13 +363,7 @@ class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
-        "marketplace_details": {"required": True},
         "provisioning_state": {"readonly": True},
-        "storage_sku": {"required": True},
-        "user_details": {"required": True},
-        "delegated_subnet_id": {"required": True},
-        "admin_password": {"required": True},
-        "initial_capacity": {"required": True},
     }
 
     _attribute_map = {
@@ -275,15 +374,14 @@ class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
-        "marketplace_details": {"key": "properties.marketplaceDetails", "type": "MarketplaceDetails"},
+        "marketplace_details": {"key": "properties.marketplaceDetails", "type": "LiftrBaseMarketplaceDetails"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "storage_sku": {"key": "properties.storageSku", "type": "str"},
-        "user_details": {"key": "properties.userDetails", "type": "UserDetails"},
+        "user_details": {"key": "properties.userDetails", "type": "LiftrBaseUserDetails"},
         "delegated_subnet_id": {"key": "properties.delegatedSubnetId", "type": "str"},
         "cluster_login_url": {"key": "properties.clusterLoginUrl", "type": "str"},
         "private_i_ps": {"key": "properties.privateIPs", "type": "[str]"},
         "admin_password": {"key": "properties.adminPassword", "type": "str"},
-        "initial_capacity": {"key": "properties.initialCapacity", "type": "int"},
         "availability_zone": {"key": "properties.availabilityZone", "type": "str"},
     }
 
@@ -291,16 +389,15 @@ class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-
         self,
         *,
         location: str,
-        marketplace_details: "_models.MarketplaceDetails",
-        storage_sku: Union[str, "_models.StorageSku"],
-        user_details: "_models.UserDetails",
-        delegated_subnet_id: str,
-        admin_password: str,
-        initial_capacity: int,
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        marketplace_details: Optional["_models.LiftrBaseMarketplaceDetails"] = None,
+        storage_sku: Optional[str] = None,
+        user_details: Optional["_models.LiftrBaseUserDetails"] = None,
+        delegated_subnet_id: Optional[str] = None,
         cluster_login_url: Optional[str] = None,
         private_i_ps: Optional[List[str]] = None,
+        admin_password: Optional[str] = None,
         availability_zone: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -311,22 +408,20 @@ class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-
         :paramtype location: str
         :keyword identity: The managed service identities assigned to this resource.
         :paramtype identity: ~azure.mgmt.qumulo.models.ManagedServiceIdentity
-        :keyword marketplace_details: Marketplace details. Required.
-        :paramtype marketplace_details: ~azure.mgmt.qumulo.models.MarketplaceDetails
-        :keyword storage_sku: Storage Sku. Required. Known values are: "Standard" and "Performance".
-        :paramtype storage_sku: str or ~azure.mgmt.qumulo.models.StorageSku
-        :keyword user_details: User Details. Required.
-        :paramtype user_details: ~azure.mgmt.qumulo.models.UserDetails
-        :keyword delegated_subnet_id: Delegated subnet id for Vnet injection. Required.
+        :keyword marketplace_details: Marketplace details.
+        :paramtype marketplace_details: ~azure.mgmt.qumulo.models.LiftrBaseMarketplaceDetails
+        :keyword storage_sku: Storage Sku.
+        :paramtype storage_sku: str
+        :keyword user_details: User Details.
+        :paramtype user_details: ~azure.mgmt.qumulo.models.LiftrBaseUserDetails
+        :keyword delegated_subnet_id: Delegated subnet id for Vnet injection.
         :paramtype delegated_subnet_id: str
         :keyword cluster_login_url: File system Id of the resource.
         :paramtype cluster_login_url: str
         :keyword private_i_ps: Private IPs of the resource.
         :paramtype private_i_ps: list[str]
-        :keyword admin_password: Initial administrator password of the resource. Required.
+        :keyword admin_password: Initial administrator password of the resource.
         :paramtype admin_password: str
-        :keyword initial_capacity: Storage capacity in TB. Required.
-        :paramtype initial_capacity: int
         :keyword availability_zone: Availability zone.
         :paramtype availability_zone: str
         """
@@ -340,45 +435,10 @@ class FileSystemResource(TrackedResource):  # pylint: disable=too-many-instance-
         self.cluster_login_url = cluster_login_url
         self.private_i_ps = private_i_ps
         self.admin_password = admin_password
-        self.initial_capacity = initial_capacity
         self.availability_zone = availability_zone
 
 
-class FileSystemResourceListResult(_serialization.Model):
-    """The response of a FileSystemResource list operation.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar value: The FileSystemResource items on this page. Required.
-    :vartype value: list[~azure.mgmt.qumulo.models.FileSystemResource]
-    :ivar next_link: The link to the next page of items.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"required": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[FileSystemResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: List["_models.FileSystemResource"], next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The FileSystemResource items on this page. Required.
-        :paramtype value: list[~azure.mgmt.qumulo.models.FileSystemResource]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class FileSystemResourceUpdate(_serialization.Model):
+class LiftrBaseStorageFileSystemResourceUpdate(_serialization.Model):
     """The type used for update operations of the FileSystemResource.
 
     :ivar identity: The managed service identities assigned to this resource.
@@ -386,13 +446,14 @@ class FileSystemResourceUpdate(_serialization.Model):
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar properties: The updatable properties of the FileSystemResource.
-    :vartype properties: ~azure.mgmt.qumulo.models.FileSystemResourceUpdateProperties
+    :vartype properties:
+     ~azure.mgmt.qumulo.models.LiftrBaseStorageFileSystemResourceUpdateProperties
     """
 
     _attribute_map = {
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "tags": {"key": "tags", "type": "{str}"},
-        "properties": {"key": "properties", "type": "FileSystemResourceUpdateProperties"},
+        "properties": {"key": "properties", "type": "LiftrBaseStorageFileSystemResourceUpdateProperties"},
     }
 
     def __init__(
@@ -400,7 +461,7 @@ class FileSystemResourceUpdate(_serialization.Model):
         *,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.FileSystemResourceUpdateProperties"] = None,
+        properties: Optional["_models.LiftrBaseStorageFileSystemResourceUpdateProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -409,7 +470,8 @@ class FileSystemResourceUpdate(_serialization.Model):
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword properties: The updatable properties of the FileSystemResource.
-        :paramtype properties: ~azure.mgmt.qumulo.models.FileSystemResourceUpdateProperties
+        :paramtype properties:
+         ~azure.mgmt.qumulo.models.LiftrBaseStorageFileSystemResourceUpdateProperties
         """
         super().__init__(**kwargs)
         self.identity = identity
@@ -417,57 +479,69 @@ class FileSystemResourceUpdate(_serialization.Model):
         self.properties = properties
 
 
-class FileSystemResourceUpdateProperties(_serialization.Model):
+class LiftrBaseStorageFileSystemResourceUpdateProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The updatable properties of the FileSystemResource.
 
     :ivar marketplace_details: Marketplace details.
-    :vartype marketplace_details: ~azure.mgmt.qumulo.models.MarketplaceDetails
+    :vartype marketplace_details: ~azure.mgmt.qumulo.models.LiftrBaseMarketplaceDetails
     :ivar user_details: User Details.
-    :vartype user_details: ~azure.mgmt.qumulo.models.UserDetails
+    :vartype user_details: ~azure.mgmt.qumulo.models.LiftrBaseUserDetails
     :ivar delegated_subnet_id: Delegated subnet id for Vnet injection.
     :vartype delegated_subnet_id: str
-    :ivar cluster_login_url: File system Id of the resource.
-    :vartype cluster_login_url: str
-    :ivar private_i_ps: Private IPs of the resource.
-    :vartype private_i_ps: list[str]
     """
 
     _attribute_map = {
-        "marketplace_details": {"key": "marketplaceDetails", "type": "MarketplaceDetails"},
-        "user_details": {"key": "userDetails", "type": "UserDetails"},
+        "marketplace_details": {"key": "marketplaceDetails", "type": "LiftrBaseMarketplaceDetails"},
+        "user_details": {"key": "userDetails", "type": "LiftrBaseUserDetails"},
         "delegated_subnet_id": {"key": "delegatedSubnetId", "type": "str"},
-        "cluster_login_url": {"key": "clusterLoginUrl", "type": "str"},
-        "private_i_ps": {"key": "privateIPs", "type": "[str]"},
     }
 
     def __init__(
         self,
         *,
-        marketplace_details: Optional["_models.MarketplaceDetails"] = None,
-        user_details: Optional["_models.UserDetails"] = None,
+        marketplace_details: Optional["_models.LiftrBaseMarketplaceDetails"] = None,
+        user_details: Optional["_models.LiftrBaseUserDetails"] = None,
         delegated_subnet_id: Optional[str] = None,
-        cluster_login_url: Optional[str] = None,
-        private_i_ps: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword marketplace_details: Marketplace details.
-        :paramtype marketplace_details: ~azure.mgmt.qumulo.models.MarketplaceDetails
+        :paramtype marketplace_details: ~azure.mgmt.qumulo.models.LiftrBaseMarketplaceDetails
         :keyword user_details: User Details.
-        :paramtype user_details: ~azure.mgmt.qumulo.models.UserDetails
+        :paramtype user_details: ~azure.mgmt.qumulo.models.LiftrBaseUserDetails
         :keyword delegated_subnet_id: Delegated subnet id for Vnet injection.
         :paramtype delegated_subnet_id: str
-        :keyword cluster_login_url: File system Id of the resource.
-        :paramtype cluster_login_url: str
-        :keyword private_i_ps: Private IPs of the resource.
-        :paramtype private_i_ps: list[str]
         """
         super().__init__(**kwargs)
         self.marketplace_details = marketplace_details
         self.user_details = user_details
         self.delegated_subnet_id = delegated_subnet_id
-        self.cluster_login_url = cluster_login_url
-        self.private_i_ps = private_i_ps
+
+
+class LiftrBaseUserDetails(_serialization.Model):
+    """User Details of Qumulo FileSystem resource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar email: User Email. Required.
+    :vartype email: str
+    """
+
+    _validation = {
+        "email": {"required": True},
+    }
+
+    _attribute_map = {
+        "email": {"key": "email", "type": "str"},
+    }
+
+    def __init__(self, *, email: str, **kwargs: Any) -> None:
+        """
+        :keyword email: User Email. Required.
+        :paramtype email: str
+        """
+        super().__init__(**kwargs)
+        self.email = email
 
 
 class ManagedServiceIdentity(_serialization.Model):
@@ -475,7 +549,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -485,11 +559,11 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype tenant_id: str
     :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
      are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-     "SystemAssigned, UserAssigned".
+     "SystemAssigned,UserAssigned".
     :vartype type: str or ~azure.mgmt.qumulo.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str, ~azure.mgmt.qumulo.models.UserAssignedIdentity]
     """
@@ -517,11 +591,11 @@ class ManagedServiceIdentity(_serialization.Model):
         """
         :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
          types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-         "SystemAssigned, UserAssigned".
+         "SystemAssigned,UserAssigned".
         :paramtype type: str or ~azure.mgmt.qumulo.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.qumulo.models.UserAssignedIdentity]
         """
@@ -530,69 +604,6 @@ class ManagedServiceIdentity(_serialization.Model):
         self.tenant_id = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
-
-
-class MarketplaceDetails(_serialization.Model):
-    """MarketplaceDetails of Qumulo FileSystem resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar marketplace_subscription_id: Marketplace Subscription Id.
-    :vartype marketplace_subscription_id: str
-    :ivar plan_id: Plan Id. Required.
-    :vartype plan_id: str
-    :ivar offer_id: Offer Id. Required.
-    :vartype offer_id: str
-    :ivar publisher_id: Publisher Id. Required.
-    :vartype publisher_id: str
-    :ivar marketplace_subscription_status: Marketplace subscription status. Known values are:
-     "PendingFulfillmentStart", "Subscribed", "Suspended", and "Unsubscribed".
-    :vartype marketplace_subscription_status: str or
-     ~azure.mgmt.qumulo.models.MarketplaceSubscriptionStatus
-    """
-
-    _validation = {
-        "plan_id": {"required": True},
-        "offer_id": {"required": True},
-        "publisher_id": {"required": True},
-        "marketplace_subscription_status": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "marketplace_subscription_id": {"key": "marketplaceSubscriptionId", "type": "str"},
-        "plan_id": {"key": "planId", "type": "str"},
-        "offer_id": {"key": "offerId", "type": "str"},
-        "publisher_id": {"key": "publisherId", "type": "str"},
-        "marketplace_subscription_status": {"key": "marketplaceSubscriptionStatus", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        plan_id: str,
-        offer_id: str,
-        publisher_id: str,
-        marketplace_subscription_id: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword marketplace_subscription_id: Marketplace Subscription Id.
-        :paramtype marketplace_subscription_id: str
-        :keyword plan_id: Plan Id. Required.
-        :paramtype plan_id: str
-        :keyword offer_id: Offer Id. Required.
-        :paramtype offer_id: str
-        :keyword publisher_id: Publisher Id. Required.
-        :paramtype publisher_id: str
-        """
-        super().__init__(**kwargs)
-        self.marketplace_subscription_id = marketplace_subscription_id
-        self.plan_id = plan_id
-        self.offer_id = offer_id
-        self.publisher_id = publisher_id
-        self.marketplace_subscription_status = None
 
 
 class Operation(_serialization.Model):
@@ -806,29 +817,3 @@ class UserAssignedIdentity(_serialization.Model):
         super().__init__(**kwargs)
         self.principal_id = None
         self.client_id = None
-
-
-class UserDetails(_serialization.Model):
-    """User Details of Qumulo FileSystem resource.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar email: User Email. Required.
-    :vartype email: str
-    """
-
-    _validation = {
-        "email": {"required": True},
-    }
-
-    _attribute_map = {
-        "email": {"key": "email", "type": "str"},
-    }
-
-    def __init__(self, *, email: str, **kwargs: Any) -> None:
-        """
-        :keyword email: User Email. Required.
-        :paramtype email: str
-        """
-        super().__init__(**kwargs)
-        self.email = email

@@ -9,12 +9,13 @@
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
-from ._models_py3 import FileSystemResource
 from ._models_py3 import FileSystemResourceListResult
-from ._models_py3 import FileSystemResourceUpdate
-from ._models_py3 import FileSystemResourceUpdateProperties
+from ._models_py3 import LiftrBaseMarketplaceDetails
+from ._models_py3 import LiftrBaseStorageFileSystemResource
+from ._models_py3 import LiftrBaseStorageFileSystemResourceUpdate
+from ._models_py3 import LiftrBaseStorageFileSystemResourceUpdateProperties
+from ._models_py3 import LiftrBaseUserDetails
 from ._models_py3 import ManagedServiceIdentity
-from ._models_py3 import MarketplaceDetails
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
@@ -22,7 +23,6 @@ from ._models_py3 import Resource
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
-from ._models_py3 import UserDetails
 
 from ._qumulo_mgmt_client_enums import ActionType
 from ._qumulo_mgmt_client_enums import CreatedByType
@@ -30,7 +30,6 @@ from ._qumulo_mgmt_client_enums import ManagedServiceIdentityType
 from ._qumulo_mgmt_client_enums import MarketplaceSubscriptionStatus
 from ._qumulo_mgmt_client_enums import Origin
 from ._qumulo_mgmt_client_enums import ProvisioningState
-from ._qumulo_mgmt_client_enums import StorageSku
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -39,12 +38,13 @@ __all__ = [
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
-    "FileSystemResource",
     "FileSystemResourceListResult",
-    "FileSystemResourceUpdate",
-    "FileSystemResourceUpdateProperties",
+    "LiftrBaseMarketplaceDetails",
+    "LiftrBaseStorageFileSystemResource",
+    "LiftrBaseStorageFileSystemResourceUpdate",
+    "LiftrBaseStorageFileSystemResourceUpdateProperties",
+    "LiftrBaseUserDetails",
     "ManagedServiceIdentity",
-    "MarketplaceDetails",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
@@ -52,14 +52,12 @@ __all__ = [
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
-    "UserDetails",
     "ActionType",
     "CreatedByType",
     "ManagedServiceIdentityType",
     "MarketplaceSubscriptionStatus",
     "Origin",
     "ProvisioningState",
-    "StorageSku",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
