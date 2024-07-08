@@ -29,6 +29,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
@@ -43,12 +44,13 @@ def main():
                     {"propertyName": "spring.boot.admin.ui.enable-toasts", "value": "true"},
                     {"propertyName": "spring.boot.admin.monitor.status-interval", "value": "10000ms"},
                 ],
+                "scale": {"maximum": 1, "minimum": 1},
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_Patch.json
 if __name__ == "__main__":
     main()
