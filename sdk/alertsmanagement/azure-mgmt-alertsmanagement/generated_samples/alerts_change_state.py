@@ -6,9 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
@@ -26,16 +32,17 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="9e261de7-c804-4b9d-9ebf-6f50fe350a9a",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.alerts.change_state(
+        scope="subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a",
         alert_id="66114d64-d9d9-478b-95c9-b789d6502100",
         new_state="Acknowledged",
     )
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2019-05-05-preview/examples/Alerts_ChangeState.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/Alerts_ChangeState.json
 if __name__ == "__main__":
     main()
