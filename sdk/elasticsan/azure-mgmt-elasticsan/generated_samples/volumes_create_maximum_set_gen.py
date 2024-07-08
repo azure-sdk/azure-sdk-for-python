@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
 """
@@ -26,25 +29,25 @@ from azure.mgmt.elasticsan import ElasticSanMgmtClient
 def main():
     client = ElasticSanMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionid",
+        subscription_id="54988BED-65B0-458A-B9C5-51BD88EAD663",
     )
 
     response = client.volumes.begin_create(
-        resource_group_name="resourcegroupname",
+        resource_group_name="rgelasticsan",
         elastic_san_name="elasticsanname",
         volume_group_name="volumegroupname",
         volume_name="volumename",
         parameters={
             "properties": {
-                "creationData": {"createSource": "None", "sourceId": "ARM Id of Resource"},
-                "managedBy": {"resourceId": "mtkeip"},
-                "sizeGiB": 9,
+                "creationData": {"createSource": "None", "sourceId": "zyeiplhazyc"},
+                "managedBy": {"resourceId": "hqlocyoaovhjgpftl"},
+                "sizeGiB": 15,
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Create_MaximumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
