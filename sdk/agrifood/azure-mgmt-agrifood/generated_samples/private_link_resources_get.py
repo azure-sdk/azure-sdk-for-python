@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.agrifood import AgriFoodMgmtClient
 
 """
@@ -26,18 +27,17 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
 def main():
     client = AgriFoodMgmtClient(
         credential=DefaultAzureCredential(),
-        solution_id="SOLUTION_ID",
         subscription_id="11111111-2222-3333-4444-555555555555",
     )
 
     response = client.private_link_resources.get(
         resource_group_name="examples-rg",
-        farm_beats_resource_name="examples-farmbeatsResourceName",
+        data_manager_for_agriculture_resource_name="examples-farmbeatsResourceName",
         sub_resource_name="farmbeats",
     )
     print(response)
 
 
-# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/PrivateLinkResources_Get.json
+# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2023-06-01-preview/examples/PrivateLinkResources_Get.json
 if __name__ == "__main__":
     main()
