@@ -1,6 +1,6 @@
 {
   "commit": "76b737d6780e568ac0ccf710a99d2f3506320734",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "typespec_src": "specification/ai/Face",
+  "typespec_src": "specification/communication/Communication.Messages",
   "@azure-tools/typespec-python": "0.25.0"
 }
