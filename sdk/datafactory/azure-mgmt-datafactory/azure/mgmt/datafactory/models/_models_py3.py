@@ -19400,6 +19400,45 @@ class ConnectionStateProperties(_serialization.Model):
         self.status = None
 
 
+class ContinuationSettingsReference(_serialization.Model):
+    """Continuation settings for execute data flow activity.
+
+    :ivar continuation_ttl_in_minutes: Continuation TTL in minutes.
+    :vartype continuation_ttl_in_minutes: JSON
+    :ivar idle_condition: Idle condition.
+    :vartype idle_condition: JSON
+    :ivar customized_checkpoint_key: Customized checkpoint key.
+    :vartype customized_checkpoint_key: JSON
+    """
+
+    _attribute_map = {
+        "continuation_ttl_in_minutes": {"key": "continuationTtlInMinutes", "type": "object"},
+        "idle_condition": {"key": "idleCondition", "type": "object"},
+        "customized_checkpoint_key": {"key": "customizedCheckpointKey", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        continuation_ttl_in_minutes: Optional[JSON] = None,
+        idle_condition: Optional[JSON] = None,
+        customized_checkpoint_key: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword continuation_ttl_in_minutes: Continuation TTL in minutes.
+        :paramtype continuation_ttl_in_minutes: JSON
+        :keyword idle_condition: Idle condition.
+        :paramtype idle_condition: JSON
+        :keyword customized_checkpoint_key: Customized checkpoint key.
+        :paramtype customized_checkpoint_key: JSON
+        """
+        super().__init__(**kwargs)
+        self.continuation_ttl_in_minutes = continuation_ttl_in_minutes
+        self.idle_condition = idle_condition
+        self.customized_checkpoint_key = customized_checkpoint_key
+
+
 class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attributes
     """Copy activity.
 
@@ -27661,6 +27700,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -27698,6 +27739,10 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         "data_flow": {"key": "typeProperties.dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "typeProperties.staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "typeProperties.integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {
+            "key": "typeProperties.continuationSettings",
+            "type": "ContinuationSettingsReference",
+        },
         "compute": {"key": "typeProperties.compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "typeProperties.traceLevel", "type": "object"},
         "continue_on_error": {"key": "typeProperties.continueOnError", "type": "object"},
@@ -27720,6 +27765,7 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         policy: Optional["_models.ActivityPolicy"] = None,
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -27756,6 +27802,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -27788,6 +27836,7 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
+        self.continuation_settings = continuation_settings
         self.compute = compute
         self.trace_level = trace_level
         self.continue_on_error = continue_on_error
@@ -27806,6 +27855,8 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -27831,6 +27882,7 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         "data_flow": {"key": "dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {"key": "continuationSettings", "type": "ContinuationSettingsReference"},
         "compute": {"key": "compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "traceLevel", "type": "object"},
         "continue_on_error": {"key": "continueOnError", "type": "object"},
@@ -27844,6 +27896,7 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         data_flow: "_models.DataFlowReference",
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -27858,6 +27911,8 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -27878,6 +27933,7 @@ class ExecuteDataFlowActivityTypeProperties(_serialization.Model):
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
+        self.continuation_settings = continuation_settings
         self.compute = compute
         self.trace_level = trace_level
         self.continue_on_error = continue_on_error
@@ -28075,7 +28131,9 @@ class ExecutePipelineActivityPolicy(_serialization.Model):
         self.secure_input = secure_input
 
 
-class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypeProperties):
+class ExecutePowerQueryActivityTypeProperties(
+    ExecuteDataFlowActivityTypeProperties
+):  # pylint: disable=too-many-instance-attributes
     """Execute power query data flow activity properties.
 
     All required parameters must be populated in order to send to server.
@@ -28086,6 +28144,8 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -28116,6 +28176,7 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
         "data_flow": {"key": "dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {"key": "continuationSettings", "type": "ContinuationSettingsReference"},
         "compute": {"key": "compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "traceLevel", "type": "object"},
         "continue_on_error": {"key": "continueOnError", "type": "object"},
@@ -28131,6 +28192,7 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
         data_flow: "_models.DataFlowReference",
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -28147,6 +28209,8 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -28172,6 +28236,7 @@ class ExecutePowerQueryActivityTypeProperties(ExecuteDataFlowActivityTypePropert
             data_flow=data_flow,
             staging=staging,
             integration_runtime=integration_runtime,
+            continuation_settings=continuation_settings,
             compute=compute,
             trace_level=trace_level,
             continue_on_error=continue_on_error,
@@ -28424,6 +28489,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
     :vartype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
     :ivar integration_runtime: The integration runtime reference.
     :vartype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+    :ivar continuation_settings: Continuation settings for execute data flow activity.
+    :vartype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
     :ivar compute: Compute properties for data flow activity.
     :vartype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
     :ivar trace_level: Trace level setting used for data flow monitoring output. Supported values
@@ -28465,6 +28532,10 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         "data_flow": {"key": "typeProperties.dataFlow", "type": "DataFlowReference"},
         "staging": {"key": "typeProperties.staging", "type": "DataFlowStagingInfo"},
         "integration_runtime": {"key": "typeProperties.integrationRuntime", "type": "IntegrationRuntimeReference"},
+        "continuation_settings": {
+            "key": "typeProperties.continuationSettings",
+            "type": "ContinuationSettingsReference",
+        },
         "compute": {"key": "typeProperties.compute", "type": "ExecuteDataFlowActivityTypePropertiesCompute"},
         "trace_level": {"key": "typeProperties.traceLevel", "type": "object"},
         "continue_on_error": {"key": "typeProperties.continueOnError", "type": "object"},
@@ -28488,6 +28559,7 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         policy: Optional["_models.ActivityPolicy"] = None,
         staging: Optional["_models.DataFlowStagingInfo"] = None,
         integration_runtime: Optional["_models.IntegrationRuntimeReference"] = None,
+        continuation_settings: Optional["_models.ContinuationSettingsReference"] = None,
         compute: Optional["_models.ExecuteDataFlowActivityTypePropertiesCompute"] = None,
         trace_level: Optional[JSON] = None,
         continue_on_error: Optional[JSON] = None,
@@ -28524,6 +28596,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         :paramtype staging: ~azure.mgmt.datafactory.models.DataFlowStagingInfo
         :keyword integration_runtime: The integration runtime reference.
         :paramtype integration_runtime: ~azure.mgmt.datafactory.models.IntegrationRuntimeReference
+        :keyword continuation_settings: Continuation settings for execute data flow activity.
+        :paramtype continuation_settings: ~azure.mgmt.datafactory.models.ContinuationSettingsReference
         :keyword compute: Compute properties for data flow activity.
         :paramtype compute: ~azure.mgmt.datafactory.models.ExecuteDataFlowActivityTypePropertiesCompute
         :keyword trace_level: Trace level setting used for data flow monitoring output. Supported
@@ -28560,6 +28634,7 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         self.data_flow = data_flow
         self.staging = staging
         self.integration_runtime = integration_runtime
+        self.continuation_settings = continuation_settings
         self.compute = compute
         self.trace_level = trace_level
         self.continue_on_error = continue_on_error
@@ -31219,7 +31294,7 @@ class GlobalParameterSpecification(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar type: Global Parameter type. Required. Known values are: "Object", "String", "Int",
-     "Float", "Bool", and "Array".
+     "Float", "Bool", "Array", and "Int".
     :vartype type: str or ~azure.mgmt.datafactory.models.GlobalParameterType
     :ivar value: Value of parameter. Required.
     :vartype value: JSON
@@ -31238,7 +31313,7 @@ class GlobalParameterSpecification(_serialization.Model):
     def __init__(self, *, type: Union[str, "_models.GlobalParameterType"], value: JSON, **kwargs: Any) -> None:
         """
         :keyword type: Global Parameter type. Required. Known values are: "Object", "String", "Int",
-         "Float", "Bool", and "Array".
+         "Float", "Bool", "Array", and "Int".
         :paramtype type: str or ~azure.mgmt.datafactory.models.GlobalParameterType
         :keyword value: Value of parameter. Required.
         :paramtype value: JSON
@@ -45721,7 +45796,8 @@ class NotebookParameter(_serialization.Model):
 
     :ivar value: Notebook parameter value. Type: string (or Expression with resultType string).
     :vartype value: JSON
-    :ivar type: Notebook parameter type. Known values are: "string", "int", "float", and "bool".
+    :ivar type: Notebook parameter type. Known values are: "string", "int", "float", "bool", and
+     "int".
     :vartype type: str or ~azure.mgmt.datafactory.models.NotebookParameterType
     """
 
@@ -45740,7 +45816,8 @@ class NotebookParameter(_serialization.Model):
         """
         :keyword value: Notebook parameter value. Type: string (or Expression with resultType string).
         :paramtype value: JSON
-        :keyword type: Notebook parameter type. Known values are: "string", "int", "float", and "bool".
+        :keyword type: Notebook parameter type. Known values are: "string", "int", "float", "bool", and
+         "int".
         :paramtype type: str or ~azure.mgmt.datafactory.models.NotebookParameterType
         """
         super().__init__(**kwargs)
@@ -48930,7 +49007,7 @@ class ParameterSpecification(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar type: Parameter type. Required. Known values are: "Object", "String", "Int", "Float",
-     "Bool", "Array", and "SecureString".
+     "Bool", "Array", "SecureString", and "Int".
     :vartype type: str or ~azure.mgmt.datafactory.models.ParameterType
     :ivar default_value: Default value of parameter.
     :vartype default_value: JSON
@@ -48950,7 +49027,7 @@ class ParameterSpecification(_serialization.Model):
     ) -> None:
         """
         :keyword type: Parameter type. Required. Known values are: "Object", "String", "Int", "Float",
-         "Bool", "Array", and "SecureString".
+         "Bool", "Array", "SecureString", and "Int".
         :paramtype type: str or ~azure.mgmt.datafactory.models.ParameterType
         :keyword default_value: Default value of parameter.
         :paramtype default_value: JSON
@@ -54523,7 +54600,7 @@ class RunQueryFilter(_serialization.Model):
      "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", and "LatestOnly".
     :vartype operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
     :ivar operator: Operator to be used for filter. Required. Known values are: "Equals",
-     "NotEquals", "In", and "NotIn".
+     "NotEquals", "In", "NotIn", and "In".
     :vartype operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
     :ivar values: List of filter values. Required.
     :vartype values: list[str]
@@ -54558,7 +54635,7 @@ class RunQueryFilter(_serialization.Model):
          "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", and "LatestOnly".
         :paramtype operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
         :keyword operator: Operator to be used for filter. Required. Known values are: "Equals",
-         "NotEquals", "In", and "NotIn".
+         "NotEquals", "In", "NotIn", and "In".
         :paramtype operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
         :keyword values: List of filter values. Required.
         :paramtype values: list[str]
@@ -62952,6 +63029,9 @@ class SnowflakeExportCopyCommand(ExportSettings):
      object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'"
      }.
     :vartype additional_format_options: dict[str, JSON]
+    :ivar storage_integration: The name of the snowflake storage integration to use for the copy
+     operation. Type: string (or Expression with resultType string).
+    :vartype storage_integration: JSON
     """
 
     _validation = {
@@ -62963,6 +63043,7 @@ class SnowflakeExportCopyCommand(ExportSettings):
         "type": {"key": "type", "type": "str"},
         "additional_copy_options": {"key": "additionalCopyOptions", "type": "{object}"},
         "additional_format_options": {"key": "additionalFormatOptions", "type": "{object}"},
+        "storage_integration": {"key": "storageIntegration", "type": "object"},
     }
 
     def __init__(
@@ -62971,6 +63052,7 @@ class SnowflakeExportCopyCommand(ExportSettings):
         additional_properties: Optional[Dict[str, JSON]] = None,
         additional_copy_options: Optional[Dict[str, JSON]] = None,
         additional_format_options: Optional[Dict[str, JSON]] = None,
+        storage_integration: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -62987,11 +63069,15 @@ class SnowflakeExportCopyCommand(ExportSettings):
          object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'"
          }.
         :paramtype additional_format_options: dict[str, JSON]
+        :keyword storage_integration: The name of the snowflake storage integration to use for the copy
+         operation. Type: string (or Expression with resultType string).
+        :paramtype storage_integration: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
         self.type: str = "SnowflakeExportCopyCommand"
         self.additional_copy_options = additional_copy_options
         self.additional_format_options = additional_format_options
+        self.storage_integration = storage_integration
 
 
 class SnowflakeImportCopyCommand(ImportSettings):
@@ -63014,6 +63100,9 @@ class SnowflakeImportCopyCommand(ImportSettings):
      object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES":
      "'FALSE'" }.
     :vartype additional_format_options: dict[str, JSON]
+    :ivar storage_integration: The name of the snowflake storage integration to use for the copy
+     operation. Type: string (or Expression with resultType string).
+    :vartype storage_integration: JSON
     """
 
     _validation = {
@@ -63025,6 +63114,7 @@ class SnowflakeImportCopyCommand(ImportSettings):
         "type": {"key": "type", "type": "str"},
         "additional_copy_options": {"key": "additionalCopyOptions", "type": "{object}"},
         "additional_format_options": {"key": "additionalFormatOptions", "type": "{object}"},
+        "storage_integration": {"key": "storageIntegration", "type": "object"},
     }
 
     def __init__(
@@ -63033,6 +63123,7 @@ class SnowflakeImportCopyCommand(ImportSettings):
         additional_properties: Optional[Dict[str, JSON]] = None,
         additional_copy_options: Optional[Dict[str, JSON]] = None,
         additional_format_options: Optional[Dict[str, JSON]] = None,
+        storage_integration: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -63049,11 +63140,15 @@ class SnowflakeImportCopyCommand(ImportSettings):
          object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES":
          "'FALSE'" }.
         :paramtype additional_format_options: dict[str, JSON]
+        :keyword storage_integration: The name of the snowflake storage integration to use for the copy
+         operation. Type: string (or Expression with resultType string).
+        :paramtype storage_integration: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
         self.type: str = "SnowflakeImportCopyCommand"
         self.additional_copy_options = additional_copy_options
         self.additional_format_options = additional_format_options
+        self.storage_integration = storage_integration
 
 
 class SnowflakeLinkedService(LinkedService):
@@ -65198,7 +65293,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
      AzureKeyVaultSecretReference.
     :vartype connection_string: JSON
     :ivar authentication_type: The type used for authentication. Type: string. Known values are:
-     "SQL" and "Windows".
+     "SQL", "Windows", and "UserAssignedManagedIdentity".
     :vartype authentication_type: str or ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
     :ivar user_name: The on-premises Windows authentication user name. Type: string (or Expression
      with resultType string).
@@ -65210,6 +65305,8 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
     :vartype encrypted_credential: str
     :ivar always_encrypted_settings: Sql always encrypted properties.
     :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+    :ivar credential: The credential reference containing authentication information.
+    :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
 
     _validation = {
@@ -65251,6 +65348,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
             "key": "typeProperties.alwaysEncryptedSettings",
             "type": "SqlAlwaysEncryptedProperties",
         },
+        "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -65286,6 +65384,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         password: Optional["_models.SecretBase"] = None,
         encrypted_credential: Optional[str] = None,
         always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
+        credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -65383,7 +65482,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
          AzureKeyVaultSecretReference.
         :paramtype connection_string: JSON
         :keyword authentication_type: The type used for authentication. Type: string. Known values are:
-         "SQL" and "Windows".
+         "SQL", "Windows", and "UserAssignedManagedIdentity".
         :paramtype authentication_type: str or
          ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
         :keyword user_name: The on-premises Windows authentication user name. Type: string (or
@@ -65397,6 +65496,8 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         :keyword always_encrypted_settings: Sql always encrypted properties.
         :paramtype always_encrypted_settings:
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+        :keyword credential: The credential reference containing authentication information.
+        :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -65432,6 +65533,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         self.password = password
         self.encrypted_credential = encrypted_credential
         self.always_encrypted_settings = always_encrypted_settings
+        self.credential = credential
 
 
 class SqlServerLinkedServiceTypeProperties(
@@ -65522,7 +65624,7 @@ class SqlServerLinkedServiceTypeProperties(
      AzureKeyVaultSecretReference.
     :vartype connection_string: JSON
     :ivar authentication_type: The type used for authentication. Type: string. Known values are:
-     "SQL" and "Windows".
+     "SQL", "Windows", and "UserAssignedManagedIdentity".
     :vartype authentication_type: str or ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
     :ivar user_name: The on-premises Windows authentication user name. Type: string (or Expression
      with resultType string).
@@ -65534,6 +65636,8 @@ class SqlServerLinkedServiceTypeProperties(
     :vartype encrypted_credential: str
     :ivar always_encrypted_settings: Sql always encrypted properties.
     :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+    :ivar credential: The credential reference containing authentication information.
+    :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
 
     _attribute_map = {
@@ -65562,6 +65666,7 @@ class SqlServerLinkedServiceTypeProperties(
         "password": {"key": "password", "type": "SecretBase"},
         "encrypted_credential": {"key": "encryptedCredential", "type": "str"},
         "always_encrypted_settings": {"key": "alwaysEncryptedSettings", "type": "SqlAlwaysEncryptedProperties"},
+        "credential": {"key": "credential", "type": "CredentialReference"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -65592,6 +65697,7 @@ class SqlServerLinkedServiceTypeProperties(
         password: Optional["_models.SecretBase"] = None,
         encrypted_credential: Optional[str] = None,
         always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
+        credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -65678,7 +65784,7 @@ class SqlServerLinkedServiceTypeProperties(
          AzureKeyVaultSecretReference.
         :paramtype connection_string: JSON
         :keyword authentication_type: The type used for authentication. Type: string. Known values are:
-         "SQL" and "Windows".
+         "SQL", "Windows", and "UserAssignedManagedIdentity".
         :paramtype authentication_type: str or
          ~azure.mgmt.datafactory.models.SqlServerAuthenticationType
         :keyword user_name: The on-premises Windows authentication user name. Type: string (or
@@ -65692,6 +65798,8 @@ class SqlServerLinkedServiceTypeProperties(
         :keyword always_encrypted_settings: Sql always encrypted properties.
         :paramtype always_encrypted_settings:
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
+        :keyword credential: The credential reference containing authentication information.
+        :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
         super().__init__(
             server=server,
@@ -65721,6 +65829,7 @@ class SqlServerLinkedServiceTypeProperties(
         self.password = password
         self.encrypted_credential = encrypted_credential
         self.always_encrypted_settings = always_encrypted_settings
+        self.credential = credential
 
 
 class SqlServerSink(CopySink):  # pylint: disable=too-many-instance-attributes
@@ -68056,7 +68165,7 @@ class StoredProcedureParameter(_serialization.Model):
      string).
     :vartype value: JSON
     :ivar type: Stored procedure parameter type. Known values are: "String", "Int", "Int64",
-     "Decimal", "Guid", "Boolean", and "Date".
+     "Decimal", "Guid", "Boolean", "Date", and "Int".
     :vartype type: str or ~azure.mgmt.datafactory.models.StoredProcedureParameterType
     """
 
@@ -68077,7 +68186,7 @@ class StoredProcedureParameter(_serialization.Model):
          string).
         :paramtype value: JSON
         :keyword type: Stored procedure parameter type. Known values are: "String", "Int", "Int64",
-         "Decimal", "Guid", "Boolean", and "Date".
+         "Decimal", "Guid", "Boolean", "Date", and "Int".
         :paramtype type: str or ~azure.mgmt.datafactory.models.StoredProcedureParameterType
         """
         super().__init__(**kwargs)
