@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -48,12 +49,12 @@ class DevOpsInfrastructureMgmtClient:  # pylint: disable=client-accepts-api-vers
     :vartype image_versions: azure.mgmt.devopsinfrastructure.operations.ImageVersionsOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword api_version: The API version to use for this operation. Default value is
-     "2024-04-04-preview". Note that overriding this default value may result in unsupported
+     "2024-07-03-preview". Note that overriding this default value may result in unsupported
      behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -129,7 +130,7 @@ class DevOpsInfrastructureMgmtClient:  # pylint: disable=client-accepts-api-vers
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "DevOpsInfrastructureMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
