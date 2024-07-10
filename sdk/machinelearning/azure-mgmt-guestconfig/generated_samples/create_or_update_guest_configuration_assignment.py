@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.guestconfig import GuestConfigurationClient
 
 """
@@ -44,9 +47,10 @@ def main():
                         {"name": "[InstalledApplication]NotInstalledApplicationResource1;Name", "value": "NotePad,sql"}
                     ],
                     "contentHash": "123contenthash",
+                    "contentManagedIdentity": "test_identity",
                     "contentUri": "https://thisisfake/pacakge",
                     "name": "NotInstalledApplicationForWindows",
-                    "version": "1.*",
+                    "version": "1.0.0.3",
                 },
             },
         },
@@ -54,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationAssignment.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/createOrUpdateGuestConfigurationAssignment.json
 if __name__ == "__main__":
     main()

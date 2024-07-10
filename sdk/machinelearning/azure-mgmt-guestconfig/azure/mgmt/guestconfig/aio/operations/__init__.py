@@ -12,10 +12,16 @@ from ._guest_configuration_hcrp_assignments_operations import GuestConfiguration
 from ._guest_configuration_hcrp_assignment_reports_operations import GuestConfigurationHCRPAssignmentReportsOperations
 from ._guest_configuration_assignments_vmss_operations import GuestConfigurationAssignmentsVMSSOperations
 from ._guest_configuration_assignment_reports_vmss_operations import GuestConfigurationAssignmentReportsVMSSOperations
+from ._guest_configuration_connected_vmwarev_sphere_assignments_operations import (
+    GuestConfigurationConnectedVMwarevSphereAssignmentsOperations,
+)
+from ._guest_configuration_connected_vmwarev_sphere_assignments_reports_operations import (
+    GuestConfigurationConnectedVMwarevSphereAssignmentsReportsOperations,
+)
 from ._operations import Operations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -25,6 +31,8 @@ __all__ = [
     "GuestConfigurationHCRPAssignmentReportsOperations",
     "GuestConfigurationAssignmentsVMSSOperations",
     "GuestConfigurationAssignmentReportsVMSSOperations",
+    "GuestConfigurationConnectedVMwarevSphereAssignmentsOperations",
+    "GuestConfigurationConnectedVMwarevSphereAssignmentsReportsOperations",
     "Operations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

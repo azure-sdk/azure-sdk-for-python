@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.guestconfig import GuestConfigurationClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python lists_all_of_the_available_guest_configuration_rest_api_operations.py
+    python get_guest_configuration_connected_vmwarev_sphere_assignment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +27,17 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
 def main():
     client = GuestConfigurationClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="mySubscriptionId",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.guest_configuration_connected_vmwarev_sphere_assignments.get(
+        resource_group_name="myResourceGroupName",
+        vm_name="myVMName",
+        guest_configuration_assignment_name="SecureProtocol",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listOperations.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/getGuestConfigurationConnectedVMwarevSphereAssignment.json
 if __name__ == "__main__":
     main()
