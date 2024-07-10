@@ -42,7 +42,7 @@ def main():
             },
             "location": "hslxkyzktvwpqbypvs",
             "properties": {
-                "credentials": {"password": "gaecsnkjr", "username": "jbuoltypmrgqfi"},
+                "credentials": {"password": "SecretPlaceholder", "username": "jbuoltypmrgqfi"},
                 "fqdn": "pvzcjaqrswbvptgx",
                 "port": 4,
             },
