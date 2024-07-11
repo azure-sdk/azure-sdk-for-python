@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_sql_dedicated_gateway_service_delete.py
+    python cosmos_db_mongo_cluster_firewall_rule_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +29,18 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
 def main():
     client = CosmosDBManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    client.service.begin_delete(
-        resource_group_name="rg1",
-        account_name="ddb1",
-        service_name="SqlDedicatedGateway",
+    response = client.mongo_clusters.begin_create_or_update_firewall_rule(
+        resource_group_name="TestGroup",
+        mongo_cluster_name="myMongoCluster",
+        firewall_rule_name="rule1",
+        parameters={"properties": {"endIpAddress": "255.255.255.255", "startIpAddress": "0.0.0.0"}},
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceDelete.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-07-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleCreate.json
 if __name__ == "__main__":
     main()

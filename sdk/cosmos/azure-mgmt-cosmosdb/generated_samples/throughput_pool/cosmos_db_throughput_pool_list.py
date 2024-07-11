@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
@@ -17,7 +15,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_sql_dedicated_gateway_service_create.py
+    python cosmos_db_throughput_pool_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,25 +27,14 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
 def main():
     client = CosmosDBManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.service.begin_create(
-        resource_group_name="rg1",
-        account_name="ddb1",
-        service_name="SqlDedicatedGateway",
-        create_update_parameters={
-            "properties": {
-                "dedicatedGatewayType": "IntegratedCache",
-                "instanceCount": 1,
-                "instanceSize": "Cosmos.D4s",
-                "serviceType": "SqlDedicatedGateway",
-            }
-        },
-    ).result()
-    print(response)
+    response = client.throughput_pools.list()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceCreate.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-07-15-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
 if __name__ == "__main__":
     main()
