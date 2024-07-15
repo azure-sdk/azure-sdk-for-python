@@ -91,18 +91,6 @@ class EsuServerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DATACENTER = "Datacenter"
 
 
-class ExecutionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Script execution status."""
-
-    UNKNOWN = "Unknown"
-    PENDING = "Pending"
-    RUNNING = "Running"
-    FAILED = "Failed"
-    SUCCEEDED = "Succeeded"
-    TIMED_OUT = "TimedOut"
-    CANCELED = "Canceled"
-
-
 class ExtensionsStatusLevelTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The level code."""
 
@@ -115,6 +103,22 @@ class GatewayType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the Gateway resource."""
 
     PUBLIC = "Public"
+
+
+class HotpatchEnablementStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of hotpatch enablement or disablement."""
+
+    UNKNOWN = "Unknown"
+    PENDING_EVALUATION = "PendingEvaluation"
+    DISABLED = "Disabled"
+    ACTION_REQUIRED = "ActionRequired"
+    ENABLED = "Enabled"
+
+
+class InstanceViewTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """InstanceViewTypes."""
+
+    INSTANCE_VIEW = "instanceView"
 
 
 class LastAttemptStatusEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -159,6 +163,8 @@ class LicenseProfileSubscriptionStatus(str, Enum, metaclass=CaseInsensitiveEnumM
     ENABLING = "Enabling"
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+    DISABLING = "Disabling"
+    FAILED = "Failed"
 
 
 class LicenseProfileSubscriptionStatusUpdate(str, Enum, metaclass=CaseInsensitiveEnumMeta):
