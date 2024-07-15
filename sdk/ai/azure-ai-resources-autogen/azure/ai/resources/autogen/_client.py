@@ -14,51 +14,56 @@ from azure.core import PipelineClient
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 
-from ._configuration import DataMapClientConfiguration
+from ._configuration import MachineLearningServicesClientConfiguration
 from ._serialization import Deserializer, Serializer
-from .operations import (
-    DiscoveryOperations,
-    EntityOperations,
-    GlossaryOperations,
-    LineageOperations,
-    RelationshipOperations,
-    TypeDefinitionOperations,
-)
+from .operations import IndexesOperations, PromptsOperations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class DataMapClient:  # pylint: disable=client-accepts-api-version-keyword
-    """DataMapClient.
+class MachineLearningServicesClient:  # pylint: disable=client-accepts-api-version-keyword
+    """MachineLearningServicesClient.
 
-    :ivar entity: EntityOperations operations
-    :vartype entity: azure.purview.datamap.operations.EntityOperations
-    :ivar glossary: GlossaryOperations operations
-    :vartype glossary: azure.purview.datamap.operations.GlossaryOperations
-    :ivar discovery: DiscoveryOperations operations
-    :vartype discovery: azure.purview.datamap.operations.DiscoveryOperations
-    :ivar lineage: LineageOperations operations
-    :vartype lineage: azure.purview.datamap.operations.LineageOperations
-    :ivar relationship: RelationshipOperations operations
-    :vartype relationship: azure.purview.datamap.operations.RelationshipOperations
-    :ivar type_definition: TypeDefinitionOperations operations
-    :vartype type_definition: azure.purview.datamap.operations.TypeDefinitionOperations
-    :param endpoint: Purview Data Map Service is a fully managed cloud service whose users can
-     discover the data sources they need and understand the data sources they find. At the same
-     time, Data Map helps organizations get more value from their existing investments. Required.
+    :ivar indexes: IndexesOperations operations
+    :vartype indexes: azure.ai.resources.autogen.operations.IndexesOperations
+    :ivar prompts: PromptsOperations operations
+    :vartype prompts: azure.ai.resources.autogen.operations.PromptsOperations
+    :param endpoint: Supported Azure-AI asset endpoints. Required.
     :type endpoint: str
+    :param subscription_id: The ID of the target subscription. Required.
+    :type subscription_id: str
+    :param resource_group_name: The name of the Resource Group. Required.
+    :type resource_group_name: str
+    :param workspace_name: The name of the AzureML workspace or AI project. Required.
+    :type workspace_name: str
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2023-09-01".
-     Note that overriding this default value may result in unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-05-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
-        _endpoint = "{endpoint}/datamap/api"
-        self._config = DataMapClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+    def __init__(
+        self,
+        endpoint: str,
+        subscription_id: str,
+        resource_group_name: str,
+        workspace_name: str,
+        credential: "TokenCredential",
+        **kwargs: Any
+    ) -> None:
+        _endpoint = "{endpoint}/genericasset/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}"  # pylint: disable=line-too-long
+        self._config = MachineLearningServicesClientConfiguration(
+            endpoint=endpoint,
+            subscription_id=subscription_id,
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            credential=credential,
+            **kwargs
+        )
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -81,12 +86,8 @@ class DataMapClient:  # pylint: disable=client-accepts-api-version-keyword
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.entity = EntityOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.glossary = GlossaryOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.discovery = DiscoveryOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.lineage = LineageOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.relationship = RelationshipOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.type_definition = TypeDefinitionOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.indexes = IndexesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.prompts = PromptsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
@@ -108,7 +109,12 @@ class DataMapClient:  # pylint: disable=client-accepts-api-version-keyword
 
         request_copy = deepcopy(request)
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            ),
+            "workspaceName": self._serialize.url("self._config.workspace_name", self._config.workspace_name, "str"),
         }
 
         request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
