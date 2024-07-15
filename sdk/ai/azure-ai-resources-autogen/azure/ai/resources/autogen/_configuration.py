@@ -17,36 +17,58 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class DataMapClientConfiguration:  # pylint: disable=too-many-instance-attributes
-    """Configuration for DataMapClient.
+class MachineLearningServicesClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+    """Configuration for MachineLearningServicesClient.
 
     Note that all parameters used to create this instance are saved as instance
     attributes.
 
-    :param endpoint: Purview Data Map Service is a fully managed cloud service whose users can
-     discover the data sources they need and understand the data sources they find. At the same
-     time, Data Map helps organizations get more value from their existing investments. Required.
+    :param endpoint: Supported Azure-AI asset endpoints. Required.
     :type endpoint: str
+    :param subscription_id: The ID of the target subscription. Required.
+    :type subscription_id: str
+    :param resource_group_name: The name of the Resource Group. Required.
+    :type resource_group_name: str
+    :param workspace_name: The name of the AzureML workspace or AI project. Required.
+    :type workspace_name: str
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2023-09-01".
-     Note that overriding this default value may result in unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-05-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
-        api_version: str = kwargs.pop("api_version", "2023-09-01")
+    def __init__(
+        self,
+        endpoint: str,
+        subscription_id: str,
+        resource_group_name: str,
+        workspace_name: str,
+        credential: "TokenCredential",
+        **kwargs: Any
+    ) -> None:
+        api_version: str = kwargs.pop("api_version", "2024-05-01-preview")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
+        if subscription_id is None:
+            raise ValueError("Parameter 'subscription_id' must not be None.")
+        if resource_group_name is None:
+            raise ValueError("Parameter 'resource_group_name' must not be None.")
+        if workspace_name is None:
+            raise ValueError("Parameter 'workspace_name' must not be None.")
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
 
         self.endpoint = endpoint
+        self.subscription_id = subscription_id
+        self.resource_group_name = resource_group_name
+        self.workspace_name = workspace_name
         self.credential = credential
         self.api_version = api_version
-        self.credential_scopes = kwargs.pop("credential_scopes", ["https://purview.azure.net/.default"])
-        kwargs.setdefault("sdk_moniker", "purview-datamap/{}".format(VERSION))
+        self.credential_scopes = kwargs.pop("credential_scopes", ["https://ml.azure.com/.default"])
+        kwargs.setdefault("sdk_moniker", "ai-resources-autogen/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
 
