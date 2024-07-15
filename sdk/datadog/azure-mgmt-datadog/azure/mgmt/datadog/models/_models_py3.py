@@ -247,7 +247,7 @@ class DatadogAgreementResourceListResponse(_serialization.Model):
 class DatadogApiKey(_serialization.Model):
     """DatadogApiKey.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar created_by: The user that created the API key.
     :vartype created_by: str
@@ -501,7 +501,7 @@ class DatadogMonitorResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: ARM id of the monitor resource.
     :vartype id: str
@@ -1747,7 +1747,7 @@ class OperationResult(_serialization.Model):
 class ResourceSku(_serialization.Model):
     """ResourceSku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the SKU in {PlanId} format. For Terraform, the only allowed value is
      'linking'. Required.
