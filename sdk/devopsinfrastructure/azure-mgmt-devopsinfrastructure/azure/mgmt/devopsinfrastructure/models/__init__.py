@@ -19,7 +19,6 @@ from ._models import FabricProfile
 from ._models import GitHubOrganization
 from ._models import GitHubOrganizationProfile
 from ._models import ImageVersion
-from ._models import ImageVersionProperties
 from ._models import ManagedServiceIdentity
 from ._models import ManualResourcePredictionsProfile
 from ._models import NetworkProfile
@@ -31,12 +30,9 @@ from ._models import OsProfile
 from ._models import Pool
 from ._models import PoolImage
 from ._models import PoolProperties
-from ._models import PoolUpdate
-from ._models import PoolUpdateProperties
 from ._models import ProxyResource
 from ._models import Quota
 from ._models import QuotaName
-from ._models import QuotaProperties
 from ._models import Resource
 from ._models import ResourceDetailsObject
 from ._models import ResourceDetailsObjectProperties
@@ -56,6 +52,7 @@ from ._models import StorageProfile
 from ._models import SystemData
 from ._models import TrackedResource
 from ._models import UserAssignedIdentity
+from ._models import VersionProperties
 from ._models import VmssFabricProfile
 
 from ._enums import ActionType
@@ -91,7 +88,6 @@ __all__ = [
     "GitHubOrganization",
     "GitHubOrganizationProfile",
     "ImageVersion",
-    "ImageVersionProperties",
     "ManagedServiceIdentity",
     "ManualResourcePredictionsProfile",
     "NetworkProfile",
@@ -103,12 +99,9 @@ __all__ = [
     "Pool",
     "PoolImage",
     "PoolProperties",
-    "PoolUpdate",
-    "PoolUpdateProperties",
     "ProxyResource",
     "Quota",
     "QuotaName",
-    "QuotaProperties",
     "Resource",
     "ResourceDetailsObject",
     "ResourceDetailsObjectProperties",
@@ -128,6 +121,7 @@ __all__ = [
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
+    "VersionProperties",
     "VmssFabricProfile",
     "ActionType",
     "AzureDevOpsPermissionType",
