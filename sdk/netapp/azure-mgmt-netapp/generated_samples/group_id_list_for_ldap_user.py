@@ -42,6 +42,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/GroupIdListForLDAPUser.json
+# x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-03-01-preview/examples/GroupIdListForLDAPUser.json
 if __name__ == "__main__":
     main()
