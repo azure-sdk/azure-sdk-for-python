@@ -1,0 +1,6 @@
+{
+  "commit": "d314db05716c0439d22514b3cdb75d90ae3f64be",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/azurefleet/AzureFleet.Management",
+  "@azure-tools/typespec-python": "0.25.0"
+}
