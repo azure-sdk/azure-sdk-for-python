@@ -29,7 +29,7 @@ from azure.mgmt.apimanagement import ApiManagementClient
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.authorization.create_or_update(
@@ -41,16 +41,13 @@ def main():
             "properties": {
                 "authorizationType": "OAuth2",
                 "oauth2grantType": "AuthorizationCode",
-                "parameters": {
-                    "clientId": "53790925-fdd3-4b80-bc7a-4c3aaf25801d",
-                    "clientSecret": "xxxxxxxxxxxxxxx~xxxxxxxxx",
-                },
+                "parameters": {"clientId": "clientsecretid", "clientSecret": "clientsecretvalue"},
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationAADClientCred.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2024-06-01-preview/examples/ApiManagementCreateAuthorizationAADClientCred.json
 if __name__ == "__main__":
     main()
