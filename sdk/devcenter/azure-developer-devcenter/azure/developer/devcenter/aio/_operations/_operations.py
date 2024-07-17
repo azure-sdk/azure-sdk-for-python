@@ -10,7 +10,21 @@ import datetime
 from io import IOBase
 import json
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, Type, TypeVar, Union, cast, overload
+from typing import (
+    Any,
+    AsyncIterable,
+    AsyncIterator,
+    Callable,
+    Dict,
+    IO,
+    List,
+    Optional,
+    Type,
+    TypeVar,
+    Union,
+    cast,
+    overload,
+)
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -33,55 +47,54 @@ from azure.core.utils import case_insensitive_dict
 from ... import models as _models
 from ..._model_base import SdkJSONEncoder, _deserialize
 from ..._operations._operations import (
-    build_dev_center_create_dev_box_request,
-    build_dev_center_create_or_update_environment_request,
-    build_dev_center_delay_all_dev_box_actions_request,
-    build_dev_center_delay_dev_box_action_request,
-    build_dev_center_delete_dev_box_request,
-    build_dev_center_delete_environment_request,
-    build_dev_center_get_catalog_request,
-    build_dev_center_get_dev_box_action_request,
-    build_dev_center_get_dev_box_request,
-    build_dev_center_get_environment_definition_request,
-    build_dev_center_get_environment_request,
-    build_dev_center_get_pool_request,
+    build_deployment_environments_create_or_update_environment_request,
+    build_deployment_environments_delete_environment_request,
+    build_deployment_environments_get_catalog_request,
+    build_deployment_environments_get_environment_definition_request,
+    build_deployment_environments_get_environment_request,
+    build_deployment_environments_list_all_environments_request,
+    build_deployment_environments_list_catalogs_request,
+    build_deployment_environments_list_environment_definitions_by_catalog_request,
+    build_deployment_environments_list_environment_definitions_request,
+    build_deployment_environments_list_environment_types_request,
+    build_deployment_environments_list_environments_request,
+    build_dev_boxes_create_dev_box_request,
+    build_dev_boxes_delay_action_request,
+    build_dev_boxes_delay_all_actions_request,
+    build_dev_boxes_delete_dev_box_request,
+    build_dev_boxes_get_dev_box_action_request,
+    build_dev_boxes_get_dev_box_request,
+    build_dev_boxes_get_pool_request,
+    build_dev_boxes_get_remote_connection_request,
+    build_dev_boxes_get_schedule_request,
+    build_dev_boxes_list_all_dev_boxes_by_user_request,
+    build_dev_boxes_list_all_dev_boxes_request,
+    build_dev_boxes_list_dev_box_actions_request,
+    build_dev_boxes_list_dev_boxes_request,
+    build_dev_boxes_list_pools_request,
+    build_dev_boxes_list_schedules_request,
+    build_dev_boxes_restart_dev_box_request,
+    build_dev_boxes_skip_action_request,
+    build_dev_boxes_start_dev_box_request,
+    build_dev_boxes_stop_dev_box_request,
     build_dev_center_get_project_request,
-    build_dev_center_get_remote_connection_request,
-    build_dev_center_get_schedule_request,
-    build_dev_center_list_all_dev_boxes_by_user_request,
-    build_dev_center_list_all_dev_boxes_request,
-    build_dev_center_list_all_environments_request,
-    build_dev_center_list_catalogs_request,
-    build_dev_center_list_dev_box_actions_request,
-    build_dev_center_list_dev_boxes_request,
-    build_dev_center_list_environment_definitions_by_catalog_request,
-    build_dev_center_list_environment_definitions_request,
-    build_dev_center_list_environment_types_request,
-    build_dev_center_list_environments_request,
-    build_dev_center_list_pools_request,
     build_dev_center_list_projects_request,
-    build_dev_center_list_schedules_request,
-    build_dev_center_restart_dev_box_request,
-    build_dev_center_skip_dev_box_action_request,
-    build_dev_center_start_dev_box_request,
-    build_dev_center_stop_dev_box_request,
 )
-from .._vendor import DevCenterClientMixinABC
+from .._vendor import DeploymentEnvironmentsClientMixinABC, DevBoxesClientMixinABC, DevCenterClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
+JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
-class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disable=too-many-public-methods
+class DevCenterClientOperationsMixin(DevCenterClientMixinABC):
 
     @distributed_trace
     def list_projects(self, **kwargs: Any) -> AsyncIterable["_models.Project"]:
-        # pylint: disable=line-too-long
         """Lists all projects.
 
         :return: An iterator like instance of Project
@@ -93,10 +106,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # Name of the project. Required.
-                    "description": "str",  # Optional. Description of the project.
-                    "maxDevBoxesPerUser": 0  # Optional. When specified, indicates the maximum
-                      number of Dev Boxes a single user can create across all pools in the project.
+                    "name": "str",
+                    "description": "str",
+                    "maxDevBoxesPerUser": 0
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -166,8 +178,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -177,7 +187,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace_async
     async def get_project(self, project_name: str, **kwargs: Any) -> _models.Project:
-        # pylint: disable=line-too-long
         """Gets a project.
 
         :param project_name: Name of the project. Required.
@@ -191,10 +200,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # Name of the project. Required.
-                    "description": "str",  # Optional. Description of the project.
-                    "maxDevBoxesPerUser": 0  # Optional. When specified, indicates the maximum
-                      number of Dev Boxes a single user can create across all pools in the project.
+                    "name": "str",
+                    "description": "str",
+                    "maxDevBoxesPerUser": 0
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -244,9 +252,11 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         return deserialized  # type: ignore
 
+
+class DevBoxesClientOperationsMixin(DevBoxesClientMixinABC):  # pylint: disable=too-many-public-methods
+
     @distributed_trace
     def list_pools(self, project_name: str, **kwargs: Any) -> AsyncIterable["_models.Pool"]:
-        # pylint: disable=line-too-long
         """Lists available pools.
 
         :param project_name: Name of the project. Required.
@@ -260,59 +270,31 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "healthStatus": "str",  # Overall health status of the Pool. Indicates
-                      whether or not the Pool is available to create Dev Boxes. Required. Known values
-                      are: "Unknown", "Pending", "Healthy", "Warning", and "Unhealthy".
-                    "location": "str",  # Azure region where Dev Boxes in the pool are located.
-                      Required.
-                    "name": "str",  # Pool name. Required.
+                    "healthStatus": "str",
+                    "location": "str",
+                    "name": "str",
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether owners of Dev
-                      Boxes in this pool are local administrators on the Dev Boxes. Known values are:
-                      "Enabled" and "Disabled".
-                    "osType": "str",  # Optional. The operating system type of Dev Boxes in this
-                      pool. "Windows"
+                    "localAdministrator": "str",
+                    "osType": "str",
                     "stopOnDisconnect": {
-                        "status": "str",  # Indicates whether the feature to stop the devbox
-                          on disconnect once the grace period has lapsed is enabled. Required. Known
-                          values are: "Enabled" and "Disabled".
-                        "gracePeriodMinutes": 0  # Optional. The specified time in minutes to
-                          wait before stopping a Dev Box once disconnect is detected.
+                        "status": "str",
+                        "gracePeriodMinutes": 0
                     },
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     }
                 }
@@ -333,7 +315,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_pools_request(
+                _request = build_dev_boxes_list_pools_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -385,8 +367,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -396,7 +376,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace_async
     async def get_pool(self, project_name: str, pool_name: str, **kwargs: Any) -> _models.Pool:
-        # pylint: disable=line-too-long
         """Gets a pool.
 
         :param project_name: Name of the project. Required.
@@ -412,59 +391,31 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "healthStatus": "str",  # Overall health status of the Pool. Indicates
-                      whether or not the Pool is available to create Dev Boxes. Required. Known values
-                      are: "Unknown", "Pending", "Healthy", "Warning", and "Unhealthy".
-                    "location": "str",  # Azure region where Dev Boxes in the pool are located.
-                      Required.
-                    "name": "str",  # Pool name. Required.
+                    "healthStatus": "str",
+                    "location": "str",
+                    "name": "str",
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether owners of Dev
-                      Boxes in this pool are local administrators on the Dev Boxes. Known values are:
-                      "Enabled" and "Disabled".
-                    "osType": "str",  # Optional. The operating system type of Dev Boxes in this
-                      pool. "Windows"
+                    "localAdministrator": "str",
+                    "osType": "str",
                     "stopOnDisconnect": {
-                        "status": "str",  # Indicates whether the feature to stop the devbox
-                          on disconnect once the grace period has lapsed is enabled. Required. Known
-                          values are: "Enabled" and "Disabled".
-                        "gracePeriodMinutes": 0  # Optional. The specified time in minutes to
-                          wait before stopping a Dev Box once disconnect is detected.
+                        "status": "str",
+                        "gracePeriodMinutes": 0
                     },
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     }
                 }
@@ -482,7 +433,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Pool] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_pool_request(
+        _request = build_dev_boxes_get_pool_request(
             project_name=project_name,
             pool_name=pool_name,
             api_version=self._config.api_version,
@@ -534,15 +485,11 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "frequency": "str",  # The frequency of this scheduled task. Required.
-                      "Daily"
-                    "name": "str",  # Display name for the Schedule. Required.
-                    "time": "str",  # The target time to trigger the action. The format is HH:MM.
-                      Required.
-                    "timeZone": "str",  # The IANA timezone id at which the schedule should
-                      execute. Required.
-                    "type": "str"  # Supported type this scheduled task represents. Required.
-                      "StopDevBox"
+                    "frequency": "str",
+                    "name": "str",
+                    "time": "str",
+                    "timeZone": "str",
+                    "type": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -561,7 +508,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_schedules_request(
+                _request = build_dev_boxes_list_schedules_request(
                     project_name=project_name,
                     pool_name=pool_name,
                     api_version=self._config.api_version,
@@ -614,8 +561,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -644,15 +589,11 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "frequency": "str",  # The frequency of this scheduled task. Required.
-                      "Daily"
-                    "name": "str",  # Display name for the Schedule. Required.
-                    "time": "str",  # The target time to trigger the action. The format is HH:MM.
-                      Required.
-                    "timeZone": "str",  # The IANA timezone id at which the schedule should
-                      execute. Required.
-                    "type": "str"  # Supported type this scheduled task represents. Required.
-                      "StopDevBox"
+                    "frequency": "str",
+                    "name": "str",
+                    "time": "str",
+                    "timeZone": "str",
+                    "type": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -668,7 +609,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Schedule] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_schedule_request(
+        _request = build_dev_boxes_get_schedule_request(
             project_name=project_name,
             pool_name=pool_name,
             schedule_name=schedule_name,
@@ -706,7 +647,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace
     def list_all_dev_boxes(self, **kwargs: Any) -> AsyncIterable["_models.DevBox"]:
-        # pylint: disable=line-too-long
         """Lists Dev Boxes that the caller has access to in the DevCenter.
 
         :return: An iterator like instance of DevBox
@@ -718,84 +658,48 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -814,7 +718,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_all_dev_boxes_request(
+                _request = build_dev_boxes_list_all_dev_boxes_request(
                     api_version=self._config.api_version,
                     headers=_headers,
                     params=_params,
@@ -865,8 +769,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -876,7 +778,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace
     def list_all_dev_boxes_by_user(self, user_id: str, **kwargs: Any) -> AsyncIterable["_models.DevBox"]:
-        # pylint: disable=line-too-long
         """Lists Dev Boxes in the Dev Center for a particular user.
 
         :param user_id: The AAD object id of the user. If value is 'me', the identity is taken from the
@@ -891,84 +792,48 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -987,7 +852,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_all_dev_boxes_by_user_request(
+                _request = build_dev_boxes_list_all_dev_boxes_by_user_request(
                     user_id=user_id,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -1039,8 +904,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -1050,7 +913,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace
     def list_dev_boxes(self, project_name: str, user_id: str, **kwargs: Any) -> AsyncIterable["_models.DevBox"]:
-        # pylint: disable=line-too-long
         """Lists Dev Boxes in the project for a particular user.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -1067,84 +929,48 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1163,7 +989,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_dev_boxes_request(
+                _request = build_dev_boxes_list_dev_boxes_request(
                     project_name=project_name,
                     user_id=user_id,
                     api_version=self._config.api_version,
@@ -1216,8 +1042,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -1227,7 +1051,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace_async
     async def get_dev_box(self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any) -> _models.DevBox:
-        # pylint: disable=line-too-long
         """Gets a Dev Box.
 
         :param project_name: Name of the project. Required.
@@ -1246,84 +1069,48 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -1339,7 +1126,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.DevBox] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_dev_box_request(
+        _request = build_dev_boxes_get_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -1382,7 +1169,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         dev_box_name: str,
         body: Union[_models.DevBox, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> JSON:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1395,7 +1182,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1404,7 +1191,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_dev_center_create_dev_box_request(
+        _request = build_dev_boxes_create_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -1419,7 +1206,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -1427,14 +1214,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
         if response.status_code == 200:
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
 
         if response.status_code == 201:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
@@ -1442,7 +1228,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1460,7 +1246,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DevBox]:
-        # pylint: disable=line-too-long
         """Creates or replaces a Dev Box.
 
         :param project_name: The DevCenter Project upon which to execute the operation. Required.
@@ -1486,166 +1271,94 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # JSON input template you can fill out and use as your body input.
                 body = {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
 
@@ -1660,7 +1373,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DevBox]:
-        # pylint: disable=line-too-long
         """Creates or replaces a Dev Box.
 
         :param project_name: The DevCenter Project upon which to execute the operation. Required.
@@ -1686,84 +1398,48 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
 
@@ -1778,7 +1454,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DevBox]:
-        # pylint: disable=line-too-long
         """Creates or replaces a Dev Box.
 
         :param project_name: The DevCenter Project upon which to execute the operation. Required.
@@ -1804,84 +1479,48 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
 
@@ -1894,7 +1533,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         body: Union[_models.DevBox, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.DevBox]:
-        # pylint: disable=line-too-long
         """Creates or replaces a Dev Box.
 
         :param project_name: The DevCenter Project upon which to execute the operation. Required.
@@ -1918,166 +1556,94 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # JSON input template you can fill out and use as your body input.
                 body = {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
 
                 # response body for status code(s): 200, 201
                 response == {
-                    "name": "str",  # Display name for the Dev Box. Required.
-                    "poolName": "str",  # The name of the Dev Box pool this machine belongs to.
-                      Required.
-                    "actionState": "str",  # Optional. The current action state of the Dev Box.
-                      This is state is based on previous action performed by user.
-                    "createdTime": "2020-02-20 00:00:00",  # Optional. Creation time of this Dev
-                      Box.
+                    "name": "str",
+                    "poolName": "str",
+                    "actionState": "str",
+                    "createdTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "hardwareProfile": {
-                        "memoryGB": 0,  # Optional. The amount of memory available for the
-                          Dev Box.
-                        "skuName": "str",  # Optional. The name of the SKU. Known values are:
-                          "general_i_8c32gb256ssd_v2", "general_i_8c32gb512ssd_v2",
-                          "general_i_8c32gb1024ssd_v2", "general_i_8c32gb2048ssd_v2",
-                          "general_i_16c64gb256ssd_v2", "general_i_16c64gb512ssd_v2",
-                          "general_i_16c64gb1024ssd_v2", "general_i_16c64gb2048ssd_v2",
-                          "general_i_32c128gb512ssd_v2", "general_i_32c128gb1024ssd_v2",
-                          "general_i_32c128gb2048ssd_v2", "general_a_8c32gb256ssd_v2",
-                          "general_a_8c32gb512ssd_v2", "general_a_8c32gb1024ssd_v2",
-                          "general_a_8c32gb2048ssd_v2", "general_a_16c64gb256ssd_v2",
-                          "general_a_16c64gb512ssd_v2", "general_a_16c64gb1024ssd_v2",
-                          "general_a_16c64gb2048ssd_v2", "general_a_32c128gb512ssd_v2",
-                          "general_a_32c128gb1024ssd_v2", and "general_a_32c128gb2048ssd_v2".
-                        "vCPUs": 0  # Optional. The number of vCPUs available for the Dev
-                          Box.
+                        "memoryGB": 0,
+                        "skuName": "str",
+                        "vCPUs": 0
                     },
-                    "hibernateSupport": "str",  # Optional. Indicates whether hibernate is
-                      enabled/disabled or unknown. Known values are: "Enabled", "Disabled", and
-                      "OsUnsupported".
+                    "hibernateSupport": "str",
                     "imageReference": {
-                        "name": "str",  # Optional. The name of the image used.
-                        "operatingSystem": "str",  # Optional. The operating system of the
-                          image.
-                        "osBuildNumber": "str",  # Optional. The operating system build
-                          number of the image.
-                        "publishedDate": "2020-02-20 00:00:00",  # Optional. The datetime
-                          that the backing image version was published.
-                        "version": "str"  # Optional. The version of the image.
+                        "name": "str",
+                        "operatingSystem": "str",
+                        "osBuildNumber": "str",
+                        "publishedDate": "2020-02-20 00:00:00",
+                        "version": "str"
                     },
-                    "localAdministrator": "str",  # Optional. Indicates whether the owner of the
-                      Dev Box is a local administrator. Known values are: "Enabled" and "Disabled".
-                    "location": "str",  # Optional. Azure region where this Dev Box is located.
-                      This will be the same region as the Virtual Network it is attached to.
-                    "osType": "str",  # Optional. The operating system type of this Dev Box.
-                      "Windows"
-                    "powerState": "str",  # Optional. The current power state of the Dev Box.
-                      Known values are: "Unknown", "Running", "Deallocated", "PoweredOff", and
-                      "Hibernated".
-                    "projectName": "str",  # Optional. Name of the project this Dev Box belongs
-                      to.
-                    "provisioningState": "str",  # Optional. The current provisioning state of
-                      the Dev Box. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Deleting", "Updating", "Starting", "Stopping", "Provisioning",
-                      "ProvisionedWithWarning", "InGracePeriod", and "NotProvisioned".
+                    "localAdministrator": "str",
+                    "location": "str",
+                    "osType": "str",
+                    "powerState": "str",
+                    "projectName": "str",
+                    "provisioningState": "str",
                     "storageProfile": {
                         "osDisk": {
-                            "diskSizeGB": 0  # Optional. The size of the OS Disk in
-                              gigabytes.
+                            "diskSizeGB": 0
                         }
                     },
-                    "uniqueId": "str",  # Optional. A unique identifier for the Dev Box. This is
-                      a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
-                    "user": "str"  # Optional. The AAD object id of the user this Dev Box is
-                      assigned to.
+                    "uniqueId": "str",
+                    "user": "str"
                 }
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2100,6 +1666,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2135,7 +1702,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     async def _delete_dev_box_initial(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> Optional[JSON]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2147,9 +1714,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Optional[JSON]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_delete_dev_box_request(
+        _request = build_dev_boxes_delete_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2162,7 +1729,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2170,12 +1737,10 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
         response_headers = {}
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
@@ -2183,7 +1748,10 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
+
+        if response.status_code == 204:
+            deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2193,8 +1761,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace_async
     async def begin_delete_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[_models.OperationDetails]:
-        # pylint: disable=line-too-long
+    ) -> AsyncLROPoller[_models.OperationStatus]:
         """Deletes a Dev Box.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -2204,9 +1771,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param dev_box_name: The name of a Dev Box. Required.
         :type dev_box_name: str
-        :return: An instance of AsyncLROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of AsyncLROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -2214,39 +1781,32 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 202
                 response == {
-                    "id": "str",  # Fully qualified ID for the operation status. Required.
-                    "name": "str",  # The operation id name. Required.
-                    "status": "str",  # Provisioning state of the resource. Required. Known
-                      values are: "NotStarted", "Running", "Succeeded", "Failed", and "Canceled".
-                    "endTime": "2020-02-20 00:00:00",  # Optional. The end time of the operation.
+                    "id": "str",
+                    "name": "str",
+                    "status": "str",
+                    "endTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
-                    "percentComplete": 0.0,  # Optional. Percent of the operation that is
-                      complete.
-                    "properties": {},  # Optional. Custom operation properties, populated only
-                      for a successful operation.
-                    "resourceId": "str",  # Optional. The id of the resource.
-                    "startTime": "2020-02-20 00:00:00"  # Optional. The start time of the
-                      operation.
+                    "percentComplete": 0.0,
+                    "properties": {},
+                    "resourceId": "str",
+                    "startTime": "2020-02-20 00:00:00"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -2260,6 +1820,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2270,7 +1831,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -2289,17 +1850,19 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.OperationDetails].from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.OperationDetails](
+        return AsyncLROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    async def _start_dev_box_initial(self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any) -> JSON:
+    async def _start_dev_box_initial(
+        self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2311,9 +1874,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_start_dev_box_request(
+        _request = build_dev_boxes_start_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2326,7 +1889,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2334,15 +1897,14 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [202]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
         response_headers["Operation-Location"] = self._deserialize("str", response.headers.get("Operation-Location"))
 
-        deserialized = _deserialize(JSON, response.json())
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2352,8 +1914,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace_async
     async def begin_start_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[_models.OperationDetails]:
-        # pylint: disable=line-too-long
+    ) -> AsyncLROPoller[_models.OperationStatus]:
         """Starts a Dev Box.
 
         :param project_name: Name of the project. Required.
@@ -2363,9 +1924,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param dev_box_name: Display name for the Dev Box. Required.
         :type dev_box_name: str
-        :return: An instance of AsyncLROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of AsyncLROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -2373,39 +1934,32 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 202
                 response == {
-                    "id": "str",  # Fully qualified ID for the operation status. Required.
-                    "name": "str",  # The operation id name. Required.
-                    "status": "str",  # Provisioning state of the resource. Required. Known
-                      values are: "NotStarted", "Running", "Succeeded", "Failed", and "Canceled".
-                    "endTime": "2020-02-20 00:00:00",  # Optional. The end time of the operation.
+                    "id": "str",
+                    "name": "str",
+                    "status": "str",
+                    "endTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
-                    "percentComplete": 0.0,  # Optional. Percent of the operation that is
-                      complete.
-                    "properties": {},  # Optional. Custom operation properties, populated only
-                      for a successful operation.
-                    "resourceId": "str",  # Optional. The id of the resource.
-                    "startTime": "2020-02-20 00:00:00"  # Optional. The start time of the
-                      operation.
+                    "percentComplete": 0.0,
+                    "properties": {},
+                    "resourceId": "str",
+                    "startTime": "2020-02-20 00:00:00"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -2419,6 +1973,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2428,7 +1983,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -2447,19 +2002,19 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.OperationDetails].from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.OperationDetails](
+        return AsyncLROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     async def _stop_dev_box_initial(
         self, project_name: str, user_id: str, dev_box_name: str, *, hibernate: Optional[bool] = None, **kwargs: Any
-    ) -> JSON:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2471,9 +2026,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_stop_dev_box_request(
+        _request = build_dev_boxes_stop_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2487,7 +2042,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2495,15 +2050,14 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [202]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
         response_headers["Operation-Location"] = self._deserialize("str", response.headers.get("Operation-Location"))
 
-        deserialized = _deserialize(JSON, response.json())
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2513,8 +2067,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace_async
     async def begin_stop_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, *, hibernate: Optional[bool] = None, **kwargs: Any
-    ) -> AsyncLROPoller[_models.OperationDetails]:
-        # pylint: disable=line-too-long
+    ) -> AsyncLROPoller[_models.OperationStatus]:
         """Stops a Dev Box.
 
         :param project_name: Name of the project. Required.
@@ -2526,9 +2079,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type dev_box_name: str
         :keyword hibernate: Optional parameter to hibernate the dev box. Default value is None.
         :paramtype hibernate: bool
-        :return: An instance of AsyncLROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of AsyncLROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -2536,39 +2089,32 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 202
                 response == {
-                    "id": "str",  # Fully qualified ID for the operation status. Required.
-                    "name": "str",  # The operation id name. Required.
-                    "status": "str",  # Provisioning state of the resource. Required. Known
-                      values are: "NotStarted", "Running", "Succeeded", "Failed", and "Canceled".
-                    "endTime": "2020-02-20 00:00:00",  # Optional. The end time of the operation.
+                    "id": "str",
+                    "name": "str",
+                    "status": "str",
+                    "endTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
-                    "percentComplete": 0.0,  # Optional. Percent of the operation that is
-                      complete.
-                    "properties": {},  # Optional. Custom operation properties, populated only
-                      for a successful operation.
-                    "resourceId": "str",  # Optional. The id of the resource.
-                    "startTime": "2020-02-20 00:00:00"  # Optional. The start time of the
-                      operation.
+                    "percentComplete": 0.0,
+                    "properties": {},
+                    "resourceId": "str",
+                    "startTime": "2020-02-20 00:00:00"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -2583,6 +2129,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2592,7 +2139,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -2611,17 +2158,19 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.OperationDetails].from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.OperationDetails](
+        return AsyncLROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    async def _restart_dev_box_initial(self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any) -> JSON:
+    async def _restart_dev_box_initial(
+        self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2633,9 +2182,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_restart_dev_box_request(
+        _request = build_dev_boxes_restart_dev_box_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2648,7 +2197,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2656,15 +2205,14 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [202]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
         response_headers["Operation-Location"] = self._deserialize("str", response.headers.get("Operation-Location"))
 
-        deserialized = _deserialize(JSON, response.json())
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2674,8 +2222,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace_async
     async def begin_restart_dev_box(
         self, project_name: str, user_id: str, dev_box_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[_models.OperationDetails]:
-        # pylint: disable=line-too-long
+    ) -> AsyncLROPoller[_models.OperationStatus]:
         """Restarts a Dev Box.
 
         :param project_name: Name of the project. Required.
@@ -2685,9 +2232,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param dev_box_name: Display name for the Dev Box. Required.
         :type dev_box_name: str
-        :return: An instance of AsyncLROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of AsyncLROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -2695,39 +2242,32 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 202
                 response == {
-                    "id": "str",  # Fully qualified ID for the operation status. Required.
-                    "name": "str",  # The operation id name. Required.
-                    "status": "str",  # Provisioning state of the resource. Required. Known
-                      values are: "NotStarted", "Running", "Succeeded", "Failed", and "Canceled".
-                    "endTime": "2020-02-20 00:00:00",  # Optional. The end time of the operation.
+                    "id": "str",
+                    "name": "str",
+                    "status": "str",
+                    "endTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
-                    "percentComplete": 0.0,  # Optional. Percent of the operation that is
-                      complete.
-                    "properties": {},  # Optional. Custom operation properties, populated only
-                      for a successful operation.
-                    "resourceId": "str",  # Optional. The id of the resource.
-                    "startTime": "2020-02-20 00:00:00"  # Optional. The start time of the
-                      operation.
+                    "percentComplete": 0.0,
+                    "properties": {},
+                    "resourceId": "str",
+                    "startTime": "2020-02-20 00:00:00"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -2741,6 +2281,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2750,7 +2291,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -2769,13 +2310,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.OperationDetails].from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.OperationDetails](
+        return AsyncLROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -2801,9 +2342,8 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "rdpConnectionUrl": "str",  # Optional. Link to open a Remote Desktop
-                      session.
-                    "webUrl": "str"  # Optional. URL to open a browser based RDP session.
+                    "rdpConnectionUrl": "str",
+                    "webUrl": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -2819,7 +2359,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.RemoteConnection] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_remote_connection_request(
+        _request = build_dev_boxes_get_remote_connection_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -2877,16 +2417,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "actionType": "str",  # The action that will be taken. Required. "Stop"
-                    "name": "str",  # The name of the action. Required.
-                    "sourceId": "str",  # The id of the resource which triggered this action.
-                      Required.
+                    "actionType": "str",
+                    "name": "str",
+                    "sourceId": "str",
                     "next": {
-                        "scheduledTime": "2020-02-20 00:00:00"  # The time the action will be
-                          triggered (UTC). Required.
+                        "scheduledTime": "2020-02-20 00:00:00"
                     },
-                    "suspendedUntil": "2020-02-20 00:00:00"  # Optional. The earliest time that
-                      the action could occur (UTC).
+                    "suspendedUntil": "2020-02-20 00:00:00"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2905,7 +2442,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_dev_box_actions_request(
+                _request = build_dev_boxes_list_dev_box_actions_request(
                     project_name=project_name,
                     user_id=user_id,
                     dev_box_name=dev_box_name,
@@ -2959,8 +2496,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -2992,16 +2527,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "actionType": "str",  # The action that will be taken. Required. "Stop"
-                    "name": "str",  # The name of the action. Required.
-                    "sourceId": "str",  # The id of the resource which triggered this action.
-                      Required.
+                    "actionType": "str",
+                    "name": "str",
+                    "sourceId": "str",
                     "next": {
-                        "scheduledTime": "2020-02-20 00:00:00"  # The time the action will be
-                          triggered (UTC). Required.
+                        "scheduledTime": "2020-02-20 00:00:00"
                     },
-                    "suspendedUntil": "2020-02-20 00:00:00"  # Optional. The earliest time that
-                      the action could occur (UTC).
+                    "suspendedUntil": "2020-02-20 00:00:00"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -3017,7 +2549,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.DevBoxAction] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_dev_box_action_request(
+        _request = build_dev_boxes_get_dev_box_action_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3055,7 +2587,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def skip_dev_box_action(  # pylint: disable=inconsistent-return-statements
+    async def skip_action(  # pylint: disable=inconsistent-return-statements
         self, project_name: str, user_id: str, dev_box_name: str, action_name: str, **kwargs: Any
     ) -> None:
         """Skips an occurrence of an action.
@@ -3086,7 +2618,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_skip_dev_box_action_request(
+        _request = build_dev_boxes_skip_action_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3108,8 +2640,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [204]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -3117,7 +2647,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
-    async def delay_dev_box_action(
+    async def delay_action(
         self,
         project_name: str,
         user_id: str,
@@ -3149,16 +2679,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "actionType": "str",  # The action that will be taken. Required. "Stop"
-                    "name": "str",  # The name of the action. Required.
-                    "sourceId": "str",  # The id of the resource which triggered this action.
-                      Required.
+                    "actionType": "str",
+                    "name": "str",
+                    "sourceId": "str",
                     "next": {
-                        "scheduledTime": "2020-02-20 00:00:00"  # The time the action will be
-                          triggered (UTC). Required.
+                        "scheduledTime": "2020-02-20 00:00:00"
                     },
-                    "suspendedUntil": "2020-02-20 00:00:00"  # Optional. The earliest time that
-                      the action could occur (UTC).
+                    "suspendedUntil": "2020-02-20 00:00:00"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -3174,7 +2701,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.DevBoxAction] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_delay_dev_box_action_request(
+        _request = build_dev_boxes_delay_action_request(
             project_name=project_name,
             user_id=user_id,
             dev_box_name=dev_box_name,
@@ -3213,10 +2740,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delay_all_dev_box_actions(
+    def delay_all_actions(
         self, project_name: str, user_id: str, dev_box_name: str, *, delay_until: datetime.datetime, **kwargs: Any
     ) -> AsyncIterable["_models.DevBoxActionDelayResult"]:
-        # pylint: disable=line-too-long
         """Delays all actions.
 
         :param project_name: Name of the project. Required.
@@ -3238,36 +2764,28 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str",  # The name of the action. Required.
-                    "result": "str",  # The result of the delay operation on this action.
-                      Required. Known values are: "Succeeded" and "Failed".
+                    "name": "str",
+                    "result": "str",
                     "action": {
-                        "actionType": "str",  # The action that will be taken. Required.
-                          "Stop"
-                        "name": "str",  # The name of the action. Required.
-                        "sourceId": "str",  # The id of the resource which triggered this
-                          action. Required.
+                        "actionType": "str",
+                        "name": "str",
+                        "sourceId": "str",
                         "next": {
-                            "scheduledTime": "2020-02-20 00:00:00"  # The time the action
-                              will be triggered (UTC). Required.
+                            "scheduledTime": "2020-02-20 00:00:00"
                         },
-                        "suspendedUntil": "2020-02-20 00:00:00"  # Optional. The earliest
-                          time that the action could occur (UTC).
+                        "suspendedUntil": "2020-02-20 00:00:00"
                     },
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     }
                 }
         """
@@ -3287,7 +2805,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_delay_all_dev_box_actions_request(
+                _request = build_dev_boxes_delay_all_actions_request(
                     project_name=project_name,
                     user_id=user_id,
                     dev_box_name=dev_box_name,
@@ -3342,8 +2860,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -3351,9 +2867,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         return AsyncItemPaged(get_next, extract_data)
 
+
+class DeploymentEnvironmentsClientOperationsMixin(  # pylint: disable=name-too-long
+    DeploymentEnvironmentsClientMixinABC
+):
+
     @distributed_trace
     def list_all_environments(self, project_name: str, **kwargs: Any) -> AsyncIterable["_models.Environment"]:
-        # pylint: disable=line-too-long
         """Lists the environments for a project.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -3367,37 +2887,28 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -3416,7 +2927,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_all_environments_request(
+                _request = build_deployment_environments_list_all_environments_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -3468,8 +2979,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -3479,7 +2988,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace
     def list_environments(self, project_name: str, user_id: str, **kwargs: Any) -> AsyncIterable["_models.Environment"]:
-        # pylint: disable=line-too-long
         """Lists the environments for a project and user.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -3496,37 +3004,28 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -3545,7 +3044,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environments_request(
+                _request = build_deployment_environments_list_environments_request(
                     project_name=project_name,
                     user_id=user_id,
                     api_version=self._config.api_version,
@@ -3598,8 +3097,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -3611,7 +3108,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     async def get_environment(
         self, project_name: str, user_id: str, environment_name: str, **kwargs: Any
     ) -> _models.Environment:
-        # pylint: disable=line-too-long
         """Gets an environment.
 
         :param project_name: Name of the project. Required.
@@ -3630,37 +3126,28 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -3676,7 +3163,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Environment] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_environment_request(
+        _request = build_deployment_environments_get_environment_request(
             project_name=project_name,
             user_id=user_id,
             environment_name=environment_name,
@@ -3719,7 +3206,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         environment_name: str,
         body: Union[_models.Environment, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> JSON:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3732,7 +3219,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[JSON] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -3741,7 +3228,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_dev_center_create_or_update_environment_request(
+        _request = build_deployment_environments_create_or_update_environment_request(
             project_name=project_name,
             user_id=user_id,
             environment_name=environment_name,
@@ -3756,7 +3243,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -3764,15 +3251,14 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [201]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
         response_headers["Operation-Location"] = self._deserialize("str", response.headers.get("Operation-Location"))
 
-        deserialized = _deserialize(JSON, response.json())
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -3790,7 +3276,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Environment]:
-        # pylint: disable=line-too-long
         """Creates or updates an environment.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -3815,72 +3300,54 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # JSON input template you can fill out and use as your body input.
                 body = {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
 
                 # response body for status code(s): 201
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
 
@@ -3895,7 +3362,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Environment]:
-        # pylint: disable=line-too-long
         """Creates or updates an environment.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -3920,37 +3386,28 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 201
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
 
@@ -3965,7 +3422,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Environment]:
-        # pylint: disable=line-too-long
         """Creates or updates an environment.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -3990,37 +3446,28 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 201
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
 
@@ -4033,7 +3480,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         body: Union[_models.Environment, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Environment]:
-        # pylint: disable=line-too-long
         """Creates or updates an environment.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -4056,72 +3502,54 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # JSON input template you can fill out and use as your body input.
                 body = {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
 
                 # response body for status code(s): 201
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "environmentDefinitionName": "str",  # Name of the environment definition.
-                      Required.
-                    "environmentType": "str",  # Environment type. Required.
-                    "name": "str",  # Environment name. Required.
+                    "catalogName": "str",
+                    "environmentDefinitionName": "str",
+                    "environmentType": "str",
+                    "name": "str",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
                     "parameters": {
-                        "str": {}  # Optional. Parameters object for the environment.
+                        "str": {}
                     },
-                    "provisioningState": "str",  # Optional. The provisioning state of the
-                      environment. Known values are: "Succeeded", "Failed", "Canceled", "Creating",
-                      "Accepted", "Deleting", "Updating", "Preparing", "Running", "Syncing",
-                      "MovingResources", "TransientFailure", and "StorageProvisioningFailed".
-                    "resourceGroupId": "str",  # Optional. The identifier of the resource group
-                      containing the environment's resources.
-                    "user": "str"  # Optional. The AAD object id of the owner of this
-                      Environment.
+                    "provisioningState": "str",
+                    "resourceGroupId": "str",
+                    "user": "str"
                 }
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -4144,6 +3572,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -4184,7 +3613,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     async def _delete_environment_initial(
         self, project_name: str, user_id: str, environment_name: str, **kwargs: Any
-    ) -> Optional[JSON]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -4196,9 +3625,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Optional[JSON]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_delete_environment_request(
+        _request = build_deployment_environments_delete_environment_request(
             project_name=project_name,
             user_id=user_id,
             environment_name=environment_name,
@@ -4211,7 +3640,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -4219,12 +3648,10 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
+            await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
         response_headers = {}
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
@@ -4232,7 +3659,10 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(JSON, response.json())
+            deserialized = response.iter_bytes()
+
+        if response.status_code == 204:
+            deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -4242,8 +3672,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     @distributed_trace_async
     async def begin_delete_environment(
         self, project_name: str, user_id: str, environment_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[_models.OperationDetails]:
-        # pylint: disable=line-too-long
+    ) -> AsyncLROPoller[_models.OperationStatus]:
         """Deletes an environment and all its associated resources.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -4253,9 +3682,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         :type user_id: str
         :param environment_name: The name of the environment. Required.
         :type environment_name: str
-        :return: An instance of AsyncLROPoller that returns OperationDetails. The OperationDetails is
+        :return: An instance of AsyncLROPoller that returns OperationStatus. The OperationStatus is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationDetails]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.developer.devcenter.models.OperationStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
 
         Example:
@@ -4263,39 +3692,32 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 202
                 response == {
-                    "id": "str",  # Fully qualified ID for the operation status. Required.
-                    "name": "str",  # The operation id name. Required.
-                    "status": "str",  # Provisioning state of the resource. Required. Known
-                      values are: "NotStarted", "Running", "Succeeded", "Failed", and "Canceled".
-                    "endTime": "2020-02-20 00:00:00",  # Optional. The end time of the operation.
+                    "id": "str",
+                    "name": "str",
+                    "status": "str",
+                    "endTime": "2020-02-20 00:00:00",
                     "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
+                        "code": "str",
+                        "message": "str",
                         "details": [
                             ...
                         ],
                         "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
+                            "code": "str",
                             "innererror": ...
                         },
-                        "target": "str"  # Optional. The target of the error.
+                        "target": "str"
                     },
-                    "percentComplete": 0.0,  # Optional. Percent of the operation that is
-                      complete.
-                    "properties": {},  # Optional. Custom operation properties, populated only
-                      for a successful operation.
-                    "resourceId": "str",  # Optional. The id of the resource.
-                    "startTime": "2020-02-20 00:00:00"  # Optional. The start time of the
-                      operation.
+                    "percentComplete": 0.0,
+                    "properties": {},
+                    "resourceId": "str",
+                    "startTime": "2020-02-20 00:00:00"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -4309,6 +3731,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -4319,7 +3742,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = _deserialize(_models.OperationDetails, response.json())
+            deserialized = _deserialize(_models.OperationStatus, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -4338,13 +3761,13 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.OperationDetails].from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.OperationDetails](
+        return AsyncLROPoller[_models.OperationStatus](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -4363,7 +3786,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str"  # Name of the catalog. Required.
+                    "name": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -4382,7 +3805,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_catalogs_request(
+                _request = build_deployment_environments_list_catalogs_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -4434,8 +3857,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -4460,7 +3881,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "name": "str"  # Name of the catalog. Required.
+                    "name": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -4476,7 +3897,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.Catalog] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_catalog_request(
+        _request = build_deployment_environments_get_catalog_request(
             project_name=project_name,
             catalog_name=catalog_name,
             api_version=self._config.api_version,
@@ -4515,7 +3936,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     def list_environment_definitions(
         self, project_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.EnvironmentDefinition"]:
-        # pylint: disable=line-too-long
         """Lists all environment definitions available for a project.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -4530,35 +3950,26 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "id": "str",  # The ID of the environment definition. Required.
-                    "name": "str",  # Name of the environment definition. Required.
-                    "description": "str",  # Optional. A short description of the environment
-                      definition.
+                    "catalogName": "str",
+                    "id": "str",
+                    "name": "str",
+                    "description": "str",
                     "parameters": [
                         {
-                            "id": "str",  # Unique ID of the parameter. Required.
-                            "required": bool,  # Whether or not this parameter is
-                              required. Required.
-                            "type": "str",  # A string of one of the basic JSON types
-                              (number, integer, array, object, boolean, string). Required. Known values
-                              are: "array", "boolean", "integer", "number", "object", and "string".
+                            "id": "str",
+                            "required": bool,
+                            "type": "str",
                             "allowed": [
-                                "str"  # Optional. An array of allowed values.
+                                "str"
                             ],
-                            "default": "str",  # Optional. Default value of the
-                              parameter.
-                            "description": "str",  # Optional. Description of the
-                              parameter.
-                            "name": "str",  # Optional. Display name of the parameter.
-                            "readOnly": bool  # Optional. Whether or not this parameter
-                              is read-only.  If true, default should have a value.
+                            "default": "str",
+                            "description": "str",
+                            "name": "str",
+                            "readOnly": bool
                         }
                     ],
-                    "parametersSchema": "str",  # Optional. JSON schema defining the parameters
-                      object passed to an environment.
-                    "templatePath": "str"  # Optional. Path to the Environment Definition
-                      entrypoint file.
+                    "parametersSchema": "str",
+                    "templatePath": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -4577,7 +3988,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environment_definitions_request(
+                _request = build_deployment_environments_list_environment_definitions_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -4629,8 +4040,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -4642,7 +4051,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     def list_environment_definitions_by_catalog(
         self, project_name: str, catalog_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.EnvironmentDefinition"]:
-        # pylint: disable=line-too-long
         """Lists all environment definitions available within a catalog.
 
         :param project_name: The DevCenter Project upon which to execute operations. Required.
@@ -4659,35 +4067,26 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "id": "str",  # The ID of the environment definition. Required.
-                    "name": "str",  # Name of the environment definition. Required.
-                    "description": "str",  # Optional. A short description of the environment
-                      definition.
+                    "catalogName": "str",
+                    "id": "str",
+                    "name": "str",
+                    "description": "str",
                     "parameters": [
                         {
-                            "id": "str",  # Unique ID of the parameter. Required.
-                            "required": bool,  # Whether or not this parameter is
-                              required. Required.
-                            "type": "str",  # A string of one of the basic JSON types
-                              (number, integer, array, object, boolean, string). Required. Known values
-                              are: "array", "boolean", "integer", "number", "object", and "string".
+                            "id": "str",
+                            "required": bool,
+                            "type": "str",
                             "allowed": [
-                                "str"  # Optional. An array of allowed values.
+                                "str"
                             ],
-                            "default": "str",  # Optional. Default value of the
-                              parameter.
-                            "description": "str",  # Optional. Description of the
-                              parameter.
-                            "name": "str",  # Optional. Display name of the parameter.
-                            "readOnly": bool  # Optional. Whether or not this parameter
-                              is read-only.  If true, default should have a value.
+                            "default": "str",
+                            "description": "str",
+                            "name": "str",
+                            "readOnly": bool
                         }
                     ],
-                    "parametersSchema": "str",  # Optional. JSON schema defining the parameters
-                      object passed to an environment.
-                    "templatePath": "str"  # Optional. Path to the Environment Definition
-                      entrypoint file.
+                    "parametersSchema": "str",
+                    "templatePath": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -4706,7 +4105,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environment_definitions_by_catalog_request(
+                _request = build_deployment_environments_list_environment_definitions_by_catalog_request(
                     project_name=project_name,
                     catalog_name=catalog_name,
                     api_version=self._config.api_version,
@@ -4759,8 +4158,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -4772,7 +4169,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
     async def get_environment_definition(
         self, project_name: str, catalog_name: str, definition_name: str, **kwargs: Any
     ) -> _models.EnvironmentDefinition:
-        # pylint: disable=line-too-long
         """Get an environment definition from a catalog.
 
         :param project_name: Name of the project. Required.
@@ -4790,35 +4186,26 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "catalogName": "str",  # Name of the catalog. Required.
-                    "id": "str",  # The ID of the environment definition. Required.
-                    "name": "str",  # Name of the environment definition. Required.
-                    "description": "str",  # Optional. A short description of the environment
-                      definition.
+                    "catalogName": "str",
+                    "id": "str",
+                    "name": "str",
+                    "description": "str",
                     "parameters": [
                         {
-                            "id": "str",  # Unique ID of the parameter. Required.
-                            "required": bool,  # Whether or not this parameter is
-                              required. Required.
-                            "type": "str",  # A string of one of the basic JSON types
-                              (number, integer, array, object, boolean, string). Required. Known values
-                              are: "array", "boolean", "integer", "number", "object", and "string".
+                            "id": "str",
+                            "required": bool,
+                            "type": "str",
                             "allowed": [
-                                "str"  # Optional. An array of allowed values.
+                                "str"
                             ],
-                            "default": "str",  # Optional. Default value of the
-                              parameter.
-                            "description": "str",  # Optional. Description of the
-                              parameter.
-                            "name": "str",  # Optional. Display name of the parameter.
-                            "readOnly": bool  # Optional. Whether or not this parameter
-                              is read-only.  If true, default should have a value.
+                            "default": "str",
+                            "description": "str",
+                            "name": "str",
+                            "readOnly": bool
                         }
                     ],
-                    "parametersSchema": "str",  # Optional. JSON schema defining the parameters
-                      object passed to an environment.
-                    "templatePath": "str"  # Optional. Path to the Environment Definition
-                      entrypoint file.
+                    "parametersSchema": "str",
+                    "templatePath": "str"
                 }
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -4834,7 +4221,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
         cls: ClsType[_models.EnvironmentDefinition] = kwargs.pop("cls", None)
 
-        _request = build_dev_center_get_environment_definition_request(
+        _request = build_deployment_environments_get_environment_definition_request(
             project_name=project_name,
             catalog_name=catalog_name,
             definition_name=definition_name,
@@ -4872,10 +4259,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
     @distributed_trace
     def list_environment_types(self, project_name: str, **kwargs: Any) -> AsyncIterable["_models.EnvironmentType"]:
-        # pylint: disable=line-too-long
         """Lists all environment types configured for a project.
 
-        :param project_name: The DevCenter Project upon which to execute operations. Required.
+        :param project_name: Name of the project. Required.
         :type project_name: str
         :return: An iterator like instance of EnvironmentType
         :rtype:
@@ -4887,12 +4273,9 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
 
                 # response body for status code(s): 200
                 response == {
-                    "deploymentTargetId": "str",  # Id of a subscription or management group that
-                      the environment type will be mapped to. The environment's resources will be
-                      deployed into this subscription or management group. Required.
-                    "name": "str",  # Name of the environment type. Required.
-                    "status": "str"  # Indicates whether this environment type is enabled for use
-                      in this project. Required. Known values are: "Enabled" and "Disabled".
+                    "deploymentTargetId": "str",
+                    "name": "str",
+                    "status": "str"
                 }
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -4911,7 +4294,7 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_dev_center_list_environment_types_request(
+                _request = build_deployment_environments_list_environment_types_request(
                     project_name=project_name,
                     api_version=self._config.api_version,
                     headers=_headers,
@@ -4963,8 +4346,6 @@ class DevCenterClientOperationsMixin(DevCenterClientMixinABC):  # pylint: disabl
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
