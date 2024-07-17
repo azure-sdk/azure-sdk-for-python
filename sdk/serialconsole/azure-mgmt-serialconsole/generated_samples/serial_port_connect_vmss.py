@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
     pip install azure-identity
     pip install azure-mgmt-serialconsole
 # USAGE
-    python disable_serial_console_for_a_subscription.py
+    python serial_port_connect_vmss.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +30,16 @@ def main():
         subscription_id="00000000-00000-0000-0000-000000000000",
     )
 
-    response = client.disable_console(
-        default="default",
+    response = client.serial_ports.connect(
+        resource_group_name="myResourceGroup",
+        resource_provider_namespace="Microsoft.Compute",
+        parent_resource_type="virtualMachineScaleSets",
+        parent_resource="myscaleset/virtualMachines/2",
+        serial_port="0",
     )
     print(response)
 
 
-# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/DisableConsoleExamples.json
+# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2024-07-01/examples/SerialPortConnectVMSS.json
 if __name__ == "__main__":
     main()

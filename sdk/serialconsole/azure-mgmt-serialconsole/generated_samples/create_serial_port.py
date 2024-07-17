@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
     pip install azure-identity
     pip install azure-mgmt-serialconsole
 # USAGE
-    python create_a_new_serial_port_resource..py
+    python create_serial_port.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -40,6 +43,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/CreateSerialPort.json
+# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2024-07-01/examples/CreateSerialPort.json
 if __name__ == "__main__":
     main()
