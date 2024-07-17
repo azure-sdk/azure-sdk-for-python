@@ -11107,7 +11107,7 @@ class Rule(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :vartype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
     :ivar match_processing_behavior: If this rule is a match should the rules engine continue
      running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-     "Continue" and "Stop".
+     "Continue", "Stop", and "Continue".
     :vartype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
     :ivar provisioning_state: Provisioning status. Known values are: "Succeeded", "Failed",
      "Updating", "Deleting", and "Creating".
@@ -11163,7 +11163,7 @@ class Rule(ProxyResource):  # pylint: disable=too-many-instance-attributes
         :paramtype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
         :keyword match_processing_behavior: If this rule is a match should the rules engine continue
          running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-         "Continue" and "Stop".
+         "Continue", "Stop", and "Continue".
         :paramtype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
         """
         super().__init__(**kwargs)
@@ -11226,7 +11226,7 @@ class RuleUpdatePropertiesParameters(_serialization.Model):
     :vartype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
     :ivar match_processing_behavior: If this rule is a match should the rules engine continue
      running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-     "Continue" and "Stop".
+     "Continue", "Stop", and "Continue".
     :vartype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
     """
 
@@ -11264,7 +11264,7 @@ class RuleUpdatePropertiesParameters(_serialization.Model):
         :paramtype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
         :keyword match_processing_behavior: If this rule is a match should the rules engine continue
          running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-         "Continue" and "Stop".
+         "Continue", "Stop", and "Continue".
         :paramtype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
         """
         super().__init__(**kwargs)
@@ -11300,7 +11300,7 @@ class RuleProperties(RuleUpdatePropertiesParameters, AFDStateProperties):
     :vartype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
     :ivar match_processing_behavior: If this rule is a match should the rules engine continue
      running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-     "Continue" and "Stop".
+     "Continue", "Stop", and "Continue".
     :vartype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
     """
 
@@ -11342,7 +11342,7 @@ class RuleProperties(RuleUpdatePropertiesParameters, AFDStateProperties):
         :paramtype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
         :keyword match_processing_behavior: If this rule is a match should the rules engine continue
          running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-         "Continue" and "Stop".
+         "Continue", "Stop", and "Continue".
         :paramtype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
         """
         super().__init__(
@@ -11495,7 +11495,7 @@ class RuleUpdateParameters(_serialization.Model):
     :vartype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
     :ivar match_processing_behavior: If this rule is a match should the rules engine continue
      running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-     "Continue" and "Stop".
+     "Continue", "Stop", and "Continue".
     :vartype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
     """
 
@@ -11533,7 +11533,7 @@ class RuleUpdateParameters(_serialization.Model):
         :paramtype actions: list[~azure.mgmt.cdn.models.DeliveryRuleAction]
         :keyword match_processing_behavior: If this rule is a match should the rules engine continue
          running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-         "Continue" and "Stop".
+         "Continue", "Stop", and "Continue".
         :paramtype match_processing_behavior: str or ~azure.mgmt.cdn.models.MatchProcessingBehavior
         """
         super().__init__(**kwargs)
