@@ -16,9 +16,12 @@ from ._models_py3 import FacetError
 from ._models_py3 import FacetRequest
 from ._models_py3 import FacetRequestOptions
 from ._models_py3 import FacetResult
+from ._models_py3 import HistoryContext
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import QueryGenerationRequest
+from ._models_py3 import QueryGenerationResponse
 from ._models_py3 import QueryRequest
 from ._models_py3 import QueryRequestOptions
 from ._models_py3 import QueryResponse
@@ -33,6 +36,7 @@ from ._models_py3 import ResourcePropertyChange
 from ._models_py3 import ResourceSnapshotData
 from ._models_py3 import ResourcesHistoryRequest
 from ._models_py3 import ResourcesHistoryRequestOptions
+from ._models_py3 import StatusResponse
 from ._models_py3 import Table
 
 from ._resource_graph_client_enums import AuthorizationScopeFilter
@@ -43,6 +47,9 @@ from ._resource_graph_client_enums import FacetSortOrder
 from ._resource_graph_client_enums import PropertyChangeType
 from ._resource_graph_client_enums import ResultFormat
 from ._resource_graph_client_enums import ResultTruncated
+from ._resource_graph_client_enums import Role
+from ._resource_graph_client_enums import StatusCategory
+from ._resource_graph_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -58,9 +65,12 @@ __all__ = [
     "FacetRequest",
     "FacetRequestOptions",
     "FacetResult",
+    "HistoryContext",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "QueryGenerationRequest",
+    "QueryGenerationResponse",
     "QueryRequest",
     "QueryRequestOptions",
     "QueryResponse",
@@ -75,6 +85,7 @@ __all__ = [
     "ResourceSnapshotData",
     "ResourcesHistoryRequest",
     "ResourcesHistoryRequestOptions",
+    "StatusResponse",
     "Table",
     "AuthorizationScopeFilter",
     "ChangeCategory",
@@ -84,6 +95,9 @@ __all__ = [
     "PropertyChangeType",
     "ResultFormat",
     "ResultTruncated",
+    "Role",
+    "StatusCategory",
+    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

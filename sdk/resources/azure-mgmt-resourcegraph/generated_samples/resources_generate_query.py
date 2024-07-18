@@ -17,7 +17,7 @@ from azure.mgmt.resourcegraph import ResourceGraphClient
     pip install azure-identity
     pip install azure-mgmt-resourcegraph
 # USAGE
-    python resource_changes_first_page.py
+    python resources_generate_query.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,18 +32,12 @@ def main():
         base_url="BASE_URL",
     )
 
-    response = client.resource_changes(
-        parameters={
-            "$top": 2,
-            "interval": {"end": "2018-10-31T12:09:03.141Z", "start": "2018-10-30T12:09:03.141Z"},
-            "resourceIds": [
-                "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount"
-            ],
-        },
+    response = client.query.generate_query(
+        body={"prompt": "I want to see my virtual machines"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2020-09-01-preview/examples/ResourceChangesFirstPage.json
+# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2023-09-01-preview/examples/ResourcesGenerateQuery.json
 if __name__ == "__main__":
     main()
