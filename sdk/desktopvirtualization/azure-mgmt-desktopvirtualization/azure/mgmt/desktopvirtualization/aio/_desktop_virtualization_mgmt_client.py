@@ -8,18 +8,26 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import DesktopVirtualizationMgmtClientConfiguration
 from .operations import (
+    ActiveSessionHostConfigurationsOperations,
+    AppAttachPackageInfoOperations,
+    AppAttachPackageOperations,
     ApplicationGroupsOperations,
     ApplicationsOperations,
+    ControlSessionHostUpdateOperations,
     DesktopsOperations,
     HostPoolsOperations,
+    InitiateSessionHostUpdateOperations,
     MSIXPackagesOperations,
     MsixImagesOperations,
     Operations,
@@ -28,6 +36,10 @@ from .operations import (
     ScalingPlanPersonalSchedulesOperations,
     ScalingPlanPooledSchedulesOperations,
     ScalingPlansOperations,
+    SessionHostConfigurationsOperations,
+    SessionHostManagementsOperations,
+    SessionHostManagementsUpdateStatusOperations,
+    SessionHostOperations,
     SessionHostsOperations,
     StartMenuItemsOperations,
     UserSessionsOperations,
@@ -72,23 +84,52 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :vartype desktops: azure.mgmt.desktopvirtualization.aio.operations.DesktopsOperations
     :ivar host_pools: HostPoolsOperations operations
     :vartype host_pools: azure.mgmt.desktopvirtualization.aio.operations.HostPoolsOperations
+    :ivar session_host_managements: SessionHostManagementsOperations operations
+    :vartype session_host_managements:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostManagementsOperations
+    :ivar initiate_session_host_update: InitiateSessionHostUpdateOperations operations
+    :vartype initiate_session_host_update:
+     azure.mgmt.desktopvirtualization.aio.operations.InitiateSessionHostUpdateOperations
+    :ivar control_session_host_update: ControlSessionHostUpdateOperations operations
+    :vartype control_session_host_update:
+     azure.mgmt.desktopvirtualization.aio.operations.ControlSessionHostUpdateOperations
+    :ivar session_host_managements_update_status: SessionHostManagementsUpdateStatusOperations
+     operations
+    :vartype session_host_managements_update_status:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostManagementsUpdateStatusOperations
+    :ivar session_host_configurations: SessionHostConfigurationsOperations operations
+    :vartype session_host_configurations:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostConfigurationsOperations
+    :ivar active_session_host_configurations: ActiveSessionHostConfigurationsOperations operations
+    :vartype active_session_host_configurations:
+     azure.mgmt.desktopvirtualization.aio.operations.ActiveSessionHostConfigurationsOperations
     :ivar user_sessions: UserSessionsOperations operations
     :vartype user_sessions: azure.mgmt.desktopvirtualization.aio.operations.UserSessionsOperations
     :ivar session_hosts: SessionHostsOperations operations
     :vartype session_hosts: azure.mgmt.desktopvirtualization.aio.operations.SessionHostsOperations
+    :ivar session_host: SessionHostOperations operations
+    :vartype session_host: azure.mgmt.desktopvirtualization.aio.operations.SessionHostOperations
     :ivar msix_packages: MSIXPackagesOperations operations
     :vartype msix_packages: azure.mgmt.desktopvirtualization.aio.operations.MSIXPackagesOperations
+    :ivar app_attach_package_info: AppAttachPackageInfoOperations operations
+    :vartype app_attach_package_info:
+     azure.mgmt.desktopvirtualization.aio.operations.AppAttachPackageInfoOperations
     :ivar msix_images: MsixImagesOperations operations
     :vartype msix_images: azure.mgmt.desktopvirtualization.aio.operations.MsixImagesOperations
+    :ivar app_attach_package: AppAttachPackageOperations operations
+    :vartype app_attach_package:
+     azure.mgmt.desktopvirtualization.aio.operations.AppAttachPackageOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-05". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-04-08-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+     Retry-After header is present.
     """
 
     def __init__(
@@ -101,7 +142,25 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self._config = DesktopVirtualizationMgmtClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -129,12 +188,39 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self.applications = ApplicationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.desktops = DesktopsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.host_pools = HostPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.session_host_managements = SessionHostManagementsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.initiate_session_host_update = InitiateSessionHostUpdateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.control_session_host_update = ControlSessionHostUpdateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_managements_update_status = SessionHostManagementsUpdateStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_configurations = SessionHostConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.active_session_host_configurations = ActiveSessionHostConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.user_sessions = UserSessionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.session_hosts = SessionHostsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.session_host = SessionHostOperations(self._client, self._config, self._serialize, self._deserialize)
         self.msix_packages = MSIXPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.app_attach_package_info = AppAttachPackageInfoOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.msix_images = MsixImagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.app_attach_package = AppAttachPackageOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -154,12 +240,12 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "DesktopVirtualizationMgmtClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
