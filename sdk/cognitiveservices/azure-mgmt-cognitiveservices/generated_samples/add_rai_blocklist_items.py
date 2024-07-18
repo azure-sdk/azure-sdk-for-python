@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, List, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.cognitiveservices import CognitiveServicesManagementClient
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.cognitiveservices import CognitiveServicesManagementClient
     pip install azure-identity
     pip install azure-mgmt-cognitiveservices
 # USAGE
-    python list_models.py
+    python add_rai_blocklist_items.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +32,18 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.models.list(
-        location="WestUS",
+    response = client.rai_blocklist_items.batch_add(
+        resource_group_name="resourceGroupName",
+        account_name="accountName",
+        rai_blocklist_name="myblocklist",
+        rai_blocklist_items=[
+            {"name": "myblocklistitem1", "properties": {"isRegex": True, "pattern": "^[a-z0-9_-]{2,16}$"}},
+            {"name": "myblocklistitem2", "properties": {"isRegex": False, "pattern": "blockwords"}},
+        ],
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListModels.json
+# x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/preview/2024-06-01-preview/examples/AddRaiBlocklistItems.json
 if __name__ == "__main__":
     main()
