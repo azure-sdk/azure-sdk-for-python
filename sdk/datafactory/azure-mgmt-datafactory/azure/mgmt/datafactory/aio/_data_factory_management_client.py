@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
@@ -33,7 +34,6 @@ from .operations import (
     LinkedServicesOperations,
     ManagedPrivateEndpointsOperations,
     ManagedVirtualNetworksOperations,
-    Operations,
     PipelineRunsOperations,
     PipelinesOperations,
     PrivateEndPointConnectionsOperations,
@@ -52,8 +52,6 @@ class DataFactoryManagementClient:  # pylint: disable=client-accepts-api-version
     """The Azure Data Factory V2 management API provides a RESTful set of web services that interact
     with Azure Data Factory V2 services.
 
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.datafactory.aio.operations.Operations
     :ivar factories: FactoriesOperations operations
     :vartype factories: azure.mgmt.datafactory.aio.operations.FactoriesOperations
     :ivar exposure_control: ExposureControlOperations operations
@@ -156,7 +154,6 @@ class DataFactoryManagementClient:  # pylint: disable=client-accepts-api-version
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.factories = FactoriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.exposure_control = ExposureControlOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -233,7 +230,7 @@ class DataFactoryManagementClient:  # pylint: disable=client-accepts-api-version
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "DataFactoryManagementClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
