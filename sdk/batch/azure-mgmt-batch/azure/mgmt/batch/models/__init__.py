@@ -19,6 +19,8 @@ from ._models_py3 import AutoUserSpecification
 from ._models_py3 import AutomaticOSUpgradePolicy
 from ._models_py3 import AzureBlobFileSystemConfiguration
 from ._models_py3 import AzureFileShareConfiguration
+from ._models_py3 import AzureProxyResource
+from ._models_py3 import AzureResource
 from ._models_py3 import BatchAccount
 from ._models_py3 import BatchAccountCreateParameters
 from ._models_py3 import BatchAccountIdentity
@@ -38,9 +40,9 @@ from ._models_py3 import CertificateReference
 from ._models_py3 import CheckNameAvailabilityParameters
 from ._models_py3 import CheckNameAvailabilityResult
 from ._models_py3 import CloudErrorBody
-from ._models_py3 import CloudServiceConfiguration
 from ._models_py3 import ComputeNodeIdentityReference
 from ._models_py3 import ContainerConfiguration
+from ._models_py3 import ContainerHostBatchBindMountEntry
 from ._models_py3 import ContainerRegistry
 from ._models_py3 import DataDisk
 from ._models_py3 import DeleteCertificateError
@@ -87,11 +89,9 @@ from ._models_py3 import PrivateEndpoint
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateLinkResource
 from ._models_py3 import PrivateLinkServiceConnectionState
-from ._models_py3 import ProxyResource
 from ._models_py3 import PublicIPAddressConfiguration
 from ._models_py3 import ResizeError
 from ._models_py3 import ResizeOperationStatus
-from ._models_py3 import Resource
 from ._models_py3 import ResourceFile
 from ._models_py3 import RollingUpgradePolicy
 from ._models_py3 import ScaleSettings
@@ -108,6 +108,7 @@ from ._models_py3 import UpgradePolicy
 from ._models_py3 import UserAccount
 from ._models_py3 import UserAssignedIdentities
 from ._models_py3 import UserIdentity
+from ._models_py3 import VMDiskSecurityProfile
 from ._models_py3 import VMExtension
 from ._models_py3 import VirtualMachineConfiguration
 from ._models_py3 import VirtualMachineFamilyCoreQuota
@@ -126,6 +127,7 @@ from ._batch_management_client_enums import CertificateStoreLocation
 from ._batch_management_client_enums import CertificateVisibility
 from ._batch_management_client_enums import ComputeNodeDeallocationOption
 from ._batch_management_client_enums import ComputeNodeFillType
+from ._batch_management_client_enums import ContainerHostDataPath
 from ._batch_management_client_enums import ContainerType
 from ._batch_management_client_enums import ContainerWorkingDirectory
 from ._batch_management_client_enums import DiskEncryptionTarget
@@ -150,6 +152,8 @@ from ._batch_management_client_enums import PrivateLinkServiceConnectionStatus
 from ._batch_management_client_enums import ProvisioningState
 from ._batch_management_client_enums import PublicNetworkAccessType
 from ._batch_management_client_enums import ResourceIdentityType
+from ._batch_management_client_enums import SecurityEncryptionTypes
+from ._batch_management_client_enums import SecurityTypes
 from ._batch_management_client_enums import StorageAccountType
 from ._batch_management_client_enums import UpgradeMode
 from ._patch import __all__ as _patch_all
@@ -170,6 +174,8 @@ __all__ = [
     "AutomaticOSUpgradePolicy",
     "AzureBlobFileSystemConfiguration",
     "AzureFileShareConfiguration",
+    "AzureProxyResource",
+    "AzureResource",
     "BatchAccount",
     "BatchAccountCreateParameters",
     "BatchAccountIdentity",
@@ -189,9 +195,9 @@ __all__ = [
     "CheckNameAvailabilityParameters",
     "CheckNameAvailabilityResult",
     "CloudErrorBody",
-    "CloudServiceConfiguration",
     "ComputeNodeIdentityReference",
     "ContainerConfiguration",
+    "ContainerHostBatchBindMountEntry",
     "ContainerRegistry",
     "DataDisk",
     "DeleteCertificateError",
@@ -238,11 +244,9 @@ __all__ = [
     "PrivateEndpointConnection",
     "PrivateLinkResource",
     "PrivateLinkServiceConnectionState",
-    "ProxyResource",
     "PublicIPAddressConfiguration",
     "ResizeError",
     "ResizeOperationStatus",
-    "Resource",
     "ResourceFile",
     "RollingUpgradePolicy",
     "ScaleSettings",
@@ -259,6 +263,7 @@ __all__ = [
     "UserAccount",
     "UserAssignedIdentities",
     "UserIdentity",
+    "VMDiskSecurityProfile",
     "VMExtension",
     "VirtualMachineConfiguration",
     "VirtualMachineFamilyCoreQuota",
@@ -276,6 +281,7 @@ __all__ = [
     "CertificateVisibility",
     "ComputeNodeDeallocationOption",
     "ComputeNodeFillType",
+    "ContainerHostDataPath",
     "ContainerType",
     "ContainerWorkingDirectory",
     "DiskEncryptionTarget",
@@ -300,6 +306,8 @@ __all__ = [
     "ProvisioningState",
     "PublicNetworkAccessType",
     "ResourceIdentityType",
+    "SecurityEncryptionTypes",
+    "SecurityTypes",
     "StorageAccountType",
     "UpgradeMode",
 ]
