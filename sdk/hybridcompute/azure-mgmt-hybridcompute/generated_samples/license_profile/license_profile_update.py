@@ -17,7 +17,7 @@ from azure.mgmt.hybridcompute import HybridComputeManagementClient
     pip install azure-identity
     pip install azure-mgmt-hybridcompute
 # USAGE
-    python run_commands_update.py
+    python license_profile_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -32,15 +32,24 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.machine_run_commands.begin_update(
+    response = client.license_profiles.begin_update(
         resource_group_name="myResourceGroup",
         machine_name="myMachine",
-        run_command_name="myRunCommand",
-        run_command_properties={"tags": {"tag1": "value1", "tag2": "value2"}},
+        parameters={
+            "properties": {
+                "esuProfile": {"assignedLicense": "{LicenseResourceId}"},
+                "productProfile": {
+                    "productFeatures": [{"name": "Hotpatch", "subscriptionStatus": "Enable"}],
+                    "productType": "WindowsServer",
+                    "subscriptionStatus": "Enable",
+                },
+                "softwareAssurance": {"softwareAssuranceCustomer": True},
+            }
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/runCommand/RunCommands_Update.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/licenseProfile/LicenseProfile_Update.json
 if __name__ == "__main__":
     main()
