@@ -1,12 +1,12 @@
 {
-  "commit": "abd5157cf12219dcd693b6d8edd5334281110af5",
+  "commit": "a28028b4a796b94ffc5faa7f6ebe9ec7221d7e19",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.10.2",
   "use": [
     "@autorest/python@6.15.0",
     "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/containerservice/resource-manager/Microsoft.ContainerService/aks/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.15.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "autorest_command": "autorest specification/containerservice/resource-manager/Microsoft.ContainerService/aks/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.15.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
   "readme": "specification/containerservice/resource-manager/Microsoft.ContainerService/aks/readme.md",
   "package-2024-05": "2024-07-10 04:37:35 +0800 794e29ee5f8eca63ce0ddf007c60da7df37baaad stable/2024-05-01/managedClusters.json",
   "package-preview-2024-04": "2024-06-21 12:06:23 +0800 7cc354fc7e405ea867e434deca8c79801beadc4a preview/2024-04-02-preview/managedClusters.json",
@@ -86,5 +86,7 @@
   "package-2018-08-preview-only": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 preview/2018-08-01-preview/managedClusters.json",
   "package-2018-03-only": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 stable/2018-03-31/managedClusters.json",
   "package-2019-09-preview-only": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 preview/2019-09-30/openShiftManagedClusters.json",
-  "package-2017-07": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 stable/2017-07-01/containerService.json"
+  "package-2017-07": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 stable/2017-07-01/containerService.json",
+  "package-preview-2024-06": "2024-07-19 17:54:18 +0000 78d8cacda067bc3524d5170ee53191b599d97528 preview/2024-06-02-preview/managedClusters.json",
+  "package-preview-2024-05": "2024-07-18 00:57:53 +0800 e60f9d4c178ff898732a4d59cbc688bf6fa09c00 preview/2024-05-02-preview/managedClusters.json"
 }
