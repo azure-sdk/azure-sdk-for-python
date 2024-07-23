@@ -49,7 +49,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-10"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -79,12 +79,17 @@ def build_delete_request(
 
 
 def build_get_request(
-    resource_group_name: str, machine_name: str, subscription_id: str, *, expand: Optional[str] = None, **kwargs: Any
+    resource_group_name: str,
+    machine_name: str,
+    subscription_id: str,
+    *,
+    expand: Optional[Union[str, _models.InstanceViewTypes]] = None,
+    **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-10"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -121,7 +126,7 @@ def build_assess_patches_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-10"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -152,7 +157,7 @@ def build_install_patches_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-10"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -186,7 +191,7 @@ def build_list_by_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-10"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -218,7 +223,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-10"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -313,7 +318,11 @@ class MachinesOperations:
 
     @distributed_trace
     def get(
-        self, resource_group_name: str, machine_name: str, expand: Optional[str] = None, **kwargs: Any
+        self,
+        resource_group_name: str,
+        machine_name: str,
+        expand: Optional[Union[str, _models.InstanceViewTypes]] = None,
+        **kwargs: Any
     ) -> _models.Machine:
         """Retrieves information about the model view or the instance view of a hybrid machine.
 
@@ -322,8 +331,9 @@ class MachinesOperations:
         :type resource_group_name: str
         :param machine_name: The name of the hybrid machine. Required.
         :type machine_name: str
-        :param expand: The expand expression to apply on the operation. Default value is None.
-        :type expand: str
+        :param expand: The expand expression to apply on the operation. "instanceView" Default value is
+         None.
+        :type expand: str or ~azure.mgmt.hybridcompute.models.InstanceViewTypes
         :return: Machine or the result of cls(response)
         :rtype: ~azure.mgmt.hybridcompute.models.Machine
         :raises ~azure.core.exceptions.HttpResponseError:

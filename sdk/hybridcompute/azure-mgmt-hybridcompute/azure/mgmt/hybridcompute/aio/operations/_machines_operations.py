@@ -123,7 +123,11 @@ class MachinesOperations:
 
     @distributed_trace_async
     async def get(
-        self, resource_group_name: str, machine_name: str, expand: Optional[str] = None, **kwargs: Any
+        self,
+        resource_group_name: str,
+        machine_name: str,
+        expand: Optional[Union[str, _models.InstanceViewTypes]] = None,
+        **kwargs: Any
     ) -> _models.Machine:
         """Retrieves information about the model view or the instance view of a hybrid machine.
 
@@ -132,8 +136,9 @@ class MachinesOperations:
         :type resource_group_name: str
         :param machine_name: The name of the hybrid machine. Required.
         :type machine_name: str
-        :param expand: The expand expression to apply on the operation. Default value is None.
-        :type expand: str
+        :param expand: The expand expression to apply on the operation. "instanceView" Default value is
+         None.
+        :type expand: str or ~azure.mgmt.hybridcompute.models.InstanceViewTypes
         :return: Machine or the result of cls(response)
         :rtype: ~azure.mgmt.hybridcompute.models.Machine
         :raises ~azure.core.exceptions.HttpResponseError:
