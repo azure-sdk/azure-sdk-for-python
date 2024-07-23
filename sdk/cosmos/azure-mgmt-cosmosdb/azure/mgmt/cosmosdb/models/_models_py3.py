@@ -2955,8 +2955,8 @@ class DatabaseAccountCreateUpdateParameters(ARMResourceProperties):  # pylint: d
      1.2. Cassandra and Mongo APIs only work with Tls 1.2. Known values are: "Tls", "Tls11", and
      "Tls12".
     :vartype minimal_tls_version: str or ~azure.mgmt.cosmosdb.models.MinimalTlsVersion
-    :ivar enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity Preview
-     feature on the account.
+    :ivar enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity feature on
+     the account.
     :vartype enable_burst_capacity: bool
     :ivar customer_managed_key_status: Indicates the status of the Customer Managed Key feature on
      the account. In case there are errors, the property provides troubleshooting guidance.
@@ -3153,8 +3153,8 @@ class DatabaseAccountCreateUpdateParameters(ARMResourceProperties):  # pylint: d
          Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2. Known values are: "Tls", "Tls11", and
          "Tls12".
         :paramtype minimal_tls_version: str or ~azure.mgmt.cosmosdb.models.MinimalTlsVersion
-        :keyword enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity Preview
-         feature on the account.
+        :keyword enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity feature
+         on the account.
         :paramtype enable_burst_capacity: bool
         :keyword customer_managed_key_status: Indicates the status of the Customer Managed Key feature
          on the account. In case there are errors, the property provides troubleshooting guidance.
@@ -3328,8 +3328,8 @@ class DatabaseAccountGetResults(ARMResourceProperties):  # pylint: disable=too-m
      1.2. Cassandra and Mongo APIs only work with Tls 1.2. Known values are: "Tls", "Tls11", and
      "Tls12".
     :vartype minimal_tls_version: str or ~azure.mgmt.cosmosdb.models.MinimalTlsVersion
-    :ivar enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity Preview
-     feature on the account.
+    :ivar enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity feature on
+     the account.
     :vartype enable_burst_capacity: bool
     :ivar customer_managed_key_status: Indicates the status of the Customer Managed Key feature on
      the account. In case there are errors, the property provides troubleshooting guidance.
@@ -3539,8 +3539,8 @@ class DatabaseAccountGetResults(ARMResourceProperties):  # pylint: disable=too-m
          Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2. Known values are: "Tls", "Tls11", and
          "Tls12".
         :paramtype minimal_tls_version: str or ~azure.mgmt.cosmosdb.models.MinimalTlsVersion
-        :keyword enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity Preview
-         feature on the account.
+        :keyword enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity feature
+         on the account.
         :paramtype enable_burst_capacity: bool
         :keyword customer_managed_key_status: Indicates the status of the Customer Managed Key feature
          on the account. In case there are errors, the property provides troubleshooting guidance.
@@ -3863,8 +3863,8 @@ class DatabaseAccountUpdateParameters(_serialization.Model):  # pylint: disable=
      1.2. Cassandra and Mongo APIs only work with Tls 1.2. Known values are: "Tls", "Tls11", and
      "Tls12".
     :vartype minimal_tls_version: str or ~azure.mgmt.cosmosdb.models.MinimalTlsVersion
-    :ivar enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity Preview
-     feature on the account.
+    :ivar enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity feature on
+     the account.
     :vartype enable_burst_capacity: bool
     :ivar customer_managed_key_status: Indicates the status of the Customer Managed Key feature on
      the account. In case there are errors, the property provides troubleshooting guidance.
@@ -4036,8 +4036,8 @@ class DatabaseAccountUpdateParameters(_serialization.Model):  # pylint: disable=
          Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2. Known values are: "Tls", "Tls11", and
          "Tls12".
         :paramtype minimal_tls_version: str or ~azure.mgmt.cosmosdb.models.MinimalTlsVersion
-        :keyword enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity Preview
-         feature on the account.
+        :keyword enable_burst_capacity: Flag to indicate enabling/disabling of Burst Capacity feature
+         on the account.
         :paramtype enable_burst_capacity: bool
         :keyword customer_managed_key_status: Indicates the status of the Customer Managed Key feature
          on the account. In case there are errors, the property provides troubleshooting guidance.
