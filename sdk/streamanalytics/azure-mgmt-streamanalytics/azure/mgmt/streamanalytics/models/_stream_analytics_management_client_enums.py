@@ -11,18 +11,11 @@ from azure.core import CaseInsensitiveEnumMeta
 
 
 class AuthenticationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Authentication Mode. Valid modes are ``ConnectionString``\ , ``Msi`` and 'UserToken'."""
+    """Authentication Mode. Valid modes are ``ConnectionString``\\ , ``Msi`` and 'UserToken'."""
 
     MSI = "Msi"
     USER_TOKEN = "UserToken"
     CONNECTION_STRING = "ConnectionString"
-
-
-class BlobWriteMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Determines whether blob blocks are either committed automatically or appended."""
-
-    APPEND = "Append"
-    ONCE = "Once"
 
 
 class ClusterProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -81,13 +74,6 @@ class Encoding(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UTF8 = "UTF8"
 
 
-class EventGridEventSchemaType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Supported Event Grid schema types."""
-
-    EVENT_GRID_EVENT_SCHEMA = "EventGridEventSchema"
-    CLOUD_EVENT_SCHEMA = "CloudEventSchema"
-
-
 class EventSerializationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates the type of serialization that the input or output uses. Required on PUT
     (CreateOrReplace) requests.
@@ -96,9 +82,7 @@ class EventSerializationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CSV = "Csv"
     AVRO = "Avro"
     JSON = "Json"
-    CUSTOM_CLR = "CustomClr"
     PARQUET = "Parquet"
-    DELTA = "Delta"
 
 
 class EventsOutOfOrderPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -106,13 +90,6 @@ class EventsOutOfOrderPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ADJUST = "Adjust"
     DROP = "Drop"
-
-
-class InputWatermarkMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The input watermark mode."""
-
-    NONE = "None"
-    READ_WATERMARK = "ReadWatermark"
 
 
 class JobState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -180,31 +157,6 @@ class OutputStartMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LAST_OUTPUT_EVENT_TIME = "LastOutputEventTime"
 
 
-class OutputWatermarkMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The output watermark mode."""
-
-    NONE = "None"
-    SEND_CURRENT_PARTITION_WATERMARK = "SendCurrentPartitionWatermark"
-    SEND_LOWEST_WATERMARK_ACROSS_PARTITIONS = "SendLowestWatermarkAcrossPartitions"
-
-
-class QueryTestingResultStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status of the query testing request."""
-
-    STARTED = "Started"
-    """The query testing operation was initiated."""
-    SUCCESS = "Success"
-    """The query testing operation succeeded."""
-    COMPILER_ERROR = "CompilerError"
-    """The query testing operation failed due to a compiler error."""
-    RUNTIME_ERROR = "RuntimeError"
-    """The query testing operation failed due to a runtime error."""
-    TIMEOUT = "Timeout"
-    """The query testing operation failed due to a timeout."""
-    UNKNOWN_ERROR = "UnknownError"
-    """The query testing operation failed due to an unknown error ."""
-
-
 class RefreshType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates the type of data refresh option."""
 
@@ -213,58 +165,7 @@ class RefreshType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     REFRESH_PERIODICALLY_WITH_DELTA = "RefreshPeriodicallyWithDelta"
 
 
-class ResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of resource the SKU applies to."""
-
-    MICROSOFT_STREAM_ANALYTICS_STREAMINGJOBS = "Microsoft.StreamAnalytics/streamingjobs"
-
-
-class SampleInputResultStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status of the sample input request."""
-
-    READ_ALL_EVENTS_IN_RANGE = "ReadAllEventsInRange"
-    """The sample input operation successfully read all the events in the range."""
-    NO_EVENTS_FOUND_IN_RANGE = "NoEventsFoundInRange"
-    """The sample input operation found no events in the range."""
-    ERROR_CONNECTING_TO_INPUT = "ErrorConnectingToInput"
-    """The sample input operation failed to connect to the input."""
-
-
-class SkuCapacityScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The scale type applicable to the SKU."""
-
-    AUTOMATIC = "automatic"
-    """Supported scale type automatic."""
-    MANUAL = "manual"
-    """Supported scale type manual."""
-    NONE = "none"
-    """Scaling not supported."""
-
-
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The name of the SKU. Required on PUT (CreateOrReplace) requests."""
 
     STANDARD = "Standard"
-
-
-class TestDatasourceResultStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status of the test input or output request."""
-
-    TEST_SUCCEEDED = "TestSucceeded"
-    """The test datasource operation succeeded."""
-    TEST_FAILED = "TestFailed"
-    """The test datasource operation failed."""
-
-
-class UpdatableUdfRefreshType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """This property indicates which data refresh option to use, Blocking or Nonblocking."""
-
-    BLOCKING = "Blocking"
-    NONBLOCKING = "Nonblocking"
-
-
-class UpdateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Refresh modes for Stream Analytics functions."""
-
-    STATIC = "Static"
-    REFRESHABLE = "Refreshable"
