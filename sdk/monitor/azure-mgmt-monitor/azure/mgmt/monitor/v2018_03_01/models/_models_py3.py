@@ -89,7 +89,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -138,7 +138,7 @@ class ActionGroupResource(Resource):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -283,7 +283,7 @@ class ActionGroupResource(Resource):  # pylint: disable=too-many-instance-attrib
 class AutomationRunbookReceiver(_serialization.Model):
     """The Azure Automation Runbook notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar automation_account_id: The Azure automation account Id which holds this runbook and
      authenticate to Azure resource. Required.
@@ -354,7 +354,7 @@ class AutomationRunbookReceiver(_serialization.Model):
 class AzureAppPushReceiver(_serialization.Model):
     """The Azure mobile App push notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Azure mobile app push receiver. Names must be unique across all
      receivers within an action group. Required.
@@ -389,7 +389,7 @@ class AzureAppPushReceiver(_serialization.Model):
 class AzureFunctionReceiver(_serialization.Model):
     """An azure function receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the azure function receiver. Names must be unique across all receivers
      within an action group. Required.
@@ -443,7 +443,7 @@ class MultiMetricCriteria(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DynamicMetricCriteria, MetricCriteria
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -537,7 +537,7 @@ class MultiMetricCriteria(_serialization.Model):
 class DynamicMetricCriteria(MultiMetricCriteria):  # pylint: disable=too-many-instance-attributes
     """Criterion for dynamic threshold.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -671,7 +671,7 @@ class DynamicThresholdFailingPeriods(_serialization.Model):
     """The minimum number of violations required within the selected lookback time window required to
     raise an alert.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar number_of_evaluation_periods: The number of aggregated lookback points. The lookback time
      window is calculated based on the aggregation granularity (windowSize) and the selected number
@@ -714,7 +714,7 @@ class EmailReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the email receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -755,7 +755,7 @@ class EmailReceiver(_serialization.Model):
 class EnableRequest(_serialization.Model):
     """Describes a receiver that should be resubscribed.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar receiver_name: The name of the receiver to resubscribe. Required.
     :vartype receiver_name: str
@@ -807,7 +807,7 @@ class ErrorResponse(_serialization.Model):
 class ItsmReceiver(_serialization.Model):
     """An Itsm receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Itsm receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -821,7 +821,7 @@ class ItsmReceiver(_serialization.Model):
      CreateMultipleWorkItems option will be part of this blob as well. Required.
     :vartype ticket_configuration: str
     :ivar region: Region in which workspace resides. Supported
-     values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
+     values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.  # pylint: disable=line-too-long
      Required.
     :vartype region: str
     """
@@ -858,7 +858,7 @@ class ItsmReceiver(_serialization.Model):
          CreateMultipleWorkItems option will be part of this blob as well. Required.
         :paramtype ticket_configuration: str
         :keyword region: Region in which workspace resides. Supported
-         values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
+         values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.  # pylint: disable=line-too-long
          Required.
         :paramtype region: str
         """
@@ -873,7 +873,7 @@ class ItsmReceiver(_serialization.Model):
 class LogicAppReceiver(_serialization.Model):
     """A logic app receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the logic app receiver. Names must be unique across all receivers
      within an action group. Required.
@@ -953,7 +953,7 @@ class MetricAlertCriteria(_serialization.Model):
     MetricAlertMultipleResourceMultipleMetricCriteria,
     MetricAlertSingleResourceMultipleMetricCriteria, WebtestLocationAvailabilityCriteria
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -993,10 +993,10 @@ class MetricAlertCriteria(_serialization.Model):
         self.odata_type: Optional[str] = None
 
 
-class MetricAlertMultipleResourceMultipleMetricCriteria(MetricAlertCriteria):
+class MetricAlertMultipleResourceMultipleMetricCriteria(MetricAlertCriteria):  # pylint: disable=name-too-long
     """Specifies the metric alert criteria for multiple resource that has multiple metric criteria.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -1044,7 +1044,7 @@ class MetricAlertResource(Resource):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -1351,10 +1351,10 @@ class MetricAlertResourcePatch(_serialization.Model):  # pylint: disable=too-man
         self.is_migrated = None
 
 
-class MetricAlertSingleResourceMultipleMetricCriteria(MetricAlertCriteria):
+class MetricAlertSingleResourceMultipleMetricCriteria(MetricAlertCriteria):  # pylint: disable=name-too-long
     """Specifies the metric alert criteria for a single resource that has multiple metric criteria.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -1505,7 +1505,7 @@ class MetricAlertStatusProperties(_serialization.Model):
 class MetricCriteria(MultiMetricCriteria):
     """Criterion to filter metrics.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -1612,7 +1612,7 @@ class MetricCriteria(MultiMetricCriteria):
 class MetricDimension(_serialization.Model):
     """Specifies a metric dimension.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the dimension. Required.
     :vartype name: str
@@ -1655,7 +1655,7 @@ class SmsReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SMS receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -1703,7 +1703,7 @@ class SmsReceiver(_serialization.Model):
 class VoiceReceiver(_serialization.Model):
     """A voice receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the voice receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -1745,7 +1745,7 @@ class VoiceReceiver(_serialization.Model):
 class WebhookReceiver(_serialization.Model):
     """A webhook receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the webhook receiver. Names must be unique across all receivers within
      an action group. Required.
@@ -1780,7 +1780,7 @@ class WebhookReceiver(_serialization.Model):
 class WebtestLocationAvailabilityCriteria(MetricAlertCriteria):
     """Specifies the metric alert rule criteria for a web test resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.

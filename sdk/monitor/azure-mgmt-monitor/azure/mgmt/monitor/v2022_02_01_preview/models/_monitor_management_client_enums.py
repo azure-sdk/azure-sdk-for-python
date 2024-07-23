@@ -29,6 +29,7 @@ class KnownColumnDefinitionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BOOLEAN = "boolean"
     DATETIME = "datetime"
     DYNAMIC = "dynamic"
+    INT_ENUM = "int"
 
 
 class KnownDataCollectionEndpointProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
