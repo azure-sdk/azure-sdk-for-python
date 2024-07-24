@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.managementgroups import ManagementGroupsAPI
     pip install azure-identity
     pip install azure-mgmt-managementgroups
 # USAGE
-    python get_descendants.py
+    python management_groups_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,13 +31,18 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.management_groups.get_descendants(
-        group_id="20000000-0000-0000-0000-000000000000",
+    response = client.management_groups.update(
+        group_id="ChildGroup",
+        properties={
+            "patchGroupRequest": {
+                "displayName": "AlternateDisplayName",
+                "parentGroupId": "/providers/Microsoft.Management/managementGroups/AlternateRootGroup",
+            }
+        },
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetDescendants.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/ManagementGroups_Update.json
 if __name__ == "__main__":
     main()

@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.managementgroups import ManagementGroupsAPI
     pip install azure-identity
     pip install azure-mgmt-managementgroups
 # USAGE
-    python start_tenant_backfill.py
+    python management_groups_check_name_availability.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,10 +31,12 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.start_tenant_backfill()
+    response = client.check_name_availability(
+        body={"CheckNameAvailabilityRequest": {"name": "groupName", "type": "Microsoft.Management/managementGroups"}},
+    )
     print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/StartTenantBackfillRequest.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/ManagementGroups_CheckNameAvailability.json
 if __name__ == "__main__":
     main()

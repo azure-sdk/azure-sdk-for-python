@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.managementgroups import ManagementGroupsAPI
     pip install azure-identity
     pip install azure-mgmt-managementgroups
 # USAGE
-    python get_management_group_with_ancestors.py
+    python patch_hierarchy_settings.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,12 +31,18 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.management_groups.get(
-        group_id="20000000-0001-0000-0000-00000000000",
+    response = client.hierarchy_settings_operation_group.update(
+        group_id="root",
+        properties={
+            "properties": {
+                "defaultManagementGroup": "/providers/Microsoft.Management/managementGroups/DefaultGroup",
+                "requireAuthorizationForGroupCreation": True,
+            }
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithAncestors.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/PatchHierarchySettings.json
 if __name__ == "__main__":
     main()

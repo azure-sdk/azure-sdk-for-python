@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -28,13 +29,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.management_group_subscriptions.get_subscription(
+    response = client.subscription_under_management_groups.get_subscription(
         group_id="Group",
         subscription_id="728bcbe4-8d56-4510-86c2-4921b8beefbc",
     )
     print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetSubscriptionFromManagementGroup.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/GetSubscriptionFromManagementGroup.json
 if __name__ == "__main__":
     main()

@@ -6,95 +6,107 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models_py3 import AzureAsyncOperationResults
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResult
-from ._models_py3 import CreateManagementGroupChildInfo
-from ._models_py3 import CreateManagementGroupDetails
-from ._models_py3 import CreateManagementGroupRequest
+from ._models_py3 import CreateOrUpdateSettingsProperties
 from ._models_py3 import CreateOrUpdateSettingsRequest
-from ._models_py3 import CreateParentGroupInfo
 from ._models_py3 import DescendantInfo
+from ._models_py3 import DescendantInfoProperties
 from ._models_py3 import DescendantListResult
 from ._models_py3 import DescendantParentGroupInfo
-from ._models_py3 import EntityHierarchyItem
 from ._models_py3 import EntityInfo
+from ._models_py3 import EntityInfoProperties
 from ._models_py3 import EntityListResult
 from ._models_py3 import EntityParentGroupInfo
-from ._models_py3 import ErrorDetails
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import HierarchySettings
-from ._models_py3 import HierarchySettingsInfo
-from ._models_py3 import HierarchySettingsList
-from ._models_py3 import ListSubscriptionUnderManagementGroup
+from ._models_py3 import HierarchySettingsListResult
+from ._models_py3 import HierarchySettingsProperties
 from ._models_py3 import ManagementGroup
 from ._models_py3 import ManagementGroupChildInfo
 from ._models_py3 import ManagementGroupDetails
-from ._models_py3 import ManagementGroupInfo
 from ._models_py3 import ManagementGroupListResult
+from ._models_py3 import ManagementGroupOperationAcceptance
 from ._models_py3 import ManagementGroupPathElement
+from ._models_py3 import ManagementGroupProperties
 from ._models_py3 import Operation
-from ._models_py3 import OperationDisplayProperties
+from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
-from ._models_py3 import OperationResults
-from ._models_py3 import ParentGroupBagInfo
 from ._models_py3 import ParentGroupInfo
 from ._models_py3 import PatchManagementGroupRequest
+from ._models_py3 import (
+    PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema,
+)
+from ._models_py3 import ProxyResource
+from ._models_py3 import Resource
 from ._models_py3 import SubscriptionUnderManagementGroup
+from ._models_py3 import SubscriptionUnderManagementGroupListResult
+from ._models_py3 import SubscriptionUnderManagementGroupProperties
+from ._models_py3 import SystemData
 from ._models_py3 import TenantBackfillStatusResult
 
+from ._management_groups_api_enums import ActionType
+from ._management_groups_api_enums import CreatedByType
 from ._management_groups_api_enums import EntitySearchType
 from ._management_groups_api_enums import EntityViewParameterType
 from ._management_groups_api_enums import ManagementGroupChildType
 from ._management_groups_api_enums import ManagementGroupExpandType
+from ._management_groups_api_enums import Origin
 from ._management_groups_api_enums import Permissions
 from ._management_groups_api_enums import Reason
 from ._management_groups_api_enums import Status
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AzureAsyncOperationResults",
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResult",
-    "CreateManagementGroupChildInfo",
-    "CreateManagementGroupDetails",
-    "CreateManagementGroupRequest",
+    "CreateOrUpdateSettingsProperties",
     "CreateOrUpdateSettingsRequest",
-    "CreateParentGroupInfo",
     "DescendantInfo",
+    "DescendantInfoProperties",
     "DescendantListResult",
     "DescendantParentGroupInfo",
-    "EntityHierarchyItem",
     "EntityInfo",
+    "EntityInfoProperties",
     "EntityListResult",
     "EntityParentGroupInfo",
-    "ErrorDetails",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
     "ErrorResponse",
     "HierarchySettings",
-    "HierarchySettingsInfo",
-    "HierarchySettingsList",
-    "ListSubscriptionUnderManagementGroup",
+    "HierarchySettingsListResult",
+    "HierarchySettingsProperties",
     "ManagementGroup",
     "ManagementGroupChildInfo",
     "ManagementGroupDetails",
-    "ManagementGroupInfo",
     "ManagementGroupListResult",
+    "ManagementGroupOperationAcceptance",
     "ManagementGroupPathElement",
+    "ManagementGroupProperties",
     "Operation",
-    "OperationDisplayProperties",
+    "OperationDisplay",
     "OperationListResult",
-    "OperationResults",
-    "ParentGroupBagInfo",
     "ParentGroupInfo",
     "PatchManagementGroupRequest",
+    "PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema",
+    "ProxyResource",
+    "Resource",
     "SubscriptionUnderManagementGroup",
+    "SubscriptionUnderManagementGroupListResult",
+    "SubscriptionUnderManagementGroupProperties",
+    "SystemData",
     "TenantBackfillStatusResult",
+    "ActionType",
+    "CreatedByType",
     "EntitySearchType",
     "EntityViewParameterType",
     "ManagementGroupChildType",
     "ManagementGroupExpandType",
+    "Origin",
     "Permissions",
     "Reason",
     "Status",

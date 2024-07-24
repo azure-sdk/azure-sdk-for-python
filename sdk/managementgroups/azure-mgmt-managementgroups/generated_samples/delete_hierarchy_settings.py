@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.managementgroups import ManagementGroupsAPI
     pip install azure-identity
     pip install azure-mgmt-managementgroups
 # USAGE
-    python get_management_groups_with_expand_and_recurse.py
+    python delete_hierarchy_settings.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,12 +29,11 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.management_groups.get(
-        group_id="20000000-0001-0000-0000-000000000000",
+    client.hierarchy_settings_operation_group.delete(
+        group_id="root",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithExpandAndRecurse.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/DeleteHierarchySettings.json
 if __name__ == "__main__":
     main()
