@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.managementgroups import ManagementGroupsAPI
     pip install azure-identity
     pip install azure-mgmt-managementgroups
 # USAGE
-    python add_subscription_to_management_group.py
+    python management_groups_get_get_management_group_with_ancestors.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,13 +29,12 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.management_group_subscriptions.create(
-        group_id="Group",
-        subscription_id="728bcbe4-8d56-4510-86c2-4921b8beefbc",
+    response = client.management_groups.get(
+        group_id="20000000-0001-0000-0000-00000000000",
     )
     print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/AddManagementGroupSubscription.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/ManagementGroups_Get_Get_Management_Group_With_Ancestors.json
 if __name__ == "__main__":
     main()

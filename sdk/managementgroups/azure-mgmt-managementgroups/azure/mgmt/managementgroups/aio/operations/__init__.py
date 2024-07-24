@@ -6,24 +6,24 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._management_groups_operations import ManagementGroupsOperations
-from ._management_group_subscriptions_operations import ManagementGroupSubscriptionsOperations
-from ._hierarchy_settings_operations import HierarchySettingsOperations
-from ._operations import Operations
 from ._management_groups_api_operations import ManagementGroupsAPIOperationsMixin
-from ._entities_operations import EntitiesOperations
+from ._entities_operations_operations import EntitiesOperationsOperations
+from ._management_groups_operations import ManagementGroupsOperations
+from ._hierarchy_settings_operation_group_operations import HierarchySettingsOperationGroupOperations
+from ._subscription_under_management_groups_operations import SubscriptionUnderManagementGroupsOperations
+from ._operations import Operations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "ManagementGroupsOperations",
-    "ManagementGroupSubscriptionsOperations",
-    "HierarchySettingsOperations",
-    "Operations",
     "ManagementGroupsAPIOperationsMixin",
-    "EntitiesOperations",
+    "EntitiesOperationsOperations",
+    "ManagementGroupsOperations",
+    "HierarchySettingsOperationGroupOperations",
+    "SubscriptionUnderManagementGroupsOperations",
+    "Operations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

@@ -10,6 +10,21 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class EntitySearchType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """EntitySearchType."""
 
@@ -42,6 +57,16 @@ class ManagementGroupExpandType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CHILDREN = "children"
     PATH = "path"
     ANCESTORS = "ancestors"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class Permissions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
