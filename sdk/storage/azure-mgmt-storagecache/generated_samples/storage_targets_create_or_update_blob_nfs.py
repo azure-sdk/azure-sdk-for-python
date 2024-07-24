@@ -52,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
+# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-07-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
 if __name__ == "__main__":
     main()
