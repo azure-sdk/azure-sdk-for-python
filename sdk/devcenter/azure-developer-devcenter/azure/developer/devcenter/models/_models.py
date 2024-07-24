@@ -68,7 +68,7 @@ class DevBox(_model_base.Model):  # pylint: disable=too-many-instance-attributes
      Virtual Network it is attached to.
     :vartype location: str
     :ivar os_type: The operating system type of this Dev Box. "Windows"
-    :vartype os_type: str or ~azure.developer.devcenter.models.OSType
+    :vartype os_type: str or ~azure.developer.devcenter.models.OsType
     :ivar user: The AAD object id of the user this Dev Box is assigned to.
     :vartype user: str
     :ivar hardware_profile: Information about the Dev Box's hardware resources.
@@ -115,7 +115,7 @@ class DevBox(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     location: Optional[str] = rest_field(visibility=["read"])
     """Azure region where this Dev Box is located. This will be the same region as the
      Virtual Network it is attached to."""
-    os_type: Optional[Union[str, "_models.OSType"]] = rest_field(name="osType", visibility=["read"])
+    os_type: Optional[Union[str, "_models.OsType"]] = rest_field(name="osType", visibility=["read"])
     """The operating system type of this Dev Box. \"Windows\""""
     user: Optional[str] = rest_field(visibility=["read"])
     """The AAD object id of the user this Dev Box is assigned to."""
@@ -210,9 +210,9 @@ class DevBoxActionDelayResult(_model_base.Model):
 
     :ivar name: The name of the action. Required.
     :vartype name: str
-    :ivar result: The result of the delay operation on this action. Required. Known values are:
-     "Succeeded" and "Failed".
-    :vartype result: str or ~azure.developer.devcenter.models.DevBoxActionDelayStatus
+    :ivar delay_status: The result of the delay operation on this action. Required. Known values
+     are: "Succeeded" and "Failed".
+    :vartype delay_status: str or ~azure.developer.devcenter.models.DevBoxActionDelayStatus
     :ivar action: The delayed action.
     :vartype action: ~azure.developer.devcenter.models.DevBoxAction
     :ivar error: Information about the error that occurred. Only populated on error.
@@ -221,7 +221,7 @@ class DevBoxActionDelayResult(_model_base.Model):
 
     name: str = rest_field()
     """The name of the action. Required."""
-    result: Union[str, "_models.DevBoxActionDelayStatus"] = rest_field()
+    delay_status: Union[str, "_models.DevBoxActionDelayStatus"] = rest_field(name="result")
     """The result of the delay operation on this action. Required. Known values are: \"Succeeded\" and
      \"Failed\"."""
     action: Optional["_models.DevBoxAction"] = rest_field()
@@ -234,7 +234,7 @@ class DevBoxActionDelayResult(_model_base.Model):
         self,
         *,
         name: str,
-        result: Union[str, "_models.DevBoxActionDelayStatus"],
+        delay_status: Union[str, "_models.DevBoxActionDelayStatus"],
         action: Optional["_models.DevBoxAction"] = None,
         error: Optional["_models.Error"] = None,
     ): ...
@@ -491,6 +491,8 @@ class EnvironmentDefinitionParameter(_model_base.Model):
 class EnvironmentType(_model_base.Model):
     """Properties of an environment type.
 
+    Readonly variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the environment type. Required.
@@ -505,7 +507,7 @@ class EnvironmentType(_model_base.Model):
     :vartype status: str or ~azure.developer.devcenter.models.EnvironmentTypeStatus
     """
 
-    name: str = rest_field()
+    name: str = rest_field(visibility=["read"])
     """Name of the environment type. Required."""
     deployment_target_id: str = rest_field(name="deploymentTargetId")
     """Id of a subscription or management group that the environment type will be
@@ -519,7 +521,6 @@ class EnvironmentType(_model_base.Model):
     def __init__(
         self,
         *,
-        name: str,
         deployment_target_id: str,
         status: Union[str, "_models.EnvironmentTypeStatus"],
     ): ...
@@ -601,10 +602,10 @@ class HardwareProfile(_model_base.Model):
      "general_a_32c128gb512ssd_v2", "general_a_32c128gb1024ssd_v2", and
      "general_a_32c128gb2048ssd_v2".
     :vartype sku_name: str or ~azure.developer.devcenter.models.SkuName
-    :ivar vcpus: The number of vCPUs available for the Dev Box.
-    :vartype vcpus: int
-    :ivar memory_gb: The amount of memory available for the Dev Box.
-    :vartype memory_gb: int
+    :ivar v_c_p_us: The number of vCPUs available for the Dev Box.
+    :vartype v_c_p_us: int
+    :ivar memory_g_b: The amount of memory available for the Dev Box.
+    :vartype memory_g_b: int
     """
 
     sku_name: Optional[Union[str, "_models.SkuName"]] = rest_field(name="skuName", visibility=["read"])
@@ -618,9 +619,9 @@ class HardwareProfile(_model_base.Model):
      \"general_a_16c64gb512ssd_v2\", \"general_a_16c64gb1024ssd_v2\",
      \"general_a_16c64gb2048ssd_v2\", \"general_a_32c128gb512ssd_v2\",
      \"general_a_32c128gb1024ssd_v2\", and \"general_a_32c128gb2048ssd_v2\"."""
-    vcpus: Optional[int] = rest_field(name="vCPUs", visibility=["read"])
+    v_c_p_us: Optional[int] = rest_field(name="vCPUs", visibility=["read"])
     """The number of vCPUs available for the Dev Box."""
-    memory_gb: Optional[int] = rest_field(name="memoryGB", visibility=["read"])
+    memory_g_b: Optional[int] = rest_field(name="memoryGB", visibility=["read"])
     """The amount of memory available for the Dev Box."""
 
 
@@ -690,7 +691,7 @@ class InnerError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDetails(_model_base.Model):
+class OperationStatus(_model_base.Model):
     """The current status of an async operation.
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
@@ -703,7 +704,7 @@ class OperationDetails(_model_base.Model):
     :vartype name: str
     :ivar status: Provisioning state of the resource. Required. Known values are: "NotStarted",
      "Running", "Succeeded", "Failed", and "Canceled".
-    :vartype status: str or ~azure.developer.devcenter.models.OperationStatus
+    :vartype status: str or ~azure.developer.devcenter.models.OperationState
     :ivar resource_id: The id of the resource.
     :vartype resource_id: str
     :ivar start_time: The start time of the operation.
@@ -722,7 +723,7 @@ class OperationDetails(_model_base.Model):
     """Fully qualified ID for the operation status. Required."""
     name: str = rest_field(visibility=["read"])
     """The operation id name. Required."""
-    status: Union[str, "_models.OperationStatus"] = rest_field()
+    status: Union[str, "_models.OperationState"] = rest_field()
     """Provisioning state of the resource. Required. Known values are: \"NotStarted\", \"Running\",
      \"Succeeded\", \"Failed\", and \"Canceled\"."""
     resource_id: Optional[str] = rest_field(name="resourceId")
@@ -742,7 +743,7 @@ class OperationDetails(_model_base.Model):
     def __init__(
         self,
         *,
-        status: Union[str, "_models.OperationStatus"],
+        status: Union[str, "_models.OperationState"],
         resource_id: Optional[str] = None,
         start_time: Optional[datetime.datetime] = None,
         end_time: Optional[datetime.datetime] = None,
@@ -762,16 +763,16 @@ class OperationDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OSDisk(_model_base.Model):
+class OsDisk(_model_base.Model):
     """Settings for the operating system disk.
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar disk_size_gb: The size of the OS Disk in gigabytes.
-    :vartype disk_size_gb: int
+    :ivar disk_size_g_b: The size of the OS Disk in gigabytes.
+    :vartype disk_size_g_b: int
     """
 
-    disk_size_gb: Optional[int] = rest_field(name="diskSizeGB", visibility=["read"])
+    disk_size_g_b: Optional[int] = rest_field(name="diskSizeGB", visibility=["read"])
     """The size of the OS Disk in gigabytes."""
 
 
@@ -787,7 +788,7 @@ class Pool(_model_base.Model):
     :ivar location: Azure region where Dev Boxes in the pool are located. Required.
     :vartype location: str
     :ivar os_type: The operating system type of Dev Boxes in this pool. "Windows"
-    :vartype os_type: str or ~azure.developer.devcenter.models.OSType
+    :vartype os_type: str or ~azure.developer.devcenter.models.OsType
     :ivar hardware_profile: Hardware settings for the Dev Boxes created in this pool.
     :vartype hardware_profile: ~azure.developer.devcenter.models.HardwareProfile
     :ivar hibernate_support: Indicates whether hibernate is enabled/disabled or unknown. Known
@@ -814,7 +815,7 @@ class Pool(_model_base.Model):
     """Pool name. Required."""
     location: str = rest_field()
     """Azure region where Dev Boxes in the pool are located. Required."""
-    os_type: Optional[Union[str, "_models.OSType"]] = rest_field(name="osType")
+    os_type: Optional[Union[str, "_models.OsType"]] = rest_field(name="osType")
     """The operating system type of Dev Boxes in this pool. \"Windows\""""
     hardware_profile: Optional["_models.HardwareProfile"] = rest_field(name="hardwareProfile")
     """Hardware settings for the Dev Boxes created in this pool."""
@@ -843,7 +844,7 @@ class Pool(_model_base.Model):
         *,
         location: str,
         health_status: Union[str, "_models.PoolHealthStatus"],
-        os_type: Optional[Union[str, "_models.OSType"]] = None,
+        os_type: Optional[Union[str, "_models.OsType"]] = None,
         hardware_profile: Optional["_models.HardwareProfile"] = None,
         hibernate_support: Optional[Union[str, "_models.HibernateSupport"]] = None,
         storage_profile: Optional["_models.StorageProfile"] = None,
@@ -1035,17 +1036,17 @@ class StorageProfile(_model_base.Model):
     """Storage settings for the Dev Box's disks.
 
     :ivar os_disk: Settings for the operating system disk.
-    :vartype os_disk: ~azure.developer.devcenter.models.OSDisk
+    :vartype os_disk: ~azure.developer.devcenter.models.OsDisk
     """
 
-    os_disk: Optional["_models.OSDisk"] = rest_field(name="osDisk")
+    os_disk: Optional["_models.OsDisk"] = rest_field(name="osDisk")
     """Settings for the operating system disk."""
 
     @overload
     def __init__(
         self,
         *,
-        os_disk: Optional["_models.OSDisk"] = None,
+        os_disk: Optional["_models.OsDisk"] = None,
     ): ...
 
     @overload
