@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.healthbot import HealthBotMgmtClient
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.healthbot import HealthBotMgmtClient
     pip install azure-identity
     pip install azure-mgmt-healthbot
 # USAGE
-    python bot_list_secrets.py
+    python resource_creation_put.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +32,24 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.bots.list_secrets(
+    response = client.bots.begin_create(
         resource_group_name="healthbotClient",
         bot_name="samplebotname",
-    )
+        parameters={
+            "identity": {
+                "type": "SystemAssigned, UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/subscription-id/resourcegroups/myrg/providers/microsoft.managedidentity/userassignedidentities/my-mi": {},
+                    "/subscriptions/subscription-id/resourcegroups/myrg/providers/microsoft.managedidentity/userassignedidentities/my-mi2": {},
+                },
+            },
+            "location": "East US",
+            "sku": {"name": "F0"},
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2022-08-08/examples/ListSecrets.json
+# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2024-02-01/examples/ResourceCreationPut.json
 if __name__ == "__main__":
     main()

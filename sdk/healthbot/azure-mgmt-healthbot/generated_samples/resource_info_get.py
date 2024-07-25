@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.healthbot import HealthBotMgmtClient
 
 """
@@ -36,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2022-08-08/examples/ResourceInfoGet.json
+# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2024-02-01/examples/ResourceInfoGet.json
 if __name__ == "__main__":
     main()
