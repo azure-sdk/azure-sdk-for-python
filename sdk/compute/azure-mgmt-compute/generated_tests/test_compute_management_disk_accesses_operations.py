@@ -12,44 +12,53 @@ from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGrou
 
 AZURE_LOCATION = "eastus"
 
-
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
 class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ComputeManagementClient)
-
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
     def test_begin_create_or_update(self, resource_group):
         response = self.client.disk_accesses.begin_create_or_update(
             resource_group_name=resource_group.name,
-            disk_access_name="str",
+            disk_access_name="str"
+,
             disk_access={
                 "location": "str",
+                "extendedLocation": {
+                    "name": "str",
+                    "type": "str"
+                },
                 "id": "str",
                 "name": "str",
                 "privateEndpointConnections": [
                     {
                         "id": "str",
                         "name": "str",
-                        "privateEndpoint": {"id": "str"},
+                        "privateEndpoint": {
+                            "id": "str"
+                        },
                         "privateLinkServiceConnectionState": {
                             "actionsRequired": "str",
                             "description": "str",
-                            "status": "str",
+                            "status": "str"
                         },
                         "provisioningState": "str",
-                        "type": "str",
+                        "type": "str"
                     }
                 ],
                 "provisioningState": "str",
-                "tags": {"str": "str"},
+                "tags": {
+                    "str": "str"
+                },
                 "timeCreated": "2020-02-20 00:00:00",
-                "type": "str",
-            },
-            api_version="2020-05-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+                "type": "str"
+            }
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
         # please add some check logic here by yourself
         # ...
 
@@ -58,11 +67,18 @@ class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     def test_begin_update(self, resource_group):
         response = self.client.disk_accesses.begin_update(
             resource_group_name=resource_group.name,
-            disk_access_name="str",
-            disk_access={"tags": {"str": "str"}},
-            api_version="2020-05-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+            disk_access_name="str"
+,
+            disk_access={
+                "tags": {
+                    "str": "str"
+                }
+            }
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
         # please add some check logic here by yourself
         # ...
 
@@ -71,10 +87,12 @@ class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     def test_get(self, resource_group):
         response = self.client.disk_accesses.get(
             resource_group_name=resource_group.name,
-            disk_access_name="str",
-            api_version="2020-05-01",
+            disk_access_name="str"
+,
+            api_version="2024-03-02"
+,
         )
-
+        
         # please add some check logic here by yourself
         # ...
 
@@ -83,10 +101,12 @@ class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     def test_begin_delete(self, resource_group):
         response = self.client.disk_accesses.begin_delete(
             resource_group_name=resource_group.name,
-            disk_access_name="str",
-            api_version="2020-05-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+            disk_access_name="str"
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
         # please add some check logic here by yourself
         # ...
 
@@ -95,7 +115,8 @@ class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     def test_list_by_resource_group(self, resource_group):
         response = self.client.disk_accesses.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2020-05-01",
+            api_version="2024-03-02"
+,
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -105,7 +126,8 @@ class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     @recorded_by_proxy
     def test_list(self, resource_group):
         response = self.client.disk_accesses.list(
-            api_version="2020-05-01",
+            api_version="2024-03-02"
+,
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -116,9 +138,89 @@ class TestComputeManagementDiskAccessesOperations(AzureMgmtRecordedTestCase):
     def test_get_private_link_resources(self, resource_group):
         response = self.client.disk_accesses.get_private_link_resources(
             resource_group_name=resource_group.name,
-            disk_access_name="str",
-            api_version="2020-05-01",
+            disk_access_name="str"
+,
+            api_version="2024-03-02"
+,
         )
-
+        
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_begin_update_a_private_endpoint_connection(self, resource_group):
+        response = self.client.disk_accesses.begin_update_a_private_endpoint_connection(
+            resource_group_name=resource_group.name,
+            disk_access_name="str"
+,
+            private_endpoint_connection_name="str"
+,
+            private_endpoint_connection={
+                "id": "str",
+                "name": "str",
+                "privateEndpoint": {
+                    "id": "str"
+                },
+                "privateLinkServiceConnectionState": {
+                    "actionsRequired": "str",
+                    "description": "str",
+                    "status": "str"
+                },
+                "provisioningState": "str",
+                "type": "str"
+            }
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_get_a_private_endpoint_connection(self, resource_group):
+        response = self.client.disk_accesses.get_a_private_endpoint_connection(
+            resource_group_name=resource_group.name,
+            disk_access_name="str"
+,
+            private_endpoint_connection_name="str"
+,
+            api_version="2024-03-02"
+,
+        )
+        
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_begin_delete_a_private_endpoint_connection(self, resource_group):
+        response = self.client.disk_accesses.begin_delete_a_private_endpoint_connection(
+            resource_group_name=resource_group.name,
+            disk_access_name="str"
+,
+            private_endpoint_connection_name="str"
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_list_private_endpoint_connections(self, resource_group):
+        response = self.client.disk_accesses.list_private_endpoint_connections(
+            resource_group_name=resource_group.name,
+            disk_access_name="str"
+,
+            api_version="2024-03-02"
+,
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+

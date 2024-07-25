@@ -12,23 +12,25 @@ from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGrou
 
 AZURE_LOCATION = "eastus"
 
-
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
 class TestComputeManagementDiskRestorePointOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ComputeManagementClient)
-
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
     def test_get(self, resource_group):
         response = self.client.disk_restore_point.get(
             resource_group_name=resource_group.name,
-            restore_point_collection_name="str",
-            vm_restore_point_name="str",
-            disk_restore_point_name="str",
-            api_version="2020-09-30",
+            restore_point_collection_name="str"
+,
+            vm_restore_point_name="str"
+,
+            disk_restore_point_name="str"
+,
+            api_version="2024-03-02"
+,
         )
-
+        
         # please add some check logic here by yourself
         # ...
 
@@ -37,10 +39,57 @@ class TestComputeManagementDiskRestorePointOperations(AzureMgmtRecordedTestCase)
     def test_list_by_restore_point(self, resource_group):
         response = self.client.disk_restore_point.list_by_restore_point(
             resource_group_name=resource_group.name,
-            restore_point_collection_name="str",
-            vm_restore_point_name="str",
-            api_version="2020-09-30",
+            restore_point_collection_name="str"
+,
+            vm_restore_point_name="str"
+,
+            api_version="2024-03-02"
+,
         )
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_begin_grant_access(self, resource_group):
+        response = self.client.disk_restore_point.begin_grant_access(
+            resource_group_name=resource_group.name,
+            restore_point_collection_name="str"
+,
+            vm_restore_point_name="str"
+,
+            disk_restore_point_name="str"
+,
+            grant_access_data={
+                "access": "str",
+                "durationInSeconds": 0,
+                "fileFormat": "str",
+                "getSecureVMGuestStateSAS": bool
+            }
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_begin_revoke_access(self, resource_group):
+        response = self.client.disk_restore_point.begin_revoke_access(
+            resource_group_name=resource_group.name,
+            restore_point_collection_name="str"
+,
+            vm_restore_point_name="str"
+,
+            disk_restore_point_name="str"
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
+        # please add some check logic here by yourself
+        # ...
+

@@ -12,32 +12,77 @@ from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGrou
 
 AZURE_LOCATION = "eastus"
 
-
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
 class TestComputeManagementDiskEncryptionSetsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ComputeManagementClient)
-
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
     def test_begin_create_or_update(self, resource_group):
         response = self.client.disk_encryption_sets.begin_create_or_update(
             resource_group_name=resource_group.name,
-            disk_encryption_set_name="str",
+            disk_encryption_set_name="str"
+,
             disk_encryption_set={
                 "location": "str",
-                "activeKey": {"keyUrl": "str", "sourceVault": {"id": "str"}},
+                "activeKey": {
+                    "keyUrl": "str",
+                    "sourceVault": {
+                        "id": "str"
+                    }
+                },
+                "autoKeyRotationError": {
+                    "code": "str",
+                    "details": [
+                        {
+                            "code": "str",
+                            "message": "str",
+                            "target": "str"
+                        }
+                    ],
+                    "innererror": {
+                        "errordetail": "str",
+                        "exceptiontype": "str"
+                    },
+                    "message": "str",
+                    "target": "str"
+                },
+                "encryptionType": "str",
+                "federatedClientId": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "str"},
+                "identity": {
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "type": "str",
+                    "userAssignedIdentities": {
+                        "str": {
+                            "clientId": "str",
+                            "principalId": "str"
+                        }
+                    }
+                },
+                "lastKeyRotationTimestamp": "2020-02-20 00:00:00",
                 "name": "str",
-                "previousKeys": [{"keyUrl": "str", "sourceVault": {"id": "str"}}],
+                "previousKeys": [
+                    {
+                        "keyUrl": "str",
+                        "sourceVault": {
+                            "id": "str"
+                        }
+                    }
+                ],
                 "provisioningState": "str",
-                "tags": {"str": "str"},
-                "type": "str",
-            },
-            api_version="2019-07-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+                "rotationToLatestKeyVersionEnabled": bool,
+                "tags": {
+                    "str": "str"
+                },
+                "type": "str"
+            }
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
         # please add some check logic here by yourself
         # ...
 
@@ -46,11 +91,38 @@ class TestComputeManagementDiskEncryptionSetsOperations(AzureMgmtRecordedTestCas
     def test_begin_update(self, resource_group):
         response = self.client.disk_encryption_sets.begin_update(
             resource_group_name=resource_group.name,
-            disk_encryption_set_name="str",
-            disk_encryption_set={"activeKey": {"keyUrl": "str", "sourceVault": {"id": "str"}}, "tags": {"str": "str"}},
-            api_version="2019-07-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+            disk_encryption_set_name="str"
+,
+            disk_encryption_set={
+                "activeKey": {
+                    "keyUrl": "str",
+                    "sourceVault": {
+                        "id": "str"
+                    }
+                },
+                "encryptionType": "str",
+                "federatedClientId": "str",
+                "identity": {
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "type": "str",
+                    "userAssignedIdentities": {
+                        "str": {
+                            "clientId": "str",
+                            "principalId": "str"
+                        }
+                    }
+                },
+                "rotationToLatestKeyVersionEnabled": bool,
+                "tags": {
+                    "str": "str"
+                }
+            }
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
         # please add some check logic here by yourself
         # ...
 
@@ -59,10 +131,12 @@ class TestComputeManagementDiskEncryptionSetsOperations(AzureMgmtRecordedTestCas
     def test_get(self, resource_group):
         response = self.client.disk_encryption_sets.get(
             resource_group_name=resource_group.name,
-            disk_encryption_set_name="str",
-            api_version="2019-07-01",
+            disk_encryption_set_name="str"
+,
+            api_version="2024-03-02"
+,
         )
-
+        
         # please add some check logic here by yourself
         # ...
 
@@ -71,10 +145,12 @@ class TestComputeManagementDiskEncryptionSetsOperations(AzureMgmtRecordedTestCas
     def test_begin_delete(self, resource_group):
         response = self.client.disk_encryption_sets.begin_delete(
             resource_group_name=resource_group.name,
-            disk_encryption_set_name="str",
-            api_version="2019-07-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+            disk_encryption_set_name="str"
+,
+            api_version="2024-03-02"
+,
+        ).result() # call '.result()' to poll until service return final result
+        
         # please add some check logic here by yourself
         # ...
 
@@ -83,7 +159,8 @@ class TestComputeManagementDiskEncryptionSetsOperations(AzureMgmtRecordedTestCas
     def test_list_by_resource_group(self, resource_group):
         response = self.client.disk_encryption_sets.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2019-07-01",
+            api_version="2024-03-02"
+,
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -93,8 +170,24 @@ class TestComputeManagementDiskEncryptionSetsOperations(AzureMgmtRecordedTestCas
     @recorded_by_proxy
     def test_list(self, resource_group):
         response = self.client.disk_encryption_sets.list(
-            api_version="2019-07-01",
+            api_version="2024-03-02"
+,
         )
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_list_associated_resources(self, resource_group):
+        response = self.client.disk_encryption_sets.list_associated_resources(
+            resource_group_name=resource_group.name,
+            disk_encryption_set_name="str"
+,
+            api_version="2024-03-02"
+,
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
