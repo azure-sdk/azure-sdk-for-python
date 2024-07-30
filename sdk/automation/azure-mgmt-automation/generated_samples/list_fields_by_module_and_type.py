@@ -7,8 +7,8 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.automation import AutomationClient
 
+from azure.mgmt.automation import AutomationClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,24 +21,23 @@ from azure.mgmt.automation import AutomationClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
     )
 
-    response = client.object_data_types.list_fields_by_module_and_type(
-        resource_group_name="rg",
-        automation_account_name="MyAutomationAccount",
-        module_name="MyModule",
-        type_name="MyCustomType",
+    response = client.fields.list_by_type(
+        resource_group_name='rg',
+        automation_account_name='MyAutomationAccount',
+        module_name='MyModule',
+        type_name='MyCustomType',
     )
     for item in response:
         print(item)
 
-
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/listFieldsByModuleAndType.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/listFieldsByModuleAndType.json
 if __name__ == "__main__":
+    main()
+__ == "__main__":
     main()

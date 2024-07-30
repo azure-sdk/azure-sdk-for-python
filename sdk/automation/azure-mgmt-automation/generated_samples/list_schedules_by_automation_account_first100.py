@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automation import AutomationClient
 
 """
@@ -37,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/listSchedulesByAutomationAccount_First100.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/listSchedulesByAutomationAccount_First100.json
 if __name__ == "__main__":
     main()
