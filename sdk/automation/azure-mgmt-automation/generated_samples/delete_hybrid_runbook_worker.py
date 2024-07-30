@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automation import AutomationClient
 
 """
@@ -29,15 +30,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.hybrid_runbook_workers.delete(
+    client.hybrid_runbook_workers.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount20",
         hybrid_runbook_worker_group_name="myGroup",
         hybrid_runbook_worker_id="c010ad12-ef14-4a2a-aa9e-ef22c4745ddd",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteHybridRunbookWorker.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/deleteHybridRunbookWorker.json
 if __name__ == "__main__":
     main()

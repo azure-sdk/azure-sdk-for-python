@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automation import AutomationClient
 
 """
@@ -52,6 +55,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/createOrUpdateDscConfiguration.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/createOrUpdateDscConfiguration.json
 if __name__ == "__main__":
     main()
