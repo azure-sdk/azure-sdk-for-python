@@ -27,7 +27,7 @@ class TestComputeManagementDiskRestorePointOperationsAsync(AzureMgmtRecordedTest
             restore_point_collection_name="str",
             vm_restore_point_name="str",
             disk_restore_point_name="str",
-            api_version="2020-09-30",
+            api_version="2024-03-02",
         )
 
         # please add some check logic here by yourself
@@ -40,8 +40,46 @@ class TestComputeManagementDiskRestorePointOperationsAsync(AzureMgmtRecordedTest
             resource_group_name=resource_group.name,
             restore_point_collection_name="str",
             vm_restore_point_name="str",
-            api_version="2020-09-30",
+            api_version="2024-03-02",
         )
         result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_begin_grant_access(self, resource_group):
+        response = await (
+            await self.client.disk_restore_point.begin_grant_access(
+                resource_group_name=resource_group.name,
+                restore_point_collection_name="str",
+                vm_restore_point_name="str",
+                disk_restore_point_name="str",
+                grant_access_data={
+                    "access": "str",
+                    "durationInSeconds": 0,
+                    "fileFormat": "str",
+                    "getSecureVMGuestStateSAS": bool,
+                },
+                api_version="2024-03-02",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_begin_revoke_access(self, resource_group):
+        response = await (
+            await self.client.disk_restore_point.begin_revoke_access(
+                resource_group_name=resource_group.name,
+                restore_point_collection_name="str",
+                vm_restore_point_name="str",
+                disk_restore_point_name="str",
+                api_version="2024-03-02",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
         # please add some check logic here by yourself
         # ...
