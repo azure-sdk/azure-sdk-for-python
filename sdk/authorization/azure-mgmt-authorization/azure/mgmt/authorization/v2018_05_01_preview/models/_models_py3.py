@@ -326,7 +326,7 @@ class AccessReviewDecisionTarget(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ServicePrincipalDecisionTarget, UserDecisionTarget
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -1535,7 +1535,7 @@ class ServicePrincipalDecisionTarget(AccessReviewDecisionTarget):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -1576,7 +1576,7 @@ class UserDecisionTarget(AccessReviewDecisionTarget):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
