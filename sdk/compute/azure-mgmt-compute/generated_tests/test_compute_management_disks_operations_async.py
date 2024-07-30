@@ -28,30 +28,86 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
                 disk_name="str",
                 disk={
                     "location": "str",
-                    "accountType": "str",
+                    "LastOwnershipUpdateTime": "2020-02-20 00:00:00",
+                    "burstingEnabled": bool,
+                    "burstingEnabledTime": "2020-02-20 00:00:00",
+                    "completionPercent": 0.0,
                     "creationData": {
                         "createOption": "str",
-                        "imageReference": {"id": "str", "lun": 0},
+                        "elasticSanResourceId": "str",
+                        "galleryImageReference": {
+                            "communityGalleryImageId": "str",
+                            "id": "str",
+                            "lun": 0,
+                            "sharedGalleryImageId": "str",
+                        },
+                        "imageReference": {
+                            "communityGalleryImageId": "str",
+                            "id": "str",
+                            "lun": 0,
+                            "sharedGalleryImageId": "str",
+                        },
+                        "logicalSectorSize": 0,
+                        "performancePlus": bool,
+                        "provisionedBandwidthCopySpeed": "str",
+                        "securityDataUri": "str",
                         "sourceResourceId": "str",
+                        "sourceUniqueId": "str",
                         "sourceUri": "str",
                         "storageAccountId": "str",
+                        "uploadSizeBytes": 0,
                     },
+                    "dataAccessAuthMode": "str",
+                    "diskAccessId": "str",
+                    "diskIOPSReadOnly": 0,
+                    "diskIOPSReadWrite": 0,
+                    "diskMBpsReadOnly": 0,
+                    "diskMBpsReadWrite": 0,
+                    "diskSizeBytes": 0,
                     "diskSizeGB": 0,
-                    "encryptionSettings": {
-                        "diskEncryptionKey": {"secretUrl": "str", "sourceVault": {"id": "str"}},
+                    "diskState": "str",
+                    "encryption": {"diskEncryptionSetId": "str", "type": "str"},
+                    "encryptionSettingsCollection": {
                         "enabled": bool,
-                        "keyEncryptionKey": {"keyUrl": "str", "sourceVault": {"id": "str"}},
+                        "encryptionSettings": [
+                            {
+                                "diskEncryptionKey": {"secretUrl": "str", "sourceVault": {"id": "str"}},
+                                "keyEncryptionKey": {"keyUrl": "str", "sourceVault": {"id": "str"}},
+                            }
+                        ],
+                        "encryptionSettingsVersion": "str",
                     },
+                    "extendedLocation": {"name": "str", "type": "str"},
+                    "hyperVGeneration": "str",
                     "id": "str",
+                    "managedBy": "str",
+                    "managedByExtended": ["str"],
+                    "maxShares": 0,
                     "name": "str",
+                    "networkAccessPolicy": "str",
+                    "optimizedForFrequentAttach": bool,
                     "osType": "str",
-                    "ownerId": "str",
+                    "propertyUpdatesInProgress": {"targetTier": "str"},
                     "provisioningState": "str",
+                    "publicNetworkAccess": "str",
+                    "purchasePlan": {"name": "str", "product": "str", "publisher": "str", "promotionCode": "str"},
+                    "securityProfile": {"secureVMDiskEncryptionSetId": "str", "securityType": "str"},
+                    "shareInfo": [{"vmUri": "str"}],
+                    "sku": {"name": "str", "tier": "str"},
+                    "supportedCapabilities": {
+                        "acceleratedNetwork": bool,
+                        "architecture": "str",
+                        "diskControllerTypes": "str",
+                    },
+                    "supportsHibernation": bool,
                     "tags": {"str": "str"},
+                    "tier": "str",
                     "timeCreated": "2020-02-20 00:00:00",
                     "type": "str",
+                    "uniqueId": "str",
+                    "zones": ["str"],
                 },
-                api_version="2016-04-30-preview",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -66,24 +122,43 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
                 resource_group_name=resource_group.name,
                 disk_name="str",
                 disk={
-                    "accountType": "str",
-                    "creationData": {
-                        "createOption": "str",
-                        "imageReference": {"id": "str", "lun": 0},
-                        "sourceResourceId": "str",
-                        "sourceUri": "str",
-                        "storageAccountId": "str",
-                    },
+                    "burstingEnabled": bool,
+                    "dataAccessAuthMode": "str",
+                    "diskAccessId": "str",
+                    "diskIOPSReadOnly": 0,
+                    "diskIOPSReadWrite": 0,
+                    "diskMBpsReadOnly": 0,
+                    "diskMBpsReadWrite": 0,
                     "diskSizeGB": 0,
-                    "encryptionSettings": {
-                        "diskEncryptionKey": {"secretUrl": "str", "sourceVault": {"id": "str"}},
+                    "encryption": {"diskEncryptionSetId": "str", "type": "str"},
+                    "encryptionSettingsCollection": {
                         "enabled": bool,
-                        "keyEncryptionKey": {"keyUrl": "str", "sourceVault": {"id": "str"}},
+                        "encryptionSettings": [
+                            {
+                                "diskEncryptionKey": {"secretUrl": "str", "sourceVault": {"id": "str"}},
+                                "keyEncryptionKey": {"keyUrl": "str", "sourceVault": {"id": "str"}},
+                            }
+                        ],
+                        "encryptionSettingsVersion": "str",
                     },
+                    "maxShares": 0,
+                    "networkAccessPolicy": "str",
+                    "optimizedForFrequentAttach": bool,
                     "osType": "str",
+                    "propertyUpdatesInProgress": {"targetTier": "str"},
+                    "publicNetworkAccess": "str",
+                    "purchasePlan": {"name": "str", "product": "str", "publisher": "str", "promotionCode": "str"},
+                    "sku": {"name": "str", "tier": "str"},
+                    "supportedCapabilities": {
+                        "acceleratedNetwork": bool,
+                        "architecture": "str",
+                        "diskControllerTypes": "str",
+                    },
+                    "supportsHibernation": bool,
                     "tags": {"str": "str"},
+                    "tier": "str",
                 },
-                api_version="2016-04-30-preview",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -96,7 +171,7 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
         response = await self.client.disks.get(
             resource_group_name=resource_group.name,
             disk_name="str",
-            api_version="2016-04-30-preview",
+            api_version="2024-03-02",
         )
 
         # please add some check logic here by yourself
@@ -109,7 +184,7 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
             await self.client.disks.begin_delete(
                 resource_group_name=resource_group.name,
                 disk_name="str",
-                api_version="2016-04-30-preview",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -121,7 +196,7 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.disks.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2016-04-30-preview",
+            api_version="2024-03-02",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -131,7 +206,7 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
     @recorded_by_proxy_async
     async def test_list(self, resource_group):
         response = self.client.disks.list(
-            api_version="2016-04-30-preview",
+            api_version="2024-03-02",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -144,8 +219,13 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
             await self.client.disks.begin_grant_access(
                 resource_group_name=resource_group.name,
                 disk_name="str",
-                grant_access_data={"access": "str", "durationInSeconds": 0},
-                api_version="2016-04-30-preview",
+                grant_access_data={
+                    "access": "str",
+                    "durationInSeconds": 0,
+                    "fileFormat": "str",
+                    "getSecureVMGuestStateSAS": bool,
+                },
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -159,7 +239,7 @@ class TestComputeManagementDisksOperationsAsync(AzureMgmtRecordedTestCase):
             await self.client.disks.begin_revoke_access(
                 resource_group_name=resource_group.name,
                 disk_name="str",
-                api_version="2016-04-30-preview",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 

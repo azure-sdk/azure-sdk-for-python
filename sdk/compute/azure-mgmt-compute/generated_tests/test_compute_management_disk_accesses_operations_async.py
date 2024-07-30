@@ -28,6 +28,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
                 disk_access_name="str",
                 disk_access={
                     "location": "str",
+                    "extendedLocation": {"name": "str", "type": "str"},
                     "id": "str",
                     "name": "str",
                     "privateEndpointConnections": [
@@ -49,7 +50,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
                     "timeCreated": "2020-02-20 00:00:00",
                     "type": "str",
                 },
-                api_version="2020-05-01",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -64,7 +65,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
                 resource_group_name=resource_group.name,
                 disk_access_name="str",
                 disk_access={"tags": {"str": "str"}},
-                api_version="2020-05-01",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -77,7 +78,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
         response = await self.client.disk_accesses.get(
             resource_group_name=resource_group.name,
             disk_access_name="str",
-            api_version="2020-05-01",
+            api_version="2024-03-02",
         )
 
         # please add some check logic here by yourself
@@ -90,7 +91,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
             await self.client.disk_accesses.begin_delete(
                 resource_group_name=resource_group.name,
                 disk_access_name="str",
-                api_version="2020-05-01",
+                api_version="2024-03-02",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -102,7 +103,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.disk_accesses.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2020-05-01",
+            api_version="2024-03-02",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -112,7 +113,7 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
     @recorded_by_proxy_async
     async def test_list(self, resource_group):
         response = self.client.disk_accesses.list(
-            api_version="2020-05-01",
+            api_version="2024-03-02",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -124,8 +125,75 @@ class TestComputeManagementDiskAccessesOperationsAsync(AzureMgmtRecordedTestCase
         response = await self.client.disk_accesses.get_private_link_resources(
             resource_group_name=resource_group.name,
             disk_access_name="str",
-            api_version="2020-05-01",
+            api_version="2024-03-02",
         )
 
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_begin_update_a_private_endpoint_connection(self, resource_group):
+        response = await (
+            await self.client.disk_accesses.begin_update_a_private_endpoint_connection(
+                resource_group_name=resource_group.name,
+                disk_access_name="str",
+                private_endpoint_connection_name="str",
+                private_endpoint_connection={
+                    "id": "str",
+                    "name": "str",
+                    "privateEndpoint": {"id": "str"},
+                    "privateLinkServiceConnectionState": {
+                        "actionsRequired": "str",
+                        "description": "str",
+                        "status": "str",
+                    },
+                    "provisioningState": "str",
+                    "type": "str",
+                },
+                api_version="2024-03-02",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_get_a_private_endpoint_connection(self, resource_group):
+        response = await self.client.disk_accesses.get_a_private_endpoint_connection(
+            resource_group_name=resource_group.name,
+            disk_access_name="str",
+            private_endpoint_connection_name="str",
+            api_version="2024-03-02",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_begin_delete_a_private_endpoint_connection(self, resource_group):
+        response = await (
+            await self.client.disk_accesses.begin_delete_a_private_endpoint_connection(
+                resource_group_name=resource_group.name,
+                disk_access_name="str",
+                private_endpoint_connection_name="str",
+                api_version="2024-03-02",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_list_private_endpoint_connections(self, resource_group):
+        response = self.client.disk_accesses.list_private_endpoint_connections(
+            resource_group_name=resource_group.name,
+            disk_access_name="str",
+            api_version="2024-03-02",
+        )
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
