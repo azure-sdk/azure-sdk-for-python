@@ -27,9 +27,11 @@ from ._models_py3 import NginxConfigurationProperties
 from ._models_py3 import NginxDeployment
 from ._models_py3 import NginxDeploymentListResponse
 from ._models_py3 import NginxDeploymentProperties
+from ._models_py3 import NginxDeploymentPropertiesNginxAppProtect
 from ._models_py3 import NginxDeploymentScalingProperties
 from ._models_py3 import NginxDeploymentUpdateParameters
 from ._models_py3 import NginxDeploymentUpdateProperties
+from ._models_py3 import NginxDeploymentUpdatePropertiesNginxAppProtect
 from ._models_py3 import NginxDeploymentUserProfile
 from ._models_py3 import NginxFrontendIPConfiguration
 from ._models_py3 import NginxLogging
@@ -47,7 +49,12 @@ from ._models_py3 import ScaleProfile
 from ._models_py3 import ScaleProfileCapacity
 from ._models_py3 import SystemData
 from ._models_py3 import UserIdentityProperties
+from ._models_py3 import WebApplicationFirewallComponentVersions
+from ._models_py3 import WebApplicationFirewallPackage
+from ._models_py3 import WebApplicationFirewallSettings
+from ._models_py3 import WebApplicationFirewallStatus
 
+from ._nginx_management_client_enums import ActivationState
 from ._nginx_management_client_enums import CreatedByType
 from ._nginx_management_client_enums import IdentityType
 from ._nginx_management_client_enums import NginxPrivateIPAllocationMethod
@@ -78,9 +85,11 @@ __all__ = [
     "NginxDeployment",
     "NginxDeploymentListResponse",
     "NginxDeploymentProperties",
+    "NginxDeploymentPropertiesNginxAppProtect",
     "NginxDeploymentScalingProperties",
     "NginxDeploymentUpdateParameters",
     "NginxDeploymentUpdateProperties",
+    "NginxDeploymentUpdatePropertiesNginxAppProtect",
     "NginxDeploymentUserProfile",
     "NginxFrontendIPConfiguration",
     "NginxLogging",
@@ -98,6 +107,11 @@ __all__ = [
     "ScaleProfileCapacity",
     "SystemData",
     "UserIdentityProperties",
+    "WebApplicationFirewallComponentVersions",
+    "WebApplicationFirewallPackage",
+    "WebApplicationFirewallSettings",
+    "WebApplicationFirewallStatus",
+    "ActivationState",
     "CreatedByType",
     "IdentityType",
     "NginxPrivateIPAllocationMethod",

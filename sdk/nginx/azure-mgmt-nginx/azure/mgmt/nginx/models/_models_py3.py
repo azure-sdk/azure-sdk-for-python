@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class AnalysisCreate(_serialization.Model):
     """The request body for creating an analysis for an NGINX configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar config: Required.
     :vartype config: ~azure.mgmt.nginx.models.AnalysisCreateConfig
@@ -94,7 +94,7 @@ class AnalysisCreateConfig(_serialization.Model):
 class AnalysisDiagnostic(_serialization.Model):
     """An error object found during the analysis of an NGINX configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Unique identifier for the error.
     :vartype id: str
@@ -172,7 +172,7 @@ class AnalysisDiagnostic(_serialization.Model):
 class AnalysisResult(_serialization.Model):
     """The response body for an analysis request. Contains the status of the analysis and any errors.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The status of the analysis. Required.
     :vartype status: str
@@ -224,7 +224,7 @@ class AnalysisResultData(_serialization.Model):
 class AutoUpgradeProfile(_serialization.Model):
     """Autoupgrade settings of a deployment.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar upgrade_channel: Channel used for autoupgrade. Required.
     :vartype upgrade_channel: str
@@ -860,7 +860,7 @@ class NginxDeploymentListResponse(_serialization.Model):
         self.next_link = next_link
 
 
-class NginxDeploymentProperties(_serialization.Model):
+class NginxDeploymentProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """NginxDeploymentProperties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -887,6 +887,8 @@ class NginxDeploymentProperties(_serialization.Model):
     :vartype auto_upgrade_profile: ~azure.mgmt.nginx.models.AutoUpgradeProfile
     :ivar user_profile:
     :vartype user_profile: ~azure.mgmt.nginx.models.NginxDeploymentUserProfile
+    :ivar nginx_app_protect: Settings for NGINX App Protect (NAP).
+    :vartype nginx_app_protect: ~azure.mgmt.nginx.models.NginxDeploymentPropertiesNginxAppProtect
     """
 
     _validation = {
@@ -906,6 +908,7 @@ class NginxDeploymentProperties(_serialization.Model):
         "scaling_properties": {"key": "scalingProperties", "type": "NginxDeploymentScalingProperties"},
         "auto_upgrade_profile": {"key": "autoUpgradeProfile", "type": "AutoUpgradeProfile"},
         "user_profile": {"key": "userProfile", "type": "NginxDeploymentUserProfile"},
+        "nginx_app_protect": {"key": "nginxAppProtect", "type": "NginxDeploymentPropertiesNginxAppProtect"},
     }
 
     def __init__(
@@ -918,6 +921,7 @@ class NginxDeploymentProperties(_serialization.Model):
         scaling_properties: Optional["_models.NginxDeploymentScalingProperties"] = None,
         auto_upgrade_profile: Optional["_models.AutoUpgradeProfile"] = None,
         user_profile: Optional["_models.NginxDeploymentUserProfile"] = None,
+        nginx_app_protect: Optional["_models.NginxDeploymentPropertiesNginxAppProtect"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -936,6 +940,8 @@ class NginxDeploymentProperties(_serialization.Model):
         :paramtype auto_upgrade_profile: ~azure.mgmt.nginx.models.AutoUpgradeProfile
         :keyword user_profile:
         :paramtype user_profile: ~azure.mgmt.nginx.models.NginxDeploymentUserProfile
+        :keyword nginx_app_protect: Settings for NGINX App Protect (NAP).
+        :paramtype nginx_app_protect: ~azure.mgmt.nginx.models.NginxDeploymentPropertiesNginxAppProtect
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
@@ -948,6 +954,53 @@ class NginxDeploymentProperties(_serialization.Model):
         self.scaling_properties = scaling_properties
         self.auto_upgrade_profile = auto_upgrade_profile
         self.user_profile = user_profile
+        self.nginx_app_protect = nginx_app_protect
+
+
+class NginxDeploymentPropertiesNginxAppProtect(_serialization.Model):
+    """Settings for NGINX App Protect (NAP).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar web_application_firewall_settings: Settings for the NGINX App Protect Web Application
+     Firewall (WAF). Required.
+    :vartype web_application_firewall_settings:
+     ~azure.mgmt.nginx.models.WebApplicationFirewallSettings
+    :ivar web_application_firewall_status: The status of the NGINX App Protect Web Application
+     Firewall.
+    :vartype web_application_firewall_status: ~azure.mgmt.nginx.models.WebApplicationFirewallStatus
+    """
+
+    _validation = {
+        "web_application_firewall_settings": {"required": True},
+        "web_application_firewall_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "web_application_firewall_settings": {
+            "key": "webApplicationFirewallSettings",
+            "type": "WebApplicationFirewallSettings",
+        },
+        "web_application_firewall_status": {
+            "key": "webApplicationFirewallStatus",
+            "type": "WebApplicationFirewallStatus",
+        },
+    }
+
+    def __init__(
+        self, *, web_application_firewall_settings: "_models.WebApplicationFirewallSettings", **kwargs: Any
+    ) -> None:
+        """
+        :keyword web_application_firewall_settings: Settings for the NGINX App Protect Web Application
+         Firewall (WAF). Required.
+        :paramtype web_application_firewall_settings:
+         ~azure.mgmt.nginx.models.WebApplicationFirewallSettings
+        """
+        super().__init__(**kwargs)
+        self.web_application_firewall_settings = web_application_firewall_settings
+        self.web_application_firewall_status = None
 
 
 class NginxDeploymentScalingProperties(_serialization.Model):
@@ -1044,6 +1097,9 @@ class NginxDeploymentUpdateProperties(_serialization.Model):
     :vartype user_profile: ~azure.mgmt.nginx.models.NginxDeploymentUserProfile
     :ivar auto_upgrade_profile: Autoupgrade settings of a deployment.
     :vartype auto_upgrade_profile: ~azure.mgmt.nginx.models.AutoUpgradeProfile
+    :ivar nginx_app_protect: Update settings for NGINX App Protect (NAP).
+    :vartype nginx_app_protect:
+     ~azure.mgmt.nginx.models.NginxDeploymentUpdatePropertiesNginxAppProtect
     """
 
     _attribute_map = {
@@ -1052,6 +1108,7 @@ class NginxDeploymentUpdateProperties(_serialization.Model):
         "scaling_properties": {"key": "scalingProperties", "type": "NginxDeploymentScalingProperties"},
         "user_profile": {"key": "userProfile", "type": "NginxDeploymentUserProfile"},
         "auto_upgrade_profile": {"key": "autoUpgradeProfile", "type": "AutoUpgradeProfile"},
+        "nginx_app_protect": {"key": "nginxAppProtect", "type": "NginxDeploymentUpdatePropertiesNginxAppProtect"},
     }
 
     def __init__(
@@ -1062,6 +1119,7 @@ class NginxDeploymentUpdateProperties(_serialization.Model):
         scaling_properties: Optional["_models.NginxDeploymentScalingProperties"] = None,
         user_profile: Optional["_models.NginxDeploymentUserProfile"] = None,
         auto_upgrade_profile: Optional["_models.AutoUpgradeProfile"] = None,
+        nginx_app_protect: Optional["_models.NginxDeploymentUpdatePropertiesNginxAppProtect"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1075,6 +1133,9 @@ class NginxDeploymentUpdateProperties(_serialization.Model):
         :paramtype user_profile: ~azure.mgmt.nginx.models.NginxDeploymentUserProfile
         :keyword auto_upgrade_profile: Autoupgrade settings of a deployment.
         :paramtype auto_upgrade_profile: ~azure.mgmt.nginx.models.AutoUpgradeProfile
+        :keyword nginx_app_protect: Update settings for NGINX App Protect (NAP).
+        :paramtype nginx_app_protect:
+         ~azure.mgmt.nginx.models.NginxDeploymentUpdatePropertiesNginxAppProtect
         """
         super().__init__(**kwargs)
         self.enable_diagnostics_support = enable_diagnostics_support
@@ -1082,6 +1143,39 @@ class NginxDeploymentUpdateProperties(_serialization.Model):
         self.scaling_properties = scaling_properties
         self.user_profile = user_profile
         self.auto_upgrade_profile = auto_upgrade_profile
+        self.nginx_app_protect = nginx_app_protect
+
+
+class NginxDeploymentUpdatePropertiesNginxAppProtect(_serialization.Model):  # pylint: disable=name-too-long
+    """Update settings for NGINX App Protect (NAP).
+
+    :ivar web_application_firewall_settings: Settings for the NGINX App Protect Web Application
+     Firewall (WAF).
+    :vartype web_application_firewall_settings:
+     ~azure.mgmt.nginx.models.WebApplicationFirewallSettings
+    """
+
+    _attribute_map = {
+        "web_application_firewall_settings": {
+            "key": "webApplicationFirewallSettings",
+            "type": "WebApplicationFirewallSettings",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        web_application_firewall_settings: Optional["_models.WebApplicationFirewallSettings"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword web_application_firewall_settings: Settings for the NGINX App Protect Web Application
+         Firewall (WAF).
+        :paramtype web_application_firewall_settings:
+         ~azure.mgmt.nginx.models.WebApplicationFirewallSettings
+        """
+        super().__init__(**kwargs)
+        self.web_application_firewall_settings = web_application_firewall_settings
 
 
 class NginxDeploymentUserProfile(_serialization.Model):
@@ -1444,7 +1538,7 @@ class ResourceProviderDefaultErrorResponse(_serialization.Model):
 class ResourceSku(_serialization.Model):
     """ResourceSku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the SKU. Required.
     :vartype name: str
@@ -1470,7 +1564,7 @@ class ResourceSku(_serialization.Model):
 class ScaleProfile(_serialization.Model):
     """The autoscale profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Required.
     :vartype name: str
@@ -1503,7 +1597,7 @@ class ScaleProfile(_serialization.Model):
 class ScaleProfileCapacity(_serialization.Model):
     """The capacity parameters of the profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar min: The minimum number of NCUs the deployment can be autoscaled to. Required.
     :vartype min: int
@@ -1629,3 +1723,142 @@ class UserIdentityProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.principal_id = None
         self.client_id = None
+
+
+class WebApplicationFirewallComponentVersions(_serialization.Model):
+    """Versions of the NGINX App Protect Web Application Firewall (WAF) components.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar waf_engine_version: The version of the NGINX App Protect Web Application Firewall (WAF)
+     engine. Required.
+    :vartype waf_engine_version: str
+    :ivar waf_nginx_version: The version of the NGINX App Protect Web Application Firewall (WAF)
+     module for NGINX. Required.
+    :vartype waf_nginx_version: str
+    """
+
+    _validation = {
+        "waf_engine_version": {"required": True},
+        "waf_nginx_version": {"required": True},
+    }
+
+    _attribute_map = {
+        "waf_engine_version": {"key": "wafEngineVersion", "type": "str"},
+        "waf_nginx_version": {"key": "wafNginxVersion", "type": "str"},
+    }
+
+    def __init__(self, *, waf_engine_version: str, waf_nginx_version: str, **kwargs: Any) -> None:
+        """
+        :keyword waf_engine_version: The version of the NGINX App Protect Web Application Firewall
+         (WAF) engine. Required.
+        :paramtype waf_engine_version: str
+        :keyword waf_nginx_version: The version of the NGINX App Protect Web Application Firewall (WAF)
+         module for NGINX. Required.
+        :paramtype waf_nginx_version: str
+        """
+        super().__init__(**kwargs)
+        self.waf_engine_version = waf_engine_version
+        self.waf_nginx_version = waf_nginx_version
+
+
+class WebApplicationFirewallPackage(_serialization.Model):
+    """NGINX App Protect Web Application Firewall (WAF) Package. Contains the version and revision
+    date of the package.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar version: The version of the NGINX App Protect Web Application Firewall (WAF) package.
+     Required.
+    :vartype version: str
+    :ivar revision_datetime: The date and time of the package revision. Required.
+    :vartype revision_datetime: ~datetime.datetime
+    """
+
+    _validation = {
+        "version": {"required": True},
+        "revision_datetime": {"required": True},
+    }
+
+    _attribute_map = {
+        "version": {"key": "version", "type": "str"},
+        "revision_datetime": {"key": "revisionDatetime", "type": "iso-8601"},
+    }
+
+    def __init__(self, *, version: str, revision_datetime: datetime.datetime, **kwargs: Any) -> None:
+        """
+        :keyword version: The version of the NGINX App Protect Web Application Firewall (WAF) package.
+         Required.
+        :paramtype version: str
+        :keyword revision_datetime: The date and time of the package revision. Required.
+        :paramtype revision_datetime: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.version = version
+        self.revision_datetime = revision_datetime
+
+
+class WebApplicationFirewallSettings(_serialization.Model):
+    """Settings for the NGINX App Protect Web Application Firewall (WAF).
+
+    :ivar activation_state: The activation state of the WAF. Use 'Enabled' to enable the WAF and
+     'Disabled' to disable it. Known values are: "Enabled" and "Disabled".
+    :vartype activation_state: str or ~azure.mgmt.nginx.models.ActivationState
+    """
+
+    _attribute_map = {
+        "activation_state": {"key": "activationState", "type": "str"},
+    }
+
+    def __init__(
+        self, *, activation_state: Optional[Union[str, "_models.ActivationState"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword activation_state: The activation state of the WAF. Use 'Enabled' to enable the WAF and
+         'Disabled' to disable it. Known values are: "Enabled" and "Disabled".
+        :paramtype activation_state: str or ~azure.mgmt.nginx.models.ActivationState
+        """
+        super().__init__(**kwargs)
+        self.activation_state = activation_state
+
+
+class WebApplicationFirewallStatus(_serialization.Model):
+    """The status of the NGINX App Protect Web Application Firewall.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar attack_signatures_package: Package containing attack signatures for the NGINX App Protect
+     Web Application Firewall (WAF).
+    :vartype attack_signatures_package: ~azure.mgmt.nginx.models.WebApplicationFirewallPackage
+    :ivar bot_signatures_package: Package containing bot signatures for the NGINX App Protect Web
+     Application Firewall (WAF).
+    :vartype bot_signatures_package: ~azure.mgmt.nginx.models.WebApplicationFirewallPackage
+    :ivar threat_campaigns_package: Package containing threat campaigns for the NGINX App Protect
+     Web Application Firewall (WAF).
+    :vartype threat_campaigns_package: ~azure.mgmt.nginx.models.WebApplicationFirewallPackage
+    :ivar component_versions: Versions of the NGINX App Protect Web Application Firewall (WAF)
+     components.
+    :vartype component_versions: ~azure.mgmt.nginx.models.WebApplicationFirewallComponentVersions
+    """
+
+    _validation = {
+        "attack_signatures_package": {"readonly": True},
+        "bot_signatures_package": {"readonly": True},
+        "threat_campaigns_package": {"readonly": True},
+        "component_versions": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "attack_signatures_package": {"key": "attackSignaturesPackage", "type": "WebApplicationFirewallPackage"},
+        "bot_signatures_package": {"key": "botSignaturesPackage", "type": "WebApplicationFirewallPackage"},
+        "threat_campaigns_package": {"key": "threatCampaignsPackage", "type": "WebApplicationFirewallPackage"},
+        "component_versions": {"key": "componentVersions", "type": "WebApplicationFirewallComponentVersions"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.attack_signatures_package = None
+        self.bot_signatures_package = None
+        self.threat_campaigns_package = None
+        self.component_versions = None
