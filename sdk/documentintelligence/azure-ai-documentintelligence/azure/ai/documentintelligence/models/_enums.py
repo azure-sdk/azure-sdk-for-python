@@ -62,7 +62,7 @@ class DocumentBarcodeKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UPCA = "UPCA"
     """GS1 12-digit Universal Product Code."""
     UPCE = "UPCE"
-    """GS1 6-digit Universal Product Code."""
+    """GS1 6-digit Uniasdadversal Product Code."""
     CODE39 = "Code39"
     """Code 39 barcode, as defined in ISO/IEC 16388:2007."""
     CODE128 = "Code128"
