@@ -279,7 +279,7 @@ class TestComputeFleetMgmtFleetsOperationsAsync(AzureMgmtRecordedTestCase):
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0,
                         },
-                        "vmSizesProfile": [{"name": "str", "rank": 0}],
+                        "vmSizesProfile": {"name": "str", "rank": 0},
                         "provisioningState": "str",
                         "regularPriorityProfile": {"allocationStrategy": "str", "capacity": 0, "minCapacity": 0},
                         "spotPriorityProfile": {
@@ -555,7 +555,7 @@ class TestComputeFleetMgmtFleetsOperationsAsync(AzureMgmtRecordedTestCase):
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0,
                         },
-                        "vmSizesProfile": [{"name": "str", "rank": 0}],
+                        "vmSizesProfile": {"name": "str", "rank": 0},
                         "provisioningState": "str",
                         "regularPriorityProfile": {"allocationStrategy": "str", "capacity": 0, "minCapacity": 0},
                         "spotPriorityProfile": {
