@@ -1,4 +1,4 @@
-directory: specification/azurefleet/AzureFleet.Management
+directory: specification/apicenter/ApiCenter.DataApi
 commit: bb02faefdc9a12692a3ae9cec4954018c7f6256a
 repo: test-repo-billy/azure-rest-api-specs
 additionalDirectories: 
