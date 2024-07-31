@@ -1,4 +1,4 @@
-directory: specification/mongocluster/DocumentDB.MongoCluster.Management
+directory: specification/apicenter/ApiCenter.DataApi
 commit: 3540b3c85da4f46e6252a93509c0570dd4734a25
 repo: test-repo-billy/azure-rest-api-specs
 additionalDirectories: 
