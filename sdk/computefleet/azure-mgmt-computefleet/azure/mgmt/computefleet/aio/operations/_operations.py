@@ -598,12 +598,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -741,13 +739,10 @@ class FleetsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = response.iter_bytes()
-
         if response.status_code == 201:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1173,12 +1168,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -1602,12 +1595,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -2062,12 +2053,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -2522,12 +2511,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -2974,12 +2961,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -3403,12 +3388,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -3546,14 +3529,11 @@ class FleetsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = response.iter_bytes()
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -3974,12 +3954,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -4391,12 +4369,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -4851,12 +4827,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -5311,12 +5285,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -5762,12 +5734,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -6179,12 +6149,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -6310,10 +6278,7 @@ class FleetsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
-
-        if response.status_code == 204:
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -6774,12 +6739,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
@@ -7281,12 +7244,10 @@ class FleetsOperations:
                             "computeApiVersion": "str",
                             "platformFaultDomainCount": 0
                         },
-                        "vmSizesProfile": [
-                            {
-                                "name": "str",
-                                "rank": 0
-                            }
-                        ],
+                        "vmSizesProfile": {
+                            "name": "str",
+                            "rank": 0
+                        },
                         "provisioningState": "str",
                         "regularPriorityProfile": {
                             "allocationStrategy": "str",
