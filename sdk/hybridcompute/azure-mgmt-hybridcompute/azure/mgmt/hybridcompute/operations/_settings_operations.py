@@ -51,7 +51,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-31-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +99,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-31-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -150,7 +150,7 @@ def build_patch_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-31-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -434,11 +434,7 @@ class SettingsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("Settings", pipeline_response.http_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("Settings", pipeline_response.http_response)
+        deserialized = self._deserialize("Settings", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
