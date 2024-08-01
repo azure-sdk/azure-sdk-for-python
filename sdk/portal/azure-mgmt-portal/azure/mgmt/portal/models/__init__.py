@@ -7,57 +7,77 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import Configuration
-from ._models_py3 import ConfigurationList
+from ._models_py3 import ConfigurationListResult
+from ._models_py3 import ConfigurationProperties
 from ._models_py3 import Dashboard
 from ._models_py3 import DashboardLens
 from ._models_py3 import DashboardListResult
 from ._models_py3 import DashboardPartMetadata
 from ._models_py3 import DashboardParts
 from ._models_py3 import DashboardPartsPosition
-from ._models_py3 import ErrorDefinition
+from ._models_py3 import DashboardProperties
+from ._models_py3 import DashboardPropertiesWithProvisioningState
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import MarkdownPartMetadata
 from ._models_py3 import MarkdownPartMetadataSettings
 from ._models_py3 import MarkdownPartMetadataSettingsContent
 from ._models_py3 import MarkdownPartMetadataSettingsContentSettings
+from ._models_py3 import Operation
+from ._models_py3 import OperationDisplay
+from ._models_py3 import OperationListResult
 from ._models_py3 import PatchableDashboard
 from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
-from ._models_py3 import ResourceProviderOperation
-from ._models_py3 import ResourceProviderOperationDisplay
-from ._models_py3 import ResourceProviderOperationList
+from ._models_py3 import SystemData
+from ._models_py3 import TrackedResource
 from ._models_py3 import Violation
 from ._models_py3 import ViolationsList
 
-from ._portal_enums import ConfigurationName
+from ._portal_enums import ActionType
+from ._portal_enums import CreatedByType
+from ._portal_enums import DashboardPartMetadataType
+from ._portal_enums import Origin
+from ._portal_enums import ResourceProvisioningState
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Configuration",
-    "ConfigurationList",
+    "ConfigurationListResult",
+    "ConfigurationProperties",
     "Dashboard",
     "DashboardLens",
     "DashboardListResult",
     "DashboardPartMetadata",
     "DashboardParts",
     "DashboardPartsPosition",
-    "ErrorDefinition",
+    "DashboardProperties",
+    "DashboardPropertiesWithProvisioningState",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
     "ErrorResponse",
     "MarkdownPartMetadata",
     "MarkdownPartMetadataSettings",
     "MarkdownPartMetadataSettingsContent",
     "MarkdownPartMetadataSettingsContentSettings",
+    "Operation",
+    "OperationDisplay",
+    "OperationListResult",
     "PatchableDashboard",
     "ProxyResource",
     "Resource",
-    "ResourceProviderOperation",
-    "ResourceProviderOperationDisplay",
-    "ResourceProviderOperationList",
+    "SystemData",
+    "TrackedResource",
     "Violation",
     "ViolationsList",
-    "ConfigurationName",
+    "ActionType",
+    "CreatedByType",
+    "DashboardPartMetadataType",
+    "Origin",
+    "ResourceProvisioningState",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
