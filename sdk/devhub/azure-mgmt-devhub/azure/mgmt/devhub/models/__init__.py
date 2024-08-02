@@ -7,27 +7,48 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import ACR
+from ._models_py3 import ADOOAuth
+from ._models_py3 import ADOOAuthCallRequest
+from ._models_py3 import ADOOAuthInfoResponse
+from ._models_py3 import ADOOAuthListResponse
+from ._models_py3 import ADOOAuthResponse
+from ._models_py3 import ADORepository
 from ._models_py3 import ArtifactGenerationProperties
+from ._models_py3 import AzurePipelineProfile
+from ._models_py3 import Build
 from ._models_py3 import DeleteWorkflowResponse
-from ._models_py3 import DeploymentProperties
+from ._models_py3 import Deployment
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExportTemplateRequest
 from ._models_py3 import GitHubOAuthCallRequest
 from ._models_py3 import GitHubOAuthInfoResponse
 from ._models_py3 import GitHubOAuthListResponse
+from ._models_py3 import GitHubOAuthProperties
 from ._models_py3 import GitHubOAuthResponse
+from ._models_py3 import GitHubWorkflowProfile
 from ._models_py3 import GitHubWorkflowProfileOidcCredentials
+from ._models_py3 import IacProfile
+from ._models_py3 import IacProfileListResult
+from ._models_py3 import IacTemplateDetails
+from ._models_py3 import IacTemplateProperties
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import PrLinkResponse
 from ._models_py3 import ProxyResource
+from ._models_py3 import PullRequest
 from ._models_py3 import Resource
+from ._models_py3 import ScaleProperty
+from ._models_py3 import ScaleTemplateRequest
+from ._models_py3 import StageProperties
 from ._models_py3 import SystemData
 from ._models_py3 import TagsObject
 from ._models_py3 import TrackedResource
 from ._models_py3 import Workflow
 from ._models_py3 import WorkflowListResult
+from ._models_py3 import WorkflowProperties
 from ._models_py3 import WorkflowRun
 
 from ._dev_hub_mgmt_client_enums import ActionType
@@ -40,6 +61,7 @@ from ._dev_hub_mgmt_client_enums import ManifestGenerationMode
 from ._dev_hub_mgmt_client_enums import ManifestType
 from ._dev_hub_mgmt_client_enums import Origin
 from ._dev_hub_mgmt_client_enums import PullRequestStatus
+from ._dev_hub_mgmt_client_enums import QuickStartTemplateType
 from ._dev_hub_mgmt_client_enums import WorkflowRunStatus
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -47,27 +69,48 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "ACR",
+    "ADOOAuth",
+    "ADOOAuthCallRequest",
+    "ADOOAuthInfoResponse",
+    "ADOOAuthListResponse",
+    "ADOOAuthResponse",
+    "ADORepository",
     "ArtifactGenerationProperties",
+    "AzurePipelineProfile",
+    "Build",
     "DeleteWorkflowResponse",
-    "DeploymentProperties",
+    "Deployment",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "ExportTemplateRequest",
     "GitHubOAuthCallRequest",
     "GitHubOAuthInfoResponse",
     "GitHubOAuthListResponse",
+    "GitHubOAuthProperties",
     "GitHubOAuthResponse",
+    "GitHubWorkflowProfile",
     "GitHubWorkflowProfileOidcCredentials",
+    "IacProfile",
+    "IacProfileListResult",
+    "IacTemplateDetails",
+    "IacTemplateProperties",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "PrLinkResponse",
     "ProxyResource",
+    "PullRequest",
     "Resource",
+    "ScaleProperty",
+    "ScaleTemplateRequest",
+    "StageProperties",
     "SystemData",
     "TagsObject",
     "TrackedResource",
     "Workflow",
     "WorkflowListResult",
+    "WorkflowProperties",
     "WorkflowRun",
     "ActionType",
     "AuthorizationStatus",
@@ -79,6 +122,7 @@ __all__ = [
     "ManifestType",
     "Origin",
     "PullRequestStatus",
+    "QuickStartTemplateType",
     "WorkflowRunStatus",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
