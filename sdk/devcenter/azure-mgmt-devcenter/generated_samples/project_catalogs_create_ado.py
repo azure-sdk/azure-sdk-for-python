@@ -50,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectCatalogs_CreateAdo.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2024-08-01-preview/examples/ProjectCatalogs_CreateAdo.json
 if __name__ == "__main__":
     main()

@@ -45,6 +45,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Galleries_Create.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2024-08-01-preview/examples/Galleries_Create.json
 if __name__ == "__main__":
     main()
