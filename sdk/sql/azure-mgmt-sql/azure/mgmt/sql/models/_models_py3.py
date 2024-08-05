@@ -1979,7 +1979,7 @@ class DatabaseColumn(ProxyResource):
      "date", "time", "datetime2", "datetimeoffset", "tinyint", "smallint", "int", "smalldatetime",
      "real", "money", "datetime", "float", "sql_variant", "ntext", "bit", "decimal", "numeric",
      "smallmoney", "bigint", "hierarchyid", "geometry", "geography", "varbinary", "varchar",
-     "binary", "char", "timestamp", "nvarchar", "nchar", "xml", and "sysname".
+     "binary", "char", "timestamp", "nvarchar", "nchar", "xml", "sysname", and "int".
     :vartype column_type: str or ~azure.mgmt.sql.models.ColumnDataType
     :ivar temporal_type: The table temporal type. Known values are: "NonTemporalTable",
      "HistoryTable", and "SystemVersionedTemporalTable".
@@ -2020,8 +2020,8 @@ class DatabaseColumn(ProxyResource):
          "uniqueidentifier", "date", "time", "datetime2", "datetimeoffset", "tinyint", "smallint",
          "int", "smalldatetime", "real", "money", "datetime", "float", "sql_variant", "ntext", "bit",
          "decimal", "numeric", "smallmoney", "bigint", "hierarchyid", "geometry", "geography",
-         "varbinary", "varchar", "binary", "char", "timestamp", "nvarchar", "nchar", "xml", and
-         "sysname".
+         "varbinary", "varchar", "binary", "char", "timestamp", "nvarchar", "nchar", "xml", "sysname",
+         and "int".
         :paramtype column_type: str or ~azure.mgmt.sql.models.ColumnDataType
         :keyword temporal_type: The table temporal type. Known values are: "NonTemporalTable",
          "HistoryTable", and "SystemVersionedTemporalTable".
@@ -4115,7 +4115,8 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
     :vartype distributed_availability_group_name: str
     :ivar distributed_availability_group_id: ID of the distributed availability group.
     :vartype distributed_availability_group_id: str
-    :ivar replication_mode: Replication mode of the link. Known values are: "Async" and "Sync".
+    :ivar replication_mode: Replication mode of the link. Known values are: "Async", "Sync", and
+     "Async".
     :vartype replication_mode: str or ~azure.mgmt.sql.models.ReplicationModeType
     :ivar partner_link_role: SQL server side link role. Known values are: "Primary" and
      "Secondary".
@@ -4180,7 +4181,8 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
         **kwargs: Any
     ) -> None:
         """
-        :keyword replication_mode: Replication mode of the link. Known values are: "Async" and "Sync".
+        :keyword replication_mode: Replication mode of the link. Known values are: "Async", "Sync", and
+         "Async".
         :paramtype replication_mode: str or ~azure.mgmt.sql.models.ReplicationModeType
         :keyword partner_availability_group_name: SQL server side availability group name.
         :paramtype partner_availability_group_name: str
@@ -6671,6 +6673,9 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
     :vartype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
     :ivar databases: List of databases in the failover group.
     :vartype databases: list[str]
+    :ivar secondary_type: Databases secondary type on partner server. Known values are: "Geo" and
+     "Standby".
+    :vartype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
     """
 
     _validation = {
@@ -6694,6 +6699,7 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         "replication_state": {"key": "properties.replicationState", "type": "str"},
         "partner_servers": {"key": "properties.partnerServers", "type": "[PartnerInfo]"},
         "databases": {"key": "properties.databases", "type": "[str]"},
+        "secondary_type": {"key": "properties.secondaryType", "type": "str"},
     }
 
     def __init__(
@@ -6704,6 +6710,7 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         read_only_endpoint: Optional["_models.FailoverGroupReadOnlyEndpoint"] = None,
         partner_servers: Optional[List["_models.PartnerInfo"]] = None,
         databases: Optional[List[str]] = None,
+        secondary_type: Optional[Union[str, "_models.FailoverGroupDatabasesSecondaryType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -6717,6 +6724,9 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         :paramtype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
         :keyword databases: List of databases in the failover group.
         :paramtype databases: list[str]
+        :keyword secondary_type: Databases secondary type on partner server. Known values are: "Geo"
+         and "Standby".
+        :paramtype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
         """
         super().__init__(**kwargs)
         self.location = None
@@ -6727,6 +6737,7 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         self.replication_state = None
         self.partner_servers = partner_servers
         self.databases = databases
+        self.secondary_type = secondary_type
 
 
 class FailoverGroupListResult(_serialization.Model):
@@ -6853,6 +6864,9 @@ class FailoverGroupUpdate(_serialization.Model):
     :vartype databases: list[str]
     :ivar partner_servers: List of partner server information for the failover group.
     :vartype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
+    :ivar secondary_type: Databases secondary type on partner server. Known values are: "Geo" and
+     "Standby".
+    :vartype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
     """
 
     _attribute_map = {
@@ -6861,6 +6875,7 @@ class FailoverGroupUpdate(_serialization.Model):
         "read_only_endpoint": {"key": "properties.readOnlyEndpoint", "type": "FailoverGroupReadOnlyEndpoint"},
         "databases": {"key": "properties.databases", "type": "[str]"},
         "partner_servers": {"key": "properties.partnerServers", "type": "[PartnerInfo]"},
+        "secondary_type": {"key": "properties.secondaryType", "type": "str"},
     }
 
     def __init__(
@@ -6871,6 +6886,7 @@ class FailoverGroupUpdate(_serialization.Model):
         read_only_endpoint: Optional["_models.FailoverGroupReadOnlyEndpoint"] = None,
         databases: Optional[List[str]] = None,
         partner_servers: Optional[List["_models.PartnerInfo"]] = None,
+        secondary_type: Optional[Union[str, "_models.FailoverGroupDatabasesSecondaryType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -6884,6 +6900,9 @@ class FailoverGroupUpdate(_serialization.Model):
         :paramtype databases: list[str]
         :keyword partner_servers: List of partner server information for the failover group.
         :paramtype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
+        :keyword secondary_type: Databases secondary type on partner server. Known values are: "Geo"
+         and "Standby".
+        :paramtype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -6891,6 +6910,7 @@ class FailoverGroupUpdate(_serialization.Model):
         self.read_only_endpoint = read_only_endpoint
         self.databases = databases
         self.partner_servers = partner_servers
+        self.secondary_type = secondary_type
 
 
 class ResourceWithWritableName(_serialization.Model):
@@ -9801,8 +9821,8 @@ class MaintenanceWindowOptions(ProxyResource):
     :vartype type: str
     :ivar is_enabled: Whether maintenance windows are enabled for the database.
     :vartype is_enabled: bool
-    :ivar maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\ *60},
-     {Wednesday, 0, 24*\ 60}.
+    :ivar maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\\ *60},
+     {Wednesday, 0, 24*\\ 60}.
     :vartype maintenance_window_cycles: list[~azure.mgmt.sql.models.MaintenanceWindowTimeRange]
     :ivar min_duration_in_minutes: Minimum duration of maintenance window.
     :vartype min_duration_in_minutes: int
@@ -9857,8 +9877,8 @@ class MaintenanceWindowOptions(ProxyResource):
         """
         :keyword is_enabled: Whether maintenance windows are enabled for the database.
         :paramtype is_enabled: bool
-        :keyword maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\ *60},
-         {Wednesday, 0, 24*\ 60}.
+        :keyword maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\\ *60},
+         {Wednesday, 0, 24*\\ 60}.
         :paramtype maintenance_window_cycles: list[~azure.mgmt.sql.models.MaintenanceWindowTimeRange]
         :keyword min_duration_in_minutes: Minimum duration of maintenance window.
         :paramtype min_duration_in_minutes: int
@@ -11224,9 +11244,11 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :ivar sku: Managed instance SKU. Allowed values for sku.name: GP_Gen5, GP_G8IM, GP_G8IH,
      BC_Gen5, BC_G8IM, BC_G8IH.
     :vartype sku: ~azure.mgmt.sql.models.Sku
-    :ivar provisioning_state: Provisioning state of managed instance. Known values are: "Created",
-     "InProgress", "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.sql.models.ProvisioningState
+    :ivar provisioning_state: Known values are: "Creating", "Deleting", "Updating", "Unknown",
+     "Succeeded", "Failed", "Accepted", "Created", "Deleted", "Unrecognized", "Running", "Canceled",
+     "NotSpecified", "Registering", and "TimedOut".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.sql.models.ManagedInstancePropertiesProvisioningState
     :ivar managed_instance_create_mode: Specifies the mode of database creation.
 
      Default: Regular instance creation.
@@ -11237,8 +11259,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
     :ivar fully_qualified_domain_name: The fully qualified domain name of the managed instance.
     :vartype fully_qualified_domain_name: str
-    :ivar is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose edition.
-    :vartype is_general_purpose_v2: bool
     :ivar administrator_login: Administrator username for the managed instance. Can only be
      specified when the managed instance is being created (and is required for creation).
     :vartype administrator_login: str
@@ -11253,28 +11273,12 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
      inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
      licenses). Known values are: "LicenseIncluded" and "BasePrice".
     :vartype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
-    :ivar hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
-     value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
-     and "Passive".
-    :vartype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
-    :ivar hybrid_secondary_usage_detected: Hybrid secondary usage detected. Possible values are
-     'Active' (customer does not meet the requirements to use the secondary as Passive DR) and
-     'Passive' (customer meets the requirements to use the secondary as Passive DR). Known values
-     are: "Active" and "Passive".
-    :vartype hybrid_secondary_usage_detected: str or
-     ~azure.mgmt.sql.models.HybridSecondaryUsageDetected
     :ivar v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
     :vartype v_cores: int
     :ivar storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
      Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
      number of vCores.
     :vartype storage_size_in_gb: int
-    :ivar storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
-     IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
-    :vartype storage_i_ops: int
-    :ivar storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
-     instance create/update operation.
-    :vartype storage_throughput_m_bps: int
     :ivar collation: Collation of the managed instance.
     :vartype collation: str
     :ivar dns_zone: The Dns Zone that the managed instance is in.
@@ -11295,7 +11299,7 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
     :ivar timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
      Windows keeps details on supported timezones, including the id, in registry under
-     KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+     KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
      You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
      sys.time_zone_info.
      List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -11336,23 +11340,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
     :ivar service_principal: The managed instance's service principal.
     :vartype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
-    :ivar virtual_cluster_id: Virtual cluster resource id for the Managed Instance.
-    :vartype virtual_cluster_id: str
-    :ivar external_governance_status: Status of external governance. Known values are: "Enabled"
-     and "Disabled".
-    :vartype external_governance_status: str or ~azure.mgmt.sql.models.ExternalGovernanceStatus
-    :ivar pricing_model: Weather or not Managed Instance is freemium. Known values are: "Regular"
-     and "Freemium".
-    :vartype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
-    :ivar create_time: Specifies the point in time (ISO8601 format) of the Managed Instance
-     creation.
-    :vartype create_time: ~datetime.datetime
-    :ivar authentication_metadata: The managed instance's authentication metadata lookup mode.
-     Known values are: "AzureAD", "Paired", and "Windows".
-    :vartype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
-    :ivar database_format: Specifies the internal format of instance databases specific to the SQL
-     engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
-    :vartype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
     """
 
     _validation = {
@@ -11363,13 +11350,9 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         "provisioning_state": {"readonly": True},
         "fully_qualified_domain_name": {"readonly": True},
         "state": {"readonly": True},
-        "hybrid_secondary_usage_detected": {"readonly": True},
         "dns_zone": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
         "current_backup_storage_redundancy": {"readonly": True},
-        "virtual_cluster_id": {"readonly": True},
-        "external_governance_status": {"readonly": True},
-        "create_time": {"readonly": True},
     }
 
     _attribute_map = {
@@ -11383,18 +11366,13 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "managed_instance_create_mode": {"key": "properties.managedInstanceCreateMode", "type": "str"},
         "fully_qualified_domain_name": {"key": "properties.fullyQualifiedDomainName", "type": "str"},
-        "is_general_purpose_v2": {"key": "properties.isGeneralPurposeV2", "type": "bool"},
         "administrator_login": {"key": "properties.administratorLogin", "type": "str"},
         "administrator_login_password": {"key": "properties.administratorLoginPassword", "type": "str"},
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
         "license_type": {"key": "properties.licenseType", "type": "str"},
-        "hybrid_secondary_usage": {"key": "properties.hybridSecondaryUsage", "type": "str"},
-        "hybrid_secondary_usage_detected": {"key": "properties.hybridSecondaryUsageDetected", "type": "str"},
         "v_cores": {"key": "properties.vCores", "type": "int"},
         "storage_size_in_gb": {"key": "properties.storageSizeInGB", "type": "int"},
-        "storage_i_ops": {"key": "properties.storageIOps", "type": "int"},
-        "storage_throughput_m_bps": {"key": "properties.storageThroughputMBps", "type": "int"},
         "collation": {"key": "properties.collation", "type": "str"},
         "dns_zone": {"key": "properties.dnsZone", "type": "str"},
         "dns_zone_partner": {"key": "properties.dnsZonePartner", "type": "str"},
@@ -11417,12 +11395,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         "key_id": {"key": "properties.keyId", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ManagedInstanceExternalAdministrator"},
         "service_principal": {"key": "properties.servicePrincipal", "type": "ServicePrincipal"},
-        "virtual_cluster_id": {"key": "properties.virtualClusterId", "type": "str"},
-        "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
-        "pricing_model": {"key": "properties.pricingModel", "type": "str"},
-        "create_time": {"key": "properties.createTime", "type": "iso-8601"},
-        "authentication_metadata": {"key": "properties.authenticationMetadata", "type": "str"},
-        "database_format": {"key": "properties.databaseFormat", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -11433,16 +11405,12 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         identity: Optional["_models.ResourceIdentity"] = None,
         sku: Optional["_models.Sku"] = None,
         managed_instance_create_mode: Optional[Union[str, "_models.ManagedServerCreateMode"]] = None,
-        is_general_purpose_v2: Optional[bool] = None,
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         subnet_id: Optional[str] = None,
         license_type: Optional[Union[str, "_models.ManagedInstanceLicenseType"]] = None,
-        hybrid_secondary_usage: Optional[Union[str, "_models.HybridSecondaryUsage"]] = None,
         v_cores: Optional[int] = None,
         storage_size_in_gb: Optional[int] = None,
-        storage_i_ops: Optional[int] = None,
-        storage_throughput_m_bps: Optional[int] = None,
         collation: Optional[str] = None,
         dns_zone_partner: Optional[str] = None,
         public_data_endpoint_enabled: Optional[bool] = None,
@@ -11459,9 +11427,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         key_id: Optional[str] = None,
         administrators: Optional["_models.ManagedInstanceExternalAdministrator"] = None,
         service_principal: Optional["_models.ServicePrincipal"] = None,
-        pricing_model: Optional[Union[str, "_models.FreemiumType"]] = None,
-        authentication_metadata: Optional[Union[str, "_models.AuthMetadataLookupModes"]] = None,
-        database_format: Optional[Union[str, "_models.ManagedInstanceDatabaseFormat"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -11482,9 +11447,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
          RestorePointInTime and SourceManagedInstanceId must be specified. Known values are: "Default"
          and "PointInTimeRestore".
         :paramtype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
-        :keyword is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose
-         edition.
-        :paramtype is_general_purpose_v2: bool
         :keyword administrator_login: Administrator username for the managed instance. Can only be
          specified when the managed instance is being created (and is required for creation).
         :paramtype administrator_login: str
@@ -11497,22 +11459,12 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
          inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
          licenses). Known values are: "LicenseIncluded" and "BasePrice".
         :paramtype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
-        :keyword hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
-         value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
-         and "Passive".
-        :paramtype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
         :keyword v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
         :paramtype v_cores: int
         :keyword storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
          Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
          number of vCores.
         :paramtype storage_size_in_gb: int
-        :keyword storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
-         IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
-        :paramtype storage_i_ops: int
-        :keyword storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
-         instance create/update operation.
-        :paramtype storage_throughput_m_bps: int
         :keyword collation: Collation of the managed instance.
         :paramtype collation: str
         :keyword dns_zone_partner: The resource id of another managed instance whose DNS zone this
@@ -11531,7 +11483,7 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
         :keyword timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
          Windows keeps details on supported timezones, including the id, in registry under
-         KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+         KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
          You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
          sys.time_zone_info.
          List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -11564,15 +11516,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
         :keyword service_principal: The managed instance's service principal.
         :paramtype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
-        :keyword pricing_model: Weather or not Managed Instance is freemium. Known values are:
-         "Regular" and "Freemium".
-        :paramtype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
-        :keyword authentication_metadata: The managed instance's authentication metadata lookup mode.
-         Known values are: "AzureAD", "Paired", and "Windows".
-        :paramtype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
-        :keyword database_format: Specifies the internal format of instance databases specific to the
-         SQL engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
-        :paramtype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.identity = identity
@@ -11580,18 +11523,13 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         self.provisioning_state = None
         self.managed_instance_create_mode = managed_instance_create_mode
         self.fully_qualified_domain_name = None
-        self.is_general_purpose_v2 = is_general_purpose_v2
         self.administrator_login = administrator_login
         self.administrator_login_password = administrator_login_password
         self.subnet_id = subnet_id
         self.state = None
         self.license_type = license_type
-        self.hybrid_secondary_usage = hybrid_secondary_usage
-        self.hybrid_secondary_usage_detected = None
         self.v_cores = v_cores
         self.storage_size_in_gb = storage_size_in_gb
-        self.storage_i_ops = storage_i_ops
-        self.storage_throughput_m_bps = storage_throughput_m_bps
         self.collation = collation
         self.dns_zone = None
         self.dns_zone_partner = dns_zone_partner
@@ -11611,12 +11549,6 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         self.key_id = key_id
         self.administrators = administrators
         self.service_principal = service_principal
-        self.virtual_cluster_id = None
-        self.external_governance_status = None
-        self.pricing_model = pricing_model
-        self.create_time = None
-        self.authentication_metadata = authentication_metadata
-        self.database_format = database_format
 
 
 class ManagedInstanceAdministrator(ProxyResource):
@@ -13301,9 +13233,11 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype identity: ~azure.mgmt.sql.models.ResourceIdentity
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar provisioning_state: Provisioning state of managed instance. Known values are: "Created",
-     "InProgress", "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.sql.models.ProvisioningState
+    :ivar provisioning_state: Known values are: "Creating", "Deleting", "Updating", "Unknown",
+     "Succeeded", "Failed", "Accepted", "Created", "Deleted", "Unrecognized", "Running", "Canceled",
+     "NotSpecified", "Registering", and "TimedOut".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.sql.models.ManagedInstancePropertiesProvisioningState
     :ivar managed_instance_create_mode: Specifies the mode of database creation.
 
      Default: Regular instance creation.
@@ -13314,8 +13248,6 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
     :ivar fully_qualified_domain_name: The fully qualified domain name of the managed instance.
     :vartype fully_qualified_domain_name: str
-    :ivar is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose edition.
-    :vartype is_general_purpose_v2: bool
     :ivar administrator_login: Administrator username for the managed instance. Can only be
      specified when the managed instance is being created (and is required for creation).
     :vartype administrator_login: str
@@ -13330,28 +13262,12 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
      inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
      licenses). Known values are: "LicenseIncluded" and "BasePrice".
     :vartype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
-    :ivar hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
-     value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
-     and "Passive".
-    :vartype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
-    :ivar hybrid_secondary_usage_detected: Hybrid secondary usage detected. Possible values are
-     'Active' (customer does not meet the requirements to use the secondary as Passive DR) and
-     'Passive' (customer meets the requirements to use the secondary as Passive DR). Known values
-     are: "Active" and "Passive".
-    :vartype hybrid_secondary_usage_detected: str or
-     ~azure.mgmt.sql.models.HybridSecondaryUsageDetected
     :ivar v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
     :vartype v_cores: int
     :ivar storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
      Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
      number of vCores.
     :vartype storage_size_in_gb: int
-    :ivar storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
-     IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
-    :vartype storage_i_ops: int
-    :ivar storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
-     instance create/update operation.
-    :vartype storage_throughput_m_bps: int
     :ivar collation: Collation of the managed instance.
     :vartype collation: str
     :ivar dns_zone: The Dns Zone that the managed instance is in.
@@ -13372,7 +13288,7 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
     :ivar timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
      Windows keeps details on supported timezones, including the id, in registry under
-     KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+     KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
      You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
      sys.time_zone_info.
      List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -13413,36 +13329,15 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
     :ivar service_principal: The managed instance's service principal.
     :vartype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
-    :ivar virtual_cluster_id: Virtual cluster resource id for the Managed Instance.
-    :vartype virtual_cluster_id: str
-    :ivar external_governance_status: Status of external governance. Known values are: "Enabled"
-     and "Disabled".
-    :vartype external_governance_status: str or ~azure.mgmt.sql.models.ExternalGovernanceStatus
-    :ivar pricing_model: Weather or not Managed Instance is freemium. Known values are: "Regular"
-     and "Freemium".
-    :vartype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
-    :ivar create_time: Specifies the point in time (ISO8601 format) of the Managed Instance
-     creation.
-    :vartype create_time: ~datetime.datetime
-    :ivar authentication_metadata: The managed instance's authentication metadata lookup mode.
-     Known values are: "AzureAD", "Paired", and "Windows".
-    :vartype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
-    :ivar database_format: Specifies the internal format of instance databases specific to the SQL
-     engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
-    :vartype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
     """
 
     _validation = {
         "provisioning_state": {"readonly": True},
         "fully_qualified_domain_name": {"readonly": True},
         "state": {"readonly": True},
-        "hybrid_secondary_usage_detected": {"readonly": True},
         "dns_zone": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
         "current_backup_storage_redundancy": {"readonly": True},
-        "virtual_cluster_id": {"readonly": True},
-        "external_governance_status": {"readonly": True},
-        "create_time": {"readonly": True},
     }
 
     _attribute_map = {
@@ -13452,18 +13347,13 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "managed_instance_create_mode": {"key": "properties.managedInstanceCreateMode", "type": "str"},
         "fully_qualified_domain_name": {"key": "properties.fullyQualifiedDomainName", "type": "str"},
-        "is_general_purpose_v2": {"key": "properties.isGeneralPurposeV2", "type": "bool"},
         "administrator_login": {"key": "properties.administratorLogin", "type": "str"},
         "administrator_login_password": {"key": "properties.administratorLoginPassword", "type": "str"},
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
         "license_type": {"key": "properties.licenseType", "type": "str"},
-        "hybrid_secondary_usage": {"key": "properties.hybridSecondaryUsage", "type": "str"},
-        "hybrid_secondary_usage_detected": {"key": "properties.hybridSecondaryUsageDetected", "type": "str"},
         "v_cores": {"key": "properties.vCores", "type": "int"},
         "storage_size_in_gb": {"key": "properties.storageSizeInGB", "type": "int"},
-        "storage_i_ops": {"key": "properties.storageIOps", "type": "int"},
-        "storage_throughput_m_bps": {"key": "properties.storageThroughputMBps", "type": "int"},
         "collation": {"key": "properties.collation", "type": "str"},
         "dns_zone": {"key": "properties.dnsZone", "type": "str"},
         "dns_zone_partner": {"key": "properties.dnsZonePartner", "type": "str"},
@@ -13486,12 +13376,6 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         "key_id": {"key": "properties.keyId", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ManagedInstanceExternalAdministrator"},
         "service_principal": {"key": "properties.servicePrincipal", "type": "ServicePrincipal"},
-        "virtual_cluster_id": {"key": "properties.virtualClusterId", "type": "str"},
-        "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
-        "pricing_model": {"key": "properties.pricingModel", "type": "str"},
-        "create_time": {"key": "properties.createTime", "type": "iso-8601"},
-        "authentication_metadata": {"key": "properties.authenticationMetadata", "type": "str"},
-        "database_format": {"key": "properties.databaseFormat", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -13501,16 +13385,12 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         identity: Optional["_models.ResourceIdentity"] = None,
         tags: Optional[Dict[str, str]] = None,
         managed_instance_create_mode: Optional[Union[str, "_models.ManagedServerCreateMode"]] = None,
-        is_general_purpose_v2: Optional[bool] = None,
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         subnet_id: Optional[str] = None,
         license_type: Optional[Union[str, "_models.ManagedInstanceLicenseType"]] = None,
-        hybrid_secondary_usage: Optional[Union[str, "_models.HybridSecondaryUsage"]] = None,
         v_cores: Optional[int] = None,
         storage_size_in_gb: Optional[int] = None,
-        storage_i_ops: Optional[int] = None,
-        storage_throughput_m_bps: Optional[int] = None,
         collation: Optional[str] = None,
         dns_zone_partner: Optional[str] = None,
         public_data_endpoint_enabled: Optional[bool] = None,
@@ -13527,9 +13407,6 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         key_id: Optional[str] = None,
         administrators: Optional["_models.ManagedInstanceExternalAdministrator"] = None,
         service_principal: Optional["_models.ServicePrincipal"] = None,
-        pricing_model: Optional[Union[str, "_models.FreemiumType"]] = None,
-        authentication_metadata: Optional[Union[str, "_models.AuthMetadataLookupModes"]] = None,
-        database_format: Optional[Union[str, "_models.ManagedInstanceDatabaseFormat"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -13547,9 +13424,6 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
          RestorePointInTime and SourceManagedInstanceId must be specified. Known values are: "Default"
          and "PointInTimeRestore".
         :paramtype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
-        :keyword is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose
-         edition.
-        :paramtype is_general_purpose_v2: bool
         :keyword administrator_login: Administrator username for the managed instance. Can only be
          specified when the managed instance is being created (and is required for creation).
         :paramtype administrator_login: str
@@ -13562,22 +13436,12 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
          inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
          licenses). Known values are: "LicenseIncluded" and "BasePrice".
         :paramtype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
-        :keyword hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
-         value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
-         and "Passive".
-        :paramtype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
         :keyword v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
         :paramtype v_cores: int
         :keyword storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
          Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
          number of vCores.
         :paramtype storage_size_in_gb: int
-        :keyword storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
-         IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
-        :paramtype storage_i_ops: int
-        :keyword storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
-         instance create/update operation.
-        :paramtype storage_throughput_m_bps: int
         :keyword collation: Collation of the managed instance.
         :paramtype collation: str
         :keyword dns_zone_partner: The resource id of another managed instance whose DNS zone this
@@ -13596,7 +13460,7 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
         :keyword timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
          Windows keeps details on supported timezones, including the id, in registry under
-         KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+         KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
          You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
          sys.time_zone_info.
          List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -13629,15 +13493,6 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
         :keyword service_principal: The managed instance's service principal.
         :paramtype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
-        :keyword pricing_model: Weather or not Managed Instance is freemium. Known values are:
-         "Regular" and "Freemium".
-        :paramtype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
-        :keyword authentication_metadata: The managed instance's authentication metadata lookup mode.
-         Known values are: "AzureAD", "Paired", and "Windows".
-        :paramtype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
-        :keyword database_format: Specifies the internal format of instance databases specific to the
-         SQL engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
-        :paramtype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -13646,18 +13501,13 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         self.provisioning_state = None
         self.managed_instance_create_mode = managed_instance_create_mode
         self.fully_qualified_domain_name = None
-        self.is_general_purpose_v2 = is_general_purpose_v2
         self.administrator_login = administrator_login
         self.administrator_login_password = administrator_login_password
         self.subnet_id = subnet_id
         self.state = None
         self.license_type = license_type
-        self.hybrid_secondary_usage = hybrid_secondary_usage
-        self.hybrid_secondary_usage_detected = None
         self.v_cores = v_cores
         self.storage_size_in_gb = storage_size_in_gb
-        self.storage_i_ops = storage_i_ops
-        self.storage_throughput_m_bps = storage_throughput_m_bps
         self.collation = collation
         self.dns_zone = None
         self.dns_zone_partner = dns_zone_partner
@@ -13677,12 +13527,6 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         self.key_id = key_id
         self.administrators = administrators
         self.service_principal = service_principal
-        self.virtual_cluster_id = None
-        self.external_governance_status = None
-        self.pricing_model = pricing_model
-        self.create_time = None
-        self.authentication_metadata = authentication_metadata
-        self.database_format = database_format
 
 
 class ManagedInstanceVcoresCapability(_serialization.Model):
@@ -15553,46 +15397,6 @@ class QueryMetricInterval(_serialization.Model):
         self.metrics = metrics
 
 
-class QueryMetricIntervalAutoGenerated(_serialization.Model):
-    """Properties of a query metrics interval.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar interval_start_time: The start time for the metric interval (ISO-8601 format).
-    :vartype interval_start_time: str
-    :ivar interval_type: Interval type (length). Known values are: "PT1H" and "P1D".
-    :vartype interval_type: str or ~azure.mgmt.sql.models.QueryTimeGrainType
-    :ivar execution_count: Execution count of a query in this interval.
-    :vartype execution_count: int
-    :ivar metrics: List of metric objects for this interval.
-    :vartype metrics: list[~azure.mgmt.sql.models.QueryMetricProperties]
-    """
-
-    _validation = {
-        "interval_start_time": {"readonly": True},
-        "interval_type": {"readonly": True},
-        "execution_count": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "interval_start_time": {"key": "intervalStartTime", "type": "str"},
-        "interval_type": {"key": "intervalType", "type": "str"},
-        "execution_count": {"key": "executionCount", "type": "int"},
-        "metrics": {"key": "metrics", "type": "[QueryMetricProperties]"},
-    }
-
-    def __init__(self, *, metrics: Optional[List["_models.QueryMetricProperties"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword metrics: List of metric objects for this interval.
-        :paramtype metrics: list[~azure.mgmt.sql.models.QueryMetricProperties]
-        """
-        super().__init__(**kwargs)
-        self.interval_start_time = None
-        self.interval_type = None
-        self.execution_count = None
-        self.metrics = metrics
-
-
 class QueryMetricProperties(_serialization.Model):
     """Properties of a topquery metric in one interval.
 
@@ -15728,7 +15532,7 @@ class QueryStatisticsProperties(_serialization.Model):
     :ivar end_time: The end time for the metric (ISO-8601 format).
     :vartype end_time: str
     :ivar intervals: List of intervals with appropriate metric data.
-    :vartype intervals: list[~azure.mgmt.sql.models.QueryMetricIntervalAutoGenerated]
+    :vartype intervals: list[~azure.mgmt.sql.models.QueryMetricInterval]
     """
 
     _validation = {
@@ -15743,15 +15547,13 @@ class QueryStatisticsProperties(_serialization.Model):
         "query_id": {"key": "queryId", "type": "str"},
         "start_time": {"key": "startTime", "type": "str"},
         "end_time": {"key": "endTime", "type": "str"},
-        "intervals": {"key": "intervals", "type": "[QueryMetricIntervalAutoGenerated]"},
+        "intervals": {"key": "intervals", "type": "[QueryMetricInterval]"},
     }
 
-    def __init__(
-        self, *, intervals: Optional[List["_models.QueryMetricIntervalAutoGenerated"]] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, intervals: Optional[List["_models.QueryMetricInterval"]] = None, **kwargs: Any) -> None:
         """
         :keyword intervals: List of intervals with appropriate metric data.
-        :paramtype intervals: list[~azure.mgmt.sql.models.QueryMetricIntervalAutoGenerated]
+        :paramtype intervals: list[~azure.mgmt.sql.models.QueryMetricInterval]
         """
         super().__init__(**kwargs)
         self.database_name = None
@@ -16492,66 +16294,6 @@ class RefreshExternalGovernanceStatusOperationResult(ProxyResource):  # pylint: 
         self.error_message = None
 
 
-class RefreshExternalGovernanceStatusOperationResultMI(ProxyResource):  # pylint: disable=name-too-long
-    """An RefreshExternalGovernanceStatus operation result resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Resource ID.
-    :vartype id: str
-    :ivar name: Resource name.
-    :vartype name: str
-    :ivar type: Resource type.
-    :vartype type: str
-    :ivar request_id: Request Id.
-    :vartype request_id: str
-    :ivar request_type: Request type.
-    :vartype request_type: str
-    :ivar queued_time: Queued time.
-    :vartype queued_time: str
-    :ivar managed_instance_name: Managed instance name.
-    :vartype managed_instance_name: str
-    :ivar status: Operation status.
-    :vartype status: str
-    :ivar error_message: Error message.
-    :vartype error_message: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "request_id": {"readonly": True},
-        "request_type": {"readonly": True},
-        "queued_time": {"readonly": True},
-        "managed_instance_name": {"readonly": True},
-        "status": {"readonly": True},
-        "error_message": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "request_id": {"key": "properties.requestId", "type": "str"},
-        "request_type": {"key": "properties.requestType", "type": "str"},
-        "queued_time": {"key": "properties.queuedTime", "type": "str"},
-        "managed_instance_name": {"key": "properties.managedInstanceName", "type": "str"},
-        "status": {"key": "properties.status", "type": "str"},
-        "error_message": {"key": "properties.errorMessage", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.request_id = None
-        self.request_type = None
-        self.queued_time = None
-        self.managed_instance_name = None
-        self.status = None
-        self.error_message = None
-
-
 class Remediation(_serialization.Model):
     """SQL Vulnerability Assessment remediation Details.
 
@@ -16605,6 +16347,8 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype partner_server: str
     :ivar partner_database: Resource partner database.
     :vartype partner_database: str
+    :ivar partner_database_id: Resource partner database Id.
+    :vartype partner_database_id: str
     :ivar partner_location: Resource partner location.
     :vartype partner_location: str
     :ivar role: Local replication role. Known values are: "Primary", "Secondary",
@@ -16624,8 +16368,8 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype replication_state: str or ~azure.mgmt.sql.models.ReplicationState
     :ivar is_termination_allowed: Whether the user is currently allowed to terminate the link.
     :vartype is_termination_allowed: bool
-    :ivar link_type: Link type (GEO, NAMED, STANDBY). Known values are: "GEO", "NAMED", and
-     "STANDBY".
+    :ivar link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+     Known values are: "GEO", "NAMED", and "STANDBY".
     :vartype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
     """
 
@@ -16635,6 +16379,7 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "type": {"readonly": True},
         "partner_server": {"readonly": True},
         "partner_database": {"readonly": True},
+        "partner_database_id": {"readonly": True},
         "partner_location": {"readonly": True},
         "role": {"readonly": True},
         "partner_role": {"readonly": True},
@@ -16643,7 +16388,6 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "percent_complete": {"readonly": True},
         "replication_state": {"readonly": True},
         "is_termination_allowed": {"readonly": True},
-        "link_type": {"readonly": True},
     }
 
     _attribute_map = {
@@ -16652,6 +16396,7 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "type": {"key": "type", "type": "str"},
         "partner_server": {"key": "properties.partnerServer", "type": "str"},
         "partner_database": {"key": "properties.partnerDatabase", "type": "str"},
+        "partner_database_id": {"key": "properties.partnerDatabaseId", "type": "str"},
         "partner_location": {"key": "properties.partnerLocation", "type": "str"},
         "role": {"key": "properties.role", "type": "str"},
         "partner_role": {"key": "properties.partnerRole", "type": "str"},
@@ -16663,11 +16408,16 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "link_type": {"key": "properties.linkType", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, link_type: Optional[Union[str, "_models.ReplicationLinkType"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+         Known values are: "GEO", "NAMED", and "STANDBY".
+        :paramtype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
+        """
         super().__init__(**kwargs)
         self.partner_server = None
         self.partner_database = None
+        self.partner_database_id = None
         self.partner_location = None
         self.role = None
         self.partner_role = None
@@ -16676,7 +16426,7 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         self.percent_complete = None
         self.replication_state = None
         self.is_termination_allowed = None
-        self.link_type = None
+        self.link_type = link_type
 
 
 class ReplicationLinkListResult(_serialization.Model):
@@ -16705,6 +16455,45 @@ class ReplicationLinkListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class ReplicationLinkUpdate(ProxyResource):
+    """A replication link update request.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+     Known values are: "GEO", "NAMED", and "STANDBY".
+    :vartype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "link_type": {"key": "properties.linkType", "type": "str"},
+    }
+
+    def __init__(self, *, link_type: Optional[Union[str, "_models.ReplicationLinkType"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+         Known values are: "GEO", "NAMED", and "STANDBY".
+        :paramtype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
+        """
+        super().__init__(**kwargs)
+        self.link_type = link_type
 
 
 class ResourceIdentity(_serialization.Model):
