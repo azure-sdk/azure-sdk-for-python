@@ -6,10 +6,42 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AdapterPropertyOverrides
+from ._models_py3 import ArcConnectivityProperties
+from ._models_py3 import ArcIdentityResponse
+from ._models_py3 import ArcSetting
+from ._models_py3 import ArcSettingList
+from ._models_py3 import ArcSettingsPatch
+from ._models_py3 import Cluster
+from ._models_py3 import ClusterDesiredProperties
+from ._models_py3 import ClusterIdentityResponse
+from ._models_py3 import ClusterList
+from ._models_py3 import ClusterNode
+from ._models_py3 import ClusterPatch
+from ._models_py3 import ClusterReportedProperties
+from ._models_py3 import DefaultExtensionDetails
+from ._models_py3 import DeploymentCluster
+from ._models_py3 import DeploymentConfiguration
+from ._models_py3 import DeploymentData
+from ._models_py3 import DeploymentSecuritySettings
+from ._models_py3 import DeploymentSetting
+from ._models_py3 import DeploymentSettingListResult
+from ._models_py3 import DeploymentStatus
+from ._models_py3 import DeploymentStep
+from ._models_py3 import DeviceConfiguration
+from ._models_py3 import EdgeDevice
+from ._models_py3 import EdgeDeviceListResult
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ExtendedLocation
+from ._models_py3 import Extension
+from ._models_py3 import ExtensionInstanceView
+from ._models_py3 import ExtensionInstanceViewStatus
+from ._models_py3 import ExtensionList
+from ._models_py3 import ExtensionPatch
+from ._models_py3 import ExtensionPatchParameters
+from ._models_py3 import ExtensionUpgradeParameters
 from ._models_py3 import GalleryDiskImage
 from ._models_py3 import GalleryImageIdentifier
 from ._models_py3 import GalleryImageStatus
@@ -26,6 +58,7 @@ from ._models_py3 import GuestAgentInstallStatus
 from ._models_py3 import GuestAgentList
 from ._models_py3 import GuestCredential
 from ._models_py3 import HardwareProfileUpdate
+from ._models_py3 import HostNetwork
 from ._models_py3 import HttpProxyConfiguration
 from ._models_py3 import HybridIdentityMetadata
 from ._models_py3 import HybridIdentityMetadataList
@@ -35,8 +68,12 @@ from ._models_py3 import IPConfigurationPropertiesSubnet
 from ._models_py3 import IPPool
 from ._models_py3 import IPPoolInfo
 from ._models_py3 import Identity
+from ._models_py3 import InfrastructureNetwork
 from ._models_py3 import InstanceViewStatus
+from ._models_py3 import Intents
 from ._models_py3 import InterfaceDNSSettings
+from ._models_py3 import IpPools
+from ._models_py3 import IsolatedVmAttestationConfiguration
 from ._models_py3 import LogicalNetworkPropertiesDhcpOptions
 from ._models_py3 import LogicalNetworkStatus
 from ._models_py3 import LogicalNetworkStatusProvisioningStatus
@@ -56,29 +93,72 @@ from ._models_py3 import NetworkInterfacesListResult
 from ._models_py3 import NetworkInterfacesUpdateRequest
 from ._models_py3 import NetworkProfileUpdate
 from ._models_py3 import NetworkProfileUpdateNetworkInterfacesItem
+from ._models_py3 import NicDetail
+from ._models_py3 import Observability
+from ._models_py3 import Offer
+from ._models_py3 import OfferList
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OptionalServices
 from ._models_py3 import OsProfileUpdate
 from ._models_py3 import OsProfileUpdateLinuxConfiguration
 from ._models_py3 import OsProfileUpdateWindowsConfiguration
+from ._models_py3 import PackageVersionInfo
+from ._models_py3 import PasswordCredential
+from ._models_py3 import PerNodeExtensionState
+from ._models_py3 import PerNodeState
+from ._models_py3 import PhysicalNodes
+from ._models_py3 import PrecheckResult
+from ._models_py3 import PrecheckResultTags
 from ._models_py3 import ProxyResource
+from ._models_py3 import Publisher
+from ._models_py3 import PublisherList
+from ._models_py3 import QosPolicyOverrides
+from ._models_py3 import RawCertificateData
+from ._models_py3 import ReportedProperties
 from ._models_py3 import Resource
 from ._models_py3 import Route
 from ._models_py3 import RouteTable
+from ._models_py3 import ScaleUnits
+from ._models_py3 import SecurityComplianceStatus
+from ._models_py3 import SecuritySetting
+from ._models_py3 import SecuritySettingListResult
+from ._models_py3 import ServiceConfiguration
+from ._models_py3 import Sku
+from ._models_py3 import SkuList
+from ._models_py3 import SkuMappings
+from ._models_py3 import SoftwareAssuranceChangeRequest
+from ._models_py3 import SoftwareAssuranceChangeRequestProperties
+from ._models_py3 import SoftwareAssuranceProperties
 from ._models_py3 import SshConfiguration
 from ._models_py3 import SshPublicKey
+from ._models_py3 import Step
+from ._models_py3 import Storage
 from ._models_py3 import StorageContainerStatus
 from ._models_py3 import StorageContainerStatusProvisioningStatus
 from ._models_py3 import StorageContainers
 from ._models_py3 import StorageContainersListResult
 from ._models_py3 import StorageContainersUpdateRequest
+from ._models_py3 import StorageNetworks
 from ._models_py3 import StorageProfileUpdate
 from ._models_py3 import StorageProfileUpdateDataDisksItem
 from ._models_py3 import Subnet
 from ._models_py3 import SubnetPropertiesFormatIpConfigurationReferencesItem
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
+from ._models_py3 import Update
+from ._models_py3 import UpdateList
+from ._models_py3 import UpdatePrerequisite
+from ._models_py3 import UpdateRun
+from ._models_py3 import UpdateRunList
+from ._models_py3 import UpdateSummaries
+from ._models_py3 import UpdateSummariesList
+from ._models_py3 import UploadCertificateRequest
+from ._models_py3 import UserAssignedIdentity
+from ._models_py3 import ValidateRequest
+from ._models_py3 import ValidateResponse
+from ._models_py3 import ValidationStatus
 from ._models_py3 import VirtualHardDiskStatus
 from ._models_py3 import VirtualHardDiskStatusProvisioningStatus
 from ._models_py3 import VirtualHardDisks
@@ -105,34 +185,93 @@ from ._models_py3 import VirtualMachineInstanceStatusProvisioningStatus
 from ._models_py3 import VirtualMachineInstanceUpdateProperties
 from ._models_py3 import VirtualMachineInstanceUpdateRequest
 from ._models_py3 import VirtualMachineInstanceView
+from ._models_py3 import VirtualSwitchConfigurationOverrides
 
 from ._azure_stack_hci_client_enums import ActionType
+from ._azure_stack_hci_client_enums import ArcSettingAggregateState
+from ._azure_stack_hci_client_enums import AvailabilityType
 from ._azure_stack_hci_client_enums import CloudInitDataSource
+from ._azure_stack_hci_client_enums import ClusterNodeType
+from ._azure_stack_hci_client_enums import ComplianceAssignmentType
+from ._azure_stack_hci_client_enums import ComplianceStatus
+from ._azure_stack_hci_client_enums import ConnectivityStatus
 from ._azure_stack_hci_client_enums import CreatedByType
+from ._azure_stack_hci_client_enums import DeploymentMode
+from ._azure_stack_hci_client_enums import DiagnosticLevel
 from ._azure_stack_hci_client_enums import DiskFileFormat
 from ._azure_stack_hci_client_enums import ExtendedLocationTypes
+from ._azure_stack_hci_client_enums import ExtensionAggregateState
+from ._azure_stack_hci_client_enums import ExtensionManagedBy
+from ._azure_stack_hci_client_enums import HealthState
 from ._azure_stack_hci_client_enums import HyperVGeneration
 from ._azure_stack_hci_client_enums import IPPoolTypeEnum
+from ._azure_stack_hci_client_enums import ImdsAttestation
 from ._azure_stack_hci_client_enums import IpAllocationMethodEnum
+from ._azure_stack_hci_client_enums import ManagedServiceIdentityType
+from ._azure_stack_hci_client_enums import NodeArcState
+from ._azure_stack_hci_client_enums import NodeExtensionState
+from ._azure_stack_hci_client_enums import OemActivation
 from ._azure_stack_hci_client_enums import OperatingSystemTypes
 from ._azure_stack_hci_client_enums import Origin
 from ._azure_stack_hci_client_enums import PowerStateEnum
 from ._azure_stack_hci_client_enums import ProvisioningAction
+from ._azure_stack_hci_client_enums import ProvisioningState
 from ._azure_stack_hci_client_enums import ProvisioningStateEnum
+from ._azure_stack_hci_client_enums import RebootRequirement
 from ._azure_stack_hci_client_enums import SecurityTypes
+from ._azure_stack_hci_client_enums import ServiceName
+from ._azure_stack_hci_client_enums import Severity
+from ._azure_stack_hci_client_enums import SoftwareAssuranceIntent
+from ._azure_stack_hci_client_enums import SoftwareAssuranceStatus
+from ._azure_stack_hci_client_enums import State
 from ._azure_stack_hci_client_enums import Status
 from ._azure_stack_hci_client_enums import StatusLevelTypes
 from ._azure_stack_hci_client_enums import StatusTypes
+from ._azure_stack_hci_client_enums import UpdateRunPropertiesState
+from ._azure_stack_hci_client_enums import UpdateSummariesPropertiesState
 from ._azure_stack_hci_client_enums import VmSizeEnum
+from ._azure_stack_hci_client_enums import WindowsServerSubscription
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AdapterPropertyOverrides",
+    "ArcConnectivityProperties",
+    "ArcIdentityResponse",
+    "ArcSetting",
+    "ArcSettingList",
+    "ArcSettingsPatch",
+    "Cluster",
+    "ClusterDesiredProperties",
+    "ClusterIdentityResponse",
+    "ClusterList",
+    "ClusterNode",
+    "ClusterPatch",
+    "ClusterReportedProperties",
+    "DefaultExtensionDetails",
+    "DeploymentCluster",
+    "DeploymentConfiguration",
+    "DeploymentData",
+    "DeploymentSecuritySettings",
+    "DeploymentSetting",
+    "DeploymentSettingListResult",
+    "DeploymentStatus",
+    "DeploymentStep",
+    "DeviceConfiguration",
+    "EdgeDevice",
+    "EdgeDeviceListResult",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
     "ExtendedLocation",
+    "Extension",
+    "ExtensionInstanceView",
+    "ExtensionInstanceViewStatus",
+    "ExtensionList",
+    "ExtensionPatch",
+    "ExtensionPatchParameters",
+    "ExtensionUpgradeParameters",
     "GalleryDiskImage",
     "GalleryImageIdentifier",
     "GalleryImageStatus",
@@ -149,6 +288,7 @@ __all__ = [
     "GuestAgentList",
     "GuestCredential",
     "HardwareProfileUpdate",
+    "HostNetwork",
     "HttpProxyConfiguration",
     "HybridIdentityMetadata",
     "HybridIdentityMetadataList",
@@ -158,8 +298,12 @@ __all__ = [
     "IPPool",
     "IPPoolInfo",
     "Identity",
+    "InfrastructureNetwork",
     "InstanceViewStatus",
+    "Intents",
     "InterfaceDNSSettings",
+    "IpPools",
+    "IsolatedVmAttestationConfiguration",
     "LogicalNetworkPropertiesDhcpOptions",
     "LogicalNetworkStatus",
     "LogicalNetworkStatusProvisioningStatus",
@@ -179,29 +323,72 @@ __all__ = [
     "NetworkInterfacesUpdateRequest",
     "NetworkProfileUpdate",
     "NetworkProfileUpdateNetworkInterfacesItem",
+    "NicDetail",
+    "Observability",
+    "Offer",
+    "OfferList",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "OptionalServices",
     "OsProfileUpdate",
     "OsProfileUpdateLinuxConfiguration",
     "OsProfileUpdateWindowsConfiguration",
+    "PackageVersionInfo",
+    "PasswordCredential",
+    "PerNodeExtensionState",
+    "PerNodeState",
+    "PhysicalNodes",
+    "PrecheckResult",
+    "PrecheckResultTags",
     "ProxyResource",
+    "Publisher",
+    "PublisherList",
+    "QosPolicyOverrides",
+    "RawCertificateData",
+    "ReportedProperties",
     "Resource",
     "Route",
     "RouteTable",
+    "ScaleUnits",
+    "SecurityComplianceStatus",
+    "SecuritySetting",
+    "SecuritySettingListResult",
+    "ServiceConfiguration",
+    "Sku",
+    "SkuList",
+    "SkuMappings",
+    "SoftwareAssuranceChangeRequest",
+    "SoftwareAssuranceChangeRequestProperties",
+    "SoftwareAssuranceProperties",
     "SshConfiguration",
     "SshPublicKey",
+    "Step",
+    "Storage",
     "StorageContainerStatus",
     "StorageContainerStatusProvisioningStatus",
     "StorageContainers",
     "StorageContainersListResult",
     "StorageContainersUpdateRequest",
+    "StorageNetworks",
     "StorageProfileUpdate",
     "StorageProfileUpdateDataDisksItem",
     "Subnet",
     "SubnetPropertiesFormatIpConfigurationReferencesItem",
     "SystemData",
     "TrackedResource",
+    "Update",
+    "UpdateList",
+    "UpdatePrerequisite",
+    "UpdateRun",
+    "UpdateRunList",
+    "UpdateSummaries",
+    "UpdateSummariesList",
+    "UploadCertificateRequest",
+    "UserAssignedIdentity",
+    "ValidateRequest",
+    "ValidateResponse",
+    "ValidationStatus",
     "VirtualHardDiskStatus",
     "VirtualHardDiskStatusProvisioningStatus",
     "VirtualHardDisks",
@@ -228,24 +415,51 @@ __all__ = [
     "VirtualMachineInstanceUpdateProperties",
     "VirtualMachineInstanceUpdateRequest",
     "VirtualMachineInstanceView",
+    "VirtualSwitchConfigurationOverrides",
     "ActionType",
+    "ArcSettingAggregateState",
+    "AvailabilityType",
     "CloudInitDataSource",
+    "ClusterNodeType",
+    "ComplianceAssignmentType",
+    "ComplianceStatus",
+    "ConnectivityStatus",
     "CreatedByType",
+    "DeploymentMode",
+    "DiagnosticLevel",
     "DiskFileFormat",
     "ExtendedLocationTypes",
+    "ExtensionAggregateState",
+    "ExtensionManagedBy",
+    "HealthState",
     "HyperVGeneration",
     "IPPoolTypeEnum",
+    "ImdsAttestation",
     "IpAllocationMethodEnum",
+    "ManagedServiceIdentityType",
+    "NodeArcState",
+    "NodeExtensionState",
+    "OemActivation",
     "OperatingSystemTypes",
     "Origin",
     "PowerStateEnum",
     "ProvisioningAction",
+    "ProvisioningState",
     "ProvisioningStateEnum",
+    "RebootRequirement",
     "SecurityTypes",
+    "ServiceName",
+    "Severity",
+    "SoftwareAssuranceIntent",
+    "SoftwareAssuranceStatus",
+    "State",
     "Status",
     "StatusLevelTypes",
     "StatusTypes",
+    "UpdateRunPropertiesState",
+    "UpdateSummariesPropertiesState",
     "VmSizeEnum",
+    "WindowsServerSubscription",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
