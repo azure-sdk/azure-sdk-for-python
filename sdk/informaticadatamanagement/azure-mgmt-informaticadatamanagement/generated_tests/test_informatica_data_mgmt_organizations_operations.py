@@ -22,7 +22,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
     @recorded_by_proxy
     def test_list_by_subscription(self, resource_group):
         response = self.client.organizations.list_by_subscription(
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
     def test_list_by_resource_group(self, resource_group):
         response = self.client.organizations.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
         response = self.client.organizations.get(
             resource_group_name=resource_group.name,
             organization_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -108,7 +108,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -153,7 +153,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
                 },
                 "tags": {"str": "str"},
             },
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -165,7 +165,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
         response = self.client.organizations.begin_delete(
             resource_group_name=resource_group.name,
             organization_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -177,7 +177,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
         response = self.client.organizations.get_all_serverless_runtimes(
             resource_group_name=resource_group.name,
             organization_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -189,7 +189,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
         response = self.client.organizations.get_serverless_metadata(
             resource_group_name=resource_group.name,
             organization_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
