@@ -6,9 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import TYPE_CHECKING, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.purview import PurviewManagementClient
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from .. import models as _models
 """
 # PREREQUISITES
     pip install azure-identity
@@ -29,13 +35,12 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.default_accounts.remove(
-        scope_tenant_id="11733A4E-BA84-46FF-91D1-AFF1A3215A90",
+    client.default_accounts.remove(
+        scope_tenant_id="ee85a74c-405e-4adc-bb47-ffa8ca0c9f31",
         scope_type="Tenant",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Remove.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-12-01/examples/DefaultAccounts_Remove.json
 if __name__ == "__main__":
     main()

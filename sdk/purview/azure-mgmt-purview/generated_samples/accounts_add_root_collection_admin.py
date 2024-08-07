@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.purview import PurviewManagementClient
 
 """
@@ -29,14 +32,13 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.accounts.add_root_collection_admin(
+    client.accounts.add_root_collection_admin(
         resource_group_name="SampleResourceGroup",
         account_name="account1",
         collection_admin_update={"objectId": "7e8de0e7-2bfc-4e1f-9659-2a5785e4356f"},
     )
-    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_AddRootCollectionAdmin.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-12-01/examples/Accounts_AddRootCollectionAdmin.json
 if __name__ == "__main__":
     main()

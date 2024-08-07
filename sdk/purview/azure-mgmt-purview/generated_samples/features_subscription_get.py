@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.purview import PurviewManagementClient
 
 """
@@ -14,7 +17,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python default_accounts_get.py
+    python features_subscription_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +29,16 @@ from azure.mgmt.purview import PurviewManagementClient
 def main():
     client = PurviewManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="12345678-1234-1234-12345678abc",
     )
 
-    response = client.default_accounts.get(
-        scope_tenant_id="11733A4E-BA84-46FF-91D1-AFF1A3215A90",
-        scope_type="Tenant",
+    response = client.features.subscription_get(
+        locations="eastus",
+        feature_request={"features": ["Feature1", "Feature2", "FeatureThatDoesntExist"]},
     )
     print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Get.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-12-01/examples/Features_SubscriptionGet.json
 if __name__ == "__main__":
     main()
