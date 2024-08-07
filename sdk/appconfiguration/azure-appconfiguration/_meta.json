@@ -1,0 +1,6 @@
+{
+  "commit": "2b76e7e130276878a1cfb691cc3e9504b5424831",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/appconfiguration/AppConfiguration",
+  "@azure-tools/typespec-python": "0.27.1"
+}
