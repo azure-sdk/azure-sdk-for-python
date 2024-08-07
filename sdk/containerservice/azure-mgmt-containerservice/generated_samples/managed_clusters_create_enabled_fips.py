@@ -52,7 +52,7 @@ def main():
                     }
                 ],
                 "autoScalerProfile": {"scale-down-delay-after-add": "15m", "scan-interval": "20s"},
-                "diskEncryptionSetID": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+                "diskEncryptionSetID": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
                 "dnsPrefix": "dnsprefix1",
                 "enablePodSecurityPolicy": False,
                 "enableRBAC": True,
@@ -73,6 +73,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-05-01/examples/ManagedClustersCreate_EnabledFIPS.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-07-02-preview/examples/ManagedClustersCreate_EnabledFIPS.json
 if __name__ == "__main__":
     main()
