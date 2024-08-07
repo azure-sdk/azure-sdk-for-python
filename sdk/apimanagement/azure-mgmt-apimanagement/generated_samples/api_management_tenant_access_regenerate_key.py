@@ -27,21 +27,20 @@ if TYPE_CHECKING:
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.tenant_access.regenerate_primary_key(
-        resource_group_name="rg1",
-        service_name="apimService1",
-        access_name="access",
+    client.tenant_access.regenerate_secondary_key(
+        resource_group_name='rg1',
+        service_name='apimService1',
+        access_name='access',
     )
 
-
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementTenantAccessRegenerateKey.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-09-01-preview/examples/ApiManagementTenantAccessRegenerateKey.json
 if __name__ == "__main__":
     main()
+)
+)
