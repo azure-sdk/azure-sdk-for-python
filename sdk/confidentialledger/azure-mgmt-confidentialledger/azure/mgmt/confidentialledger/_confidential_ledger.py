@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -39,7 +40,7 @@ class ConfidentialLedger(ConfidentialLedgerOperationsMixin):  # pylint: disable=
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-06-28-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-07-09-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -107,7 +108,7 @@ class ConfidentialLedger(ConfidentialLedgerOperationsMixin):  # pylint: disable=
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "ConfidentialLedger":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
