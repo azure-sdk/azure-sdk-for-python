@@ -9,6 +9,7 @@
 from ._subscriptions_operations import SubscriptionsOperations
 from ._tenants_operations import TenantsOperations
 from ._subscription_operations import SubscriptionOperations
+from ._subscription_operation_operations import SubscriptionOperationOperations
 from ._operations import Operations
 from ._alias_operations import AliasOperations
 from ._subscription_policy_operations import SubscriptionPolicyOperations
@@ -22,6 +23,7 @@ __all__ = [
     "SubscriptionsOperations",
     "TenantsOperations",
     "SubscriptionOperations",
+    "SubscriptionOperationOperations",
     "Operations",
     "AliasOperations",
     "SubscriptionPolicyOperations",

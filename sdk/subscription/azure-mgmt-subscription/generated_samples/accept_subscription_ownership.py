@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.subscription import SubscriptionClient
 
 """
@@ -28,7 +31,7 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.subscription.begin_accept_ownership(
+    client.subscription.begin_accept_ownership(
         subscription_id="291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
         body={
             "properties": {
@@ -38,7 +41,6 @@ def main():
             }
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/acceptSubscriptionOwnership.json
