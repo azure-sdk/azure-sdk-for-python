@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Optional, TypeVar, Union
+from typing import Any, Callable, Dict, Optional, Type, TypeVar, cast
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -18,20 +18,19 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import MicrosoftSerialConsoleClientMixinABC, _convert_request, _format_url_section
+from .._vendor import MicrosoftSerialConsoleClientMixinABC
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +42,7 @@ def build_list_operations_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2018-05-01"))  # type: Literal["2018-05-01"]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -62,7 +61,7 @@ def build_get_console_status_request(default: str, subscription_id: str, **kwarg
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2018-05-01"))  # type: Literal["2018-05-01"]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -74,7 +73,7 @@ def build_get_console_status_request(default: str, subscription_id: str, **kwarg
         "default": _SERIALIZER.url("default", default, "str"),
     }
 
-    _url = _format_url_section(_url, **path_format_arguments)
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -89,7 +88,7 @@ def build_disable_console_request(default: str, subscription_id: str, **kwargs: 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2018-05-01"))  # type: Literal["2018-05-01"]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -102,7 +101,7 @@ def build_disable_console_request(default: str, subscription_id: str, **kwargs: 
         "default": _SERIALIZER.url("default", default, "str"),
     }
 
-    _url = _format_url_section(_url, **path_format_arguments)
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -117,7 +116,7 @@ def build_enable_console_request(default: str, subscription_id: str, **kwargs: A
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2018-05-01"))  # type: Literal["2018-05-01"]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -130,7 +129,7 @@ def build_enable_console_request(default: str, subscription_id: str, **kwargs: A
         "default": _SERIALIZER.url("default", default, "str"),
     }
 
-    _url = _format_url_section(_url, **path_format_arguments)
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -141,17 +140,19 @@ def build_enable_console_request(default: str, subscription_id: str, **kwargs: A
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class MicrosoftSerialConsoleClientOperationsMixin(MicrosoftSerialConsoleClientMixinABC):
+class MicrosoftSerialConsoleClientOperationsMixin(  # pylint: disable=name-too-long
+    MicrosoftSerialConsoleClientMixinABC
+):
+
     @distributed_trace
     def list_operations(self, **kwargs: Any) -> _models.SerialConsoleOperations:
         """Gets a list of Serial Console API operations.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SerialConsoleOperations or the result of cls(response)
         :rtype: ~azure.mgmt.serialconsole.models.SerialConsoleOperations
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -162,22 +163,19 @@ class MicrosoftSerialConsoleClientOperationsMixin(MicrosoftSerialConsoleClientMi
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )  # type: Literal["2018-05-01"]
-        cls = kwargs.pop("cls", None)  # type: ClsType[_models.SerialConsoleOperations]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.SerialConsoleOperations] = kwargs.pop("cls", None)
 
-        request = build_list_operations_request(
+        _request = build_list_operations_request(
             api_version=api_version,
-            template_url=self.list_operations.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        _request.url = self._client.format_url(_request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -186,218 +184,189 @@ class MicrosoftSerialConsoleClientOperationsMixin(MicrosoftSerialConsoleClientMi
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SerialConsoleOperations", pipeline_response)
+        deserialized = self._deserialize("SerialConsoleOperations", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_operations.metadata = {"url": "/providers/Microsoft.SerialConsole/operations"}  # type: ignore
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def get_console_status(
-        self, default: str, **kwargs: Any
-    ) -> Union[_models.SerialConsoleStatus, _models.GetSerialConsoleSubscriptionNotFound]:
+    def get_console_status(self, default: str, **kwargs: Any) -> _models.SerialConsoleStatus:
         """Get the disabled status for a subscription.
 
         Gets whether or not Serial Console is disabled for a given subscription.
 
         :param default: Default parameter. Leave the value as "default". Required.
         :type default: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: SerialConsoleStatus or GetSerialConsoleSubscriptionNotFound or the result of
-         cls(response)
-        :rtype: ~azure.mgmt.serialconsole.models.SerialConsoleStatus or
-         ~azure.mgmt.serialconsole.models.GetSerialConsoleSubscriptionNotFound
+        :return: SerialConsoleStatus or the result of cls(response)
+        :rtype: ~azure.mgmt.serialconsole.models.SerialConsoleStatus
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
+            404: cast(
+                Type[HttpResponseError],
+                lambda response: ResourceNotFoundError(
+                    response=response,
+                    model=self._deserialize(_models.GetSerialConsoleSubscriptionNotFound, response),
+                    error_format=ARMErrorFormat,
+                ),
+            ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )  # type: Literal["2018-05-01"]
-        cls = kwargs.pop(
-            "cls", None
-        )  # type: ClsType[Union[_models.SerialConsoleStatus, _models.GetSerialConsoleSubscriptionNotFound]]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.SerialConsoleStatus] = kwargs.pop("cls", None)
 
-        request = build_get_console_status_request(
+        _request = build_get_console_status_request(
             default=default,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_console_status.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        _request.url = self._client.format_url(_request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 404]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)  # type: ignore
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("SerialConsoleStatus", pipeline_response)
-
-        if response.status_code == 404:
-            deserialized = self._deserialize("GetSerialConsoleSubscriptionNotFound", pipeline_response)
+        deserialized = self._deserialize("SerialConsoleStatus", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_console_status.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}"}  # type: ignore
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def disable_console(
-        self, default: str, **kwargs: Any
-    ) -> Union[_models.DisableSerialConsoleResult, _models.GetSerialConsoleSubscriptionNotFound]:
+    def disable_console(self, default: str, **kwargs: Any) -> _models.DisableSerialConsoleResult:
         """Disable Serial Console for a subscription.
 
         Disables the Serial Console service for all VMs and VM scale sets in the provided subscription.
 
         :param default: Default parameter. Leave the value as "default". Required.
         :type default: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DisableSerialConsoleResult or GetSerialConsoleSubscriptionNotFound or the result of
-         cls(response)
-        :rtype: ~azure.mgmt.serialconsole.models.DisableSerialConsoleResult or
-         ~azure.mgmt.serialconsole.models.GetSerialConsoleSubscriptionNotFound
+        :return: DisableSerialConsoleResult or the result of cls(response)
+        :rtype: ~azure.mgmt.serialconsole.models.DisableSerialConsoleResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
+            404: cast(
+                Type[HttpResponseError],
+                lambda response: ResourceNotFoundError(
+                    response=response,
+                    model=self._deserialize(_models.GetSerialConsoleSubscriptionNotFound, response),
+                    error_format=ARMErrorFormat,
+                ),
+            ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )  # type: Literal["2018-05-01"]
-        cls = kwargs.pop(
-            "cls", None
-        )  # type: ClsType[Union[_models.DisableSerialConsoleResult, _models.GetSerialConsoleSubscriptionNotFound]]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.DisableSerialConsoleResult] = kwargs.pop("cls", None)
 
-        request = build_disable_console_request(
+        _request = build_disable_console_request(
             default=default,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.disable_console.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        _request.url = self._client.format_url(_request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 404]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)  # type: ignore
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("DisableSerialConsoleResult", pipeline_response)
-
-        if response.status_code == 404:
-            deserialized = self._deserialize("GetSerialConsoleSubscriptionNotFound", pipeline_response)
+        deserialized = self._deserialize("DisableSerialConsoleResult", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    disable_console.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole"}  # type: ignore
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def enable_console(
-        self, default: str, **kwargs: Any
-    ) -> Union[_models.EnableSerialConsoleResult, _models.GetSerialConsoleSubscriptionNotFound]:
+    def enable_console(self, default: str, **kwargs: Any) -> _models.EnableSerialConsoleResult:
         """Enable Serial Console for a subscription.
 
         Enables the Serial Console service for all VMs and VM scale sets in the provided subscription.
 
         :param default: Default parameter. Leave the value as "default". Required.
         :type default: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: EnableSerialConsoleResult or GetSerialConsoleSubscriptionNotFound or the result of
-         cls(response)
-        :rtype: ~azure.mgmt.serialconsole.models.EnableSerialConsoleResult or
-         ~azure.mgmt.serialconsole.models.GetSerialConsoleSubscriptionNotFound
+        :return: EnableSerialConsoleResult or the result of cls(response)
+        :rtype: ~azure.mgmt.serialconsole.models.EnableSerialConsoleResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
+            404: cast(
+                Type[HttpResponseError],
+                lambda response: ResourceNotFoundError(
+                    response=response,
+                    model=self._deserialize(_models.GetSerialConsoleSubscriptionNotFound, response),
+                    error_format=ARMErrorFormat,
+                ),
+            ),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )  # type: Literal["2018-05-01"]
-        cls = kwargs.pop(
-            "cls", None
-        )  # type: ClsType[Union[_models.EnableSerialConsoleResult, _models.GetSerialConsoleSubscriptionNotFound]]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.EnableSerialConsoleResult] = kwargs.pop("cls", None)
 
-        request = build_enable_console_request(
+        _request = build_enable_console_request(
             default=default,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.enable_console.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        _request.url = self._client.format_url(_request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 404]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)  # type: ignore
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("EnableSerialConsoleResult", pipeline_response)
-
-        if response.status_code == 404:
-            deserialized = self._deserialize("GetSerialConsoleSubscriptionNotFound", pipeline_response)
+        deserialized = self._deserialize("EnableSerialConsoleResult", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    enable_console.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole"}  # type: ignore
+        return deserialized  # type: ignore
