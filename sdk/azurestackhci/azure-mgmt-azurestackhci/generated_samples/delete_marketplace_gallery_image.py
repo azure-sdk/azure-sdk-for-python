@@ -7,8 +7,8 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.azurestackhci import AzureStackHCIClient
 
+from azure.mgmt.azurestackhci import AzureStackHCIClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,8 +21,6 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = AzureStackHCIClient(
         credential=DefaultAzureCredential(),
@@ -30,11 +28,10 @@ def main():
     )
 
     client.marketplace_gallery_images.begin_delete(
-        resource_group_name="test-rg",
-        marketplace_gallery_image_name="test-marketplace-gallery-image",
+        resource_group_name='test-rg',
+        marketplace_gallery_image_name='test-marketplace-gallery-image',
     ).result()
 
-
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/DeleteMarketplaceGalleryImage.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/DeleteMarketplaceGalleryImage.json
 if __name__ == "__main__":
     main()

@@ -7,8 +7,8 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.azurestackhci import AzureStackHCIClient
 
+from azure.mgmt.azurestackhci import AzureStackHCIClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,8 +21,6 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = AzureStackHCIClient(
         credential=DefaultAzureCredential(),
@@ -30,11 +28,10 @@ def main():
     )
 
     response = client.virtual_machine_instances.begin_stop(
-        resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/Microsoft.HybridCompute/machines/DemoVM/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+        resource_uri='subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/Microsoft.HybridCompute/machines/DemoVM/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default',
     ).result()
     print(response)
 
-
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/StopVirtualMachineInstance.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/StopVirtualMachineInstance.json
 if __name__ == "__main__":
     main()
