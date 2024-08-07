@@ -21,7 +21,7 @@ class AccountSasParameters(_serialization.Model):
     """Parameters used to create an account Shared Access Signature (SAS) token. The REST API access
     control is provided by Azure Maps Role Based Access (RBAC) identity and access.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar signing_key: The Map account key to use for signing. Picking ``primaryKey`` or
      ``secondaryKey`` will use the Map account Shared Keys, and using ``managedIdentity`` will use
@@ -117,7 +117,7 @@ class AccountSasParameters(_serialization.Model):
 class CorsRule(_serialization.Model):
     """Specifies a CORS rule for the Map Account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar allowed_origins: Required if CorsRule element is present. A list of origin domains that
      will be allowed via CORS, or "*" to allow all domains. Required.
@@ -174,7 +174,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -209,10 +209,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -258,10 +258,10 @@ class Creator(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -355,7 +355,7 @@ class CreatorProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The state of the resource provisioning, terminal states: Succeeded,
      Failed, Canceled.
@@ -733,12 +733,12 @@ class LinkedResource(_serialization.Model):
     resource ``uniqueName`` value as an optional parameter for operations on Azure Maps Geospatial
     REST APIs.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar unique_name: A provided name which uniquely identifies the linked resource. Required.
     :vartype unique_name: str
     :ivar id: ARM resource id in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.  # pylint: disable=line-too-long
      Required.
     :vartype id: str
     """
@@ -758,7 +758,7 @@ class LinkedResource(_serialization.Model):
         :keyword unique_name: A provided name which uniquely identifies the linked resource. Required.
         :paramtype unique_name: str
         :keyword id: ARM resource id in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.  # pylint: disable=line-too-long
          Required.
         :paramtype id: str
         """
@@ -767,12 +767,38 @@ class LinkedResource(_serialization.Model):
         self.id = id
 
 
+class LocationsItem(_serialization.Model):
+    """Data processing location.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar location_name: The location name. Required.
+    :vartype location_name: str
+    """
+
+    _validation = {
+        "location_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "location_name": {"key": "locationName", "type": "str"},
+    }
+
+    def __init__(self, *, location_name: str, **kwargs: Any) -> None:
+        """
+        :keyword location_name: The location name. Required.
+        :paramtype location_name: str
+        """
+        super().__init__(**kwargs)
+        self.location_name = location_name
+
+
 class ManagedServiceIdentity(_serialization.Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -786,7 +812,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.maps.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str, ~azure.mgmt.maps.models.UserAssignedIdentity]
     """
@@ -818,7 +844,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.maps.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.maps.models.UserAssignedIdentity]
         """
@@ -834,10 +860,10 @@ class MapsAccount(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -850,7 +876,7 @@ class MapsAccount(TrackedResource):
     :vartype location: str
     :ivar sku: The SKU of this account. Required.
     :vartype sku: ~azure.mgmt.maps.models.Sku
-    :ivar kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
+    :ivar kind: Get or Set Kind property. "Gen2"
     :vartype kind: str or ~azure.mgmt.maps.models.Kind
     :ivar system_data: Metadata pertaining to creation and last modification of the resource.
     :vartype system_data: ~azure.mgmt.maps.models.SystemData
@@ -888,7 +914,7 @@ class MapsAccount(TrackedResource):
         location: str,
         sku: "_models.Sku",
         tags: Optional[Dict[str, str]] = None,
-        kind: Union[str, "_models.Kind"] = "Gen1",
+        kind: Union[str, "_models.Kind"] = "Gen2",
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         properties: Optional["_models.MapsAccountProperties"] = None,
         **kwargs: Any
@@ -900,7 +926,7 @@ class MapsAccount(TrackedResource):
         :paramtype location: str
         :keyword sku: The SKU of this account. Required.
         :paramtype sku: ~azure.mgmt.maps.models.Sku
-        :keyword kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
+        :keyword kind: Get or Set Kind property. "Gen2"
         :paramtype kind: str or ~azure.mgmt.maps.models.Kind
         :keyword identity: Managed service identity (system assigned and/or user assigned identities).
         :paramtype identity: ~azure.mgmt.maps.models.ManagedServiceIdentity
@@ -981,6 +1007,10 @@ class MapsAccountProperties(_serialization.Model):
      it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example
      of this. Values are enabled and disabled.
     :vartype encryption: ~azure.mgmt.maps.models.Encryption
+    :ivar locations: List of enabled data processing locations for the Maps Account. If no
+     locations are set, Azure REST APIs will only enable features available in the Maps Account's
+     location.
+    :vartype locations: list[~azure.mgmt.maps.models.LocationsItem]
     """
 
     _validation = {
@@ -996,6 +1026,7 @@ class MapsAccountProperties(_serialization.Model):
         "linked_resources": {"key": "linkedResources", "type": "[LinkedResource]"},
         "cors": {"key": "cors", "type": "CorsRules"},
         "encryption": {"key": "encryption", "type": "Encryption"},
+        "locations": {"key": "locations", "type": "[LocationsItem]"},
     }
 
     def __init__(
@@ -1005,6 +1036,7 @@ class MapsAccountProperties(_serialization.Model):
         linked_resources: Optional[List["_models.LinkedResource"]] = None,
         cors: Optional["_models.CorsRules"] = None,
         encryption: Optional["_models.Encryption"] = None,
+        locations: Optional[List["_models.LocationsItem"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1025,6 +1057,10 @@ class MapsAccountProperties(_serialization.Model):
          where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an
          example of this. Values are enabled and disabled.
         :paramtype encryption: ~azure.mgmt.maps.models.Encryption
+        :keyword locations: List of enabled data processing locations for the Maps Account. If no
+         locations are set, Azure REST APIs will only enable features available in the Maps Account's
+         location.
+        :paramtype locations: list[~azure.mgmt.maps.models.LocationsItem]
         """
         super().__init__(**kwargs)
         self.unique_id = None
@@ -1033,6 +1069,7 @@ class MapsAccountProperties(_serialization.Model):
         self.linked_resources = linked_resources
         self.cors = cors
         self.encryption = encryption
+        self.locations = locations
 
 
 class MapsAccounts(_serialization.Model):
@@ -1091,7 +1128,7 @@ class MapsAccountSasToken(_serialization.Model):
         self.account_sas_token = None
 
 
-class MapsAccountUpdateParameters(_serialization.Model):
+class MapsAccountUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Parameters used to update an existing Maps Account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1101,7 +1138,7 @@ class MapsAccountUpdateParameters(_serialization.Model):
      can be provided for a resource. Each tag must have a key no greater than 128 characters and
      value no greater than 256 characters.
     :vartype tags: dict[str, str]
-    :ivar kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
+    :ivar kind: Get or Set Kind property. "Gen2"
     :vartype kind: str or ~azure.mgmt.maps.models.Kind
     :ivar sku: The SKU of this account.
     :vartype sku: ~azure.mgmt.maps.models.Sku
@@ -1129,6 +1166,10 @@ class MapsAccountUpdateParameters(_serialization.Model):
      it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example
      of this. Values are enabled and disabled.
     :vartype encryption: ~azure.mgmt.maps.models.Encryption
+    :ivar locations: List of enabled data processing locations for the Maps Account. If no
+     locations are set, Azure REST APIs will only enable features available in the Maps Account's
+     location.
+    :vartype locations: list[~azure.mgmt.maps.models.LocationsItem]
     """
 
     _validation = {
@@ -1148,19 +1189,21 @@ class MapsAccountUpdateParameters(_serialization.Model):
         "linked_resources": {"key": "properties.linkedResources", "type": "[LinkedResource]"},
         "cors": {"key": "properties.cors", "type": "CorsRules"},
         "encryption": {"key": "properties.encryption", "type": "Encryption"},
+        "locations": {"key": "properties.locations", "type": "[LocationsItem]"},
     }
 
     def __init__(
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
-        kind: Union[str, "_models.Kind"] = "Gen1",
+        kind: Union[str, "_models.Kind"] = "Gen2",
         sku: Optional["_models.Sku"] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         disable_local_auth: bool = False,
         linked_resources: Optional[List["_models.LinkedResource"]] = None,
         cors: Optional["_models.CorsRules"] = None,
         encryption: Optional["_models.Encryption"] = None,
+        locations: Optional[List["_models.LocationsItem"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1169,7 +1212,7 @@ class MapsAccountUpdateParameters(_serialization.Model):
          tags can be provided for a resource. Each tag must have a key no greater than 128 characters
          and value no greater than 256 characters.
         :paramtype tags: dict[str, str]
-        :keyword kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
+        :keyword kind: Get or Set Kind property. "Gen2"
         :paramtype kind: str or ~azure.mgmt.maps.models.Kind
         :keyword sku: The SKU of this account.
         :paramtype sku: ~azure.mgmt.maps.models.Sku
@@ -1192,6 +1235,10 @@ class MapsAccountUpdateParameters(_serialization.Model):
          where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an
          example of this. Values are enabled and disabled.
         :paramtype encryption: ~azure.mgmt.maps.models.Encryption
+        :keyword locations: List of enabled data processing locations for the Maps Account. If no
+         locations are set, Azure REST APIs will only enable features available in the Maps Account's
+         location.
+        :paramtype locations: list[~azure.mgmt.maps.models.LocationsItem]
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -1204,12 +1251,13 @@ class MapsAccountUpdateParameters(_serialization.Model):
         self.linked_resources = linked_resources
         self.cors = cors
         self.encryption = encryption
+        self.locations = locations
 
 
 class MapsKeySpecification(_serialization.Model):
     """Whether the operation refers to the primary or secondary key.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_type: Whether the operation refers to the primary or secondary key. Required. Known
      values are: "primary" and "secondary".
@@ -1508,10 +1556,9 @@ class Sku(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar name: The name of the SKU, in standard format (such as S0). Required. Known values are:
-     "S0", "S1", and "G2".
+    :ivar name: The name of the SKU, in standard format (such as S0). Required. "G2"
     :vartype name: str or ~azure.mgmt.maps.models.Name
     :ivar tier: Gets the sku tier. This is based on the SKU name.
     :vartype tier: str
@@ -1529,8 +1576,7 @@ class Sku(_serialization.Model):
 
     def __init__(self, *, name: Union[str, "_models.Name"], **kwargs: Any) -> None:
         """
-        :keyword name: The name of the SKU, in standard format (such as S0). Required. Known values
-         are: "S0", "S1", and "G2".
+        :keyword name: The name of the SKU, in standard format (such as S0). Required. "G2"
         :paramtype name: str or ~azure.mgmt.maps.models.Name
         """
         super().__init__(**kwargs)

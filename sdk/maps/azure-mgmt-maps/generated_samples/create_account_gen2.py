@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.maps import AzureMapsManagementClient
 
 """
@@ -38,6 +41,7 @@ def main():
             "properties": {
                 "cors": {"corsRules": [{"allowedOrigins": ["http://www.contoso.com", "http://www.fabrikam.com"]}]},
                 "disableLocalAuth": True,
+                "locations": [{"locationName": "northeurope"}],
             },
             "sku": {"name": "G2"},
             "tags": {"test": "true"},
@@ -46,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountGen2.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-07-01-preview/examples/CreateAccountGen2.json
 if __name__ == "__main__":
     main()

@@ -44,7 +44,6 @@ class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The Kind of the Maps Account."""
 
-    GEN1 = "Gen1"
     GEN2 = "Gen2"
 
 
@@ -62,8 +61,6 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class Name(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The name of the SKU, in standard format (such as S0)."""
 
-    S0 = "S0"
-    S1 = "S1"
     G2 = "G2"
 
 
