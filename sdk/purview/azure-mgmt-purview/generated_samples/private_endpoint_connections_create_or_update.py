@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.purview import PurviewManagementClient
 
 """
@@ -45,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/PrivateEndpointConnections_CreateOrUpdate.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-12-01/examples/PrivateEndpointConnections_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

@@ -8,19 +8,25 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 
-from . import models
+from . import models as _models
 from ._configuration import PurviewManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
     AccountsOperations,
     DefaultAccountsOperations,
+    FeaturesOperations,
+    KafkaConfigurationsOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
+    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -28,13 +34,17 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Creates a Microsoft.Purview management client.
 
     :ivar accounts: AccountsOperations operations
     :vartype accounts: azure.mgmt.purview.operations.AccountsOperations
     :ivar default_accounts: DefaultAccountsOperations operations
     :vartype default_accounts: azure.mgmt.purview.operations.DefaultAccountsOperations
+    :ivar features: FeaturesOperations operations
+    :vartype features: azure.mgmt.purview.operations.FeaturesOperations
+    :ivar kafka_configurations: KafkaConfigurationsOperations operations
+    :vartype kafka_configurations: azure.mgmt.purview.operations.KafkaConfigurationsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.purview.operations.Operations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
@@ -42,13 +52,15 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
      azure.mgmt.purview.operations.PrivateEndpointConnectionsOperations
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
     :vartype private_link_resources: azure.mgmt.purview.operations.PrivateLinkResourcesOperations
+    :ivar usages: UsagesOperations operations
+    :vartype usages: azure.mgmt.purview.operations.UsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The subscription identifier. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2021-07-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2021-12-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -65,14 +77,36 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = PurviewManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.accounts = AccountsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.default_accounts = DefaultAccountsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.features = FeaturesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.kafka_configurations = KafkaConfigurationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
@@ -82,8 +116,9 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.private_link_resources = PrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
+    def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -103,17 +138,14 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
-    def close(self):
-        # type: () -> None
+    def close(self) -> None:
         self._client.close()
 
-    def __enter__(self):
-        # type: () -> PurviewManagementClient
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details):
-        # type: (Any) -> None
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
