@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.maps import AzureMapsManagementClient
 
 """
@@ -37,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/GetMapsCreator.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2024-07-01-preview/examples/GetMapsCreator.json
 if __name__ == "__main__":
     main()
