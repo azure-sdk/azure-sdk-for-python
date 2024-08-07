@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.voiceservices import VoiceServicesMgmtClient
 
 """
@@ -36,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/CommunicationsGateways_Get.json
+# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-09-01/examples/CommunicationsGateways_Get.json
 if __name__ == "__main__":
     main()
