@@ -51,8 +51,12 @@ def main():
                         "ledgerRoleName": "Reader",
                     }
                 ],
+                "hostLevel": "Info",
                 "ledgerSku": "Standard",
                 "ledgerType": "Public",
+                "maxBodySizeInMb": 1,
+                "nodeCount": 3,
+                "subjectName": "CN=CCF Node",
             },
             "tags": {"additionalProps1": "additional properties"},
         },
@@ -60,6 +64,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Create.json
+# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-07-09-preview/examples/ConfidentialLedger_Create.json
 if __name__ == "__main__":
     main()
