@@ -8,20 +8,60 @@
 # --------------------------------------------------------------------------
 
 import datetime
-import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+
+
+class ApiBridgeProperties(_serialization.Model):
+    """Configuration of the API Bridge.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar configure_api_bridge: The activation state of the API Bridge for this Communications
+     Gateway. Known values are: "enabled" and "disabled".
+    :vartype configure_api_bridge: str or ~azure.mgmt.voiceservices.models.ApiBridgeActivationState
+    :ivar endpoint_fqdns: FQDNs for sending requests to the API Bridge endpoint.
+    :vartype endpoint_fqdns: list[str]
+    :ivar allowed_address_prefixes: The allowed source IP addresses or CIDR ranges for accessing
+     the API Bridge.
+    :vartype allowed_address_prefixes: list[str]
+    """
+
+    _validation = {
+        "endpoint_fqdns": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "configure_api_bridge": {"key": "configureApiBridge", "type": "str"},
+        "endpoint_fqdns": {"key": "endpointFqdns", "type": "[str]"},
+        "allowed_address_prefixes": {"key": "allowedAddressPrefixes", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        configure_api_bridge: Optional[Union[str, "_models.ApiBridgeActivationState"]] = None,
+        allowed_address_prefixes: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword configure_api_bridge: The activation state of the API Bridge for this Communications
+         Gateway. Known values are: "enabled" and "disabled".
+        :paramtype configure_api_bridge: str or
+         ~azure.mgmt.voiceservices.models.ApiBridgeActivationState
+        :keyword allowed_address_prefixes: The allowed source IP addresses or CIDR ranges for accessing
+         the API Bridge.
+        :paramtype allowed_address_prefixes: list[str]
+        """
+        super().__init__(**kwargs)
+        self.configure_api_bridge = configure_api_bridge
+        self.endpoint_fqdns = None
+        self.allowed_address_prefixes = allowed_address_prefixes
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -97,7 +137,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -138,10 +178,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -191,10 +231,10 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -208,6 +248,10 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.voiceservices.models.ManagedServiceIdentity
+    :ivar sku: The SKU (Stock Keeping Unit) assigned to this resource.
+    :vartype sku: ~azure.mgmt.voiceservices.models.Sku
     :ivar provisioning_state: Resource provisioning state. Known values are: "Succeeded", "Failed",
      and "Canceled".
     :vartype provisioning_state: str or ~azure.mgmt.voiceservices.models.ProvisioningState
@@ -225,7 +269,7 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
     :ivar platforms: What platforms to support.
     :vartype platforms: list[str or ~azure.mgmt.voiceservices.models.CommunicationsPlatform]
     :ivar api_bridge: Details of API bridge functionality, if required.
-    :vartype api_bridge: JSON
+    :vartype api_bridge: ~azure.mgmt.voiceservices.models.ApiBridgeProperties
     :ivar auto_generated_domain_name_label_scope: The scope at which the auto-generated domain name
      can be re-used. Known values are: "TenantReuse", "SubscriptionReuse", "ResourceGroupReuse", and
      "NoReuse".
@@ -239,8 +283,21 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
     :vartype teams_voicemail_pilot_number: str
     :ivar on_prem_mcp_enabled: Whether an on-premises Mobile Control Point is in use.
     :vartype on_prem_mcp_enabled: bool
+    :ivar integrated_mcp_enabled: Whether an integrated Mobile Control Point is in use.
+    :vartype integrated_mcp_enabled: bool
     :ivar emergency_dial_strings: A list of dial strings used for emergency calling.
     :vartype emergency_dial_strings: list[str]
+    :ivar dns_delegations: Details of DNS Domains to delegate to the Communications Gateway.
+    :vartype dns_delegations: ~azure.mgmt.voiceservices.models.DnsDelegationsProperties
+    :ivar custom_sip_headers: Custom SIP Header to add to any subscriber with a custom_header
+     value, if required.
+    :vartype custom_sip_headers: ~azure.mgmt.voiceservices.models.CustomSipHeadersProperties
+    :ivar allocated_signaling_address_prefixes: A list of IP allocated prefixes which may be used
+     to receive signaling data from this Communications Gateway.
+    :vartype allocated_signaling_address_prefixes: list[str]
+    :ivar allocated_media_address_prefixes: A list of allocated IP prefixes which may be used to
+     receive media data from this Communications Gateway.
+    :vartype allocated_media_address_prefixes: list[str]
     """
 
     _validation = {
@@ -253,6 +310,8 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         "status": {"readonly": True},
         "platforms": {"min_items": 1},
         "auto_generated_domain_name_label": {"readonly": True},
+        "allocated_signaling_address_prefixes": {"readonly": True},
+        "allocated_media_address_prefixes": {"readonly": True},
     }
 
     _attribute_map = {
@@ -262,6 +321,8 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "sku": {"key": "sku", "type": "Sku"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "service_locations": {"key": "properties.serviceLocations", "type": "[ServiceRegionProperties]"},
@@ -269,7 +330,7 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         "codecs": {"key": "properties.codecs", "type": "[str]"},
         "e911_type": {"key": "properties.e911Type", "type": "str"},
         "platforms": {"key": "properties.platforms", "type": "[str]"},
-        "api_bridge": {"key": "properties.apiBridge", "type": "object"},
+        "api_bridge": {"key": "properties.apiBridge", "type": "ApiBridgeProperties"},
         "auto_generated_domain_name_label_scope": {
             "key": "properties.autoGeneratedDomainNameLabelScope",
             "type": "str",
@@ -277,26 +338,39 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         "auto_generated_domain_name_label": {"key": "properties.autoGeneratedDomainNameLabel", "type": "str"},
         "teams_voicemail_pilot_number": {"key": "properties.teamsVoicemailPilotNumber", "type": "str"},
         "on_prem_mcp_enabled": {"key": "properties.onPremMcpEnabled", "type": "bool"},
+        "integrated_mcp_enabled": {"key": "properties.integratedMcpEnabled", "type": "bool"},
         "emergency_dial_strings": {"key": "properties.emergencyDialStrings", "type": "[str]"},
+        "dns_delegations": {"key": "properties.dnsDelegations", "type": "DnsDelegationsProperties"},
+        "custom_sip_headers": {"key": "properties.customSipHeaders", "type": "CustomSipHeadersProperties"},
+        "allocated_signaling_address_prefixes": {
+            "key": "properties.allocatedSignalingAddressPrefixes",
+            "type": "[str]",
+        },
+        "allocated_media_address_prefixes": {"key": "properties.allocatedMediaAddressPrefixes", "type": "[str]"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        sku: Optional["_models.Sku"] = None,
         service_locations: Optional[List["_models.ServiceRegionProperties"]] = None,
         connectivity: Optional[Union[str, "_models.Connectivity"]] = None,
         codecs: Optional[List[Union[str, "_models.TeamsCodecs"]]] = None,
         e911_type: Optional[Union[str, "_models.E911Type"]] = None,
         platforms: Optional[List[Union[str, "_models.CommunicationsPlatform"]]] = None,
-        api_bridge: Optional[JSON] = None,
+        api_bridge: Optional["_models.ApiBridgeProperties"] = None,
         auto_generated_domain_name_label_scope: Optional[
             Union[str, "_models.AutoGeneratedDomainNameLabelScope"]
         ] = None,
         teams_voicemail_pilot_number: Optional[str] = None,
         on_prem_mcp_enabled: bool = False,
+        integrated_mcp_enabled: bool = False,
         emergency_dial_strings: List[str] = ["911", "933"],
+        dns_delegations: Optional["_models.DnsDelegationsProperties"] = None,
+        custom_sip_headers: Optional["_models.CustomSipHeadersProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -304,6 +378,10 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.voiceservices.models.ManagedServiceIdentity
+        :keyword sku: The SKU (Stock Keeping Unit) assigned to this resource.
+        :paramtype sku: ~azure.mgmt.voiceservices.models.Sku
         :keyword service_locations: The regions in which to deploy the resources needed for Teams
          Calling.
         :paramtype service_locations: list[~azure.mgmt.voiceservices.models.ServiceRegionProperties]
@@ -316,7 +394,7 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         :keyword platforms: What platforms to support.
         :paramtype platforms: list[str or ~azure.mgmt.voiceservices.models.CommunicationsPlatform]
         :keyword api_bridge: Details of API bridge functionality, if required.
-        :paramtype api_bridge: JSON
+        :paramtype api_bridge: ~azure.mgmt.voiceservices.models.ApiBridgeProperties
         :keyword auto_generated_domain_name_label_scope: The scope at which the auto-generated domain
          name can be re-used. Known values are: "TenantReuse", "SubscriptionReuse",
          "ResourceGroupReuse", and "NoReuse".
@@ -327,10 +405,19 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         :paramtype teams_voicemail_pilot_number: str
         :keyword on_prem_mcp_enabled: Whether an on-premises Mobile Control Point is in use.
         :paramtype on_prem_mcp_enabled: bool
+        :keyword integrated_mcp_enabled: Whether an integrated Mobile Control Point is in use.
+        :paramtype integrated_mcp_enabled: bool
         :keyword emergency_dial_strings: A list of dial strings used for emergency calling.
         :paramtype emergency_dial_strings: list[str]
+        :keyword dns_delegations: Details of DNS Domains to delegate to the Communications Gateway.
+        :paramtype dns_delegations: ~azure.mgmt.voiceservices.models.DnsDelegationsProperties
+        :keyword custom_sip_headers: Custom SIP Header to add to any subscriber with a custom_header
+         value, if required.
+        :paramtype custom_sip_headers: ~azure.mgmt.voiceservices.models.CustomSipHeadersProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.sku = sku
         self.provisioning_state = None
         self.status = None
         self.service_locations = service_locations
@@ -343,13 +430,18 @@ class CommunicationsGateway(TrackedResource):  # pylint: disable=too-many-instan
         self.auto_generated_domain_name_label = None
         self.teams_voicemail_pilot_number = teams_voicemail_pilot_number
         self.on_prem_mcp_enabled = on_prem_mcp_enabled
+        self.integrated_mcp_enabled = integrated_mcp_enabled
         self.emergency_dial_strings = emergency_dial_strings
+        self.dns_delegations = dns_delegations
+        self.custom_sip_headers = custom_sip_headers
+        self.allocated_signaling_address_prefixes = None
+        self.allocated_media_address_prefixes = None
 
 
 class CommunicationsGatewayListResult(_serialization.Model):
     """The response of a CommunicationsGateway list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The CommunicationsGateway items on this page. Required.
     :vartype value: list[~azure.mgmt.voiceservices.models.CommunicationsGateway]
@@ -383,21 +475,134 @@ class CommunicationsGatewayListResult(_serialization.Model):
 class CommunicationsGatewayUpdate(_serialization.Model):
     """The type used for update operations of the CommunicationsGateway.
 
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.voiceservices.models.ManagedServiceIdentity
+    :ivar sku: The SKU (Stock Keeping Unit) assigned to this resource.
+    :vartype sku: ~azure.mgmt.voiceservices.models.Sku
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     """
 
     _attribute_map = {
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "sku": {"key": "sku", "type": "Sku"},
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        sku: Optional["_models.Sku"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.voiceservices.models.ManagedServiceIdentity
+        :keyword sku: The SKU (Stock Keeping Unit) assigned to this resource.
+        :paramtype sku: ~azure.mgmt.voiceservices.models.Sku
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
+        self.identity = identity
+        self.sku = sku
         self.tags = tags
+
+
+class CustomSipHeader(_serialization.Model):
+    """Details of a Custom SIP Header.
+
+    :ivar name: The name of the Custom SIP Header.
+    :vartype name: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: The name of the Custom SIP Header.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+
+
+class CustomSipHeadersProperties(_serialization.Model):
+    """Properties of Custom SIP Headers.
+
+    :ivar headers: The Custom SIP Headers to apply to the calls which traverse the Communications
+     Gateway.
+    :vartype headers: list[~azure.mgmt.voiceservices.models.CustomSipHeader]
+    """
+
+    _attribute_map = {
+        "headers": {"key": "headers", "type": "[CustomSipHeader]"},
+    }
+
+    def __init__(self, *, headers: Optional[List["_models.CustomSipHeader"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword headers: The Custom SIP Headers to apply to the calls which traverse the
+         Communications Gateway.
+        :paramtype headers: list[~azure.mgmt.voiceservices.models.CustomSipHeader]
+        """
+        super().__init__(**kwargs)
+        self.headers = headers
+
+
+class DnsDelegationProperties(_serialization.Model):
+    """Details of a DNS Domain delegated to the Communications Gateway.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar domain: Domain name to delegate.
+    :vartype domain: str
+    :ivar name_servers: The Azure-hosted DNS Name Servers for the delegated DNS Zones.
+    :vartype name_servers: list[str]
+    """
+
+    _validation = {
+        "name_servers": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "domain": {"key": "domain", "type": "str"},
+        "name_servers": {"key": "nameServers", "type": "[str]"},
+    }
+
+    def __init__(self, *, domain: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword domain: Domain name to delegate.
+        :paramtype domain: str
+        """
+        super().__init__(**kwargs)
+        self.domain = domain
+        self.name_servers = None
+
+
+class DnsDelegationsProperties(_serialization.Model):
+    """Details of DNS Domains delegated to the Communications Gateway.
+
+    :ivar delegations: DNS Domains to delegate for the creation of DNS Zones by the Azure
+     Communications Gateway.
+    :vartype delegations: list[~azure.mgmt.voiceservices.models.DnsDelegationProperties]
+    """
+
+    _attribute_map = {
+        "delegations": {"key": "delegations", "type": "[DnsDelegationProperties]"},
+    }
+
+    def __init__(self, *, delegations: Optional[List["_models.DnsDelegationProperties"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword delegations: DNS Domains to delegate for the creation of DNS Zones by the Azure
+         Communications Gateway.
+        :paramtype delegations: list[~azure.mgmt.voiceservices.models.DnsDelegationProperties]
+        """
+        super().__init__(**kwargs)
+        self.delegations = delegations
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -490,6 +695,70 @@ class ErrorResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.error = error
+
+
+class ManagedServiceIdentity(_serialization.Model):
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
+     are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+     "SystemAssigned, UserAssigned".
+    :vartype type: str or ~azure.mgmt.voiceservices.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The set of user assigned identities associated with the
+     resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+     The dictionary values can be empty objects ({}) in requests.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.voiceservices.models.UserAssignedIdentity]
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.ManagedServiceIdentityType"],
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
+         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+         "SystemAssigned, UserAssigned".
+        :paramtype type: str or ~azure.mgmt.voiceservices.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The set of user assigned identities associated with the
+         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+         The dictionary values can be empty objects ({}) in requests.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.voiceservices.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class Operation(_serialization.Model):
@@ -616,17 +885,17 @@ class OperationListResult(_serialization.Model):
 class PrimaryRegionProperties(_serialization.Model):
     """The configuration used in this region as primary, and other regions as backup.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar operator_addresses: IP address to use to contact the operator network from this region.
      Required.
     :vartype operator_addresses: list[str]
     :ivar esrp_addresses: IP address to use to contact the ESRP from this region.
     :vartype esrp_addresses: list[str]
-    :ivar allowed_signaling_source_address_prefixes: The allowed source IP address or CIDR ranges
+    :ivar allowed_signaling_source_address_prefixes: The allowed source IP addresses or CIDR ranges
      for signaling.
     :vartype allowed_signaling_source_address_prefixes: list[str]
-    :ivar allowed_media_source_address_prefixes: The allowed source IP address or CIDR ranges for
+    :ivar allowed_media_source_address_prefixes: The allowed source IP addresses or CIDR ranges for
      media.
     :vartype allowed_media_source_address_prefixes: list[str]
     """
@@ -657,10 +926,10 @@ class PrimaryRegionProperties(_serialization.Model):
         :paramtype operator_addresses: list[str]
         :keyword esrp_addresses: IP address to use to contact the ESRP from this region.
         :paramtype esrp_addresses: list[str]
-        :keyword allowed_signaling_source_address_prefixes: The allowed source IP address or CIDR
+        :keyword allowed_signaling_source_address_prefixes: The allowed source IP addresses or CIDR
          ranges for signaling.
         :paramtype allowed_signaling_source_address_prefixes: list[str]
-        :keyword allowed_media_source_address_prefixes: The allowed source IP address or CIDR ranges
+        :keyword allowed_media_source_address_prefixes: The allowed source IP addresses or CIDR ranges
          for media.
         :paramtype allowed_media_source_address_prefixes: list[str]
         """
@@ -674,7 +943,7 @@ class PrimaryRegionProperties(_serialization.Model):
 class ServiceRegionProperties(_serialization.Model):
     """The service region configuration needed for Teams Callings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the region in which the resources needed for Teams Calling will be
      deployed. Required.
@@ -708,6 +977,75 @@ class ServiceRegionProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.primary_region_properties = primary_region_properties
+
+
+class Sku(_serialization.Model):
+    """The resource model definition representing SKU.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+    :vartype name: str
+    :ivar tier: This field is required to be implemented by the Resource Provider if the service
+     has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+     "Standard", and "Premium".
+    :vartype tier: str or ~azure.mgmt.voiceservices.models.SkuTier
+    :ivar size: The SKU size. When the name field is the combination of tier and some other value,
+     this would be the standalone code.
+    :vartype size: str
+    :ivar family: If the service has different generations of hardware, for the same SKU, then that
+     can be captured here.
+    :vartype family: str
+    :ivar capacity: If the SKU supports scale out/in then the capacity integer should be included.
+     If scale out/in is not possible for the resource this may be omitted.
+    :vartype capacity: int
+    """
+
+    _validation = {
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "tier": {"key": "tier", "type": "str"},
+        "size": {"key": "size", "type": "str"},
+        "family": {"key": "family", "type": "str"},
+        "capacity": {"key": "capacity", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        tier: Optional[Union[str, "_models.SkuTier"]] = None,
+        size: Optional[str] = None,
+        family: Optional[str] = None,
+        capacity: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+        :paramtype name: str
+        :keyword tier: This field is required to be implemented by the Resource Provider if the service
+         has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+         "Standard", and "Premium".
+        :paramtype tier: str or ~azure.mgmt.voiceservices.models.SkuTier
+        :keyword size: The SKU size. When the name field is the combination of tier and some other
+         value, this would be the standalone code.
+        :paramtype size: str
+        :keyword family: If the service has different generations of hardware, for the same SKU, then
+         that can be captured here.
+        :paramtype family: str
+        :keyword capacity: If the SKU supports scale out/in then the capacity integer should be
+         included. If scale out/in is not possible for the resource this may be omitted.
+        :paramtype capacity: int
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.tier = tier
+        self.size = size
+        self.family = family
+        self.capacity = capacity
 
 
 class SystemData(_serialization.Model):
@@ -779,10 +1117,10 @@ class TestLine(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -856,7 +1194,7 @@ class TestLine(TrackedResource):
 class TestLineListResult(_serialization.Model):
     """The response of a TestLine list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The TestLine items on this page. Required.
     :vartype value: list[~azure.mgmt.voiceservices.models.TestLine]
@@ -903,3 +1241,31 @@ class TestLineUpdate(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.tags = tags
+
+
+class UserAssignedIdentity(_serialization.Model):
+    """User assigned identity properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: The principal ID of the assigned identity.
+    :vartype principal_id: str
+    :ivar client_id: The client ID of the assigned identity.
+    :vartype client_id: str
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "client_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.client_id = None

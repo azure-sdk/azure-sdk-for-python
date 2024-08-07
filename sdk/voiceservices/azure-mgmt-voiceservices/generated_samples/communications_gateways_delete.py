@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.voiceservices import VoiceServicesMgmtClient
 
 """
@@ -29,13 +30,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.communications_gateways.begin_delete(
+    client.communications_gateways.begin_delete(
         resource_group_name="testrg",
         communications_gateway_name="myname",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/CommunicationsGateways_Delete.json
+# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-09-01/examples/CommunicationsGateways_Delete.json
 if __name__ == "__main__":
     main()
