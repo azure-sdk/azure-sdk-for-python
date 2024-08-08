@@ -6,9 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from azure.identity import DefaultAzureCredential
-from azure.mgmt.azurestackhci import AzureStackHCIClient
+from typing import Any, IO, Union
 
+from azure.identity import DefaultAzureCredential
+
+from azure.mgmt.azurestackhci import AzureStackHCIClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,8 +23,6 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = AzureStackHCIClient(
         credential=DefaultAzureCredential(),
@@ -30,19 +30,12 @@ def main():
     )
 
     response = client.logical_networks.begin_create_or_update(
-        resource_group_name="test-rg",
-        logical_network_name="test-lnet",
-        logical_networks={
-            "extendedLocation": {
-                "name": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",
-                "type": "CustomLocation",
-            },
-            "location": "West US2",
-        },
+        resource_group_name='test-rg',
+        logical_network_name='test-lnet',
+        logical_networks={'extendedLocation': {'name': '/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location', 'type': 'CustomLocation'}, 'location': 'West US2'},
     ).result()
     print(response)
 
-
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/PutLogicalNetwork.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/PutLogicalNetwork.json
 if __name__ == "__main__":
     main()
