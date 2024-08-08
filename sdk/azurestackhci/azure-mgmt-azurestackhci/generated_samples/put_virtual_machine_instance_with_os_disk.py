@@ -6,9 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from azure.identity import DefaultAzureCredential
-from azure.mgmt.azurestackhci import AzureStackHCIClient
+from typing import Any, IO, Union
 
+from azure.identity import DefaultAzureCredential
+
+from azure.mgmt.azurestackhci import AzureStackHCIClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,8 +23,6 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = AzureStackHCIClient(
         credential=DefaultAzureCredential(),
@@ -30,28 +30,11 @@ def main():
     )
 
     response = client.virtual_machine_instances.begin_create_or_update(
-        resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/Microsoft.HybridCompute/machines/DemoVM",
-        virtual_machine_instance={
-            "extendedLocation": {
-                "name": "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",
-                "type": "CustomLocation",
-            },
-            "properties": {
-                "hardwareProfile": {"vmSize": "Default"},
-                "networkProfile": {"networkInterfaces": [{"id": "test-nic"}]},
-                "securityProfile": {"enableTPM": True, "uefiSettings": {"secureBootEnabled": True}},
-                "storageProfile": {
-                    "osDisk": {
-                        "id": "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/virtualHardDisks/test-vhd"
-                    },
-                    "vmConfigStoragePathId": "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/storageContainers/test-container",
-                },
-            },
-        },
+        resource_uri='subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/Microsoft.HybridCompute/machines/DemoVM',
+        virtual_machine_instance={'extendedLocation': {'name': '/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location', 'type': 'CustomLocation'}, 'properties': {'hardwareProfile': {'vmSize': 'Default'}, 'networkProfile': {'networkInterfaces': [{'id': 'test-nic'}]}, 'securityProfile': {'enableTPM': True, 'uefiSettings': {'secureBootEnabled': True}}, 'storageProfile': {'osDisk': {'id': '/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/virtualHardDisks/test-vhd'}, 'vmConfigStoragePathId': '/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/storageContainers/test-container'}}},
     ).result()
     print(response)
 
-
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/PutVirtualMachineInstanceWithOsDisk.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/PutVirtualMachineInstanceWithOsDisk.json
 if __name__ == "__main__":
     main()
