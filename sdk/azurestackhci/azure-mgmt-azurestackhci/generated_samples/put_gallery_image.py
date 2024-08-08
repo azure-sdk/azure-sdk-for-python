@@ -6,9 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from azure.identity import DefaultAzureCredential
-from azure.mgmt.azurestackhci import AzureStackHCIClient
+from typing import Any, IO, Union
 
+from azure.identity import DefaultAzureCredential
+
+from azure.mgmt.azurestackhci import AzureStackHCIClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,8 +23,6 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = AzureStackHCIClient(
         credential=DefaultAzureCredential(),
@@ -30,24 +30,12 @@ def main():
     )
 
     response = client.gallery_images.begin_create_or_update(
-        resource_group_name="test-rg",
-        gallery_image_name="test-gallery-image",
-        gallery_images={
-            "extendedLocation": {
-                "name": "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",
-                "type": "CustomLocation",
-            },
-            "location": "West US2",
-            "properties": {
-                "containerId": "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/storageContainers/test-storage-container",
-                "imagePath": "C:\\test.vhdx",
-                "osType": "Linux",
-            },
-        },
+        resource_group_name='test-rg',
+        gallery_image_name='test-gallery-image',
+        gallery_images={'extendedLocation': {'name': '/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location', 'type': 'CustomLocation'}, 'location': 'West US2', 'properties': {'containerId': '/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/storageContainers/test-storage-container', 'imagePath': 'C:\\test.vhdx', 'osType': 'Linux'}},
     ).result()
     print(response)
 
-
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/PutGalleryImage.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/PutGalleryImage.json
 if __name__ == "__main__":
     main()
