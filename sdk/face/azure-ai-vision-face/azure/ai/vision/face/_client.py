@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING, Union
+from typing_extensions import Self
 
 from azure.core import PipelineClient
 from azure.core.credentials import AzureKeyCredential
@@ -33,7 +34,7 @@ class FaceClient(FaceClientOperationsMixin):  # pylint: disable=client-accepts-a
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials.TokenCredential
-    :keyword api_version: API Version. Default value is "v1.1-preview.1". Note that overriding this
+    :keyword api_version: API Version. Default value is "v1.2-preview.1". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str or ~azure.ai.vision.face.models.Versions
     """
@@ -94,7 +95,7 @@ class FaceClient(FaceClientOperationsMixin):  # pylint: disable=client-accepts-a
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "FaceClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
@@ -112,7 +113,7 @@ class FaceSessionClient(FaceSessionClientOperationsMixin):  # pylint: disable=cl
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials.TokenCredential
-    :keyword api_version: API Version. Default value is "v1.1-preview.1". Note that overriding this
+    :keyword api_version: API Version. Default value is "v1.2-preview.1". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str or ~azure.ai.vision.face.models.Versions
     """
@@ -173,7 +174,7 @@ class FaceSessionClient(FaceSessionClientOperationsMixin):  # pylint: disable=cl
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "FaceSessionClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
