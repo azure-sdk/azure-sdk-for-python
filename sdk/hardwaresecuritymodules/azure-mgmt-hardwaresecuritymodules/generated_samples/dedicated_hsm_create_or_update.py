@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
 
 """
@@ -38,7 +41,7 @@ def main():
                 "networkProfile": {
                     "networkInterfaces": [{"privateIpAddress": "1.0.0.1"}],
                     "subnet": {
-                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.Network/virtualNetworks/stamp01/subnets/stamp01"
+                        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.Network/virtualNetworks/stamp01/subnets/stamp01"
                     },
                 },
                 "stampId": "stamp01",
@@ -50,6 +53,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_CreateOrUpdate.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
