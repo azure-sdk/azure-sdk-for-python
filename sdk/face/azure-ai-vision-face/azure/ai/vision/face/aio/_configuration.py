@@ -31,7 +31,7 @@ class FaceClientConfiguration:  # pylint: disable=too-many-instance-attributes
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: API Version. Default value is "v1.1-preview.1". Note that overriding this
+    :keyword api_version: API Version. Default value is "v1.2-preview.1". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str or ~azure.ai.vision.face.models.Versions
     """
@@ -39,7 +39,7 @@ class FaceClientConfiguration:  # pylint: disable=too-many-instance-attributes
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "v1.1-preview.1")
+        api_version: str = kwargs.pop("api_version", "v1.2-preview.1")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -88,7 +88,7 @@ class FaceSessionClientConfiguration:  # pylint: disable=too-many-instance-attri
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: API Version. Default value is "v1.1-preview.1". Note that overriding this
+    :keyword api_version: API Version. Default value is "v1.2-preview.1". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str or ~azure.ai.vision.face.models.Versions
     """
@@ -96,7 +96,7 @@ class FaceSessionClientConfiguration:  # pylint: disable=too-many-instance-attri
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "v1.1-preview.1")
+        api_version: str = kwargs.pop("api_version", "v1.2-preview.1")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")

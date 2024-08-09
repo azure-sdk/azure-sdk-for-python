@@ -79,11 +79,3 @@ class SingleSignOnStates(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """State of the SSO resource when it is enabled"""
     DISABLE = "Disable"
     """State of the SSO resource when it is disabled"""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Supported API versions for the Astronomer.Astro resource provider."""
-
-    V1_PREVIEW = "2023-08-01"
-    """Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview,
-    #: LiftrBase.Data.Versions.v1_preview"""

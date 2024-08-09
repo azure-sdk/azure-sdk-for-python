@@ -7,8 +7,8 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.workloads import WorkloadsMgmtClient
 
+from azure.mgmt.workloads import WorkloadsMgmtClient
 """
 # PREREQUISITES
     pip install azure-identity
@@ -21,18 +21,16 @@ from azure.mgmt.workloads import WorkloadsMgmtClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = WorkloadsMgmtClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list()
+    response = client.operations.list(
+    )
     for item in response:
         print(item)
-
 
 # x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/Operations_List.json
 if __name__ == "__main__":
