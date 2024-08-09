@@ -36,7 +36,6 @@ from ._models import PoolUpdateProperties
 from ._models import ProxyResource
 from ._models import Quota
 from ._models import QuotaName
-from ._models import QuotaProperties
 from ._models import Resource
 from ._models import ResourceDetailsObject
 from ._models import ResourceDetailsObjectProperties
@@ -108,7 +107,6 @@ __all__ = [
     "ProxyResource",
     "Quota",
     "QuotaName",
-    "QuotaProperties",
     "Resource",
     "ResourceDetailsObject",
     "ResourceDetailsObjectProperties",
