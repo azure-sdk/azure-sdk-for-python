@@ -33,6 +33,7 @@ from ._models_py3 import AutonomousDatabaseWalletFile
 from ._models_py3 import AutonomousDbVersion
 from ._models_py3 import AutonomousDbVersionListResult
 from ._models_py3 import AutonomousDbVersionProperties
+from ._models_py3 import AzureSubscriptions
 from ._models_py3 import CloudAccountDetails
 from ._models_py3 import CloudExadataInfrastructure
 from ._models_py3 import CloudExadataInfrastructureListResult
@@ -115,6 +116,7 @@ from ._models_py3 import VirtualNetworkAddressListResult
 from ._models_py3 import VirtualNetworkAddressProperties
 
 from ._oracle_database_mgmt_client_enums import ActionType
+from ._oracle_database_mgmt_client_enums import AddSubscriptionOperationState
 from ._oracle_database_mgmt_client_enums import AutonomousDatabaseBackupLifecycleState
 from ._oracle_database_mgmt_client_enums import AutonomousDatabaseBackupType
 from ._oracle_database_mgmt_client_enums import AutonomousDatabaseLifecycleState
@@ -201,6 +203,7 @@ __all__ = [
     "AutonomousDbVersion",
     "AutonomousDbVersionListResult",
     "AutonomousDbVersionProperties",
+    "AzureSubscriptions",
     "CloudAccountDetails",
     "CloudExadataInfrastructure",
     "CloudExadataInfrastructureListResult",
@@ -282,6 +285,7 @@ __all__ = [
     "VirtualNetworkAddressListResult",
     "VirtualNetworkAddressProperties",
     "ActionType",
+    "AddSubscriptionOperationState",
     "AutonomousDatabaseBackupLifecycleState",
     "AutonomousDatabaseBackupType",
     "AutonomousDatabaseLifecycleState",
