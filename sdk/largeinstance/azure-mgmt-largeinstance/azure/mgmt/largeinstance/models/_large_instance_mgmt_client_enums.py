@@ -247,10 +247,3 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Cancelled means resource operation has been cancelled"""
     MIGRATING = "Migrating"
     """Migrating means resource is being migrated from one subscription or resource group to another"""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Azure Large Instance api versions."""
-
-    V2023_07_20_PREVIEW = "2023-07-20-preview"
-    """Azure Large Instance api version 2023-07-20-preview."""
