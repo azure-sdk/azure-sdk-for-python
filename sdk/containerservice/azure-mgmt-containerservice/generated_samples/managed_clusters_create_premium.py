@@ -74,6 +74,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-05-01/examples/ManagedClustersCreate_Premium.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-06-02-preview/examples/ManagedClustersCreate_Premium.json
 if __name__ == "__main__":
     main()
