@@ -57,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineTemplates_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2024-06-01/examples/VirtualMachineTemplates_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
