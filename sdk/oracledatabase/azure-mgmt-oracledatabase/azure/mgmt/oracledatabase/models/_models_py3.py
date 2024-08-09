@@ -523,7 +523,7 @@ class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disab
 class AutonomousDatabaseBackupUpdate(_serialization.Model):
     """The type used for update operations of the AutonomousDatabaseBackup.
 
-    :ivar properties: The updatable properties of the AutonomousDatabaseBackup.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupUpdateProperties
     """
 
@@ -535,7 +535,7 @@ class AutonomousDatabaseBackupUpdate(_serialization.Model):
         self, *, properties: Optional["_models.AutonomousDatabaseBackupUpdateProperties"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword properties: The updatable properties of the AutonomousDatabaseBackup.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupUpdateProperties
         """
@@ -1226,14 +1226,12 @@ class AutonomousDatabaseCharacterSetProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar character_set: The Oracle Autonomous Database supported character sets. Required.
+    :ivar character_set: The Oracle Autonomous Database supported character sets.
     :vartype character_set: str
     """
 
     _validation = {
-        "character_set": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "character_set": {"readonly": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
@@ -1970,15 +1968,12 @@ class AutonomousDatabaseNationalCharacterSetProperties(_serialization.Model):  #
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar character_set: The Oracle Autonomous Database supported national character sets.
-     Required.
     :vartype character_set: str
     """
 
     _validation = {
-        "character_set": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "character_set": {"readonly": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
@@ -2595,7 +2590,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the AutonomousDatabase.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseUpdateProperties
     """
 
@@ -2614,7 +2609,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the AutonomousDatabase.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseUpdateProperties
         """
         super().__init__(**kwargs)
@@ -2960,9 +2955,7 @@ class AutonomousDbVersionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar version: Supported Autonomous Db versions. Required.
+    :ivar version: Supported Autonomous Db versions.
     :vartype version: str
     :ivar db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
      "AJD", and "APEX".
@@ -2982,7 +2975,7 @@ class AutonomousDbVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "version": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "version": {"readonly": True, "max_length": 255, "min_length": 1},
         "db_workload": {"readonly": True},
         "is_default_for_free": {"readonly": True},
         "is_default_for_paid": {"readonly": True},
@@ -3008,6 +3001,32 @@ class AutonomousDbVersionProperties(_serialization.Model):
         self.is_default_for_paid = None
         self.is_free_tier_enabled = None
         self.is_paid_enabled = None
+
+
+class AzureSubscriptions(_serialization.Model):
+    """Azure Subscriptions model.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar azure_subscription_ids: Azure Subscription Ids to be updated. Required.
+    :vartype azure_subscription_ids: list[str]
+    """
+
+    _validation = {
+        "azure_subscription_ids": {"required": True},
+    }
+
+    _attribute_map = {
+        "azure_subscription_ids": {"key": "azureSubscriptionIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, azure_subscription_ids: List[str], **kwargs: Any) -> None:
+        """
+        :keyword azure_subscription_ids: Azure Subscription Ids to be updated. Required.
+        :paramtype azure_subscription_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.azure_subscription_ids = azure_subscription_ids
 
 
 class CloudAccountDetails(_serialization.Model):
@@ -3365,7 +3384,7 @@ class CloudExadataInfrastructureUpdate(_serialization.Model):
     :vartype zones: list[str]
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the CloudExadataInfrastructure.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
      ~azure.mgmt.oracledatabase.models.CloudExadataInfrastructureUpdateProperties
     """
@@ -3389,7 +3408,7 @@ class CloudExadataInfrastructureUpdate(_serialization.Model):
         :paramtype zones: list[str]
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the CloudExadataInfrastructure.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.oracledatabase.models.CloudExadataInfrastructureUpdateProperties
         """
@@ -3952,7 +3971,7 @@ class CloudVmClusterUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the CloudVmCluster.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.CloudVmClusterUpdateProperties
     """
 
@@ -3971,7 +3990,7 @@ class CloudVmClusterUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the CloudVmCluster.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.CloudVmClusterUpdateProperties
         """
         super().__init__(**kwargs)
@@ -4528,9 +4547,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar ocid: DbNode OCID. Required.
+    :ivar ocid: DbNode OCID.
     :vartype ocid: str
     :ivar additional_details: Additional information about the planned maintenance.
     :vartype additional_details: str
@@ -4546,7 +4563,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     :vartype db_node_storage_size_in_gbs: int
     :ivar db_server_id: The OCID of the Exacc Db server associated with the database node.
     :vartype db_server_id: str
-    :ivar db_system_id: The OCID of the DB system. Required.
+    :ivar db_system_id: The OCID of the DB system.
     :vartype db_system_id: str
     :ivar fault_domain: The name of the Fault Domain the instance is contained in.
     :vartype fault_domain: str
@@ -4583,7 +4600,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "ocid": {"readonly": True, "max_length": 255, "min_length": 1},
         "additional_details": {"readonly": True},
         "backup_ip_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "backup_vnic2_id": {"readonly": True, "max_length": 255, "min_length": 1},
@@ -4591,7 +4608,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
         "cpu_core_count": {"readonly": True},
         "db_node_storage_size_in_gbs": {"readonly": True},
         "db_server_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "db_system_id": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "db_system_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "fault_domain": {"readonly": True, "max_length": 255, "min_length": 1},
         "host_ip_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "hostname": {"readonly": True},
@@ -4981,12 +4998,10 @@ class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar shape_family: The family of the shape used for the DB system.
     :vartype shape_family: str
     :ivar available_core_count: The maximum number of CPU cores that can be enabled on the DB
-     system for this shape. Required.
+     system for this shape.
     :vartype available_core_count: int
     :ivar minimum_core_count: The minimum number of CPU cores that can be enabled on the DB system
      for this shape.
@@ -5042,7 +5057,7 @@ class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many
 
     _validation = {
         "shape_family": {"readonly": True, "max_length": 255, "min_length": 1},
-        "available_core_count": {"required": True, "readonly": True},
+        "available_core_count": {"readonly": True},
         "minimum_core_count": {"readonly": True},
         "runtime_minimum_core_count": {"readonly": True},
         "core_count_increment": {"readonly": True},
@@ -5194,24 +5209,22 @@ class DnsPrivateViewProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar ocid: The OCID of the view. Required.
+    :ivar ocid: The OCID of the view.
     :vartype ocid: str
     :ivar display_name: The display name of the view resource.
     :vartype display_name: str
     :ivar is_protected: A Boolean flag indicating whether or not parts of the resource are unable
-     to be explicitly managed. Required.
+     to be explicitly managed.
     :vartype is_protected: bool
     :ivar lifecycle_state: Views lifecycleState. Known values are: "Active", "Deleted", "Deleting",
      and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.DnsPrivateViewsLifecycleState
-    :ivar self_property: The canonical absolute URL of the resource. Required.
+    :ivar self_property: The canonical absolute URL of the resource.
     :vartype self_property: str
-    :ivar time_created: views timeCreated. Required.
+    :ivar time_created: views timeCreated.
     :vartype time_created: ~datetime.datetime
-    :ivar time_updated: views timeCreated. Required.
+    :ivar time_updated: views timeCreated.
     :vartype time_updated: ~datetime.datetime
     :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
      "Failed", and "Canceled".
@@ -5219,13 +5232,13 @@ class DnsPrivateViewProperties(_serialization.Model):
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "ocid": {"readonly": True, "max_length": 255, "min_length": 1},
         "display_name": {"readonly": True},
-        "is_protected": {"required": True, "readonly": True},
+        "is_protected": {"readonly": True},
         "lifecycle_state": {"readonly": True},
-        "self_property": {"required": True, "readonly": True},
-        "time_created": {"required": True, "readonly": True},
-        "time_updated": {"required": True, "readonly": True},
+        "self_property": {"readonly": True},
+        "time_created": {"readonly": True},
+        "time_updated": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -5336,31 +5349,29 @@ class DnsPrivateZoneProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar ocid: The OCID of the Zone. Required.
+    :ivar ocid: The OCID of the Zone.
     :vartype ocid: str
     :ivar is_protected: A Boolean flag indicating whether or not parts of the resource are unable
-     to be explicitly managed. Required.
+     to be explicitly managed.
     :vartype is_protected: bool
     :ivar lifecycle_state: Zones lifecycleState. Known values are: "Active", "Creating", "Deleted",
      "Deleting", and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.DnsPrivateZonesLifecycleState
-    :ivar self_property: The canonical absolute URL of the resource. Required.
+    :ivar self_property: The canonical absolute URL of the resource.
     :vartype self_property: str
-    :ivar serial: The current serial of the zone. As seen in the zone's SOA record. Required.
+    :ivar serial: The current serial of the zone. As seen in the zone's SOA record.
     :vartype serial: int
     :ivar version: Version is the never-repeating, totally-orderable, version of the zone, from
-     which the serial field of the zone's SOA record is derived. Required.
+     which the serial field of the zone's SOA record is derived.
     :vartype version: str
     :ivar view_id: The OCID of the private view containing the zone. This value will be null for
      zones in the global DNS, which are publicly resolvable and not part of a private view.
     :vartype view_id: str
     :ivar zone_type: The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only
-     supported for GLOBAL zones. Required. Known values are: "Primary" and "Secondary".
+     supported for GLOBAL zones. Known values are: "Primary" and "Secondary".
     :vartype zone_type: str or ~azure.mgmt.oracledatabase.models.ZoneType
-    :ivar time_created: Zones timeCreated. Required.
+    :ivar time_created: Zones timeCreated.
     :vartype time_created: ~datetime.datetime
     :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
      "Failed", and "Canceled".
@@ -5368,15 +5379,15 @@ class DnsPrivateZoneProperties(_serialization.Model):
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "is_protected": {"required": True, "readonly": True},
+        "ocid": {"readonly": True, "max_length": 255, "min_length": 1},
+        "is_protected": {"readonly": True},
         "lifecycle_state": {"readonly": True},
-        "self_property": {"required": True, "readonly": True},
-        "serial": {"required": True, "readonly": True},
-        "version": {"required": True, "readonly": True},
+        "self_property": {"readonly": True},
+        "serial": {"readonly": True},
+        "version": {"readonly": True},
         "view_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "zone_type": {"required": True, "readonly": True},
-        "time_created": {"required": True, "readonly": True},
+        "zone_type": {"readonly": True},
+        "time_created": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -5721,14 +5732,12 @@ class GiVersionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar version: A valid Oracle Grid Infrastructure (GI) software version. Required.
+    :ivar version: A valid Oracle Grid Infrastructure (GI) software version.
     :vartype version: str
     """
 
     _validation = {
-        "version": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "version": {"readonly": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
@@ -6226,6 +6235,15 @@ class OracleSubscriptionProperties(_serialization.Model):
     :vartype product_code: str
     :ivar intent: Intent for the update operation. Known values are: "Retain" and "Reset".
     :vartype intent: str or ~azure.mgmt.oracledatabase.models.Intent
+    :ivar azure_subscription_ids: Azure subscriptions associated with this OracleSubscription.
+    :vartype azure_subscription_ids: list[str]
+    :ivar add_subscription_operation_state: State of the add Azure subscription operation on Oracle
+     subscription. Known values are: "Succeeded", "Updating", and "Failed".
+    :vartype add_subscription_operation_state: str or
+     ~azure.mgmt.oracledatabase.models.AddSubscriptionOperationState
+    :ivar last_operation_status_detail: Status details of the last operation on Oracle
+     subscription.
+    :vartype last_operation_status_detail: str
     """
 
     _validation = {
@@ -6233,6 +6251,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         "saas_subscription_id": {"readonly": True},
         "cloud_account_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "cloud_account_state": {"readonly": True},
+        "azure_subscription_ids": {"readonly": True},
+        "add_subscription_operation_state": {"readonly": True},
+        "last_operation_status_detail": {"readonly": True},
     }
 
     _attribute_map = {
@@ -6243,6 +6264,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         "term_unit": {"key": "termUnit", "type": "str"},
         "product_code": {"key": "productCode", "type": "str"},
         "intent": {"key": "intent", "type": "str"},
+        "azure_subscription_ids": {"key": "azureSubscriptionIds", "type": "[str]"},
+        "add_subscription_operation_state": {"key": "addSubscriptionOperationState", "type": "str"},
+        "last_operation_status_detail": {"key": "lastOperationStatusDetail", "type": "str"},
     }
 
     def __init__(
@@ -6270,6 +6294,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         self.term_unit = term_unit
         self.product_code = product_code
         self.intent = intent
+        self.azure_subscription_ids = None
+        self.add_subscription_operation_state = None
+        self.last_operation_status_detail = None
 
 
 class OracleSubscriptionUpdate(_serialization.Model):
@@ -6277,7 +6304,7 @@ class OracleSubscriptionUpdate(_serialization.Model):
 
     :ivar plan: Details of the resource plan.
     :vartype plan: ~azure.mgmt.oracledatabase.models.PlanUpdate
-    :ivar properties: The updatable properties of the OracleSubscription.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.OracleSubscriptionUpdateProperties
     """
 
@@ -6296,7 +6323,7 @@ class OracleSubscriptionUpdate(_serialization.Model):
         """
         :keyword plan: Details of the resource plan.
         :paramtype plan: ~azure.mgmt.oracledatabase.models.PlanUpdate
-        :keyword properties: The updatable properties of the OracleSubscription.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.OracleSubscriptionUpdateProperties
         """
         super().__init__(**kwargs)
@@ -7066,14 +7093,12 @@ class SystemVersionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar system_version: A valid Oracle System Version. Required.
+    :ivar system_version: A valid Oracle System Version.
     :vartype system_version: str
     """
 
     _validation = {
-        "system_version": {"required": True, "readonly": True},
+        "system_version": {"readonly": True},
     }
 
     _attribute_map = {

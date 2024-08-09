@@ -6,12 +6,24 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._arc_settings_operations import ArcSettingsOperations
+from ._clusters_operations import ClustersOperations
+from ._deployment_settings_operations import DeploymentSettingsOperations
+from ._edge_devices_operations import EdgeDevicesOperations
+from ._extensions_operations import ExtensionsOperations
 from ._gallery_images_operations import GalleryImagesOperations
-from ._operations import Operations
 from ._logical_networks_operations import LogicalNetworksOperations
 from ._marketplace_gallery_images_operations import MarketplaceGalleryImagesOperations
 from ._network_interfaces_operations import NetworkInterfacesOperations
+from ._offers_operations import OffersOperations
+from ._operations import Operations
+from ._publishers_operations import PublishersOperations
+from ._security_settings_operations import SecuritySettingsOperations
+from ._skus_operations import SkusOperations
 from ._storage_containers_operations import StorageContainersOperations
+from ._update_runs_operations import UpdateRunsOperations
+from ._update_summaries_operations import UpdateSummariesOperations
+from ._updates_operations import UpdatesOperations
 from ._virtual_hard_disks_operations import VirtualHardDisksOperations
 from ._virtual_machine_instances_operations import VirtualMachineInstancesOperations
 from ._hybrid_identity_metadata_operations import HybridIdentityMetadataOperations
@@ -23,12 +35,24 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ArcSettingsOperations",
+    "ClustersOperations",
+    "DeploymentSettingsOperations",
+    "EdgeDevicesOperations",
+    "ExtensionsOperations",
     "GalleryImagesOperations",
-    "Operations",
     "LogicalNetworksOperations",
     "MarketplaceGalleryImagesOperations",
     "NetworkInterfacesOperations",
+    "OffersOperations",
+    "Operations",
+    "PublishersOperations",
+    "SecuritySettingsOperations",
+    "SkusOperations",
     "StorageContainersOperations",
+    "UpdateRunsOperations",
+    "UpdateSummariesOperations",
+    "UpdatesOperations",
     "VirtualHardDisksOperations",
     "VirtualMachineInstancesOperations",
     "HybridIdentityMetadataOperations",

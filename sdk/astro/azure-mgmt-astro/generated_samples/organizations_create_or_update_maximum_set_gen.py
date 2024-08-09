@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.astro import AstroMgmtClient
 
 """
@@ -38,14 +41,14 @@ def main():
             "properties": {
                 "marketplace": {
                     "offerDetails": {
-                        "offerId": "krzkefmpxztqyusidzgpchfaswuyce",
-                        "planId": "kndxzygsanuiqzwbfbbvoipv",
-                        "planName": "pwqjwlq",
-                        "publisherId": "gfsqxygpnerxmvols",
-                        "termId": "pwds",
-                        "termUnit": "xyygyzcazkuelz",
+                        "offerId": "astro",
+                        "planId": "astro-paygo",
+                        "planName": "Monthly Pay-As-You-Go",
+                        "publisherId": "astronomer1591719760654",
+                        "termId": "gmz7xq9ge3py",
+                        "termUnit": "Monthly",
                     },
-                    "subscriptionId": "ntthclydlpqmasr",
+                    "subscriptionId": None,
                     "subscriptionStatus": "PendingFulfillmentStart",
                 },
                 "partnerOrganizationProperties": {

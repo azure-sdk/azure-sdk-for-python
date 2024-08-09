@@ -40,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/AvailabilitySets_CreateOrUpdate_MinimumSet_Gen.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2024-06-01/examples/AvailabilitySets_CreateOrUpdate_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
