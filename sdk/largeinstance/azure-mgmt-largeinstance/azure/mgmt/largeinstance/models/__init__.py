@@ -44,7 +44,6 @@ from ._large_instance_mgmt_client_enums import AzureLargeInstanceSizeNamesEnum
 from ._large_instance_mgmt_client_enums import CreatedByType
 from ._large_instance_mgmt_client_enums import Origin
 from ._large_instance_mgmt_client_enums import ProvisioningState
-from ._large_instance_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -87,7 +86,6 @@ __all__ = [
     "CreatedByType",
     "Origin",
     "ProvisioningState",
-    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
