@@ -8,7 +8,21 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import (
+    Any,
+    AsyncIterable,
+    AsyncIterator,
+    Callable,
+    Dict,
+    IO,
+    Literal,
+    Optional,
+    Type,
+    TypeVar,
+    Union,
+    cast,
+    overload,
+)
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -226,8 +240,8 @@ class JobsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def proxy_get(self, resource_group_name: str, job_name: str, api_name: str, **kwargs: Any) -> _models.Job:
-        """Get the properties of a Container App Job.
+    async def proxy_get(self, resource_group_name: str, job_name: str, **kwargs: Any) -> _models.Job:
+        """Get the properties for a given Container App Job.
 
         Get the properties of a Container App Job.
 
@@ -236,8 +250,6 @@ class JobsOperations:
         :type resource_group_name: str
         :param job_name: Job Name. Required.
         :type job_name: str
-        :param api_name: Proxy API Name for Container App Job. Required.
-        :type api_name: str
         :return: Job or the result of cls(response)
         :rtype: ~azure.mgmt.appcontainers.models.Job
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -253,14 +265,15 @@ class JobsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
+        api_name: Literal["rootApi"] = kwargs.pop("api_name", "rootApi")
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Job] = kwargs.pop("cls", None)
 
         _request = build_proxy_get_request(
             resource_group_name=resource_group_name,
             job_name=job_name,
-            api_name=api_name,
             subscription_id=self._config.subscription_id,
+            api_name=api_name,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -1270,7 +1283,7 @@ class JobsOperations:
     @distributed_trace_async
     async def begin_stop_execution(
         self, resource_group_name: str, job_name: str, job_execution_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
+    ) -> AsyncLROPoller[str]:
         """Terminates execution of a running container apps job.
 
         Terminates execution of a running container apps job.
@@ -1282,15 +1295,15 @@ class JobsOperations:
         :type job_name: str
         :param job_execution_name: Job execution name. Required.
         :type job_execution_name: str
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :return: An instance of AsyncLROPoller that returns either str or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[str]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[str] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -1308,9 +1321,11 @@ class JobsOperations:
             await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("str", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -1321,13 +1336,13 @@ class JobsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[None].from_continuation_token(
+            return AsyncLROPoller[str].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[str](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _stop_multiple_executions_initial(
         self, resource_group_name: str, job_name: str, **kwargs: Any
