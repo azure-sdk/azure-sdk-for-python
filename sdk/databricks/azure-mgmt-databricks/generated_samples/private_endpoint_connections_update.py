@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -45,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrivateEndpointConnectionsUpdate.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2024-09-01-preview/examples/PrivateEndpointConnectionsUpdate.json
 if __name__ == "__main__":
     main()
