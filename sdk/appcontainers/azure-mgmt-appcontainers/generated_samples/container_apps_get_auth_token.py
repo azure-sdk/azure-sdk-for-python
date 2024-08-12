@@ -27,16 +27,17 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="651f8027-33e8-4ec4-97b4-f6e9f3dc8744",
     )
 
     response = client.container_apps.get_auth_token(
         resource_group_name="rg",
-        container_app_name="testcontainerapp0",
+        container_app_name="testcontainerApp0",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_GetAuthToken.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/ContainerApps_GetAuthToken.json
 if __name__ == "__main__":
     main()

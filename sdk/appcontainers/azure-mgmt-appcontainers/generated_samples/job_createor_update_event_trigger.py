@@ -29,13 +29,20 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
     response = client.jobs.begin_create_or_update(
         resource_group_name="rg",
-        job_name="testcontainerappsjob0",
+        job_name="testcontainerAppsJob0",
         job_envelope={
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity": {}
+                },
+            },
             "location": "East US",
             "properties": {
                 "configuration": {
@@ -48,6 +55,7 @@ def main():
                             "pollingInterval": 40,
                             "rules": [
                                 {
+                                    "identity": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
                                     "metadata": {"topicName": "my-topic"},
                                     "name": "servicebuscalingrule",
                                     "type": "azure-servicebus",
@@ -61,14 +69,14 @@ def main():
                 },
                 "environmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
                 "template": {
-                    "containers": [{"image": "repo/testcontainerappsjob0:v1", "name": "testcontainerappsjob0"}],
+                    "containers": [{"image": "repo/testcontainerAppsJob0:v1", "name": "testcontainerAppsJob0"}],
                     "initContainers": [
                         {
                             "args": ["-c", "while true; do echo hello; sleep 10;done"],
                             "command": ["/bin/sh"],
-                            "image": "repo/testcontainerappsjob0:v4",
+                            "image": "repo/testcontainerAppsJob0:v4",
                             "name": "testinitcontainerAppsJob0",
-                            "resources": {"cpu": 0.5, "memory": "1Gi"},
+                            "resources": {"cpu": 0.2, "memory": "100Mi"},
                         }
                     ],
                 },
@@ -78,6 +86,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_CreateorUpdate_EventTrigger.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/Job_CreateorUpdate_EventTrigger.json
 if __name__ == "__main__":
     main()
