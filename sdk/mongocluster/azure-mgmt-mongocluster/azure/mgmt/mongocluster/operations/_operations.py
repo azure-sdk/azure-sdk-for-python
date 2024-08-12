@@ -18,6 +18,8 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
@@ -636,7 +638,12 @@ class Operations:
                     headers=_headers,
                     params=_params,
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -651,7 +658,12 @@ class Operations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             return _request
 
@@ -807,7 +819,10 @@ class MongoClustersOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -818,7 +833,10 @@ class MongoClustersOperations:
 
         if response.status_code not in [200]:
             if _stream:
-                response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -871,7 +889,10 @@ class MongoClustersOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -881,19 +902,19 @@ class MongoClustersOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = response.iter_bytes()
-
         if response.status_code == 201:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1484,8 +1505,14 @@ class MongoClustersOperations:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -1539,7 +1566,10 @@ class MongoClustersOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -1549,20 +1579,20 @@ class MongoClustersOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = response.iter_bytes()
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2053,8 +2083,14 @@ class MongoClustersOperations:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -2092,7 +2128,10 @@ class MongoClustersOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -2102,7 +2141,10 @@ class MongoClustersOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2112,10 +2154,7 @@ class MongoClustersOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
-
-        if response.status_code == 204:
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2158,8 +2197,14 @@ class MongoClustersOperations:
             if cls:
                 return cls(pipeline_response, None, {})  # type: ignore
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -2282,7 +2327,12 @@ class MongoClustersOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -2297,7 +2347,12 @@ class MongoClustersOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             return _request
 
@@ -2431,7 +2486,12 @@ class MongoClustersOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -2446,7 +2506,12 @@ class MongoClustersOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             return _request
 
@@ -2526,7 +2591,10 @@ class MongoClustersOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -2537,7 +2605,10 @@ class MongoClustersOperations:
 
         if response.status_code not in [200]:
             if _stream:
-                response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2563,7 +2634,7 @@ class MongoClustersOperations:
     ) -> _models.CheckNameAvailabilityResponse:
         """Check if mongo cluster name is available for use.
 
-        :param location: The location name. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param body: The CheckAvailability request. Required.
         :type body: ~azure.mgmt.mongocluster.models.CheckNameAvailabilityRequest
@@ -2598,7 +2669,7 @@ class MongoClustersOperations:
     ) -> _models.CheckNameAvailabilityResponse:
         """Check if mongo cluster name is available for use.
 
-        :param location: The location name. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param body: The CheckAvailability request. Required.
         :type body: JSON
@@ -2627,7 +2698,7 @@ class MongoClustersOperations:
     ) -> _models.CheckNameAvailabilityResponse:
         """Check if mongo cluster name is available for use.
 
-        :param location: The location name. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param body: The CheckAvailability request. Required.
         :type body: IO[bytes]
@@ -2656,7 +2727,7 @@ class MongoClustersOperations:
     ) -> _models.CheckNameAvailabilityResponse:
         """Check if mongo cluster name is available for use.
 
-        :param location: The location name. Required.
+        :param location: The name of the Azure region. Required.
         :type location: str
         :param body: The CheckAvailability request. Is one of the following types:
          CheckNameAvailabilityRequest, JSON, IO[bytes] Required.
@@ -2712,7 +2783,10 @@ class MongoClustersOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -2723,7 +2797,10 @@ class MongoClustersOperations:
 
         if response.status_code not in [200]:
             if _stream:
-                response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2818,7 +2895,10 @@ class FirewallRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -2829,7 +2909,10 @@ class FirewallRulesOperations:
 
         if response.status_code not in [200]:
             if _stream:
-                response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -2884,7 +2967,10 @@ class FirewallRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -2894,23 +2980,20 @@ class FirewallRulesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201, 202]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = response.iter_bytes()
-
-        if response.status_code == 201:
-            deserialized = response.iter_bytes()
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -3198,8 +3281,14 @@ class FirewallRulesOperations:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -3240,7 +3329,10 @@ class FirewallRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -3250,7 +3342,10 @@ class FirewallRulesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -3260,10 +3355,7 @@ class FirewallRulesOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
-
-        if response.status_code == 204:
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -3311,8 +3403,14 @@ class FirewallRulesOperations:
             if cls:
                 return cls(pipeline_response, None, {})  # type: ignore
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -3388,7 +3486,12 @@ class FirewallRulesOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -3403,7 +3506,12 @@ class FirewallRulesOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             return _request
 
@@ -3522,7 +3630,12 @@ class PrivateEndpointConnectionsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -3537,7 +3650,12 @@ class PrivateEndpointConnectionsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             return _request
 
@@ -3639,7 +3757,10 @@ class PrivateEndpointConnectionsOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -3650,7 +3771,10 @@ class PrivateEndpointConnectionsOperations:
 
         if response.status_code not in [200]:
             if _stream:
-                response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -3705,7 +3829,10 @@ class PrivateEndpointConnectionsOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -3715,23 +3842,20 @@ class PrivateEndpointConnectionsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201, 202]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = response.iter_bytes()
-
-        if response.status_code == 201:
-            deserialized = response.iter_bytes()
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -4086,8 +4210,14 @@ class PrivateEndpointConnectionsOperations:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -4128,7 +4258,10 @@ class PrivateEndpointConnectionsOperations:
             headers=_headers,
             params=_params,
         )
-        _request.url = self._client.format_url(_request.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
@@ -4138,7 +4271,10 @@ class PrivateEndpointConnectionsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
-            response.read()  # Load the body in memory and close the socket
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = _deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -4148,10 +4284,7 @@ class PrivateEndpointConnectionsOperations:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = response.iter_bytes()
-
-        if response.status_code == 204:
-            deserialized = response.iter_bytes()
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -4200,8 +4333,14 @@ class PrivateEndpointConnectionsOperations:
             if cls:
                 return cls(pipeline_response, None, {})  # type: ignore
 
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -4299,7 +4438,12 @@ class PrivateLinksOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -4314,7 +4458,12 @@ class PrivateLinksOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request.url = self._client.format_url(_request.url)
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.base_url", self._config.base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             return _request
 
