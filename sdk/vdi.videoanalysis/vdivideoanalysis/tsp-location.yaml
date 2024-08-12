@@ -1,0 +1,4 @@
+directory: specification/cognitiveservices/VDI.VideoAnalysis
+commit: 216f563cbd85974ef0aa1ac08a2a046ad9f22c3f
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
