@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING, Union
+from typing_extensions import Self
 
 from azure.core import AsyncPipelineClient
 from azure.core.credentials import AzureKeyCredential
@@ -33,8 +34,8 @@ class FaceClient(FaceClientOperationsMixin):  # pylint: disable=client-accepts-a
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: API Version. Default value is "v1.1-preview.1". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: API Version. Known values are "v1.2-preview.1" and None. Default value is
+     "v1.2-preview.1". Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str or ~azure.ai.vision.face.models.Versions
     """
 
@@ -98,7 +99,7 @@ class FaceClient(FaceClientOperationsMixin):  # pylint: disable=client-accepts-a
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "FaceClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
@@ -116,8 +117,8 @@ class FaceSessionClient(FaceSessionClientOperationsMixin):  # pylint: disable=cl
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: API Version. Default value is "v1.1-preview.1". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: API Version. Known values are "v1.2-preview.1" and None. Default value is
+     "v1.2-preview.1". Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str or ~azure.ai.vision.face.models.Versions
     """
 
@@ -181,7 +182,7 @@ class FaceSessionClient(FaceSessionClientOperationsMixin):  # pylint: disable=cl
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "FaceSessionClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
