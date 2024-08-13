@@ -51,7 +51,7 @@ def build_list_by_container_app_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -60,7 +60,7 @@ def build_list_by_container_app_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -84,7 +84,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -93,7 +93,7 @@ def build_get_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -113,12 +113,18 @@ def build_get_request(
 
 
 def build_create_or_update_request(
-    resource_group_name: str, container_app_name: str, source_control_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str,
+    container_app_name: str,
+    source_control_name: str,
+    subscription_id: str,
+    *,
+    x_ms_github_auxiliary: str,
+    **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -128,7 +134,7 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -142,6 +148,7 @@ def build_create_or_update_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    _headers["x-ms-github-auxiliary"] = _SERIALIZER.header("x_ms_github_auxiliary", x_ms_github_auxiliary, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -150,12 +157,20 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str, container_app_name: str, source_control_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str,
+    container_app_name: str,
+    source_control_name: str,
+    subscription_id: str,
+    *,
+    x_ms_github_auxiliary: str,
+    ignore_workflow_deletion_failure: Optional[bool] = None,
+    delete_workflow: Optional[bool] = None,
+    **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-02-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -164,7 +179,7 @@ def build_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -175,9 +190,16 @@ def build_delete_request(
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
+    if ignore_workflow_deletion_failure is not None:
+        _params["ignoreWorkflowDeletionFailure"] = _SERIALIZER.query(
+            "ignore_workflow_deletion_failure", ignore_workflow_deletion_failure, "bool"
+        )
+    if delete_workflow is not None:
+        _params["deleteWorkflow"] = _SERIALIZER.query("delete_workflow", delete_workflow, "bool")
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    _headers["x-ms-github-auxiliary"] = _SERIALIZER.header("x_ms_github_auxiliary", x_ms_github_auxiliary, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
@@ -356,6 +378,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: Union[_models.SourceControl, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
@@ -387,6 +410,7 @@ class ContainerAppsSourceControlsOperations:
             container_app_name=container_app_name,
             source_control_name=source_control_name,
             subscription_id=self._config.subscription_id,
+            x_ms_github_auxiliary=x_ms_github_auxiliary,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -426,6 +450,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: _models.SourceControl,
         *,
         content_type: str = "application/json",
@@ -442,6 +467,8 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
         :param source_control_envelope: Properties used to create a Container App SourceControl.
          Required.
         :type source_control_envelope: ~azure.mgmt.appcontainers.models.SourceControl
@@ -460,6 +487,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: IO[bytes],
         *,
         content_type: str = "application/json",
@@ -476,6 +504,8 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
         :param source_control_envelope: Properties used to create a Container App SourceControl.
          Required.
         :type source_control_envelope: IO[bytes]
@@ -494,6 +524,7 @@ class ContainerAppsSourceControlsOperations:
         resource_group_name: str,
         container_app_name: str,
         source_control_name: str,
+        x_ms_github_auxiliary: str,
         source_control_envelope: Union[_models.SourceControl, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.SourceControl]:
@@ -508,6 +539,8 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
         :param source_control_envelope: Properties used to create a Container App SourceControl. Is
          either a SourceControl type or a IO[bytes] type. Required.
         :type source_control_envelope: ~azure.mgmt.appcontainers.models.SourceControl or IO[bytes]
@@ -530,6 +563,7 @@ class ContainerAppsSourceControlsOperations:
                 resource_group_name=resource_group_name,
                 container_app_name=container_app_name,
                 source_control_name=source_control_name,
+                x_ms_github_auxiliary=x_ms_github_auxiliary,
                 source_control_envelope=source_control_envelope,
                 api_version=api_version,
                 content_type=content_type,
@@ -565,7 +599,14 @@ class ContainerAppsSourceControlsOperations:
         )
 
     def _delete_initial(
-        self, resource_group_name: str, container_app_name: str, source_control_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        container_app_name: str,
+        source_control_name: str,
+        x_ms_github_auxiliary: str,
+        ignore_workflow_deletion_failure: Optional[bool] = None,
+        delete_workflow: Optional[bool] = None,
+        **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -586,6 +627,9 @@ class ContainerAppsSourceControlsOperations:
             container_app_name=container_app_name,
             source_control_name=source_control_name,
             subscription_id=self._config.subscription_id,
+            x_ms_github_auxiliary=x_ms_github_auxiliary,
+            ignore_workflow_deletion_failure=ignore_workflow_deletion_failure,
+            delete_workflow=delete_workflow,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -618,7 +662,14 @@ class ContainerAppsSourceControlsOperations:
 
     @distributed_trace
     def begin_delete(
-        self, resource_group_name: str, container_app_name: str, source_control_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        container_app_name: str,
+        source_control_name: str,
+        x_ms_github_auxiliary: str,
+        ignore_workflow_deletion_failure: Optional[bool] = None,
+        delete_workflow: Optional[bool] = None,
+        **kwargs: Any
     ) -> LROPoller[None]:
         """Delete a Container App SourceControl.
 
@@ -631,6 +682,13 @@ class ContainerAppsSourceControlsOperations:
         :type container_app_name: str
         :param source_control_name: Name of the Container App SourceControl. Required.
         :type source_control_name: str
+        :param x_ms_github_auxiliary: Github personal access token used for SourceControl. Required.
+        :type x_ms_github_auxiliary: str
+        :param ignore_workflow_deletion_failure: Ignore Workflow Deletion Failure. Default value is
+         None.
+        :type ignore_workflow_deletion_failure: bool
+        :param delete_workflow: Delete workflow. Default value is None.
+        :type delete_workflow: bool
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -648,6 +706,9 @@ class ContainerAppsSourceControlsOperations:
                 resource_group_name=resource_group_name,
                 container_app_name=container_app_name,
                 source_control_name=source_control_name,
+                x_ms_github_auxiliary=x_ms_github_auxiliary,
+                ignore_workflow_deletion_failure=ignore_workflow_deletion_failure,
+                delete_workflow=delete_workflow,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,

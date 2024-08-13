@@ -29,16 +29,30 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
     response = client.jobs.begin_create_or_update(
         resource_group_name="rg",
-        job_name="testcontainerappsjob0",
+        job_name="testcontainerAppsJob0",
         job_envelope={
+            "identity": {
+                "type": "SystemAssigned,UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity": {}
+                },
+            },
             "location": "East US",
             "properties": {
                 "configuration": {
+                    "identitySettings": [
+                        {
+                            "identity": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+                            "lifecycle": "All",
+                        },
+                        {"identity": "system", "lifecycle": "Init"},
+                    ],
                     "manualTriggerConfig": {"parallelism": 4, "replicaCompletionCount": 1},
                     "replicaRetryLimit": 10,
                     "replicaTimeout": 10,
@@ -48,8 +62,8 @@ def main():
                 "template": {
                     "containers": [
                         {
-                            "image": "repo/testcontainerappsjob0:v1",
-                            "name": "testcontainerappsjob0",
+                            "image": "repo/testcontainerAppsJob0:v1",
+                            "name": "testcontainerAppsJob0",
                             "probes": [
                                 {
                                     "httpGet": {
@@ -62,15 +76,19 @@ def main():
                                     "type": "Liveness",
                                 }
                             ],
+                            "volumeMounts": [
+                                {"mountPath": "/mnt/path1", "subPath": "subPath1", "volumeName": "azurefile"},
+                                {"mountPath": "/mnt/path2", "subPath": "subPath2", "volumeName": "nfsazurefile"},
+                            ],
                         }
                     ],
                     "initContainers": [
                         {
                             "args": ["-c", "while true; do echo hello; sleep 10;done"],
                             "command": ["/bin/sh"],
-                            "image": "repo/testcontainerappsjob0:v4",
+                            "image": "repo/testcontainerAppsJob0:v4",
                             "name": "testinitcontainerAppsJob0",
-                            "resources": {"cpu": 0.5, "memory": "1Gi"},
+                            "resources": {"cpu": 0.2, "memory": "100Mi"},
                         }
                     ],
                 },
@@ -80,6 +98,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_CreateorUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/Job_CreateorUpdate.json
 if __name__ == "__main__":
     main()

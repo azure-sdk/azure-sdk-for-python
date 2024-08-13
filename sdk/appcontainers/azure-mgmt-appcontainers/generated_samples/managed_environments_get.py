@@ -24,6 +24,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
@@ -33,7 +34,7 @@ def main():
     )
     print(response)
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_Get.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/ManagedEnvironments_Get.json
 if __name__ == "__main__":
     main()
 n__":
