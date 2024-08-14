@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.azurestackhci import AzureStackHCIClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     pip install azure-identity
     pip install azure-mgmt-azurestackhci
 # USAGE
-    python list_gallery_image_by_resource_group.py
+    python get_offer.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +30,15 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.gallery_images.list(
+    response = client.offers.get(
         resource_group_name="test-rg",
+        cluster_name="myCluster",
+        publisher_name="publisher1",
+        offer_name="offer1",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/ListGalleryImageByResourceGroup.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/GetOffer.json
 if __name__ == "__main__":
     main()
