@@ -34,7 +34,7 @@ def main():
 
     response = client.jobs.begin_update(
         resource_group_name="rg",
-        job_name="testcontainerappsjob0",
+        job_name="testcontainerAppsJob0",
         job_envelope={
             "properties": {
                 "configuration": {
@@ -46,8 +46,8 @@ def main():
                 "template": {
                     "containers": [
                         {
-                            "image": "repo/testcontainerappsjob0:v1",
-                            "name": "testcontainerappsjob0",
+                            "image": "repo/testcontainerAppsJob0:v1",
+                            "name": "testcontainerAppsJob0",
                             "probes": [
                                 {
                                     "httpGet": {
@@ -66,9 +66,9 @@ def main():
                         {
                             "args": ["-c", "while true; do echo hello; sleep 10;done"],
                             "command": ["/bin/sh"],
-                            "image": "repo/testcontainerappsjob0:v4",
+                            "image": "repo/testcontainerAppsJob0:v4",
                             "name": "testinitcontainerAppsJob0",
-                            "resources": {"cpu": 0.5, "memory": "1Gi"},
+                            "resources": {"cpu": 0.2, "memory": "100Mi"},
                         }
                     ],
                 },
@@ -78,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/Job_Patch.json
 if __name__ == "__main__":
     main()

@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
@@ -15,7 +17,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python source_controls_delete.py
+    python dapr_component_resiliency_policy_create_or_update_sparse_options.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +29,30 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
-        subscription_id="651f8027-33e8-4ec4-97b4-f6e9f3dc8744",
+        subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    client.container_apps_source_controls.begin_delete(
-        resource_group_name="workerapps-rg-xj",
-        container_app_name="testcanadacentral",
-        source_control_name="current",
-    ).result()
+    response = client.dapr_component_resiliency_policies.create_or_update(
+        resource_group_name="examplerg",
+        environment_name="myenvironment",
+        component_name="mydaprcomponent",
+        name="myresiliencypolicy",
+        dapr_component_resiliency_policy_envelope={
+            "properties": {
+                "inboundPolicy": {
+                    "circuitBreakerPolicy": {"consecutiveErrors": 3, "timeoutInSeconds": 20},
+                    "httpRetryPolicy": {
+                        "maxRetries": 5,
+                        "retryBackOff": {"initialDelayInMilliseconds": 2000, "maxIntervalInMilliseconds": 5500},
+                    },
+                },
+                "outboundPolicy": {"timeoutPolicy": {"responseTimeoutInSeconds": 12}},
+            }
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/SourceControls_Delete.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_SparseOptions.json
 if __name__ == "__main__":
     main()
