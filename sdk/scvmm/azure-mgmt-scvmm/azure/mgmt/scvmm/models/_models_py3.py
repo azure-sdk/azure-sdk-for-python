@@ -921,6 +921,9 @@ class GuestAgentProperties(_serialization.Model):
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", "Accepted", and "Created".
     :vartype provisioning_state: str or ~azure.mgmt.scvmm.models.ProvisioningState
+    :ivar private_link_scope_resource_id: The resource id of the private link scope this machine is
+     assigned to, if any.
+    :vartype private_link_scope_resource_id: str
     """
 
     _validation = {
@@ -938,6 +941,7 @@ class GuestAgentProperties(_serialization.Model):
         "status": {"key": "status", "type": "str"},
         "custom_resource_name": {"key": "customResourceName", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "private_link_scope_resource_id": {"key": "privateLinkScopeResourceId", "type": "str"},
     }
 
     def __init__(
@@ -946,6 +950,7 @@ class GuestAgentProperties(_serialization.Model):
         credentials: Optional["_models.GuestCredential"] = None,
         http_proxy_config: Optional["_models.HttpProxyConfiguration"] = None,
         provisioning_action: Optional[Union[str, "_models.ProvisioningAction"]] = None,
+        private_link_scope_resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -956,6 +961,9 @@ class GuestAgentProperties(_serialization.Model):
         :keyword provisioning_action: Gets or sets the guest agent provisioning action. Known values
          are: "install", "uninstall", and "repair".
         :paramtype provisioning_action: str or ~azure.mgmt.scvmm.models.ProvisioningAction
+        :keyword private_link_scope_resource_id: The resource id of the private link scope this machine
+         is assigned to, if any.
+        :paramtype private_link_scope_resource_id: str
         """
         super().__init__(**kwargs)
         self.uuid = None
@@ -965,6 +973,7 @@ class GuestAgentProperties(_serialization.Model):
         self.status = None
         self.custom_resource_name = None
         self.provisioning_state = None
+        self.private_link_scope_resource_id = private_link_scope_resource_id
 
 
 class GuestCredential(_serialization.Model):
@@ -1742,7 +1751,7 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class OsProfileForVmInstance(_serialization.Model):
+class OsProfileForVmInstance(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Defines the resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1757,6 +1766,21 @@ class OsProfileForVmInstance(_serialization.Model):
     :vartype os_sku: str
     :ivar os_version: Gets os version.
     :vartype os_version: str
+    :ivar domain_name: Gets or sets the domain name.
+    :vartype domain_name: str
+    :ivar domain_username: Gets or sets the domain username.
+    :vartype domain_username: str
+    :ivar domain_password: Password of the domain the VM has to join.
+    :vartype domain_password: str
+    :ivar workgroup: Gets or sets the workgroup.
+    :vartype workgroup: str
+    :ivar product_key: Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx.
+    :vartype product_key: str
+    :ivar timezone: Gets or sets the index value of the timezone.
+    :vartype timezone: int
+    :ivar run_once_commands: Get or sets the commands to be run once at the time of creation
+     separated by semicolons.
+    :vartype run_once_commands: str
     """
 
     _validation = {
@@ -1771,16 +1795,49 @@ class OsProfileForVmInstance(_serialization.Model):
         "os_type": {"key": "osType", "type": "str"},
         "os_sku": {"key": "osSku", "type": "str"},
         "os_version": {"key": "osVersion", "type": "str"},
+        "domain_name": {"key": "domainName", "type": "str"},
+        "domain_username": {"key": "domainUsername", "type": "str"},
+        "domain_password": {"key": "domainPassword", "type": "str"},
+        "workgroup": {"key": "workgroup", "type": "str"},
+        "product_key": {"key": "productKey", "type": "str"},
+        "timezone": {"key": "timezone", "type": "int"},
+        "run_once_commands": {"key": "runOnceCommands", "type": "str"},
     }
 
     def __init__(
-        self, *, admin_password: Optional[str] = None, computer_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        admin_password: Optional[str] = None,
+        computer_name: Optional[str] = None,
+        domain_name: Optional[str] = None,
+        domain_username: Optional[str] = None,
+        domain_password: Optional[str] = None,
+        workgroup: Optional[str] = None,
+        product_key: Optional[str] = None,
+        timezone: Optional[int] = None,
+        run_once_commands: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword admin_password: Admin password of the virtual machine.
         :paramtype admin_password: str
         :keyword computer_name: Gets or sets computer name.
         :paramtype computer_name: str
+        :keyword domain_name: Gets or sets the domain name.
+        :paramtype domain_name: str
+        :keyword domain_username: Gets or sets the domain username.
+        :paramtype domain_username: str
+        :keyword domain_password: Password of the domain the VM has to join.
+        :paramtype domain_password: str
+        :keyword workgroup: Gets or sets the workgroup.
+        :paramtype workgroup: str
+        :keyword product_key: Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx.
+        :paramtype product_key: str
+        :keyword timezone: Gets or sets the index value of the timezone.
+        :paramtype timezone: int
+        :keyword run_once_commands: Get or sets the commands to be run once at the time of creation
+         separated by semicolons.
+        :paramtype run_once_commands: str
         """
         super().__init__(**kwargs)
         self.admin_password = admin_password
@@ -1788,6 +1845,13 @@ class OsProfileForVmInstance(_serialization.Model):
         self.os_type = None
         self.os_sku = None
         self.os_version = None
+        self.domain_name = domain_name
+        self.domain_username = domain_username
+        self.domain_password = domain_password
+        self.workgroup = workgroup
+        self.product_key = product_key
+        self.timezone = timezone
+        self.run_once_commands = run_once_commands
 
 
 class StopVirtualMachineOptions(_serialization.Model):
