@@ -1,6 +1,6 @@
 {
-  "commit": "ab064e0047ec560a700d6b501097d99471ad817b",
-  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "commit": "af361d7d9edbfcc2aa8a9177452c0a62f64d2d95",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
   "typespec_src": "specification/edgezones/EdgeZones.Management",
-  "@azure-tools/typespec-python": "0.25.0"
+  "@azure-tools/typespec-python": "0.28.0"
 }
