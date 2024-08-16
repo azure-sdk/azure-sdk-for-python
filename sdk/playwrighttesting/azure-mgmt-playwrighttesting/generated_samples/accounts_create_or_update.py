@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.playwrighttesting import PlaywrightTestingMgmtClient
 
 """
@@ -31,12 +34,12 @@ def main():
 
     response = client.accounts.begin_create_or_update(
         resource_group_name="dummyrg",
-        name="myPlaywrightAccount",
+        account_name="myPlaywrightAccount",
         resource={"location": "westus", "properties": {"regionalAffinity": "Enabled"}, "tags": {"Team": "Dev Exp"}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/preview/2023-10-01-preview/examples/Accounts_CreateOrUpdate.json
+# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/preview/2024-02-01-preview/examples/Accounts_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

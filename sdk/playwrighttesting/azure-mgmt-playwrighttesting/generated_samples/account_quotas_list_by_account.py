@@ -15,7 +15,7 @@ from azure.mgmt.playwrighttesting import PlaywrightTestingMgmtClient
     pip install azure-identity
     pip install azure-mgmt-playwrighttesting
 # USAGE
-    python accounts_list_by_subscription.py
+    python account_quotas_list_by_account.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,11 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.accounts.list_by_subscription()
+    response = client.account_quotas.list_by_account(
+        resource_group_name="dummyrg",
+        account_name="myPlaywrightAccount",
+    )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/preview/2024-02-01-preview/examples/Accounts_ListBySubscription.json
+# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/preview/2024-02-01-preview/examples/AccountQuotas_ListByAccount.json
 if __name__ == "__main__":
     main()
