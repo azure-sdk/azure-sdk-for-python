@@ -4174,6 +4174,8 @@ class LinuxConfiguration(_serialization.Model):
     Linux distributions, see `Linux on Azure-Endorsed Distributions
     <https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros>`_.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar disable_password_authentication: Specifies whether password authentication should be
      disabled.
     :vartype disable_password_authentication: bool
@@ -4187,10 +4189,14 @@ class LinuxConfiguration(_serialization.Model):
     :ivar patch_settings: [Preview Feature] Specifies settings related to VM Guest Patching on
      Linux.
     :vartype patch_settings: ~azure.mgmt.compute.v2024_03_01.models.LinuxPatchSettings
-    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is enabled
-     for the Linux virtual machine. Default value is false.
+    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates are enabled
+     for the Linux Virtual Machine.
     :vartype enable_vm_agent_platform_updates: bool
     """
+
+    _validation = {
+        "enable_vm_agent_platform_updates": {"readonly": True},
+    }
 
     _attribute_map = {
         "disable_password_authentication": {"key": "disablePasswordAuthentication", "type": "bool"},
@@ -4207,7 +4213,6 @@ class LinuxConfiguration(_serialization.Model):
         ssh: Optional["_models.SshConfiguration"] = None,
         provision_vm_agent: Optional[bool] = None,
         patch_settings: Optional["_models.LinuxPatchSettings"] = None,
-        enable_vm_agent_platform_updates: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4224,16 +4229,13 @@ class LinuxConfiguration(_serialization.Model):
         :keyword patch_settings: [Preview Feature] Specifies settings related to VM Guest Patching on
          Linux.
         :paramtype patch_settings: ~azure.mgmt.compute.v2024_03_01.models.LinuxPatchSettings
-        :keyword enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is
-         enabled for the Linux virtual machine. Default value is false.
-        :paramtype enable_vm_agent_platform_updates: bool
         """
         super().__init__(**kwargs)
         self.disable_password_authentication = disable_password_authentication
         self.ssh = ssh
         self.provision_vm_agent = provision_vm_agent
         self.patch_settings = patch_settings
-        self.enable_vm_agent_platform_updates = enable_vm_agent_platform_updates
+        self.enable_vm_agent_platform_updates = None
 
 
 class LinuxParameters(_serialization.Model):
@@ -16640,6 +16642,8 @@ class VMSizeProperties(_serialization.Model):
 class WindowsConfiguration(_serialization.Model):
     """Specifies Windows operating system settings on the virtual machine.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar provision_vm_agent: Indicates whether virtual machine agent should be provisioned on the
      virtual machine. When this property is not specified in the request body, it is set to true by
      default. This will ensure that VM Agent is installed on the VM so that extensions can be added
@@ -16665,10 +16669,14 @@ class WindowsConfiguration(_serialization.Model):
     :ivar win_rm: Specifies the Windows Remote Management listeners. This enables remote Windows
      PowerShell.
     :vartype win_rm: ~azure.mgmt.compute.v2024_03_01.models.WinRMConfiguration
-    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is enabled
-     for the Windows virtual machine. Default value is false.
+    :ivar enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates are enabled
+     for the Windows Virtual Machine.
     :vartype enable_vm_agent_platform_updates: bool
     """
+
+    _validation = {
+        "enable_vm_agent_platform_updates": {"readonly": True},
+    }
 
     _attribute_map = {
         "provision_vm_agent": {"key": "provisionVMAgent", "type": "bool"},
@@ -16689,7 +16697,6 @@ class WindowsConfiguration(_serialization.Model):
         additional_unattend_content: Optional[List["_models.AdditionalUnattendContent"]] = None,
         patch_settings: Optional["_models.PatchSettings"] = None,
         win_rm: Optional["_models.WinRMConfiguration"] = None,
-        enable_vm_agent_platform_updates: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -16718,9 +16725,6 @@ class WindowsConfiguration(_serialization.Model):
         :keyword win_rm: Specifies the Windows Remote Management listeners. This enables remote Windows
          PowerShell.
         :paramtype win_rm: ~azure.mgmt.compute.v2024_03_01.models.WinRMConfiguration
-        :keyword enable_vm_agent_platform_updates: Indicates whether VMAgent Platform Updates is
-         enabled for the Windows virtual machine. Default value is false.
-        :paramtype enable_vm_agent_platform_updates: bool
         """
         super().__init__(**kwargs)
         self.provision_vm_agent = provision_vm_agent
@@ -16729,7 +16733,7 @@ class WindowsConfiguration(_serialization.Model):
         self.additional_unattend_content = additional_unattend_content
         self.patch_settings = patch_settings
         self.win_rm = win_rm
-        self.enable_vm_agent_platform_updates = enable_vm_agent_platform_updates
+        self.enable_vm_agent_platform_updates = None
 
 
 class WindowsParameters(_serialization.Model):
