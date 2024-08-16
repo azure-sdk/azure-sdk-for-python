@@ -34,6 +34,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/oracleSubscriptions_listCloudAccountDetails.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2024-06-01/examples/oracleSubscriptions_listCloudAccountDetails.json
 if __name__ == "__main__":
     main()
