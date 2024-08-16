@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import DeleteRetentionPolicy
 from ._models_py3 import ElasticSan
 from ._models_py3 import ElasticSanList
 from ._models_py3 import ElasticSanProperties
@@ -69,10 +70,12 @@ from ._elastic_san_mgmt_client_enums import Origin
 from ._elastic_san_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
 from ._elastic_san_mgmt_client_enums import ProvisioningStates
 from ._elastic_san_mgmt_client_enums import PublicNetworkAccess
+from ._elastic_san_mgmt_client_enums import Purge
 from ._elastic_san_mgmt_client_enums import SkuName
 from ._elastic_san_mgmt_client_enums import SkuTier
 from ._elastic_san_mgmt_client_enums import StorageTargetType
 from ._elastic_san_mgmt_client_enums import VolumeCreateOption
+from ._elastic_san_mgmt_client_enums import XMsAccessSoftDeletedResources
 from ._elastic_san_mgmt_client_enums import XMsDeleteSnapshots
 from ._elastic_san_mgmt_client_enums import XMsForceDelete
 from ._patch import __all__ as _patch_all
@@ -80,6 +83,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "DeleteRetentionPolicy",
     "ElasticSan",
     "ElasticSanList",
     "ElasticSanProperties",
@@ -142,10 +146,12 @@ __all__ = [
     "PrivateEndpointServiceConnectionStatus",
     "ProvisioningStates",
     "PublicNetworkAccess",
+    "Purge",
     "SkuName",
     "SkuTier",
     "StorageTargetType",
     "VolumeCreateOption",
+    "XMsAccessSoftDeletedResources",
     "XMsDeleteSnapshots",
     "XMsForceDelete",
 ]

@@ -11,6 +11,7 @@ from ._skus_operations import SkusOperations
 from ._elastic_sans_operations import ElasticSansOperations
 from ._volume_groups_operations import VolumeGroupsOperations
 from ._volumes_operations import VolumesOperations
+from ._elastic_san_mgmt_client_operations import ElasticSanMgmtClientOperationsMixin
 from ._private_endpoint_connections_operations import PrivateEndpointConnectionsOperations
 from ._private_link_resources_operations import PrivateLinkResourcesOperations
 from ._volume_snapshots_operations import VolumeSnapshotsOperations
@@ -25,6 +26,7 @@ __all__ = [
     "ElasticSansOperations",
     "VolumeGroupsOperations",
     "VolumesOperations",
+    "ElasticSanMgmtClientOperationsMixin",
     "PrivateEndpointConnectionsOperations",
     "PrivateLinkResourcesOperations",
     "VolumeSnapshotsOperations",
