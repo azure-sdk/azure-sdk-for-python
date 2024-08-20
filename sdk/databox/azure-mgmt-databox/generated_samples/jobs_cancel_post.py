@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databox import DataBoxManagementClient
 
 """
@@ -29,14 +32,13 @@ def main():
         subscription_id="YourSubscriptionId",
     )
 
-    response = client.jobs.cancel(
+    client.jobs.cancel(
         resource_group_name="YourResourceGroupName",
         job_name="TestJobName1",
         cancellation_reason={"reason": "CancelTest"},
     )
-    print(response)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCancelPost.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2023-03-01/examples/JobsCancelPost.json
 if __name__ == "__main__":
     main()

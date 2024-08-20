@@ -148,7 +148,7 @@ class AvailableSkuRequest(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar transfer_type: Type of the transfer. Required. Default value is "ImportToAzure".
     :vartype transfer_type: str
@@ -236,7 +236,7 @@ class AvailableSkusResult(_serialization.Model):
 class CancellationReason(_serialization.Model):
     """Reason for cancellation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reason: Reason for cancellation. Required.
     :vartype reason: str
@@ -262,7 +262,7 @@ class CancellationReason(_serialization.Model):
 class ContactDetails(_serialization.Model):
     """Contact Details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar contact_name: Contact name of the person. Required.
     :vartype contact_name: str
@@ -335,7 +335,7 @@ class CopyLogDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DataBoxAccountCopyLogDetails, DataBoxDiskCopyLogDetails, DataBoxHeavyAccountCopyLogDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -418,7 +418,7 @@ class DataBoxAccountCopyLogDetails(CopyLogDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -455,7 +455,7 @@ class DataBoxDiskCopyLogDetails(CopyLogDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -539,7 +539,7 @@ class JobDetails(_serialization.Model):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expected_data_size_in_tera_bytes: The expected size of the data, which needs to be
      transferred in this job, in terabytes.
@@ -655,7 +655,7 @@ class DataBoxDiskJobDetails(JobDetails):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expected_data_size_in_tera_bytes: The expected size of the data, which needs to be
      transferred in this job, in terabytes.
@@ -788,7 +788,7 @@ class JobSecrets(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DataboxJobSecrets, DataBoxDiskJobSecrets, DataBoxHeavyJobSecrets
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -822,7 +822,7 @@ class DataBoxDiskJobSecrets(JobSecrets):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -863,7 +863,7 @@ class DataBoxHeavyAccountCopyLogDetails(CopyLogDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -900,7 +900,7 @@ class DataBoxHeavyJobDetails(JobDetails):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expected_data_size_in_tera_bytes: The expected size of the data, which needs to be
      transferred in this job, in terabytes.
@@ -1008,7 +1008,7 @@ class DataBoxHeavyJobSecrets(JobSecrets):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1085,7 +1085,7 @@ class DataBoxJobDetails(JobDetails):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar expected_data_size_in_tera_bytes: The expected size of the data, which needs to be
      transferred in this job, in terabytes.
@@ -1191,7 +1191,7 @@ class DataBoxJobDetails(JobDetails):  # pylint: disable=too-many-instance-attrib
 class DataboxJobSecrets(JobSecrets):
     """The secrets related to a DataBox job.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1271,7 +1271,7 @@ class DestinationAccountDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DestinationManagedDiskDetails, DestinationStorageAccountDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_destination_type: Data Destination Type. Required. Known values are: "UnknownType",
      "StorageAccount", and "ManagedDisk".
@@ -1310,7 +1310,7 @@ class DestinationAccountDetails(_serialization.Model):
 class DestinationManagedDiskDetails(DestinationAccountDetails):
     """Details for the destination compute disks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_destination_type: Data Destination Type. Required. Known values are: "UnknownType",
      "StorageAccount", and "ManagedDisk".
@@ -1366,7 +1366,7 @@ class DestinationManagedDiskDetails(DestinationAccountDetails):
 class DestinationStorageAccountDetails(DestinationAccountDetails):
     """Details for the destination storage account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_destination_type: Data Destination Type. Required. Known values are: "UnknownType",
      "StorageAccount", and "ManagedDisk".
@@ -1527,7 +1527,7 @@ class JobErrorDetails(_serialization.Model):
 class Resource(_serialization.Model):
     """Model of the Resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The location of the resource. This will be one of the supported and registered
      Azure Regions (e.g. West US, East US, Southeast Asia, etc.). The region of a resource cannot be
@@ -1578,7 +1578,7 @@ class JobResource(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The location of the resource. This will be one of the supported and registered
      Azure Regions (e.g. West US, East US, Southeast Asia, etc.). The region of a resource cannot be
@@ -1815,7 +1815,7 @@ class JobStages(_serialization.Model):
 class NotificationPreference(_serialization.Model):
     """Notification preference for a job stage.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar stage_name: Name of the stage. Required. Known values are: "DevicePrepared",
      "Dispatched", "Delivered", "PickedUp", "AtAzureDC", and "DataCopy".
@@ -2065,7 +2065,7 @@ class ShareCredentialDetails(_serialization.Model):
 class ShipmentPickUpRequest(_serialization.Model):
     """Shipment pick up request details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_time: Minimum date after which the pick up should commence, this must be in local
      time of pick up area. Required.
@@ -2140,7 +2140,7 @@ class ShipmentPickUpResponse(_serialization.Model):
 class ShippingAddress(_serialization.Model):
     """Shipping address where customer wishes to receive the device.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar street_address1: Street Address line 1. Required.
     :vartype street_address1: str
@@ -2237,7 +2237,7 @@ class ShippingAddress(_serialization.Model):
 class Sku(_serialization.Model):
     """The Sku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The sku name. Required. Known values are: "DataBox", "DataBoxDisk", and
      "DataBoxHeavy".
@@ -2500,7 +2500,7 @@ class UpdateJobDetails(_serialization.Model):
 class ValidateAddress(_serialization.Model):
     """The requirements to validate customer address where the device needs to be shipped.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar shipping_address: Shipping address of the customer. Required.
     :vartype shipping_address: ~azure.mgmt.databox.v2018_01_01.models.ShippingAddress

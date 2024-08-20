@@ -1,11 +1,27 @@
 {
-  "commit": "6e70667577cfb7bc194785683ca591b95abd524c",
+  "commit": "2bd56d51d943dbafc1b4a41264b921c7b61b8b73",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.4.8",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.17.0",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/databox/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.8 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/databox/resource-manager/readme.md"
+  "autorest_command": "autorest specification/databox/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.17.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/databox/resource-manager/readme.md",
+  "package-2024-03-preview": "2024-08-20 11:18:26 +0800 39f0b629abce380fee44e916c5b8b0e8dde162cf Microsoft.DataBox/preview/2024-03-01-preview/databox.json",
+  "package-2024-02-preview": "2024-01-25 12:09:08 +0530 4307895c13b5bc76d3d6e5d6346a32577842ac17 Microsoft.DataBox/preview/2024-02-01-preview/databox.json",
+  "package-2023-12": "2023-12-08 06:10:08 +0530 9b5ad5f47dad225e8ae03d86b509c1140c8abdc6 Microsoft.DataBox/stable/2023-12-01/databox.json",
+  "package-2023-03": "2023-08-03 04:23:58 +0530 58be094c6b365f8d4d73a91e293dfb4818e57cf6 Microsoft.DataBox/stable/2023-03-01/databox.json",
+  "package-2022-12": "2023-04-01 17:35:41 +0530 56ec6a3d73eac40b3f4763806c795b2f3066d64f Microsoft.DataBox/stable/2022-12-01/databox.json",
+  "package-2022-10": "2023-02-28 11:08:57 +0530 2d05fdbacbde4cede3d2caee36ab612f160c4b85 Microsoft.DataBox/stable/2022-10-01/databox.json",
+  "package-2022-09": "2022-11-30 08:03:12 +0530 85ea3e489c45e80383801d4f3a1278f1e687a7b8 Microsoft.DataBox/stable/2022-09-01/databox.json",
+  "package-2022-02": "2022-10-26 11:47:06 +0530 a1fcaf3d60ff4ab3358e879cd0aeb24389ae3383 Microsoft.DataBox/stable/2022-02-01/databox.json",
+  "package-2021-12": "2022-10-26 11:47:06 +0530 a1fcaf3d60ff4ab3358e879cd0aeb24389ae3383 Microsoft.DataBox/stable/2021-12-01/databox.json",
+  "package-2021-08-preview": "2022-01-28 09:23:23 +0530 31e3d74717007c0e674ee38b331bbb4d67de3639 Microsoft.DataBox/preview/2021-08-01-preview/databox.json",
+  "package-2021-05": "2022-02-18 02:35:34 +0100 1659cfde425308fc46b5f2cd962c3be40ba04ace Microsoft.DataBox/stable/2021-05-01/databox.json",
+  "package-2021-03": "2021-03-29 12:02:17 +0530 8db31684c2957241dd704e2acc76841c076a4a2c Microsoft.DataBox/stable/2021-03-01/databox.json",
+  "package-2020-11": "2021-03-01 08:31:04 +0530 997de0f031e58a105e13305c6d241cc3f4d5cb50 Microsoft.DataBox/stable/2020-11-01/databox.json",
+  "package-2020-04": "2021-02-23 04:48:35 +0530 3cf56bc95ad52617ad71aeb318cb6729eafd6b88 Microsoft.DataBox/stable/2020-04-01/databox.json",
+  "package-2019-09": "2021-02-23 04:48:35 +0530 3cf56bc95ad52617ad71aeb318cb6729eafd6b88 Microsoft.DataBox/stable/2019-09-01/databox.json",
+  "package-2018-01": "2021-02-23 04:48:35 +0530 3cf56bc95ad52617ad71aeb318cb6729eafd6b88 Microsoft.DataBox/stable/2018-01-01/databox.json"
 }

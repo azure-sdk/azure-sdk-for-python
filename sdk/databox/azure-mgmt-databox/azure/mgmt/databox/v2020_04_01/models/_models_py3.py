@@ -144,7 +144,7 @@ class ValidationInputResponse(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -188,7 +188,7 @@ class AddressValidationProperties(ValidationInputResponse):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -230,7 +230,7 @@ class AddressValidationProperties(ValidationInputResponse):
 class ApiError(_serialization.Model):
     """ApiError.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar error: Required.
     :vartype error: ~azure.mgmt.databox.v2020_04_01.models.ErrorDetail
@@ -317,7 +317,7 @@ class ArmBaseObject(_serialization.Model):
 class AvailableSkuRequest(_serialization.Model):
     """The filters for showing the available skus.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar transfer_type: Type of the transfer. Required. Known values are: "ImportToAzure" and
      "ExportFromAzure".
@@ -487,7 +487,7 @@ class BlobFilterDetails(_serialization.Model):
 class CancellationReason(_serialization.Model):
     """Reason for cancellation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reason: Reason for cancellation. Required.
     :vartype reason: str
@@ -562,7 +562,7 @@ class CloudError(_serialization.Model):
 class ContactDetails(_serialization.Model):
     """Contact Details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar contact_name: Contact name of the person. Required.
     :vartype contact_name: str
@@ -635,7 +635,7 @@ class CopyLogDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DataBoxAccountCopyLogDetails, DataBoxDiskCopyLogDetails, DataBoxHeavyAccountCopyLogDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -771,7 +771,7 @@ class ValidationRequest(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     CreateJobValidations
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_category: Identify the nature of validation. Required. Default value is
      "JobCreationValidation".
@@ -809,7 +809,7 @@ class ValidationRequest(_serialization.Model):
 class CreateJobValidations(ValidationRequest):
     """It does all pre-job creation validations.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_category: Identify the nature of validation. Required. Default value is
      "JobCreationValidation".
@@ -849,7 +849,7 @@ class ValidationInputRequest(_serialization.Model):
     DataTransferDetailsValidationRequest, PreferencesValidationRequest,
     SkuAvailabilityValidationRequest, SubscriptionIsAllowedToCreateJobValidationRequest
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -883,10 +883,10 @@ class ValidationInputRequest(_serialization.Model):
         self.validation_type: Optional[str] = None
 
 
-class CreateOrderLimitForSubscriptionValidationRequest(ValidationInputRequest):
+class CreateOrderLimitForSubscriptionValidationRequest(ValidationInputRequest):  # pylint: disable=name-too-long
     """Request to validate create order limit for current subscription.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -919,12 +919,14 @@ class CreateOrderLimitForSubscriptionValidationRequest(ValidationInputRequest):
         self.device_type = device_type
 
 
-class CreateOrderLimitForSubscriptionValidationResponseProperties(ValidationInputResponse):
+class CreateOrderLimitForSubscriptionValidationResponseProperties(
+    ValidationInputResponse
+):  # pylint: disable=name-too-long
     """Properties of create order limit for subscription validation response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -963,7 +965,7 @@ class DataAccountDetails(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ManagedDiskDetails, StorageAccountDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_account_type: Account Type of the data to be transferred. Required. Known values
      are: "StorageAccount" and "ManagedDisk".
@@ -1010,7 +1012,7 @@ class DataBoxAccountCopyLogDetails(CopyLogDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1053,7 +1055,7 @@ class DataBoxDiskCopyLogDetails(CopyLogDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1139,7 +1141,7 @@ class JobDetails(_serialization.Model):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_stages: List of stages that run in the job.
     :vartype job_stages: list[~azure.mgmt.databox.v2020_04_01.models.JobStages]
@@ -1258,7 +1260,7 @@ class DataBoxDiskJobDetails(JobDetails):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_stages: List of stages that run in the job.
     :vartype job_stages: list[~azure.mgmt.databox.v2020_04_01.models.JobStages]
@@ -1396,7 +1398,7 @@ class JobSecrets(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1440,7 +1442,7 @@ class DataBoxDiskJobSecrets(JobSecrets):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1489,7 +1491,7 @@ class DataBoxHeavyAccountCopyLogDetails(CopyLogDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar copy_log_details_type: Indicates the type of job details. Required. Known values are:
      "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1532,7 +1534,7 @@ class DataBoxHeavyJobDetails(JobDetails):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_stages: List of stages that run in the job.
     :vartype job_stages: list[~azure.mgmt.databox.v2020_04_01.models.JobStages]
@@ -1660,7 +1662,7 @@ class DataBoxHeavyJobSecrets(JobSecrets):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1745,7 +1747,7 @@ class DataBoxJobDetails(JobDetails):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_stages: List of stages that run in the job.
     :vartype job_stages: list[~azure.mgmt.databox.v2020_04_01.models.JobStages]
@@ -1873,7 +1875,7 @@ class DataboxJobSecrets(JobSecrets):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_secrets_type: Used to indicate what type of job secrets object. Required. Known
      values are: "DataBox", "DataBoxDisk", and "DataBoxHeavy".
@@ -1916,7 +1918,7 @@ class ScheduleAvailabilityRequest(_serialization.Model):
     DataBoxScheduleAvailabilityRequest, DiskScheduleAvailabilityRequest,
     HeavyScheduleAvailabilityRequest
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_location: Location for data transfer. For locations check:
      https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01.
@@ -1966,7 +1968,7 @@ class ScheduleAvailabilityRequest(_serialization.Model):
 class DataBoxScheduleAvailabilityRequest(ScheduleAvailabilityRequest):
     """Request body to get the availability for scheduling data box orders orders.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_location: Location for data transfer. For locations check:
      https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01.
@@ -2052,7 +2054,7 @@ class DataBoxSecret(_serialization.Model):
 class DataExportDetails(_serialization.Model):
     """Details of the data to be used for exporting data from azure.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar transfer_configuration: Configuration for the data transfer. Required.
     :vartype transfer_configuration: ~azure.mgmt.databox.v2020_04_01.models.TransferConfiguration
@@ -2101,7 +2103,7 @@ class DataExportDetails(_serialization.Model):
 class DataImportDetails(_serialization.Model):
     """Details of the data to be used for importing data to azure.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar account_details: Account details of the data to be transferred. Required.
     :vartype account_details: ~azure.mgmt.databox.v2020_04_01.models.DataAccountDetails
@@ -2155,7 +2157,7 @@ class DataLocationToServiceLocationMap(_serialization.Model):
 class DataTransferDetailsValidationRequest(ValidationInputRequest):
     """Request to validate export and import data details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -2218,12 +2220,12 @@ class DataTransferDetailsValidationRequest(ValidationInputRequest):
         self.transfer_type = transfer_type
 
 
-class DataTransferDetailsValidationResponseProperties(ValidationInputResponse):
+class DataTransferDetailsValidationResponseProperties(ValidationInputResponse):  # pylint: disable=name-too-long
     """Properties of data transfer details validation response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -2291,7 +2293,7 @@ class DcAccessSecurityCode(_serialization.Model):
 class Details(_serialization.Model):
     """Details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: Required.
     :vartype code: str
@@ -2324,7 +2326,7 @@ class Details(_serialization.Model):
 class DiskScheduleAvailabilityRequest(ScheduleAvailabilityRequest):
     """Request body to get the availability for scheduling disk orders.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_location: Location for data transfer. For locations check:
      https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01.
@@ -2409,7 +2411,7 @@ class DiskSecret(_serialization.Model):
 class ErrorDetail(_serialization.Model):
     """ErrorDetail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: Required.
     :vartype code: str
@@ -2462,7 +2464,7 @@ class ErrorDetail(_serialization.Model):
 class FilterFileDetails(_serialization.Model):
     """Details of the filter files to be used for data transfer.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar filter_file_type: Type of the filter file. Required. Known values are: "AzureBlob" and
      "AzureFile".
@@ -2501,7 +2503,7 @@ class FilterFileDetails(_serialization.Model):
 class HeavyScheduleAvailabilityRequest(ScheduleAvailabilityRequest):
     """Request body to get the availability for scheduling heavy orders.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_location: Location for data transfer. For locations check:
      https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01.
@@ -2561,7 +2563,7 @@ class JobDeliveryInfo(_serialization.Model):
 class Resource(_serialization.Model):
     """Model of the Resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The location of the resource. This will be one of the supported and registered
      Azure Regions (e.g. West US, East US, Southeast Asia, etc.). The region of a resource cannot be
@@ -2624,7 +2626,7 @@ class JobResource(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The location of the resource. This will be one of the supported and registered
      Azure Regions (e.g. West US, East US, Southeast Asia, etc.). The region of a resource cannot be
@@ -2894,7 +2896,7 @@ class JobStages(_serialization.Model):
 class KeyEncryptionKey(_serialization.Model):
     """Encryption key containing details about key to encrypt different keys.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kek_type: Type of encryption key used for key encryption. Known values are:
      "MicrosoftManaged" and "CustomerManaged".
@@ -2943,7 +2945,7 @@ class KeyEncryptionKey(_serialization.Model):
 class ManagedDiskDetails(DataAccountDetails):
     """Details of the managed disks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_account_type: Account Type of the data to be transferred. Required. Known values
      are: "StorageAccount" and "ManagedDisk".
@@ -3006,7 +3008,7 @@ class ManagedDiskDetails(DataAccountDetails):
 class NotificationPreference(_serialization.Model):
     """Notification preference for a job stage.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar stage_name: Name of the stage. Required. Known values are: "DevicePrepared",
      "Dispatched", "Delivered", "PickedUp", "AtAzureDC", and "DataCopy".
@@ -3230,7 +3232,7 @@ class Preferences(_serialization.Model):
 class PreferencesValidationRequest(ValidationInputRequest):
     """Request to validate preference of transport and data center.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -3280,7 +3282,7 @@ class PreferencesValidationResponseProperties(ValidationInputResponse):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -3498,7 +3500,7 @@ class ShareCredentialDetails(_serialization.Model):
 class ShipmentPickUpRequest(_serialization.Model):
     """Shipment pick up request details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_time: Minimum date after which the pick up should commence, this must be in local
      time of pick up area. Required.
@@ -3573,7 +3575,7 @@ class ShipmentPickUpResponse(_serialization.Model):
 class ShippingAddress(_serialization.Model):
     """Shipping address where customer wishes to receive the device.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar street_address1: Street Address line 1. Required.
     :vartype street_address1: str
@@ -3670,7 +3672,7 @@ class ShippingAddress(_serialization.Model):
 class Sku(_serialization.Model):
     """The Sku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The sku name. Required. Known values are: "DataBox", "DataBoxDisk", and
      "DataBoxHeavy".
@@ -3717,7 +3719,7 @@ class Sku(_serialization.Model):
 class SkuAvailabilityValidationRequest(ValidationInputRequest):
     """Request to validate sku availability.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -3787,12 +3789,12 @@ class SkuAvailabilityValidationRequest(ValidationInputRequest):
         self.location = location
 
 
-class SkuAvailabilityValidationResponseProperties(ValidationInputResponse):
+class SkuAvailabilityValidationResponseProperties(ValidationInputResponse):  # pylint: disable=name-too-long
     """Properties of sku availability validation response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -3959,7 +3961,7 @@ class SkuInformation(_serialization.Model):
 class StorageAccountDetails(DataAccountDetails):
     """Details for the storage account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_account_type: Account Type of the data to be transferred. Required. Known values
      are: "StorageAccount" and "ManagedDisk".
@@ -4003,10 +4005,10 @@ class StorageAccountDetails(DataAccountDetails):
         self.storage_account_id = storage_account_id
 
 
-class SubscriptionIsAllowedToCreateJobValidationRequest(ValidationInputRequest):
+class SubscriptionIsAllowedToCreateJobValidationRequest(ValidationInputRequest):  # pylint: disable=name-too-long
     """Request to validate subscription permission to create jobs.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -4029,12 +4031,14 @@ class SubscriptionIsAllowedToCreateJobValidationRequest(ValidationInputRequest):
         self.validation_type: str = "ValidateSubscriptionIsAllowedToCreateJob"
 
 
-class SubscriptionIsAllowedToCreateJobValidationResponseProperties(ValidationInputResponse):
+class SubscriptionIsAllowedToCreateJobValidationResponseProperties(
+    ValidationInputResponse
+):  # pylint: disable=name-too-long
     """Properties of subscription permission to create job validation response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation response. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
@@ -4070,7 +4074,7 @@ class SubscriptionIsAllowedToCreateJobValidationResponseProperties(ValidationInp
 class TransferAllDetails(_serialization.Model):
     """Details to transfer all data.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_account_type: Type of the account of data. Required. Known values are:
      "StorageAccount" and "ManagedDisk".
@@ -4117,7 +4121,7 @@ class TransferAllDetails(_serialization.Model):
 class TransferConfiguration(_serialization.Model):
     """Configuration for defining the transfer of data.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar transfer_configuration_type: Type of the configuration for transfer. Required. Known
      values are: "TransferAll" and "TransferUsingFilter".
@@ -4195,7 +4199,7 @@ class TransferConfigurationTransferAllDetails(_serialization.Model):
         self.include = include
 
 
-class TransferConfigurationTransferFilterDetails(_serialization.Model):
+class TransferConfigurationTransferFilterDetails(_serialization.Model):  # pylint: disable=name-too-long
     """Map of filter type and the details to filter. This field is required only if the
     TransferConfigurationType is given as TransferUsingFilter.
 
@@ -4219,7 +4223,7 @@ class TransferConfigurationTransferFilterDetails(_serialization.Model):
 class TransferFilterDetails(_serialization.Model):
     """Details of the filtering the transfer of data.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_account_type: Type of the account of data. Required. Known values are:
      "StorageAccount" and "ManagedDisk".
@@ -4348,7 +4352,7 @@ class TransportAvailabilityResponse(_serialization.Model):
 class TransportPreferences(_serialization.Model):
     """Preferences related to the shipment logistics of the sku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar preferred_shipment_type: Indicates Shipment Logistics type that the customer preferred.
      Required. Known values are: "CustomerManaged" and "MicrosoftManaged".
@@ -4477,7 +4481,7 @@ class UpdateJobDetails(_serialization.Model):
 class ValidateAddress(ValidationInputRequest):
     """The requirements to validate customer address where the device needs to be shipped.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validation_type: Identifies the type of validation request. Required. Known values are:
      "ValidateAddress", "ValidateSubscriptionIsAllowedToCreateJob", "ValidatePreferences",
