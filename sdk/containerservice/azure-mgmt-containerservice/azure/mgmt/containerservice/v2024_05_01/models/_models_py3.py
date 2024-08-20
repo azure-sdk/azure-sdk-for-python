@@ -2729,6 +2729,7 @@ class ManagedCluster(TrackedResource):  # pylint: disable=too-many-instance-attr
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
+        "identity": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "power_state": {"readonly": True},
         "max_agent_pools": {"readonly": True},
@@ -2811,7 +2812,6 @@ class ManagedCluster(TrackedResource):  # pylint: disable=too-many-instance-attr
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.ManagedClusterSKU"] = None,
         extended_location: Optional["_models.ExtendedLocation"] = None,
-        identity: Optional["_models.ManagedClusterIdentity"] = None,
         kubernetes_version: Optional[str] = None,
         dns_prefix: Optional[str] = None,
         fqdn_subdomain: Optional[str] = None,
@@ -2856,8 +2856,6 @@ class ManagedCluster(TrackedResource):  # pylint: disable=too-many-instance-attr
         :paramtype sku: ~azure.mgmt.containerservice.v2024_05_01.models.ManagedClusterSKU
         :keyword extended_location: The extended location of the Virtual Machine.
         :paramtype extended_location: ~azure.mgmt.containerservice.v2024_05_01.models.ExtendedLocation
-        :keyword identity: The identity of the managed cluster, if configured.
-        :paramtype identity: ~azure.mgmt.containerservice.v2024_05_01.models.ManagedClusterIdentity
         :keyword kubernetes_version: Both patch version <major.minor.patch> (e.g. 1.20.13) and
          <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported
          GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once
@@ -2974,7 +2972,7 @@ class ManagedCluster(TrackedResource):  # pylint: disable=too-many-instance-attr
         super().__init__(tags=tags, location=location, **kwargs)
         self.sku = sku
         self.extended_location = extended_location
-        self.identity = identity
+        self.identity = None
         self.provisioning_state = None
         self.power_state = None
         self.max_agent_pools = None
