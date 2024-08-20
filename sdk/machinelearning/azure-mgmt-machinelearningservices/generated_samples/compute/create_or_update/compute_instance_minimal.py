@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -41,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Compute/createOrUpdate/ComputeInstanceMinimal.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-07-01-preview/examples/Compute/createOrUpdate/ComputeInstanceMinimal.json
 if __name__ == "__main__":
     main()
