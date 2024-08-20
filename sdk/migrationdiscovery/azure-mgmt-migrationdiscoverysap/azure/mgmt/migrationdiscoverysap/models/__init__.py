@@ -46,7 +46,6 @@ from ._migration_discovery_sap_mgmt_client_enums import Origin
 from ._migration_discovery_sap_mgmt_client_enums import ProvisioningState
 from ._migration_discovery_sap_mgmt_client_enums import SapInstanceEnvironment
 from ._migration_discovery_sap_mgmt_client_enums import SapInstanceType
-from ._migration_discovery_sap_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -91,7 +90,6 @@ __all__ = [
     "ProvisioningState",
     "SapInstanceEnvironment",
     "SapInstanceType",
-    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
