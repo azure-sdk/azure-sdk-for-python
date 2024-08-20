@@ -9,6 +9,11 @@
 from ._operations import Operations
 from ._endpoints_operations import EndpointsOperations
 from ._service_configurations_operations import ServiceConfigurationsOperations
+from ._solution_configurations_operations import SolutionConfigurationsOperations
+from ._inventory_operations import InventoryOperations
+from ._generate_aws_template_operations import GenerateAwsTemplateOperations
+from ._public_cloud_connectors_operations import PublicCloudConnectorsOperations
+from ._solution_types_operations import SolutionTypesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -18,6 +23,11 @@ __all__ = [
     "Operations",
     "EndpointsOperations",
     "ServiceConfigurationsOperations",
+    "SolutionConfigurationsOperations",
+    "InventoryOperations",
+    "GenerateAwsTemplateOperations",
+    "PublicCloudConnectorsOperations",
+    "SolutionTypesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

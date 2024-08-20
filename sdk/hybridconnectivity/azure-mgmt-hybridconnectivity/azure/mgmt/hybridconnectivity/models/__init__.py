@@ -6,6 +6,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AwsCloudProfile
+from ._models_py3 import AwsCloudProfileUpdate
+from ._models_py3 import AzureResourceManagerCommonTypesTrackedResourceUpdate
 from ._models_py3 import EndpointAccessResource
 from ._models_py3 import EndpointProperties
 from ._models_py3 import EndpointResource
@@ -13,7 +16,11 @@ from ._models_py3 import EndpointsList
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import GenerateAwsTemplateRequest
 from ._models_py3 import IngressGatewayResource
+from ._models_py3 import InventoryProperties
+from ._models_py3 import InventoryResource
+from ._models_py3 import InventoryResourceListResult
 from ._models_py3 import ListCredentialsRequest
 from ._models_py3 import ListIngressGatewayCredentialsRequest
 from ._models_py3 import ManagedProxyRequest
@@ -22,23 +29,50 @@ from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import ProxyResource
+from ._models_py3 import PublicCloudConnector
+from ._models_py3 import PublicCloudConnectorListResult
+from ._models_py3 import PublicCloudConnectorProperties
+from ._models_py3 import PublicCloudConnectorPropertiesUpdate
+from ._models_py3 import PublicCloudConnectorUpdate
 from ._models_py3 import Resource
 from ._models_py3 import ServiceConfigurationList
 from ._models_py3 import ServiceConfigurationResource
 from ._models_py3 import ServiceConfigurationResourcePatch
+from ._models_py3 import SolutionConfiguration
+from ._models_py3 import SolutionConfigurationListResult
+from ._models_py3 import SolutionConfigurationProperties
+from ._models_py3 import SolutionConfigurationPropertiesUpdate
+from ._models_py3 import SolutionConfigurationUpdate
+from ._models_py3 import SolutionTypePermissions
+from ._models_py3 import SolutionTypeProperties
+from ._models_py3 import SolutionTypeResource
+from ._models_py3 import SolutionTypeResourceListResult
+from ._models_py3 import SolutionTypeSettings
+from ._models_py3 import SolutionTypeSettingsProperties
 from ._models_py3 import SystemData
+from ._models_py3 import TestPermissionResult
+from ._models_py3 import TrackedResource
 
 from ._hybrid_connectivity_mgmt_client_enums import ActionType
+from ._hybrid_connectivity_mgmt_client_enums import CloudNativeType
 from ._hybrid_connectivity_mgmt_client_enums import CreatedByType
+from ._hybrid_connectivity_mgmt_client_enums import HostType
 from ._hybrid_connectivity_mgmt_client_enums import Origin
 from ._hybrid_connectivity_mgmt_client_enums import ProvisioningState
+from ._hybrid_connectivity_mgmt_client_enums import ResourceProvisioningState
 from ._hybrid_connectivity_mgmt_client_enums import ServiceName
+from ._hybrid_connectivity_mgmt_client_enums import SolutionConfigurationStatus
+from ._hybrid_connectivity_mgmt_client_enums import SolutionTypeEnum
+from ._hybrid_connectivity_mgmt_client_enums import Status
 from ._hybrid_connectivity_mgmt_client_enums import Type
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AwsCloudProfile",
+    "AwsCloudProfileUpdate",
+    "AzureResourceManagerCommonTypesTrackedResourceUpdate",
     "EndpointAccessResource",
     "EndpointProperties",
     "EndpointResource",
@@ -46,7 +80,11 @@ __all__ = [
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "GenerateAwsTemplateRequest",
     "IngressGatewayResource",
+    "InventoryProperties",
+    "InventoryResource",
+    "InventoryResourceListResult",
     "ListCredentialsRequest",
     "ListIngressGatewayCredentialsRequest",
     "ManagedProxyRequest",
@@ -55,16 +93,40 @@ __all__ = [
     "OperationDisplay",
     "OperationListResult",
     "ProxyResource",
+    "PublicCloudConnector",
+    "PublicCloudConnectorListResult",
+    "PublicCloudConnectorProperties",
+    "PublicCloudConnectorPropertiesUpdate",
+    "PublicCloudConnectorUpdate",
     "Resource",
     "ServiceConfigurationList",
     "ServiceConfigurationResource",
     "ServiceConfigurationResourcePatch",
+    "SolutionConfiguration",
+    "SolutionConfigurationListResult",
+    "SolutionConfigurationProperties",
+    "SolutionConfigurationPropertiesUpdate",
+    "SolutionConfigurationUpdate",
+    "SolutionTypePermissions",
+    "SolutionTypeProperties",
+    "SolutionTypeResource",
+    "SolutionTypeResourceListResult",
+    "SolutionTypeSettings",
+    "SolutionTypeSettingsProperties",
     "SystemData",
+    "TestPermissionResult",
+    "TrackedResource",
     "ActionType",
+    "CloudNativeType",
     "CreatedByType",
+    "HostType",
     "Origin",
     "ProvisioningState",
+    "ResourceProvisioningState",
     "ServiceName",
+    "SolutionConfigurationStatus",
+    "SolutionTypeEnum",
+    "Status",
     "Type",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
