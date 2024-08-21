@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
@@ -44,31 +45,153 @@ class AccessKeys(_serialization.Model):
         self.secondary_key = None
 
 
+class AccessPolicyAssignment(_serialization.Model):
+    """Describes the access policy assignment of Redis Enterprise database.
+
+    :ivar access_policy_name: Name of access policy under specific access policy assignment.
+    :vartype access_policy_name: str
+    :ivar user: The user associated with the access policy.
+    :vartype user: ~azure.mgmt.redisenterprise.models.AccessPolicyAssignmentPropertiesUser
+    """
+
+    _attribute_map = {
+        "access_policy_name": {"key": "properties.accessPolicyName", "type": "str"},
+        "user": {"key": "properties.user", "type": "AccessPolicyAssignmentPropertiesUser"},
+    }
+
+    def __init__(
+        self,
+        *,
+        access_policy_name: str = "default",
+        user: Optional["_models.AccessPolicyAssignmentPropertiesUser"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword access_policy_name: Name of access policy under specific access policy assignment.
+        :paramtype access_policy_name: str
+        :keyword user: The user associated with the access policy.
+        :paramtype user: ~azure.mgmt.redisenterprise.models.AccessPolicyAssignmentPropertiesUser
+        """
+        super().__init__(**kwargs)
+        self.access_policy_name = access_policy_name
+        self.user = user
+
+
+class AccessPolicyAssignmentList(_serialization.Model):
+    """The response of a list-all operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of access policy assignment.
+    :vartype value: list[~azure.mgmt.redisenterprise.models.AccessPolicyAssignment]
+    :ivar next_link: The URI to fetch the next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AccessPolicyAssignment]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.AccessPolicyAssignment"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: List of access policy assignment.
+        :paramtype value: list[~azure.mgmt.redisenterprise.models.AccessPolicyAssignment]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class AccessPolicyAssignmentPropertiesUser(_serialization.Model):
+    """The user associated with the access policy.
+
+    :ivar object_id: The object ID of the user.
+    :vartype object_id: str
+    """
+
+    _attribute_map = {
+        "object_id": {"key": "objectId", "type": "str"},
+    }
+
+    def __init__(self, *, object_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword object_id: The object ID of the user.
+        :paramtype object_id: str
+        """
+        super().__init__(**kwargs)
+        self.object_id = object_id
+
+
+class CheckNameAvailabilityParameters(_serialization.Model):
+    """Parameters body to pass for resource name availability check.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: Resource name. Required.
+    :vartype name: str
+    :ivar type: Resource type. The only legal value of this property for checking redis enterprise
+     cache name availability is 'Microsoft.Cache/redisenterprise'. Required.
+    :vartype type: str
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, name: str, type: str, **kwargs: Any) -> None:
+        """
+        :keyword name: Resource name. Required.
+        :paramtype name: str
+        :keyword type: Resource type. The only legal value of this property for checking redis
+         enterprise cache name availability is 'Microsoft.Cache/redisenterprise'. Required.
+        :paramtype type: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.type = type
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -77,6 +200,7 @@ class Resource(_serialization.Model):
         self.id = None
         self.name = None
         self.type = None
+        self.system_data = None
 
 
 class TrackedResource(Resource):
@@ -87,14 +211,17 @@ class TrackedResource(Resource):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -105,6 +232,7 @@ class TrackedResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -112,6 +240,7 @@ class TrackedResource(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
     }
@@ -129,20 +258,23 @@ class TrackedResource(Resource):
 
 
 class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
-    """Describes the RedisEnterprise cluster.
+    """Describes the Redis Enterprise cluster.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -153,8 +285,14 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype zones: list[str]
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.redisenterprise.models.ManagedServiceIdentity
+    :ivar high_availability: Enabled by default. If highAvailability is disabled, the data set is
+     not replicated. This affects the availability SLA, and increases the risk of data loss. Known
+     values are: "Enabled" and "Disabled".
+    :vartype high_availability: str or ~azure.mgmt.redisenterprise.models.HighAvailability
     :ivar minimum_tls_version: The minimum TLS version for the cluster to support, e.g. '1.2'.
-     Known values are: "1.0", "1.1", and "1.2".
+     Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely
+     obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old
+     API versions. Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redisenterprise.models.TlsVersion
     :ivar encryption: Encryption-at-rest configuration for the cluster.
     :vartype encryption: ~azure.mgmt.redisenterprise.models.ClusterPropertiesEncryption
@@ -163,6 +301,9 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar provisioning_state: Current provisioning status of the cluster. Known values are:
      "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
+    :ivar redundancy_mode: Explains the current redundancy strategy of the cluster, which affects
+     the expected SLA. Known values are: "None", "LR", and "ZR".
+    :vartype redundancy_mode: str or ~azure.mgmt.redisenterprise.models.RedundancyMode
     :ivar resource_state: Current resource status of the cluster. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
      "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
@@ -170,7 +311,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar redis_version: Version of redis the cluster supports, e.g. '6'.
     :vartype redis_version: str
     :ivar private_endpoint_connections: List of private endpoint connections associated with the
-     specified RedisEnterprise cluster.
+     specified Redis Enterprise cluster.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.redisenterprise.models.PrivateEndpointConnection]
     """
@@ -179,10 +320,12 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
         "sku": {"required": True},
         "host_name": {"readonly": True},
         "provisioning_state": {"readonly": True},
+        "redundancy_mode": {"readonly": True},
         "resource_state": {"readonly": True},
         "redis_version": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
@@ -192,15 +335,18 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "zones": {"key": "zones", "type": "[str]"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "high_availability": {"key": "properties.highAvailability", "type": "str"},
         "minimum_tls_version": {"key": "properties.minimumTlsVersion", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "ClusterPropertiesEncryption"},
         "host_name": {"key": "properties.hostName", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "redundancy_mode": {"key": "properties.redundancyMode", "type": "str"},
         "resource_state": {"key": "properties.resourceState", "type": "str"},
         "redis_version": {"key": "properties.redisVersion", "type": "str"},
         "private_endpoint_connections": {
@@ -217,6 +363,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         tags: Optional[Dict[str, str]] = None,
         zones: Optional[List[str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        high_availability: Optional[Union[str, "_models.HighAvailability"]] = None,
         minimum_tls_version: Optional[Union[str, "_models.TlsVersion"]] = None,
         encryption: Optional["_models.ClusterPropertiesEncryption"] = None,
         **kwargs: Any
@@ -232,8 +379,14 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype zones: list[str]
         :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.redisenterprise.models.ManagedServiceIdentity
+        :keyword high_availability: Enabled by default. If highAvailability is disabled, the data set
+         is not replicated. This affects the availability SLA, and increases the risk of data loss.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype high_availability: str or ~azure.mgmt.redisenterprise.models.HighAvailability
         :keyword minimum_tls_version: The minimum TLS version for the cluster to support, e.g. '1.2'.
-         Known values are: "1.0", "1.1", and "1.2".
+         Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely
+         obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old
+         API versions. Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redisenterprise.models.TlsVersion
         :keyword encryption: Encryption-at-rest configuration for the cluster.
         :paramtype encryption: ~azure.mgmt.redisenterprise.models.ClusterPropertiesEncryption
@@ -242,10 +395,12 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.sku = sku
         self.zones = zones
         self.identity = identity
+        self.high_availability = high_availability
         self.minimum_tls_version = minimum_tls_version
         self.encryption = encryption
         self.host_name = None
         self.provisioning_state = None
+        self.redundancy_mode = None
         self.resource_state = None
         self.redis_version = None
         self.private_endpoint_connections = None
@@ -402,8 +557,8 @@ class ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity(
         self.identity_type = identity_type
 
 
-class ClusterUpdate(_serialization.Model):
-    """A partial update to the RedisEnterprise cluster.
+class ClusterUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """A partial update to the Redis Enterprise cluster.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -413,8 +568,14 @@ class ClusterUpdate(_serialization.Model):
     :vartype identity: ~azure.mgmt.redisenterprise.models.ManagedServiceIdentity
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar high_availability: Enabled by default. If highAvailability is disabled, the data set is
+     not replicated. This affects the availability SLA, and increases the risk of data loss. Known
+     values are: "Enabled" and "Disabled".
+    :vartype high_availability: str or ~azure.mgmt.redisenterprise.models.HighAvailability
     :ivar minimum_tls_version: The minimum TLS version for the cluster to support, e.g. '1.2'.
-     Known values are: "1.0", "1.1", and "1.2".
+     Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely
+     obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old
+     API versions. Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redisenterprise.models.TlsVersion
     :ivar encryption: Encryption-at-rest configuration for the cluster.
     :vartype encryption: ~azure.mgmt.redisenterprise.models.ClusterPropertiesEncryption
@@ -423,6 +584,9 @@ class ClusterUpdate(_serialization.Model):
     :ivar provisioning_state: Current provisioning status of the cluster. Known values are:
      "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
+    :ivar redundancy_mode: Explains the current redundancy strategy of the cluster, which affects
+     the expected SLA. Known values are: "None", "LR", and "ZR".
+    :vartype redundancy_mode: str or ~azure.mgmt.redisenterprise.models.RedundancyMode
     :ivar resource_state: Current resource status of the cluster. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
      "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
@@ -430,7 +594,7 @@ class ClusterUpdate(_serialization.Model):
     :ivar redis_version: Version of redis the cluster supports, e.g. '6'.
     :vartype redis_version: str
     :ivar private_endpoint_connections: List of private endpoint connections associated with the
-     specified RedisEnterprise cluster.
+     specified Redis Enterprise cluster.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.redisenterprise.models.PrivateEndpointConnection]
     """
@@ -438,6 +602,7 @@ class ClusterUpdate(_serialization.Model):
     _validation = {
         "host_name": {"readonly": True},
         "provisioning_state": {"readonly": True},
+        "redundancy_mode": {"readonly": True},
         "resource_state": {"readonly": True},
         "redis_version": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
@@ -447,10 +612,12 @@ class ClusterUpdate(_serialization.Model):
         "sku": {"key": "sku", "type": "Sku"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "tags": {"key": "tags", "type": "{str}"},
+        "high_availability": {"key": "properties.highAvailability", "type": "str"},
         "minimum_tls_version": {"key": "properties.minimumTlsVersion", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "ClusterPropertiesEncryption"},
         "host_name": {"key": "properties.hostName", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "redundancy_mode": {"key": "properties.redundancyMode", "type": "str"},
         "resource_state": {"key": "properties.resourceState", "type": "str"},
         "redis_version": {"key": "properties.redisVersion", "type": "str"},
         "private_endpoint_connections": {
@@ -465,6 +632,7 @@ class ClusterUpdate(_serialization.Model):
         sku: Optional["_models.Sku"] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         tags: Optional[Dict[str, str]] = None,
+        high_availability: Optional[Union[str, "_models.HighAvailability"]] = None,
         minimum_tls_version: Optional[Union[str, "_models.TlsVersion"]] = None,
         encryption: Optional["_models.ClusterPropertiesEncryption"] = None,
         **kwargs: Any
@@ -476,8 +644,14 @@ class ClusterUpdate(_serialization.Model):
         :paramtype identity: ~azure.mgmt.redisenterprise.models.ManagedServiceIdentity
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword high_availability: Enabled by default. If highAvailability is disabled, the data set
+         is not replicated. This affects the availability SLA, and increases the risk of data loss.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype high_availability: str or ~azure.mgmt.redisenterprise.models.HighAvailability
         :keyword minimum_tls_version: The minimum TLS version for the cluster to support, e.g. '1.2'.
-         Known values are: "1.0", "1.1", and "1.2".
+         Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely
+         obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old
+         API versions. Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redisenterprise.models.TlsVersion
         :keyword encryption: Encryption-at-rest configuration for the cluster.
         :paramtype encryption: ~azure.mgmt.redisenterprise.models.ClusterPropertiesEncryption
@@ -486,10 +660,12 @@ class ClusterUpdate(_serialization.Model):
         self.sku = sku
         self.identity = identity
         self.tags = tags
+        self.high_availability = high_availability
         self.minimum_tls_version = minimum_tls_version
         self.encryption = encryption
         self.host_name = None
         self.provisioning_state = None
+        self.redundancy_mode = None
         self.resource_state = None
         self.redis_version = None
         self.private_endpoint_connections = None
@@ -501,30 +677,36 @@ class ProxyResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
     """
 
 
 class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
-    """Describes a database on the RedisEnterprise cluster.
+    """Describes a database on the Redis Enterprise cluster.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
     :ivar client_protocol: Specifies whether redis clients can connect using TLS-encrypted or
      plaintext redis protocols. Default is TLS-encrypted. Known values are: "Encrypted" and
      "Plaintext".
@@ -539,8 +721,9 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
      "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
-    :ivar clustering_policy: Clustering policy - default is OSSCluster. Specified at create time.
-     Known values are: "EnterpriseCluster" and "OSSCluster".
+    :ivar clustering_policy: Clustering policy - default is OSSCluster. This property must be
+     chosen at create time, and cannot be changed without deleting the database. Known values are:
+     "EnterpriseCluster" and "OSSCluster".
     :vartype clustering_policy: str or ~azure.mgmt.redisenterprise.models.ClusteringPolicy
     :ivar eviction_policy: Redis eviction policy - default is VolatileLRU. Known values are:
      "AllKeysLFU", "AllKeysLRU", "AllKeysRandom", "VolatileLRU", "VolatileLFU", "VolatileTTL",
@@ -557,15 +740,21 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar redis_version: Version of Redis the database is running on, e.g. '6.0'.
     :vartype redis_version: str
     :ivar defer_upgrade: Option to defer upgrade when newest version is released - default is
-     NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
+     NotDeferred. Learn more: https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
      "NotDeferred".
     :vartype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
+    :ivar access_keys_authentication: Access database using keys - default is enabled. This
+     property can be Enabled/Disabled to allow or deny access with those. Can be updated even after
+     database is created. Known values are: "Disabled" and "Enabled".
+    :vartype access_keys_authentication: str or
+     ~azure.mgmt.redisenterprise.models.AccessKeysAuthentication
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "resource_state": {"readonly": True},
         "redis_version": {"readonly": True},
@@ -575,6 +764,7 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "client_protocol": {"key": "properties.clientProtocol", "type": "str"},
         "port": {"key": "properties.port", "type": "int"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
@@ -586,6 +776,7 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "geo_replication": {"key": "properties.geoReplication", "type": "DatabasePropertiesGeoReplication"},
         "redis_version": {"key": "properties.redisVersion", "type": "str"},
         "defer_upgrade": {"key": "properties.deferUpgrade", "type": "str"},
+        "access_keys_authentication": {"key": "properties.accessKeysAuthentication", "type": "str"},
     }
 
     def __init__(
@@ -599,6 +790,7 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         modules: Optional[List["_models.Module"]] = None,
         geo_replication: Optional["_models.DatabasePropertiesGeoReplication"] = None,
         defer_upgrade: Optional[Union[str, "_models.DeferUpgradeSetting"]] = None,
+        access_keys_authentication: Optional[Union[str, "_models.AccessKeysAuthentication"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -609,8 +801,9 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         :keyword port: TCP port of the database endpoint. Specified at create time. Defaults to an
          available port.
         :paramtype port: int
-        :keyword clustering_policy: Clustering policy - default is OSSCluster. Specified at create
-         time. Known values are: "EnterpriseCluster" and "OSSCluster".
+        :keyword clustering_policy: Clustering policy - default is OSSCluster. This property must be
+         chosen at create time, and cannot be changed without deleting the database. Known values are:
+         "EnterpriseCluster" and "OSSCluster".
         :paramtype clustering_policy: str or ~azure.mgmt.redisenterprise.models.ClusteringPolicy
         :keyword eviction_policy: Redis eviction policy - default is VolatileLRU. Known values are:
          "AllKeysLFU", "AllKeysLRU", "AllKeysRandom", "VolatileLRU", "VolatileLFU", "VolatileTTL",
@@ -625,9 +818,14 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
          database.
         :paramtype geo_replication: ~azure.mgmt.redisenterprise.models.DatabasePropertiesGeoReplication
         :keyword defer_upgrade: Option to defer upgrade when newest version is released - default is
-         NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
+         NotDeferred. Learn more: https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
          "NotDeferred".
         :paramtype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
+        :keyword access_keys_authentication: Access database using keys - default is enabled. This
+         property can be Enabled/Disabled to allow or deny access with those. Can be updated even after
+         database is created. Known values are: "Disabled" and "Enabled".
+        :paramtype access_keys_authentication: str or
+         ~azure.mgmt.redisenterprise.models.AccessKeysAuthentication
         """
         super().__init__(**kwargs)
         self.client_protocol = client_protocol
@@ -641,6 +839,7 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         self.geo_replication = geo_replication
         self.redis_version = None
         self.defer_upgrade = defer_upgrade
+        self.access_keys_authentication = access_keys_authentication
 
 
 class DatabaseList(_serialization.Model):
@@ -706,7 +905,7 @@ class DatabasePropertiesGeoReplication(_serialization.Model):
 
 
 class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """A partial update to the RedisEnterprise database.
+    """A partial update to the Redis Enterprise database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -724,8 +923,9 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
      "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
-    :ivar clustering_policy: Clustering policy - default is OSSCluster. Specified at create time.
-     Known values are: "EnterpriseCluster" and "OSSCluster".
+    :ivar clustering_policy: Clustering policy - default is OSSCluster. This property must be
+     chosen at create time, and cannot be changed without deleting the database. Known values are:
+     "EnterpriseCluster" and "OSSCluster".
     :vartype clustering_policy: str or ~azure.mgmt.redisenterprise.models.ClusteringPolicy
     :ivar eviction_policy: Redis eviction policy - default is VolatileLRU. Known values are:
      "AllKeysLFU", "AllKeysLRU", "AllKeysRandom", "VolatileLRU", "VolatileLFU", "VolatileTTL",
@@ -742,9 +942,14 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
     :ivar redis_version: Version of Redis the database is running on, e.g. '6.0'.
     :vartype redis_version: str
     :ivar defer_upgrade: Option to defer upgrade when newest version is released - default is
-     NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
+     NotDeferred. Learn more: https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
      "NotDeferred".
     :vartype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
+    :ivar access_keys_authentication: Access database using keys - default is enabled. This
+     property can be Enabled/Disabled to allow or deny access with those. Can be updated even after
+     database is created. Known values are: "Disabled" and "Enabled".
+    :vartype access_keys_authentication: str or
+     ~azure.mgmt.redisenterprise.models.AccessKeysAuthentication
     """
 
     _validation = {
@@ -765,6 +970,7 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         "geo_replication": {"key": "properties.geoReplication", "type": "DatabasePropertiesGeoReplication"},
         "redis_version": {"key": "properties.redisVersion", "type": "str"},
         "defer_upgrade": {"key": "properties.deferUpgrade", "type": "str"},
+        "access_keys_authentication": {"key": "properties.accessKeysAuthentication", "type": "str"},
     }
 
     def __init__(
@@ -778,6 +984,7 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         modules: Optional[List["_models.Module"]] = None,
         geo_replication: Optional["_models.DatabasePropertiesGeoReplication"] = None,
         defer_upgrade: Optional[Union[str, "_models.DeferUpgradeSetting"]] = None,
+        access_keys_authentication: Optional[Union[str, "_models.AccessKeysAuthentication"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -788,8 +995,9 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         :keyword port: TCP port of the database endpoint. Specified at create time. Defaults to an
          available port.
         :paramtype port: int
-        :keyword clustering_policy: Clustering policy - default is OSSCluster. Specified at create
-         time. Known values are: "EnterpriseCluster" and "OSSCluster".
+        :keyword clustering_policy: Clustering policy - default is OSSCluster. This property must be
+         chosen at create time, and cannot be changed without deleting the database. Known values are:
+         "EnterpriseCluster" and "OSSCluster".
         :paramtype clustering_policy: str or ~azure.mgmt.redisenterprise.models.ClusteringPolicy
         :keyword eviction_policy: Redis eviction policy - default is VolatileLRU. Known values are:
          "AllKeysLFU", "AllKeysLRU", "AllKeysRandom", "VolatileLRU", "VolatileLFU", "VolatileTTL",
@@ -804,9 +1012,14 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
          database.
         :paramtype geo_replication: ~azure.mgmt.redisenterprise.models.DatabasePropertiesGeoReplication
         :keyword defer_upgrade: Option to defer upgrade when newest version is released - default is
-         NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
+         NotDeferred. Learn more: https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
          "NotDeferred".
         :paramtype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
+        :keyword access_keys_authentication: Access database using keys - default is enabled. This
+         property can be Enabled/Disabled to allow or deny access with those. Can be updated even after
+         database is created. Known values are: "Disabled" and "Enabled".
+        :paramtype access_keys_authentication: str or
+         ~azure.mgmt.redisenterprise.models.AccessKeysAuthentication
         """
         super().__init__(**kwargs)
         self.client_protocol = client_protocol
@@ -820,6 +1033,7 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         self.geo_replication = geo_replication
         self.redis_version = None
         self.defer_upgrade = defer_upgrade
+        self.access_keys_authentication = access_keys_authentication
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1003,7 +1217,7 @@ class ForceLinkParameters(_serialization.Model):
 
 
 class ForceUnlinkParameters(_serialization.Model):
-    """Parameters for a Redis Enterprise Active Geo Replication Force Unlink operation.
+    """Parameters for a redis enterprise active geo-replication force unlink operation.
 
     All required parameters must be populated in order to send to server.
 
@@ -1100,7 +1314,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype tenant_id: str
     :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
      are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-     "SystemAssigned, UserAssigned".
+     "SystemAssigned,UserAssigned".
     :vartype type: str or ~azure.mgmt.redisenterprise.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
@@ -1133,7 +1347,7 @@ class ManagedServiceIdentity(_serialization.Model):
         """
         :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
          types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-         "SystemAssigned, UserAssigned".
+         "SystemAssigned,UserAssigned".
         :paramtype type: str or ~azure.mgmt.redisenterprise.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
@@ -1311,75 +1525,107 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class OperationStatus(_serialization.Model):
-    """The status of a long-running operation.
+class OperationStatusResult(_serialization.Model):
+    """The current status of an async operation.
 
-    :ivar id: The operation's unique id.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
-    :ivar name: The operation's name.
+    :ivar resource_id: Fully qualified ID of the resource against which the original async
+     operation was started.
+    :vartype resource_id: str
+    :ivar name: Name of the async operation.
     :vartype name: str
-    :ivar start_time: The start time of the operation.
-    :vartype start_time: str
-    :ivar end_time: The end time of the operation.
-    :vartype end_time: str
-    :ivar status: The current status of the operation.
+    :ivar status: Operation status. Required.
     :vartype status: str
-    :ivar error: Error response describing why the operation failed.
-    :vartype error: ~azure.mgmt.redisenterprise.models.ErrorResponse
+    :ivar percent_complete: Percent of the operation that is complete.
+    :vartype percent_complete: float
+    :ivar start_time: The start time of the operation.
+    :vartype start_time: ~datetime.datetime
+    :ivar end_time: The end time of the operation.
+    :vartype end_time: ~datetime.datetime
+    :ivar operations: The operations list.
+    :vartype operations: list[~azure.mgmt.redisenterprise.models.OperationStatusResult]
+    :ivar error: If present, details of the operation error.
+    :vartype error: ~azure.mgmt.redisenterprise.models.ErrorDetail
     """
+
+    _validation = {
+        "resource_id": {"readonly": True},
+        "status": {"required": True},
+        "percent_complete": {"maximum": 100, "minimum": 0},
+    }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "resource_id": {"key": "resourceId", "type": "str"},
         "name": {"key": "name", "type": "str"},
-        "start_time": {"key": "startTime", "type": "str"},
-        "end_time": {"key": "endTime", "type": "str"},
         "status": {"key": "status", "type": "str"},
-        "error": {"key": "error", "type": "ErrorResponse"},
+        "percent_complete": {"key": "percentComplete", "type": "float"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "operations": {"key": "operations", "type": "[OperationStatusResult]"},
+        "error": {"key": "error", "type": "ErrorDetail"},
     }
 
     def __init__(
         self,
         *,
+        status: str,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         name: Optional[str] = None,
-        start_time: Optional[str] = None,
-        end_time: Optional[str] = None,
-        status: Optional[str] = None,
-        error: Optional["_models.ErrorResponse"] = None,
+        percent_complete: Optional[float] = None,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+        operations: Optional[List["_models.OperationStatusResult"]] = None,
+        error: Optional["_models.ErrorDetail"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword id: The operation's unique id.
+        :keyword id: Fully qualified ID for the async operation.
         :paramtype id: str
-        :keyword name: The operation's name.
+        :keyword name: Name of the async operation.
         :paramtype name: str
-        :keyword start_time: The start time of the operation.
-        :paramtype start_time: str
-        :keyword end_time: The end time of the operation.
-        :paramtype end_time: str
-        :keyword status: The current status of the operation.
+        :keyword status: Operation status. Required.
         :paramtype status: str
-        :keyword error: Error response describing why the operation failed.
-        :paramtype error: ~azure.mgmt.redisenterprise.models.ErrorResponse
+        :keyword percent_complete: Percent of the operation that is complete.
+        :paramtype percent_complete: float
+        :keyword start_time: The start time of the operation.
+        :paramtype start_time: ~datetime.datetime
+        :keyword end_time: The end time of the operation.
+        :paramtype end_time: ~datetime.datetime
+        :keyword operations: The operations list.
+        :paramtype operations: list[~azure.mgmt.redisenterprise.models.OperationStatusResult]
+        :keyword error: If present, details of the operation error.
+        :paramtype error: ~azure.mgmt.redisenterprise.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.id = id
+        self.resource_id = None
         self.name = name
+        self.status = status
+        self.percent_complete = percent_complete
         self.start_time = start_time
         self.end_time = end_time
-        self.status = status
+        self.operations = operations
         self.error = error
 
 
 class Persistence(_serialization.Model):
-    """Persistence-related configuration for the RedisEnterprise database.
+    """Persistence-related configuration for the Redis Enterprise database.
 
-    :ivar aof_enabled: Sets whether AOF is enabled.
+    :ivar aof_enabled: Sets whether AOF is enabled. Note that at most one of AOF or RDB persistence
+     may be enabled.
     :vartype aof_enabled: bool
-    :ivar rdb_enabled: Sets whether RDB is enabled.
+    :ivar rdb_enabled: Sets whether RDB is enabled. Note that at most one of AOF or RDB persistence
+     may be enabled.
     :vartype rdb_enabled: bool
-    :ivar aof_frequency: Sets the frequency at which data is written to disk. Known values are:
-     "1s" and "always".
+    :ivar aof_frequency: Sets the frequency at which data is written to disk. Defaults to '1s',
+     meaning 'every second'. Note that the 'always' setting is deprecated, because of its
+     performance impact. Known values are: "1s" and "always".
     :vartype aof_frequency: str or ~azure.mgmt.redisenterprise.models.AofFrequency
     :ivar rdb_frequency: Sets the frequency at which a snapshot of the database is created. Known
      values are: "1h", "6h", and "12h".
@@ -1403,12 +1649,15 @@ class Persistence(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword aof_enabled: Sets whether AOF is enabled.
+        :keyword aof_enabled: Sets whether AOF is enabled. Note that at most one of AOF or RDB
+         persistence may be enabled.
         :paramtype aof_enabled: bool
-        :keyword rdb_enabled: Sets whether RDB is enabled.
+        :keyword rdb_enabled: Sets whether RDB is enabled. Note that at most one of AOF or RDB
+         persistence may be enabled.
         :paramtype rdb_enabled: bool
-        :keyword aof_frequency: Sets the frequency at which data is written to disk. Known values are:
-         "1s" and "always".
+        :keyword aof_frequency: Sets the frequency at which data is written to disk. Defaults to '1s',
+         meaning 'every second'. Note that the 'always' setting is deprecated, because of its
+         performance impact. Known values are: "1s" and "always".
         :paramtype aof_frequency: str or ~azure.mgmt.redisenterprise.models.AofFrequency
         :keyword rdb_frequency: Sets the frequency at which a snapshot of the database is created.
          Known values are: "1h", "6h", and "12h".
@@ -1422,11 +1671,11 @@ class Persistence(_serialization.Model):
 
 
 class PrivateEndpoint(_serialization.Model):
-    """The Private Endpoint resource.
+    """The private endpoint resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The ARM identifier for Private Endpoint.
+    :ivar id: The ARM identifier for private endpoint.
     :vartype id: str
     """
 
@@ -1445,19 +1694,24 @@ class PrivateEndpoint(_serialization.Model):
 
 
 class PrivateEndpointConnection(Resource):
-    """The Private Endpoint Connection resource.
+    """The private endpoint connection resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar private_endpoint: The resource of private end point.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
+    :ivar group_ids: The group ids for the private endpoint resource.
+    :vartype group_ids: list[str]
+    :ivar private_endpoint: The private endpoint resource.
     :vartype private_endpoint: ~azure.mgmt.redisenterprise.models.PrivateEndpoint
     :ivar private_link_service_connection_state: A collection of information about the state of the
      connection between service consumer and provider.
@@ -1473,6 +1727,8 @@ class PrivateEndpointConnection(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "group_ids": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -1480,6 +1736,8 @@ class PrivateEndpointConnection(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "group_ids": {"key": "properties.groupIds", "type": "[str]"},
         "private_endpoint": {"key": "properties.privateEndpoint", "type": "PrivateEndpoint"},
         "private_link_service_connection_state": {
             "key": "properties.privateLinkServiceConnectionState",
@@ -1496,7 +1754,7 @@ class PrivateEndpointConnection(Resource):
         **kwargs: Any
     ) -> None:
         """
-        :keyword private_endpoint: The resource of private end point.
+        :keyword private_endpoint: The private endpoint resource.
         :paramtype private_endpoint: ~azure.mgmt.redisenterprise.models.PrivateEndpoint
         :keyword private_link_service_connection_state: A collection of information about the state of
          the connection between service consumer and provider.
@@ -1504,13 +1762,14 @@ class PrivateEndpointConnection(Resource):
          ~azure.mgmt.redisenterprise.models.PrivateLinkServiceConnectionState
         """
         super().__init__(**kwargs)
+        self.group_ids = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
         self.provisioning_state = None
 
 
 class PrivateEndpointConnectionListResult(_serialization.Model):
-    """List of private endpoint connection associated with the specified storage account.
+    """List of private endpoint connections associated with the specified resource.
 
     :ivar value: Array of private endpoint connections.
     :vartype value: list[~azure.mgmt.redisenterprise.models.PrivateEndpointConnection]
@@ -1534,19 +1793,22 @@ class PrivateLinkResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.redisenterprise.models.SystemData
     :ivar group_id: The private link resource group id.
     :vartype group_id: str
     :ivar required_members: The private link resource required member names.
     :vartype required_members: list[str]
-    :ivar required_zone_names: The private link resource Private link DNS zone name.
+    :ivar required_zone_names: The private link resource private link DNS zone name.
     :vartype required_zone_names: list[str]
     """
 
@@ -1554,6 +1816,7 @@ class PrivateLinkResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "group_id": {"readonly": True},
         "required_members": {"readonly": True},
     }
@@ -1562,6 +1825,7 @@ class PrivateLinkResource(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "group_id": {"key": "properties.groupId", "type": "str"},
         "required_members": {"key": "properties.requiredMembers", "type": "[str]"},
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
@@ -1569,7 +1833,7 @@ class PrivateLinkResource(Resource):
 
     def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
-        :keyword required_zone_names: The private link resource Private link DNS zone name.
+        :keyword required_zone_names: The private link resource private link DNS zone name.
         :paramtype required_zone_names: list[str]
         """
         super().__init__(**kwargs)
@@ -1673,17 +1937,33 @@ class RegenerateKeyParameters(_serialization.Model):
 
 
 class Sku(_serialization.Model):
-    """SKU parameters supplied to the create RedisEnterprise operation.
+    """SKU parameters supplied to the create Redis Enterprise cluster operation.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-     EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E5", "Enterprise_E10",
-     "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300",
-     "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
+    :ivar name: The level of Redis Enterprise cluster to deploy. Possible values:
+     ('GeneralPurpose_G5', 'MemoryOptimized_M20', etc.). For more information on SKUs see the latest
+     pricing documentation. Note that additional SKUs may become supported in the future. Required.
+     Known values are: "Enterprise_E1", "Enterprise_E5", "Enterprise_E10", "Enterprise_E20",
+     "Enterprise_E50", "Enterprise_E100", "Enterprise_E200", "Enterprise_E400",
+     "EnterpriseFlash_F300", "EnterpriseFlash_F700", "EnterpriseFlash_F1500", "GeneralPurpose_G0",
+     "GeneralPurpose_G1", "GeneralPurpose_G3", "GeneralPurpose_G5", "GeneralPurpose_G10",
+     "GeneralPurpose_G20", "GeneralPurpose_G50", "GeneralPurpose_G100", "GeneralPurpose_G150",
+     "GeneralPurpose_G250", "GeneralPurpose_G350", "GeneralPurpose_G500", "GeneralPurpose_G700",
+     "GeneralPurpose_G1000", "MemoryOptimized_M10", "MemoryOptimized_M20", "MemoryOptimized_M50",
+     "MemoryOptimized_M100", "MemoryOptimized_M150", "MemoryOptimized_M250", "MemoryOptimized_M350",
+     "MemoryOptimized_M500", "MemoryOptimized_M700", "MemoryOptimized_M1000",
+     "MemoryOptimized_M1500", "MemoryOptimized_M2000", "ComputeOptimized_X1", "ComputeOptimized_X3",
+     "ComputeOptimized_X5", "ComputeOptimized_X10", "ComputeOptimized_X20", "ComputeOptimized_X50",
+     "ComputeOptimized_X100", "ComputeOptimized_X150", "ComputeOptimized_X250",
+     "ComputeOptimized_X350", "ComputeOptimized_X500", "ComputeOptimized_X700", "AutoTiering_T250",
+     "AutoTiering_T500", "AutoTiering_T700", "AutoTiering_T1000", "AutoTiering_T1500",
+     "AutoTiering_T2000", and "AutoTiering_T4500".
     :vartype name: str or ~azure.mgmt.redisenterprise.models.SkuName
-    :ivar capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU.
-     Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
+    :ivar capacity: The size of the Redis Enterprise cluster. Valid values depend upon the SKU, and
+     are (2, 4, 6, ...) for Enterprise\\ *E SKUs and (3, 9, 15, ...) for EnterpriseFlash* SKUs. This
+     parameter is not used with the other (GeneralPurpose, MemoryOptimized, ComputeOptimized) SKUs.
+     They operate without any capacity value.
     :vartype capacity: int
     """
 
@@ -1698,18 +1978,98 @@ class Sku(_serialization.Model):
 
     def __init__(self, *, name: Union[str, "_models.SkuName"], capacity: Optional[int] = None, **kwargs: Any) -> None:
         """
-        :keyword name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-         EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E5", "Enterprise_E10",
-         "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300",
-         "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
+        :keyword name: The level of Redis Enterprise cluster to deploy. Possible values:
+         ('GeneralPurpose_G5', 'MemoryOptimized_M20', etc.). For more information on SKUs see the latest
+         pricing documentation. Note that additional SKUs may become supported in the future. Required.
+         Known values are: "Enterprise_E1", "Enterprise_E5", "Enterprise_E10", "Enterprise_E20",
+         "Enterprise_E50", "Enterprise_E100", "Enterprise_E200", "Enterprise_E400",
+         "EnterpriseFlash_F300", "EnterpriseFlash_F700", "EnterpriseFlash_F1500", "GeneralPurpose_G0",
+         "GeneralPurpose_G1", "GeneralPurpose_G3", "GeneralPurpose_G5", "GeneralPurpose_G10",
+         "GeneralPurpose_G20", "GeneralPurpose_G50", "GeneralPurpose_G100", "GeneralPurpose_G150",
+         "GeneralPurpose_G250", "GeneralPurpose_G350", "GeneralPurpose_G500", "GeneralPurpose_G700",
+         "GeneralPurpose_G1000", "MemoryOptimized_M10", "MemoryOptimized_M20", "MemoryOptimized_M50",
+         "MemoryOptimized_M100", "MemoryOptimized_M150", "MemoryOptimized_M250", "MemoryOptimized_M350",
+         "MemoryOptimized_M500", "MemoryOptimized_M700", "MemoryOptimized_M1000",
+         "MemoryOptimized_M1500", "MemoryOptimized_M2000", "ComputeOptimized_X1", "ComputeOptimized_X3",
+         "ComputeOptimized_X5", "ComputeOptimized_X10", "ComputeOptimized_X20", "ComputeOptimized_X50",
+         "ComputeOptimized_X100", "ComputeOptimized_X150", "ComputeOptimized_X250",
+         "ComputeOptimized_X350", "ComputeOptimized_X500", "ComputeOptimized_X700", "AutoTiering_T250",
+         "AutoTiering_T500", "AutoTiering_T700", "AutoTiering_T1000", "AutoTiering_T1500",
+         "AutoTiering_T2000", and "AutoTiering_T4500".
         :paramtype name: str or ~azure.mgmt.redisenterprise.models.SkuName
-        :keyword capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on
-         SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
+        :keyword capacity: The size of the Redis Enterprise cluster. Valid values depend upon the SKU,
+         and are (2, 4, 6, ...) for Enterprise\\ *E SKUs and (3, 9, 15, ...) for EnterpriseFlash* SKUs.
+         This parameter is not used with the other (GeneralPurpose, MemoryOptimized, ComputeOptimized)
+         SKUs. They operate without any capacity value.
         :paramtype capacity: int
         """
         super().__init__(**kwargs)
         self.name = name
         self.capacity = capacity
+
+
+class SystemData(_serialization.Model):
+    """Metadata pertaining to creation and last modification of the resource.
+
+    :ivar created_by: The identity that created the resource.
+    :vartype created_by: str
+    :ivar created_by_type: The type of identity that created the resource. Known values are:
+     "User", "Application", "ManagedIdentity", and "Key".
+    :vartype created_by_type: str or ~azure.mgmt.redisenterprise.models.CreatedByType
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
+    :ivar last_modified_by: The identity that last modified the resource.
+    :vartype last_modified_by: str
+    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+     are: "User", "Application", "ManagedIdentity", and "Key".
+    :vartype last_modified_by_type: str or ~azure.mgmt.redisenterprise.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
+    :vartype last_modified_at: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "created_by": {"key": "createdBy", "type": "str"},
+        "created_by_type": {"key": "createdByType", "type": "str"},
+        "created_at": {"key": "createdAt", "type": "iso-8601"},
+        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
+        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword created_by: The identity that created the resource.
+        :paramtype created_by: str
+        :keyword created_by_type: The type of identity that created the resource. Known values are:
+         "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype created_by_type: str or ~azure.mgmt.redisenterprise.models.CreatedByType
+        :keyword created_at: The timestamp of resource creation (UTC).
+        :paramtype created_at: ~datetime.datetime
+        :keyword last_modified_by: The identity that last modified the resource.
+        :paramtype last_modified_by: str
+        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
+         values are: "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype last_modified_by_type: str or ~azure.mgmt.redisenterprise.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
+        :paramtype last_modified_at: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.created_by = created_by
+        self.created_by_type = created_by_type
+        self.created_at = created_at
+        self.last_modified_by = last_modified_by
+        self.last_modified_by_type = last_modified_by_type
+        self.last_modified_at = last_modified_at
 
 
 class UserAssignedIdentity(_serialization.Model):

@@ -7,6 +7,10 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import AccessKeys
+from ._models_py3 import AccessPolicyAssignment
+from ._models_py3 import AccessPolicyAssignmentList
+from ._models_py3 import AccessPolicyAssignmentPropertiesUser
+from ._models_py3 import CheckNameAvailabilityParameters
 from ._models_py3 import Cluster
 from ._models_py3 import ClusterList
 from ._models_py3 import ClusterPropertiesEncryption
@@ -31,7 +35,7 @@ from ._models_py3 import Module
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
-from ._models_py3 import OperationStatus
+from ._models_py3 import OperationStatusResult
 from ._models_py3 import Persistence
 from ._models_py3 import PrivateEndpoint
 from ._models_py3 import PrivateEndpointConnection
@@ -43,16 +47,20 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import RegenerateKeyParameters
 from ._models_py3 import Resource
 from ._models_py3 import Sku
+from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
 
 from ._redis_enterprise_management_client_enums import AccessKeyType
+from ._redis_enterprise_management_client_enums import AccessKeysAuthentication
 from ._redis_enterprise_management_client_enums import ActionType
 from ._redis_enterprise_management_client_enums import AofFrequency
 from ._redis_enterprise_management_client_enums import ClusteringPolicy
 from ._redis_enterprise_management_client_enums import CmkIdentityType
+from ._redis_enterprise_management_client_enums import CreatedByType
 from ._redis_enterprise_management_client_enums import DeferUpgradeSetting
 from ._redis_enterprise_management_client_enums import EvictionPolicy
+from ._redis_enterprise_management_client_enums import HighAvailability
 from ._redis_enterprise_management_client_enums import LinkState
 from ._redis_enterprise_management_client_enums import ManagedServiceIdentityType
 from ._redis_enterprise_management_client_enums import Origin
@@ -61,6 +69,7 @@ from ._redis_enterprise_management_client_enums import PrivateEndpointServiceCon
 from ._redis_enterprise_management_client_enums import Protocol
 from ._redis_enterprise_management_client_enums import ProvisioningState
 from ._redis_enterprise_management_client_enums import RdbFrequency
+from ._redis_enterprise_management_client_enums import RedundancyMode
 from ._redis_enterprise_management_client_enums import ResourceState
 from ._redis_enterprise_management_client_enums import SkuName
 from ._redis_enterprise_management_client_enums import TlsVersion
@@ -70,6 +79,10 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AccessKeys",
+    "AccessPolicyAssignment",
+    "AccessPolicyAssignmentList",
+    "AccessPolicyAssignmentPropertiesUser",
+    "CheckNameAvailabilityParameters",
     "Cluster",
     "ClusterList",
     "ClusterPropertiesEncryption",
@@ -94,7 +107,7 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
-    "OperationStatus",
+    "OperationStatusResult",
     "Persistence",
     "PrivateEndpoint",
     "PrivateEndpointConnection",
@@ -106,15 +119,19 @@ __all__ = [
     "RegenerateKeyParameters",
     "Resource",
     "Sku",
+    "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
     "AccessKeyType",
+    "AccessKeysAuthentication",
     "ActionType",
     "AofFrequency",
     "ClusteringPolicy",
     "CmkIdentityType",
+    "CreatedByType",
     "DeferUpgradeSetting",
     "EvictionPolicy",
+    "HighAvailability",
     "LinkState",
     "ManagedServiceIdentityType",
     "Origin",
@@ -123,6 +140,7 @@ __all__ = [
     "Protocol",
     "ProvisioningState",
     "RdbFrequency",
+    "RedundancyMode",
     "ResourceState",
     "SkuName",
     "TlsVersion",
