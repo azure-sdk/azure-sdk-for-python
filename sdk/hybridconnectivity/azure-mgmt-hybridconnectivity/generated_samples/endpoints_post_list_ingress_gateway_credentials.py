@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hybridconnectivity import HybridConnectivityMgmtClient
 
 """
@@ -35,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPostListIngressGatewayCredentials.json
+# x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPostListIngressGatewayCredentials.json
 if __name__ == "__main__":
     main()
