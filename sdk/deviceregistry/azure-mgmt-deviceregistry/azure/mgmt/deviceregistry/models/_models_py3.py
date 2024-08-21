@@ -370,7 +370,7 @@ class AssetEndpointProfileUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the AssetEndpointProfile.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdateProperties
     """
 
@@ -389,7 +389,7 @@ class AssetEndpointProfileUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the AssetEndpointProfile.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdateProperties
         """
         super().__init__(**kwargs)
@@ -754,7 +754,7 @@ class AssetUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the Asset.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.deviceregistry.models.AssetUpdateProperties
     """
 
@@ -773,7 +773,7 @@ class AssetUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the Asset.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.deviceregistry.models.AssetUpdateProperties
         """
         super().__init__(**kwargs)
