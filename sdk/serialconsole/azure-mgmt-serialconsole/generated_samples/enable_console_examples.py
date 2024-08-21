@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
     pip install azure-identity
     pip install azure-mgmt-serialconsole
 # USAGE
-    python connect_to_a_scale_set_instance_serial_port.py
+    python enable_console_examples.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,16 +30,12 @@ def main():
         subscription_id="00000000-00000-0000-0000-000000000000",
     )
 
-    response = client.serial_ports.connect(
-        resource_group_name="myResourceGroup",
-        resource_provider_namespace="Microsoft.Compute",
-        parent_resource_type="virtualMachineScaleSets",
-        parent_resource="myscaleset/virtualMachines/2",
-        serial_port="0",
+    response = client.enable_console(
+        default="default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/SerialPortConnectVMSS.json
+# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2024-07-01/examples/EnableConsoleExamples.json
 if __name__ == "__main__":
     main()
