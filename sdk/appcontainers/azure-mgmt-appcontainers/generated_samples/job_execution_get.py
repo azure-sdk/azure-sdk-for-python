@@ -27,17 +27,18 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
     response = client.job_execution(
         resource_group_name="rg",
-        job_name="testcontainerappsjob0",
+        job_name="testcontainerAppsJob0",
         job_execution_name="jobExecution1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_Execution_Get.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_Execution_Get.json
 if __name__ == "__main__":
     main()
