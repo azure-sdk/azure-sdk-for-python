@@ -31,7 +31,7 @@ from ._models_py3 import Error
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDefinition
 from ._models_py3 import ErrorDetail
-from ._models_py3 import ErrorInnerError
+from ._models_py3 import ErrorDetails
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ExternalInstallationSoftwareConfiguration
 from ._models_py3 import FileShareConfiguration
@@ -192,7 +192,7 @@ __all__ = [
     "ErrorAdditionalInfo",
     "ErrorDefinition",
     "ErrorDetail",
-    "ErrorInnerError",
+    "ErrorDetails",
     "ErrorResponse",
     "ExternalInstallationSoftwareConfiguration",
     "FileShareConfiguration",
