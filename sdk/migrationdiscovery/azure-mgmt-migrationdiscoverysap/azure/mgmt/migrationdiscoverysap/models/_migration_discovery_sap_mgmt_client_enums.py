@@ -145,10 +145,3 @@ class SapInstanceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of Sap Instance- SCS."""
     WEBDISP = "WEBDISP"
     """The type of Sap Instance- WEBDISP."""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The available API versions."""
-
-    V2023_10_01_PREVIEW = "2023-10-01-preview"
-    """The 2023-10-01-preview API version."""
