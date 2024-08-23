@@ -6,56 +6,66 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AttestationStatus
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ExtendedLocation
 from ._models_py3 import GalleryDiskImage
+from ._models_py3 import GalleryImage
 from ._models_py3 import GalleryImageIdentifier
+from ._models_py3 import GalleryImageListResult
 from ._models_py3 import GalleryImageStatus
 from ._models_py3 import GalleryImageStatusDownloadStatus
 from ._models_py3 import GalleryImageStatusProvisioningStatus
+from ._models_py3 import GalleryImageTagsUpdate
 from ._models_py3 import GalleryImageVersion
 from ._models_py3 import GalleryImageVersionStorageProfile
-from ._models_py3 import GalleryImages
-from ._models_py3 import GalleryImagesListResult
 from ._models_py3 import GalleryImagesUpdateRequest
 from ._models_py3 import GalleryOSDiskImage
 from ._models_py3 import GuestAgent
 from ._models_py3 import GuestAgentInstallStatus
-from ._models_py3 import GuestAgentList
+from ._models_py3 import GuestAgentListResult
 from ._models_py3 import GuestCredential
 from ._models_py3 import HardwareProfileUpdate
 from ._models_py3 import HttpProxyConfiguration
 from ._models_py3 import HybridIdentityMetadata
-from ._models_py3 import HybridIdentityMetadataList
+from ._models_py3 import HybridIdentityMetadataListResult
 from ._models_py3 import IPConfiguration
 from ._models_py3 import IPConfigurationProperties
-from ._models_py3 import IPConfigurationPropertiesSubnet
 from ._models_py3 import IPPool
 from ._models_py3 import IPPoolInfo
 from ._models_py3 import Identity
+from ._models_py3 import ImageArmReference
 from ._models_py3 import InstanceViewStatus
 from ._models_py3 import InterfaceDNSSettings
+from ._models_py3 import LogicalNetwork
+from ._models_py3 import LogicalNetworkArmReference
+from ._models_py3 import LogicalNetworkListResult
 from ._models_py3 import LogicalNetworkPropertiesDhcpOptions
 from ._models_py3 import LogicalNetworkStatus
 from ._models_py3 import LogicalNetworkStatusProvisioningStatus
-from ._models_py3 import LogicalNetworks
-from ._models_py3 import LogicalNetworksListResult
 from ._models_py3 import LogicalNetworksUpdateRequest
+from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import MarketplaceGalleryImage
+from ._models_py3 import MarketplaceGalleryImageListResult
 from ._models_py3 import MarketplaceGalleryImageStatus
 from ._models_py3 import MarketplaceGalleryImageStatusDownloadStatus
 from ._models_py3 import MarketplaceGalleryImageStatusProvisioningStatus
-from ._models_py3 import MarketplaceGalleryImages
-from ._models_py3 import MarketplaceGalleryImagesListResult
+from ._models_py3 import MarketplaceGalleryImageTagsUpdate
 from ._models_py3 import MarketplaceGalleryImagesUpdateRequest
+from ._models_py3 import NetworkInterface
+from ._models_py3 import NetworkInterfaceArmReference
+from ._models_py3 import NetworkInterfaceListResult
 from ._models_py3 import NetworkInterfaceStatus
 from ._models_py3 import NetworkInterfaceStatusProvisioningStatus
-from ._models_py3 import NetworkInterfaces
-from ._models_py3 import NetworkInterfacesListResult
+from ._models_py3 import NetworkInterfaceTagsUpdate
 from ._models_py3 import NetworkInterfacesUpdateRequest
 from ._models_py3 import NetworkProfileUpdate
-from ._models_py3 import NetworkProfileUpdateNetworkInterfacesItem
+from ._models_py3 import NetworkSecurityGroup
+from ._models_py3 import NetworkSecurityGroupArmReference
+from ._models_py3 import NetworkSecurityGroupListResult
+from ._models_py3 import NetworkSecurityGroupTagsUpdate
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
@@ -66,39 +76,49 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
 from ._models_py3 import Route
 from ._models_py3 import RouteTable
+from ._models_py3 import SecurityRule
+from ._models_py3 import SecurityRuleListResult
 from ._models_py3 import SshConfiguration
 from ._models_py3 import SshPublicKey
+from ._models_py3 import StorageContainer
+from ._models_py3 import StorageContainerArmReference
+from ._models_py3 import StorageContainerListResult
 from ._models_py3 import StorageContainerStatus
 from ._models_py3 import StorageContainerStatusProvisioningStatus
-from ._models_py3 import StorageContainers
-from ._models_py3 import StorageContainersListResult
+from ._models_py3 import StorageContainerTagsUpdate
 from ._models_py3 import StorageContainersUpdateRequest
 from ._models_py3 import StorageProfileUpdate
-from ._models_py3 import StorageProfileUpdateDataDisksItem
 from ._models_py3 import Subnet
-from ._models_py3 import SubnetPropertiesFormatIpConfigurationReferencesItem
+from ._models_py3 import SubnetIpConfigurationReference
 from ._models_py3 import SystemData
+from ._models_py3 import TagsObject
 from ._models_py3 import TrackedResource
+from ._models_py3 import UserAssignedIdentity
+from ._models_py3 import VirtualHardDisk
+from ._models_py3 import VirtualHardDiskArmReference
+from ._models_py3 import VirtualHardDiskDownloadStatus
+from ._models_py3 import VirtualHardDiskListResult
 from ._models_py3 import VirtualHardDiskStatus
 from ._models_py3 import VirtualHardDiskStatusProvisioningStatus
-from ._models_py3 import VirtualHardDisks
-from ._models_py3 import VirtualHardDisksListResult
+from ._models_py3 import VirtualHardDiskTagsUpdate
+from ._models_py3 import VirtualHardDiskUploadRequest
+from ._models_py3 import VirtualHardDiskUploadResponse
+from ._models_py3 import VirtualHardDiskUploadStatus
 from ._models_py3 import VirtualHardDisksUpdateRequest
+from ._models_py3 import VirtualMachineArmReference
 from ._models_py3 import VirtualMachineConfigAgentInstanceView
 from ._models_py3 import VirtualMachineInstance
 from ._models_py3 import VirtualMachineInstanceListResult
 from ._models_py3 import VirtualMachineInstancePropertiesHardwareProfile
 from ._models_py3 import VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig
+from ._models_py3 import VirtualMachineInstancePropertiesHardwareProfileVirtualMachineGPU
 from ._models_py3 import VirtualMachineInstancePropertiesNetworkProfile
-from ._models_py3 import VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem
 from ._models_py3 import VirtualMachineInstancePropertiesOsProfile
 from ._models_py3 import VirtualMachineInstancePropertiesOsProfileLinuxConfiguration
 from ._models_py3 import VirtualMachineInstancePropertiesOsProfileWindowsConfiguration
 from ._models_py3 import VirtualMachineInstancePropertiesSecurityProfile
 from ._models_py3 import VirtualMachineInstancePropertiesSecurityProfileUefiSettings
 from ._models_py3 import VirtualMachineInstancePropertiesStorageProfile
-from ._models_py3 import VirtualMachineInstancePropertiesStorageProfileDataDisksItem
-from ._models_py3 import VirtualMachineInstancePropertiesStorageProfileImageReference
 from ._models_py3 import VirtualMachineInstancePropertiesStorageProfileOsDisk
 from ._models_py3 import VirtualMachineInstanceStatus
 from ._models_py3 import VirtualMachineInstanceStatusProvisioningStatus
@@ -106,79 +126,98 @@ from ._models_py3 import VirtualMachineInstanceUpdateProperties
 from ._models_py3 import VirtualMachineInstanceUpdateRequest
 from ._models_py3 import VirtualMachineInstanceView
 
-from ._azure_stack_hci_client_enums import ActionType
-from ._azure_stack_hci_client_enums import CloudInitDataSource
-from ._azure_stack_hci_client_enums import CreatedByType
-from ._azure_stack_hci_client_enums import DiskFileFormat
-from ._azure_stack_hci_client_enums import ExtendedLocationTypes
-from ._azure_stack_hci_client_enums import HyperVGeneration
-from ._azure_stack_hci_client_enums import IPPoolTypeEnum
-from ._azure_stack_hci_client_enums import IpAllocationMethodEnum
-from ._azure_stack_hci_client_enums import OperatingSystemTypes
-from ._azure_stack_hci_client_enums import Origin
-from ._azure_stack_hci_client_enums import PowerStateEnum
-from ._azure_stack_hci_client_enums import ProvisioningAction
-from ._azure_stack_hci_client_enums import ProvisioningStateEnum
-from ._azure_stack_hci_client_enums import SecurityTypes
-from ._azure_stack_hci_client_enums import Status
-from ._azure_stack_hci_client_enums import StatusLevelTypes
-from ._azure_stack_hci_client_enums import StatusTypes
-from ._azure_stack_hci_client_enums import VmSizeEnum
+from ._microsoft_azure_stack_hci_enums import ActionType
+from ._microsoft_azure_stack_hci_enums import AttestBootIntegrityPropertyEnum
+from ._microsoft_azure_stack_hci_enums import AttestCertPropertyEnum
+from ._microsoft_azure_stack_hci_enums import AttestHealthStatusEnum
+from ._microsoft_azure_stack_hci_enums import AttestSecureBootPropertyEnum
+from ._microsoft_azure_stack_hci_enums import CloudInitDataSource
+from ._microsoft_azure_stack_hci_enums import CreatedByType
+from ._microsoft_azure_stack_hci_enums import DiskFileFormat
+from ._microsoft_azure_stack_hci_enums import ExtendedLocationTypes
+from ._microsoft_azure_stack_hci_enums import GpuAssignmentTypeEnum
+from ._microsoft_azure_stack_hci_enums import HyperVGeneration
+from ._microsoft_azure_stack_hci_enums import IPPoolTypeEnum
+from ._microsoft_azure_stack_hci_enums import IpAllocationMethodEnum
+from ._microsoft_azure_stack_hci_enums import ManagedServiceIdentityType
+from ._microsoft_azure_stack_hci_enums import OperatingSystemTypes
+from ._microsoft_azure_stack_hci_enums import Origin
+from ._microsoft_azure_stack_hci_enums import PowerStateEnum
+from ._microsoft_azure_stack_hci_enums import ProvisioningAction
+from ._microsoft_azure_stack_hci_enums import ProvisioningStateEnum
+from ._microsoft_azure_stack_hci_enums import SecurityRuleAccess
+from ._microsoft_azure_stack_hci_enums import SecurityRuleDirection
+from ._microsoft_azure_stack_hci_enums import SecurityRuleProtocol
+from ._microsoft_azure_stack_hci_enums import SecurityTypes
+from ._microsoft_azure_stack_hci_enums import Status
+from ._microsoft_azure_stack_hci_enums import StatusLevelTypes
+from ._microsoft_azure_stack_hci_enums import StatusTypes
+from ._microsoft_azure_stack_hci_enums import VmSizeEnum
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AttestationStatus",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
     "ExtendedLocation",
     "GalleryDiskImage",
+    "GalleryImage",
     "GalleryImageIdentifier",
+    "GalleryImageListResult",
     "GalleryImageStatus",
     "GalleryImageStatusDownloadStatus",
     "GalleryImageStatusProvisioningStatus",
+    "GalleryImageTagsUpdate",
     "GalleryImageVersion",
     "GalleryImageVersionStorageProfile",
-    "GalleryImages",
-    "GalleryImagesListResult",
     "GalleryImagesUpdateRequest",
     "GalleryOSDiskImage",
     "GuestAgent",
     "GuestAgentInstallStatus",
-    "GuestAgentList",
+    "GuestAgentListResult",
     "GuestCredential",
     "HardwareProfileUpdate",
     "HttpProxyConfiguration",
     "HybridIdentityMetadata",
-    "HybridIdentityMetadataList",
+    "HybridIdentityMetadataListResult",
     "IPConfiguration",
     "IPConfigurationProperties",
-    "IPConfigurationPropertiesSubnet",
     "IPPool",
     "IPPoolInfo",
     "Identity",
+    "ImageArmReference",
     "InstanceViewStatus",
     "InterfaceDNSSettings",
+    "LogicalNetwork",
+    "LogicalNetworkArmReference",
+    "LogicalNetworkListResult",
     "LogicalNetworkPropertiesDhcpOptions",
     "LogicalNetworkStatus",
     "LogicalNetworkStatusProvisioningStatus",
-    "LogicalNetworks",
-    "LogicalNetworksListResult",
     "LogicalNetworksUpdateRequest",
+    "ManagedServiceIdentity",
+    "MarketplaceGalleryImage",
+    "MarketplaceGalleryImageListResult",
     "MarketplaceGalleryImageStatus",
     "MarketplaceGalleryImageStatusDownloadStatus",
     "MarketplaceGalleryImageStatusProvisioningStatus",
-    "MarketplaceGalleryImages",
-    "MarketplaceGalleryImagesListResult",
+    "MarketplaceGalleryImageTagsUpdate",
     "MarketplaceGalleryImagesUpdateRequest",
+    "NetworkInterface",
+    "NetworkInterfaceArmReference",
+    "NetworkInterfaceListResult",
     "NetworkInterfaceStatus",
     "NetworkInterfaceStatusProvisioningStatus",
-    "NetworkInterfaces",
-    "NetworkInterfacesListResult",
+    "NetworkInterfaceTagsUpdate",
     "NetworkInterfacesUpdateRequest",
     "NetworkProfileUpdate",
-    "NetworkProfileUpdateNetworkInterfacesItem",
+    "NetworkSecurityGroup",
+    "NetworkSecurityGroupArmReference",
+    "NetworkSecurityGroupListResult",
+    "NetworkSecurityGroupTagsUpdate",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
@@ -189,39 +228,49 @@ __all__ = [
     "Resource",
     "Route",
     "RouteTable",
+    "SecurityRule",
+    "SecurityRuleListResult",
     "SshConfiguration",
     "SshPublicKey",
+    "StorageContainer",
+    "StorageContainerArmReference",
+    "StorageContainerListResult",
     "StorageContainerStatus",
     "StorageContainerStatusProvisioningStatus",
-    "StorageContainers",
-    "StorageContainersListResult",
+    "StorageContainerTagsUpdate",
     "StorageContainersUpdateRequest",
     "StorageProfileUpdate",
-    "StorageProfileUpdateDataDisksItem",
     "Subnet",
-    "SubnetPropertiesFormatIpConfigurationReferencesItem",
+    "SubnetIpConfigurationReference",
     "SystemData",
+    "TagsObject",
     "TrackedResource",
+    "UserAssignedIdentity",
+    "VirtualHardDisk",
+    "VirtualHardDiskArmReference",
+    "VirtualHardDiskDownloadStatus",
+    "VirtualHardDiskListResult",
     "VirtualHardDiskStatus",
     "VirtualHardDiskStatusProvisioningStatus",
-    "VirtualHardDisks",
-    "VirtualHardDisksListResult",
+    "VirtualHardDiskTagsUpdate",
+    "VirtualHardDiskUploadRequest",
+    "VirtualHardDiskUploadResponse",
+    "VirtualHardDiskUploadStatus",
     "VirtualHardDisksUpdateRequest",
+    "VirtualMachineArmReference",
     "VirtualMachineConfigAgentInstanceView",
     "VirtualMachineInstance",
     "VirtualMachineInstanceListResult",
     "VirtualMachineInstancePropertiesHardwareProfile",
     "VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig",
+    "VirtualMachineInstancePropertiesHardwareProfileVirtualMachineGPU",
     "VirtualMachineInstancePropertiesNetworkProfile",
-    "VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem",
     "VirtualMachineInstancePropertiesOsProfile",
     "VirtualMachineInstancePropertiesOsProfileLinuxConfiguration",
     "VirtualMachineInstancePropertiesOsProfileWindowsConfiguration",
     "VirtualMachineInstancePropertiesSecurityProfile",
     "VirtualMachineInstancePropertiesSecurityProfileUefiSettings",
     "VirtualMachineInstancePropertiesStorageProfile",
-    "VirtualMachineInstancePropertiesStorageProfileDataDisksItem",
-    "VirtualMachineInstancePropertiesStorageProfileImageReference",
     "VirtualMachineInstancePropertiesStorageProfileOsDisk",
     "VirtualMachineInstanceStatus",
     "VirtualMachineInstanceStatusProvisioningStatus",
@@ -229,18 +278,27 @@ __all__ = [
     "VirtualMachineInstanceUpdateRequest",
     "VirtualMachineInstanceView",
     "ActionType",
+    "AttestBootIntegrityPropertyEnum",
+    "AttestCertPropertyEnum",
+    "AttestHealthStatusEnum",
+    "AttestSecureBootPropertyEnum",
     "CloudInitDataSource",
     "CreatedByType",
     "DiskFileFormat",
     "ExtendedLocationTypes",
+    "GpuAssignmentTypeEnum",
     "HyperVGeneration",
     "IPPoolTypeEnum",
     "IpAllocationMethodEnum",
+    "ManagedServiceIdentityType",
     "OperatingSystemTypes",
     "Origin",
     "PowerStateEnum",
     "ProvisioningAction",
     "ProvisioningStateEnum",
+    "SecurityRuleAccess",
+    "SecurityRuleDirection",
+    "SecurityRuleProtocol",
     "SecurityTypes",
     "Status",
     "StatusLevelTypes",

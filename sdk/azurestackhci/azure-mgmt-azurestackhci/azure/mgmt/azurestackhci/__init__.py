@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._azure_stack_hci_client import AzureStackHCIClient
+from ._microsoft_azure_stack_hci import MicrosoftAzureStackHCI
 from ._version import VERSION
 
 __version__ = VERSION
@@ -19,7 +19,7 @@ except ImportError:
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AzureStackHCIClient",
+    "MicrosoftAzureStackHCI",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 
