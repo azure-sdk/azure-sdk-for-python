@@ -6,34 +6,38 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._virtual_machine_instances_operations import VirtualMachineInstancesOperations
+from ._attestation_statuses_operations import AttestationStatusesOperations
+from ._guest_agents_operations import GuestAgentsOperations
+from ._hybrid_identity_metadata_operations import HybridIdentityMetadataOperations
 from ._gallery_images_operations import GalleryImagesOperations
-from ._operations import Operations
 from ._logical_networks_operations import LogicalNetworksOperations
 from ._marketplace_gallery_images_operations import MarketplaceGalleryImagesOperations
 from ._network_interfaces_operations import NetworkInterfacesOperations
+from ._network_security_groups_operations import NetworkSecurityGroupsOperations
 from ._storage_containers_operations import StorageContainersOperations
 from ._virtual_hard_disks_operations import VirtualHardDisksOperations
-from ._virtual_machine_instances_operations import VirtualMachineInstancesOperations
-from ._hybrid_identity_metadata_operations import HybridIdentityMetadataOperations
-from ._guest_agent_operations import GuestAgentOperations
-from ._guest_agents_operations import GuestAgentsOperations
+from ._security_rules_operations import SecurityRulesOperations
+from ._operations import Operations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "VirtualMachineInstancesOperations",
+    "AttestationStatusesOperations",
+    "GuestAgentsOperations",
+    "HybridIdentityMetadataOperations",
     "GalleryImagesOperations",
-    "Operations",
     "LogicalNetworksOperations",
     "MarketplaceGalleryImagesOperations",
     "NetworkInterfacesOperations",
+    "NetworkSecurityGroupsOperations",
     "StorageContainersOperations",
     "VirtualHardDisksOperations",
-    "VirtualMachineInstancesOperations",
-    "HybridIdentityMetadataOperations",
-    "GuestAgentOperations",
-    "GuestAgentsOperations",
+    "SecurityRulesOperations",
+    "Operations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
