@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
     pip install azure-identity
     pip install azure-mgmt-databricks
 # USAGE
-    python workspace_virtual_network_peering_create_or_update.py
+    python workspace_enhanced_security_compliance_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,28 +27,27 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="11111111-1111-1111-1111-111111111111",
     )
 
-    response = client.vnet_peering.begin_create_or_update(
+    response = client.workspaces.begin_create_or_update(
         resource_group_name="rg",
         workspace_name="myWorkspace",
-        peering_name="vNetPeeringTest",
-        virtual_network_peering_parameters={
+        parameters={
+            "location": "eastus2",
             "properties": {
-                "allowForwardedTraffic": False,
-                "allowGatewayTransit": False,
-                "allowVirtualNetworkAccess": True,
-                "remoteVirtualNetwork": {
-                    "id": "/subscriptions/0140911e-1040-48da-8bc9-b99fb3dd88a6/resourceGroups/subramantest/providers/Microsoft.Network/virtualNetworks/subramanvnet"
+                "enhancedSecurityCompliance": {
+                    "automaticClusterUpdate": {"value": "Enabled"},
+                    "complianceSecurityProfile": {"complianceStandards": ["PCI_DSS", "HIPAA"], "value": "Enabled"},
+                    "enhancedSecurityMonitoring": {"value": "Enabled"},
                 },
-                "useRemoteGateways": False,
-            }
+                "managedResourceGroupId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
+            },
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceVirtualNetworkPeeringCreateOrUpdate.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2024-09-01-preview/examples/WorkspaceEnhancedSecurityComplianceCreateOrUpdate.json
 if __name__ == "__main__":
     main()
