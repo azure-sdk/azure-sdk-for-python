@@ -27,7 +27,7 @@ from azure.mgmt.healthdataaiservices import HealthDataAIServicesMgmtClient
 def main():
     client = HealthDataAIServicesMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="F21BB31B-C214-42C0-ACF0-DACCA05D3011",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     client.private_endpoint_connections.begin_delete(
