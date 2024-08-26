@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.astro import AstroMgmtClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.astro import AstroMgmtClient
 def main():
     client = AstroMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="43454B17-172A-40FE-80FA-549EA23D12B3",
+        subscription_id="E65571FB-1310-4F85-BC44-3C0D14A84AB7",
     )
 
     response = client.organizations.begin_create_or_update(
@@ -34,40 +35,41 @@ def main():
         organization_name="U.1-:7",
         resource={
             "identity": {"type": "None", "userAssignedIdentities": {}},
-            "location": "mhqthlsatwvqkl",
+            "location": "izalvuwqjjgahbildxqijgzemsny",
             "properties": {
                 "marketplace": {
                     "offerDetails": {
-                        "offerId": "krzkefmpxztqyusidzgpchfaswuyce",
-                        "planId": "kndxzygsanuiqzwbfbbvoipv",
-                        "planName": "pwqjwlq",
-                        "publisherId": "gfsqxygpnerxmvols",
-                        "termId": "pwds",
-                        "termUnit": "xyygyzcazkuelz",
+                        "autoRenew": True,
+                        "offerId": "hjicdqsxtzashh",
+                        "planId": "rgjdpmewnjuhxflolgxmloqab",
+                        "planName": "jtrdhfnrkznayvwrur",
+                        "publisherId": "hhigosazmxxjxmsvhqytppqdsdnz",
+                        "termId": "dyfuysdm",
+                        "termUnit": "sawvannuprusggtouacwnx",
                     },
-                    "subscriptionId": "ntthclydlpqmasr",
+                    "subscriptionId": "bdyjzjbtwgvb",
                     "subscriptionStatus": "PendingFulfillmentStart",
                 },
                 "partnerOrganizationProperties": {
-                    "organizationId": "lskgzdmziusgrsucv",
-                    "organizationName": "3-",
+                    "organizationId": "oguncicusostvrsfqvrs",
+                    "organizationName": "U.1-:7",
                     "singleSignOnProperties": {
-                        "aadDomains": ["kfbleh"],
-                        "enterpriseAppId": "mklfypyujwumgwdzae",
+                        "aadDomains": ["gtbnsdovowedvkq"],
+                        "enterpriseAppId": "nlrhnqejokwheluyeupd",
                         "provisioningState": "Succeeded",
                         "singleSignOnState": "Initial",
-                        "singleSignOnUrl": "ymmtzkyghvinvhgnqlzwrr",
+                        "singleSignOnUrl": "nmscpgenxxrdshhxt",
                     },
-                    "workspaceId": "vcrupxwpaba",
+                    "workspaceId": "avel",
                     "workspaceName": "9.:06",
                 },
                 "provisioningState": "Succeeded",
                 "user": {
                     "emailAddress": ".K_@e7N-g1.xjqnbPs",
-                    "firstName": "nfh",
-                    "lastName": "lazfbstcccykibvcrxpmglqam",
-                    "phoneNumber": "inxkscllh",
-                    "upn": "xtutvycpxjrtoftx",
+                    "firstName": "ya",
+                    "lastName": "bonkfxtnitwtreabiihxrilsj",
+                    "phoneNumber": "eaqrsnxmnm",
+                    "upn": "ckifrizteafihkl",
                 },
             },
             "tags": {},
@@ -76,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2024-08-23/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

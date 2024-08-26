@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.astro import AstroMgmtClient
 
 """
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Operations_List_MaximumSet_Gen.json
+# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2024-08-23/examples/Operations_List_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

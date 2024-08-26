@@ -15,7 +15,7 @@ from azure.mgmt.astro import AstroMgmtClient
     pip install azure-identity
     pip install azure-mgmt-astro
 # USAGE
-    python organizations_list_by_resource_group_maximum_set_gen.py
+    python operations_list_minimum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,14 @@ from azure.mgmt.astro import AstroMgmtClient
 def main():
     client = AstroMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="E65571FB-1310-4F85-BC44-3C0D14A84AB7",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.organizations.list_by_resource_group(
-        resource_group_name="rgastronomer",
-    )
+    response = client.operations.list()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2024-08-23/examples/Organizations_ListByResourceGroup_MaximumSet_Gen.json
+# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2024-08-23/examples/Operations_List_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()

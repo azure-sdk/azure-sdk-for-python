@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.astro import AstroMgmtClient
 
 """
@@ -26,42 +27,42 @@ from azure.mgmt.astro import AstroMgmtClient
 def main():
     client = AstroMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="43454B17-172A-40FE-80FA-549EA23D12B3",
+        subscription_id="E65571FB-1310-4F85-BC44-3C0D14A84AB7",
     )
 
     response = client.organizations.begin_update(
         resource_group_name="rgastronomer",
-        organization_name="6.",
+        organization_name="U.1-:7",
         properties={
             "identity": {"type": "None", "userAssignedIdentities": {}},
             "properties": {
                 "partnerOrganizationProperties": {
-                    "organizationId": "lrtmbkvyvvoszhjevohkmyjhfyty",
-                    "organizationName": "U2P_",
+                    "organizationId": "lowsj",
+                    "organizationName": "U.1-:7",
                     "singleSignOnProperties": {
-                        "aadDomains": ["kfbleh"],
-                        "enterpriseAppId": "mklfypyujwumgwdzae",
+                        "aadDomains": ["gtbnsdovowedvkq"],
+                        "enterpriseAppId": "nlrhnqejokwheluyeupd",
                         "provisioningState": "Succeeded",
                         "singleSignOnState": "Initial",
-                        "singleSignOnUrl": "ymmtzkyghvinvhgnqlzwrr",
+                        "singleSignOnUrl": "nmscpgenxxrdshhxt",
                     },
-                    "workspaceId": "xsepuskdhejaadusyxq",
-                    "workspaceName": "L.-y_--:",
+                    "workspaceId": "pckyzpgztaal",
+                    "workspaceName": "9.:06",
                 },
                 "user": {
                     "emailAddress": ".K_@e7N-g1.xjqnbPs",
-                    "firstName": "qeuofehzypzljgcuysugefbgxde",
-                    "lastName": "g",
-                    "phoneNumber": "aqpyxznvqpgkzohevynofrjdfgoo",
-                    "upn": "uwtprzdfpsqmktx",
+                    "firstName": "ggdybximgouyreops",
+                    "lastName": "jjnvjvtgvgldtaasy",
+                    "phoneNumber": "jzkkmmqmjyfyqgidhqwrokwnba",
+                    "upn": "otbhjplmt",
                 },
             },
-            "tags": {"key1474": "bqqyipxnbbxryhznyaosmtpo"},
+            "tags": {},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2024-08-23/examples/Organizations_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
