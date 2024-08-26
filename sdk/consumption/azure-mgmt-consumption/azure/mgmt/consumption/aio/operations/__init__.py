@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._price_sheet_operations import PriceSheetOperations
 from ._usage_details_operations import UsageDetailsOperations
 from ._marketplaces_operations import MarketplacesOperations
 from ._budgets_operations import BudgetsOperations
@@ -17,7 +18,6 @@ from ._reservations_details_operations import ReservationsDetailsOperations
 from ._reservation_recommendations_operations import ReservationRecommendationsOperations
 from ._reservation_recommendation_details_operations import ReservationRecommendationDetailsOperations
 from ._reservation_transactions_operations import ReservationTransactionsOperations
-from ._price_sheet_operations import PriceSheetOperations
 from ._operations import Operations
 from ._aggregated_cost_operations import AggregatedCostOperations
 from ._events_operations import EventsOperations
@@ -29,6 +29,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "PriceSheetOperations",
     "UsageDetailsOperations",
     "MarketplacesOperations",
     "BudgetsOperations",
@@ -40,7 +41,6 @@ __all__ = [
     "ReservationRecommendationsOperations",
     "ReservationRecommendationDetailsOperations",
     "ReservationTransactionsOperations",
-    "PriceSheetOperations",
     "Operations",
     "AggregatedCostOperations",
     "EventsOperations",
