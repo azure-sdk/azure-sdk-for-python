@@ -25,7 +25,7 @@ class TestAzureStackHCISecuritySettingsOperationsAsync(AzureMgmtRecordedTestCase
         response = self.client.security_settings.list_by_clusters(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestAzureStackHCISecuritySettingsOperationsAsync(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             cluster_name="str",
             security_settings_name="default",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -63,7 +63,6 @@ class TestAzureStackHCISecuritySettingsOperationsAsync(AzureMgmtRecordedTestCase
                         "securedCoreCompliance": "str",
                         "wdacCompliance": "str",
                     },
-                    "smbEncryptionForIntraClusterTrafficComplianceAssignment": "str",
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
                         "createdBy": "str",
@@ -73,10 +72,9 @@ class TestAzureStackHCISecuritySettingsOperationsAsync(AzureMgmtRecordedTestCase
                         "lastModifiedByType": "str",
                     },
                     "type": "str",
-                    "wdacComplianceAssignment": "str",
                 },
                 security_settings_name="default",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -91,7 +89,7 @@ class TestAzureStackHCISecuritySettingsOperationsAsync(AzureMgmtRecordedTestCase
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 security_settings_name="default",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
