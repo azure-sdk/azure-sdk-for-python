@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from ._operations import Operations
+from ._deleted_services_operations import DeletedServicesOperations
 from ._services_operations import ServicesOperations
 from ._metadata_schemas_operations import MetadataSchemasOperations
 from ._workspaces_operations import WorkspacesOperations
@@ -22,6 +23,7 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Operations",
+    "DeletedServicesOperations",
     "ServicesOperations",
     "MetadataSchemasOperations",
     "WorkspacesOperations",
