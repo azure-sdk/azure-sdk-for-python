@@ -1,4 +1,4 @@
-cleanup: false
-commit: 44cbf51b9eee8a2dbf55ced61a61032aaed0148b
 directory: specification/schemaregistry/SchemaRegistry
-repo: Azure/azure-rest-api-specs
+commit: c2229fdd97bc76118a6e116b76c4bf4378789de8
+repo: test-repo-billy/azure-rest-api-specs
+additionalDirectories: 
