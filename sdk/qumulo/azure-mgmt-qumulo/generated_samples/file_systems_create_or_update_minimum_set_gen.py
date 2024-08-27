@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.qumulo import QumuloMgmtClient
 
 """
@@ -35,17 +36,14 @@ def main():
         resource={
             "location": "aaaaaaaaaaaaaaaaaaaaaaaaa",
             "properties": {
-                "adminPassword": "ekceujoecaashtjlsgcymnrdozk",
+                "adminPassword": "fakeTestSecretPlaceholder",
                 "delegatedSubnetId": "aaaaaaaaaa",
-                "initialCapacity": 9,
                 "marketplaceDetails": {
                     "marketplaceSubscriptionId": "aaaaaaaaaaaaa",
                     "marketplaceSubscriptionStatus": "PendingFulfillmentStart",
                     "offerId": "aaaaaaaaaaaaaaaaaaaaaaaaa",
                     "planId": "aaaaaa",
-                    "publisherId": "aa",
                 },
-                "provisioningState": "Accepted",
                 "storageSku": "Standard",
                 "userDetails": {"email": "viptslwulnpaupfljvnjeq"},
             },
@@ -54,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2022-10-12/examples/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
+# x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
