@@ -9,7 +9,8 @@
 # regenerated.
 # --------------------------------------------------------------------------
 from ._serialization import Serializer, Deserializer
-from typing import Any, IO, Iterable, Optional, Union
+from io import IOBase
+from typing import Any, IO, Iterable, Iterator, Optional, Union
 
 from azure.core.paging import ItemPaged
 from azure.core.polling import LROPoller
@@ -23,7 +24,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
         self,
         address_name: str,
         resource_group_name: str,
-        address_resource: Union[_models.AddressResource, IO],
+        address_resource: Union[_models.AddressResource, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.AddressResource]:
         """Creates a new address with the specified parameters. Existing address can be updated with this
@@ -37,19 +38,8 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Required.
         :type resource_group_name: str
         :param address_resource: Address details from request body. Is either a AddressResource type or
-         a IO type. Required.
-        :type address_resource: ~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         a IO[bytes] type. Required.
+        :type address_resource: ~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource or IO[bytes]
         :return: An instance of LROPoller that returns either AddressResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource]
@@ -75,7 +65,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
         self,
         order_item_name: str,
         resource_group_name: str,
-        order_item_resource: Union[_models.OrderItemResource, IO],
+        order_item_resource: Union[_models.OrderItemResource, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.OrderItemResource]:
         """Creates an order item. Existing order item cannot be updated with this api and should instead
@@ -87,19 +77,9 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Required.
         :type resource_group_name: str
         :param order_item_resource: Order item details from request body. Is either a OrderItemResource
-         type or a IO type. Required.
-        :type order_item_resource: ~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         type or a IO[bytes] type. Required.
+        :type order_item_resource: ~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemResource or
+         IO[bytes]
         :return: An instance of LROPoller that returns either OrderItemResource or the result of
          cls(response)
         :rtype:
@@ -137,14 +117,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -178,14 +150,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -210,7 +174,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
         self,
         order_item_name: str,
         resource_group_name: str,
-        return_order_item_details: Union[_models.ReturnOrderItemDetails, IO],
+        return_order_item_details: Union[_models.ReturnOrderItemDetails, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[None]:
         """Return order item.
@@ -221,20 +185,9 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Required.
         :type resource_group_name: str
         :param return_order_item_details: Return order item CurrentStatus. Is either a
-         ReturnOrderItemDetails type or a IO type. Required.
+         ReturnOrderItemDetails type or a IO[bytes] type. Required.
         :type return_order_item_details:
-         ~azure.mgmt.edgeorder.v2021_12_01.models.ReturnOrderItemDetails or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.edgeorder.v2021_12_01.models.ReturnOrderItemDetails or IO[bytes]
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -259,7 +212,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
         self,
         address_name: str,
         resource_group_name: str,
-        address_update_parameter: Union[_models.AddressUpdateParameter, IO],
+        address_update_parameter: Union[_models.AddressUpdateParameter, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> LROPoller[_models.AddressResource]:
@@ -273,23 +226,12 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Required.
         :type resource_group_name: str
         :param address_update_parameter: Address update parameters from request body. Is either a
-         AddressUpdateParameter type or a IO type. Required.
+         AddressUpdateParameter type or a IO[bytes] type. Required.
         :type address_update_parameter: ~azure.mgmt.edgeorder.v2021_12_01.models.AddressUpdateParameter
-         or IO
+         or IO[bytes]
         :param if_match: Defines the If-Match condition. The patch will be performed only if the ETag
          of the job on the server matches this value. Default value is None.
         :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either AddressResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource]
@@ -315,7 +257,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
         self,
         order_item_name: str,
         resource_group_name: str,
-        order_item_update_parameter: Union[_models.OrderItemUpdateParameter, IO],
+        order_item_update_parameter: Union[_models.OrderItemUpdateParameter, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> LROPoller[_models.OrderItemResource]:
@@ -327,23 +269,12 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Required.
         :type resource_group_name: str
         :param order_item_update_parameter: order item update parameters from request body. Is either a
-         OrderItemUpdateParameter type or a IO type. Required.
+         OrderItemUpdateParameter type or a IO[bytes] type. Required.
         :type order_item_update_parameter:
-         ~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemUpdateParameter or IO
+         ~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemUpdateParameter or IO[bytes]
         :param if_match: Defines the If-Match condition. The patch will be performed only if the ETag
          of the order on the server matches this value. Default value is None.
         :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either OrderItemResource or the result of
          cls(response)
         :rtype:
@@ -370,7 +301,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
         self,
         order_item_name: str,
         resource_group_name: str,
-        cancellation_reason: Union[_models.CancellationReason, IO],
+        cancellation_reason: Union[_models.CancellationReason, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """Cancel order item.
@@ -381,12 +312,9 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Required.
         :type resource_group_name: str
         :param cancellation_reason: Reason for cancellation. Is either a CancellationReason type or a
-         IO type. Required.
-        :type cancellation_reason: ~azure.mgmt.edgeorder.v2021_12_01.models.CancellationReason or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         IO[bytes] type. Required.
+        :type cancellation_reason: ~azure.mgmt.edgeorder.v2021_12_01.models.CancellationReason or
+         IO[bytes]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -422,7 +350,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AddressResource or the result of cls(response)
         :rtype: ~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -459,7 +386,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :type resource_group_name: str
         :param location: The name of Azure region. Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrderResource or the result of cls(response)
         :rtype: ~azure.mgmt.edgeorder.v2021_12_01.models.OrderResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -500,7 +426,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
          Shipping details provide forward and reverse shipping details respectively. Default value is
          None.
         :type expand: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrderItemResource or the result of cls(response)
         :rtype: ~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -539,7 +464,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on Get list of addresses, which provides the next
          page in the list of address. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AddressResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -574,7 +498,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on Get list of addresses, which provides the next
          page in the list of addresses. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AddressResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.AddressResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -597,7 +520,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
 
     def list_configurations(
         self,
-        configurations_request: Union[_models.ConfigurationsRequest, IO],
+        configurations_request: Union[_models.ConfigurationsRequest, IO[bytes]],
         skip_token: Optional[str] = None,
         **kwargs: Any
     ) -> Iterable["_models.Configuration"]:
@@ -605,16 +528,12 @@ class EdgeOrderManagementClientOperationsMixin(object):
         product under subscription.
 
         :param configurations_request: Filters for showing the configurations. Is either a
-         ConfigurationsRequest type or a IO type. Required.
+         ConfigurationsRequest type or a IO[bytes] type. Required.
         :type configurations_request: ~azure.mgmt.edgeorder.v2021_12_01.models.ConfigurationsRequest or
-         IO
+         IO[bytes]
         :param skip_token: $skipToken is supported on list of configurations, which provides the next
          page in the list of configurations. Default value is None.
         :type skip_token: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Configuration or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.Configuration]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -641,7 +560,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
     ) -> Iterable["_models.Operation"]:
         """This method gets all the operations that are exposed for customer.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Operation or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -676,7 +594,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on Get list of order, which provides the next page
          in the list of order. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OrderResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.OrderResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -707,7 +624,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on Get list of order, which provides the next page
          in the list of order. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OrderResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.OrderResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -753,7 +669,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on Get list of order items, which provides the next
          page in the list of order items. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OrderItemResource or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemResource]
@@ -796,7 +711,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on Get list of order items, which provides the next
          page in the list of order items. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OrderItemResource or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.OrderItemResource]
@@ -820,7 +734,7 @@ class EdgeOrderManagementClientOperationsMixin(object):
 
     def list_product_families(
         self,
-        product_families_request: Union[_models.ProductFamiliesRequest, IO],
+        product_families_request: Union[_models.ProductFamiliesRequest, IO[bytes]],
         expand: Optional[str] = None,
         skip_token: Optional[str] = None,
         **kwargs: Any
@@ -828,19 +742,15 @@ class EdgeOrderManagementClientOperationsMixin(object):
         """This method provides the list of product families for the given subscription.
 
         :param product_families_request: Filters for showing the product families. Is either a
-         ProductFamiliesRequest type or a IO type. Required.
+         ProductFamiliesRequest type or a IO[bytes] type. Required.
         :type product_families_request: ~azure.mgmt.edgeorder.v2021_12_01.models.ProductFamiliesRequest
-         or IO
+         or IO[bytes]
         :param expand: $expand is supported on configurations parameter for product, which provides
          details on the configurations for the product. Default value is None.
         :type expand: str
         :param skip_token: $skipToken is supported on list of product families, which provides the next
          page in the list of product families. Default value is None.
         :type skip_token: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ProductFamily or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.edgeorder.v2021_12_01.models.ProductFamily]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -871,7 +781,6 @@ class EdgeOrderManagementClientOperationsMixin(object):
         :param skip_token: $skipToken is supported on list of product families metadata, which provides
          the next page in the list of product families metadata. Default value is None.
         :type skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ProductFamiliesMetadataDetails or the result of
          cls(response)
         :rtype:

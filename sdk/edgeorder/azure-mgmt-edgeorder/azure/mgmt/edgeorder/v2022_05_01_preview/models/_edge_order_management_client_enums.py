@@ -124,7 +124,7 @@ class DisabledReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Subscription does not have required offer types."""
     NO_SUBSCRIPTION_INFO = "NoSubscriptionInfo"
     """Subscription has not registered to Microsoft.DataBox and Service does not have the subscription
-    #: notification."""
+    notification."""
     NOT_AVAILABLE = "NotAvailable"
     """The product is not yet available."""
     OUT_OF_STOCK = "OutOfStock"
@@ -149,7 +149,7 @@ class FulfillmentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The fulfillment (the whole journey of the product offering) is handled by microsoft."""
     EXTERNAL = "External"
     """The fulfillment (the whole journey of the product offering) is handled by external third party
-    #: entities."""
+    entities."""
 
 
 class IdentificationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -179,6 +179,8 @@ class LengthHeightUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Inch, applicable for West US."""
     CM = "CM"
     """Centimeter."""
+    IN_ENUM = "IN"
+    """Inch, applicable for West US."""
 
 
 class LinkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

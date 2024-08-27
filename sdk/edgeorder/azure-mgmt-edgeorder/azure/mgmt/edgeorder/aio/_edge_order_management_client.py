@@ -10,8 +10,11 @@
 # --------------------------------------------------------------------------
 
 from typing import Any, Optional, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 from azure.profiles import KnownProfiles, ProfileDefinition
 from azure.profiles.multiapiclient import MultiApiClientMixin
 
@@ -72,8 +75,28 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         profile: KnownProfiles = KnownProfiles.default,
         **kwargs: Any
     ) -> None:
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = EdgeOrderManagementClientConfiguration(credential, subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
         super(EdgeOrderManagementClient, self).__init__(
             api_version=api_version,
             profile=profile
@@ -114,7 +137,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         else:
             raise ValueError("API version {} does not have operation group 'addresses'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
@@ -128,7 +151,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def order_items(self):
@@ -142,7 +165,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         else:
             raise ValueError("API version {} does not have operation group 'order_items'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def orders(self):
@@ -156,7 +179,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         else:
             raise ValueError("API version {} does not have operation group 'orders'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def products_and_configurations(self):
@@ -170,7 +193,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         else:
             raise ValueError("API version {} does not have operation group 'products_and_configurations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     async def close(self):
         await self._client.close()
