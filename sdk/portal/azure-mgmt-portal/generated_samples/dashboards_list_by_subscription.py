@@ -7,14 +7,15 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.portal import Portal
+
+from azure.mgmt.portal import PortalForTesting
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-portal
 # USAGE
-    python update_a_dashboard.py
+    python dashboards_list_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,19 +25,16 @@ from azure.mgmt.portal import Portal
 
 
 def main():
-    client = Portal(
+    client = PortalForTesting(
         credential=DefaultAzureCredential(),
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.dashboards.update(
-        resource_group_name="testRG",
-        dashboard_name="testDashboard",
-        dashboard={"tags": {"aKey": "bValue", "anotherKey": "anotherValue2"}},
-    )
-    print(response)
+    response = client.dashboards.list_by_subscription()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/updateDashboard.json
+# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2022-12-01-preview/examples/Dashboards_ListBySubscription.json
 if __name__ == "__main__":
     main()
