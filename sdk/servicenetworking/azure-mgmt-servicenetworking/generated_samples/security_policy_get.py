@@ -15,7 +15,7 @@ from azure.mgmt.servicenetworking import ServiceNetworkingMgmtClient
     pip install azure-identity
     pip install azure-mgmt-servicenetworking
 # USAGE
-    python traffic_controller_patch.py
+    python security_policy_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.traffic_controller_interface.update(
+    response = client.security_policies_interface.get(
         resource_group_name="rg1",
         traffic_controller_name="tc1",
-        properties={"tags": {"key1": "value1"}},
+        security_policy_name="sp1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllerPatch.json
+# x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPolicyGet.json
 if __name__ == "__main__":
     main()
