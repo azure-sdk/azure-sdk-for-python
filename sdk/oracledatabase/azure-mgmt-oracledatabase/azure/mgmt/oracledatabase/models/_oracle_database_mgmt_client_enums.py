@@ -16,6 +16,17 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AddSubscriptionOperationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Add Subscription Operation state enum."""
+
+    SUCCEEDED = "Succeeded"
+    """Succeeded - State when Add Subscription operation succeeded"""
+    UPDATING = "Updating"
+    """Updating - State when Add Subscription operation is being Updated"""
+    FAILED = "Failed"
+    """Failed - State when Add Subscription operation failed"""
+
+
 class AutonomousDatabaseBackupLifecycleState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Autonomous database backup lifecycle state enum."""
 
