@@ -22,7 +22,7 @@ class PrivateLinkScopesResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -71,7 +71,7 @@ class AzureMonitorPrivateLinkScope(PrivateLinkScopesResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -129,7 +129,7 @@ class AzureMonitorPrivateLinkScope(PrivateLinkScopesResource):
 class AzureMonitorPrivateLinkScopeListResult(_serialization.Model):
     """Describes the list of Azure Monitor PrivateLinkScope resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of Azure Monitor PrivateLinkScope definitions. Required.
     :vartype value: list[~azure.mgmt.monitor.v2019_10_17.models.AzureMonitorPrivateLinkScope]
@@ -525,12 +525,12 @@ class PrivateLinkResourceListResult(_serialization.Model):
         self.next_link = None
 
 
-class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
+class PrivateLinkServiceConnectionStateProperty(_serialization.Model):  # pylint: disable=name-too-long
     """State of the private endpoint connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The private link service connection status. Required.
     :vartype status: str

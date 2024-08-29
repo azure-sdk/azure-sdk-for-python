@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class ActionGroup(_serialization.Model):
     """A pointer to an Azure Action Group.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action_group_id: The resource ID of the Action Group. This cannot be null or empty.
      Required.
@@ -85,8 +85,8 @@ class AzureResource(_serialization.Model):
     :vartype name: str
     :ivar type: The type of the resource.
     :vartype type: str
-    :ivar location: The location of the resource. Since Azure Activity Log Alerts is a global
-     service, the location of the rules should always be 'global'.
+    :ivar location: The location of the resource. Azure Activity Log Alert rules are supported on
+     Global, West Europe and North Europe regions.
     :vartype location: str
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
@@ -108,8 +108,8 @@ class AzureResource(_serialization.Model):
 
     def __init__(self, *, location: str = "global", tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: The location of the resource. Since Azure Activity Log Alerts is a global
-         service, the location of the rules should always be 'global'.
+        :keyword location: The location of the resource. Azure Activity Log Alert rules are supported
+         on Global, West Europe and North Europe regions.
         :paramtype location: str
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
@@ -133,8 +133,8 @@ class ActivityLogAlertResource(AzureResource):
     :vartype name: str
     :ivar type: The type of the resource.
     :vartype type: str
-    :ivar location: The location of the resource. Since Azure Activity Log Alerts is a global
-     service, the location of the rules should always be 'global'.
+    :ivar location: The location of the resource. Azure Activity Log Alert rules are supported on
+     Global, West Europe and North Europe regions.
     :vartype location: str
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
@@ -185,8 +185,8 @@ class ActivityLogAlertResource(AzureResource):
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: The location of the resource. Since Azure Activity Log Alerts is a global
-         service, the location of the rules should always be 'global'.
+        :keyword location: The location of the resource. Azure Activity Log Alert rules are supported
+         on Global, West Europe and North Europe regions.
         :paramtype location: str
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
@@ -215,7 +215,7 @@ class ActivityLogAlertResource(AzureResource):
 class AlertRuleAllOfCondition(_serialization.Model):
     """An Activity Log Alert rule condition that is met when all its member conditions are met.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar all_of: The list of Activity Log Alert rule conditions. Required.
     :vartype all_of: list[~azure.mgmt.monitor.v2020_10_01.models.AlertRuleAnyOfOrLeafCondition]
@@ -292,8 +292,8 @@ class AlertRuleLeafCondition(_serialization.Model):
 class AlertRuleAnyOfOrLeafCondition(AlertRuleLeafCondition):
     """An Activity Log Alert rule condition that is met when all its member conditions are met.
     Each condition can be of one of the following types:
-    **Important**\ : Each type has its unique subset of properties. Properties from different types
-    CANNOT exist in one condition.
+    **Important**\\ : Each type has its unique subset of properties. Properties from different
+    types CANNOT exist in one condition.
 
 
     * **Leaf Condition -** must contain 'field' and either 'equals' or 'containsAny'.
