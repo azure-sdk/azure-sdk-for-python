@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.azurestackhci import AzureStackHCIClient
@@ -35,17 +33,11 @@ def main():
     response = client.security_settings.begin_create_or_update(
         resource_group_name="test-rg",
         cluster_name="myCluster",
-        resource={
-            "properties": {
-                "securedCoreComplianceAssignment": "Audit",
-                "smbEncryptionForIntraClusterTrafficComplianceAssignment": "Audit",
-                "wdacComplianceAssignment": "ApplyAndAutoCorrect",
-            }
-        },
+        resource={"properties": {"securedCoreComplianceAssignment": "Audit"}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/PutSecuritySettings.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/PutSecuritySettings.json
 if __name__ == "__main__":
     main()
