@@ -408,7 +408,12 @@ class TestComputeManagementVirtualMachineScaleSetVMsOperationsAsync(AzureMgmtRec
                     "securityProfile": {
                         "encryptionAtHost": bool,
                         "encryptionIdentity": {"userAssignedIdentityResourceId": "str"},
-                        "proxyAgentSettings": {"enabled": bool, "keyIncarnationId": 0, "mode": "str"},
+                        "proxyAgentSettings": {
+                            "enabled": bool,
+                            "imds": {"inVMAccessControlProfileReferenceId": "str", "mode": "str"},
+                            "keyIncarnationId": 0,
+                            "wireServer": {"inVMAccessControlProfileReferenceId": "str", "mode": "str"},
+                        },
                         "securityType": "str",
                         "uefiSettings": {"secureBootEnabled": bool, "vTpmEnabled": bool},
                     },
