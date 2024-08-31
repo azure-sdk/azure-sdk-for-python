@@ -20,6 +20,11 @@ from ._models_py3 import AccessListRoleBindingsSuccessResponse
 from ._models_py3 import AccessListServiceAccountsSuccessResponse
 from ._models_py3 import AccessListUsersSuccessResponse
 from ._models_py3 import AccessRoleBindingNameListSuccessResponse
+from ._models_py3 import AzureBlobStorageSinkConnectorServiceInfo
+from ._models_py3 import AzureBlobStorageSourceConnectorServiceInfo
+from ._models_py3 import AzureCosmosDBSinkConnectorServiceInfo
+from ._models_py3 import AzureCosmosDBSourceConnectorServiceInfo
+from ._models_py3 import AzureSynapseAnalyticsSinkConnectorServiceInfo
 from ._models_py3 import ClusterByokEntity
 from ._models_py3 import ClusterConfigEntity
 from ._models_py3 import ClusterEnvironmentEntity
@@ -30,16 +35,29 @@ from ._models_py3 import ClusterStatusEntity
 from ._models_py3 import ConfluentAgreementResource
 from ._models_py3 import ConfluentAgreementResourceListResponse
 from ._models_py3 import ConfluentListMetadata
+from ._models_py3 import ConnectorInfoBase
+from ._models_py3 import ConnectorResource
+from ._models_py3 import ConnectorServiceTypeInfoBase
 from ._models_py3 import CreateAPIKeyModel
 from ._models_py3 import EnvironmentRecord
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import ErrorResponseBody
 from ._models_py3 import GetEnvironmentsResponse
 from ._models_py3 import InvitationRecord
+from ._models_py3 import KafkaAzureBlobStorageSinkConnectorInfo
+from ._models_py3 import KafkaAzureBlobStorageSourceConnectorInfo
+from ._models_py3 import KafkaAzureCosmosDBSinkConnectorInfo
+from ._models_py3 import KafkaAzureCosmosDBSourceConnectorInfo
+from ._models_py3 import KafkaAzureSynapseAnalyticsSinkConnectorInfo
 from ._models_py3 import LinkOrganization
 from ._models_py3 import ListAccessRequestModel
 from ._models_py3 import ListClustersSuccessResponse
+from ._models_py3 import ListConnectorsSuccessResponse
 from ._models_py3 import ListRegionsSuccessResponse
 from ._models_py3 import ListSchemaRegistryClustersResponse
+from ._models_py3 import ListTopicsSuccessResponse
 from ._models_py3 import MetadataEntity
 from ._models_py3 import OfferDetail
 from ._models_py3 import OperationDisplay
@@ -48,8 +66,11 @@ from ._models_py3 import OperationResult
 from ._models_py3 import OrganizationResource
 from ._models_py3 import OrganizationResourceListResult
 from ._models_py3 import OrganizationResourceUpdate
+from ._models_py3 import PartnerInfoBase
+from ._models_py3 import ProxyResource
 from ._models_py3 import RegionRecord
 from ._models_py3 import RegionSpecEntity
+from ._models_py3 import Resource
 from ._models_py3 import ResourceProviderDefaultErrorResponse
 from ._models_py3 import RoleBindingRecord
 from ._models_py3 import SCClusterByokEntity
@@ -64,12 +85,25 @@ from ._models_py3 import SchemaRegistryClusterRecord
 from ._models_py3 import SchemaRegistryClusterSpecEntity
 from ._models_py3 import SchemaRegistryClusterStatusEntity
 from ._models_py3 import ServiceAccountRecord
+from ._models_py3 import StreamGovernanceConfig
 from ._models_py3 import SystemData
+from ._models_py3 import TopicMetadataEntity
+from ._models_py3 import TopicRecord
+from ._models_py3 import TopicsInputConfig
+from ._models_py3 import TopicsRelatedLink
 from ._models_py3 import UserDetail
 from ._models_py3 import UserRecord
 from ._models_py3 import ValidationResponse
 
+from ._confluent_management_client_enums import AuthType
+from ._confluent_management_client_enums import ConnectorClass
+from ._confluent_management_client_enums import ConnectorServiceType
+from ._confluent_management_client_enums import ConnectorStatus
+from ._confluent_management_client_enums import ConnectorType
 from ._confluent_management_client_enums import CreatedByType
+from ._confluent_management_client_enums import DataFormatType
+from ._confluent_management_client_enums import Package
+from ._confluent_management_client_enums import PartnerConnectorType
 from ._confluent_management_client_enums import ProvisionState
 from ._confluent_management_client_enums import SaaSOfferStatus
 from ._patch import __all__ as _patch_all
@@ -91,6 +125,11 @@ __all__ = [
     "AccessListServiceAccountsSuccessResponse",
     "AccessListUsersSuccessResponse",
     "AccessRoleBindingNameListSuccessResponse",
+    "AzureBlobStorageSinkConnectorServiceInfo",
+    "AzureBlobStorageSourceConnectorServiceInfo",
+    "AzureCosmosDBSinkConnectorServiceInfo",
+    "AzureCosmosDBSourceConnectorServiceInfo",
+    "AzureSynapseAnalyticsSinkConnectorServiceInfo",
     "ClusterByokEntity",
     "ClusterConfigEntity",
     "ClusterEnvironmentEntity",
@@ -101,16 +140,29 @@ __all__ = [
     "ConfluentAgreementResource",
     "ConfluentAgreementResourceListResponse",
     "ConfluentListMetadata",
+    "ConnectorInfoBase",
+    "ConnectorResource",
+    "ConnectorServiceTypeInfoBase",
     "CreateAPIKeyModel",
     "EnvironmentRecord",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
     "ErrorResponseBody",
     "GetEnvironmentsResponse",
     "InvitationRecord",
+    "KafkaAzureBlobStorageSinkConnectorInfo",
+    "KafkaAzureBlobStorageSourceConnectorInfo",
+    "KafkaAzureCosmosDBSinkConnectorInfo",
+    "KafkaAzureCosmosDBSourceConnectorInfo",
+    "KafkaAzureSynapseAnalyticsSinkConnectorInfo",
     "LinkOrganization",
     "ListAccessRequestModel",
     "ListClustersSuccessResponse",
+    "ListConnectorsSuccessResponse",
     "ListRegionsSuccessResponse",
     "ListSchemaRegistryClustersResponse",
+    "ListTopicsSuccessResponse",
     "MetadataEntity",
     "OfferDetail",
     "OperationDisplay",
@@ -119,8 +171,11 @@ __all__ = [
     "OrganizationResource",
     "OrganizationResourceListResult",
     "OrganizationResourceUpdate",
+    "PartnerInfoBase",
+    "ProxyResource",
     "RegionRecord",
     "RegionSpecEntity",
+    "Resource",
     "ResourceProviderDefaultErrorResponse",
     "RoleBindingRecord",
     "SCClusterByokEntity",
@@ -135,11 +190,24 @@ __all__ = [
     "SchemaRegistryClusterSpecEntity",
     "SchemaRegistryClusterStatusEntity",
     "ServiceAccountRecord",
+    "StreamGovernanceConfig",
     "SystemData",
+    "TopicMetadataEntity",
+    "TopicRecord",
+    "TopicsInputConfig",
+    "TopicsRelatedLink",
     "UserDetail",
     "UserRecord",
     "ValidationResponse",
+    "AuthType",
+    "ConnectorClass",
+    "ConnectorServiceType",
+    "ConnectorStatus",
+    "ConnectorType",
     "CreatedByType",
+    "DataFormatType",
+    "Package",
+    "PartnerConnectorType",
     "ProvisionState",
     "SaaSOfferStatus",
 ]

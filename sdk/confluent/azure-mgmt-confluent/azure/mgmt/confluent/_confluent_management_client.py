@@ -8,18 +8,25 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 
 from . import models as _models
 from ._configuration import ConfluentManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
     AccessOperations,
+    ClusterOperations,
+    ConnectorOperations,
+    EnvironmentOperations,
     MarketplaceAgreementsOperations,
     OrganizationOperations,
     OrganizationOperationsOperations,
+    TopicsOperations,
     ValidationsOperations,
 )
 
@@ -28,7 +35,7 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """ConfluentManagementClient.
 
     :ivar marketplace_agreements: MarketplaceAgreementsOperations operations
@@ -43,13 +50,21 @@ class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-k
     :vartype validations: azure.mgmt.confluent.operations.ValidationsOperations
     :ivar access: AccessOperations operations
     :vartype access: azure.mgmt.confluent.operations.AccessOperations
+    :ivar environment: EnvironmentOperations operations
+    :vartype environment: azure.mgmt.confluent.operations.EnvironmentOperations
+    :ivar cluster: ClusterOperations operations
+    :vartype cluster: azure.mgmt.confluent.operations.ClusterOperations
+    :ivar connector: ConnectorOperations operations
+    :vartype connector: azure.mgmt.confluent.operations.ConnectorOperations
+    :ivar topics: TopicsOperations operations
+    :vartype topics: azure.mgmt.confluent.operations.TopicsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: Microsoft Azure subscription id. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-02-13". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-07-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -66,7 +81,25 @@ class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-k
         self._config = ConfluentManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -81,8 +114,12 @@ class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-k
         self.organization = OrganizationOperations(self._client, self._config, self._serialize, self._deserialize)
         self.validations = ValidationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.access = AccessOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.environment = EnvironmentOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.cluster = ClusterOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.connector = ConnectorOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.topics = TopicsOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
+    def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -102,12 +139,12 @@ class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-k
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "ConfluentManagementClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

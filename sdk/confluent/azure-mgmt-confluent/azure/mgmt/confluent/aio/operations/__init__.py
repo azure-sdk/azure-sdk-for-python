@@ -11,6 +11,10 @@ from ._organization_operations_operations import OrganizationOperationsOperation
 from ._organization_operations import OrganizationOperations
 from ._validations_operations import ValidationsOperations
 from ._access_operations import AccessOperations
+from ._environment_operations import EnvironmentOperations
+from ._cluster_operations import ClusterOperations
+from ._connector_operations import ConnectorOperations
+from ._topics_operations import TopicsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -22,6 +26,10 @@ __all__ = [
     "OrganizationOperations",
     "ValidationsOperations",
     "AccessOperations",
+    "EnvironmentOperations",
+    "ClusterOperations",
+    "ConnectorOperations",
+    "TopicsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
