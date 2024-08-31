@@ -10,6 +10,46 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Kafka Connector Auth Type."""
+
+    SERVICE_ACCOUNT = "SERVICE_ACCOUNT"
+    KAFKA_API_KEY = "KAFKA_API_KEY"
+
+
+class ConnectorClass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Connector Class."""
+
+    AZUREBLOBSOURCE = "AZUREBLOBSOURCE"
+    AZUREBLOBSINK = "AZUREBLOBSINK"
+
+
+class ConnectorServiceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The connector service type."""
+
+    AZURE_BLOB_STORAGE_SINK_CONNECTOR = "AzureBlobStorageSinkConnector"
+    AZURE_BLOB_STORAGE_SOURCE_CONNECTOR = "AzureBlobStorageSourceConnector"
+    AZURE_COSMOS_DB_SINK_CONNECTOR = "AzureCosmosDBSinkConnector"
+    AZURE_COSMOS_DB_SOURCE_CONNECTOR = "AzureCosmosDBSourceConnector"
+    AZURE_SYNAPSE_ANALYTICS_SINK_CONNECTOR = "AzureSynapseAnalyticsSinkConnector"
+
+
+class ConnectorStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Connector Status."""
+
+    PROVISIONING = "PROVISIONING"
+    RUNNING = "RUNNING"
+    PAUSED = "PAUSED"
+    FAILED = "FAILED"
+
+
+class ConnectorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Connector Type."""
+
+    SINK = "SINK"
+    SOURCE = "SOURCE"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -17,6 +57,33 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class DataFormatType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Data Format Type."""
+
+    AVRO = "AVRO"
+    JSON = "JSON"
+    STRING = "STRING"
+    BYTES = "BYTES"
+    PROTOBUF = "PROTOBUF"
+
+
+class Package(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Stream Governance Package. Supported values are ESSENTIALS and ADVANCED."""
+
+    ESSENTIALS = "ESSENTIALS"
+    ADVANCED = "ADVANCED"
+
+
+class PartnerConnectorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Partner Connector type."""
+
+    KAFKA_AZURE_BLOB_STORAGE_SOURCE = "KafkaAzureBlobStorageSource"
+    KAFKA_AZURE_BLOB_STORAGE_SINK = "KafkaAzureBlobStorageSink"
+    KAFKA_AZURE_COSMOS_DB_SOURCE = "KafkaAzureCosmosDBSource"
+    KAFKA_AZURE_COSMOS_DB_SINK = "KafkaAzureCosmosDBSink"
+    KAFKA_AZURE_SYNAPSE_ANALYTICS_SINK = "KafkaAzureSynapseAnalyticsSink"
 
 
 class ProvisionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
