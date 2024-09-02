@@ -22,7 +22,7 @@ class AddressDetails(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar forward_address: Customer address and contact details. It should be address resource.
      Required.
@@ -55,7 +55,7 @@ class AddressDetails(_serialization.Model):
 class AddressProperties(_serialization.Model):
     """Address Properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar shipping_address: Shipping details for the address.
     :vartype shipping_address: ~azure.mgmt.edgeorder.v2020_12_01_preview.models.ShippingAddress
@@ -96,7 +96,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -131,10 +131,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -179,10 +179,10 @@ class AddressResource(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -447,7 +447,7 @@ class BillingMeterDetails(_serialization.Model):
 class CancellationReason(_serialization.Model):
     """Reason for cancellation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reason: Reason for cancellation. Required.
     :vartype reason: str
@@ -591,7 +591,7 @@ class Configuration(_serialization.Model):
 class ConfigurationFilters(_serialization.Model):
     """Configuration filters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar hierarchy_information: Product hierarchy information. Required.
     :vartype hierarchy_information:
@@ -723,7 +723,7 @@ class Configurations(_serialization.Model):
 class ConfigurationsRequest(_serialization.Model):
     """Configuration request object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_filters: Holds details about product hierarchy information and filterable
      property. Required.
@@ -769,7 +769,7 @@ class ConfigurationsRequest(_serialization.Model):
 class ContactDetails(_serialization.Model):
     """Contact Details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar contact_name: Contact name of the person. Required.
     :vartype contact_name: str
@@ -860,7 +860,7 @@ class CustomerSubscriptionDetails(_serialization.Model):
     """Holds Customer subscription details. Clients can display available products to unregistered
     customers by explicitly passing subscription details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar registered_features: List of registered feature flags for subscription.
     :vartype registered_features:
@@ -1024,7 +1024,7 @@ class Dimensions(_serialization.Model):
     :ivar width: Width of the device.
     :vartype width: float
     :ivar length_height_unit: Unit for the dimensions of length, height and width. Known values
-     are: "IN" and "CM".
+     are: "IN", "CM", and "IN".
     :vartype length_height_unit: str or
      ~azure.mgmt.edgeorder.v2020_12_01_preview.models.LengthHeightUnit
     :ivar weight: Weight of the device.
@@ -1220,7 +1220,7 @@ class ErrorResponse(_serialization.Model):
 class FilterableProperty(_serialization.Model):
     """Different types of filters supported and its values.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of product filter. Required. Known values are: "ShipToCountries" and
      "DoubleEncryptionStatus".
@@ -1428,7 +1428,7 @@ class MeterDetails(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar billing_type: Represents billing type. Required. Known values are: "Pav2" and "Purchase".
     :vartype billing_type: str or ~azure.mgmt.edgeorder.v2020_12_01_preview.models.BillingType
@@ -1463,7 +1463,7 @@ class MeterDetails(_serialization.Model):
 class NotificationPreference(_serialization.Model):
     """Notification preference for a job stage.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar stage_name: Name of the stage. Required. Known values are: "Shipped" and "Delivered".
     :vartype stage_name: str or
@@ -1623,7 +1623,7 @@ class OrderItemDetails(_serialization.Model):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar product_details: Unique identifier for configuration. Required.
     :vartype product_details: ~azure.mgmt.edgeorder.v2020_12_01_preview.models.ProductDetails
@@ -1751,10 +1751,10 @@ class OrderItemResource(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1918,7 +1918,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1926,22 +1926,6 @@ class ProxyResource(Resource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class OrderResource(ProxyResource):
@@ -1951,7 +1935,7 @@ class OrderResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2033,7 +2017,7 @@ class Pav2MeterDetails(MeterDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar billing_type: Represents billing type. Required. Known values are: "Pav2" and "Purchase".
     :vartype billing_type: str or ~azure.mgmt.edgeorder.v2020_12_01_preview.models.BillingType
@@ -2190,7 +2174,7 @@ class ProductDetails(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar display_info: Display details of the product.
     :vartype display_info: ~azure.mgmt.edgeorder.v2020_12_01_preview.models.DisplayInfo
@@ -2381,7 +2365,7 @@ class ProductFamiliesMetadataDetails(_serialization.Model):
 class ProductFamiliesRequest(_serialization.Model):
     """The filters for showing the product families.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar filterable_properties: Dictionary of filterable properties on product family. Required.
     :vartype filterable_properties: dict[str,
@@ -2739,7 +2723,7 @@ class PurchaseMeterDetails(MeterDetails):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar billing_type: Represents billing type. Required. Known values are: "Pav2" and "Purchase".
     :vartype billing_type: str or ~azure.mgmt.edgeorder.v2020_12_01_preview.models.BillingType
@@ -2843,7 +2827,7 @@ class ResourceProviderDetails(_serialization.Model):
 class ReturnOrderItemDetails(_serialization.Model):
     """Return order item request body.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar return_address: customer return address.
     :vartype return_address: ~azure.mgmt.edgeorder.v2020_12_01_preview.models.AddressProperties
@@ -2939,7 +2923,7 @@ class ReverseShippingDetails(_serialization.Model):
 class ShippingAddress(_serialization.Model):
     """Shipping address where customer wishes to receive the device.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar street_address1: Street Address line 1. Required.
     :vartype street_address1: str
@@ -3210,7 +3194,7 @@ class SystemData(_serialization.Model):
 class TransportPreferences(_serialization.Model):
     """Preferences related to the shipment logistics of the sku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar preferred_shipment_type: Indicates Shipment Logistics type that the customer preferred.
      Required. Known values are: "CustomerManaged" and "MicrosoftManaged".

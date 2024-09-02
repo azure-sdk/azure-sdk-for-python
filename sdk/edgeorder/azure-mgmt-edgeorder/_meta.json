@@ -1,11 +1,14 @@
 {
-  "commit": "ba733cb319d327bae00886c47975d624145834b0",
-  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "commit": "137c9546564b7e6df5ae9ddd867f9c65d252c0ed",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
+  "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.4.0",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.19.0",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/edgeorder/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.0 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/edgeorder/resource-manager/readme.md"
+  "autorest_command": "autorest specification/edgeorder/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/edgeorder/resource-manager/readme.md",
+  "package-2022-05-preview": "2023-03-29 14:53:29 +0530 cc6daf536e5ae22f8bdead716079943d571ec44b Microsoft.EdgeOrder/preview/2022-05-01-preview/edgeorder.json",
+  "package-2021-12": "2021-11-11 11:13:03 +0530 34018925632ef75ef5416e3add65324e0a12489f Microsoft.EdgeOrder/stable/2021-12-01/edgeorder.json",
+  "package-2020-12-preview": "2021-10-12 09:02:43 +0530 d12092e83d16cca65e17974c3c5fcb3031fca447 Microsoft.EdgeOrder/preview/2020-12-01-preview/edgeorder.json"
 }
