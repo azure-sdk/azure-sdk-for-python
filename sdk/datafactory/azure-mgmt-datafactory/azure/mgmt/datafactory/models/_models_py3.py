@@ -879,7 +879,7 @@ class Dataset(_serialization.Model):
     DynamicsCrmEntityDataset, DynamicsEntityDataset, EloquaObjectDataset, ExcelDataset,
     FileShareDataset, GoogleAdWordsObjectDataset, GoogleBigQueryObjectDataset,
     GoogleBigQueryV2ObjectDataset, GreenplumTableDataset, HBaseObjectDataset, HiveObjectDataset,
-    HttpDataset, HubspotObjectDataset, ImpalaObjectDataset, InformixTableDataset,
+    HttpDataset, HubspotObjectDataset, IcebergDataset, ImpalaObjectDataset, InformixTableDataset,
     JiraObjectDataset, JsonDataset, LakeHouseTableDataset, MagentoObjectDataset,
     MariaDBTableDataset, MarketoObjectDataset, MicrosoftAccessTableDataset,
     MongoDbAtlasCollectionDataset, MongoDbCollectionDataset, MongoDbV2CollectionDataset,
@@ -988,6 +988,7 @@ class Dataset(_serialization.Model):
             "HiveObject": "HiveObjectDataset",
             "HttpFile": "HttpDataset",
             "HubspotObject": "HubspotObjectDataset",
+            "Iceberg": "IcebergDataset",
             "ImpalaObject": "ImpalaObjectDataset",
             "InformixTable": "InformixTableDataset",
             "JiraObject": "JiraObjectDataset",
@@ -5180,11 +5181,12 @@ class CopySink(_serialization.Model):
     AzureDatabricksDeltaLakeSink, AzureMySqlSink, AzurePostgreSqlSink, AzureQueueSink,
     AzureSearchIndexSink, AzureSqlSink, AzureTableSink, BinarySink, BlobSink,
     CommonDataServiceForAppsSink, CosmosDbMongoDbApiSink, CosmosDbSqlApiSink, DelimitedTextSink,
-    DocumentDbCollectionSink, DynamicsCrmSink, DynamicsSink, FileSystemSink, InformixSink,
-    JsonSink, LakeHouseTableSink, MicrosoftAccessSink, MongoDbAtlasSink, MongoDbV2Sink, OdbcSink,
-    OracleSink, OrcSink, ParquetSink, RestSink, SalesforceServiceCloudSink,
-    SalesforceServiceCloudV2Sink, SalesforceSink, SalesforceV2Sink, SapCloudForCustomerSink,
-    SnowflakeSink, SnowflakeV2Sink, SqlDWSink, SqlMISink, SqlServerSink, SqlSink, WarehouseSink
+    DocumentDbCollectionSink, DynamicsCrmSink, DynamicsSink, FileSystemSink, IcebergSink,
+    InformixSink, JsonSink, LakeHouseTableSink, MicrosoftAccessSink, MongoDbAtlasSink,
+    MongoDbV2Sink, OdbcSink, OracleSink, OrcSink, ParquetSink, RestSink,
+    SalesforceServiceCloudSink, SalesforceServiceCloudV2Sink, SalesforceSink, SalesforceV2Sink,
+    SapCloudForCustomerSink, SnowflakeSink, SnowflakeV2Sink, SqlDWSink, SqlMISink, SqlServerSink,
+    SqlSink, WarehouseSink
 
     All required parameters must be populated in order to send to server.
 
@@ -5251,6 +5253,7 @@ class CopySink(_serialization.Model):
             "DynamicsCrmSink": "DynamicsCrmSink",
             "DynamicsSink": "DynamicsSink",
             "FileSystemSink": "FileSystemSink",
+            "IcebergSink": "IcebergSink",
             "InformixSink": "InformixSink",
             "JsonSink": "JsonSink",
             "LakeHouseTableSink": "LakeHouseTableSink",
@@ -5525,8 +5528,8 @@ class FormatWriteSettings(_serialization.Model):
     """Format write settings.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AvroWriteSettings, DelimitedTextWriteSettings, JsonWriteSettings, OrcWriteSettings,
-    ParquetWriteSettings
+    AvroWriteSettings, DelimitedTextWriteSettings, IcebergWriteSettings, JsonWriteSettings,
+    OrcWriteSettings, ParquetWriteSettings
 
     All required parameters must be populated in order to send to server.
 
@@ -5550,6 +5553,7 @@ class FormatWriteSettings(_serialization.Model):
         "type": {
             "AvroWriteSettings": "AvroWriteSettings",
             "DelimitedTextWriteSettings": "DelimitedTextWriteSettings",
+            "IcebergWriteSettings": "IcebergWriteSettings",
             "JsonWriteSettings": "JsonWriteSettings",
             "OrcWriteSettings": "OrcWriteSettings",
             "ParquetWriteSettings": "ParquetWriteSettings",
@@ -37352,6 +37356,248 @@ class HubspotSource(TabularSource):
         )
         self.type: str = "HubspotSource"
         self.query = query
+
+
+class IcebergDataset(Dataset):
+    """Iceberg dataset.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, JSON]
+    :ivar type: Type of dataset. Required.
+    :vartype type: str
+    :ivar description: Dataset description.
+    :vartype description: str
+    :ivar structure: Columns that define the structure of the dataset. Type: array (or Expression
+     with resultType array), itemType: DatasetDataElement.
+    :vartype structure: JSON
+    :ivar schema: Columns that define the physical type schema of the dataset. Type: array (or
+     Expression with resultType array), itemType: DatasetSchemaDataElement.
+    :vartype schema: JSON
+    :ivar linked_service_name: Linked service reference. Required.
+    :vartype linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+    :ivar parameters: Parameters for dataset.
+    :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+    :ivar annotations: List of tags that can be used for describing the Dataset.
+    :vartype annotations: list[JSON]
+    :ivar folder: The folder that this Dataset is in. If not specified, Dataset will appear at the
+     root level.
+    :vartype folder: ~azure.mgmt.datafactory.models.DatasetFolder
+    :ivar location: The location of the iceberg storage. Setting a file name is not allowed for
+     iceberg format.
+    :vartype location: ~azure.mgmt.datafactory.models.DatasetLocation
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "linked_service_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "type": {"key": "type", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "structure": {"key": "structure", "type": "object"},
+        "schema": {"key": "schema", "type": "object"},
+        "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
+        "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
+        "annotations": {"key": "annotations", "type": "[object]"},
+        "folder": {"key": "folder", "type": "DatasetFolder"},
+        "location": {"key": "typeProperties.location", "type": "DatasetLocation"},
+    }
+
+    def __init__(
+        self,
+        *,
+        linked_service_name: "_models.LinkedServiceReference",
+        additional_properties: Optional[Dict[str, JSON]] = None,
+        description: Optional[str] = None,
+        structure: Optional[JSON] = None,
+        schema: Optional[JSON] = None,
+        parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
+        annotations: Optional[List[JSON]] = None,
+        folder: Optional["_models.DatasetFolder"] = None,
+        location: Optional["_models.DatasetLocation"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, JSON]
+        :keyword description: Dataset description.
+        :paramtype description: str
+        :keyword structure: Columns that define the structure of the dataset. Type: array (or
+         Expression with resultType array), itemType: DatasetDataElement.
+        :paramtype structure: JSON
+        :keyword schema: Columns that define the physical type schema of the dataset. Type: array (or
+         Expression with resultType array), itemType: DatasetSchemaDataElement.
+        :paramtype schema: JSON
+        :keyword linked_service_name: Linked service reference. Required.
+        :paramtype linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
+        :keyword parameters: Parameters for dataset.
+        :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
+        :keyword annotations: List of tags that can be used for describing the Dataset.
+        :paramtype annotations: list[JSON]
+        :keyword folder: The folder that this Dataset is in. If not specified, Dataset will appear at
+         the root level.
+        :paramtype folder: ~azure.mgmt.datafactory.models.DatasetFolder
+        :keyword location: The location of the iceberg storage. Setting a file name is not allowed for
+         iceberg format.
+        :paramtype location: ~azure.mgmt.datafactory.models.DatasetLocation
+        """
+        super().__init__(
+            additional_properties=additional_properties,
+            description=description,
+            structure=structure,
+            schema=schema,
+            linked_service_name=linked_service_name,
+            parameters=parameters,
+            annotations=annotations,
+            folder=folder,
+            **kwargs
+        )
+        self.type: str = "Iceberg"
+        self.location = location
+
+
+class IcebergSink(CopySink):
+    """A copy activity Iceberg sink.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, JSON]
+    :ivar type: Copy sink type. Required.
+    :vartype type: str
+    :ivar write_batch_size: Write batch size. Type: integer (or Expression with resultType
+     integer), minimum: 0.
+    :vartype write_batch_size: JSON
+    :ivar write_batch_timeout: Write batch timeout. Type: string (or Expression with resultType
+     string), pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+    :vartype write_batch_timeout: JSON
+    :ivar sink_retry_count: Sink retry count. Type: integer (or Expression with resultType
+     integer).
+    :vartype sink_retry_count: JSON
+    :ivar sink_retry_wait: Sink retry wait. Type: string (or Expression with resultType string),
+     pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+    :vartype sink_retry_wait: JSON
+    :ivar max_concurrent_connections: The maximum concurrent connection count for the sink data
+     store. Type: integer (or Expression with resultType integer).
+    :vartype max_concurrent_connections: JSON
+    :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
+     false. Type: boolean (or Expression with resultType boolean).
+    :vartype disable_metrics_collection: JSON
+    :ivar store_settings: Iceberg store settings.
+    :vartype store_settings: ~azure.mgmt.datafactory.models.StoreWriteSettings
+    :ivar format_settings: Iceberg format settings.
+    :vartype format_settings: ~azure.mgmt.datafactory.models.IcebergWriteSettings
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "type": {"key": "type", "type": "str"},
+        "write_batch_size": {"key": "writeBatchSize", "type": "object"},
+        "write_batch_timeout": {"key": "writeBatchTimeout", "type": "object"},
+        "sink_retry_count": {"key": "sinkRetryCount", "type": "object"},
+        "sink_retry_wait": {"key": "sinkRetryWait", "type": "object"},
+        "max_concurrent_connections": {"key": "maxConcurrentConnections", "type": "object"},
+        "disable_metrics_collection": {"key": "disableMetricsCollection", "type": "object"},
+        "store_settings": {"key": "storeSettings", "type": "StoreWriteSettings"},
+        "format_settings": {"key": "formatSettings", "type": "IcebergWriteSettings"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_properties: Optional[Dict[str, JSON]] = None,
+        write_batch_size: Optional[JSON] = None,
+        write_batch_timeout: Optional[JSON] = None,
+        sink_retry_count: Optional[JSON] = None,
+        sink_retry_wait: Optional[JSON] = None,
+        max_concurrent_connections: Optional[JSON] = None,
+        disable_metrics_collection: Optional[JSON] = None,
+        store_settings: Optional["_models.StoreWriteSettings"] = None,
+        format_settings: Optional["_models.IcebergWriteSettings"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, JSON]
+        :keyword write_batch_size: Write batch size. Type: integer (or Expression with resultType
+         integer), minimum: 0.
+        :paramtype write_batch_size: JSON
+        :keyword write_batch_timeout: Write batch timeout. Type: string (or Expression with resultType
+         string), pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+        :paramtype write_batch_timeout: JSON
+        :keyword sink_retry_count: Sink retry count. Type: integer (or Expression with resultType
+         integer).
+        :paramtype sink_retry_count: JSON
+        :keyword sink_retry_wait: Sink retry wait. Type: string (or Expression with resultType string),
+         pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+        :paramtype sink_retry_wait: JSON
+        :keyword max_concurrent_connections: The maximum concurrent connection count for the sink data
+         store. Type: integer (or Expression with resultType integer).
+        :paramtype max_concurrent_connections: JSON
+        :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
+         false. Type: boolean (or Expression with resultType boolean).
+        :paramtype disable_metrics_collection: JSON
+        :keyword store_settings: Iceberg store settings.
+        :paramtype store_settings: ~azure.mgmt.datafactory.models.StoreWriteSettings
+        :keyword format_settings: Iceberg format settings.
+        :paramtype format_settings: ~azure.mgmt.datafactory.models.IcebergWriteSettings
+        """
+        super().__init__(
+            additional_properties=additional_properties,
+            write_batch_size=write_batch_size,
+            write_batch_timeout=write_batch_timeout,
+            sink_retry_count=sink_retry_count,
+            sink_retry_wait=sink_retry_wait,
+            max_concurrent_connections=max_concurrent_connections,
+            disable_metrics_collection=disable_metrics_collection,
+            **kwargs
+        )
+        self.type: str = "IcebergSink"
+        self.store_settings = store_settings
+        self.format_settings = format_settings
+
+
+class IcebergWriteSettings(FormatWriteSettings):
+    """Iceberg write settings.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, JSON]
+    :ivar type: The write setting type. Required.
+    :vartype type: str
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, additional_properties: Optional[Dict[str, JSON]] = None, **kwargs: Any) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, JSON]
+        """
+        super().__init__(additional_properties=additional_properties, **kwargs)
+        self.type: str = "IcebergWriteSettings"
 
 
 class IfConditionActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
