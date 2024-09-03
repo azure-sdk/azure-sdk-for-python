@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 
 """
@@ -29,11 +30,11 @@ def main():
         subscription_id="00000000-0000-0000-0000-00000000000",
     )
 
-    response = client.workspaces.list()
+    response = client.deleted_workspaces.list()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/WorkspacesSubscriptionList.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/LogAnalyticsRP/stable/2023-09-01/examples/WorkspacesSubscriptionList.json
 if __name__ == "__main__":
     main()

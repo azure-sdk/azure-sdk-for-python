@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 
 """
@@ -29,13 +30,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-00000000000",
     )
 
-    response = client.shared_keys.get_shared_keys(
+    response = client.shared_keys.get(
         resource_group_name="rg1",
         workspace_name="TestLinkWS",
     )
     print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesGetSharedKeys.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/LogAnalyticsRP/stable/2023-09-01/examples/WorkspacesGetSharedKeys.json
 if __name__ == "__main__":
     main()
