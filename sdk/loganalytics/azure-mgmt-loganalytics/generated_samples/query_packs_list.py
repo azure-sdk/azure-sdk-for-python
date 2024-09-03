@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 
 """
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksList.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/QueryRP/stable/2019-09-01/examples/QueryPacksList.json
 if __name__ == "__main__":
     main()
