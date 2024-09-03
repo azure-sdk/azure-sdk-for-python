@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -133,7 +134,7 @@ class AzureSphereMgmtClient:  # pylint: disable=client-accepts-api-version-keywo
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "AzureSphereMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
