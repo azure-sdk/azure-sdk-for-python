@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
@@ -29,56 +27,56 @@ from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
 def main():
     client = InformaticaDataMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="3599DA28-E346-4D9F-811E-189C0445F0FE",
+        subscription_id="5B9CA1A4-44D9-48A2-A77B-FA9302EE0DF7",
     )
 
     response = client.organizations.begin_create_or_update(
         resource_group_name="rgopenapi",
-        organization_name="C",
+        organization_name="Replace this value with a string matching RegExp ^[a-zA-Z0-9_-]*$",
         resource={
-            "location": "pamjoudtssthlbhrnfjidr",
+            "location": "oshycicpqnwfzuzhhmjlzg",
             "properties": {
                 "companyDetails": {
-                    "business": "pucosrtjv",
-                    "companyName": "xszcggknokhw",
-                    "country": "gwkcpnwyaqc",
-                    "domain": "utcxetzzpmbvwmjrvphqngvp",
-                    "numberOfEmployees": 25,
-                    "officeAddress": "sbttzwyajgdbsvipuiclbzvkcvwyil",
+                    "business": "v",
+                    "companyName": "hdyxipmwkkylsum",
+                    "country": "ixdxnrene",
+                    "domain": "whkuacwuu",
+                    "numberOfEmployees": 22,
+                    "officeAddress": "qifygbvzldkhohkkjphb",
                 },
                 "informaticaProperties": {
-                    "informaticaRegion": "zfqodqpbeflhedypiijdkc",
-                    "organizationId": "wtdmhlwhkvgqdumaehgfgiqcxgnqpx",
-                    "organizationName": "nomzbvwe",
-                    "singleSignOnUrl": "https://contoso.com/singlesignon",
+                    "informaticaRegion": "qzvcghaveycaampweyutgxbglpj",
+                    "organizationId": "yypuxswqwvhuewxpziryohcfmfhyd",
+                    "organizationName": "naolgujbmloxrdftitalynk",
+                    "singleSignOnUrl": "https://microsoft.com/a",
                 },
-                "linkOrganization": {"token": "jjfouhoqpumjvrdsfbimgcy"},
+                "linkOrganization": {"token": "nuxdhsf"},
                 "marketplaceDetails": {
-                    "marketplaceSubscriptionId": "ovenlecocg",
+                    "marketplaceSubscriptionId": "xitahjgustmypfbiluzzdkhpsa",
                     "offerDetails": {
-                        "offerId": "cwswcfwmzhjcoksmueukegwaptvpcmbfyvixfhvgwnjyblqivqdkkwkunkgimiopwwkvgnwclmajhuty",
-                        "planId": "jfnemevyivtlxhectiutdavdgfyidolivuojumdzckp",
-                        "planName": "iaoxgaitteuoqgujkgxbdgryaobtkjjecuvchwutntrvmuorikrbqqegmelenbewhakiysprrnovjixyxrikscaptrbapbdspu",
-                        "publisherId": "zajxpfacudwongxjvnnuhhpygmnydchgowjccyuzsjonegmqxcqqpnzafanggowfqdixnnutyfvmvwrkx",
-                        "termId": "tcvvsxdjnjlfmjhmvwklptdmxetnzydxyuhfqchoubmtoeqbchnfxoxqzezlgpxdnzyvzgkynjxzzgetkqccxvpzahxattluqdipvbdktqmndfefitzuifqjpschzlbvixnvznkmmgjwvkplfhemnapsewgqxggdzdokryhv",
-                        "termUnit": "gjwmgevrblbosuogsvfspsgspetbnxaygkbelvadpgwiywl",
+                        "offerId": "trjuaazcx",
+                        "planId": "xxnopfopgrwtdzvdcwmidfbzhdjhbgkptbzefkahwepktgwprxoskcmejqtpjjdxrvlcwfwlsdqqbucyxogfkpdxezasfmxeeemoxnbxnqdgpoudsdrnsuvldtuerqpdxjkiqihdtzfgfeusansdqkmjtbbltvgptzpswvgfxtesncsdokgggrvdxtktfz",
+                        "planName": "dduuzxdngmfydpem",
+                        "publisherId": "gqngfoomtwiurhdkitdnwnjhsgepkkncgjqq",
+                        "termId": "tqsdznrymcnjtvldjbmgvgiekqebgkwowthlyxvjvdjnfuwtxzcjbnusekcmzwcatcejinwpvpkkiacbweisf",
+                        "termUnit": "zjrrtswweftikanwlgecv",
                     },
                 },
                 "provisioningState": "Accepted",
                 "userDetails": {
-                    "emailAddress": "7_-46@13D--3.m-4x-.11.c-9-.DHLYFc",
-                    "firstName": "appvdclawzfjntdfdftjevlhvzropnxqtnypid",
-                    "lastName": "nzirbvzmkxtbrlamyatlcszebxgcyncxoascojsmacwvjsjvn",
-                    "phoneNumber": "fvcjylxlmhdnshsgywnzlyvshu",
-                    "upn": "undljch",
+                    "emailAddress": "Replace this value with a string matching RegExp ^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$",
+                    "firstName": "rkminenlovyel",
+                    "lastName": "ncmhqnygcmw",
+                    "phoneNumber": "mgyfiugmtyqfylr",
+                    "upn": "igbsynwvqfzrcqlowbipdzzc",
                 },
             },
-            "tags": {"key8430": "cagshqtjlxtqqhdwtchokvxszybp"},
+            "tags": {"key5447": "atslnumeisecstvrntgqprxncg"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/preview/2024-07-22/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

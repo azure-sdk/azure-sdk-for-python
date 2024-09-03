@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
@@ -29,72 +27,81 @@ from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
 def main():
     client = InformaticaDataMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="3599DA28-E346-4D9F-811E-189C0445F0FE",
+        subscription_id="5B9CA1A4-44D9-48A2-A77B-FA9302EE0DF7",
     )
 
     response = client.serverless_runtimes.update(
         resource_group_name="rgopenapi",
-        organization_name="W5",
-        serverless_runtime_name="t_",
+        organization_name="Replace this value with a string matching RegExp ^[a-zA-Z0-9_-]*$",
+        serverless_runtime_name="Replace this value with a string matching RegExp ^[a-zA-Z0-9_-]*$",
         properties={
             "properties": {
-                "advancedCustomProperties": [{"key": "qcmc", "value": "unraxmnohdmvutt"}],
+                "advancedCustomProperties": [{"key": "kxnhjhfhjdmvlhifmdsrficwd", "value": "xzkgo"}],
                 "applicationType": "CDI",
-                "computeUnits": "uncwbpu",
-                "description": "ocprslpljoikxyduackzqnkuhyzrh",
-                "executionTimeout": "tjyfytuywriabt",
+                "computeUnits": "xkdjz",
+                "description": "xecmsqsgyrnvhikjsbonpo",
+                "executionTimeout": "yhuojjpgbyjorkasepklgwttua",
                 "platform": "AZURE",
-                "serverlessAccountLocation": "goaugkyfanqfnvcmntreibqrswfpis",
+                "serverlessAccountLocation": "patvfndjzeyflumzvskjdbjve",
                 "serverlessRuntimeConfig": {
                     "cdiConfigProps": [
                         {
                             "applicationConfigs": [
                                 {
-                                    "customized": "j",
-                                    "defaultValue": "zvgkqwmi",
-                                    "name": "upfvjrqcrwwedfujkmsodeinw",
-                                    "platform": "dixfyeobngivyvf",
-                                    "type": "lw",
-                                    "value": "mozgsetpwjmtyl",
+                                    "customized": "lbqdroeh",
+                                    "defaultValue": "dnhjcdvczfvjqiuqwvnzf",
+                                    "name": "aqmadlcjumssrvekk",
+                                    "platform": "rsixjfovnm",
+                                    "type": "vzdrepvhg",
+                                    "value": "pcwzkv",
                                 }
                             ],
-                            "engineName": "hngsdqvtjdhwqlbqfotipaiwjuys",
-                            "engineVersion": "zlrlbg",
+                            "engineName": "vl",
+                            "engineVersion": "uwtovwbq",
                         }
                     ],
                     "cdieConfigProps": [
                         {
                             "applicationConfigs": [
                                 {
-                                    "customized": "j",
-                                    "defaultValue": "zvgkqwmi",
-                                    "name": "upfvjrqcrwwedfujkmsodeinw",
-                                    "platform": "dixfyeobngivyvf",
-                                    "type": "lw",
-                                    "value": "mozgsetpwjmtyl",
+                                    "customized": "lbqdroeh",
+                                    "defaultValue": "dnhjcdvczfvjqiuqwvnzf",
+                                    "name": "aqmadlcjumssrvekk",
+                                    "platform": "rsixjfovnm",
+                                    "type": "vzdrepvhg",
+                                    "value": "pcwzkv",
                                 }
                             ],
-                            "engineName": "hngsdqvtjdhwqlbqfotipaiwjuys",
-                            "engineVersion": "zlrlbg",
+                            "engineName": "vl",
+                            "engineVersion": "uwtovwbq",
                         }
                     ],
                 },
+                "serverlessRuntimeDataDisks": [
+                    {
+                        "mountOptions": "brmqwmjdsfquphudxtruhxn",
+                        "serverHostOrIpAddress": "nhrqlx",
+                        "sourceMount": "dvekzq",
+                        "targetMount": "kbkzoeibgqsswvnwatsu",
+                        "type": "rphytrclmmpywtaxoevezqxpzndi",
+                    }
+                ],
                 "serverlessRuntimeNetworkProfile": {
                     "networkInterfaceConfiguration": {
-                        "subnetId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
-                        "vnetId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
-                        "vnetResourceGuid": "5328d299-1462-4be0-bef1-303a28e556a0",
+                        "subnetId": "bauxrifioknw",
+                        "vnetId": "idgmvcwxteetoai",
+                        "vnetResourceGuid": "kaqd",
                     }
                 },
-                "serverlessRuntimeTags": [{"name": "korveuycuwhs", "value": "uyiuegxnkgp"}],
-                "serverlessRuntimeUserContextProperties": {"userContextToken": "ctgebtvjhwh"},
-                "supplementaryFileLocation": "csxaqzpxu",
+                "serverlessRuntimeTags": [{"name": "kantckpejioqas", "value": "micxm"}],
+                "serverlessRuntimeUserContextProperties": {"userContextToken": "smmcomufdjhzagfaqnlwxuscsjkq"},
+                "supplementaryFileLocation": "soexqtehxrdxwckysaxmydvqu",
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/preview/2024-07-22/examples/ServerlessRuntimes_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

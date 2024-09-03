@@ -47,6 +47,7 @@ from ._models_py3 import ServerlessConfigProperties
 from ._models_py3 import ServerlessMetadataResponse
 from ._models_py3 import ServerlessRuntimeConfigProperties
 from ._models_py3 import ServerlessRuntimeConfigPropertiesUpdate
+from ._models_py3 import ServerlessRuntimeDataDisk
 from ._models_py3 import ServerlessRuntimeDependency
 from ._models_py3 import ServerlessRuntimeNetworkProfile
 from ._models_py3 import ServerlessRuntimeNetworkProfileUpdate
@@ -112,6 +113,7 @@ __all__ = [
     "ServerlessMetadataResponse",
     "ServerlessRuntimeConfigProperties",
     "ServerlessRuntimeConfigPropertiesUpdate",
+    "ServerlessRuntimeDataDisk",
     "ServerlessRuntimeDependency",
     "ServerlessRuntimeNetworkProfile",
     "ServerlessRuntimeNetworkProfileUpdate",

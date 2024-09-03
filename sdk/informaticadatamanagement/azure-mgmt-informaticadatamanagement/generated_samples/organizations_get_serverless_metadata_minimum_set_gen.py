@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_GetServerlessMetadata_MinimumSet_Gen.json
+# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/preview/2024-07-22/examples/Organizations_GetServerlessMetadata_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()

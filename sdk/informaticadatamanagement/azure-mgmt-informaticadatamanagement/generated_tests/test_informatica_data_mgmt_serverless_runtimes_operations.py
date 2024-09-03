@@ -24,7 +24,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
         response = self.client.serverless_runtimes.list_by_informatica_organization_resource(
             resource_group_name=resource_group.name,
             organization_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             organization_name="str",
             serverless_runtime_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -96,6 +96,15 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
                             }
                         ],
                     },
+                    "serverlessRuntimeDataDisks": [
+                        {
+                            "mountOptions": "str",
+                            "serverHostOrIpAddress": "str",
+                            "sourceMount": "str",
+                            "targetMount": "str",
+                            "type": "str",
+                        }
+                    ],
                     "serverlessRuntimeNetworkProfile": {
                         "networkInterfaceConfiguration": {"subnetId": "str", "vnetId": "str", "vnetResourceGuid": "str"}
                     },
@@ -113,7 +122,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
                 },
                 "type": "str",
             },
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -169,6 +178,15 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
                             }
                         ],
                     },
+                    "serverlessRuntimeDataDisks": [
+                        {
+                            "mountOptions": "str",
+                            "serverHostOrIpAddress": "str",
+                            "sourceMount": "str",
+                            "targetMount": "str",
+                            "type": "str",
+                        }
+                    ],
                     "serverlessRuntimeNetworkProfile": {
                         "networkInterfaceConfiguration": {"subnetId": "str", "vnetId": "str", "vnetResourceGuid": "str"}
                     },
@@ -177,7 +195,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
                     "supplementaryFileLocation": "str",
                 }
             },
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -190,7 +208,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             organization_name="str",
             serverless_runtime_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -203,7 +221,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             organization_name="str",
             serverless_runtime_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -216,7 +234,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             organization_name="str",
             serverless_runtime_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself
@@ -229,7 +247,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             organization_name="str",
             serverless_runtime_name="str",
-            api_version="2024-05-08",
+            api_version="2024-07-22",
         )
 
         # please add some check logic here by yourself

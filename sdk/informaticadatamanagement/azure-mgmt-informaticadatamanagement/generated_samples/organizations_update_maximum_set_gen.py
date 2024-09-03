@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
@@ -29,48 +27,48 @@ from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
 def main():
     client = InformaticaDataMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="3599DA28-E346-4D9F-811E-189C0445F0FE",
+        subscription_id="5B9CA1A4-44D9-48A2-A77B-FA9302EE0DF7",
     )
 
     response = client.organizations.update(
         resource_group_name="rgopenapi",
-        organization_name="_-",
+        organization_name="Replace this value with a string matching RegExp ^[a-zA-Z0-9_-]*$",
         properties={
             "properties": {
                 "companyDetails": {
-                    "business": "mwqblnruflwpolgbxpqbqneve",
-                    "companyName": "xkrvbozrjcvappqeeyt",
-                    "country": "rvlzppgvopcw",
-                    "domain": "dponvwnrdrnzahcurqssesukbsokdd",
-                    "numberOfEmployees": 22,
-                    "officeAddress": "sfcx",
+                    "business": "orrm",
+                    "companyName": "rcbluovcofnaayzbharx",
+                    "country": "oitw",
+                    "domain": "igbwijvqbzxinceeq",
+                    "numberOfEmployees": 7,
+                    "officeAddress": "abwtuqnqnikrvp",
                 },
-                "existingResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Informatica.DataManagement/organizations/org1/serverlessRuntimes/serverlessRuntimeName",
+                "existingResourceId": "doaf",
                 "marketplaceDetails": {
-                    "marketplaceSubscriptionId": "szhyxzgjtssjmlguivepc",
+                    "marketplaceSubscriptionId": "jtdcainfglxsdgcxujqx",
                     "offerDetails": {
-                        "offerId": "idaxbflabvjsippplyenvrpgeydsjxcmyubgukffkcdvlvrtwpdhnvdblxjsldiuswrchsibk",
-                        "planId": "giihvvnwdwzkfqrhkpqzbgfotzyixnsvmxzauseebillhslauglzfxzvzvts",
-                        "planName": "tfqjenotaewzdeerliteqxdawuqxhwdzbtiiimsaedrlsnbdoonnloakjtvnwhhrcyxxsgoachguthqvlahpjyofpoqpfacfmiaauawazkmxkjgvktbptojknzojtjrfzvbbjjkvstabqyaczxinijhoxrjukftsagpwgsvpmczopztmplipyufhuaumfx",
-                        "publisherId": "ktzfghsyjqbsswhltoaemgotmnorhdogvkaxplutbjjqzuepxizliynyakersobagvpwvpzwjtjjxigsqgcyqaahaxdijghnexliofhfjlqzjmmbvrhcvjxdodnexxizbgfhjopbwzjojxsluasnwwsgcajefglbcvzpaeblanhmurcculndtfwnfjyxol",
-                        "termId": "eolmwogtgpdncqoigqcdomupwummaicwvdxgbskpdsmjizdfbdgbxbuekcpwmenqzbhqxpdnjtup",
-                        "termUnit": "nykqoplazujcwmfldntifjqrnx",
+                        "offerId": "spfkayqchinvbjvjordwiccmjlqlmzydpnoc",
+                        "planId": "gkxxszqcbbjgeuhhkyhzoxblintfonwtstlmhznxjmrnbkgmqgecoyghyrgfvfnisydjtpplckoreyercglhwnxotzxieoujudwzwdjaeczsjmcupfukkiaqcecfbjbzvauxkfvycgtpxxafeoslyjhkjeglaphplbtupzsksylut",
+                        "planName": "hojezrhbwkurkiqfgnmseidyfqzphlydtjbmairtbjlokbwauuydmagrkxebilnjwiehkfkqbdtnipaabnakmrenaizgbkoctxdfxixkqxkrjutoinniwnzdmwzgiuagmorcqbplfucebhurxuttvalqfwqdqxntyyehjvmmtnlaccvzfwpjncgzpypkiyjphyesjmbpeyterbenxqd",
+                        "publisherId": "wehewpeiarivfyuszfxihzifsol",
+                        "termId": "pmliemwwcvpdybqqqglvjrgpuirulcrhljaptuoejaramacnemrtgbfql",
+                        "termUnit": "hkppskqgpjcmdhwtbzmqsdtzeimtfehftfas",
                     },
                 },
                 "userDetails": {
-                    "emailAddress": "7_-46@13D--3.m-4x-.11.c-9-.DHLYFc",
-                    "firstName": "qguqrmanyupoi",
-                    "lastName": "ugzg",
-                    "phoneNumber": "uxa",
-                    "upn": "viwjrkn",
+                    "emailAddress": "Replace this value with a string matching RegExp ^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$",
+                    "firstName": "iqhylcdxdddweblzlo",
+                    "lastName": "niejierxdxkhtprappvyouhmq",
+                    "phoneNumber": "uqytos",
+                    "upn": "qmosxykp",
                 },
             },
-            "tags": {"key1918": "fbjvtuvzsghpl"},
+            "tags": {"key7635": "hqaktsallgklxrcyeppnvy"},
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/preview/2024-07-22/examples/Organizations_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

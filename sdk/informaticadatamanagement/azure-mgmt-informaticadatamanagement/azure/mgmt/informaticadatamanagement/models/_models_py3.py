@@ -607,6 +607,9 @@ class InfaServerlessFetchConfigProperties(_serialization.Model):  # pylint: disa
     :vartype advanced_custom_properties: str
     :ivar supplementary_file_location: Supplementary File location.
     :vartype supplementary_file_location: str
+    :ivar serverless_runtime_data_disks: Serverless runtime data disks.
+    :vartype serverless_runtime_data_disks:
+     list[~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeDataDisk]
     :ivar platform: Serverless Account Platform.
     :vartype platform: str
     :ivar tags: Tags for the resource.
@@ -633,6 +636,7 @@ class InfaServerlessFetchConfigProperties(_serialization.Model):  # pylint: disa
         "resource_group_name": {"key": "resourceGroupName", "type": "str"},
         "advanced_custom_properties": {"key": "advancedCustomProperties", "type": "str"},
         "supplementary_file_location": {"key": "supplementaryFileLocation", "type": "str"},
+        "serverless_runtime_data_disks": {"key": "serverlessRuntimeDataDisks", "type": "[ServerlessRuntimeDataDisk]"},
         "platform": {"key": "platform", "type": "str"},
         "tags": {"key": "tags", "type": "str"},
         "vnet": {"key": "vnet", "type": "str"},
@@ -652,6 +656,7 @@ class InfaServerlessFetchConfigProperties(_serialization.Model):  # pylint: disa
         resource_group_name: Optional[str] = None,
         advanced_custom_properties: Optional[str] = None,
         supplementary_file_location: Optional[str] = None,
+        serverless_runtime_data_disks: Optional[List["_models.ServerlessRuntimeDataDisk"]] = None,
         platform: Optional[str] = None,
         tags: Optional[str] = None,
         vnet: Optional[str] = None,
@@ -674,6 +679,9 @@ class InfaServerlessFetchConfigProperties(_serialization.Model):  # pylint: disa
         :paramtype advanced_custom_properties: str
         :keyword supplementary_file_location: Supplementary File location.
         :paramtype supplementary_file_location: str
+        :keyword serverless_runtime_data_disks: Serverless runtime data disks.
+        :paramtype serverless_runtime_data_disks:
+         list[~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeDataDisk]
         :keyword platform: Serverless Account Platform.
         :paramtype platform: str
         :keyword tags: Tags for the resource.
@@ -699,6 +707,7 @@ class InfaServerlessFetchConfigProperties(_serialization.Model):  # pylint: disa
         self.resource_group_name = resource_group_name
         self.advanced_custom_properties = advanced_custom_properties
         self.supplementary_file_location = supplementary_file_location
+        self.serverless_runtime_data_disks = serverless_runtime_data_disks
         self.platform = platform
         self.tags = tags
         self.vnet = vnet
@@ -1020,6 +1029,9 @@ class InformaticaServerlessRuntimeProperties(_serialization.Model):  # pylint: d
      list[~azure.mgmt.informaticadatamanagement.models.AdvancedCustomProperties]
     :ivar supplementary_file_location: Supplementary file location.
     :vartype supplementary_file_location: str
+    :ivar serverless_runtime_data_disks: Serverless runtime data disks.
+    :vartype serverless_runtime_data_disks:
+     list[~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeDataDisk]
     :ivar serverless_runtime_config: Serverless config properties.
     :vartype serverless_runtime_config:
      ~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeConfigProperties
@@ -1050,6 +1062,7 @@ class InformaticaServerlessRuntimeProperties(_serialization.Model):  # pylint: d
         },
         "advanced_custom_properties": {"key": "advancedCustomProperties", "type": "[AdvancedCustomProperties]"},
         "supplementary_file_location": {"key": "supplementaryFileLocation", "type": "str"},
+        "serverless_runtime_data_disks": {"key": "serverlessRuntimeDataDisks", "type": "[ServerlessRuntimeDataDisk]"},
         "serverless_runtime_config": {"key": "serverlessRuntimeConfig", "type": "ServerlessRuntimeConfigProperties"},
         "serverless_runtime_tags": {"key": "serverlessRuntimeTags", "type": "[ServerlessRuntimeTag]"},
         "serverless_runtime_user_context_properties": {
@@ -1070,6 +1083,7 @@ class InformaticaServerlessRuntimeProperties(_serialization.Model):  # pylint: d
         serverless_runtime_network_profile: Optional["_models.ServerlessRuntimeNetworkProfile"] = None,
         advanced_custom_properties: Optional[List["_models.AdvancedCustomProperties"]] = None,
         supplementary_file_location: Optional[str] = None,
+        serverless_runtime_data_disks: Optional[List["_models.ServerlessRuntimeDataDisk"]] = None,
         serverless_runtime_config: Optional["_models.ServerlessRuntimeConfigProperties"] = None,
         serverless_runtime_tags: Optional[List["_models.ServerlessRuntimeTag"]] = None,
         serverless_runtime_user_context_properties: Optional["_models.ServerlessRuntimeUserContextProperties"] = None,
@@ -1098,6 +1112,9 @@ class InformaticaServerlessRuntimeProperties(_serialization.Model):  # pylint: d
          list[~azure.mgmt.informaticadatamanagement.models.AdvancedCustomProperties]
         :keyword supplementary_file_location: Supplementary file location.
         :paramtype supplementary_file_location: str
+        :keyword serverless_runtime_data_disks: Serverless runtime data disks.
+        :paramtype serverless_runtime_data_disks:
+         list[~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeDataDisk]
         :keyword serverless_runtime_config: Serverless config properties.
         :paramtype serverless_runtime_config:
          ~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeConfigProperties
@@ -1120,6 +1137,7 @@ class InformaticaServerlessRuntimeProperties(_serialization.Model):  # pylint: d
         self.serverless_runtime_network_profile = serverless_runtime_network_profile
         self.advanced_custom_properties = advanced_custom_properties
         self.supplementary_file_location = supplementary_file_location
+        self.serverless_runtime_data_disks = serverless_runtime_data_disks
         self.serverless_runtime_config = serverless_runtime_config
         self.serverless_runtime_tags = serverless_runtime_tags
         self.serverless_runtime_user_context_properties = serverless_runtime_user_context_properties
@@ -2046,6 +2064,59 @@ class ServerlessRuntimeConfigPropertiesUpdate(_serialization.Model):
         self.cdie_config_props = cdie_config_props
 
 
+class ServerlessRuntimeDataDisk(_serialization.Model):
+    """Serverless Runtime Data Disk.
+
+    :ivar type: Type of the data disk.
+    :vartype type: str
+    :ivar server_host_or_ip_address: Server Host or IP Address.
+    :vartype server_host_or_ip_address: str
+    :ivar source_mount: Source mount point.
+    :vartype source_mount: str
+    :ivar target_mount: Target mount point.
+    :vartype target_mount: str
+    :ivar mount_options: Mount options.
+    :vartype mount_options: str
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "server_host_or_ip_address": {"key": "serverHostOrIpAddress", "type": "str"},
+        "source_mount": {"key": "sourceMount", "type": "str"},
+        "target_mount": {"key": "targetMount", "type": "str"},
+        "mount_options": {"key": "mountOptions", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        server_host_or_ip_address: Optional[str] = None,
+        source_mount: Optional[str] = None,
+        target_mount: Optional[str] = None,
+        mount_options: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Type of the data disk.
+        :paramtype type: str
+        :keyword server_host_or_ip_address: Server Host or IP Address.
+        :paramtype server_host_or_ip_address: str
+        :keyword source_mount: Source mount point.
+        :paramtype source_mount: str
+        :keyword target_mount: Target mount point.
+        :paramtype target_mount: str
+        :keyword mount_options: Mount options.
+        :paramtype mount_options: str
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.server_host_or_ip_address = server_host_or_ip_address
+        self.source_mount = source_mount
+        self.target_mount = target_mount
+        self.mount_options = mount_options
+
+
 class ServerlessRuntimeDependency(_serialization.Model):
     """Dependency reference for a serverless runtime resource.
 
@@ -2204,6 +2275,9 @@ class ServerlessRuntimePropertiesCustomUpdate(_serialization.Model):  # pylint: 
      list[~azure.mgmt.informaticadatamanagement.models.AdvancedCustomProperties]
     :ivar supplementary_file_location: Supplementary file location.
     :vartype supplementary_file_location: str
+    :ivar serverless_runtime_data_disks: Serverless runtime data disks.
+    :vartype serverless_runtime_data_disks:
+     list[~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeDataDisk]
     :ivar serverless_runtime_config: Serverless config properties.
     :vartype serverless_runtime_config:
      ~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeConfigPropertiesUpdate
@@ -2228,6 +2302,7 @@ class ServerlessRuntimePropertiesCustomUpdate(_serialization.Model):  # pylint: 
         },
         "advanced_custom_properties": {"key": "advancedCustomProperties", "type": "[AdvancedCustomProperties]"},
         "supplementary_file_location": {"key": "supplementaryFileLocation", "type": "str"},
+        "serverless_runtime_data_disks": {"key": "serverlessRuntimeDataDisks", "type": "[ServerlessRuntimeDataDisk]"},
         "serverless_runtime_config": {
             "key": "serverlessRuntimeConfig",
             "type": "ServerlessRuntimeConfigPropertiesUpdate",
@@ -2251,6 +2326,7 @@ class ServerlessRuntimePropertiesCustomUpdate(_serialization.Model):  # pylint: 
         serverless_runtime_network_profile: Optional["_models.ServerlessRuntimeNetworkProfileUpdate"] = None,
         advanced_custom_properties: Optional[List["_models.AdvancedCustomProperties"]] = None,
         supplementary_file_location: Optional[str] = None,
+        serverless_runtime_data_disks: Optional[List["_models.ServerlessRuntimeDataDisk"]] = None,
         serverless_runtime_config: Optional["_models.ServerlessRuntimeConfigPropertiesUpdate"] = None,
         serverless_runtime_tags: Optional[List["_models.ServerlessRuntimeTag"]] = None,
         serverless_runtime_user_context_properties: Optional[
@@ -2281,6 +2357,9 @@ class ServerlessRuntimePropertiesCustomUpdate(_serialization.Model):  # pylint: 
          list[~azure.mgmt.informaticadatamanagement.models.AdvancedCustomProperties]
         :keyword supplementary_file_location: Supplementary file location.
         :paramtype supplementary_file_location: str
+        :keyword serverless_runtime_data_disks: Serverless runtime data disks.
+        :paramtype serverless_runtime_data_disks:
+         list[~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeDataDisk]
         :keyword serverless_runtime_config: Serverless config properties.
         :paramtype serverless_runtime_config:
          ~azure.mgmt.informaticadatamanagement.models.ServerlessRuntimeConfigPropertiesUpdate
@@ -2302,6 +2381,7 @@ class ServerlessRuntimePropertiesCustomUpdate(_serialization.Model):  # pylint: 
         self.serverless_runtime_network_profile = serverless_runtime_network_profile
         self.advanced_custom_properties = advanced_custom_properties
         self.supplementary_file_location = supplementary_file_location
+        self.serverless_runtime_data_disks = serverless_runtime_data_disks
         self.serverless_runtime_config = serverless_runtime_config
         self.serverless_runtime_tags = serverless_runtime_tags
         self.serverless_runtime_user_context_properties = serverless_runtime_user_context_properties

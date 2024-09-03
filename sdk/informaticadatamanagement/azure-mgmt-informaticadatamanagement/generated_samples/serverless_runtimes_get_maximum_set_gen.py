@@ -27,17 +27,17 @@ from azure.mgmt.informaticadatamanagement import InformaticaDataMgmtClient
 def main():
     client = InformaticaDataMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="3599DA28-E346-4D9F-811E-189C0445F0FE",
+        subscription_id="5B9CA1A4-44D9-48A2-A77B-FA9302EE0DF7",
     )
 
     response = client.serverless_runtimes.get(
         resource_group_name="rgopenapi",
-        organization_name="e3Y",
-        serverless_runtime_name="48-",
+        organization_name="Replace this value with a string matching RegExp ^[a-zA-Z0-9_-]*$",
+        serverless_runtime_name="Replace this value with a string matching RegExp ^[a-zA-Z0-9_-]*$",
     )
     print(response)
 
 
-# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Get_MaximumSet_Gen.json
+# x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/preview/2024-07-22/examples/ServerlessRuntimes_Get_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
