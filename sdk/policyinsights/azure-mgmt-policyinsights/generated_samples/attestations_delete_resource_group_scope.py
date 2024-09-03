@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.policyinsights import PolicyInsightsClient
 
 """
@@ -29,11 +30,10 @@ def main():
         subscription_id="35ee058e-5fa0-414c-8145-3ebb8d09b6e2",
     )
 
-    response = client.attestations.delete_at_resource_group(
+    client.attestations.delete_at_resource_group(
         resource_group_name="myRg",
         attestation_name="790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_DeleteResourceGroupScope.json

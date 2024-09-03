@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.policyinsights import PolicyInsightsClient
 
 """
@@ -45,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-03-01/examples/PolicyRestrictions_CheckAtSubscriptionScope.json
+# x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2023-03-01/examples/PolicyRestrictions_CheckAtSubscriptionScope.json
 if __name__ == "__main__":
     main()

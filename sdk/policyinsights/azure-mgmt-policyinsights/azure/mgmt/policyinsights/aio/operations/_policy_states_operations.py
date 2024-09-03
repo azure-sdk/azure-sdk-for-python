@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar, Union, cast
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, Literal, Optional, Type, TypeVar, Union, cast
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -16,12 +16,13 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
@@ -29,7 +30,6 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._policy_states_operations import (
     build_list_query_results_for_management_group_request,
     build_list_query_results_for_policy_definition_request,
@@ -52,10 +52,10 @@ from ...operations._policy_states_operations import (
     build_trigger_subscription_evaluation_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -97,11 +97,6 @@ class PolicyStatesOperations:
         :type management_group_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword management_groups_namespace: The namespace for Microsoft Management RP; only
-         "Microsoft.Management" is allowed. Default value is "Microsoft.Management". Note that
-         overriding this default value may result in unsupported behavior.
-        :paramtype management_groups_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -112,10 +107,10 @@ class PolicyStatesOperations:
         management_groups_namespace: Literal["Microsoft.Management"] = kwargs.pop(
             "management_groups_namespace", "Microsoft.Management"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -143,7 +138,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_management_group_request(
+                _request = build_list_query_results_for_management_group_request(
                     policy_states_resource=policy_states_resource,
                     management_group_name=management_group_name,
                     top=_top,
@@ -156,12 +151,10 @@ class PolicyStatesOperations:
                     skip_token=_skip_token,
                     management_groups_namespace=management_groups_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_management_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -182,18 +175,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -203,10 +194,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -218,10 +210,6 @@ class PolicyStatesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_management_group.metadata = {
-        "url": "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
 
     @distributed_trace_async
     async def summarize_for_management_group(
@@ -242,16 +230,11 @@ class PolicyStatesOperations:
         :type management_group_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword management_groups_namespace: The namespace for Microsoft Management RP; only
-         "Microsoft.Management" is allowed. Default value is "Microsoft.Management". Note that
-         overriding this default value may result in unsupported behavior.
-        :paramtype management_groups_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -265,7 +248,7 @@ class PolicyStatesOperations:
         management_groups_namespace: Literal["Microsoft.Management"] = kwargs.pop(
             "management_groups_namespace", "Microsoft.Management"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -278,7 +261,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_management_group_request(
+        _request = build_summarize_for_management_group_request(
             policy_states_summary_resource=policy_states_summary_resource,
             management_group_name=management_group_name,
             top=_top,
@@ -287,15 +270,14 @@ class PolicyStatesOperations:
             filter=_filter,
             management_groups_namespace=management_groups_namespace,
             api_version=api_version,
-            template_url=self.summarize_for_management_group.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -305,16 +287,12 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_management_group.metadata = {
-        "url": "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_subscription(
@@ -334,7 +312,6 @@ class PolicyStatesOperations:
         :type subscription_id: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -342,10 +319,10 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -373,7 +350,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_subscription_request(
+                _request = build_list_query_results_for_subscription_request(
                     policy_states_resource=policy_states_resource,
                     subscription_id=subscription_id,
                     top=_top,
@@ -385,12 +362,10 @@ class PolicyStatesOperations:
                     apply=_apply,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -411,18 +386,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -432,10 +405,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -447,10 +421,6 @@ class PolicyStatesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
 
     @distributed_trace_async
     async def summarize_for_subscription(
@@ -471,12 +441,11 @@ class PolicyStatesOperations:
         :type subscription_id: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -487,7 +456,7 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -500,7 +469,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_subscription_request(
+        _request = build_summarize_for_subscription_request(
             policy_states_summary_resource=policy_states_summary_resource,
             subscription_id=subscription_id,
             top=_top,
@@ -508,15 +477,14 @@ class PolicyStatesOperations:
             to=_to,
             filter=_filter,
             api_version=api_version,
-            template_url=self.summarize_for_subscription.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -526,16 +494,12 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_resource_group(
@@ -558,7 +522,6 @@ class PolicyStatesOperations:
         :type resource_group_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -566,10 +529,10 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -597,7 +560,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_resource_group_request(
+                _request = build_list_query_results_for_resource_group_request(
                     policy_states_resource=policy_states_resource,
                     subscription_id=subscription_id,
                     resource_group_name=resource_group_name,
@@ -610,12 +573,10 @@ class PolicyStatesOperations:
                     apply=_apply,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -636,18 +597,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -657,10 +616,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -672,10 +632,6 @@ class PolicyStatesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
 
     @distributed_trace_async
     async def summarize_for_resource_group(
@@ -699,12 +655,11 @@ class PolicyStatesOperations:
         :type resource_group_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -715,7 +670,7 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -728,7 +683,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_resource_group_request(
+        _request = build_summarize_for_resource_group_request(
             policy_states_summary_resource=policy_states_summary_resource,
             subscription_id=subscription_id,
             resource_group_name=resource_group_name,
@@ -737,15 +692,14 @@ class PolicyStatesOperations:
             to=_to,
             filter=_filter,
             api_version=api_version,
-            template_url=self.summarize_for_resource_group.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -755,16 +709,12 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_resource(
@@ -784,7 +734,6 @@ class PolicyStatesOperations:
         :type resource_id: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -792,10 +741,10 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -825,7 +774,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_resource_request(
+                _request = build_list_query_results_for_resource_request(
                     policy_states_resource=policy_states_resource,
                     resource_id=resource_id,
                     top=_top,
@@ -838,12 +787,10 @@ class PolicyStatesOperations:
                     expand=_expand,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_resource.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -866,18 +813,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -887,10 +832,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -902,10 +848,6 @@ class PolicyStatesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_resource.metadata = {
-        "url": "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
 
     @distributed_trace_async
     async def summarize_for_resource(
@@ -926,12 +868,11 @@ class PolicyStatesOperations:
         :type resource_id: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -942,7 +883,7 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -955,7 +896,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_resource_request(
+        _request = build_summarize_for_resource_request(
             policy_states_summary_resource=policy_states_summary_resource,
             resource_id=resource_id,
             top=_top,
@@ -963,15 +904,14 @@ class PolicyStatesOperations:
             to=_to,
             filter=_filter,
             api_version=api_version,
-            template_url=self.summarize_for_resource.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -981,21 +921,17 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    summarize_for_resource.metadata = {
-        "url": "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
-
-    async def _trigger_subscription_evaluation_initial(  # pylint: disable=inconsistent-return-statements
+    async def _trigger_subscription_evaluation_initial(
         self, subscription_id: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1006,36 +942,40 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_trigger_subscription_evaluation_request(
+        _request = build_trigger_subscription_evaluation_request(
             subscription_id=subscription_id,
             api_version=api_version,
-            template_url=self._trigger_subscription_evaluation_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _trigger_subscription_evaluation_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation"
-    }
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_trigger_subscription_evaluation(self, subscription_id: str, **kwargs: Any) -> AsyncLROPoller[None]:
@@ -1043,14 +983,6 @@ class PolicyStatesOperations:
 
         :param subscription_id: Microsoft Azure subscription ID. Required.
         :type subscription_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1058,13 +990,13 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._trigger_subscription_evaluation_initial(  # type: ignore
+            raw_result = await self._trigger_subscription_evaluation_initial(
                 subscription_id=subscription_id,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
@@ -1072,11 +1004,12 @@ class PolicyStatesOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -1087,22 +1020,18 @@ class PolicyStatesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_trigger_subscription_evaluation.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation"
-    }
-
-    async def _trigger_resource_group_evaluation_initial(  # pylint: disable=inconsistent-return-statements
+    async def _trigger_resource_group_evaluation_initial(  # pylint: disable=name-too-long
         self, subscription_id: str, resource_group_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1113,37 +1042,41 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_trigger_resource_group_evaluation_request(
+        _request = build_trigger_resource_group_evaluation_request(
             subscription_id=subscription_id,
             resource_group_name=resource_group_name,
             api_version=api_version,
-            template_url=self._trigger_resource_group_evaluation_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _trigger_resource_group_evaluation_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation"
-    }
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_trigger_resource_group_evaluation(
@@ -1155,14 +1088,6 @@ class PolicyStatesOperations:
         :type subscription_id: str
         :param resource_group_name: Resource group name. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1170,13 +1095,13 @@ class PolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._trigger_resource_group_evaluation_initial(  # type: ignore
+            raw_result = await self._trigger_resource_group_evaluation_initial(
                 subscription_id=subscription_id,
                 resource_group_name=resource_group_name,
                 api_version=api_version,
@@ -1185,11 +1110,12 @@ class PolicyStatesOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -1200,20 +1126,16 @@ class PolicyStatesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_trigger_resource_group_evaluation.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
-    def list_query_results_for_policy_set_definition(
+    def list_query_results_for_policy_set_definition(  # pylint: disable=name-too-long
         self,
         policy_states_resource: Union[str, _models.PolicyStatesResource],
         subscription_id: str,
@@ -1233,11 +1155,6 @@ class PolicyStatesOperations:
         :type policy_set_definition_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1248,10 +1165,10 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1279,7 +1196,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_policy_set_definition_request(
+                _request = build_list_query_results_for_policy_set_definition_request(
                     policy_states_resource=policy_states_resource,
                     subscription_id=subscription_id,
                     policy_set_definition_name=policy_set_definition_name,
@@ -1293,12 +1210,10 @@ class PolicyStatesOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_policy_set_definition.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -1319,18 +1234,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -1340,10 +1253,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1355,10 +1269,6 @@ class PolicyStatesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_policy_set_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
 
     @distributed_trace_async
     async def summarize_for_policy_set_definition(
@@ -1382,16 +1292,11 @@ class PolicyStatesOperations:
         :type policy_set_definition_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1405,7 +1310,7 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -1418,7 +1323,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_policy_set_definition_request(
+        _request = build_summarize_for_policy_set_definition_request(
             policy_states_summary_resource=policy_states_summary_resource,
             subscription_id=subscription_id,
             policy_set_definition_name=policy_set_definition_name,
@@ -1428,15 +1333,14 @@ class PolicyStatesOperations:
             filter=_filter,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.summarize_for_policy_set_definition.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1446,16 +1350,12 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_policy_set_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_policy_definition(
@@ -1478,11 +1378,6 @@ class PolicyStatesOperations:
         :type policy_definition_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1493,10 +1388,10 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1524,7 +1419,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_policy_definition_request(
+                _request = build_list_query_results_for_policy_definition_request(
                     policy_states_resource=policy_states_resource,
                     subscription_id=subscription_id,
                     policy_definition_name=policy_definition_name,
@@ -1538,12 +1433,10 @@ class PolicyStatesOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_policy_definition.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -1564,18 +1457,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -1585,10 +1476,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1600,10 +1492,6 @@ class PolicyStatesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_policy_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
 
     @distributed_trace_async
     async def summarize_for_policy_definition(
@@ -1627,16 +1515,11 @@ class PolicyStatesOperations:
         :type policy_definition_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1650,7 +1533,7 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -1663,7 +1546,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_policy_definition_request(
+        _request = build_summarize_for_policy_definition_request(
             policy_states_summary_resource=policy_states_summary_resource,
             subscription_id=subscription_id,
             policy_definition_name=policy_definition_name,
@@ -1673,15 +1556,14 @@ class PolicyStatesOperations:
             filter=_filter,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.summarize_for_policy_definition.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1691,19 +1573,15 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_policy_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def list_query_results_for_subscription_level_policy_assignment(
+    def list_query_results_for_subscription_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         policy_states_resource: Union[str, _models.PolicyStatesResource],
         subscription_id: str,
@@ -1723,11 +1601,6 @@ class PolicyStatesOperations:
         :type policy_assignment_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1738,10 +1611,10 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1769,7 +1642,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_subscription_level_policy_assignment_request(
+                _request = build_list_query_results_for_subscription_level_policy_assignment_request(
                     policy_states_resource=policy_states_resource,
                     subscription_id=subscription_id,
                     policy_assignment_name=policy_assignment_name,
@@ -1783,12 +1656,10 @@ class PolicyStatesOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_subscription_level_policy_assignment.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -1809,18 +1680,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -1830,10 +1699,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1846,12 +1716,8 @@ class PolicyStatesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_query_results_for_subscription_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
-
     @distributed_trace_async
-    async def summarize_for_subscription_level_policy_assignment(
+    async def summarize_for_subscription_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         policy_states_summary_resource: Union[str, _models.PolicyStatesSummaryResourceType],
         subscription_id: str,
@@ -1872,16 +1738,11 @@ class PolicyStatesOperations:
         :type policy_assignment_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1895,7 +1756,7 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -1908,7 +1769,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_subscription_level_policy_assignment_request(
+        _request = build_summarize_for_subscription_level_policy_assignment_request(
             policy_states_summary_resource=policy_states_summary_resource,
             subscription_id=subscription_id,
             policy_assignment_name=policy_assignment_name,
@@ -1918,15 +1779,14 @@ class PolicyStatesOperations:
             filter=_filter,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.summarize_for_subscription_level_policy_assignment.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1936,19 +1796,15 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_subscription_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def list_query_results_for_resource_group_level_policy_assignment(
+    def list_query_results_for_resource_group_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         policy_states_resource: Union[str, _models.PolicyStatesResource],
         subscription_id: str,
@@ -1971,11 +1827,6 @@ class PolicyStatesOperations:
         :type policy_assignment_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyState or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyState]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1986,10 +1837,10 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2017,7 +1868,7 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_resource_group_level_policy_assignment_request(
+                _request = build_list_query_results_for_resource_group_level_policy_assignment_request(
                     policy_states_resource=policy_states_resource,
                     subscription_id=subscription_id,
                     resource_group_name=resource_group_name,
@@ -2032,12 +1883,10 @@ class PolicyStatesOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_resource_group_level_policy_assignment.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -2058,18 +1907,16 @@ class PolicyStatesOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyStatesQueryResults", pipeline_response)
@@ -2079,10 +1926,11 @@ class PolicyStatesOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2095,12 +1943,8 @@ class PolicyStatesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_query_results_for_resource_group_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults"
-    }
-
     @distributed_trace_async
-    async def summarize_for_resource_group_level_policy_assignment(
+    async def summarize_for_resource_group_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         policy_states_summary_resource: Union[str, _models.PolicyStatesSummaryResourceType],
         subscription_id: str,
@@ -2124,16 +1968,11 @@ class PolicyStatesOperations:
         :type policy_assignment_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SummarizeResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.SummarizeResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2147,7 +1986,7 @@ class PolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.SummarizeResults] = kwargs.pop("cls", None)
 
         _top = None
@@ -2160,7 +1999,7 @@ class PolicyStatesOperations:
             _to = query_options.to
             _top = query_options.top
 
-        request = build_summarize_for_resource_group_level_policy_assignment_request(
+        _request = build_summarize_for_resource_group_level_policy_assignment_request(
             policy_states_summary_resource=policy_states_summary_resource,
             subscription_id=subscription_id,
             resource_group_name=resource_group_name,
@@ -2171,15 +2010,14 @@ class PolicyStatesOperations:
             filter=_filter,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.summarize_for_resource_group_level_policy_assignment.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2189,13 +2027,9 @@ class PolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.QueryFailure, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SummarizeResults", pipeline_response)
+        deserialized = self._deserialize("SummarizeResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    summarize_for_resource_group_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize"
-    }
+        return deserialized  # type: ignore
