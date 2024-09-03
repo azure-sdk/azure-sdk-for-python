@@ -10,6 +10,18 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AppAttachPackageArchitectures(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Possible device architectures that an app attach package can be configured for."""
+
+    ARM = "ARM"
+    ARM64 = "ARM64"
+    X86 = "x86"
+    X64 = "x64"
+    NEUTRAL = "Neutral"
+    X86_A64 = "x86a64"
+    ALL = "ALL"
+
+
 class ApplicationGroupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource Type of ApplicationGroup."""
 
@@ -56,61 +68,99 @@ class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUNDAY = "Sunday"
 
 
+class DirectUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class DomainJoinType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of domain join done by the virtual machine."""
+
+    ACTIVE_DIRECTORY = "ActiveDirectory"
+    """Using microsoft active directory."""
+    AZURE_ACTIVE_DIRECTORY = "AzureActiveDirectory"
+    """Using microsoft azure active directory."""
+
+
+class FailHealthCheckOnStagingFailure(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Parameter indicating how the health check should behave if this package fails staging."""
+
+    UNHEALTHY = "Unhealthy"
+    NEEDS_ASSISTANCE = "NeedsAssistance"
+    DO_NOT_FAIL = "DoNotFail"
+
+
+class FaultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Hostpool update fault type."""
+
+    SERVICE_ERROR = "ServiceError"
+    """Fault caused by service error."""
+    USER_ERROR = "UserError"
+    """Fault caused by user error."""
+
+
 class HealthCheckName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents the name of the health check operation performed."""
 
     DOMAIN_JOINED_CHECK = "DomainJoinedCheck"
     """Verifies the SessionHost is joined to a domain. If this check fails is classified as fatal as
-    #: no connection can succeed if the SessionHost is not joined to the domain. (Currently Enabled)"""
+    no connection can succeed if the SessionHost is not joined to the domain. (Currently Enabled)"""
     DOMAIN_TRUST_CHECK = "DomainTrustCheck"
     """Verifies the SessionHost is not experiencing domain trust issues that will prevent
-    #: authentication on SessionHost at connection time when session is created. If this check fails
-    #: is classified as fatal as no connection can succeed if we cannot reach the domain for
-    #: authentication on the SessionHost. (Currently Enabled)"""
+    authentication on SessionHost at connection time when session is created. If this check fails
+    is classified as fatal as no connection can succeed if we cannot reach the domain for
+    authentication on the SessionHost. (Currently Enabled)"""
     FS_LOGIX_HEALTH_CHECK = "FSLogixHealthCheck"
     """Verifies the FSLogix service is up and running to make sure users' profiles are loaded in the
-    #: session. If this check fails is classified as fatal as even if the connection can succeed, user
-    #: experience is bad as the user profile cannot be loaded and user will get a temporary profile in
-    #: the session. (Currently Disabled)"""
+    session. If this check fails is classified as fatal as even if the connection can succeed, user
+    experience is bad as the user profile cannot be loaded and user will get a temporary profile in
+    the session. (Currently Disabled)"""
     SX_S_STACK_LISTENER_CHECK = "SxSStackListenerCheck"
     """Verifies that the SxS stack is up and running so connections can succeed. If this check fails
-    #: is classified as fatal as no connection can succeed if the SxS stack is not ready. (Currently
-    #: Enabled)"""
+    is classified as fatal as no connection can succeed if the SxS stack is not ready. (Currently
+    Enabled)"""
     URLS_ACCESSIBLE_CHECK = "UrlsAccessibleCheck"
     """Verifies that the required WVD service and Geneva URLs are reachable from the SessionHost.
-    #: These URLs are: RdTokenUri, RdBrokerURI, RdDiagnosticsUri and storage blob URLs for agent
-    #: monitoring (geneva). If this check fails, it is non fatal and the machine still can service
-    #: connections, main issue may be that monitoring agent is unable to store warm path data (logs,
-    #: operations ...). (Currently Disabled)"""
+    These URLs are: RdTokenUri, RdBrokerURI, RdDiagnosticsUri and storage blob URLs for agent
+    monitoring (geneva). If this check fails, it is non fatal and the machine still can service
+    connections, main issue may be that monitoring agent is unable to store warm path data (logs,
+    operations ...). (Currently Disabled)"""
     MONITORING_AGENT_CHECK = "MonitoringAgentCheck"
     """Verifies that the required Geneva agent is running. If this check fails, it is non fatal and
-    #: the machine still can service connections, main issue may be that monitoring agent is missing
-    #: or running (possibly) older version. (Currently Enabled)"""
+    the machine still can service connections, main issue may be that monitoring agent is missing
+    or running (possibly) older version. (Currently Enabled)"""
     DOMAIN_REACHABLE = "DomainReachable"
     """Verifies the domain the SessionHost is joined to is still reachable. If this check fails is
-    #: classified as fatal as no connection can succeed if the domain the SessionHost is joined is not
-    #: reachable at the time of connection. (Currently Disabled)"""
+    classified as fatal as no connection can succeed if the domain the SessionHost is joined is not
+    reachable at the time of connection. (Currently Disabled)"""
     WEB_RTC_REDIRECTOR_CHECK = "WebRTCRedirectorCheck"
     """Verifies whether the WebRTCRedirector component is healthy. The WebRTCRedirector component is
-    #: used to optimize video and audio performance in Microsoft Teams. This checks whether the
-    #: component is still running, and whether there is a higher version available. If this check
-    #: fails, it is non fatal and the machine still can service connections, main issue may be the
-    #: WebRTCRedirector component has to be restarted or updated. (Currently Disabled)"""
+    used to optimize video and audio performance in Microsoft Teams. This checks whether the
+    component is still running, and whether there is a higher version available. If this check
+    fails, it is non fatal and the machine still can service connections, main issue may be the
+    WebRTCRedirector component has to be restarted or updated. (Currently Disabled)"""
     SUPPORTED_ENCRYPTION_CHECK = "SupportedEncryptionCheck"
     """Verifies the value of SecurityLayer registration key. If the value is 0 (SecurityLayer.RDP)
-    #: this check fails with Error code = NativeMethodErrorCode.E_FAIL and is fatal. If the value is 1
-    #: (SecurityLayer.Negotiate) this check fails with Error code =
-    #: NativeMethodErrorCode.ERROR_SUCCESS and is non fatal. (Currently Disabled)"""
+    this check fails with Error code = NativeMethodErrorCode.E_FAIL and is fatal. If the value is 1
+    (SecurityLayer.Negotiate) this check fails with Error code =
+    NativeMethodErrorCode.ERROR_SUCCESS and is non fatal. (Currently Disabled)"""
     META_DATA_SERVICE_CHECK = "MetaDataServiceCheck"
     """Verifies the metadata service is accessible and return compute properties. (Currently Enabled)"""
     APP_ATTACH_HEALTH_CHECK = "AppAttachHealthCheck"
     """Verifies that the AppAttachService is healthy (there were no issues during package staging).
-    #: The AppAttachService is used to enable the staging/registration (and eventual
-    #: deregistration/destaging) of MSIX apps that have been set up by the tenant admin. This checks
-    #: whether the component had any failures during package staging. Failures in staging will prevent
-    #: some MSIX apps from working properly for the end user. If this check fails, it is non fatal and
-    #: the machine still can service connections, main issue may be certain apps will not work for
-    #: end-users. (Currently Enabled)"""
+    The AppAttachService is used to enable the staging/registration (and eventual
+    deregistration/destaging) of MSIX apps that have been set up by the tenant admin. This checks
+    whether the component had any failures during package staging. Failures in staging will prevent
+    some MSIX apps from working properly for the end user. If this check fails, it is non fatal and
+    the machine still can service connections, main issue may be certain apps will not work for
+    end-users. (Currently Enabled)"""
 
 
 class HealthCheckResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -142,13 +192,28 @@ class HostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     PERSONAL = "Personal"
     """Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType =
-    #: Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will
-    #: always be redirected to their assigned SessionHost."""
+    Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will
+    always be redirected to their assigned SessionHost."""
     POOLED = "Pooled"
     """Users get a new (random) SessionHost every time it connects to the HostPool."""
     BYO_DESKTOP = "BYODesktop"
     """Users assign their own machines, load balancing logic remains the same as Personal.
-    #: PersonalDesktopAssignmentType must be Direct."""
+    PersonalDesktopAssignmentType must be Direct."""
+
+
+class HostPoolUpdateAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Action types for controlling hostpool update."""
+
+    START = "Start"
+    """Start the hostpool update."""
+    PAUSE = "Pause"
+    """Pause the hostpool update."""
+    CANCEL = "Cancel"
+    """Cancel the hostpool update."""
+    RETRY = "Retry"
+    """Retry the hostpool update."""
+    RESUME = "Resume"
+    """Resume the hostpool update."""
 
 
 class LoadBalancerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -157,6 +222,53 @@ class LoadBalancerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BREADTH_FIRST = "BreadthFirst"
     DEPTH_FIRST = "DepthFirst"
     PERSISTENT = "Persistent"
+    MULTIPLE_PERSISTENT = "MultiplePersistent"
+
+
+class ManagedPrivateUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class ManagementType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of management for this hostpool, Automated or Standard. The default value is
+    Automated.
+    """
+
+    AUTOMATED = "Automated"
+    STANDARD = "Standard"
+
+
+class OperationTypeSHM(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """OperationTypeSHM."""
+
+    INITIATE_SESSION_HOST_UPDATE = "InitiateSessionHostUpdate"
+    VALIDATE_SESSION_HOST_UPDATE = "ValidateSessionHostUpdate"
+
+
+class PackageTimestamped(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Is package timestamped so it can ignore the certificate expiry date."""
+
+    TIMESTAMPED = "Timestamped"
+    NOT_TIMESTAMPED = "NotTimestamped"
 
 
 class PersonalDesktopAssignmentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -170,8 +282,13 @@ class PreferredAppGroupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of preferred application group type, default to Desktop Application Group."""
 
     NONE = "None"
+    """This value is read only, it is not accepted on input."""
     DESKTOP = "Desktop"
+    """Users access the full Windows desktop from a session host. Available with pooled or personal
+    host pools."""
     RAIL_APPLICATIONS = "RailApplications"
+    """Users access individual applications you select and publish to the application group. Available
+    with pooled host pools only."""
 
 
 class PrivateEndpointConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -191,11 +308,41 @@ class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiv
     REJECTED = "Rejected"
 
 
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    PROVISIONING = "Provisioning"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+
+
+class ProvisioningStateSHC(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of the Session Host Configuration."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    PROVISIONING = "Provisioning"
+
+
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enabled allows this resource to be accessed from both public and private networks, Disabled
     allows this resource to only be accessed via private endpoints.
     """
 
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class PublicUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
     ENABLED = "Enabled"
     DISABLED = "Disabled"
 
@@ -206,6 +353,18 @@ class RegistrationTokenOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DELETE = "Delete"
     NONE = "None"
     UPDATE = "Update"
+
+
+class RelayUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class RemoteApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -220,18 +379,10 @@ class ScalingHostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     POOLED = "Pooled"
     """Users get a new (random) SessionHost every time it connects to the HostPool."""
-
-
-class ScalingScheduleDaysOfWeekItem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ScalingScheduleDaysOfWeekItem."""
-
-    SUNDAY = "Sunday"
-    MONDAY = "Monday"
-    TUESDAY = "Tuesday"
-    WEDNESDAY = "Wednesday"
-    THURSDAY = "Thursday"
-    FRIDAY = "Friday"
-    SATURDAY = "Saturday"
+    PERSONAL = "Personal"
+    """Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType =
+    Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will
+    always be redirected to their assigned SessionHost."""
 
 
 class SessionHandlingOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -304,7 +455,7 @@ class StartupBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     NONE = "None"
     """Session hosts will not be started by the service. This setting depends on Start VM on Connect
-    #: to be enabled to start the session hosts."""
+    to be enabled to start the session hosts."""
     WITH_ASSIGNED_USER = "WithAssignedUser"
     """Session hosts with an assigned user will be started during Ramp Up"""
     ALL = "All"
@@ -318,19 +469,19 @@ class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Session Host has passed all the health checks and is available to handle connections."""
     UNAVAILABLE = "Unavailable"
     """Session Host is either turned off or has failed critical health checks which is causing service
-    #: not to be able to route connections to this session host. Note this replaces previous
-    #: 'NoHeartBeat' status."""
+    not to be able to route connections to this session host. Note this replaces previous
+    'NoHeartBeat' status."""
     SHUTDOWN = "Shutdown"
     """Session Host is shutdown - RD Agent reported session host to be stopped or deallocated."""
     DISCONNECTED = "Disconnected"
     """The Session Host is unavailable because it is currently disconnected."""
     UPGRADING = "Upgrading"
     """Session Host is unavailable because currently an upgrade of RDAgent/side-by-side stack is in
-    #: progress. Note: this state will be removed once the upgrade completes and the host is able to
-    #: accept connections."""
+    progress. Note: this state will be removed once the upgrade completes and the host is able to
+    accept connections."""
     UPGRADE_FAILED = "UpgradeFailed"
     """Session Host is unavailable because the critical component upgrade (agent, side-by-side stack,
-    #: etc.) failed."""
+    etc.) failed."""
     NO_HEARTBEAT = "NoHeartbeat"
     """The Session Host is not heart beating."""
     NOT_JOINED_TO_DOMAIN = "NotJoinedToDomain"
@@ -343,7 +494,7 @@ class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """FSLogix is in an unhealthy state on the session host."""
     NEEDS_ASSISTANCE = "NeedsAssistance"
     """New status to inform admins that the health on their endpoint needs to be fixed. The
-    #: connections might not fail, as these issues are not fatal."""
+    connections might not fail, as these issues are not fatal."""
 
 
 class StopHostsWhen(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -351,6 +502,15 @@ class StopHostsWhen(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ZERO_SESSIONS = "ZeroSessions"
     ZERO_ACTIVE_SESSIONS = "ZeroActiveSessions"
+
+
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of image session hosts use in the hostpool."""
+
+    MARKETPLACE = "Marketplace"
+    """Using default marketplace images offered by Azure Marketplace."""
+    CUSTOM = "Custom"
+    """Using a custom image."""
 
 
 class UpdateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -361,3 +521,26 @@ class UpdateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STARTED = "Started"
     SUCCEEDED = "Succeeded"
     FAILED = "Failed"
+
+
+class VirtualMachineDiskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The disk type used by virtual machine in hostpool session host."""
+
+    STANDARD_LRS = "Standard_LRS"
+    """Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access."""
+    PREMIUM_LRS = "Premium_LRS"
+    """Premium SSD locally redundant storage. Best for production and performance sensitive workloads."""
+    STANDARD_SSD_LRS = "StandardSSD_LRS"
+    """Standard SSD locally redundant storage. Best for web servers, lightly used enterprise
+    applications and dev/test."""
+
+
+class VirtualMachineSecurityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The security type used by virtual machine in hostpool session host. Default is Standard."""
+
+    STANDARD = "Standard"
+    """Standard security protocol. No additional parameters"""
+    TRUSTED_LAUNCH = "TrustedLaunch"
+    """TrustedLaunch allows for secure boot adn vTPM"""
+    CONFIDENTIAL_VM = "ConfidentialVM"
+    """Confidential Virtual Machine security protocol"""
