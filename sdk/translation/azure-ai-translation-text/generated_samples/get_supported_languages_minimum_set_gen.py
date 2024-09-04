@@ -6,14 +6,25 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._operations import TextTranslationClientOperationsMixin
+from azure.ai.translation.text import TextTranslationClient
 
-from ._patch import __all__ as _patch_all
-from ._patch import *  # pylint: disable=unused-wildcard-import
-from ._patch import patch_sdk as _patch_sdk
+"""
+# PREREQUISITES
+    pip install azure-ai-translation-text
+# USAGE
+    python get_supported_languages_minimum_set_gen.py
+"""
 
-__all__ = [
-    "TextTranslationClientOperationsMixin",
-]
-__all__.extend([p for p in _patch_all if p not in __all__])
-_patch_sdk()
+
+def main():
+    client = TextTranslationClient(
+        endpoint="ENDPOINT",
+    )
+
+    response = client.get_supported_languages()
+    print(response)
+
+
+# x-ms-original-file: 3.0/GetSupportedLanguages_MinimumSet_Gen.json
+if __name__ == "__main__":
+    main()
