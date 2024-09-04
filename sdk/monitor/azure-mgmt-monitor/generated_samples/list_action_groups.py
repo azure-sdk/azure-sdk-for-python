@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.monitor import MonitorManagementClient
 
 """
@@ -29,7 +30,9 @@ def main():
         subscription_id="187f412d-1758-44d9-b052-169e2564721d",
     )
 
-    response = client.action_groups.list_by_subscription_id()
+    response = client.action_groups.list_by_resource_group(
+        resource_group_name="Default-NotificationRules",
+    )
     for item in response:
         print(item)
 

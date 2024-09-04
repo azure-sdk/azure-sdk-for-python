@@ -36,7 +36,7 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The provisioning state of the Azure Monitor workspace. Set to Succeeded if everything is
+    """The provisioning state of the Azure Monitor Workspace. Set to Succeeded if everything is
     healthy.
     """
 
