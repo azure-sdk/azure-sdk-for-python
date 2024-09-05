@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.streamanalytics import StreamAnalyticsManagementClient
 
 """
@@ -30,11 +31,11 @@ def main():
     )
 
     client.streaming_jobs.begin_scale(
-        resource_group_name="sjrg",
-        job_name="sjName",
+        resource_group_name="sjrg6936",
+        job_name="sj59",
     ).result()
 
 
-# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Scale.json
+# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Scale.json
 if __name__ == "__main__":
     main()

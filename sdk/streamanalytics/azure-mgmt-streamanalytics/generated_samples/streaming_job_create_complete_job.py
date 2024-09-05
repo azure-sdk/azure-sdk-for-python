@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.streamanalytics import StreamAnalyticsManagementClient
 
 """
@@ -40,18 +41,6 @@ def main():
                 "eventsLateArrivalMaxDelayInSeconds": 5,
                 "eventsOutOfOrderMaxDelayInSeconds": 0,
                 "eventsOutOfOrderPolicy": "Drop",
-                "externals": {
-                    "container": "mycontainer",
-                    "path": "UserCustomCode.zip",
-                    "refreshConfiguration": {
-                        "dateFormat": "yyyy-dd-MM",
-                        "pathPattern": "{date}\\\\{time}",
-                        "refreshInterval": "00:01:00",
-                        "refreshType": "Nonblocking",
-                        "timeFormat": "HH",
-                    },
-                    "storageAccount": {"accountKey": "mykey", "accountName": "mystorageaccount"},
-                },
                 "functions": [],
                 "inputs": [
                     {
@@ -102,6 +91,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Create_CompleteJob.json
+# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Create_CompleteJob.json
 if __name__ == "__main__":
     main()

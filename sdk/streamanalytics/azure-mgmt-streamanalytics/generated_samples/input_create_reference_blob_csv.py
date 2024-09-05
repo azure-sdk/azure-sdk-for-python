@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.streamanalytics import StreamAnalyticsManagementClient
 
 """
@@ -37,14 +38,9 @@ def main():
             "properties": {
                 "datasource": {
                     "properties": {
-                        "blobName": "myblobinput",
                         "container": "state",
                         "dateFormat": "yyyy/MM/dd",
-                        "deltaPathPattern": "/testBlob/{date}/delta/{time}/",
-                        "deltaSnapshotRefreshRate": "16:14:30",
-                        "fullSnapshotRefreshRate": "16:14:30",
                         "pathPattern": "{date}/{time}",
-                        "sourcePartitionCount": 16,
                         "storageAccounts": [{"accountKey": "someAccountKey==", "accountName": "someAccountName"}],
                         "timeFormat": "HH",
                     },
@@ -58,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Reference_Blob_CSV.json
+# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Reference_Blob_CSV.json
 if __name__ == "__main__":
     main()
