@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.streamanalytics import StreamAnalyticsManagementClient
 
 """
@@ -46,16 +47,12 @@ def main():
                     "type": "Microsoft.ServiceBus/EventHub",
                 },
                 "serialization": {"properties": {"encoding": "UTF8", "format": "Array"}, "type": "Json"},
-                "watermarkSettings": {
-                    "maxWatermarkDifferenceAcrossPartitions": "16:14:30",
-                    "watermarkMode": "SendCurrentPartitionWatermark",
-                },
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_EventHub_JSON.json
+# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Create_EventHub_JSON.json
 if __name__ == "__main__":
     main()
