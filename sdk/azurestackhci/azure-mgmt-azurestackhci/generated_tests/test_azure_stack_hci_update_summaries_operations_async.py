@@ -25,7 +25,7 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.update_summaries.list(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
             await self.client.update_summaries.begin_delete(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -52,8 +52,6 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             cluster_name="str",
             update_location_properties={
-                "currentOemVersion": "str",
-                "currentSbeVersion": "str",
                 "currentVersion": "str",
                 "hardwareModel": "str",
                 "healthCheckDate": "2020-02-20 00:00:00",
@@ -63,7 +61,6 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
                         "description": "str",
                         "displayName": "str",
                         "healthCheckSource": "str",
-                        "healthCheckTags": {},
                         "name": "str",
                         "remediation": "str",
                         "severity": "str",
@@ -71,7 +68,6 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
                         "tags": {"key": "str", "value": "str"},
                         "targetResourceID": "str",
                         "targetResourceName": "str",
-                        "targetResourceType": "str",
                         "timestamp": "2020-02-20 00:00:00",
                         "title": "str",
                     }
@@ -96,7 +92,7 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
                 },
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -108,7 +104,7 @@ class TestAzureStackHCIUpdateSummariesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.update_summaries.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
