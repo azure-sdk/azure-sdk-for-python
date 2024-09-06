@@ -534,7 +534,7 @@ class RoleManagementPolicyRule(_serialization.Model):
     RoleManagementPolicyEnablementRule, RoleManagementPolicyExpirationRule,
     RoleManagementPolicyNotificationRule
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -592,7 +592,7 @@ class RoleManagementPolicyRule(_serialization.Model):
 class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
     """The role management policy approval rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -642,10 +642,10 @@ class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
         self.setting = setting
 
 
-class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
+class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):  # pylint: disable=name-too-long
     """The role management policy authentication context rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -705,7 +705,7 @@ class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
 class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
     """The role management policy enablement rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -760,7 +760,7 @@ class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
 class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     """The role management policy expiration rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -777,6 +777,8 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     :vartype is_expiration_required: bool
     :ivar maximum_duration: The maximum duration of expiration in timespan.
     :vartype maximum_duration: str
+    :ivar exception_members: The members not restricted by expiration rule.
+    :vartype exception_members: list[~azure.mgmt.authorization.v2022_05_01_preview.models.UserSet]
     """
 
     _validation = {
@@ -789,6 +791,7 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
         "target": {"key": "target", "type": "RoleManagementPolicyRuleTarget"},
         "is_expiration_required": {"key": "isExpirationRequired", "type": "bool"},
         "maximum_duration": {"key": "maximumDuration", "type": "str"},
+        "exception_members": {"key": "exceptionMembers", "type": "[UserSet]"},
     }
 
     def __init__(
@@ -798,6 +801,7 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
         target: Optional["_models.RoleManagementPolicyRuleTarget"] = None,
         is_expiration_required: Optional[bool] = None,
         maximum_duration: Optional[str] = None,
+        exception_members: Optional[List["_models.UserSet"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -810,17 +814,21 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
         :paramtype is_expiration_required: bool
         :keyword maximum_duration: The maximum duration of expiration in timespan.
         :paramtype maximum_duration: str
+        :keyword exception_members: The members not restricted by expiration rule.
+        :paramtype exception_members:
+         list[~azure.mgmt.authorization.v2022_05_01_preview.models.UserSet]
         """
         super().__init__(id=id, target=target, **kwargs)
         self.rule_type: str = "RoleManagementPolicyExpirationRule"
         self.is_expiration_required = is_expiration_required
         self.maximum_duration = maximum_duration
+        self.exception_members = exception_members
 
 
 class RoleManagementPolicyNotificationRule(RoleManagementPolicyRule):
     """The role management policy notification rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
