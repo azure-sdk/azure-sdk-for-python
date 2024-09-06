@@ -649,9 +649,7 @@ def build_list_by_enrollment_account_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "billingAccountName": _SERIALIZER.url("billing_account_name", billing_account_name, "str"),
-        "enrollmentAccountName": _SERIALIZER.url(
-            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
-        ),
+        "enrollmentAccountName": _SERIALIZER.url("enrollment_account_name", enrollment_account_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore

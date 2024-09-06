@@ -77,9 +77,7 @@ def build_list_by_billing_profile_request(
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
-        ),
+        "billingProfileName": _SERIALIZER.url("billing_profile_name", billing_profile_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore

@@ -5189,7 +5189,7 @@ class BillingSubscriptionListResult(_serialization.Model):
     :ivar next_link: The link (url) to the next page of results.
     :vartype next_link: str
     :ivar total_count: Total number of records.
-    :vartype total_count: int
+    :vartype total_count: float
     :ivar value: The list of resources.
     :vartype value: list[~azure.mgmt.billing.models.BillingSubscription]
     """
@@ -5202,7 +5202,7 @@ class BillingSubscriptionListResult(_serialization.Model):
 
     _attribute_map = {
         "next_link": {"key": "nextLink", "type": "str"},
-        "total_count": {"key": "totalCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "float"},
         "value": {"key": "value", "type": "[BillingSubscription]"},
     }
 
@@ -7381,20 +7381,16 @@ class RebillDetails(_serialization.Model):
     :vartype invoice_document_id: str
     :ivar credit_note_document_id: The ID of credit note.
     :vartype credit_note_document_id: str
-    :ivar rebill_details: The rebill details of an invoice.
-    :vartype rebill_details: ~azure.mgmt.billing.models.RebillDetails
     """
 
     _validation = {
         "invoice_document_id": {"readonly": True},
         "credit_note_document_id": {"readonly": True},
-        "rebill_details": {"readonly": True},
     }
 
     _attribute_map = {
         "invoice_document_id": {"key": "invoiceDocumentId", "type": "str"},
         "credit_note_document_id": {"key": "creditNoteDocumentId", "type": "str"},
-        "rebill_details": {"key": "rebillDetails", "type": "RebillDetails"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -7402,7 +7398,6 @@ class RebillDetails(_serialization.Model):
         super().__init__(**kwargs)
         self.invoice_document_id = None
         self.credit_note_document_id = None
-        self.rebill_details = None
 
 
 class InvoicePropertiesRebillDetails(RebillDetails):
@@ -7414,8 +7409,6 @@ class InvoicePropertiesRebillDetails(RebillDetails):
     :vartype invoice_document_id: str
     :ivar credit_note_document_id: The ID of credit note.
     :vartype credit_note_document_id: str
-    :ivar rebill_details: The rebill details of an invoice.
-    :vartype rebill_details: ~azure.mgmt.billing.models.RebillDetails
     """
 
 
@@ -10901,19 +10894,13 @@ class ReservationPurchaseRequest(_serialization.Model):  # pylint: disable=too-m
     :ivar renew: Setting this to true will automatically purchase a new benefit on the expiration
      date time.
     :vartype renew: bool
-    :ivar instance_flexibility_properties_instance_flexibility: Allows reservation discount to be
-     applied across skus within the same auto fit group. Not all skus support instance size
-     flexibility. Known values are: "On" and "Off".
-    :vartype instance_flexibility_properties_instance_flexibility: str or
-     ~azure.mgmt.billing.models.InstanceFlexibility
+    :ivar instance_flexibility: Allows reservation discount to be applied across skus within the
+     same auto fit group. Not all skus support instance size flexibility. Known values are: "On" and
+     "Off".
+    :vartype instance_flexibility: str or ~azure.mgmt.billing.models.InstanceFlexibility
     :ivar review_date_time: This is the date-time when the Azure hybrid benefit needs to be
      reviewed.
     :vartype review_date_time: ~datetime.datetime
-    :ivar instance_flexibility_properties_reserved_resource_properties_instance_flexibility:
-     Turning this on will apply the reservation discount to other VMs in the same VM size group.
-     Only specify for VirtualMachines reserved resource type. Known values are: "On" and "Off".
-    :vartype instance_flexibility_properties_reserved_resource_properties_instance_flexibility: str
-     or ~azure.mgmt.billing.models.InstanceFlexibility
     """
 
     _validation = {
@@ -10938,15 +10925,8 @@ class ReservationPurchaseRequest(_serialization.Model):  # pylint: disable=too-m
             "type": "ReservationAppliedScopeProperties",
         },
         "renew": {"key": "properties.renew", "type": "bool"},
-        "instance_flexibility_properties_instance_flexibility": {
-            "key": "properties.instanceFlexibility",
-            "type": "str",
-        },
+        "instance_flexibility": {"key": "properties.instanceFlexibility", "type": "str"},
         "review_date_time": {"key": "properties.reviewDateTime", "type": "iso-8601"},
-        "instance_flexibility_properties_reserved_resource_properties_instance_flexibility": {
-            "key": "properties.reservedResourceProperties.instanceFlexibility",
-            "type": "str",
-        },
     }
 
     def __init__(
@@ -10961,13 +10941,8 @@ class ReservationPurchaseRequest(_serialization.Model):  # pylint: disable=too-m
         applied_scopes: Optional[List[str]] = None,
         applied_scope_properties: Optional["_models.ReservationAppliedScopeProperties"] = None,
         renew: bool = False,
-        instance_flexibility_properties_instance_flexibility: Optional[
-            Union[str, "_models.InstanceFlexibility"]
-        ] = None,
+        instance_flexibility: Optional[Union[str, "_models.InstanceFlexibility"]] = None,
         review_date_time: Optional[datetime.datetime] = None,
-        instance_flexibility_properties_reserved_resource_properties_instance_flexibility: Optional[
-            Union[str, "_models.InstanceFlexibility"]
-        ] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -10996,19 +10971,13 @@ class ReservationPurchaseRequest(_serialization.Model):  # pylint: disable=too-m
         :keyword renew: Setting this to true will automatically purchase a new benefit on the
          expiration date time.
         :paramtype renew: bool
-        :keyword instance_flexibility_properties_instance_flexibility: Allows reservation discount to
-         be applied across skus within the same auto fit group. Not all skus support instance size
-         flexibility. Known values are: "On" and "Off".
-        :paramtype instance_flexibility_properties_instance_flexibility: str or
-         ~azure.mgmt.billing.models.InstanceFlexibility
+        :keyword instance_flexibility: Allows reservation discount to be applied across skus within the
+         same auto fit group. Not all skus support instance size flexibility. Known values are: "On" and
+         "Off".
+        :paramtype instance_flexibility: str or ~azure.mgmt.billing.models.InstanceFlexibility
         :keyword review_date_time: This is the date-time when the Azure hybrid benefit needs to be
          reviewed.
         :paramtype review_date_time: ~datetime.datetime
-        :keyword instance_flexibility_properties_reserved_resource_properties_instance_flexibility:
-         Turning this on will apply the reservation discount to other VMs in the same VM size group.
-         Only specify for VirtualMachines reserved resource type. Known values are: "On" and "Off".
-        :paramtype instance_flexibility_properties_reserved_resource_properties_instance_flexibility:
-         str or ~azure.mgmt.billing.models.InstanceFlexibility
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -11023,11 +10992,8 @@ class ReservationPurchaseRequest(_serialization.Model):  # pylint: disable=too-m
         self.applied_scopes = applied_scopes
         self.applied_scope_properties = applied_scope_properties
         self.renew = renew
-        self.instance_flexibility_properties_instance_flexibility = instance_flexibility_properties_instance_flexibility
+        self.instance_flexibility = instance_flexibility
         self.review_date_time = review_date_time
-        self.instance_flexibility_properties_reserved_resource_properties_instance_flexibility = (
-            instance_flexibility_properties_reserved_resource_properties_instance_flexibility
-        )
 
 
 class ReservationSkuProperty(_serialization.Model):
@@ -12455,7 +12421,7 @@ class TransactionProperties(_serialization.Model):  # pylint: disable=too-many-i
     :ivar billing_currency: The ISO 4217 code for the currency in which this transaction is billed.
     :vartype billing_currency: str
     :ivar billing_profile_display_name: The name of the billing profile.
-    :vartype billing_profile_display_name: any
+    :vartype billing_profile_display_name: str
     :ivar billing_profile_id: The fully qualified ID that uniquely identifies a billing profile.
     :vartype billing_profile_id: str
     :ivar consumption_commitment_decremented: The amount of Microsoft Azure Consumption
@@ -12547,7 +12513,7 @@ class TransactionProperties(_serialization.Model):  # pylint: disable=too-many-i
         "azure_credit_applied": {"key": "azureCreditApplied", "type": "TransactionPropertiesAzureCreditApplied"},
         "azure_plan": {"key": "azurePlan", "type": "str"},
         "billing_currency": {"key": "billingCurrency", "type": "str"},
-        "billing_profile_display_name": {"key": "billingProfileDisplayName", "type": "object"},
+        "billing_profile_display_name": {"key": "billingProfileDisplayName", "type": "str"},
         "billing_profile_id": {"key": "billingProfileId", "type": "str"},
         "consumption_commitment_decremented": {
             "key": "consumptionCommitmentDecremented",
@@ -12597,7 +12563,7 @@ class TransactionProperties(_serialization.Model):  # pylint: disable=too-many-i
         azure_credit_applied: Optional["_models.TransactionPropertiesAzureCreditApplied"] = None,
         azure_plan: Optional[str] = None,
         billing_currency: Optional[str] = None,
-        billing_profile_display_name: Optional[Any] = None,
+        billing_profile_display_name: Optional[str] = None,
         billing_profile_id: Optional[str] = None,
         consumption_commitment_decremented: Optional[
             "_models.TransactionPropertiesConsumptionCommitmentDecremented"
@@ -12648,7 +12614,7 @@ class TransactionProperties(_serialization.Model):  # pylint: disable=too-many-i
          billed.
         :paramtype billing_currency: str
         :keyword billing_profile_display_name: The name of the billing profile.
-        :paramtype billing_profile_display_name: any
+        :paramtype billing_profile_display_name: str
         :keyword billing_profile_id: The fully qualified ID that uniquely identifies a billing profile.
         :paramtype billing_profile_id: str
         :keyword consumption_commitment_decremented: The amount of Microsoft Azure Consumption

@@ -60,10 +60,8 @@ def build_get_by_department_request(
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "departmentName": _SERIALIZER.url("department_name", department_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
-        "enrollmentAccountName": _SERIALIZER.url(
-            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
-        ),
+        "departmentName": _SERIALIZER.url("department_name", department_name, "str"),
+        "enrollmentAccountName": _SERIALIZER.url("enrollment_account_name", enrollment_account_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -107,7 +105,7 @@ def build_list_by_department_request(
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "departmentName": _SERIALIZER.url("department_name", department_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "departmentName": _SERIALIZER.url("department_name", department_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -152,9 +150,7 @@ def build_get_request(billing_account_name: str, enrollment_account_name: str, *
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "enrollmentAccountName": _SERIALIZER.url(
-            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
-        ),
+        "enrollmentAccountName": _SERIALIZER.url("enrollment_account_name", enrollment_account_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
