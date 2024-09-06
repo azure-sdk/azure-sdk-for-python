@@ -48,7 +48,7 @@ def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/workflows")
+    _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/iacProfiles")
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
@@ -64,8 +64,38 @@ def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_by_resource_group_request(
-    resource_group_name: str, subscription_id: str, *, managed_cluster_resource: Optional[str] = None, **kwargs: Any
+def build_list_by_resource_group_request(resource_group_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_get_request(
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -76,50 +106,16 @@ def build_list_by_resource_group_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if managed_cluster_resource is not None:
-        _params["managedClusterResource"] = _SERIALIZER.query(
-            "managed_cluster_resource", managed_cluster_resource, "str"
-        )
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_get_request(resource_group_name: str, workflow_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "workflowName": _SERIALIZER.url(
-            "workflow_name",
-            workflow_name,
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
             "str",
             max_length=63,
             min_length=1,
@@ -139,7 +135,7 @@ def build_get_request(resource_group_name: str, workflow_name: str, subscription
 
 
 def build_create_or_update_request(
-    resource_group_name: str, workflow_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -151,16 +147,16 @@ def build_create_or_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "workflowName": _SERIALIZER.url(
-            "workflow_name",
-            workflow_name,
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
             "str",
             max_length=63,
             min_length=1,
@@ -182,7 +178,7 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str, workflow_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -193,16 +189,16 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "workflowName": _SERIALIZER.url(
-            "workflow_name",
-            workflow_name,
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
             "str",
             max_length=63,
             min_length=1,
@@ -222,7 +218,7 @@ def build_delete_request(
 
 
 def build_update_tags_request(
-    resource_group_name: str, workflow_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -234,16 +230,16 @@ def build_update_tags_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "workflowName": _SERIALIZER.url(
-            "workflow_name",
-            workflow_name,
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
             "str",
             max_length=63,
             min_length=1,
@@ -264,14 +260,140 @@ def build_update_tags_request(
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class WorkflowOperations:
+def build_export_request(
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}/export",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scale_request(
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}/scale",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_sync_request(
+    resource_group_name: str, iac_profile_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}/sync",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "iacProfileName": _SERIALIZER.url(
+            "iac_profile_name",
+            iac_profile_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+class IacProfilesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.devhub.DevHubMgmtClient`'s
-        :attr:`workflow` attribute.
+        :attr:`iac_profiles` attribute.
     """
 
     models = _models
@@ -284,20 +406,20 @@ class WorkflowOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.Workflow"]:
-        """Gets a list of workflows associated with the specified subscription.
+    def list(self, **kwargs: Any) -> Iterable["_models.IacProfile"]:
+        """Gets a list of IacProfiles associated with the specified subscription.
 
-        Gets a list of workflows associated with the specified subscription.
+        Gets a list of IacProfiles associated with the specified subscription.
 
-        :return: An iterator like instance of either Workflow or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devhub.models.Workflow]
+        :return: An iterator like instance of either IacProfile or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devhub.models.IacProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkflowListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IacProfileListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -336,7 +458,7 @@ class WorkflowOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkflowListResult", pipeline_response)
+            deserialized = self._deserialize("IacProfileListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -361,28 +483,23 @@ class WorkflowOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_resource_group(
-        self, resource_group_name: str, managed_cluster_resource: Optional[str] = None, **kwargs: Any
-    ) -> Iterable["_models.Workflow"]:
-        """Gets a list of workflows within a resource group.
+    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.IacProfile"]:
+        """Gets a list of iacProfiles within a resource group.
 
-        Gets a list of workflows within a resource group.
+        Gets a list of iacProfiles within a resource group.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param managed_cluster_resource: The ManagedCluster resource associated with the workflows.
-         Default value is None.
-        :type managed_cluster_resource: str
-        :return: An iterator like instance of either Workflow or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devhub.models.Workflow]
+        :return: An iterator like instance of either IacProfile or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devhub.models.IacProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkflowListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IacProfileListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -398,7 +515,6 @@ class WorkflowOperations:
                 _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
-                    managed_cluster_resource=managed_cluster_resource,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
@@ -423,7 +539,7 @@ class WorkflowOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkflowListResult", pipeline_response)
+            deserialized = self._deserialize("IacProfileListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -448,18 +564,18 @@ class WorkflowOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get(self, resource_group_name: str, workflow_name: str, **kwargs: Any) -> _models.Workflow:
-        """Gets a workflow.
+    def get(self, resource_group_name: str, iac_profile_name: str, **kwargs: Any) -> _models.IacProfile:
+        """Gets a IacProfile.
 
-        Gets a workflow.
+        Gets a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -474,11 +590,11 @@ class WorkflowOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.Workflow] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IacProfile] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
-            workflow_name=workflow_name,
+            iac_profile_name=iac_profile_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -498,7 +614,7 @@ class WorkflowOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Workflow", pipeline_response.http_response)
+        deserialized = self._deserialize("IacProfile", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -509,28 +625,28 @@ class WorkflowOperations:
     def create_or_update(
         self,
         resource_group_name: str,
-        workflow_name: str,
-        parameters: _models.Workflow,
+        iac_profile_name: str,
+        parameters: _models.IacProfile,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.Workflow:
-        """Creates or updates a workflow.
+    ) -> _models.IacProfile:
+        """Creates or updates a IacProfile.
 
-        Creates or updates a workflow.
+        Creates or updates a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
         :param parameters: Required.
-        :type parameters: ~azure.mgmt.devhub.models.Workflow
+        :type parameters: ~azure.mgmt.devhub.models.IacProfile
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -538,28 +654,28 @@ class WorkflowOperations:
     def create_or_update(
         self,
         resource_group_name: str,
-        workflow_name: str,
+        iac_profile_name: str,
         parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.Workflow:
-        """Creates or updates a workflow.
+    ) -> _models.IacProfile:
+        """Creates or updates a IacProfile.
 
-        Creates or updates a workflow.
+        Creates or updates a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
         :param parameters: Required.
         :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -567,23 +683,23 @@ class WorkflowOperations:
     def create_or_update(
         self,
         resource_group_name: str,
-        workflow_name: str,
-        parameters: Union[_models.Workflow, IO[bytes]],
+        iac_profile_name: str,
+        parameters: Union[_models.IacProfile, IO[bytes]],
         **kwargs: Any
-    ) -> _models.Workflow:
-        """Creates or updates a workflow.
+    ) -> _models.IacProfile:
+        """Creates or updates a IacProfile.
 
-        Creates or updates a workflow.
+        Creates or updates a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
-        :param parameters: Is either a Workflow type or a IO[bytes] type. Required.
-        :type parameters: ~azure.mgmt.devhub.models.Workflow or IO[bytes]
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Is either a IacProfile type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.devhub.models.IacProfile or IO[bytes]
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -599,7 +715,7 @@ class WorkflowOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Workflow] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IacProfile] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -607,11 +723,11 @@ class WorkflowOperations:
         if isinstance(parameters, (IOBase, bytes)):
             _content = parameters
         else:
-            _json = self._serialize.body(parameters, "Workflow")
+            _json = self._serialize.body(parameters, "IacProfile")
 
         _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
-            workflow_name=workflow_name,
+            iac_profile_name=iac_profile_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -634,7 +750,7 @@ class WorkflowOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Workflow", pipeline_response.http_response)
+        deserialized = self._deserialize("IacProfile", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -642,20 +758,20 @@ class WorkflowOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delete(
-        self, resource_group_name: str, workflow_name: str, **kwargs: Any
-    ) -> Optional[_models.DeleteWorkflowResponse]:
-        """Deletes a workflow.
+    def delete(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, iac_profile_name: str, **kwargs: Any
+    ) -> None:
+        """Deletes a IacProfile.
 
-        Deletes a workflow.
+        Deletes a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
-        :return: DeleteWorkflowResponse or None or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.DeleteWorkflowResponse or None
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :return: None or the result of cls(response)
+        :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -670,11 +786,11 @@ class WorkflowOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.DeleteWorkflowResponse]] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
             resource_group_name=resource_group_name,
-            workflow_name=workflow_name,
+            iac_profile_name=iac_profile_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -694,41 +810,35 @@ class WorkflowOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("DeleteWorkflowResponse", pipeline_response.http_response)
-
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def update_tags(
         self,
         resource_group_name: str,
-        workflow_name: str,
+        iac_profile_name: str,
         parameters: _models.TagsObject,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.Workflow:
-        """Updates tags on a workflow.
+    ) -> _models.IacProfile:
+        """Updates tags on a IacProfile.
 
-        Updates tags on a workflow.
+        Updates tags on a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
-        :param parameters: Parameters supplied to the Update Workflow Tags operation. Required.
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Parameters supplied to the Update TagsObject Tags operation. Required.
         :type parameters: ~azure.mgmt.devhub.models.TagsObject
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -736,28 +846,28 @@ class WorkflowOperations:
     def update_tags(
         self,
         resource_group_name: str,
-        workflow_name: str,
+        iac_profile_name: str,
         parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.Workflow:
-        """Updates tags on a workflow.
+    ) -> _models.IacProfile:
+        """Updates tags on a IacProfile.
 
-        Updates tags on a workflow.
+        Updates tags on a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
-        :param parameters: Parameters supplied to the Update Workflow Tags operation. Required.
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Parameters supplied to the Update TagsObject Tags operation. Required.
         :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -765,24 +875,24 @@ class WorkflowOperations:
     def update_tags(
         self,
         resource_group_name: str,
-        workflow_name: str,
+        iac_profile_name: str,
         parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
-    ) -> _models.Workflow:
-        """Updates tags on a workflow.
+    ) -> _models.IacProfile:
+        """Updates tags on a IacProfile.
 
-        Updates tags on a workflow.
+        Updates tags on a IacProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param workflow_name: The name of the workflow resource. Required.
-        :type workflow_name: str
-        :param parameters: Parameters supplied to the Update Workflow Tags operation. Is either a
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Parameters supplied to the Update TagsObject Tags operation. Is either a
          TagsObject type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.devhub.models.TagsObject or IO[bytes]
-        :return: Workflow or the result of cls(response)
-        :rtype: ~azure.mgmt.devhub.models.Workflow
+        :return: IacProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.IacProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -798,7 +908,7 @@ class WorkflowOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Workflow] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IacProfile] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -810,7 +920,7 @@ class WorkflowOperations:
 
         _request = build_update_tags_request(
             resource_group_name=resource_group_name,
-            workflow_name=workflow_name,
+            iac_profile_name=iac_profile_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -833,9 +943,337 @@ class WorkflowOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Workflow", pipeline_response.http_response)
+        deserialized = self._deserialize("IacProfile", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
+
+    @overload
+    def export(
+        self,
+        resource_group_name: str,
+        iac_profile_name: str,
+        parameters: _models.ExportTemplateRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.PrLinkResponse:
+        """Export a template.
+
+        Export a template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Required.
+        :type parameters: ~azure.mgmt.devhub.models.ExportTemplateRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: PrLinkResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.PrLinkResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def export(
+        self,
+        resource_group_name: str,
+        iac_profile_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.PrLinkResponse:
+        """Export a template.
+
+        Export a template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Required.
+        :type parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: PrLinkResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.PrLinkResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def export(
+        self,
+        resource_group_name: str,
+        iac_profile_name: str,
+        parameters: Union[_models.ExportTemplateRequest, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.PrLinkResponse:
+        """Export a template.
+
+        Export a template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Is either a ExportTemplateRequest type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.devhub.models.ExportTemplateRequest or IO[bytes]
+        :return: PrLinkResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.PrLinkResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.PrLinkResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "ExportTemplateRequest")
+
+        _request = build_export_request(
+            resource_group_name=resource_group_name,
+            iac_profile_name=iac_profile_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("PrLinkResponse", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def scale(
+        self,
+        resource_group_name: str,
+        iac_profile_name: str,
+        parameters: _models.ScaleTemplateRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.PrLinkResponse:
+        """Scale by template.
+
+        Scale by template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Required.
+        :type parameters: ~azure.mgmt.devhub.models.ScaleTemplateRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: PrLinkResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.PrLinkResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def scale(
+        self,
+        resource_group_name: str,
+        iac_profile_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.PrLinkResponse:
+        """Scale by template.
+
+        Scale by template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Required.
+        :type parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: PrLinkResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.PrLinkResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def scale(
+        self,
+        resource_group_name: str,
+        iac_profile_name: str,
+        parameters: Union[_models.ScaleTemplateRequest, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.PrLinkResponse:
+        """Scale by template.
+
+        Scale by template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :param parameters: Is either a ScaleTemplateRequest type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.devhub.models.ScaleTemplateRequest or IO[bytes]
+        :return: PrLinkResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.devhub.models.PrLinkResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.PrLinkResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "ScaleTemplateRequest")
+
+        _request = build_scale_request(
+            resource_group_name=resource_group_name,
+            iac_profile_name=iac_profile_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("PrLinkResponse", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def sync(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, iac_profile_name: str, **kwargs: Any
+    ) -> None:
+        """Sync template.
+
+        Sync template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param iac_profile_name: The name of the IacProfile. Required.
+        :type iac_profile_name: str
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_sync_request(
+            resource_group_name=resource_group_name,
+            iac_profile_name=iac_profile_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
