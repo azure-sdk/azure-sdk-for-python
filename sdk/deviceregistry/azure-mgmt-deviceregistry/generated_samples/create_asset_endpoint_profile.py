@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.deviceregistry import DeviceRegistryMgmtClient
@@ -42,8 +40,9 @@ def main():
             },
             "location": "West Europe",
             "properties": {
+                "authentication": {"method": "Anonymous"},
+                "endpointProfileType": "myEndpointProfileType",
                 "targetAddress": "https://www.example.com/myTargetAddress",
-                "userAuthentication": {"mode": "Anonymous"},
             },
             "tags": {"site": "building-1"},
         },
@@ -51,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/preview/2023-11-01-preview/examples/Create_AssetEndpointProfile.json
+# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/preview/2024-09-01-preview/examples/Create_AssetEndpointProfile.json
 if __name__ == "__main__":
     main()

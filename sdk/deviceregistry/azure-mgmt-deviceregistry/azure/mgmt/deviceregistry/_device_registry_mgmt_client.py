@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -17,14 +18,25 @@ from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 from . import models as _models
 from ._configuration import DeviceRegistryMgmtClientConfiguration
 from ._serialization import Deserializer, Serializer
-from .operations import AssetEndpointProfilesOperations, AssetsOperations, OperationStatusOperations, Operations
+from .operations import (
+    AssetEndpointProfilesOperations,
+    AssetsOperations,
+    BillingContainersOperations,
+    DiscoveredAssetEndpointProfilesOperations,
+    DiscoveredAssetsOperations,
+    OperationStatusOperations,
+    Operations,
+    SchemaRegistriesOperations,
+    SchemaVersionsOperations,
+    SchemasOperations,
+)
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
+class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Microsoft.DeviceRegistry Resource Provider management API.
 
     :ivar operations: Operations operations
@@ -34,15 +46,28 @@ class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-ke
      azure.mgmt.deviceregistry.operations.AssetEndpointProfilesOperations
     :ivar assets: AssetsOperations operations
     :vartype assets: azure.mgmt.deviceregistry.operations.AssetsOperations
+    :ivar billing_containers: BillingContainersOperations operations
+    :vartype billing_containers: azure.mgmt.deviceregistry.operations.BillingContainersOperations
+    :ivar discovered_asset_endpoint_profiles: DiscoveredAssetEndpointProfilesOperations operations
+    :vartype discovered_asset_endpoint_profiles:
+     azure.mgmt.deviceregistry.operations.DiscoveredAssetEndpointProfilesOperations
+    :ivar discovered_assets: DiscoveredAssetsOperations operations
+    :vartype discovered_assets: azure.mgmt.deviceregistry.operations.DiscoveredAssetsOperations
     :ivar operation_status: OperationStatusOperations operations
     :vartype operation_status: azure.mgmt.deviceregistry.operations.OperationStatusOperations
+    :ivar schema_registries: SchemaRegistriesOperations operations
+    :vartype schema_registries: azure.mgmt.deviceregistry.operations.SchemaRegistriesOperations
+    :ivar schemas: SchemasOperations operations
+    :vartype schemas: azure.mgmt.deviceregistry.operations.SchemasOperations
+    :ivar schema_versions: SchemaVersionsOperations operations
+    :vartype schema_versions: azure.mgmt.deviceregistry.operations.SchemaVersionsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-11-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-09-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -88,9 +113,23 @@ class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize
         )
         self.assets = AssetsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.billing_containers = BillingContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.discovered_asset_endpoint_profiles = DiscoveredAssetEndpointProfilesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.discovered_assets = DiscoveredAssetsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operation_status = OperationStatusOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.schema_registries = SchemaRegistriesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.schemas = SchemasOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.schema_versions = SchemaVersionsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
@@ -117,7 +156,7 @@ class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "DeviceRegistryMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

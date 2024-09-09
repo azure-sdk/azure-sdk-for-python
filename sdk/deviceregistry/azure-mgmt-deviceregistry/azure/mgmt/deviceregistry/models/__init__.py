@@ -10,44 +10,84 @@ from ._models_py3 import Asset
 from ._models_py3 import AssetEndpointProfile
 from ._models_py3 import AssetEndpointProfileListResult
 from ._models_py3 import AssetEndpointProfileProperties
+from ._models_py3 import AssetEndpointProfileStatus
+from ._models_py3 import AssetEndpointProfileStatusError
 from ._models_py3 import AssetEndpointProfileUpdate
 from ._models_py3 import AssetEndpointProfileUpdateProperties
 from ._models_py3 import AssetListResult
 from ._models_py3 import AssetProperties
 from ._models_py3 import AssetStatus
+from ._models_py3 import AssetStatusDataset
 from ._models_py3 import AssetStatusError
+from ._models_py3 import AssetStatusEvent
 from ._models_py3 import AssetUpdate
 from ._models_py3 import AssetUpdateProperties
+from ._models_py3 import Authentication
+from ._models_py3 import AuthenticationUpdate
+from ._models_py3 import BillingContainer
+from ._models_py3 import BillingContainerListResult
+from ._models_py3 import BillingContainerProperties
 from ._models_py3 import DataPoint
+from ._models_py3 import DataPointBase
+from ._models_py3 import Dataset
+from ._models_py3 import DiscoveredAsset
+from ._models_py3 import DiscoveredAssetEndpointProfile
+from ._models_py3 import DiscoveredAssetEndpointProfileListResult
+from ._models_py3 import DiscoveredAssetEndpointProfileProperties
+from ._models_py3 import DiscoveredAssetEndpointProfileUpdate
+from ._models_py3 import DiscoveredAssetEndpointProfileUpdateProperties
+from ._models_py3 import DiscoveredAssetListResult
+from ._models_py3 import DiscoveredAssetProperties
+from ._models_py3 import DiscoveredAssetUpdate
+from ._models_py3 import DiscoveredAssetUpdateProperties
+from ._models_py3 import DiscoveredDataPoint
+from ._models_py3 import DiscoveredDataset
+from ._models_py3 import DiscoveredEvent
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import Event
+from ._models_py3 import EventBase
 from ._models_py3 import ExtendedLocation
+from ._models_py3 import MessageSchemaReference
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationStatusResult
-from ._models_py3 import OwnCertificate
+from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
+from ._models_py3 import Schema
+from ._models_py3 import SchemaListResult
+from ._models_py3 import SchemaProperties
+from ._models_py3 import SchemaRegistry
+from ._models_py3 import SchemaRegistryListResult
+from ._models_py3 import SchemaRegistryProperties
+from ._models_py3 import SchemaRegistryUpdate
+from ._models_py3 import SchemaRegistryUpdateProperties
+from ._models_py3 import SchemaVersion
+from ._models_py3 import SchemaVersionListResult
+from ._models_py3 import SchemaVersionProperties
+from ._models_py3 import SystemAssignedServiceIdentity
 from ._models_py3 import SystemData
+from ._models_py3 import Topic
+from ._models_py3 import TopicUpdate
 from ._models_py3 import TrackedResource
-from ._models_py3 import TransportAuthentication
-from ._models_py3 import TransportAuthenticationUpdate
-from ._models_py3 import UserAuthentication
-from ._models_py3 import UserAuthenticationUpdate
 from ._models_py3 import UsernamePasswordCredentials
 from ._models_py3 import UsernamePasswordCredentialsUpdate
 from ._models_py3 import X509Credentials
 from ._models_py3 import X509CredentialsUpdate
 
 from ._device_registry_mgmt_client_enums import ActionType
+from ._device_registry_mgmt_client_enums import AuthenticationMethod
 from ._device_registry_mgmt_client_enums import CreatedByType
-from ._device_registry_mgmt_client_enums import DataPointsObservabilityMode
-from ._device_registry_mgmt_client_enums import EventsObservabilityMode
+from ._device_registry_mgmt_client_enums import DataPointObservabilityMode
+from ._device_registry_mgmt_client_enums import EventObservabilityMode
+from ._device_registry_mgmt_client_enums import Format
 from ._device_registry_mgmt_client_enums import Origin
 from ._device_registry_mgmt_client_enums import ProvisioningState
-from ._device_registry_mgmt_client_enums import UserAuthenticationMode
+from ._device_registry_mgmt_client_enums import SchemaType
+from ._device_registry_mgmt_client_enums import SystemAssignedServiceIdentityType
+from ._device_registry_mgmt_client_enums import TopicRetainType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -57,43 +97,83 @@ __all__ = [
     "AssetEndpointProfile",
     "AssetEndpointProfileListResult",
     "AssetEndpointProfileProperties",
+    "AssetEndpointProfileStatus",
+    "AssetEndpointProfileStatusError",
     "AssetEndpointProfileUpdate",
     "AssetEndpointProfileUpdateProperties",
     "AssetListResult",
     "AssetProperties",
     "AssetStatus",
+    "AssetStatusDataset",
     "AssetStatusError",
+    "AssetStatusEvent",
     "AssetUpdate",
     "AssetUpdateProperties",
+    "Authentication",
+    "AuthenticationUpdate",
+    "BillingContainer",
+    "BillingContainerListResult",
+    "BillingContainerProperties",
     "DataPoint",
+    "DataPointBase",
+    "Dataset",
+    "DiscoveredAsset",
+    "DiscoveredAssetEndpointProfile",
+    "DiscoveredAssetEndpointProfileListResult",
+    "DiscoveredAssetEndpointProfileProperties",
+    "DiscoveredAssetEndpointProfileUpdate",
+    "DiscoveredAssetEndpointProfileUpdateProperties",
+    "DiscoveredAssetListResult",
+    "DiscoveredAssetProperties",
+    "DiscoveredAssetUpdate",
+    "DiscoveredAssetUpdateProperties",
+    "DiscoveredDataPoint",
+    "DiscoveredDataset",
+    "DiscoveredEvent",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
     "Event",
+    "EventBase",
     "ExtendedLocation",
+    "MessageSchemaReference",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OperationStatusResult",
-    "OwnCertificate",
+    "ProxyResource",
     "Resource",
+    "Schema",
+    "SchemaListResult",
+    "SchemaProperties",
+    "SchemaRegistry",
+    "SchemaRegistryListResult",
+    "SchemaRegistryProperties",
+    "SchemaRegistryUpdate",
+    "SchemaRegistryUpdateProperties",
+    "SchemaVersion",
+    "SchemaVersionListResult",
+    "SchemaVersionProperties",
+    "SystemAssignedServiceIdentity",
     "SystemData",
+    "Topic",
+    "TopicUpdate",
     "TrackedResource",
-    "TransportAuthentication",
-    "TransportAuthenticationUpdate",
-    "UserAuthentication",
-    "UserAuthenticationUpdate",
     "UsernamePasswordCredentials",
     "UsernamePasswordCredentialsUpdate",
     "X509Credentials",
     "X509CredentialsUpdate",
     "ActionType",
+    "AuthenticationMethod",
     "CreatedByType",
-    "DataPointsObservabilityMode",
-    "EventsObservabilityMode",
+    "DataPointObservabilityMode",
+    "EventObservabilityMode",
+    "Format",
     "Origin",
     "ProvisioningState",
-    "UserAuthenticationMode",
+    "SchemaType",
+    "SystemAssignedServiceIdentityType",
+    "TopicRetainType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
