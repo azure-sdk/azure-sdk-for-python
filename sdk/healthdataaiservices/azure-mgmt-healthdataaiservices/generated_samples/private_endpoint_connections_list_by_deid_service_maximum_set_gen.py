@@ -27,7 +27,7 @@ from azure.mgmt.healthdataaiservices import HealthDataAIServicesMgmtClient
 def main():
     client = HealthDataAIServicesMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="F21BB31B-C214-42C0-ACF0-DACCA05D3011",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.private_endpoint_connections.list_by_deid_service(
@@ -38,5 +38,6 @@ def main():
         print(item)
 
 
+# x-ms-original-file: 2024-02-28-preview/PrivateEndpointConnections_ListByDeidService_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
