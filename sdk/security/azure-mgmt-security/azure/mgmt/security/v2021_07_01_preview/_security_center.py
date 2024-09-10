@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -17,11 +18,7 @@ from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 from . import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import SecurityCenterConfiguration
-from .operations import (
-    CustomAssessmentAutomationsOperations,
-    CustomEntityStoreAssignmentsOperations,
-    SecurityConnectorsOperations,
-)
+from .operations import SecurityConnectorsOperations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -31,12 +28,6 @@ if TYPE_CHECKING:
 class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
     """API spec for Microsoft.Security (Azure Security Center) resource provider.
 
-    :ivar custom_assessment_automations: CustomAssessmentAutomationsOperations operations
-    :vartype custom_assessment_automations:
-     azure.mgmt.security.v2021_07_01_preview.operations.CustomAssessmentAutomationsOperations
-    :ivar custom_entity_store_assignments: CustomEntityStoreAssignmentsOperations operations
-    :vartype custom_entity_store_assignments:
-     azure.mgmt.security.v2021_07_01_preview.operations.CustomEntityStoreAssignmentsOperations
     :ivar security_connectors: SecurityConnectorsOperations operations
     :vartype security_connectors:
      azure.mgmt.security.v2021_07_01_preview.operations.SecurityConnectorsOperations
@@ -83,12 +74,6 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.custom_assessment_automations = CustomAssessmentAutomationsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
-        )
-        self.custom_entity_store_assignments = CustomEntityStoreAssignmentsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
-        )
         self.security_connectors = SecurityConnectorsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
         )
@@ -118,7 +103,7 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "SecurityCenter":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
