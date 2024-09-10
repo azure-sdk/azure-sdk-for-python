@@ -23,7 +23,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -58,10 +58,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -106,10 +106,10 @@ class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -224,7 +224,7 @@ class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attr
         self.provisioning_state = provisioning_state
 
 
-class CustomLocationFindTargetResourceGroupProperties(_serialization.Model):
+class CustomLocationFindTargetResourceGroupProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The Find Target Resource Group operation request.
 
     :ivar labels: Labels of the custom resource, this is a map of {key,value} pairs.
@@ -244,7 +244,7 @@ class CustomLocationFindTargetResourceGroupProperties(_serialization.Model):
         self.labels = labels
 
 
-class CustomLocationFindTargetResourceGroupResult(_serialization.Model):
+class CustomLocationFindTargetResourceGroupResult(_serialization.Model):  # pylint: disable=name-too-long
     """The Find Target Resource Group operation response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -361,7 +361,7 @@ class CustomLocationOperation(_serialization.Model):
 class CustomLocationOperationsList(_serialization.Model):
     """Lists of Custom Locations operations.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar next_link: Next page of operations.
     :vartype next_link: str
@@ -428,7 +428,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -437,22 +437,6 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class EnabledResourceType(ProxyResource):
     """EnabledResourceType definition.
@@ -460,7 +444,7 @@ class EnabledResourceType(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -522,7 +506,7 @@ class EnabledResourceType(ProxyResource):
         self.types_metadata = types_metadata
 
 
-class EnabledResourceTypePropertiesTypesMetadataItem(_serialization.Model):
+class EnabledResourceTypePropertiesTypesMetadataItem(_serialization.Model):  # pylint: disable=name-too-long
     """Metadata of the Resource Type.
 
     :ivar api_version: Api Version of Resource Type.
@@ -939,10 +923,10 @@ class ResourceSyncRule(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
