@@ -10,6 +10,7 @@
 # --------------------------------------------------------------------------
 
 from typing import Any, Optional, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.mgmt.core import ARMPipelineClient
@@ -60,8 +61,6 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
     LATEST_PROFILE = ProfileDefinition({
         _PROFILE_TAG: {
             None: DEFAULT_API_VERSION,
-            'adaptive_application_controls': '2020-01-01',
-            'adaptive_network_hardenings': '2020-01-01',
             'advanced_threat_protection': '2019-01-01',
             'alerts': '2022-01-01',
             'alerts_suppression_rules': '2019-01-01-preview',
@@ -79,8 +78,6 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             'compliance_results': '2017-08-01',
             'compliances': '2017-08-01-preview',
             'connectors': '2020-01-01-preview',
-            'custom_assessment_automations': '2021-07-01-preview',
-            'custom_entity_store_assignments': '2021-07-01-preview',
             'defender_for_storage': '2022-12-01-preview',
             'device_security_groups': '2019-08-01',
             'discovered_security_solutions': '2020-01-01',
@@ -322,34 +319,6 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             from .v2024_04_01 import models
             return models
         raise ValueError("API version {} is not available".format(api_version))
-
-    @property
-    def adaptive_application_controls(self):
-        """Instance depends on the API version:
-
-           * 2020-01-01: :class:`AdaptiveApplicationControlsOperations<azure.mgmt.security.v2020_01_01.operations.AdaptiveApplicationControlsOperations>`
-        """
-        api_version = self._get_api_version('adaptive_application_controls')
-        if api_version == '2020-01-01':
-            from .v2020_01_01.operations import AdaptiveApplicationControlsOperations as OperationClass
-        else:
-            raise ValueError("API version {} does not have operation group 'adaptive_application_controls'".format(api_version))
-        self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
-
-    @property
-    def adaptive_network_hardenings(self):
-        """Instance depends on the API version:
-
-           * 2020-01-01: :class:`AdaptiveNetworkHardeningsOperations<azure.mgmt.security.v2020_01_01.operations.AdaptiveNetworkHardeningsOperations>`
-        """
-        api_version = self._get_api_version('adaptive_network_hardenings')
-        if api_version == '2020-01-01':
-            from .v2020_01_01.operations import AdaptiveNetworkHardeningsOperations as OperationClass
-        else:
-            raise ValueError("API version {} does not have operation group 'adaptive_network_hardenings'".format(api_version))
-        self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def advanced_threat_protection(self):
@@ -646,34 +615,6 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             from .v2020_01_01_preview.operations import ConnectorsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'connectors'".format(api_version))
-        self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
-
-    @property
-    def custom_assessment_automations(self):
-        """Instance depends on the API version:
-
-           * 2021-07-01-preview: :class:`CustomAssessmentAutomationsOperations<azure.mgmt.security.v2021_07_01_preview.operations.CustomAssessmentAutomationsOperations>`
-        """
-        api_version = self._get_api_version('custom_assessment_automations')
-        if api_version == '2021-07-01-preview':
-            from .v2021_07_01_preview.operations import CustomAssessmentAutomationsOperations as OperationClass
-        else:
-            raise ValueError("API version {} does not have operation group 'custom_assessment_automations'".format(api_version))
-        self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
-
-    @property
-    def custom_entity_store_assignments(self):
-        """Instance depends on the API version:
-
-           * 2021-07-01-preview: :class:`CustomEntityStoreAssignmentsOperations<azure.mgmt.security.v2021_07_01_preview.operations.CustomEntityStoreAssignmentsOperations>`
-        """
-        api_version = self._get_api_version('custom_entity_store_assignments')
-        if api_version == '2021-07-01-preview':
-            from .v2021_07_01_preview.operations import CustomEntityStoreAssignmentsOperations as OperationClass
-        else:
-            raise ValueError("API version {} does not have operation group 'custom_entity_store_assignments'".format(api_version))
         self._config.api_version = api_version
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 

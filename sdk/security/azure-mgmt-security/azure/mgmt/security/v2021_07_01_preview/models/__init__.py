@@ -11,12 +11,6 @@ from ._models_py3 import CloudErrorBody
 from ._models_py3 import CloudOffering
 from ._models_py3 import CspmMonitorAwsOffering
 from ._models_py3 import CspmMonitorAwsOfferingNativeCloudConnection
-from ._models_py3 import CustomAssessmentAutomation
-from ._models_py3 import CustomAssessmentAutomationRequest
-from ._models_py3 import CustomAssessmentAutomationsListResult
-from ._models_py3 import CustomEntityStoreAssignment
-from ._models_py3 import CustomEntityStoreAssignmentRequest
-from ._models_py3 import CustomEntityStoreAssignmentsListResult
 from ._models_py3 import DefenderForContainersAwsOffering
 from ._models_py3 import DefenderForContainersAwsOfferingCloudWatchToKinesis
 from ._models_py3 import DefenderForContainersAwsOfferingKinesisToS3
@@ -43,8 +37,6 @@ from ._security_center_enums import CloudName
 from ._security_center_enums import CreatedByType
 from ._security_center_enums import OfferingType
 from ._security_center_enums import OrganizationMembershipType
-from ._security_center_enums import SeverityEnum
-from ._security_center_enums import SupportedCloudEnum
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -55,12 +47,6 @@ __all__ = [
     "CloudOffering",
     "CspmMonitorAwsOffering",
     "CspmMonitorAwsOfferingNativeCloudConnection",
-    "CustomAssessmentAutomation",
-    "CustomAssessmentAutomationRequest",
-    "CustomAssessmentAutomationsListResult",
-    "CustomEntityStoreAssignment",
-    "CustomEntityStoreAssignmentRequest",
-    "CustomEntityStoreAssignmentsListResult",
     "DefenderForContainersAwsOffering",
     "DefenderForContainersAwsOfferingCloudWatchToKinesis",
     "DefenderForContainersAwsOfferingKinesisToS3",
@@ -86,8 +72,6 @@ __all__ = [
     "CreatedByType",
     "OfferingType",
     "OrganizationMembershipType",
-    "SeverityEnum",
-    "SupportedCloudEnum",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
