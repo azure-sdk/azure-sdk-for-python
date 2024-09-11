@@ -6,9 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._adaptive_network_hardenings_operations import AdaptiveNetworkHardeningsOperations
 from ._allowed_connections_operations import AllowedConnectionsOperations
-from ._adaptive_application_controls_operations import AdaptiveApplicationControlsOperations
 from ._assessments_metadata_operations import AssessmentsMetadataOperations
 from ._assessments_operations import AssessmentsOperations
 from ._discovered_security_solutions_operations import DiscoveredSecuritySolutionsOperations
@@ -27,9 +25,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AdaptiveNetworkHardeningsOperations",
     "AllowedConnectionsOperations",
-    "AdaptiveApplicationControlsOperations",
     "AssessmentsMetadataOperations",
     "AssessmentsOperations",
     "DiscoveredSecuritySolutionsOperations",
