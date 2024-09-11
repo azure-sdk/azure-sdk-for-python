@@ -6,13 +6,12 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models import CustomizationOptions
 from ._models import DeidentificationContent
 from ._models import DeidentificationJob
 from ._models import DeidentificationResult
 from ._models import DocumentDetails
 from ._models import DocumentLocation
-from ._models import Error
-from ._models import InnerError
 from ._models import JobSummary
 from ._models import PhiEntity
 from ._models import PhiTaggerResult
@@ -30,13 +29,12 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "CustomizationOptions",
     "DeidentificationContent",
     "DeidentificationJob",
     "DeidentificationResult",
     "DocumentDetails",
     "DocumentLocation",
-    "Error",
-    "InnerError",
     "JobSummary",
     "PhiEntity",
     "PhiTaggerResult",
