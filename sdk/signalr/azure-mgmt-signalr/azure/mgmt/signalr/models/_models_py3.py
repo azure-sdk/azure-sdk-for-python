@@ -17,13 +17,79 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class ApplicationFirewallSettings(_serialization.Model):
+    """Application firewall settings for the resource.
+
+    :ivar client_connection_count_rules: Rules to control the client connection count.
+    :vartype client_connection_count_rules:
+     list[~azure.mgmt.signalr.models.ClientConnectionCountRule]
+    """
+
+    _validation = {
+        "client_connection_count_rules": {"max_items": 10, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "client_connection_count_rules": {"key": "clientConnectionCountRules", "type": "[ClientConnectionCountRule]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        client_connection_count_rules: Optional[List["_models.ClientConnectionCountRule"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword client_connection_count_rules: Rules to control the client connection count.
+        :paramtype client_connection_count_rules:
+         list[~azure.mgmt.signalr.models.ClientConnectionCountRule]
+        """
+        super().__init__(**kwargs)
+        self.client_connection_count_rules = client_connection_count_rules
+
+
+class ClientConnectionCountRule(_serialization.Model):
+    """A base class for client connection count rules.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    ThrottleByJwtCustomClaimRule, ThrottleByJwtSignatureRule, ThrottleByUserIdRule
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.signalr.models.ClientConnectionCountRuleDiscriminator
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+    }
+
+    _subtype_map = {
+        "type": {
+            "ThrottleByJwtCustomClaimRule": "ThrottleByJwtCustomClaimRule",
+            "ThrottleByJwtSignatureRule": "ThrottleByJwtSignatureRule",
+            "ThrottleByUserIdRule": "ThrottleByUserIdRule",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type: Optional[str] = None
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -65,7 +131,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -77,34 +143,16 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.signalr.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class CustomCertificate(ProxyResource):
     """A custom certificate.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -209,10 +257,10 @@ class CustomDomain(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -767,7 +815,7 @@ class NameAvailability(_serialization.Model):
 class NameAvailabilityParameters(_serialization.Model):
     """Data POST-ed to the nameAvailability action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The resource type. Can be "Microsoft.SignalRService/SignalR",
      "Microsoft.SignalRService/WebPubSub", "Microsoft.SignalRService/SignalR/replicas" or
@@ -1014,7 +1062,7 @@ class PrivateEndpoint(_serialization.Model):
 class PrivateEndpointACL(NetworkACL):
     """ACL for a private endpoint.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar allow: Allowed request types. The value can be one or more of: ClientConnection,
      ServerConnection, RESTAPI.
@@ -1064,7 +1112,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1174,7 +1222,7 @@ class PrivateLinkResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1350,10 +1398,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1403,10 +1451,10 @@ class Replica(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1601,11 +1649,11 @@ class ResourceSku(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SKU. Required.
 
-     Allowed values: Standard_S1, Free_F1, Premium_P1. Required.
+     Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2. Required.
     :vartype name: str
     :ivar tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 
@@ -1616,12 +1664,14 @@ class ResourceSku(_serialization.Model):
     :vartype size: str
     :ivar family: Not used. Retained for future use.
     :vartype family: str
-    :ivar capacity: Optional, integer. The unit count of the resource. 1 by default.
+    :ivar capacity: Optional, integer. The unit count of the resource.
+     1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default.
 
      If present, following values are allowed:
-         Free: 1;
-         Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
-         Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;.
+         Free_F1: 1;
+         Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+         Premium_P1:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+         Premium_P2:  100,200,300,400,500,600,700,800,900,1000;.
     :vartype capacity: int
     """
 
@@ -1650,19 +1700,21 @@ class ResourceSku(_serialization.Model):
         """
         :keyword name: The name of the SKU. Required.
 
-         Allowed values: Standard_S1, Free_F1, Premium_P1. Required.
+         Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2. Required.
         :paramtype name: str
         :keyword tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 
          ``Basic`` is deprecated, use ``Standard`` instead. Known values are: "Free", "Basic",
          "Standard", and "Premium".
         :paramtype tier: str or ~azure.mgmt.signalr.models.SignalRSkuTier
-        :keyword capacity: Optional, integer. The unit count of the resource. 1 by default.
+        :keyword capacity: Optional, integer. The unit count of the resource.
+         1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default.
 
          If present, following values are allowed:
-             Free: 1;
-             Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
-             Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;.
+             Free_F1: 1;
+             Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+             Premium_P1:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+             Premium_P2:  100,200,300,400,500,600,700,800,900,1000;.
         :paramtype capacity: int
         """
         super().__init__(**kwargs)
@@ -1858,7 +1910,7 @@ class SharedPrivateLinkResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1880,6 +1932,8 @@ class SharedPrivateLinkResource(ProxyResource):
     :ivar request_message: The request message for requesting approval of the shared private link
      resource.
     :vartype request_message: str
+    :ivar fqdns: A list of FQDNs for third party private link service.
+    :vartype fqdns: list[str]
     :ivar status: Status of the shared private link resource. Known values are: "Pending",
      "Approved", "Rejected", "Disconnected", and "Timeout".
     :vartype status: str or ~azure.mgmt.signalr.models.SharedPrivateLinkResourceStatus
@@ -1903,6 +1957,7 @@ class SharedPrivateLinkResource(ProxyResource):
         "private_link_resource_id": {"key": "properties.privateLinkResourceId", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "request_message": {"key": "properties.requestMessage", "type": "str"},
+        "fqdns": {"key": "properties.fqdns", "type": "[str]"},
         "status": {"key": "properties.status", "type": "str"},
     }
 
@@ -1912,6 +1967,7 @@ class SharedPrivateLinkResource(ProxyResource):
         group_id: Optional[str] = None,
         private_link_resource_id: Optional[str] = None,
         request_message: Optional[str] = None,
+        fqdns: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1924,12 +1980,15 @@ class SharedPrivateLinkResource(ProxyResource):
         :keyword request_message: The request message for requesting approval of the shared private
          link resource.
         :paramtype request_message: str
+        :keyword fqdns: A list of FQDNs for third party private link service.
+        :paramtype fqdns: list[str]
         """
         super().__init__(**kwargs)
         self.group_id = group_id
         self.private_link_resource_id = private_link_resource_id
         self.provisioning_state = None
         self.request_message = request_message
+        self.fqdns = fqdns
         self.status = None
 
 
@@ -1996,7 +2055,7 @@ class SignalRCorsSettings(_serialization.Model):
 class SignalRFeature(_serialization.Model):
     """Feature of a resource, which controls the runtime behavior.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar flag: FeatureFlags is the supported features of Azure SignalR service.
 
@@ -2174,10 +2233,10 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2246,6 +2305,8 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype upstream: ~azure.mgmt.signalr.models.ServerlessUpstreamSettings
     :ivar network_ac_ls: Network ACLs for the resource.
     :vartype network_ac_ls: ~azure.mgmt.signalr.models.SignalRNetworkACLs
+    :ivar application_firewall: Application firewall settings for the resource.
+    :vartype application_firewall: ~azure.mgmt.signalr.models.ApplicationFirewallSettings
     :ivar public_network_access: Enable or disable public network access. Default to "Enabled".
      When it's Enabled, network ACLs still apply.
      When it's Disabled, public network access is always disabled no matter what you set in network
@@ -2324,6 +2385,7 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
         "serverless": {"key": "properties.serverless", "type": "ServerlessSettings"},
         "upstream": {"key": "properties.upstream", "type": "ServerlessUpstreamSettings"},
         "network_ac_ls": {"key": "properties.networkACLs", "type": "SignalRNetworkACLs"},
+        "application_firewall": {"key": "properties.applicationFirewall", "type": "ApplicationFirewallSettings"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
         "disable_aad_auth": {"key": "properties.disableAadAuth", "type": "bool"},
@@ -2347,6 +2409,7 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
         serverless: Optional["_models.ServerlessSettings"] = None,
         upstream: Optional["_models.ServerlessUpstreamSettings"] = None,
         network_ac_ls: Optional["_models.SignalRNetworkACLs"] = None,
+        application_firewall: Optional["_models.ApplicationFirewallSettings"] = None,
         public_network_access: str = "Enabled",
         disable_local_auth: bool = False,
         disable_aad_auth: bool = False,
@@ -2390,6 +2453,8 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype upstream: ~azure.mgmt.signalr.models.ServerlessUpstreamSettings
         :keyword network_ac_ls: Network ACLs for the resource.
         :paramtype network_ac_ls: ~azure.mgmt.signalr.models.SignalRNetworkACLs
+        :keyword application_firewall: Application firewall settings for the resource.
+        :paramtype application_firewall: ~azure.mgmt.signalr.models.ApplicationFirewallSettings
         :keyword public_network_access: Enable or disable public network access. Default to "Enabled".
          When it's Enabled, network ACLs still apply.
          When it's Disabled, public network access is always disabled no matter what you set in network
@@ -2436,6 +2501,7 @@ class SignalRResource(TrackedResource):  # pylint: disable=too-many-instance-att
         self.serverless = serverless
         self.upstream = upstream
         self.network_ac_ls = network_ac_ls
+        self.application_firewall = application_firewall
         self.public_network_access = public_network_access
         self.disable_local_auth = disable_local_auth
         self.disable_aad_auth = disable_aad_auth
@@ -2780,6 +2846,123 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
+class ThrottleByJwtCustomClaimRule(ClientConnectionCountRule):
+    """Throttle the client connection by a custom JWT claim.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.signalr.models.ClientConnectionCountRuleDiscriminator
+    :ivar claim_name: The name of the claim in the JWT token. The client connection with the same
+     claim value will be aggregated. If the claim is not found in the token, the connection will be
+     allowed. Required.
+    :vartype claim_name: str
+    :ivar max_count: Maximum connection count allowed for the same Jwt claim value. Clients with
+     the same Jwt claim will get rejected if the connection count exceeds this value. Default value
+     is 20.
+    :vartype max_count: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "claim_name": {"required": True},
+        "max_count": {"maximum": 2147483647, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "claim_name": {"key": "claimName", "type": "str"},
+        "max_count": {"key": "maxCount", "type": "int"},
+    }
+
+    def __init__(self, *, claim_name: str, max_count: int = 20, **kwargs: Any) -> None:
+        """
+        :keyword claim_name: The name of the claim in the JWT token. The client connection with the
+         same claim value will be aggregated. If the claim is not found in the token, the connection
+         will be allowed. Required.
+        :paramtype claim_name: str
+        :keyword max_count: Maximum connection count allowed for the same Jwt claim value. Clients with
+         the same Jwt claim will get rejected if the connection count exceeds this value. Default value
+         is 20.
+        :paramtype max_count: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "ThrottleByJwtCustomClaimRule"
+        self.claim_name = claim_name
+        self.max_count = max_count
+
+
+class ThrottleByJwtSignatureRule(ClientConnectionCountRule):
+    """Throttle the client connection by the JWT signature.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.signalr.models.ClientConnectionCountRuleDiscriminator
+    :ivar max_count: Maximum connection count allowed for the same JWT signature. Clients with the
+     same JWT signature will get rejected if the connection count exceeds this value. Default value
+     is 20.
+    :vartype max_count: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "max_count": {"maximum": 2147483647, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "max_count": {"key": "maxCount", "type": "int"},
+    }
+
+    def __init__(self, *, max_count: int = 20, **kwargs: Any) -> None:
+        """
+        :keyword max_count: Maximum connection count allowed for the same JWT signature. Clients with
+         the same JWT signature will get rejected if the connection count exceeds this value. Default
+         value is 20.
+        :paramtype max_count: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "ThrottleByJwtSignatureRule"
+        self.max_count = max_count
+
+
+class ThrottleByUserIdRule(ClientConnectionCountRule):
+    """Throttle the client connection by the user ID.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.signalr.models.ClientConnectionCountRuleDiscriminator
+    :ivar max_count: Maximum connection count allowed for the same user ID. Clients with the same
+     user ID will get rejected if the connection count exceeds this value. Default value is 20.
+    :vartype max_count: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "max_count": {"maximum": 2147483647, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "max_count": {"key": "maxCount", "type": "int"},
+    }
+
+    def __init__(self, *, max_count: int = 20, **kwargs: Any) -> None:
+        """
+        :keyword max_count: Maximum connection count allowed for the same user ID. Clients with the
+         same user ID will get rejected if the connection count exceeds this value. Default value is 20.
+        :paramtype max_count: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "ThrottleByUserIdRule"
+        self.max_count = max_count
+
+
 class UpstreamAuthSettings(_serialization.Model):
     """Upstream auth settings. If not set, no auth is used for upstream messages.
 
@@ -2817,7 +3000,7 @@ class UpstreamTemplate(_serialization.Model):
     The template defines the pattern of the event, the hub or the category of the incoming request
     that matches current URL template.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar hub_pattern: Gets or sets the matching pattern for hub names. If not set, it matches any
      hub.
@@ -2855,7 +3038,7 @@ class UpstreamTemplate(_serialization.Model):
     :ivar url_template: Gets or sets the Upstream URL template. You can use 3 predefined parameters
      {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically
      calculated when the client request comes in.
-     For example, if the urlTemplate is ``http://example.com/{hub}/api/{event}``\ , with a client
+     For example, if the urlTemplate is ``http://example.com/{hub}/api/{event}``\\ , with a client
      request from hub ``chat`` connects, it will first POST to this URL:
      ``http://example.com/chat/api/connect``. Required.
     :vartype url_template: str
@@ -2922,7 +3105,7 @@ class UpstreamTemplate(_serialization.Model):
         :keyword url_template: Gets or sets the Upstream URL template. You can use 3 predefined
          parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is
          dynamically calculated when the client request comes in.
-         For example, if the urlTemplate is ``http://example.com/{hub}/api/{event}``\ , with a client
+         For example, if the urlTemplate is ``http://example.com/{hub}/api/{event}``\\ , with a client
          request from hub ``chat`` connects, it will first POST to this URL:
          ``http://example.com/chat/api/connect``. Required.
         :paramtype url_template: str
