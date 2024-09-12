@@ -650,7 +650,7 @@ def build_list_by_enrollment_account_request(
     path_format_arguments = {
         "billingAccountName": _SERIALIZER.url("billing_account_name", billing_account_name, "str"),
         "enrollmentAccountName": _SERIALIZER.url(
-            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 
