@@ -117,7 +117,6 @@ from ._models_py3 import InvoicePropertiesAzurePrepaymentApplied
 from ._models_py3 import InvoicePropertiesBilledAmount
 from ._models_py3 import InvoicePropertiesCreditAmount
 from ._models_py3 import InvoicePropertiesFreeAzureCreditApplied
-from ._models_py3 import InvoicePropertiesRebillDetails
 from ._models_py3 import InvoicePropertiesRefundDetails
 from ._models_py3 import InvoicePropertiesSubTotal
 from ._models_py3 import InvoicePropertiesTaxAmount
@@ -445,7 +444,6 @@ __all__ = [
     "InvoicePropertiesBilledAmount",
     "InvoicePropertiesCreditAmount",
     "InvoicePropertiesFreeAzureCreditApplied",
-    "InvoicePropertiesRebillDetails",
     "InvoicePropertiesRefundDetails",
     "InvoicePropertiesSubTotal",
     "InvoicePropertiesTaxAmount",

@@ -93,7 +93,7 @@ def build_list_by_billing_profile_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 
@@ -131,7 +131,7 @@ def build_check_access_by_billing_profile_request(  # pylint: disable=name-too-l
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 
@@ -170,9 +170,9 @@ def build_list_by_customer_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -209,9 +209,9 @@ def build_check_access_by_customer_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -249,10 +249,10 @@ def build_list_by_invoice_section_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
         "invoiceSectionName": _SERIALIZER.url(
-            "invoice_section_name", invoice_section_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "invoice_section_name", invoice_section_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 
@@ -290,10 +290,10 @@ def build_check_access_by_invoice_section_request(  # pylint: disable=name-too-l
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
         "invoiceSectionName": _SERIALIZER.url(
-            "invoice_section_name", invoice_section_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "invoice_section_name", invoice_section_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 
@@ -365,7 +365,7 @@ def build_list_by_customer_at_billing_account_request(  # pylint: disable=name-t
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -398,7 +398,7 @@ def build_list_by_department_request(billing_account_name: str, department_name:
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "departmentName": _SERIALIZER.url("department_name", department_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "departmentName": _SERIALIZER.url("department_name", department_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -434,7 +434,7 @@ def build_check_access_by_department_request(
             "str",
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
-        "departmentName": _SERIALIZER.url("department_name", department_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "departmentName": _SERIALIZER.url("department_name", department_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -472,7 +472,7 @@ def build_list_by_enrollment_account_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "enrollmentAccountName": _SERIALIZER.url(
-            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 
@@ -510,7 +510,7 @@ def build_check_access_by_enrollment_account_request(  # pylint: disable=name-to
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "enrollmentAccountName": _SERIALIZER.url(
-            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "enrollment_account_name", enrollment_account_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
     }
 

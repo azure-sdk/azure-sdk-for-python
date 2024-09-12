@@ -62,9 +62,9 @@ def build_get_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
         "transferName": _SERIALIZER.url("transfer_name", transfer_name, "str", pattern=r"^[a-z0-9]*$"),
     }
 
@@ -102,9 +102,9 @@ def build_initiate_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
         "transferName": _SERIALIZER.url("transfer_name", transfer_name, "str", pattern=r"^[a-z0-9]*$"),
     }
 
@@ -143,9 +143,9 @@ def build_cancel_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
         "transferName": _SERIALIZER.url("transfer_name", transfer_name, "str", pattern=r"^[a-z0-9]*$"),
     }
 
@@ -182,9 +182,9 @@ def build_list_request(
             pattern=r"^([0-9]+|([Pp][Cc][Nn]\.[A-Za-z0-9]+)|[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}(:[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}_[0-9]{4}(-[0-9]{2}){2})?)$",
         ),
         "billingProfileName": _SERIALIZER.url(
-            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"
+            "billing_profile_name", billing_profile_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"
         ),
-        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z\d-_]{1,128}$"),
+        "customerName": _SERIALIZER.url("customer_name", customer_name, "str", pattern=r"^[a-zA-Z0-9-_]{1,128}$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
