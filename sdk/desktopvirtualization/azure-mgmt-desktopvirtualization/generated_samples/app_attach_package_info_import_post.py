@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.desktopvirtualization import DesktopVirtualizationMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.desktopvirtualization import DesktopVirtualizationMgmtClient
     pip install azure-identity
     pip install azure-mgmt-desktopvirtualization
 # USAGE
-    python msix_image_expand_post.py
+    python app_attach_package_info_import_post.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +30,15 @@ def main():
         subscription_id="daefabc0-95b4-48b3-b645-8a753a63c4fa",
     )
 
-    response = client.msix_images.expand(
+    response = client.app_attach_package_info.import_method(
         resource_group_name="resourceGroup1",
         host_pool_name="hostpool1",
-        msix_image_uri={"uri": "imagepath"},
+        import_package_info_request={"packageArchitecture": "x64", "path": "imagepath"},
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixImage_Expand_Post.json
+# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-09-10/examples/AppAttachPackageInfo_Import_Post.json
 if __name__ == "__main__":
     main()
