@@ -20,6 +20,10 @@ from ._models_py3 import ArtifactManifestUpdateState
 from ._models_py3 import ArtifactProfile
 from ._models_py3 import ArtifactStore
 from ._models_py3 import ArtifactStoreListResult
+from ._models_py3 import ArtifactStoreNetworkFabricControllerEndPoints
+from ._models_py3 import ArtifactStoreNetworkFabricControllerEndPointsList
+from ._models_py3 import ArtifactStorePrivateEndPointsFormat
+from ._models_py3 import ArtifactStorePrivateEndPointsListResult
 from ._models_py3 import ArtifactStorePropertiesFormat
 from ._models_py3 import ArtifactStorePropertiesFormatManagedResourceGroupConfiguration
 from ._models_py3 import AzureArcK8SClusterNFVIDetails
@@ -159,6 +163,7 @@ from ._hybrid_network_management_client_enums import ArtifactType
 from ._hybrid_network_management_client_enums import AzureArcKubernetesArtifactType
 from ._hybrid_network_management_client_enums import AzureCoreArtifactType
 from ._hybrid_network_management_client_enums import AzureOperatorNexusArtifactType
+from ._hybrid_network_management_client_enums import BackingResourcePublicNetworkAccess
 from ._hybrid_network_management_client_enums import ConfigurationGenerationType
 from ._hybrid_network_management_client_enums import ConfigurationGroupValueConfigurationType
 from ._hybrid_network_management_client_enums import ContainerizedNetworkFunctionNFVIType
@@ -201,6 +206,10 @@ __all__ = [
     "ArtifactProfile",
     "ArtifactStore",
     "ArtifactStoreListResult",
+    "ArtifactStoreNetworkFabricControllerEndPoints",
+    "ArtifactStoreNetworkFabricControllerEndPointsList",
+    "ArtifactStorePrivateEndPointsFormat",
+    "ArtifactStorePrivateEndPointsListResult",
     "ArtifactStorePropertiesFormat",
     "ArtifactStorePropertiesFormatManagedResourceGroupConfiguration",
     "AzureArcK8SClusterNFVIDetails",
@@ -339,6 +348,7 @@ __all__ = [
     "AzureArcKubernetesArtifactType",
     "AzureCoreArtifactType",
     "AzureOperatorNexusArtifactType",
+    "BackingResourcePublicNetworkAccess",
     "ConfigurationGenerationType",
     "ConfigurationGroupValueConfigurationType",
     "ContainerizedNetworkFunctionNFVIType",

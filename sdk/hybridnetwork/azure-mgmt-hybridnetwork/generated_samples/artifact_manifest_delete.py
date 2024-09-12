@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hybridnetwork import HybridNetworkManagementClient
 
 """
@@ -37,6 +38,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/ArtifactManifestDelete.json
+# x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2024-04-15/examples/ArtifactManifestDelete.json
 if __name__ == "__main__":
     main()

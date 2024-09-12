@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ArmResourceDefinitionResourceElementTemplate(_serialization.Model):
+class ArmResourceDefinitionResourceElementTemplate(_serialization.Model):  # pylint: disable=name-too-long
     """The arm template RE.
 
     :ivar template_type: The template type. Known values are: "Unknown" and "ArmTemplate".
@@ -65,7 +65,7 @@ class ResourceElementTemplate(_serialization.Model):
     ArmResourceDefinitionResourceElementTemplateDetails,
     NetworkFunctionDefinitionResourceElementTemplateDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the resource element template.
     :vartype name: str
@@ -112,10 +112,10 @@ class ResourceElementTemplate(_serialization.Model):
         self.depends_on_profile = depends_on_profile
 
 
-class ArmResourceDefinitionResourceElementTemplateDetails(ResourceElementTemplate):
+class ArmResourceDefinitionResourceElementTemplateDetails(ResourceElementTemplate):  # pylint: disable=name-too-long
     """The arm resource definition resource element template details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the resource element template.
     :vartype name: str
@@ -216,7 +216,7 @@ class ArtifactAccessCredential(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureContainerRegistryScopedTokenCredential, AzureStorageAccountCredential
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credential_type: The credential type. Required. Known values are: "Unknown",
      "AzureContainerRegistryScopedToken", and "AzureStorageAccountToken".
@@ -292,7 +292,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -333,10 +333,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -386,10 +386,10 @@ class ArtifactManifest(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -564,10 +564,10 @@ class ArtifactStore(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -653,6 +653,126 @@ class ArtifactStoreListResult(_serialization.Model):
         self.next_link = None
 
 
+class ArtifactStoreNetworkFabricControllerEndPoints(_serialization.Model):  # pylint: disable=name-too-long
+    """List of network fabric controller ids.
+
+    :ivar network_fabric_controller_ids: list of network fabric controllers.
+    :vartype network_fabric_controller_ids:
+     list[~azure.mgmt.hybridnetwork.models.ReferencedResource]
+    """
+
+    _attribute_map = {
+        "network_fabric_controller_ids": {"key": "networkFabricControllerIds", "type": "[ReferencedResource]"},
+    }
+
+    def __init__(
+        self, *, network_fabric_controller_ids: Optional[List["_models.ReferencedResource"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword network_fabric_controller_ids: list of network fabric controllers.
+        :paramtype network_fabric_controller_ids:
+         list[~azure.mgmt.hybridnetwork.models.ReferencedResource]
+        """
+        super().__init__(**kwargs)
+        self.network_fabric_controller_ids = network_fabric_controller_ids
+
+
+class ArtifactStoreNetworkFabricControllerEndPointsList(_serialization.Model):  # pylint: disable=name-too-long
+    """List of manual private endpoints.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: A list of network fabric controllers.
+    :vartype value:
+     list[~azure.mgmt.hybridnetwork.models.ArtifactStoreNetworkFabricControllerEndPoints]
+    :ivar next_link: The URI to get the next set of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ArtifactStoreNetworkFabricControllerEndPoints]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.ArtifactStoreNetworkFabricControllerEndPoints"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: A list of network fabric controllers.
+        :paramtype value:
+         list[~azure.mgmt.hybridnetwork.models.ArtifactStoreNetworkFabricControllerEndPoints]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class ArtifactStorePrivateEndPointsFormat(_serialization.Model):
+    """List of manual private endpoints.
+
+    :ivar manual_private_end_point_connections: list of private endpoints.
+    :vartype manual_private_end_point_connections:
+     list[~azure.mgmt.hybridnetwork.models.ReferencedResource]
+    """
+
+    _attribute_map = {
+        "manual_private_end_point_connections": {
+            "key": "manualPrivateEndPointConnections",
+            "type": "[ReferencedResource]",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        manual_private_end_point_connections: Optional[List["_models.ReferencedResource"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword manual_private_end_point_connections: list of private endpoints.
+        :paramtype manual_private_end_point_connections:
+         list[~azure.mgmt.hybridnetwork.models.ReferencedResource]
+        """
+        super().__init__(**kwargs)
+        self.manual_private_end_point_connections = manual_private_end_point_connections
+
+
+class ArtifactStorePrivateEndPointsListResult(_serialization.Model):
+    """List of manual private endpoints.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: A list of private endpoints.
+    :vartype value: list[~azure.mgmt.hybridnetwork.models.ArtifactStorePrivateEndPointsFormat]
+    :ivar next_link: The URI to get the next set of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ArtifactStorePrivateEndPointsFormat]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.ArtifactStorePrivateEndPointsFormat"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: A list of private endpoints.
+        :paramtype value: list[~azure.mgmt.hybridnetwork.models.ArtifactStorePrivateEndPointsFormat]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
 class ArtifactStorePropertiesFormat(_serialization.Model):
     """Artifact store properties.
 
@@ -665,6 +785,10 @@ class ArtifactStorePropertiesFormat(_serialization.Model):
     :ivar store_type: The artifact store type. Known values are: "Unknown",
      "AzureContainerRegistry", and "AzureStorageAccount".
     :vartype store_type: str or ~azure.mgmt.hybridnetwork.models.ArtifactStoreType
+    :ivar backing_resource_public_network_access: The artifact store backing resource network
+     access type. Known values are: "Enabled" and "Disabled".
+    :vartype backing_resource_public_network_access: str or
+     ~azure.mgmt.hybridnetwork.models.BackingResourcePublicNetworkAccess
     :ivar replication_strategy: The replication strategy. Known values are: "Unknown" and
      "SingleReplication".
     :vartype replication_strategy: str or
@@ -684,6 +808,7 @@ class ArtifactStorePropertiesFormat(_serialization.Model):
     _attribute_map = {
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "store_type": {"key": "storeType", "type": "str"},
+        "backing_resource_public_network_access": {"key": "backingResourcePublicNetworkAccess", "type": "str"},
         "replication_strategy": {"key": "replicationStrategy", "type": "str"},
         "managed_resource_group_configuration": {
             "key": "managedResourceGroupConfiguration",
@@ -696,6 +821,9 @@ class ArtifactStorePropertiesFormat(_serialization.Model):
         self,
         *,
         store_type: Optional[Union[str, "_models.ArtifactStoreType"]] = None,
+        backing_resource_public_network_access: Optional[
+            Union[str, "_models.BackingResourcePublicNetworkAccess"]
+        ] = None,
         replication_strategy: Optional[Union[str, "_models.ArtifactReplicationStrategy"]] = None,
         managed_resource_group_configuration: Optional[
             "_models.ArtifactStorePropertiesFormatManagedResourceGroupConfiguration"
@@ -706,6 +834,10 @@ class ArtifactStorePropertiesFormat(_serialization.Model):
         :keyword store_type: The artifact store type. Known values are: "Unknown",
          "AzureContainerRegistry", and "AzureStorageAccount".
         :paramtype store_type: str or ~azure.mgmt.hybridnetwork.models.ArtifactStoreType
+        :keyword backing_resource_public_network_access: The artifact store backing resource network
+         access type. Known values are: "Enabled" and "Disabled".
+        :paramtype backing_resource_public_network_access: str or
+         ~azure.mgmt.hybridnetwork.models.BackingResourcePublicNetworkAccess
         :keyword replication_strategy: The replication strategy. Known values are: "Unknown" and
          "SingleReplication".
         :paramtype replication_strategy: str or
@@ -717,12 +849,15 @@ class ArtifactStorePropertiesFormat(_serialization.Model):
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.store_type = store_type
+        self.backing_resource_public_network_access = backing_resource_public_network_access
         self.replication_strategy = replication_strategy
         self.managed_resource_group_configuration = managed_resource_group_configuration
         self.storage_resource_id = None
 
 
-class ArtifactStorePropertiesFormatManagedResourceGroupConfiguration(_serialization.Model):
+class ArtifactStorePropertiesFormatManagedResourceGroupConfiguration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """ArtifactStorePropertiesFormatManagedResourceGroupConfiguration.
 
     :ivar name: The managed resource group name.
@@ -754,7 +889,7 @@ class NFVIs(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureArcK8SClusterNFVIDetails, AzureCoreNFVIDetails, AzureOperatorNexusClusterNFVIDetails
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the nfvi.
     :vartype name: str
@@ -793,7 +928,7 @@ class NFVIs(_serialization.Model):
 class AzureArcK8SClusterNFVIDetails(NFVIs):
     """The AzureArcK8sCluster NFVI detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the nfvi.
     :vartype name: str
@@ -888,7 +1023,7 @@ class MappingRuleProfile(_serialization.Model):
         self.application_enablement = application_enablement
 
 
-class AzureArcKubernetesDeployMappingRuleProfile(MappingRuleProfile):
+class AzureArcKubernetesDeployMappingRuleProfile(MappingRuleProfile):  # pylint: disable=name-too-long
     """Azure arc kubernetes deploy mapping rule profile.
 
     :ivar application_enablement: The application enablement. Known values are: "Unknown",
@@ -954,13 +1089,13 @@ class NetworkFunctionApplication(_serialization.Model):
         self.depends_on_profile = depends_on_profile
 
 
-class AzureArcKubernetesNetworkFunctionApplication(NetworkFunctionApplication):
+class AzureArcKubernetesNetworkFunctionApplication(NetworkFunctionApplication):  # pylint: disable=name-too-long
     """Azure arc kubernetes network function application definition.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureArcKubernetesHelmApplication
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1003,7 +1138,7 @@ class AzureArcKubernetesNetworkFunctionApplication(NetworkFunctionApplication):
 class AzureArcKubernetesHelmApplication(AzureArcKubernetesNetworkFunctionApplication):
     """Azure arc kubernetes helm application configurations.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1066,7 +1201,7 @@ class ContainerizedNetworkFunctionTemplate(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureArcKubernetesNetworkFunctionTemplate
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nfvi_type: The network function type. Required. Known values are: "Unknown" and
      "AzureArcKubernetes".
@@ -1090,10 +1225,10 @@ class ContainerizedNetworkFunctionTemplate(_serialization.Model):
         self.nfvi_type: Optional[str] = None
 
 
-class AzureArcKubernetesNetworkFunctionTemplate(ContainerizedNetworkFunctionTemplate):
+class AzureArcKubernetesNetworkFunctionTemplate(ContainerizedNetworkFunctionTemplate):  # pylint: disable=name-too-long
     """Azure Arc kubernetes network function template.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nfvi_type: The network function type. Required. Known values are: "Unknown" and
      "AzureArcKubernetes".
@@ -1132,10 +1267,10 @@ class AzureArcKubernetesNetworkFunctionTemplate(ContainerizedNetworkFunctionTemp
         self.network_function_applications = network_function_applications
 
 
-class AzureContainerRegistryScopedTokenCredential(ArtifactAccessCredential):
+class AzureContainerRegistryScopedTokenCredential(ArtifactAccessCredential):  # pylint: disable=name-too-long
     """The azure container registry scoped token credential definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credential_type: The credential type. Required. Known values are: "Unknown",
      "AzureContainerRegistryScopedToken", and "AzureStorageAccountToken".
@@ -1228,7 +1363,7 @@ class AzureCoreArmTemplateArtifactProfile(ArtifactProfile):
         self.template_artifact_profile = template_artifact_profile
 
 
-class AzureCoreArmTemplateDeployMappingRuleProfile(MappingRuleProfile):
+class AzureCoreArmTemplateDeployMappingRuleProfile(MappingRuleProfile):  # pylint: disable=name-too-long
     """Azure template deploy mapping rule profile.
 
     :ivar application_enablement: The application enablement. Known values are: "Unknown",
@@ -1270,7 +1405,7 @@ class AzureCoreNetworkFunctionApplication(NetworkFunctionApplication):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureCoreNetworkFunctionArmTemplateApplication, AzureCoreNetworkFunctionVhdApplication
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1315,10 +1450,12 @@ class AzureCoreNetworkFunctionApplication(NetworkFunctionApplication):
         self.artifact_type: Optional[str] = None
 
 
-class AzureCoreNetworkFunctionArmTemplateApplication(AzureCoreNetworkFunctionApplication):
+class AzureCoreNetworkFunctionArmTemplateApplication(
+    AzureCoreNetworkFunctionApplication
+):  # pylint: disable=name-too-long
     """Azure core network function Template application definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1382,7 +1519,7 @@ class VirtualNetworkFunctionTemplate(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureCoreNetworkFunctionTemplate, AzureOperatorNexusNetworkFunctionTemplate
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nfvi_type: The network function type. Required. Known values are: "Unknown", "AzureCore",
      and "AzureOperatorNexus".
@@ -1413,7 +1550,7 @@ class VirtualNetworkFunctionTemplate(_serialization.Model):
 class AzureCoreNetworkFunctionTemplate(VirtualNetworkFunctionTemplate):
     """Azure virtual network function template.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nfvi_type: The network function type. Required. Known values are: "Unknown", "AzureCore",
      and "AzureOperatorNexus".
@@ -1454,7 +1591,7 @@ class AzureCoreNetworkFunctionTemplate(VirtualNetworkFunctionTemplate):
 class AzureCoreNetworkFunctionVhdApplication(AzureCoreNetworkFunctionApplication):
     """Azure core network function vhd application definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1514,7 +1651,7 @@ class AzureCoreNetworkFunctionVhdApplication(AzureCoreNetworkFunctionApplication
 class AzureCoreNFVIDetails(NFVIs):
     """The Azure Core NFVI detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the nfvi.
     :vartype name: str
@@ -1578,7 +1715,7 @@ class AzureCoreVhdImageArtifactProfile(ArtifactProfile):
         self.vhd_artifact_profile = vhd_artifact_profile
 
 
-class AzureCoreVhdImageDeployMappingRuleProfile(MappingRuleProfile):
+class AzureCoreVhdImageDeployMappingRuleProfile(MappingRuleProfile):  # pylint: disable=name-too-long
     """Azure vhd deploy mapping rule profile.
 
     :ivar application_enablement: The application enablement. Known values are: "Unknown",
@@ -1614,7 +1751,7 @@ class AzureCoreVhdImageDeployMappingRuleProfile(MappingRuleProfile):
         self.vhd_image_mapping_rule_profile = vhd_image_mapping_rule_profile
 
 
-class AzureOperatorNexusArmTemplateArtifactProfile(ArtifactProfile):
+class AzureOperatorNexusArmTemplateArtifactProfile(ArtifactProfile):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services vhd artifact profile properties.
 
     :ivar artifact_store: The reference to artifact store.
@@ -1646,7 +1783,7 @@ class AzureOperatorNexusArmTemplateArtifactProfile(ArtifactProfile):
         self.template_artifact_profile = template_artifact_profile
 
 
-class AzureOperatorNexusArmTemplateDeployMappingRuleProfile(MappingRuleProfile):
+class AzureOperatorNexusArmTemplateDeployMappingRuleProfile(MappingRuleProfile):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services template deploy mapping rule profile.
 
     :ivar application_enablement: The application enablement. Known values are: "Unknown",
@@ -1685,7 +1822,7 @@ class AzureOperatorNexusArmTemplateDeployMappingRuleProfile(MappingRuleProfile):
 class AzureOperatorNexusClusterNFVIDetails(NFVIs):
     """The AzureOperatorNexusCluster NFVI detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the nfvi.
     :vartype name: str
@@ -1755,7 +1892,7 @@ class AzureOperatorNexusImageArtifactProfile(ArtifactProfile):
         self.image_artifact_profile = image_artifact_profile
 
 
-class AzureOperatorNexusImageDeployMappingRuleProfile(MappingRuleProfile):
+class AzureOperatorNexusImageDeployMappingRuleProfile(MappingRuleProfile):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services image deploy mapping rule profile.
 
     :ivar application_enablement: The application enablement. Known values are: "Unknown",
@@ -1789,14 +1926,14 @@ class AzureOperatorNexusImageDeployMappingRuleProfile(MappingRuleProfile):
         self.image_mapping_rule_profile = image_mapping_rule_profile
 
 
-class AzureOperatorNexusNetworkFunctionApplication(NetworkFunctionApplication):
+class AzureOperatorNexusNetworkFunctionApplication(NetworkFunctionApplication):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services network function application definition.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AzureOperatorNexusNetworkFunctionArmTemplateApplication,
     AzureOperatorNexusNetworkFunctionImageApplication
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1841,10 +1978,12 @@ class AzureOperatorNexusNetworkFunctionApplication(NetworkFunctionApplication):
         self.artifact_type: Optional[str] = None
 
 
-class AzureOperatorNexusNetworkFunctionArmTemplateApplication(AzureOperatorNexusNetworkFunctionApplication):
+class AzureOperatorNexusNetworkFunctionArmTemplateApplication(
+    AzureOperatorNexusNetworkFunctionApplication
+):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services network function Template application definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1905,10 +2044,12 @@ class AzureOperatorNexusNetworkFunctionArmTemplateApplication(AzureOperatorNexus
         self.deploy_parameters_mapping_rule_profile = deploy_parameters_mapping_rule_profile
 
 
-class AzureOperatorNexusNetworkFunctionImageApplication(AzureOperatorNexusNetworkFunctionApplication):
+class AzureOperatorNexusNetworkFunctionImageApplication(
+    AzureOperatorNexusNetworkFunctionApplication
+):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services network function image application definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the network function application.
     :vartype name: str
@@ -1969,10 +2110,10 @@ class AzureOperatorNexusNetworkFunctionImageApplication(AzureOperatorNexusNetwor
         self.deploy_parameters_mapping_rule_profile = deploy_parameters_mapping_rule_profile
 
 
-class AzureOperatorNexusNetworkFunctionTemplate(VirtualNetworkFunctionTemplate):
+class AzureOperatorNexusNetworkFunctionTemplate(VirtualNetworkFunctionTemplate):  # pylint: disable=name-too-long
     """Azure Operator Distributed Services network function template.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nfvi_type: The network function type. Required. Known values are: "Unknown", "AzureCore",
      and "AzureOperatorNexus".
@@ -2041,7 +2182,7 @@ class AzureStorageAccountContainerCredential(_serialization.Model):
 class AzureStorageAccountCredential(ArtifactAccessCredential):
     """The azure storage account credential definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credential_type: The credential type. Required. Known values are: "Unknown",
      "AzureContainerRegistryScopedToken", and "AzureStorageAccountToken".
@@ -2099,7 +2240,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2111,24 +2252,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.hybridnetwork.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class Component(ProxyResource):
     """The component sub resource.
@@ -2136,7 +2259,7 @@ class Component(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2244,10 +2367,10 @@ class ConfigurationGroupSchema(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2382,7 +2505,7 @@ class ConfigurationGroupSchemaPropertiesFormat(_serialization.Model):
         self.schema_definition = schema_definition
 
 
-class ConfigurationGroupSchemaVersionUpdateState(_serialization.Model):
+class ConfigurationGroupSchemaVersionUpdateState(_serialization.Model):  # pylint: disable=name-too-long
     """Publisher configuration group schema update request definition.
 
     :ivar version_state: The configuration group schema state. Known values are: "Unknown",
@@ -2409,10 +2532,10 @@ class ConfigurationGroupValue(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2506,7 +2629,7 @@ class ConfigurationGroupValuePropertiesFormat(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the site resource. Known values are:
      "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", "Deleted", and
@@ -2587,7 +2710,7 @@ class ConfigurationValueWithoutSecrets(ConfigurationGroupValuePropertiesFormat):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the site resource. Known values are:
      "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", "Deleted", and
@@ -2669,7 +2792,7 @@ class ConfigurationValueWithSecrets(ConfigurationGroupValuePropertiesFormat):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the site resource. Known values are:
      "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", "Deleted", and
@@ -2746,7 +2869,7 @@ class ConfigurationValueWithSecrets(ConfigurationGroupValuePropertiesFormat):
         self.secret_configuration_value = secret_configuration_value
 
 
-class NetworkFunctionDefinitionVersionPropertiesFormat(_serialization.Model):
+class NetworkFunctionDefinitionVersionPropertiesFormat(_serialization.Model):  # pylint: disable=name-too-long
     """Network function definition version properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -2754,7 +2877,7 @@ class NetworkFunctionDefinitionVersionPropertiesFormat(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the network function definition version
      resource. Known values are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed",
@@ -2811,12 +2934,14 @@ class NetworkFunctionDefinitionVersionPropertiesFormat(_serialization.Model):
         self.network_function_type: Optional[str] = None
 
 
-class ContainerizedNetworkFunctionDefinitionVersion(NetworkFunctionDefinitionVersionPropertiesFormat):
+class ContainerizedNetworkFunctionDefinitionVersion(
+    NetworkFunctionDefinitionVersionPropertiesFormat
+):  # pylint: disable=name-too-long
     """Containerized network function network function definition version properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the network function definition version
      resource. Known values are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed",
@@ -3087,7 +3212,7 @@ class DeploymentResourceIdReference(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     OpenDeploymentResourceReference, SecretDeploymentResourceReference
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id_type: The resource reference arm id type. Known values are: "Unknown", "Open", and
      "Secret".
@@ -3252,7 +3377,7 @@ class ErrorResponse(_serialization.Model):
 class ExecuteRequestParameters(_serialization.Model):
     """Payload for execute request post call.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar service_endpoint: The endpoint of service to call. Required.
     :vartype service_endpoint: str
@@ -3558,7 +3683,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -3572,7 +3697,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.hybridnetwork.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.hybridnetwork.models.UserAssignedIdentity]
@@ -3605,7 +3730,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.hybridnetwork.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.hybridnetwork.models.UserAssignedIdentity]
@@ -3663,10 +3788,10 @@ class NetworkFunction(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3741,10 +3866,10 @@ class NetworkFunctionDefinitionGroup(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3834,7 +3959,7 @@ class NetworkFunctionDefinitionGroupListResult(_serialization.Model):
         self.next_link = None
 
 
-class NetworkFunctionDefinitionGroupPropertiesFormat(_serialization.Model):
+class NetworkFunctionDefinitionGroupPropertiesFormat(_serialization.Model):  # pylint: disable=name-too-long
     """Network function definition group properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3866,10 +3991,10 @@ class NetworkFunctionDefinitionGroupPropertiesFormat(_serialization.Model):
         self.description = description
 
 
-class NetworkFunctionDefinitionResourceElementTemplateDetails(ResourceElementTemplate):
+class NetworkFunctionDefinitionResourceElementTemplateDetails(ResourceElementTemplate):  # pylint: disable=name-too-long
     """The network function definition resource element template details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the resource element template.
     :vartype name: str
@@ -3921,10 +4046,10 @@ class NetworkFunctionDefinitionVersion(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3982,7 +4107,7 @@ class NetworkFunctionDefinitionVersion(TrackedResource):
         self.properties = properties
 
 
-class NetworkFunctionDefinitionVersionListResult(_serialization.Model):
+class NetworkFunctionDefinitionVersionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of network function definition versions.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4014,7 +4139,7 @@ class NetworkFunctionDefinitionVersionListResult(_serialization.Model):
         self.next_link = None
 
 
-class NetworkFunctionDefinitionVersionUpdateState(_serialization.Model):
+class NetworkFunctionDefinitionVersionUpdateState(_serialization.Model):  # pylint: disable=name-too-long
     """Publisher network function definition version update request definition.
 
     :ivar version_state: The network function definition version state. Only the 'Active' and
@@ -4078,7 +4203,7 @@ class NetworkFunctionPropertiesFormat(_serialization.Model):  # pylint: disable=
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the network function resource. Known values
      are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", "Deleted", and
@@ -4118,11 +4243,6 @@ class NetworkFunctionPropertiesFormat(_serialization.Model):  # pylint: disable=
 
     _validation = {
         "provisioning_state": {"readonly": True},
-        "publisher_name": {"readonly": True},
-        "publisher_scope": {"readonly": True},
-        "network_function_definition_group_name": {"readonly": True},
-        "network_function_definition_version": {"readonly": True},
-        "network_function_definition_offering_location": {"readonly": True},
         "configuration_type": {"required": True},
     }
 
@@ -4157,6 +4277,11 @@ class NetworkFunctionPropertiesFormat(_serialization.Model):  # pylint: disable=
     def __init__(
         self,
         *,
+        publisher_name: Optional[str] = None,
+        publisher_scope: Optional[Union[str, "_models.PublisherScope"]] = None,
+        network_function_definition_group_name: Optional[str] = None,
+        network_function_definition_version: Optional[str] = None,
+        network_function_definition_offering_location: Optional[str] = None,
         network_function_definition_version_resource_reference: Optional[
             "_models.DeploymentResourceIdReference"
         ] = None,
@@ -4167,6 +4292,20 @@ class NetworkFunctionPropertiesFormat(_serialization.Model):  # pylint: disable=
         **kwargs: Any
     ) -> None:
         """
+        :keyword publisher_name: The publisher name for the network function.
+        :paramtype publisher_name: str
+        :keyword publisher_scope: The scope of the publisher. Known values are: "Unknown" and
+         "Private".
+        :paramtype publisher_scope: str or ~azure.mgmt.hybridnetwork.models.PublisherScope
+        :keyword network_function_definition_group_name: The network function definition group name for
+         the network function.
+        :paramtype network_function_definition_group_name: str
+        :keyword network_function_definition_version: The network function definition version for the
+         network function.
+        :paramtype network_function_definition_version: str
+        :keyword network_function_definition_offering_location: The location of the network function
+         definition offering.
+        :paramtype network_function_definition_offering_location: str
         :keyword network_function_definition_version_resource_reference: The network function
          definition version resource reference.
         :paramtype network_function_definition_version_resource_reference:
@@ -4183,11 +4322,11 @@ class NetworkFunctionPropertiesFormat(_serialization.Model):  # pylint: disable=
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
-        self.publisher_name = None
-        self.publisher_scope = None
-        self.network_function_definition_group_name = None
-        self.network_function_definition_version = None
-        self.network_function_definition_offering_location = None
+        self.publisher_name = publisher_name
+        self.publisher_scope = publisher_scope
+        self.network_function_definition_group_name = network_function_definition_group_name
+        self.network_function_definition_version = network_function_definition_version
+        self.network_function_definition_offering_location = network_function_definition_offering_location
         self.network_function_definition_version_resource_reference = (
             network_function_definition_version_resource_reference
         )
@@ -4205,7 +4344,7 @@ class NetworkFunctionValueWithoutSecrets(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the network function resource. Known values
      are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", "Deleted", and
@@ -4247,11 +4386,6 @@ class NetworkFunctionValueWithoutSecrets(
 
     _validation = {
         "provisioning_state": {"readonly": True},
-        "publisher_name": {"readonly": True},
-        "publisher_scope": {"readonly": True},
-        "network_function_definition_group_name": {"readonly": True},
-        "network_function_definition_version": {"readonly": True},
-        "network_function_definition_offering_location": {"readonly": True},
         "configuration_type": {"required": True},
     }
 
@@ -4280,6 +4414,11 @@ class NetworkFunctionValueWithoutSecrets(
     def __init__(
         self,
         *,
+        publisher_name: Optional[str] = None,
+        publisher_scope: Optional[Union[str, "_models.PublisherScope"]] = None,
+        network_function_definition_group_name: Optional[str] = None,
+        network_function_definition_version: Optional[str] = None,
+        network_function_definition_offering_location: Optional[str] = None,
         network_function_definition_version_resource_reference: Optional[
             "_models.DeploymentResourceIdReference"
         ] = None,
@@ -4291,6 +4430,20 @@ class NetworkFunctionValueWithoutSecrets(
         **kwargs: Any
     ) -> None:
         """
+        :keyword publisher_name: The publisher name for the network function.
+        :paramtype publisher_name: str
+        :keyword publisher_scope: The scope of the publisher. Known values are: "Unknown" and
+         "Private".
+        :paramtype publisher_scope: str or ~azure.mgmt.hybridnetwork.models.PublisherScope
+        :keyword network_function_definition_group_name: The network function definition group name for
+         the network function.
+        :paramtype network_function_definition_group_name: str
+        :keyword network_function_definition_version: The network function definition version for the
+         network function.
+        :paramtype network_function_definition_version: str
+        :keyword network_function_definition_offering_location: The location of the network function
+         definition offering.
+        :paramtype network_function_definition_offering_location: str
         :keyword network_function_definition_version_resource_reference: The network function
          definition version resource reference.
         :paramtype network_function_definition_version_resource_reference:
@@ -4308,6 +4461,11 @@ class NetworkFunctionValueWithoutSecrets(
         :paramtype deployment_values: str
         """
         super().__init__(
+            publisher_name=publisher_name,
+            publisher_scope=publisher_scope,
+            network_function_definition_group_name=network_function_definition_group_name,
+            network_function_definition_version=network_function_definition_version,
+            network_function_definition_offering_location=network_function_definition_offering_location,
             network_function_definition_version_resource_reference=network_function_definition_version_resource_reference,
             nfvi_type=nfvi_type,
             nfvi_id=nfvi_id,
@@ -4324,7 +4482,7 @@ class NetworkFunctionValueWithSecrets(NetworkFunctionPropertiesFormat):  # pylin
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the network function resource. Known values
      are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed", "Canceled", "Deleted", and
@@ -4367,11 +4525,6 @@ class NetworkFunctionValueWithSecrets(NetworkFunctionPropertiesFormat):  # pylin
 
     _validation = {
         "provisioning_state": {"readonly": True},
-        "publisher_name": {"readonly": True},
-        "publisher_scope": {"readonly": True},
-        "network_function_definition_group_name": {"readonly": True},
-        "network_function_definition_version": {"readonly": True},
-        "network_function_definition_offering_location": {"readonly": True},
         "configuration_type": {"required": True},
     }
 
@@ -4400,6 +4553,11 @@ class NetworkFunctionValueWithSecrets(NetworkFunctionPropertiesFormat):  # pylin
     def __init__(
         self,
         *,
+        publisher_name: Optional[str] = None,
+        publisher_scope: Optional[Union[str, "_models.PublisherScope"]] = None,
+        network_function_definition_group_name: Optional[str] = None,
+        network_function_definition_version: Optional[str] = None,
+        network_function_definition_offering_location: Optional[str] = None,
         network_function_definition_version_resource_reference: Optional[
             "_models.DeploymentResourceIdReference"
         ] = None,
@@ -4411,6 +4569,20 @@ class NetworkFunctionValueWithSecrets(NetworkFunctionPropertiesFormat):  # pylin
         **kwargs: Any
     ) -> None:
         """
+        :keyword publisher_name: The publisher name for the network function.
+        :paramtype publisher_name: str
+        :keyword publisher_scope: The scope of the publisher. Known values are: "Unknown" and
+         "Private".
+        :paramtype publisher_scope: str or ~azure.mgmt.hybridnetwork.models.PublisherScope
+        :keyword network_function_definition_group_name: The network function definition group name for
+         the network function.
+        :paramtype network_function_definition_group_name: str
+        :keyword network_function_definition_version: The network function definition version for the
+         network function.
+        :paramtype network_function_definition_version: str
+        :keyword network_function_definition_offering_location: The location of the network function
+         definition offering.
+        :paramtype network_function_definition_offering_location: str
         :keyword network_function_definition_version_resource_reference: The network function
          definition version resource reference.
         :paramtype network_function_definition_version_resource_reference:
@@ -4429,6 +4601,11 @@ class NetworkFunctionValueWithSecrets(NetworkFunctionPropertiesFormat):  # pylin
         :paramtype secret_deployment_values: str
         """
         super().__init__(
+            publisher_name=publisher_name,
+            publisher_scope=publisher_scope,
+            network_function_definition_group_name=network_function_definition_group_name,
+            network_function_definition_version=network_function_definition_version,
+            network_function_definition_offering_location=network_function_definition_offering_location,
             network_function_definition_version_resource_reference=network_function_definition_version_resource_reference,
             nfvi_type=nfvi_type,
             nfvi_id=nfvi_id,
@@ -4445,10 +4622,10 @@ class NetworkServiceDesignGroup(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4535,7 +4712,7 @@ class NetworkServiceDesignGroupListResult(_serialization.Model):
         self.next_link = None
 
 
-class NetworkServiceDesignGroupPropertiesFormat(_serialization.Model):
+class NetworkServiceDesignGroupPropertiesFormat(_serialization.Model):  # pylint: disable=name-too-long
     """network service design group properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4572,10 +4749,10 @@ class NetworkServiceDesignVersion(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4663,7 +4840,7 @@ class NetworkServiceDesignVersionListResult(_serialization.Model):
         self.next_link = None
 
 
-class NetworkServiceDesignVersionPropertiesFormat(_serialization.Model):
+class NetworkServiceDesignVersionPropertiesFormat(_serialization.Model):  # pylint: disable=name-too-long
     """network service design version properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4826,7 +5003,7 @@ class NSDArtifactProfile(_serialization.Model):
 class OpenDeploymentResourceReference(DeploymentResourceIdReference):
     """Non secret deployment resource id reference.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id_type: The resource reference arm id type. Known values are: "Unknown", "Open", and
      "Secret".
@@ -5096,7 +5273,7 @@ class ProxyArtifactListOverview(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5108,24 +5285,6 @@ class ProxyArtifactListOverview(ProxyResource):
     :vartype system_data: ~azure.mgmt.hybridnetwork.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class ProxyArtifactOverview(ProxyResource):
     """The proxy artifact overview.
@@ -5133,7 +5292,7 @@ class ProxyArtifactOverview(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5272,7 +5431,7 @@ class ProxyArtifactVersionsListOverview(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5345,10 +5504,10 @@ class Publisher(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5556,7 +5715,7 @@ class ReplicaSet(_serialization.Model):
 class RequestMetadata(_serialization.Model):
     """Request metadata of execute request post call payload.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar relative_path: The relative path of the request. Required.
     :vartype relative_path: str
@@ -5665,7 +5824,7 @@ class Resources(_serialization.Model):
 class SecretDeploymentResourceReference(DeploymentResourceIdReference):
     """Secret deployment resource id reference.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id_type: The resource reference arm id type. Known values are: "Unknown", "Open", and
      "Secret".
@@ -5698,10 +5857,10 @@ class Site(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5792,10 +5951,10 @@ class SiteNetworkService(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6029,7 +6188,7 @@ class SitePropertiesFormat(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_state: The provisioning state of the site resource. **TODO**\ : Confirm if
+    :ivar provisioning_state: The provisioning state of the site resource. **TODO**\\ : Confirm if
      this is needed. Known values are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed",
      "Canceled", "Deleted", and "Converging".
     :vartype provisioning_state: str or ~azure.mgmt.hybridnetwork.models.ProvisioningState
@@ -6067,7 +6226,7 @@ class Sku(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of this Sku. Required. Known values are: "Basic" and "Standard".
     :vartype name: str or ~azure.mgmt.hybridnetwork.models.SkuName
@@ -6311,7 +6470,7 @@ class VirtualNetworkFunctionDefinitionVersion(NetworkFunctionDefinitionVersionPr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: The provisioning state of the network function definition version
      resource. Known values are: "Unknown", "Succeeded", "Accepted", "Deleting", "Failed",

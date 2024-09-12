@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -16,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -30,8 +32,11 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_list_by_publisher_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -84,7 +89,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -130,7 +135,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -179,7 +184,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -225,7 +230,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -274,7 +279,7 @@ def build_update_state_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -343,7 +348,6 @@ class ConfigurationGroupSchemasOperations:
         :type resource_group_name: str
         :param publisher_name: The name of the publisher. Required.
         :type publisher_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ConfigurationGroupSchema or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema]
@@ -355,7 +359,7 @@ class ConfigurationGroupSchemasOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConfigurationGroupSchemaListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -366,17 +370,15 @@ class ConfigurationGroupSchemasOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_publisher_request(
+                _request = build_list_by_publisher_request(
                     resource_group_name=resource_group_name,
                     publisher_name=publisher_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_publisher.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -388,13 +390,12 @@ class ConfigurationGroupSchemasOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ConfigurationGroupSchemaListResult", pipeline_response)
@@ -404,11 +405,11 @@ class ConfigurationGroupSchemasOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -421,14 +422,10 @@ class ConfigurationGroupSchemasOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_publisher.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas"
-    }
-
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
+    def _delete_initial(
         self, resource_group_name: str, publisher_name: str, configuration_group_schema_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -440,29 +437,32 @@ class ConfigurationGroupSchemasOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             configuration_group_schema_name=configuration_group_schema_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -471,12 +471,12 @@ class ConfigurationGroupSchemasOperations:
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
-        if cls:
-            return cls(pipeline_response, None, response_headers)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}"
-    }
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -491,14 +491,6 @@ class ConfigurationGroupSchemasOperations:
         :type publisher_name: str
         :param configuration_group_schema_name: The name of the configuration group schema. Required.
         :type configuration_group_schema_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -512,7 +504,7 @@ class ConfigurationGroupSchemasOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 publisher_name=publisher_name,
                 configuration_group_schema_name=configuration_group_schema_name,
@@ -522,11 +514,12 @@ class ConfigurationGroupSchemasOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -537,27 +530,23 @@ class ConfigurationGroupSchemasOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: Union[_models.ConfigurationGroupSchema, IO],
+        parameters: Union[_models.ConfigurationGroupSchema, IO[bytes]],
         **kwargs: Any
-    ) -> _models.ConfigurationGroupSchema:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -570,7 +559,7 @@ class ConfigurationGroupSchemasOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ConfigurationGroupSchema] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -580,7 +569,7 @@ class ConfigurationGroupSchemasOperations:
         else:
             _json = self._serialize.body(parameters, "ConfigurationGroupSchema")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             configuration_group_schema_name=configuration_group_schema_name,
@@ -589,39 +578,34 @@ class ConfigurationGroupSchemasOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -649,14 +633,6 @@ class ConfigurationGroupSchemasOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ConfigurationGroupSchema or the result of
          cls(response)
         :rtype:
@@ -670,7 +646,7 @@ class ConfigurationGroupSchemasOperations:
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -686,18 +662,10 @@ class ConfigurationGroupSchemasOperations:
         :type configuration_group_schema_name: str
         :param parameters: Parameters supplied to the create or update configuration group schema
          resource. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ConfigurationGroupSchema or the result of
          cls(response)
         :rtype:
@@ -711,7 +679,7 @@ class ConfigurationGroupSchemasOperations:
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: Union[_models.ConfigurationGroupSchema, IO],
+        parameters: Union[_models.ConfigurationGroupSchema, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ConfigurationGroupSchema]:
         """Creates or updates a configuration group schema.
@@ -724,19 +692,8 @@ class ConfigurationGroupSchemasOperations:
         :param configuration_group_schema_name: The name of the configuration group schema. Required.
         :type configuration_group_schema_name: str
         :param parameters: Parameters supplied to the create or update configuration group schema
-         resource. Is either a ConfigurationGroupSchema type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         resource. Is either a ConfigurationGroupSchema type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema or IO[bytes]
         :return: An instance of LROPoller that returns either ConfigurationGroupSchema or the result of
          cls(response)
         :rtype:
@@ -765,12 +722,13 @@ class ConfigurationGroupSchemasOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response)
+            deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -782,17 +740,15 @@ class ConfigurationGroupSchemasOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ConfigurationGroupSchema].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}"
-    }
+        return LROPoller[_models.ConfigurationGroupSchema](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def get(
@@ -807,12 +763,11 @@ class ConfigurationGroupSchemasOperations:
         :type publisher_name: str
         :param configuration_group_schema_name: The name of the configuration group schema. Required.
         :type configuration_group_schema_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ConfigurationGroupSchema or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -826,22 +781,20 @@ class ConfigurationGroupSchemasOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConfigurationGroupSchema] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             configuration_group_schema_name=configuration_group_schema_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -851,16 +804,12 @@ class ConfigurationGroupSchemasOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response)
+        deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def update(
@@ -888,7 +837,6 @@ class ConfigurationGroupSchemasOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ConfigurationGroupSchema or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -900,7 +848,7 @@ class ConfigurationGroupSchemasOperations:
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -916,11 +864,10 @@ class ConfigurationGroupSchemasOperations:
         :type configuration_group_schema_name: str
         :param parameters: Parameters supplied to the create or update network service design version
          operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ConfigurationGroupSchema or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -932,7 +879,7 @@ class ConfigurationGroupSchemasOperations:
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: Union[_models.TagsObject, IO],
+        parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
     ) -> _models.ConfigurationGroupSchema:
         """Updates a configuration group schema resource.
@@ -945,17 +892,13 @@ class ConfigurationGroupSchemasOperations:
         :param configuration_group_schema_name: The name of the configuration group schema. Required.
         :type configuration_group_schema_name: str
         :param parameters: Parameters supplied to the create or update network service design version
-         operation. Is either a TagsObject type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridnetwork.models.TagsObject or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         operation. Is either a TagsObject type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.hybridnetwork.models.TagsObject or IO[bytes]
         :return: ConfigurationGroupSchema or the result of cls(response)
         :rtype: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchema
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -978,7 +921,7 @@ class ConfigurationGroupSchemasOperations:
         else:
             _json = self._serialize.body(parameters, "TagsObject")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             configuration_group_schema_name=configuration_group_schema_name,
@@ -987,16 +930,14 @@ class ConfigurationGroupSchemasOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1006,26 +947,22 @@ class ConfigurationGroupSchemasOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response)
+        deserialized = self._deserialize("ConfigurationGroupSchema", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}"
-    }
+        return deserialized  # type: ignore
 
     def _update_state_initial(
         self,
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: Union[_models.ConfigurationGroupSchemaVersionUpdateState, IO],
+        parameters: Union[_models.ConfigurationGroupSchemaVersionUpdateState, IO[bytes]],
         **kwargs: Any
-    ) -> Optional[_models.ConfigurationGroupSchemaVersionUpdateState]:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1038,7 +975,7 @@ class ConfigurationGroupSchemasOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.ConfigurationGroupSchemaVersionUpdateState]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -1048,7 +985,7 @@ class ConfigurationGroupSchemasOperations:
         else:
             _json = self._serialize.body(parameters, "ConfigurationGroupSchemaVersionUpdateState")
 
-        request = build_update_state_request(
+        _request = build_update_state_request(
             resource_group_name=resource_group_name,
             publisher_name=publisher_name,
             configuration_group_schema_name=configuration_group_schema_name,
@@ -1057,41 +994,38 @@ class ConfigurationGroupSchemasOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_state_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("ConfigurationGroupSchemaVersionUpdateState", pipeline_response)
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_state_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}/updateState"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_state(
@@ -1119,14 +1053,6 @@ class ConfigurationGroupSchemasOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either
          ConfigurationGroupSchemaVersionUpdateState or the result of cls(response)
         :rtype:
@@ -1140,7 +1066,7 @@ class ConfigurationGroupSchemasOperations:
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1156,18 +1082,10 @@ class ConfigurationGroupSchemasOperations:
         :type configuration_group_schema_name: str
         :param parameters: Parameters supplied to update the state of configuration group schema.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either
          ConfigurationGroupSchemaVersionUpdateState or the result of cls(response)
         :rtype:
@@ -1181,7 +1099,7 @@ class ConfigurationGroupSchemasOperations:
         resource_group_name: str,
         publisher_name: str,
         configuration_group_schema_name: str,
-        parameters: Union[_models.ConfigurationGroupSchemaVersionUpdateState, IO],
+        parameters: Union[_models.ConfigurationGroupSchemaVersionUpdateState, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ConfigurationGroupSchemaVersionUpdateState]:
         """Update configuration group schema state.
@@ -1194,20 +1112,9 @@ class ConfigurationGroupSchemasOperations:
         :param configuration_group_schema_name: The name of the configuration group schema. Required.
         :type configuration_group_schema_name: str
         :param parameters: Parameters supplied to update the state of configuration group schema. Is
-         either a ConfigurationGroupSchemaVersionUpdateState type or a IO type. Required.
+         either a ConfigurationGroupSchemaVersionUpdateState type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.hybridnetwork.models.ConfigurationGroupSchemaVersionUpdateState
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of LROPoller that returns either
          ConfigurationGroupSchemaVersionUpdateState or the result of cls(response)
         :rtype:
@@ -1236,12 +1143,15 @@ class ConfigurationGroupSchemasOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("ConfigurationGroupSchemaVersionUpdateState", pipeline_response)
+            deserialized = self._deserialize(
+                "ConfigurationGroupSchemaVersionUpdateState", pipeline_response.http_response
+            )
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1253,14 +1163,12 @@ class ConfigurationGroupSchemasOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ConfigurationGroupSchemaVersionUpdateState].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_state.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}/updateState"
-    }
+        return LROPoller[_models.ConfigurationGroupSchemaVersionUpdateState](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
