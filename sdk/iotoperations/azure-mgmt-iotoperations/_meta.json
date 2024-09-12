@@ -1,0 +1,6 @@
+{
+  "commit": "1b89e868dd3fd27d299eb0a65ffd4723649dfd49",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/iotoperations/IoTOperations.Management",
+  "@azure-tools/typespec-python": "0.31.1"
+}
