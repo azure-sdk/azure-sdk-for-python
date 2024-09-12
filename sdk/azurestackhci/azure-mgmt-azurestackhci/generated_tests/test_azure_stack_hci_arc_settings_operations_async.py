@@ -25,7 +25,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
         response = self.client.arc_settings.list_by_cluster(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             cluster_name="str",
             arc_setting_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -76,7 +76,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -90,7 +90,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
             cluster_name="str",
             arc_setting_name="str",
             arc_setting={"connectivityProperties": {}, "tags": {"str": "str"}},
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -104,7 +104,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 arc_setting_name="str",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -118,7 +118,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             cluster_name="str",
             arc_setting_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -132,7 +132,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 arc_setting_name="str",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -146,7 +146,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             cluster_name="str",
             arc_setting_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -160,7 +160,7 @@ class TestAzureStackHCIArcSettingsOperationsAsync(AzureMgmtRecordedTestCase):
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 arc_setting_name="str",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
