@@ -246,7 +246,6 @@ class ChatCompletionsClientOperationsMixin(ChatCompletionsClientMixinABC):
         model: Optional[str] = None,
         **kwargs: Any
     ) -> _models.ChatCompletions:
-        # pylint: disable=too-many-locals
         """Gets chat completions for the provided chat messages.
         Completions support a wide variety of tasks and generate text that continues from or
         "completes"
@@ -335,7 +334,7 @@ class ChatCompletionsClientOperationsMixin(ChatCompletionsClientMixinABC):
         :rtype: ~azure.ai.inference.models.ChatCompletions
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -425,7 +424,7 @@ class ChatCompletionsClientOperationsMixin(ChatCompletionsClientMixinABC):
         :rtype: ~azure.ai.inference.models.ModelInfo
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -556,7 +555,7 @@ class EmbeddingsClientOperationsMixin(EmbeddingsClientMixinABC):
         :rtype: ~azure.ai.inference.models.EmbeddingsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -638,7 +637,7 @@ class EmbeddingsClientOperationsMixin(EmbeddingsClientMixinABC):
         :rtype: ~azure.ai.inference.models.ModelInfo
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -772,7 +771,7 @@ class ImageEmbeddingsClientOperationsMixin(ImageEmbeddingsClientMixinABC):
         :rtype: ~azure.ai.inference.models.EmbeddingsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -854,7 +853,7 @@ class ImageEmbeddingsClientOperationsMixin(ImageEmbeddingsClientMixinABC):
         :rtype: ~azure.ai.inference.models.ModelInfo
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

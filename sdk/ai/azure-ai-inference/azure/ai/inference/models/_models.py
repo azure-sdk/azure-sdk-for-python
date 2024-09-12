@@ -634,7 +634,7 @@ class EmbeddingItem(_model_base.Model):
     :vartype index: int
     """
 
-    embedding: Union["str", List[float]] = rest_field()
+    embedding: Union[str, List[float]] = rest_field()
     """List of embedding values for the input prompt. These represent a measurement of the
      vector-based relatedness of the provided input. Or a base64 encoded string of the embedding
      vector. Required. Is either a str type or a [float] type."""
@@ -915,7 +915,7 @@ class ModelInfo(_model_base.Model):
     :vartype model_name: str
     :ivar model_type: The type of the AI model. A Unique identifier for the profile. Required.
      Known values are: "embeddings", "image_generation", "text_generation", "image_embeddings",
-     "audio_generation", and "chat".
+     "audio_generation", and "chat_completion".
     :vartype model_type: str or ~azure.ai.inference.models.ModelType
     :ivar model_provider_name: The model provider name. For example: ``Microsoft Research``.
      Required.
@@ -927,7 +927,7 @@ class ModelInfo(_model_base.Model):
     model_type: Union[str, "_models.ModelType"] = rest_field()
     """The type of the AI model. A Unique identifier for the profile. Required. Known values are:
      \"embeddings\", \"image_generation\", \"text_generation\", \"image_embeddings\",
-     \"audio_generation\", and \"chat\"."""
+     \"audio_generation\", and \"chat_completion\"."""
     model_provider_name: str = rest_field()
     """The model provider name. For example: ``Microsoft Research``. Required."""
 
@@ -1269,7 +1269,7 @@ class UserMessage(ChatRequestMessage, discriminator="user"):
     role: Literal[ChatRole.USER] = rest_discriminator(name="role")  # type: ignore
     """The chat role associated with this message, which is always 'user' for user messages. Required.
      The role that provides input for chat completions."""
-    content: Union["str", List["_models.ContentItem"]] = rest_field()
+    content: Union[str, List["_models.ContentItem"]] = rest_field()
     """The contents of the user message, with available input types varying by selected model.
      Required. Is either a str type or a [ContentItem] type."""
 
