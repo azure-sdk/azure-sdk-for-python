@@ -10,13 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AnalyzeImageOutputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of image analysis output."""
-
-    FOUR_SEVERITY_LEVELS = "FourSeverityLevels"
-    """Output severities in four levels, the value could be 0,2,4,6."""
-
-
 class AnalyzeTextOutputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of text analysis output."""
 
@@ -26,19 +19,14 @@ class AnalyzeTextOutputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Output severities in eight levels, the value could be 0,1,2,3,4,5,6,7."""
 
 
-class ImageCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Image analyze category."""
-
-    HATE = "Hate"
-    SELF_HARM = "SelfHarm"
-    SEXUAL = "Sexual"
-    VIOLENCE = "Violence"
-
-
 class TextCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Text analyze category."""
+    """The harm category supported in Text content analysis."""
 
     HATE = "Hate"
+    """The harm category for Text - Hate."""
     SELF_HARM = "SelfHarm"
+    """The harm category for Text - SelfHarm."""
     SEXUAL = "Sexual"
+    """The harm category for Text - Sexual."""
     VIOLENCE = "Violence"
+    """The harm category for Text - Violence."""

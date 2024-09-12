@@ -6,45 +6,43 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models import AddOrUpdateTextBlocklistItemsOptions
-from ._models import AddOrUpdateTextBlocklistItemsResult
-from ._models import AnalyzeImageOptions
-from ._models import AnalyzeImageResult
 from ._models import AnalyzeTextOptions
 from ._models import AnalyzeTextResult
-from ._models import ImageCategoriesAnalysis
-from ._models import ImageData
+from ._models import DetectTextProtectedMaterialOptions
+from ._models import DetectTextProtectedMaterialResult
+from ._models import DocumentInjectionAnalysisResult
 from ._models import RemoveTextBlocklistItemsOptions
+from ._models import ShieldPromptOptions
+from ._models import ShieldPromptResult
 from ._models import TextBlocklist
 from ._models import TextBlocklistItem
 from ._models import TextBlocklistMatch
 from ._models import TextCategoriesAnalysis
+from ._models import TextProtectedMaterialAnalysisResult
+from ._models import UserPromptInjectionAnalysisResult
 
-from ._enums import AnalyzeImageOutputType
 from ._enums import AnalyzeTextOutputType
-from ._enums import ImageCategory
 from ._enums import TextCategory
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AddOrUpdateTextBlocklistItemsOptions",
-    "AddOrUpdateTextBlocklistItemsResult",
-    "AnalyzeImageOptions",
-    "AnalyzeImageResult",
     "AnalyzeTextOptions",
     "AnalyzeTextResult",
-    "ImageCategoriesAnalysis",
-    "ImageData",
+    "DetectTextProtectedMaterialOptions",
+    "DetectTextProtectedMaterialResult",
+    "DocumentInjectionAnalysisResult",
     "RemoveTextBlocklistItemsOptions",
+    "ShieldPromptOptions",
+    "ShieldPromptResult",
     "TextBlocklist",
     "TextBlocklistItem",
     "TextBlocklistMatch",
     "TextCategoriesAnalysis",
-    "AnalyzeImageOutputType",
+    "TextProtectedMaterialAnalysisResult",
+    "UserPromptInjectionAnalysisResult",
     "AnalyzeTextOutputType",
-    "ImageCategory",
     "TextCategory",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

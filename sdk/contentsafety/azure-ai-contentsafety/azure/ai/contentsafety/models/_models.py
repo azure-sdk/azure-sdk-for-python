@@ -17,151 +17,13 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class AddOrUpdateTextBlocklistItemsOptions(_model_base.Model):
-    """The request to add blocklistItems to a text blocklist.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar blocklist_items: Array of blocklistItems to add. Required.
-    :vartype blocklist_items: list[~azure.ai.contentsafety.models.TextBlocklistItem]
-    """
-
-    blocklist_items: List["_models.TextBlocklistItem"] = rest_field(name="blocklistItems")
-    """Array of blocklistItems to add. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        blocklist_items: List["_models.TextBlocklistItem"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class AddOrUpdateTextBlocklistItemsResult(_model_base.Model):
-    """The response of adding blocklistItems to the text blocklist.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar blocklist_items: Array of blocklistItems have been added. Required.
-    :vartype blocklist_items: list[~azure.ai.contentsafety.models.TextBlocklistItem]
-    """
-
-    blocklist_items: List["_models.TextBlocklistItem"] = rest_field(name="blocklistItems")
-    """Array of blocklistItems have been added. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        blocklist_items: List["_models.TextBlocklistItem"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class AnalyzeImageOptions(_model_base.Model):
-    """The image analysis request.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar image: The image needs to be analyzed. Required.
-    :vartype image: ~azure.ai.contentsafety.models.ImageData
-    :ivar categories: The categories will be analyzed. If they are not assigned, a default set of
-     analysis results for the categories will be returned.
-    :vartype categories: list[str or ~azure.ai.contentsafety.models.ImageCategory]
-    :ivar output_type: This refers to the type of image analysis output. If no value is assigned,
-     the default value will be "FourSeverityLevels". "FourSeverityLevels"
-    :vartype output_type: str or ~azure.ai.contentsafety.models.AnalyzeImageOutputType
-    """
-
-    image: "_models.ImageData" = rest_field()
-    """The image needs to be analyzed. Required."""
-    categories: Optional[List[Union[str, "_models.ImageCategory"]]] = rest_field()
-    """The categories will be analyzed. If they are not assigned, a default set of analysis results
-     for the categories will be returned."""
-    output_type: Optional[Union[str, "_models.AnalyzeImageOutputType"]] = rest_field(name="outputType")
-    """This refers to the type of image analysis output. If no value is assigned, the default value
-     will be \"FourSeverityLevels\". \"FourSeverityLevels\""""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        image: "_models.ImageData",
-        categories: Optional[List[Union[str, "_models.ImageCategory"]]] = None,
-        output_type: Optional[Union[str, "_models.AnalyzeImageOutputType"]] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class AnalyzeImageResult(_model_base.Model):
-    """The image analysis response.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar categories_analysis: Analysis result for categories. Required.
-    :vartype categories_analysis: list[~azure.ai.contentsafety.models.ImageCategoriesAnalysis]
-    """
-
-    categories_analysis: List["_models.ImageCategoriesAnalysis"] = rest_field(name="categoriesAnalysis")
-    """Analysis result for categories. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        categories_analysis: List["_models.ImageCategoriesAnalysis"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class AnalyzeTextOptions(_model_base.Model):
     """The text analysis request.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar text: The text needs to be analyzed. We support a maximum of 10k Unicode characters
-     (Unicode code points) in the text of one request. Required.
+    :ivar text: The text to be analyzed. We support a maximum of 10k Unicode characters (Unicode
+     code points) in the text of one request. Required.
     :vartype text: str
     :ivar categories: The categories will be analyzed. If they are not assigned, a default set of
      analysis results for the categories will be returned.
@@ -179,8 +41,8 @@ class AnalyzeTextOptions(_model_base.Model):
     """
 
     text: str = rest_field()
-    """The text needs to be analyzed. We support a maximum of 10k Unicode characters (Unicode code
-     points) in the text of one request. Required."""
+    """The text to be analyzed. We support a maximum of 10k Unicode characters (Unicode code points)
+     in the text of one request. Required."""
     categories: Optional[List[Union[str, "_models.TextCategory"]]] = rest_field()
     """The categories will be analyzed. If they are not assigned, a default set of analysis results
      for the categories will be returned."""
@@ -204,8 +66,7 @@ class AnalyzeTextOptions(_model_base.Model):
         blocklist_names: Optional[List[str]] = None,
         halt_on_blocklist_hit: Optional[bool] = None,
         output_type: Optional[Union[str, "_models.AnalyzeTextOutputType"]] = None,
-    ):
-        ...
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -221,7 +82,6 @@ class AnalyzeTextOptions(_model_base.Model):
 class AnalyzeTextResult(_model_base.Model):
     """The text analysis response.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar blocklists_match: The blocklist match details.
     :vartype blocklists_match: list[~azure.ai.contentsafety.models.TextBlocklistMatch]
@@ -240,8 +100,7 @@ class AnalyzeTextResult(_model_base.Model):
         *,
         categories_analysis: List["_models.TextCategoriesAnalysis"],
         blocklists_match: Optional[List["_models.TextBlocklistMatch"]] = None,
-    ):
-        ...
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -254,36 +113,26 @@ class AnalyzeTextResult(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ImageCategoriesAnalysis(_model_base.Model):
-    """Image analysis result.
+class DetectTextProtectedMaterialOptions(_model_base.Model):
+    """The request of detecting potential protected material present in the given text.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar category: The image analysis category. Required. Known values are: "Hate", "SelfHarm",
-     "Sexual", and "Violence".
-    :vartype category: str or ~azure.ai.contentsafety.models.ImageCategory
-    :ivar severity: The value increases with the severity of the input content. The value of this
-     field is determined by the output type specified in the request. The output type could be
-     ‘FourSeverityLevels’, and the output value can be 0, 2, 4, 6.
-    :vartype severity: int
+    :ivar text: The text to be analyzed, which may contain protected material. The characters will
+     be counted in Unicode code points. Required.
+    :vartype text: str
     """
 
-    category: Union[str, "_models.ImageCategory"] = rest_field()
-    """The image analysis category. Required. Known values are: \"Hate\", \"SelfHarm\", \"Sexual\",
-     and \"Violence\"."""
-    severity: Optional[int] = rest_field()
-    """The value increases with the severity of the input content. The value of this field is
-     determined by the output type specified in the request. The output type could be
-     ‘FourSeverityLevels’, and the output value can be 0, 2, 4, 6."""
+    text: str = rest_field()
+    """The text to be analyzed, which may contain protected material. The characters will be counted
+     in Unicode code points. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        category: Union[str, "_models.ImageCategory"],
-        severity: Optional[int] = None,
-    ):
-        ...
+        text: str,
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -296,30 +145,55 @@ class ImageCategoriesAnalysis(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ImageData(_model_base.Model):
-    """The image can be either base64 encoded bytes or a blob URL. You can choose only one of these
-    options. If both are provided, the request will be refused. The maximum image size is 2048 x
-    2048 pixels and should not exceed 4 MB, while the minimum image size is 50 x 50 pixels.
+class DetectTextProtectedMaterialResult(_model_base.Model):
+    """The combined detection results of potential protected material.
 
-    :ivar content: The Base64 encoding of the image.
-    :vartype content: bytes
-    :ivar blob_url: The blob url of the image.
-    :vartype blob_url: str
+
+    :ivar protected_material_analysis: Analysis result for the given text. Required.
+    :vartype protected_material_analysis:
+     ~azure.ai.contentsafety.models.TextProtectedMaterialAnalysisResult
     """
 
-    content: Optional[bytes] = rest_field(format="base64")
-    """The Base64 encoding of the image."""
-    blob_url: Optional[str] = rest_field(name="blobUrl")
-    """The blob url of the image."""
+    protected_material_analysis: "_models.TextProtectedMaterialAnalysisResult" = rest_field(
+        name="protectedMaterialAnalysis"
+    )
+    """Analysis result for the given text. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        content: Optional[bytes] = None,
-        blob_url: Optional[str] = None,
-    ):
-        ...
+        protected_material_analysis: "_models.TextProtectedMaterialAnalysisResult",
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class DocumentInjectionAnalysisResult(_model_base.Model):
+    """The individual analysis result of potential injection attacks in the given documents.
+
+
+    :ivar attack_detected: Whether a potential injection attack is detected or not. Required.
+    :vartype attack_detected: bool
+    """
+
+    attack_detected: bool = rest_field(name="attackDetected")
+    """Whether a potential injection attack is detected or not. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        attack_detected: bool,
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -349,8 +223,76 @@ class RemoveTextBlocklistItemsOptions(_model_base.Model):
         self,
         *,
         blocklist_item_ids: List[str],
-    ):
-        ...
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class ShieldPromptOptions(_model_base.Model):
+    """The request of analyzing potential direct or indirect injection attacks.
+
+    :ivar user_prompt: The user prompt to be analyzed, which may contain direct injection attacks.
+    :vartype user_prompt: str
+    :ivar documents: The documents to be analyzed, which may contain direct or indirect injection
+     attacks.
+    :vartype documents: list[str]
+    """
+
+    user_prompt: Optional[str] = rest_field(name="userPrompt")
+    """The user prompt to be analyzed, which may contain direct injection attacks."""
+    documents: Optional[List[str]] = rest_field()
+    """The documents to be analyzed, which may contain direct or indirect injection attacks."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_prompt: Optional[str] = None,
+        documents: Optional[List[str]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class ShieldPromptResult(_model_base.Model):
+    """The combined analysis results of potential direct or indirect injection attacks.
+
+    :ivar user_prompt_analysis: Direct injection attacks analysis result for the given user prompt.
+    :vartype user_prompt_analysis: ~azure.ai.contentsafety.models.UserPromptInjectionAnalysisResult
+    :ivar documents_analysis: Direct and indirect injection attacks analysis result for the given
+     documents.
+    :vartype documents_analysis:
+     list[~azure.ai.contentsafety.models.DocumentInjectionAnalysisResult]
+    """
+
+    user_prompt_analysis: Optional["_models.UserPromptInjectionAnalysisResult"] = rest_field(name="userPromptAnalysis")
+    """Direct injection attacks analysis result for the given user prompt."""
+    documents_analysis: Optional[List["_models.DocumentInjectionAnalysisResult"]] = rest_field(name="documentsAnalysis")
+    """Direct and indirect injection attacks analysis result for the given documents."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        user_prompt_analysis: Optional["_models.UserPromptInjectionAnalysisResult"] = None,
+        documents_analysis: Optional[List["_models.DocumentInjectionAnalysisResult"]] = None,
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -366,7 +308,6 @@ class RemoveTextBlocklistItemsOptions(_model_base.Model):
 class TextBlocklist(_model_base.Model):
     """Text Blocklist.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar blocklist_name: Text blocklist name. Required.
     :vartype blocklist_name: str
@@ -385,8 +326,7 @@ class TextBlocklist(_model_base.Model):
         *,
         blocklist_name: str,
         description: Optional[str] = None,
-    ):
-        ...
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -404,15 +344,17 @@ class TextBlocklistItem(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar blocklist_item_id: The service will generate a BlocklistItemId, which will be a UUID.
      Required.
     :vartype blocklist_item_id: str
     :ivar description: BlocklistItem description.
     :vartype description: str
-    :ivar text: BlocklistItem content. Required.
+    :ivar text: BlocklistItem content. The length is counted using Unicode code point. Required.
     :vartype text: str
+    :ivar is_regex: An optional properties indicating whether this item is to be matched as a
+     regular expression.
+    :vartype is_regex: bool
     """
 
     blocklist_item_id: str = rest_field(name="blocklistItemId", visibility=["read"])
@@ -420,7 +362,9 @@ class TextBlocklistItem(_model_base.Model):
     description: Optional[str] = rest_field()
     """BlocklistItem description."""
     text: str = rest_field()
-    """BlocklistItem content. Required."""
+    """BlocklistItem content. The length is counted using Unicode code point. Required."""
+    is_regex: Optional[bool] = rest_field(name="isRegex")
+    """An optional properties indicating whether this item is to be matched as a regular expression."""
 
     @overload
     def __init__(
@@ -428,8 +372,8 @@ class TextBlocklistItem(_model_base.Model):
         *,
         text: str,
         description: Optional[str] = None,
-    ):
-        ...
+        is_regex: Optional[bool] = None,
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -445,7 +389,6 @@ class TextBlocklistItem(_model_base.Model):
 class TextBlocklistMatch(_model_base.Model):
     """The result of blocklist match.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar blocklist_name: The name of the matched blocklist. Required.
     :vartype blocklist_name: str
@@ -469,8 +412,7 @@ class TextBlocklistMatch(_model_base.Model):
         blocklist_name: str,
         blocklist_item_id: str,
         blocklist_item_text: str,
-    ):
-        ...
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
@@ -486,7 +428,6 @@ class TextBlocklistMatch(_model_base.Model):
 class TextCategoriesAnalysis(_model_base.Model):
     """Text analysis result.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar category: The text analysis category. Required. Known values are: "Hate", "SelfHarm",
      "Sexual", and "Violence".
@@ -513,8 +454,65 @@ class TextCategoriesAnalysis(_model_base.Model):
         *,
         category: Union[str, "_models.TextCategory"],
         severity: Optional[int] = None,
-    ):
-        ...
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class TextProtectedMaterialAnalysisResult(_model_base.Model):
+    """The individual detection result of potential protected material.
+
+
+    :ivar detected: Whether potential protected material is detected or not. Required.
+    :vartype detected: bool
+    """
+
+    detected: bool = rest_field()
+    """Whether potential protected material is detected or not. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        detected: bool,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class UserPromptInjectionAnalysisResult(_model_base.Model):
+    """The individual analysis result of potential injection attacks in the given user prompt.
+
+
+    :ivar attack_detected: Whether a potential injection attack is detected or not. Required.
+    :vartype attack_detected: bool
+    """
+
+    attack_detected: bool = rest_field(name="attackDetected")
+    """Whether a potential injection attack is detected or not. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        attack_detected: bool,
+    ): ...
 
     @overload
     def __init__(self, mapping: Mapping[str, Any]):
