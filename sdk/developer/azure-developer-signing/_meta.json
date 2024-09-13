@@ -1,0 +1,6 @@
+{
+  "commit": "81a3d9f15562919d277c2ee40e23b85fcf3ccdd4",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/developersigning/DeveloperSigning",
+  "@azure-tools/typespec-python": "0.32.0"
+}
