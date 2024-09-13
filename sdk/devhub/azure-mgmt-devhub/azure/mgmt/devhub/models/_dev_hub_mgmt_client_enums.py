@@ -126,6 +126,21 @@ class PullRequestStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Workflow no longer found within repository."""
 
 
+class QuickStartTemplateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Determines the authorization status of requests."""
+
+    NONE = "None"
+    """The template has not use quick start template"""
+    HCI = "HCI"
+    """The template use quick start template of HCI"""
+    HCIAKS = "HCIAKS"
+    """The template use quick start template of HCI and AKS"""
+    HCIARCVM = "HCIARCVM"
+    """The template use quick start template of HCI and ArcVM"""
+    ALL = "ALL"
+    """The template use quick start template of All supported products"""
+
+
 class WorkflowRunStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Describes the status of the workflow run."""
 
