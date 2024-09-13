@@ -411,7 +411,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar purchase_plan: Purchase plan information for the the image from which the OS disk was
      created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product:
      WindowsServer}.
-    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
     :ivar supported_capabilities: List of supported capabilities for the image from which the OS
      disk was created.
     :vartype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
@@ -536,7 +536,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
         "time_created": {"key": "properties.timeCreated", "type": "iso-8601"},
         "os_type": {"key": "properties.osType", "type": "str"},
         "hyper_v_generation": {"key": "properties.hyperVGeneration", "type": "str"},
-        "purchase_plan": {"key": "properties.purchasePlan", "type": "PurchasePlan"},
+        "purchase_plan": {"key": "properties.purchasePlan", "type": "DiskPurchasePlan"},
         "supported_capabilities": {"key": "properties.supportedCapabilities", "type": "SupportedCapabilities"},
         "creation_data": {"key": "properties.creationData", "type": "CreationData"},
         "disk_size_gb": {"key": "properties.diskSizeGB", "type": "int"},
@@ -583,7 +583,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
         extended_location: Optional["_models.ExtendedLocation"] = None,
         os_type: Optional[Union[str, "_models.OperatingSystemTypes"]] = None,
         hyper_v_generation: Optional[Union[str, "_models.HyperVGeneration"]] = None,
-        purchase_plan: Optional["_models.PurchasePlan"] = None,
+        purchase_plan: Optional["_models.DiskPurchasePlan"] = None,
         supported_capabilities: Optional["_models.SupportedCapabilities"] = None,
         creation_data: Optional["_models.CreationData"] = None,
         disk_size_gb: Optional[int] = None,
@@ -627,7 +627,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword purchase_plan: Purchase plan information for the the image from which the OS disk was
          created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product:
          WindowsServer}.
-        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
         :keyword supported_capabilities: List of supported capabilities for the image from which the OS
          disk was created.
         :paramtype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
@@ -1140,6 +1140,56 @@ class DiskList(_serialization.Model):
         self.next_link = next_link
 
 
+class DiskPurchasePlan(_serialization.Model):
+    """Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: The plan ID. Required.
+    :vartype name: str
+    :ivar publisher: The publisher ID. Required.
+    :vartype publisher: str
+    :ivar product: Specifies the product of the image from the marketplace. This is the same value
+     as Offer under the imageReference element. Required.
+    :vartype product: str
+    :ivar promotion_code: The Offer Promotion Code.
+    :vartype promotion_code: str
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "publisher": {"required": True},
+        "product": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "publisher": {"key": "publisher", "type": "str"},
+        "product": {"key": "product", "type": "str"},
+        "promotion_code": {"key": "promotionCode", "type": "str"},
+    }
+
+    def __init__(
+        self, *, name: str, publisher: str, product: str, promotion_code: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The plan ID. Required.
+        :paramtype name: str
+        :keyword publisher: The publisher ID. Required.
+        :paramtype publisher: str
+        :keyword product: Specifies the product of the image from the marketplace. This is the same
+         value as Offer under the imageReference element. Required.
+        :paramtype product: str
+        :keyword promotion_code: The Offer Promotion Code.
+        :paramtype promotion_code: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.publisher = publisher
+        self.product = product
+        self.promotion_code = promotion_code
+
+
 class ProxyOnlyResource(_serialization.Model):
     """The ProxyOnly Resource model definition.
 
@@ -1195,7 +1245,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
     :vartype hyper_v_generation: str or ~azure.mgmt.compute.v2023_10_02.models.HyperVGeneration
     :ivar purchase_plan: Purchase plan information for the the image from which the OS disk was
      created.
-    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
     :ivar supported_capabilities: List of supported capabilities for the image from which the OS
      disk was created.
     :vartype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
@@ -1253,7 +1303,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
         "source_resource_id": {"key": "properties.sourceResourceId", "type": "str"},
         "os_type": {"key": "properties.osType", "type": "str"},
         "hyper_v_generation": {"key": "properties.hyperVGeneration", "type": "str"},
-        "purchase_plan": {"key": "properties.purchasePlan", "type": "PurchasePlan"},
+        "purchase_plan": {"key": "properties.purchasePlan", "type": "DiskPurchasePlan"},
         "supported_capabilities": {"key": "properties.supportedCapabilities", "type": "SupportedCapabilities"},
         "family_id": {"key": "properties.familyId", "type": "str"},
         "source_unique_id": {"key": "properties.sourceUniqueId", "type": "str"},
@@ -1272,7 +1322,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
         self,
         *,
         hyper_v_generation: Optional[Union[str, "_models.HyperVGeneration"]] = None,
-        purchase_plan: Optional["_models.PurchasePlan"] = None,
+        purchase_plan: Optional["_models.DiskPurchasePlan"] = None,
         supported_capabilities: Optional["_models.SupportedCapabilities"] = None,
         supports_hibernation: Optional[bool] = None,
         network_access_policy: Optional[Union[str, "_models.NetworkAccessPolicy"]] = None,
@@ -1288,7 +1338,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
         :paramtype hyper_v_generation: str or ~azure.mgmt.compute.v2023_10_02.models.HyperVGeneration
         :keyword purchase_plan: Purchase plan information for the the image from which the OS disk was
          created.
-        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
         :keyword supported_capabilities: List of supported capabilities for the image from which the OS
          disk was created.
         :paramtype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
@@ -1495,7 +1545,7 @@ class DiskUpdate(_serialization.Model):  # pylint: disable=too-many-instance-att
      target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
     :vartype bursting_enabled: bool
     :ivar purchase_plan: Purchase plan information to be added on the OS disk.
-    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
     :ivar supported_capabilities: List of supported capabilities to be added on the OS disk.
     :vartype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
     :ivar property_updates_in_progress: Properties of the disk for which update is pending.
@@ -1542,7 +1592,7 @@ class DiskUpdate(_serialization.Model):  # pylint: disable=too-many-instance-att
         "disk_access_id": {"key": "properties.diskAccessId", "type": "str"},
         "tier": {"key": "properties.tier", "type": "str"},
         "bursting_enabled": {"key": "properties.burstingEnabled", "type": "bool"},
-        "purchase_plan": {"key": "properties.purchasePlan", "type": "PurchasePlan"},
+        "purchase_plan": {"key": "properties.purchasePlan", "type": "DiskPurchasePlan"},
         "supported_capabilities": {"key": "properties.supportedCapabilities", "type": "SupportedCapabilities"},
         "property_updates_in_progress": {
             "key": "properties.propertyUpdatesInProgress",
@@ -1572,7 +1622,7 @@ class DiskUpdate(_serialization.Model):  # pylint: disable=too-many-instance-att
         disk_access_id: Optional[str] = None,
         tier: Optional[str] = None,
         bursting_enabled: Optional[bool] = None,
-        purchase_plan: Optional["_models.PurchasePlan"] = None,
+        purchase_plan: Optional["_models.DiskPurchasePlan"] = None,
         supported_capabilities: Optional["_models.SupportedCapabilities"] = None,
         supports_hibernation: Optional[bool] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
@@ -1632,7 +1682,7 @@ class DiskUpdate(_serialization.Model):  # pylint: disable=too-many-instance-att
          target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
         :paramtype bursting_enabled: bool
         :keyword purchase_plan: Purchase plan information to be added on the OS disk.
-        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
         :keyword supported_capabilities: List of supported capabilities to be added on the OS disk.
         :paramtype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
         :keyword supports_hibernation: Indicates the OS on a disk supports hibernation.
@@ -1911,7 +1961,8 @@ class GrantAccessData(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar access: Required. Known values are: "None", "Read", and "Write".
+    :ivar access: The Access Level, accepted values include None, Read, Write. Required. Known
+     values are: "None", "Read", and "Write".
     :vartype access: str or ~azure.mgmt.compute.v2023_10_02.models.AccessLevel
     :ivar duration_in_seconds: Time duration in seconds until the SAS access expires. Required.
     :vartype duration_in_seconds: int
@@ -1945,7 +1996,8 @@ class GrantAccessData(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword access: Required. Known values are: "None", "Read", and "Write".
+        :keyword access: The Access Level, accepted values include None, Read, Write. Required. Known
+         values are: "None", "Read", and "Write".
         :paramtype access: str or ~azure.mgmt.compute.v2023_10_02.models.AccessLevel
         :keyword duration_in_seconds: Time duration in seconds until the SAS access expires. Required.
         :paramtype duration_in_seconds: int
@@ -2409,56 +2461,6 @@ class PropertyUpdatesInProgress(_serialization.Model):
         self.target_tier = target_tier
 
 
-class PurchasePlan(_serialization.Model):
-    """Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar name: The plan ID. Required.
-    :vartype name: str
-    :ivar publisher: The publisher ID. Required.
-    :vartype publisher: str
-    :ivar product: Specifies the product of the image from the marketplace. This is the same value
-     as Offer under the imageReference element. Required.
-    :vartype product: str
-    :ivar promotion_code: The Offer Promotion Code.
-    :vartype promotion_code: str
-    """
-
-    _validation = {
-        "name": {"required": True},
-        "publisher": {"required": True},
-        "product": {"required": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "publisher": {"key": "publisher", "type": "str"},
-        "product": {"key": "product", "type": "str"},
-        "promotion_code": {"key": "promotionCode", "type": "str"},
-    }
-
-    def __init__(
-        self, *, name: str, publisher: str, product: str, promotion_code: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: The plan ID. Required.
-        :paramtype name: str
-        :keyword publisher: The publisher ID. Required.
-        :paramtype publisher: str
-        :keyword product: Specifies the product of the image from the marketplace. This is the same
-         value as Offer under the imageReference element. Required.
-        :paramtype product: str
-        :keyword promotion_code: The Offer Promotion Code.
-        :paramtype promotion_code: str
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.publisher = publisher
-        self.product = product
-        self.promotion_code = promotion_code
-
-
 class ResourceUriList(_serialization.Model):
     """The List resources which are encrypted with the disk encryption set.
 
@@ -2599,7 +2601,7 @@ class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype hyper_v_generation: str or ~azure.mgmt.compute.v2023_10_02.models.HyperVGeneration
     :ivar purchase_plan: Purchase plan information for the image from which the source disk for the
      snapshot was originally created.
-    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+    :vartype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
     :ivar supported_capabilities: List of supported capabilities for the image from which the
      source disk from the snapshot was originally created.
     :vartype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities
@@ -2686,7 +2688,7 @@ class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
         "time_created": {"key": "properties.timeCreated", "type": "iso-8601"},
         "os_type": {"key": "properties.osType", "type": "str"},
         "hyper_v_generation": {"key": "properties.hyperVGeneration", "type": "str"},
-        "purchase_plan": {"key": "properties.purchasePlan", "type": "PurchasePlan"},
+        "purchase_plan": {"key": "properties.purchasePlan", "type": "DiskPurchasePlan"},
         "supported_capabilities": {"key": "properties.supportedCapabilities", "type": "SupportedCapabilities"},
         "creation_data": {"key": "properties.creationData", "type": "CreationData"},
         "disk_size_gb": {"key": "properties.diskSizeGB", "type": "int"},
@@ -2720,7 +2722,7 @@ class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
         extended_location: Optional["_models.ExtendedLocation"] = None,
         os_type: Optional[Union[str, "_models.OperatingSystemTypes"]] = None,
         hyper_v_generation: Optional[Union[str, "_models.HyperVGeneration"]] = None,
-        purchase_plan: Optional["_models.PurchasePlan"] = None,
+        purchase_plan: Optional["_models.DiskPurchasePlan"] = None,
         supported_capabilities: Optional["_models.SupportedCapabilities"] = None,
         creation_data: Optional["_models.CreationData"] = None,
         disk_size_gb: Optional[int] = None,
@@ -2756,7 +2758,7 @@ class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype hyper_v_generation: str or ~azure.mgmt.compute.v2023_10_02.models.HyperVGeneration
         :keyword purchase_plan: Purchase plan information for the image from which the source disk for
          the snapshot was originally created.
-        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.PurchasePlan
+        :paramtype purchase_plan: ~azure.mgmt.compute.v2023_10_02.models.DiskPurchasePlan
         :keyword supported_capabilities: List of supported capabilities for the image from which the
          source disk from the snapshot was originally created.
         :paramtype supported_capabilities: ~azure.mgmt.compute.v2023_10_02.models.SupportedCapabilities

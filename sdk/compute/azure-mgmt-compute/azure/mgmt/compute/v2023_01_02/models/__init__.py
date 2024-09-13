@@ -19,6 +19,7 @@ from ._models_py3 import DiskEncryptionSet
 from ._models_py3 import DiskEncryptionSetList
 from ._models_py3 import DiskEncryptionSetUpdate
 from ._models_py3 import DiskList
+from ._models_py3 import DiskPurchasePlan
 from ._models_py3 import DiskRestorePoint
 from ._models_py3 import DiskRestorePointList
 from ._models_py3 import DiskSecurityProfile
@@ -43,7 +44,6 @@ from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import PropertyUpdatesInProgress
 from ._models_py3 import ProxyOnlyResource
-from ._models_py3 import PurchasePlan
 from ._models_py3 import Resource
 from ._models_py3 import ResourceUriList
 from ._models_py3 import ResourceWithOptionalLocation
@@ -97,6 +97,7 @@ __all__ = [
     "DiskEncryptionSetList",
     "DiskEncryptionSetUpdate",
     "DiskList",
+    "DiskPurchasePlan",
     "DiskRestorePoint",
     "DiskRestorePointList",
     "DiskSecurityProfile",
@@ -121,7 +122,6 @@ __all__ = [
     "PrivateLinkServiceConnectionState",
     "PropertyUpdatesInProgress",
     "ProxyOnlyResource",
-    "PurchasePlan",
     "Resource",
     "ResourceUriList",
     "ResourceWithOptionalLocation",

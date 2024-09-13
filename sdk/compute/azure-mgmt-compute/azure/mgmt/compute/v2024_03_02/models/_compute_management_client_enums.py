@@ -11,7 +11,7 @@ from azure.core import CaseInsensitiveEnumMeta
 
 
 class AccessLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """AccessLevel."""
+    """The Access Level, accepted values include None, Read, Write."""
 
     NONE = "None"
     READ = "Read"
