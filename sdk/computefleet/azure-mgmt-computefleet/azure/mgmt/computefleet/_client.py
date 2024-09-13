@@ -33,8 +33,6 @@ class ComputeFleetMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
     :vartype fleets: azure.mgmt.computefleet.operations.FleetsOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
-    :type subscription_id: str
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword api_version: The API version to use for this operation. Default value is
@@ -46,15 +44,10 @@ class ComputeFleetMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", base_url: str = "https://management.azure.com", **kwargs: Any
     ) -> None:
-        self._config = ComputeFleetMgmtClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
-        )
+        _endpoint = "{endpoint}"
+        self._config = ComputeFleetMgmtClientConfiguration(credential=credential, base_url=base_url, **kwargs)
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -73,7 +66,7 @@ class ComputeFleetMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=_endpoint, policies=_policies, **kwargs)
 
         self._serialize = Serializer()
         self._deserialize = Deserializer()
@@ -100,7 +93,11 @@ class ComputeFleetMgmtClient:  # pylint: disable=client-accepts-api-version-keyw
         """
 
         request_copy = deepcopy(request)
-        request_copy.url = self._client.format_url(request_copy.url)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+
+        request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
         return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     def close(self) -> None:
