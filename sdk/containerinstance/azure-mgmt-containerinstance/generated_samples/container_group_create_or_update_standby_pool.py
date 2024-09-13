@@ -15,7 +15,7 @@ from azure.mgmt.containerinstance import ContainerInstanceManagementClient
     pip install azure-identity
     pip install azure-mgmt-containerinstance
 # USAGE
-    python subnet_service_association_link_delete.py
+    python container_group_create_or_update_standby_pool.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,26 @@ def main():
         subscription_id="subid",
     )
 
-    client.subnet_service_association_link.begin_delete(
+    response = client.container_groups.begin_create_or_update(
         resource_group_name="demo",
-        virtual_network_name="demo2",
-        subnet_name="demo3",
+        container_group_name="demo1",
+        container_group={
+            "location": "west us",
+            "properties": {
+                "containerGroupProfile": {
+                    "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroupProfiles/democgp",
+                    "revision": 1,
+                },
+                "containers": [{"name": "demo1", "properties": {"configMap": {"keyValuePairs": {"Newkey": "value"}}}}],
+                "standbyPoolProfile": {
+                    "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.StandbyPool/standbyContainerGroupPools/demopool"
+                },
+            },
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-10-01-preview/examples/SubnetServiceAssociationLinkDelete.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-10-01-preview/examples/ContainerGroupCreateOrUpdateStandbyPool.json
 if __name__ == "__main__":
     main()
