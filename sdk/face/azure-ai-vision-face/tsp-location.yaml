@@ -1,4 +1,4 @@
 directory: specification/ai/Face
-commit: 1d2253d1e221541cf05ae5d0dd95bd28c0846238
+commit: f60584c6a9d7a110129410add909b8b9ea6ad26c
 repo: Azure/azure-rest-api-specs
-additionalDirectories:
+additionalDirectories: 
