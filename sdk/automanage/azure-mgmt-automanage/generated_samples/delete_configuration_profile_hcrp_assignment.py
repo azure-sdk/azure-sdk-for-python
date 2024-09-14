@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automanage import AutomanageClient
 
 """
@@ -29,12 +30,11 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.configuration_profile_hcrp_assignments.delete(
+    client.configuration_profile_hcrp_assignments.delete(
         resource_group_name="myResourceGroupName",
         machine_name="myMachineName",
         configuration_profile_assignment_name="default",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileHCRPAssignment.json

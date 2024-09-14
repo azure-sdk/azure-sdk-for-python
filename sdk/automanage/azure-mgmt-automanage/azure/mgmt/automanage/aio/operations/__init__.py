@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._best_practices_operations import BestPracticesOperations
 from ._best_practices_versions_operations import BestPracticesVersionsOperations
 from ._configuration_profiles_operations import ConfigurationProfilesOperations
 from ._configuration_profiles_versions_operations import ConfigurationProfilesVersionsOperations
@@ -24,7 +23,6 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "BestPracticesOperations",
     "BestPracticesVersionsOperations",
     "ConfigurationProfilesOperations",
     "ConfigurationProfilesVersionsOperations",

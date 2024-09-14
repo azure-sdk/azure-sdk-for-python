@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automanage import AutomanageClient
 
 """
@@ -29,12 +30,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.configuration_profiles_versions.delete(
+    client.configuration_profiles_versions.delete(
         resource_group_name="rg",
         configuration_profile_name="customConfigurationProfile",
         version_name="version1",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileVersion.json
