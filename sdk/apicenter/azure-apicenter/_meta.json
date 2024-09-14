@@ -1,0 +1,6 @@
+{
+  "commit": "53a6e18cafec48c0c284d70fb15dc39e0842c2d7",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
+  "typespec_src": "specification/apicenter/ApiCenter.DataApi",
+  "@azure-tools/typespec-python": "0.31.1"
+}
