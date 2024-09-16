@@ -59,8 +59,8 @@ class AccessKeys(_serialization.Model):
         primary_key: Optional[str] = None,
         secondary_key: Optional[str] = None,
         key_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword primary_connection_string: Primary connection string of the created namespace
          authorization rule.
@@ -91,7 +91,7 @@ class ProxyResource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -116,7 +116,7 @@ class ProxyResource(_serialization.Model):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -131,7 +131,7 @@ class AuthorizationRule(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -163,7 +163,7 @@ class AuthorizationRule(ProxyResource):
         "rights": {"key": "properties.rights", "type": "[str]"},
     }
 
-    def __init__(self, *, rights: Optional[List[Union[str, "_models.AccessRights"]]] = None, **kwargs):
+    def __init__(self, *, rights: Optional[List[Union[str, "_models.AccessRights"]]] = None, **kwargs: Any) -> None:
         """
         :keyword rights: The rights associated with the rule.
         :paramtype rights: list[str or ~azure.mgmt.relay.models.AccessRights]
@@ -189,8 +189,12 @@ class AuthorizationRuleListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AuthorizationRule"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AuthorizationRule"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the list authorization rules operation.
         :paramtype value: list[~azure.mgmt.relay.models.AuthorizationRule]
@@ -206,7 +210,7 @@ class AuthorizationRuleListResult(_serialization.Model):
 class CheckNameAvailability(_serialization.Model):
     """Description of the check name availability request properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The namespace name to check for availability. The namespace name can contain only
      letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a
@@ -222,7 +226,7 @@ class CheckNameAvailability(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: str, **kwargs):
+    def __init__(self, *, name: str, **kwargs: Any) -> None:
         """
         :keyword name: The namespace name to check for availability. The namespace name can contain
          only letters, numbers, and hyphens. The namespace must start with a letter, and it must end
@@ -264,8 +268,8 @@ class CheckNameAvailabilityResult(_serialization.Model):
         *,
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.UnavailableReason"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Value indicating namespace is available. Returns true if the namespace
          is available; otherwise, false.
@@ -301,8 +305,8 @@ class ConnectionState(_serialization.Model):
         *,
         status: Optional[Union[str, "_models.PrivateLinkConnectionStatus"]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Status of the connection. Known values are: "Pending", "Approved", "Rejected",
          and "Disconnected".
@@ -336,7 +340,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -376,7 +380,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -387,7 +391,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.relay.models.ErrorDetail
@@ -397,7 +402,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.relay.models.ErrorDetail
@@ -412,7 +417,7 @@ class HybridConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -465,8 +470,12 @@ class HybridConnection(ProxyResource):
     }
 
     def __init__(
-        self, *, requires_client_authorization: Optional[bool] = None, user_metadata: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        requires_client_authorization: Optional[bool] = None,
+        user_metadata: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword requires_client_authorization: Returns true if client authorization is needed for this
          hybrid connection; otherwise, false.
@@ -502,8 +511,12 @@ class HybridConnectionListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.HybridConnection"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.HybridConnection"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the list hybrid connections.
         :paramtype value: list[~azure.mgmt.relay.models.HybridConnection]
@@ -541,7 +554,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -562,6 +575,9 @@ class NetworkRuleSet(Resource):
     :vartype type: str
     :ivar system_data: The system meta data relating to this resource.
     :vartype system_data: ~azure.mgmt.relay.models.SystemData
+    :ivar trusted_service_access_enabled: Value that indicates whether Trusted Service Access is
+     Enabled or not.
+    :vartype trusted_service_access_enabled: bool
     :ivar default_action: Default Action for Network Rule Set. Known values are: "Allow" and
      "Deny".
     :vartype default_action: str or ~azure.mgmt.relay.models.DefaultAction
@@ -584,6 +600,7 @@ class NetworkRuleSet(Resource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "trusted_service_access_enabled": {"key": "properties.trustedServiceAccessEnabled", "type": "bool"},
         "default_action": {"key": "properties.defaultAction", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "ip_rules": {"key": "properties.ipRules", "type": "[NWRuleSetIpRules]"},
@@ -592,12 +609,16 @@ class NetworkRuleSet(Resource):
     def __init__(
         self,
         *,
+        trusted_service_access_enabled: Optional[bool] = None,
         default_action: Optional[Union[str, "_models.DefaultAction"]] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         ip_rules: Optional[List["_models.NWRuleSetIpRules"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword trusted_service_access_enabled: Value that indicates whether Trusted Service Access is
+         Enabled or not.
+        :paramtype trusted_service_access_enabled: bool
         :keyword default_action: Default Action for Network Rule Set. Known values are: "Allow" and
          "Deny".
         :paramtype default_action: str or ~azure.mgmt.relay.models.DefaultAction
@@ -609,6 +630,7 @@ class NetworkRuleSet(Resource):
         """
         super().__init__(**kwargs)
         self.system_data = None
+        self.trusted_service_access_enabled = trusted_service_access_enabled
         self.default_action = default_action
         self.public_network_access = public_network_access
         self.ip_rules = ip_rules
@@ -633,8 +655,8 @@ class NWRuleSetIpRules(_serialization.Model):
         *,
         ip_mask: Optional[str] = None,
         action: Optional[Union[str, "_models.NetworkRuleIPAction"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ip_mask: IP Mask.
         :paramtype ip_mask: str
@@ -678,7 +700,7 @@ class Operation(_serialization.Model):
         "properties": {"key": "properties", "type": "object"},
     }
 
-    def __init__(self, *, properties: Optional[JSON] = None, **kwargs):
+    def __init__(self, *, properties: Optional[JSON] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Properties of the operation.
         :paramtype properties: JSON
@@ -720,7 +742,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -730,7 +752,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list Relay operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list Relay operations. It contains a list of operations and a URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -750,7 +773,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -768,7 +791,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The ARM identifier for Private Endpoint.
         :paramtype id: str
@@ -783,7 +806,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -831,8 +854,8 @@ class PrivateEndpointConnection(ProxyResource):
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.ConnectionState"] = None,
         provisioning_state: Optional[Union[str, "_models.EndPointProvisioningState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The Private Endpoint resource for this Connection.
         :paramtype private_endpoint: ~azure.mgmt.relay.models.PrivateEndpoint
@@ -868,8 +891,8 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         *,
         value: Optional[List["_models.PrivateEndpointConnection"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of private endpoint connection resources.
         :paramtype value: list[~azure.mgmt.relay.models.PrivateEndpointConnection]
@@ -916,8 +939,8 @@ class PrivateLinkResource(_serialization.Model):
         group_id: Optional[str] = None,
         required_members: Optional[List[str]] = None,
         required_zone_names: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Fully qualified identifier of the resource.
         :paramtype id: str
@@ -956,8 +979,12 @@ class PrivateLinkResourcesListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.PrivateLinkResource"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of private link resources.
         :paramtype value: list[~azure.mgmt.relay.models.PrivateLinkResource]
@@ -970,9 +997,10 @@ class PrivateLinkResourcesListResult(_serialization.Model):
 
 
 class RegenerateAccessKeyParameters(_serialization.Model):
-    """Parameters supplied to the regenerate authorization rule operation, specifies which key needs to be reset.
+    """Parameters supplied to the regenerate authorization rule operation, specifies which key needs
+    to be reset.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_type: The access key to regenerate. Required. Known values are: "PrimaryKey" and
      "SecondaryKey".
@@ -991,7 +1019,7 @@ class RegenerateAccessKeyParameters(_serialization.Model):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, *, key_type: Union[str, "_models.KeyType"], key: Optional[str] = None, **kwargs):
+    def __init__(self, *, key_type: Union[str, "_models.KeyType"], key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key_type: The access key to regenerate. Required. Known values are: "PrimaryKey" and
          "SecondaryKey".
@@ -1010,7 +1038,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -1039,7 +1067,7 @@ class TrackedResource(Resource):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -1056,7 +1084,7 @@ class RelayNamespace(TrackedResource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -1134,8 +1162,8 @@ class RelayNamespace(TrackedResource):  # pylint: disable=too-many-instance-attr
         sku: Optional["_models.Sku"] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -1179,8 +1207,8 @@ class RelayNamespaceListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.RelayNamespace"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.RelayNamespace"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the list namespace operation.
         :paramtype value: list[~azure.mgmt.relay.models.RelayNamespace]
@@ -1221,7 +1249,7 @@ class ResourceNamespacePatch(Resource):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1302,8 +1330,8 @@ class RelayUpdateParameters(ResourceNamespacePatch):  # pylint: disable=too-many
         sku: Optional["_models.Sku"] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1331,7 +1359,7 @@ class RelayUpdateParameters(ResourceNamespacePatch):  # pylint: disable=too-many
 class Sku(_serialization.Model):
     """SKU of the namespace.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of this SKU. Required. "Standard"
     :vartype name: str or ~azure.mgmt.relay.models.SkuName
@@ -1349,8 +1377,12 @@ class Sku(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Union[str, "_models.SkuName"], tier: Optional[Union[str, "_models.SkuTier"]] = None, **kwargs
-    ):
+        self,
+        *,
+        name: Union[str, "_models.SkuName"],
+        tier: Optional[Union[str, "_models.SkuTier"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of this SKU. Required. "Standard"
         :paramtype name: str or ~azure.mgmt.relay.models.SkuName
@@ -1399,8 +1431,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -1432,7 +1464,7 @@ class WcfRelay(ProxyResource):  # pylint: disable=too-many-instance-attributes
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1501,8 +1533,8 @@ class WcfRelay(ProxyResource):  # pylint: disable=too-many-instance-attributes
         requires_client_authorization: Optional[bool] = None,
         requires_transport_security: Optional[bool] = None,
         user_metadata: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword relay_type: WCF relay type. Known values are: "NetTcp" and "Http".
         :paramtype relay_type: str or ~azure.mgmt.relay.models.Relaytype
@@ -1544,7 +1576,9 @@ class WcfRelaysListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.WcfRelay"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.WcfRelay"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the list WCF relay operation.
         :paramtype value: list[~azure.mgmt.relay.models.WcfRelay]
