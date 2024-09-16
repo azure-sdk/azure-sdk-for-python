@@ -57,6 +57,7 @@ from ._models_py3 import PlanDataListResponse
 from ._models_py3 import PlanDataResource
 from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
+from ._models_py3 import ResubscribeProperties
 from ._models_py3 import SubscriptionList
 from ._models_py3 import SwitchBillingParameter
 from ._models_py3 import SwitchBillingRequest
@@ -73,7 +74,6 @@ from ._models_py3 import VMInfo
 
 from ._new_relic_observability_mgmt_client_enums import AccountCreationSource
 from ._new_relic_observability_mgmt_client_enums import ActionType
-from ._new_relic_observability_mgmt_client_enums import BillingCycle
 from ._new_relic_observability_mgmt_client_enums import BillingSource
 from ._new_relic_observability_mgmt_client_enums import ConfigurationName
 from ._new_relic_observability_mgmt_client_enums import CreatedByType
@@ -151,6 +151,7 @@ __all__ = [
     "PlanDataResource",
     "ProxyResource",
     "Resource",
+    "ResubscribeProperties",
     "SubscriptionList",
     "SwitchBillingParameter",
     "SwitchBillingRequest",
@@ -166,7 +167,6 @@ __all__ = [
     "VMInfo",
     "AccountCreationSource",
     "ActionType",
-    "BillingCycle",
     "BillingSource",
     "ConfigurationName",
     "CreatedByType",

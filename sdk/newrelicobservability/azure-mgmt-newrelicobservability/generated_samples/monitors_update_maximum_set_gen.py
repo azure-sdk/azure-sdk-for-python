@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
 
 """
@@ -29,7 +30,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.monitors.update(
+    response = client.monitors.begin_update(
         resource_group_name="rgNewRelic",
         monitor_name="cdlymktqw",
         properties={
@@ -49,7 +50,7 @@ def main():
                 },
                 "orgCreationSource": "LIFTR",
                 "planData": {
-                    "billingCycle": "YEARLY",
+                    "billingCycle": "Yearly",
                     "effectiveDate": "2022-12-05T14:11:37.786Z",
                     "planDetails": "tbbiaga",
                     "usageType": "PAYG",
@@ -64,10 +65,10 @@ def main():
             },
             "tags": {"key164": "jqakdrrmmyzytqu"},
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-10-01/examples/Monitors_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
