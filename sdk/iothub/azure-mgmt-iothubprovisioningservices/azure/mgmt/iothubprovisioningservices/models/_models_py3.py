@@ -282,7 +282,7 @@ class GroupIdInformation(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The resource identifier.
     :vartype id: str
@@ -473,7 +473,7 @@ class IotDpsPropertiesDescription(_serialization.Model):  # pylint: disable=too-
          ~azure.mgmt.iothubprovisioningservices.models.AllocationPolicy
         :keyword authorization_policies: List of authorization keys for a provisioning service.
         :paramtype authorization_policies:
-         list[~azure.mgmt.iothubprovisioningservices.models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription]
+         list[~azure.mgmt.iothubprovisioningservices.models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription]  # pylint: disable=line-too-long
         :keyword enable_data_residency: Optional.
          Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster
          recovery.
@@ -591,7 +591,7 @@ class IotHubDefinitionDescription(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar apply_allocation_policy: flag for applying allocationPolicy or not for a given iot hub.
     :vartype apply_allocation_policy: bool
@@ -650,7 +650,7 @@ class IotHubDefinitionDescription(_serialization.Model):
 class IpFilterRule(_serialization.Model):
     """The IP filter rules for a provisioning Service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar filter_name: The name of the IP filter rule. Required.
     :vartype filter_name: str
@@ -712,7 +712,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -726,7 +726,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.iothubprovisioningservices.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.iothubprovisioningservices.models.UserAssignedIdentity]
@@ -760,7 +760,7 @@ class ManagedServiceIdentity(_serialization.Model):
          ~azure.mgmt.iothubprovisioningservices.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.iothubprovisioningservices.models.UserAssignedIdentity]
@@ -880,7 +880,7 @@ class OperationDisplay(_serialization.Model):
 class OperationInputs(_serialization.Model):
     """Input values for operation results call.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Provisioning Service to check. Required.
     :vartype name: str
@@ -961,7 +961,7 @@ class PrivateEndpointConnection(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The resource identifier.
     :vartype id: str
@@ -1009,7 +1009,7 @@ class PrivateEndpointConnection(_serialization.Model):
 class PrivateEndpointConnectionProperties(_serialization.Model):
     """The properties of a private endpoint connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar private_endpoint: The private endpoint property of a private endpoint connection.
     :vartype private_endpoint: ~azure.mgmt.iothubprovisioningservices.models.PrivateEndpoint
@@ -1074,7 +1074,7 @@ class PrivateLinkResources(_serialization.Model):
 class PrivateLinkServiceConnectionState(_serialization.Model):
     """The current state of a private endpoint connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The status of a private endpoint connection. Required. Known values are:
      "Pending", "Approved", "Rejected", and "Disconnected".
@@ -1128,7 +1128,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The resource identifier.
     :vartype id: str
@@ -1197,7 +1197,7 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The resource identifier.
     :vartype id: str
@@ -1328,10 +1328,12 @@ class ProvisioningServiceDescriptionListResult(_serialization.Model):
         self.next_link = None
 
 
-class SharedAccessSignatureAuthorizationRuleAccessRightsDescription(_serialization.Model):
+class SharedAccessSignatureAuthorizationRuleAccessRightsDescription(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Description of the shared access key.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_name: Name of the key. Required.
     :vartype key_name: str
@@ -1385,7 +1387,7 @@ class SharedAccessSignatureAuthorizationRuleAccessRightsDescription(_serializati
         self.rights = rights
 
 
-class SharedAccessSignatureAuthorizationRuleListResult(_serialization.Model):
+class SharedAccessSignatureAuthorizationRuleListResult(_serialization.Model):  # pylint: disable=name-too-long
     """List of shared access keys.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1415,7 +1417,7 @@ class SharedAccessSignatureAuthorizationRuleListResult(_serialization.Model):
         """
         :keyword value: The list of shared access policies.
         :paramtype value:
-         list[~azure.mgmt.iothubprovisioningservices.models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription]
+         list[~azure.mgmt.iothubprovisioningservices.models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription]  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.value = value
