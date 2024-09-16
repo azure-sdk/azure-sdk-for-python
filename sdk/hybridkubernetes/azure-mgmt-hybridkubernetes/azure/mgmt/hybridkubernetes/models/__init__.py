@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AadProfile
+from ._models_py3 import ArcAgentProfile
 from ._models_py3 import ConnectedCluster
 from ._models_py3 import ConnectedClusterIdentity
 from ._models_py3 import ConnectedClusterList
@@ -25,16 +27,22 @@ from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 
 from ._connected_kubernetes_client_enums import AuthenticationMethod
+from ._connected_kubernetes_client_enums import AutoUpgradeOptions
+from ._connected_kubernetes_client_enums import AzureHybridBenefit
+from ._connected_kubernetes_client_enums import ConnectedClusterKind
 from ._connected_kubernetes_client_enums import ConnectivityStatus
 from ._connected_kubernetes_client_enums import CreatedByType
 from ._connected_kubernetes_client_enums import LastModifiedByType
+from ._connected_kubernetes_client_enums import PrivateLinkState
 from ._connected_kubernetes_client_enums import ProvisioningState
 from ._connected_kubernetes_client_enums import ResourceIdentityType
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AadProfile",
+    "ArcAgentProfile",
     "ConnectedCluster",
     "ConnectedClusterIdentity",
     "ConnectedClusterList",
@@ -53,9 +61,13 @@ __all__ = [
     "SystemData",
     "TrackedResource",
     "AuthenticationMethod",
+    "AutoUpgradeOptions",
+    "AzureHybridBenefit",
+    "ConnectedClusterKind",
     "ConnectivityStatus",
     "CreatedByType",
     "LastModifiedByType",
+    "PrivateLinkState",
     "ProvisioningState",
     "ResourceIdentityType",
 ]
