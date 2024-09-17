@@ -20,7 +20,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_fleets_get(self, resource_group):
         response = self.client.fleets.get(
             resource_group_name=resource_group.name,
             fleet_name="str",
@@ -31,7 +31,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_fleets_begin_create_or_update(self, resource_group):
         response = self.client.fleets.begin_create_or_update(
             resource_group_name=resource_group.name,
             fleet_name="str",
@@ -304,7 +304,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_fleets_begin_update(self, resource_group):
         response = self.client.fleets.begin_update(
             resource_group_name=resource_group.name,
             fleet_name="str",
@@ -562,7 +562,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_fleets_begin_delete(self, resource_group):
         response = self.client.fleets.begin_delete(
             resource_group_name=resource_group.name,
             fleet_name="str",
@@ -573,7 +573,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_fleets_list_by_resource_group(self, resource_group):
         response = self.client.fleets.list_by_resource_group(
             resource_group_name=resource_group.name,
         )
@@ -583,7 +583,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_fleets_list_by_subscription(self, resource_group):
         response = self.client.fleets.list_by_subscription()
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -591,7 +591,7 @@ class TestComputeFleetMgmtFleetsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_virtual_machine_scale_sets(self, resource_group):
+    def test_fleets_list_virtual_machine_scale_sets(self, resource_group):
         response = self.client.fleets.list_virtual_machine_scale_sets(
             resource_group_name=resource_group.name,
             name="str",
