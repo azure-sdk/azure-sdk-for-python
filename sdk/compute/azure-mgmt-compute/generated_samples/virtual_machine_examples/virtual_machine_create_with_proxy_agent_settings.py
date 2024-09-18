@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.compute import ComputeManagementClient
@@ -52,7 +50,7 @@ def main():
                     "adminUsername": "{your-username}",
                     "computerName": "myVM",
                 },
-                "securityProfile": {"proxyAgentSettings": {"enabled": True, "mode": "Enforce"}},
+                "securityProfile": {"proxyAgentSettings": {"enabled": True}},
                 "storageProfile": {
                     "imageReference": {
                         "offer": "WindowsServer",

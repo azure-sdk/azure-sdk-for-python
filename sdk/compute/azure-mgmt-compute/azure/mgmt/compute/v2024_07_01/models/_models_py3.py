@@ -1715,9 +1715,8 @@ class DataDisk(_serialization.Model):  # pylint: disable=too-many-instance-attri
      previous detachment attempt of the data disk did not complete due to an unexpected failure from
      the virtual machine and the disk is still not released then use force-detach as a last resort
      option to detach the disk forcibly from the VM. All writes might not have been flushed when
-     using this detach behavior. **This feature is still in preview** mode and is not supported for
-     VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with
-     setting detachOption: 'ForceDetach'. "ForceDetach"
+     using this detach behavior. **This feature is still in preview**. To force-detach a data disk
+     update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. "ForceDetach"
     :vartype detach_option: str or ~azure.mgmt.compute.v2024_07_01.models.DiskDetachOptionTypes
     :ivar delete_option: Specifies whether data disk should be deleted or detached upon VM
      deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when
@@ -1817,9 +1816,8 @@ class DataDisk(_serialization.Model):  # pylint: disable=too-many-instance-attri
          previous detachment attempt of the data disk did not complete due to an unexpected failure from
          the virtual machine and the disk is still not released then use force-detach as a last resort
          option to detach the disk forcibly from the VM. All writes might not have been flushed when
-         using this detach behavior. **This feature is still in preview** mode and is not supported for
-         VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with
-         setting detachOption: 'ForceDetach'. "ForceDetach"
+         using this detach behavior. **This feature is still in preview**. To force-detach a data disk
+         update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. "ForceDetach"
         :paramtype detach_option: str or ~azure.mgmt.compute.v2024_07_01.models.DiskDetachOptionTypes
         :keyword delete_option: Specifies whether data disk should be deleted or detached upon VM
          deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when
@@ -3257,6 +3255,50 @@ class HardwareProfile(_serialization.Model):
         super().__init__(**kwargs)
         self.vm_size = vm_size
         self.vm_size_properties = vm_size_properties
+
+
+class HostEndpointSettings(_serialization.Model):
+    """Specifies particular host endpoint settings.
+
+    :ivar mode: Specifies the execution mode. In Audit mode, the system acts as if it is enforcing
+     the access control policy, including emitting access denial entries in the logs but it does not
+     actually deny any requests to host endpoints. Enforce mode is the recommended mode of operation
+     and system will enforce the access control. Known values are: "Audit", "Enforce", and
+     "Disabled".
+    :vartype mode: str or ~azure.mgmt.compute.v2024_07_01.models.Mode
+    :ivar in_vm_access_control_profile_reference_id: Specifies the InVMAccessControlProfileVersion
+     resource id on the form of
+     /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version}.  # pylint: disable=line-too-long
+    :vartype in_vm_access_control_profile_reference_id: str
+    """
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+        "in_vm_access_control_profile_reference_id": {"key": "inVMAccessControlProfileReferenceId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        mode: Optional[Union[str, "_models.Mode"]] = None,
+        in_vm_access_control_profile_reference_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword mode: Specifies the execution mode. In Audit mode, the system acts as if it is
+         enforcing the access control policy, including emitting access denial entries in the logs but
+         it does not actually deny any requests to host endpoints. Enforce mode is the recommended mode
+         of operation and system will enforce the access control. Known values are: "Audit", "Enforce",
+         and "Disabled".
+        :paramtype mode: str or ~azure.mgmt.compute.v2024_07_01.models.Mode
+        :keyword in_vm_access_control_profile_reference_id: Specifies the
+         InVMAccessControlProfileVersion resource id on the form of
+         /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version}.  # pylint: disable=line-too-long
+        :paramtype in_vm_access_control_profile_reference_id: str
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+        self.in_vm_access_control_profile_reference_id = in_vm_access_control_profile_reference_id
 
 
 class Image(Resource):
@@ -5755,53 +5797,58 @@ class ProximityPlacementGroupUpdate(UpdateResource):
 
 
 class ProxyAgentSettings(_serialization.Model):
-    """Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version:
-    2023-09-01.
+    """Specifies ProxyAgent settings for the virtual machine or virtual machine scale set. Minimum
+    api-version: 2023-09-01.
 
     :ivar enabled: Specifies whether ProxyAgent feature should be enabled on the virtual machine or
      virtual machine scale set.
     :vartype enabled: bool
-    :ivar mode: Specifies the mode that ProxyAgent will execute on if the feature is enabled.
-     ProxyAgent will start to audit or monitor but not enforce access control over requests to host
-     endpoints in Audit mode, while in Enforce mode it will enforce access control. The default
-     value is Enforce mode. Known values are: "Audit" and "Enforce".
-    :vartype mode: str or ~azure.mgmt.compute.v2024_07_01.models.Mode
     :ivar key_incarnation_id: Increase the value of this property allows user to reset the key used
      for securing communication channel between guest and host.
     :vartype key_incarnation_id: int
+    :ivar wire_server: Specifies the WireServer endpoint settings while creating the virtual
+     machine or virtual machine scale set. Minimum api-version: 2024-03-01.
+    :vartype wire_server: ~azure.mgmt.compute.v2024_07_01.models.HostEndpointSettings
+    :ivar imds: Specifies the IMDS endpoint settings while creating the virtual machine or virtual
+     machine scale set. Minimum api-version: 2024-03-01.
+    :vartype imds: ~azure.mgmt.compute.v2024_07_01.models.HostEndpointSettings
     """
 
     _attribute_map = {
         "enabled": {"key": "enabled", "type": "bool"},
-        "mode": {"key": "mode", "type": "str"},
         "key_incarnation_id": {"key": "keyIncarnationId", "type": "int"},
+        "wire_server": {"key": "wireServer", "type": "HostEndpointSettings"},
+        "imds": {"key": "imds", "type": "HostEndpointSettings"},
     }
 
     def __init__(
         self,
         *,
         enabled: Optional[bool] = None,
-        mode: Optional[Union[str, "_models.Mode"]] = None,
         key_incarnation_id: Optional[int] = None,
+        wire_server: Optional["_models.HostEndpointSettings"] = None,
+        imds: Optional["_models.HostEndpointSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword enabled: Specifies whether ProxyAgent feature should be enabled on the virtual machine
          or virtual machine scale set.
         :paramtype enabled: bool
-        :keyword mode: Specifies the mode that ProxyAgent will execute on if the feature is enabled.
-         ProxyAgent will start to audit or monitor but not enforce access control over requests to host
-         endpoints in Audit mode, while in Enforce mode it will enforce access control. The default
-         value is Enforce mode. Known values are: "Audit" and "Enforce".
-        :paramtype mode: str or ~azure.mgmt.compute.v2024_07_01.models.Mode
         :keyword key_incarnation_id: Increase the value of this property allows user to reset the key
          used for securing communication channel between guest and host.
         :paramtype key_incarnation_id: int
+        :keyword wire_server: Specifies the WireServer endpoint settings while creating the virtual
+         machine or virtual machine scale set. Minimum api-version: 2024-03-01.
+        :paramtype wire_server: ~azure.mgmt.compute.v2024_07_01.models.HostEndpointSettings
+        :keyword imds: Specifies the IMDS endpoint settings while creating the virtual machine or
+         virtual machine scale set. Minimum api-version: 2024-03-01.
+        :paramtype imds: ~azure.mgmt.compute.v2024_07_01.models.HostEndpointSettings
         """
         super().__init__(**kwargs)
         self.enabled = enabled
-        self.mode = mode
         self.key_incarnation_id = key_incarnation_id
+        self.wire_server = wire_server
+        self.imds = imds
 
 
 class ProxyResource(_serialization.Model):

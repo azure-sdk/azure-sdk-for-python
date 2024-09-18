@@ -166,8 +166,8 @@ class DiskDetachOptionTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     detachment attempt of the data disk did not complete due to an unexpected failure from the
     virtual machine and the disk is still not released then use force-detach as a last resort
     option to detach the disk forcibly from the VM. All writes might not have been flushed when
-    using this detach behavior. **This feature is still in preview** mode. To force-detach a data
-    disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+    using this detach behavior. **This feature is still in preview**. To force-detach a data disk
+    update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
     """
 
     FORCE_DETACH = "ForceDetach"
@@ -337,14 +337,15 @@ class MaintenanceOperationResultCodeTypes(str, Enum, metaclass=CaseInsensitiveEn
 
 
 class Mode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will
-    start to audit or monitor but not enforce access control over requests to host endpoints in
-    Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce
-    mode.
+    """Specifies the execution mode. In Audit mode, the system acts as if it is enforcing the access
+    control policy, including emitting access denial entries in the logs but it does not actually
+    deny any requests to host endpoints. Enforce mode is the recommended mode of operation and
+    system will enforce the access control.
     """
 
     AUDIT = "Audit"
     ENFORCE = "Enforce"
+    DISABLED = "Disabled"
 
 
 class NetworkApiVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -67,6 +67,7 @@ from ._models_py3 import EncryptionIdentity
 from ._models_py3 import EventGridAndResourceGraph
 from ._models_py3 import ExtendedLocation
 from ._models_py3 import HardwareProfile
+from ._models_py3 import HostEndpointSettings
 from ._models_py3 import Image
 from ._models_py3 import ImageDataDisk
 from ._models_py3 import ImageDeprecationStatus
@@ -436,6 +437,7 @@ __all__ = [
     "EventGridAndResourceGraph",
     "ExtendedLocation",
     "HardwareProfile",
+    "HostEndpointSettings",
     "Image",
     "ImageDataDisk",
     "ImageDeprecationStatus",
