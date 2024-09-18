@@ -25,13 +25,14 @@ class ContentSafetyClientConfiguration:  # pylint: disable=too-many-instance-att
     attributes.
 
     :param endpoint: Supported Cognitive Services endpoints (protocol and hostname, for example:
+     test
      https://:code:`<resource-name>`.cognitiveservices.azure.com). Required.
     :type endpoint: str
-    :param credential: Credential needed for the client to connect to Azure. Is either a
+    :param credential: Credential used to authenticate requests to the service. Is either a
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2023-10-01".
+    :keyword api_version: The API version to use for this operation. Default value is "2024-09-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
@@ -39,7 +40,7 @@ class ContentSafetyClientConfiguration:  # pylint: disable=too-many-instance-att
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2023-10-01")
+        api_version: str = kwargs.pop("api_version", "2024-09-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -82,13 +83,14 @@ class BlocklistClientConfiguration:  # pylint: disable=too-many-instance-attribu
     attributes.
 
     :param endpoint: Supported Cognitive Services endpoints (protocol and hostname, for example:
+     test
      https://:code:`<resource-name>`.cognitiveservices.azure.com). Required.
     :type endpoint: str
-    :param credential: Credential needed for the client to connect to Azure. Is either a
+    :param credential: Credential used to authenticate requests to the service. Is either a
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2023-10-01".
+    :keyword api_version: The API version to use for this operation. Default value is "2024-09-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
@@ -96,7 +98,7 @@ class BlocklistClientConfiguration:  # pylint: disable=too-many-instance-attribu
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2023-10-01")
+        api_version: str = kwargs.pop("api_version", "2024-09-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
