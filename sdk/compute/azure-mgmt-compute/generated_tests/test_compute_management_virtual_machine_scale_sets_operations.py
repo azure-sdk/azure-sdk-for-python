@@ -20,17 +20,6 @@ class TestComputeManagementVirtualMachineScaleSetsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_location(self, resource_group):
-        response = self.client.virtual_machine_scale_sets.list_by_location(
-            location="str",
-            api_version="2024-07-01",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
     def test_begin_create_or_update(self, resource_group):
         response = self.client.virtual_machine_scale_sets.begin_create_or_update(
             resource_group_name=resource_group.name,
