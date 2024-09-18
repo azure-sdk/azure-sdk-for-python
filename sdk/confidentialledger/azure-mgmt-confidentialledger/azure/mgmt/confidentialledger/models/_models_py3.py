@@ -614,7 +614,7 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class LedgerProperties(_serialization.Model):
+class LedgerProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Additional Confidential Ledger properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -645,6 +645,22 @@ class LedgerProperties(_serialization.Model):
     :ivar cert_based_security_principals: Array of all cert based Security Principals.
     :vartype cert_based_security_principals:
      list[~azure.mgmt.confidentialledger.models.CertBasedSecurityPrincipal]
+    :ivar host_level: CCF Property for the logging level for the untrusted host: Trace, Debug,
+     Info, Fail, Fatal.
+    :vartype host_level: str
+    :ivar max_body_size_in_mb: CCF Property for the maximum size of the http request body: 1MB,
+     5MB, 10MB.
+    :vartype max_body_size_in_mb: int
+    :ivar subject_name: CCF Property for the subject name to include in the node certificate.
+     Default: CN=CCF Node.
+    :vartype subject_name: str
+    :ivar node_count: Number of CCF nodes in the ACC Ledger.
+    :vartype node_count: int
+    :ivar write_lb_address_prefix: Prefix for the write load balancer. Example: write.
+    :vartype write_lb_address_prefix: str
+    :ivar worker_threads: Number of additional threads processing incoming client requests in the
+     enclave (modify with care!).
+    :vartype worker_threads: int
     """
 
     _validation = {
@@ -669,6 +685,12 @@ class LedgerProperties(_serialization.Model):
             "key": "certBasedSecurityPrincipals",
             "type": "[CertBasedSecurityPrincipal]",
         },
+        "host_level": {"key": "hostLevel", "type": "str"},
+        "max_body_size_in_mb": {"key": "maxBodySizeInMb", "type": "int"},
+        "subject_name": {"key": "subjectName", "type": "str"},
+        "node_count": {"key": "nodeCount", "type": "int"},
+        "write_lb_address_prefix": {"key": "writeLBAddressPrefix", "type": "str"},
+        "worker_threads": {"key": "workerThreads", "type": "int"},
     }
 
     def __init__(
@@ -679,6 +701,12 @@ class LedgerProperties(_serialization.Model):
         ledger_sku: Optional[Union[str, "_models.LedgerSku"]] = None,
         aad_based_security_principals: Optional[List["_models.AADBasedSecurityPrincipal"]] = None,
         cert_based_security_principals: Optional[List["_models.CertBasedSecurityPrincipal"]] = None,
+        host_level: Optional[str] = None,
+        max_body_size_in_mb: Optional[int] = None,
+        subject_name: Optional[str] = None,
+        node_count: Optional[int] = None,
+        write_lb_address_prefix: Optional[str] = None,
+        worker_threads: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -697,6 +725,22 @@ class LedgerProperties(_serialization.Model):
         :keyword cert_based_security_principals: Array of all cert based Security Principals.
         :paramtype cert_based_security_principals:
          list[~azure.mgmt.confidentialledger.models.CertBasedSecurityPrincipal]
+        :keyword host_level: CCF Property for the logging level for the untrusted host: Trace, Debug,
+         Info, Fail, Fatal.
+        :paramtype host_level: str
+        :keyword max_body_size_in_mb: CCF Property for the maximum size of the http request body: 1MB,
+         5MB, 10MB.
+        :paramtype max_body_size_in_mb: int
+        :keyword subject_name: CCF Property for the subject name to include in the node certificate.
+         Default: CN=CCF Node.
+        :paramtype subject_name: str
+        :keyword node_count: Number of CCF nodes in the ACC Ledger.
+        :paramtype node_count: int
+        :keyword write_lb_address_prefix: Prefix for the write load balancer. Example: write.
+        :paramtype write_lb_address_prefix: str
+        :keyword worker_threads: Number of additional threads processing incoming client requests in
+         the enclave (modify with care!).
+        :paramtype worker_threads: int
         """
         super().__init__(**kwargs)
         self.ledger_name = None
@@ -709,6 +753,12 @@ class LedgerProperties(_serialization.Model):
         self.ledger_sku = ledger_sku
         self.aad_based_security_principals = aad_based_security_principals
         self.cert_based_security_principals = cert_based_security_principals
+        self.host_level = host_level
+        self.max_body_size_in_mb = max_body_size_in_mb
+        self.subject_name = subject_name
+        self.node_count = node_count
+        self.write_lb_address_prefix = write_lb_address_prefix
+        self.worker_threads = worker_threads
 
 
 class ManagedCCF(TrackedResource):
