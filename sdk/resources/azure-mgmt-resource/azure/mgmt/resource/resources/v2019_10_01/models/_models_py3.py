@@ -618,6 +618,10 @@ class DeploymentProperties(_serialization.Model):
     :ivar on_error_deployment: The deployment on error behavior.
     :vartype on_error_deployment:
      ~azure.mgmt.resource.resources.v2019_10_01.models.OnErrorDeployment
+    :ivar validation_level: The validation level of the deployment. Known values are: "Template"
+     and "Provider".
+    :vartype validation_level: str or
+     ~azure.mgmt.resource.resources.v2019_10_01.models.ValidationLevel
     """
 
     _validation = {
@@ -632,6 +636,7 @@ class DeploymentProperties(_serialization.Model):
         "mode": {"key": "mode", "type": "str"},
         "debug_setting": {"key": "debugSetting", "type": "DebugSetting"},
         "on_error_deployment": {"key": "onErrorDeployment", "type": "OnErrorDeployment"},
+        "validation_level": {"key": "validationLevel", "type": "str"},
     }
 
     def __init__(
@@ -644,6 +649,7 @@ class DeploymentProperties(_serialization.Model):
         parameters_link: Optional["_models.ParametersLink"] = None,
         debug_setting: Optional["_models.DebugSetting"] = None,
         on_error_deployment: Optional["_models.OnErrorDeployment"] = None,
+        validation_level: Optional[Union[str, "_models.ValidationLevel"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -676,6 +682,10 @@ class DeploymentProperties(_serialization.Model):
         :keyword on_error_deployment: The deployment on error behavior.
         :paramtype on_error_deployment:
          ~azure.mgmt.resource.resources.v2019_10_01.models.OnErrorDeployment
+        :keyword validation_level: The validation level of the deployment. Known values are: "Template"
+         and "Provider".
+        :paramtype validation_level: str or
+         ~azure.mgmt.resource.resources.v2019_10_01.models.ValidationLevel
         """
         super().__init__(**kwargs)
         self.template = template
@@ -685,6 +695,7 @@ class DeploymentProperties(_serialization.Model):
         self.mode = mode
         self.debug_setting = debug_setting
         self.on_error_deployment = on_error_deployment
+        self.validation_level = validation_level
 
 
 class DeploymentPropertiesExtended(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -730,6 +741,10 @@ class DeploymentPropertiesExtended(_serialization.Model):  # pylint: disable=too
      list[~azure.mgmt.resource.resources.v2019_10_01.models.ResourceReference]
     :ivar error: The deployment error.
     :vartype error: ~azure.mgmt.resource.resources.v2019_10_01.models.ErrorResponse
+    :ivar validation_level: The validation level of the deployment. Known values are: "Template"
+     and "Provider".
+    :vartype validation_level: str or
+     ~azure.mgmt.resource.resources.v2019_10_01.models.ValidationLevel
     """
 
     _validation = {
@@ -770,10 +785,18 @@ class DeploymentPropertiesExtended(_serialization.Model):  # pylint: disable=too
         "output_resources": {"key": "outputResources", "type": "[ResourceReference]"},
         "validated_resources": {"key": "validatedResources", "type": "[ResourceReference]"},
         "error": {"key": "error", "type": "ErrorResponse"},
+        "validation_level": {"key": "validationLevel", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self, *, validation_level: Optional[Union[str, "_models.ValidationLevel"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword validation_level: The validation level of the deployment. Known values are: "Template"
+         and "Provider".
+        :paramtype validation_level: str or
+         ~azure.mgmt.resource.resources.v2019_10_01.models.ValidationLevel
+        """
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.correlation_id = None
@@ -792,6 +815,7 @@ class DeploymentPropertiesExtended(_serialization.Model):  # pylint: disable=too
         self.output_resources = None
         self.validated_resources = None
         self.error = None
+        self.validation_level = validation_level
 
 
 class DeploymentValidateResult(_serialization.Model):
@@ -896,6 +920,10 @@ class DeploymentWhatIfProperties(DeploymentProperties):
     :ivar on_error_deployment: The deployment on error behavior.
     :vartype on_error_deployment:
      ~azure.mgmt.resource.resources.v2019_10_01.models.OnErrorDeployment
+    :ivar validation_level: The validation level of the deployment. Known values are: "Template"
+     and "Provider".
+    :vartype validation_level: str or
+     ~azure.mgmt.resource.resources.v2019_10_01.models.ValidationLevel
     :ivar what_if_settings: Optional What-If operation settings.
     :vartype what_if_settings:
      ~azure.mgmt.resource.resources.v2019_10_01.models.DeploymentWhatIfSettings
@@ -913,6 +941,7 @@ class DeploymentWhatIfProperties(DeploymentProperties):
         "mode": {"key": "mode", "type": "str"},
         "debug_setting": {"key": "debugSetting", "type": "DebugSetting"},
         "on_error_deployment": {"key": "onErrorDeployment", "type": "OnErrorDeployment"},
+        "validation_level": {"key": "validationLevel", "type": "str"},
         "what_if_settings": {"key": "whatIfSettings", "type": "DeploymentWhatIfSettings"},
     }
 
@@ -926,6 +955,7 @@ class DeploymentWhatIfProperties(DeploymentProperties):
         parameters_link: Optional["_models.ParametersLink"] = None,
         debug_setting: Optional["_models.DebugSetting"] = None,
         on_error_deployment: Optional["_models.OnErrorDeployment"] = None,
+        validation_level: Optional[Union[str, "_models.ValidationLevel"]] = None,
         what_if_settings: Optional["_models.DeploymentWhatIfSettings"] = None,
         **kwargs: Any
     ) -> None:
@@ -959,6 +989,10 @@ class DeploymentWhatIfProperties(DeploymentProperties):
         :keyword on_error_deployment: The deployment on error behavior.
         :paramtype on_error_deployment:
          ~azure.mgmt.resource.resources.v2019_10_01.models.OnErrorDeployment
+        :keyword validation_level: The validation level of the deployment. Known values are: "Template"
+         and "Provider".
+        :paramtype validation_level: str or
+         ~azure.mgmt.resource.resources.v2019_10_01.models.ValidationLevel
         :keyword what_if_settings: Optional What-If operation settings.
         :paramtype what_if_settings:
          ~azure.mgmt.resource.resources.v2019_10_01.models.DeploymentWhatIfSettings
@@ -971,6 +1005,7 @@ class DeploymentWhatIfProperties(DeploymentProperties):
             mode=mode,
             debug_setting=debug_setting,
             on_error_deployment=on_error_deployment,
+            validation_level=validation_level,
             **kwargs
         )
         self.what_if_settings = what_if_settings

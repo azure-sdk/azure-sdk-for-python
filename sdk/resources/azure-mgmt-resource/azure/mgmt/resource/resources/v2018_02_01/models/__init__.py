@@ -62,6 +62,7 @@ from ._models_py3 import ZoneMapping
 from ._resource_management_client_enums import DeploymentMode
 from ._resource_management_client_enums import OnErrorDeploymentType
 from ._resource_management_client_enums import ResourceIdentityType
+from ._resource_management_client_enums import ValidationLevel
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -122,6 +123,7 @@ __all__ = [
     "DeploymentMode",
     "OnErrorDeploymentType",
     "ResourceIdentityType",
+    "ValidationLevel",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
