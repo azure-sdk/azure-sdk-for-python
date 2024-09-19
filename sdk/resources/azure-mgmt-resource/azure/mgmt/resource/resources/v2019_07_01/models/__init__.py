@@ -73,6 +73,7 @@ from ._resource_management_client_enums import DeploymentMode
 from ._resource_management_client_enums import OnErrorDeploymentType
 from ._resource_management_client_enums import PropertyChangeType
 from ._resource_management_client_enums import ResourceIdentityType
+from ._resource_management_client_enums import ValidationLevel
 from ._resource_management_client_enums import WhatIfResultFormat
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -145,6 +146,7 @@ __all__ = [
     "OnErrorDeploymentType",
     "PropertyChangeType",
     "ResourceIdentityType",
+    "ValidationLevel",
     "WhatIfResultFormat",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

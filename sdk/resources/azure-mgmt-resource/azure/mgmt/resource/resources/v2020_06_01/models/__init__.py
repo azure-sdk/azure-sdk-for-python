@@ -92,6 +92,7 @@ from ._resource_management_client_enums import ProvisioningOperation
 from ._resource_management_client_enums import ProvisioningState
 from ._resource_management_client_enums import ResourceIdentityType
 from ._resource_management_client_enums import TagsPatchOperation
+from ._resource_management_client_enums import ValidationLevel
 from ._resource_management_client_enums import WhatIfResultFormat
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -183,6 +184,7 @@ __all__ = [
     "ProvisioningState",
     "ResourceIdentityType",
     "TagsPatchOperation",
+    "ValidationLevel",
     "WhatIfResultFormat",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

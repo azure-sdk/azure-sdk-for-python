@@ -79,6 +79,17 @@ class ResourceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
 
 
+class ValidationLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The level of validation performed on the deployment. This value can be either Template or
+    Provider. At Template level, static analysis and validation of the template is performed. At
+    Provider level, static analysis of the template is performed and resource declarations are sent
+    to resource providers for semantic validation.
+    """
+
+    TEMPLATE = "Template"
+    PROVIDER = "Provider"
+
+
 class WhatIfResultFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The format of the What-If results."""
 
