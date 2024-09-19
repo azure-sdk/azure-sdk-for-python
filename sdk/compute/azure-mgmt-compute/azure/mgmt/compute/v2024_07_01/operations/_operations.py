@@ -118,7 +118,7 @@ def build_virtual_machine_sizes_list_request(location: str, subscription_id: str
 
 
 def build_virtual_machine_scale_sets_list_by_location_request(  # pylint: disable=name-too-long
-    location: str, subscription_id: str, **kwargs: Any
+    location: int, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -132,7 +132,7 @@ def build_virtual_machine_scale_sets_list_by_location_request(  # pylint: disabl
         "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachineScaleSets",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "location": _SERIALIZER.url("location", location, "str", pattern=r"^[-\w\._]+$"),
+        "location": _SERIALIZER.url("location", location, "int"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
@@ -6554,12 +6554,12 @@ class VirtualMachineScaleSetsOperations:  # pylint: disable=too-many-public-meth
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
-    def list_by_location(self, location: str, **kwargs: Any) -> Iterable["_models.VirtualMachineScaleSet"]:
+    def list_by_location(self, location: int, **kwargs: Any) -> Iterable["_models.VirtualMachineScaleSet"]:
         """Gets all the VM scale sets under the specified subscription for the specified location.
 
         :param location: The location for which VM scale sets under the subscription are queried.
          Required.
-        :type location: str
+        :type location: int
         :return: An iterator like instance of either VirtualMachineScaleSet or the result of
          cls(response)
         :rtype:
