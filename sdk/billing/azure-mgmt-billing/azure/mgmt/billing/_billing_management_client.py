@@ -26,7 +26,6 @@ from .operations import (
     BillingAccountsOperations,
     BillingPermissionsOperations,
     BillingProfilesOperations,
-    BillingPropertyOperations,
     BillingRequestsOperations,
     BillingRoleAssignmentsOperations,
     BillingRoleDefinitionOperations,
@@ -73,8 +72,6 @@ class BillingManagementClient:  # pylint: disable=client-accepts-api-version-key
     :vartype billing_permissions: azure.mgmt.billing.operations.BillingPermissionsOperations
     :ivar billing_profiles: BillingProfilesOperations operations
     :vartype billing_profiles: azure.mgmt.billing.operations.BillingProfilesOperations
-    :ivar billing_property: BillingPropertyOperations operations
-    :vartype billing_property: azure.mgmt.billing.operations.BillingPropertyOperations
     :ivar billing_requests: BillingRequestsOperations operations
     :vartype billing_requests: azure.mgmt.billing.operations.BillingRequestsOperations
     :ivar billing_role_assignments: BillingRoleAssignmentsOperations operations
@@ -183,9 +180,6 @@ class BillingManagementClient:  # pylint: disable=client-accepts-api-version-key
             self._client, self._config, self._serialize, self._deserialize
         )
         self.billing_profiles = BillingProfilesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.billing_property = BillingPropertyOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.billing_requests = BillingRequestsOperations(

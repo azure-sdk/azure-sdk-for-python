@@ -13,7 +13,6 @@ from ._billing_accounts_operations import BillingAccountsOperations
 from ._address_operations import AddressOperations
 from ._billing_permissions_operations import BillingPermissionsOperations
 from ._billing_profiles_operations import BillingProfilesOperations
-from ._billing_property_operations import BillingPropertyOperations
 from ._billing_requests_operations import BillingRequestsOperations
 from ._billing_role_assignments_operations import BillingRoleAssignmentsOperations
 from ._billing_role_definition_operations import BillingRoleDefinitionOperations
@@ -49,7 +48,6 @@ __all__ = [
     "AddressOperations",
     "BillingPermissionsOperations",
     "BillingProfilesOperations",
-    "BillingPropertyOperations",
     "BillingRequestsOperations",
     "BillingRoleAssignmentsOperations",
     "BillingRoleDefinitionOperations",
