@@ -26,6 +26,15 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class EnclavePlatform(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Object representing the enclave platform for the Confidential Ledger application. Defaults to
+    IntelSgx.
+    """
+
+    INTEL_SGX = "IntelSgx"
+    AMD_SEV_SNP = "AmdSevSnp"
+
+
 class LanguageRuntime(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Object representing LanguageRuntime for Manged CCF."""
 
