@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -44,8 +44,8 @@ class CloudErrorBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: The error code.
         :paramtype code: str
@@ -69,7 +69,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -90,7 +90,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -99,14 +99,15 @@ class Resource(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -134,7 +135,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -151,10 +152,10 @@ class DnsForwardingRuleset(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -212,8 +213,8 @@ class DnsForwardingRuleset(TrackedResource):
         location: str,
         dns_resolver_outbound_endpoints: List["_models.SubResource"],
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -252,7 +253,7 @@ class DnsForwardingRulesetListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DnsForwardingRuleset"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.DnsForwardingRuleset"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the DNS forwarding rulesets.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.DnsForwardingRuleset]
@@ -283,8 +284,8 @@ class DnsForwardingRulesetPatch(_serialization.Model):
         *,
         dns_resolver_outbound_endpoints: Optional[List["_models.SubResource"]] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword dns_resolver_outbound_endpoints: The reference to the DNS resolver outbound endpoints
          that are used to route DNS queries matching the forwarding rules in the ruleset to the target
@@ -303,10 +304,10 @@ class DnsResolver(TrackedResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -364,8 +365,13 @@ class DnsResolver(TrackedResource):  # pylint: disable=too-many-instance-attribu
     }
 
     def __init__(
-        self, *, location: str, virtual_network: "_models.SubResource", tags: Optional[Dict[str, str]] = None, **kwargs
-    ):
+        self,
+        *,
+        location: str,
+        virtual_network: "_models.SubResource",
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -404,7 +410,7 @@ class DnsResolverListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DnsResolver"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.DnsResolver"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the DNS resolvers.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.DnsResolver]
@@ -425,7 +431,7 @@ class DnsResolverPatch(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Tags for DNS Resolver.
         :paramtype tags: dict[str, str]
@@ -435,12 +441,13 @@ class DnsResolverPatch(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -449,32 +456,16 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-
 
 class ForwardingRule(ProxyResource):
     """Describes a forwarding rule within a DNS forwarding ruleset.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -531,8 +522,8 @@ class ForwardingRule(ProxyResource):
         target_dns_servers: List["_models.TargetDnsServer"],
         metadata: Optional[Dict[str, str]] = None,
         forwarding_rule_state: Optional[Union[str, "_models.ForwardingRuleState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword domain_name: The domain name for the forwarding rule. Required.
         :paramtype domain_name: str
@@ -574,7 +565,7 @@ class ForwardingRuleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ForwardingRule"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ForwardingRule"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the forwarding rules.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.ForwardingRule]
@@ -608,8 +599,8 @@ class ForwardingRulePatch(_serialization.Model):
         target_dns_servers: Optional[List["_models.TargetDnsServer"]] = None,
         metadata: Optional[Dict[str, str]] = None,
         forwarding_rule_state: Optional[Union[str, "_models.ForwardingRuleState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_dns_servers: DNS servers to forward the DNS query to.
         :paramtype target_dns_servers: list[~azure.mgmt.dnsresolver.models.TargetDnsServer]
@@ -630,10 +621,10 @@ class InboundEndpoint(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -689,8 +680,8 @@ class InboundEndpoint(TrackedResource):
         location: str,
         ip_configurations: List["_models.IpConfiguration"],
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -727,7 +718,7 @@ class InboundEndpointListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.InboundEndpoint"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.InboundEndpoint"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the inbound endpoints for a DNS resolver.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.InboundEndpoint]
@@ -748,7 +739,7 @@ class InboundEndpointPatch(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Tags for inbound endpoint.
         :paramtype tags: dict[str, str]
@@ -760,7 +751,7 @@ class InboundEndpointPatch(_serialization.Model):
 class IpConfiguration(_serialization.Model):
     """IP configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subnet: The reference to the subnet bound to the IP configuration. Required.
     :vartype subnet: ~azure.mgmt.dnsresolver.models.SubResource
@@ -787,8 +778,8 @@ class IpConfiguration(_serialization.Model):
         subnet: "_models.SubResource",
         private_ip_address: Optional[str] = None,
         private_ip_allocation_method: Union[str, "_models.IpAllocationMethod"] = "Dynamic",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subnet: The reference to the subnet bound to the IP configuration. Required.
         :paramtype subnet: ~azure.mgmt.dnsresolver.models.SubResource
@@ -810,10 +801,10 @@ class OutboundEndpoint(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -864,8 +855,8 @@ class OutboundEndpoint(TrackedResource):
     }
 
     def __init__(
-        self, *, location: str, subnet: "_models.SubResource", tags: Optional[Dict[str, str]] = None, **kwargs
-    ):
+        self, *, location: str, subnet: "_models.SubResource", tags: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -902,7 +893,7 @@ class OutboundEndpointListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.OutboundEndpoint"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.OutboundEndpoint"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the outbound endpoints for a DNS resolver.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.OutboundEndpoint]
@@ -923,7 +914,7 @@ class OutboundEndpointPatch(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Tags for outbound endpoint.
         :paramtype tags: dict[str, str]
@@ -935,7 +926,7 @@ class OutboundEndpointPatch(_serialization.Model):
 class SubResource(_serialization.Model):
     """Reference to another ARM resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID. Required.
     :vartype id: str
@@ -949,7 +940,7 @@ class SubResource(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: Resource ID. Required.
         :paramtype id: str
@@ -978,7 +969,7 @@ class SubResourceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SubResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.SubResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the sub-resources.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.SubResource]
@@ -1025,8 +1016,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -1055,7 +1046,7 @@ class SystemData(_serialization.Model):
 class TargetDnsServer(_serialization.Model):
     """Describes a server to forward the DNS queries to.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar ip_address: DNS server IP address. Required.
     :vartype ip_address: str
@@ -1072,7 +1063,7 @@ class TargetDnsServer(_serialization.Model):
         "port": {"key": "port", "type": "int"},
     }
 
-    def __init__(self, *, ip_address: str, port: int = 53, **kwargs):
+    def __init__(self, *, ip_address: str, port: int = 53, **kwargs: Any) -> None:
         """
         :keyword ip_address: DNS server IP address. Required.
         :paramtype ip_address: str
@@ -1103,8 +1094,8 @@ class VirtualNetworkDnsForwardingRuleset(_serialization.Model):
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         virtual_network_link: Optional["_models.SubResource"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: DNS Forwarding Ruleset Resource ID.
         :paramtype id: str
@@ -1116,7 +1107,7 @@ class VirtualNetworkDnsForwardingRuleset(_serialization.Model):
         self.virtual_network_link = virtual_network_link
 
 
-class VirtualNetworkDnsForwardingRulesetListResult(_serialization.Model):
+class VirtualNetworkDnsForwardingRulesetListResult(_serialization.Model):  # pylint: disable=name-too-long
     """The response to an enumeration operation on Virtual Network DNS Forwarding Ruleset.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1136,7 +1127,9 @@ class VirtualNetworkDnsForwardingRulesetListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.VirtualNetworkDnsForwardingRuleset"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.VirtualNetworkDnsForwardingRuleset"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Enumeration of the Virtual Network DNS Forwarding Ruleset.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.VirtualNetworkDnsForwardingRuleset]
@@ -1151,10 +1144,10 @@ class VirtualNetworkLink(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1197,7 +1190,9 @@ class VirtualNetworkLink(ProxyResource):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, virtual_network: "_models.SubResource", metadata: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self, *, virtual_network: "_models.SubResource", metadata: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword virtual_network: The reference to the virtual network. This cannot be changed after
          creation. Required.
@@ -1233,7 +1228,7 @@ class VirtualNetworkLinkListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.VirtualNetworkLink"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.VirtualNetworkLink"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Enumeration of the virtual network links.
         :paramtype value: list[~azure.mgmt.dnsresolver.models.VirtualNetworkLink]
@@ -1254,7 +1249,7 @@ class VirtualNetworkLinkPatch(_serialization.Model):
         "metadata": {"key": "properties.metadata", "type": "{str}"},
     }
 
-    def __init__(self, *, metadata: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, metadata: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword metadata: Metadata attached to the virtual network link.
         :paramtype metadata: dict[str, str]
