@@ -27,6 +27,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="651f8027-33e8-4ec4-97b4-f6e9f3dc8744",
     )
 
@@ -34,9 +35,10 @@ def main():
         resource_group_name="workerapps-rg-xj",
         container_app_name="testcanadacentral",
         source_control_name="current",
+        x_ms_github_auxiliary="githubaccesstoken",
     ).result()
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/SourceControls_Delete.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/SourceControls_Delete.json
 if __name__ == "__main__":
     main()

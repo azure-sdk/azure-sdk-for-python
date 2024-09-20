@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
@@ -29,12 +27,13 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        session_pool_name="SESSION_POOL_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
     response = client.container_apps.begin_update(
         resource_group_name="rg",
-        container_app_name="testcontainerapp0",
+        container_app_name="testcontainerApp0",
         container_app_envelope={
             "location": "East US",
             "properties": {
@@ -78,16 +77,28 @@ def main():
                         ],
                         "stickySessions": {"affinity": "sticky"},
                         "targetPort": 3000,
-                        "traffic": [{"label": "production", "revisionName": "testcontainerapp0-ab1234", "weight": 100}],
+                        "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
                     },
                     "maxInactiveRevisions": 10,
+                    "runtime": {
+                        "dotnet": {"autoConfigureDataProtection": True},
+                        "java": {
+                            "enableMetrics": True,
+                            "javaAgent": {
+                                "enabled": True,
+                                "logging": {
+                                    "loggerSettings": [{"level": "debug", "logger": "org.springframework.boot"}]
+                                },
+                            },
+                        },
+                    },
                     "service": {"type": "redis"},
                 },
                 "template": {
                     "containers": [
                         {
-                            "image": "repo/testcontainerapp0:v1",
-                            "name": "testcontainerapp0",
+                            "image": "repo/testcontainerApp0:v1",
+                            "name": "testcontainerApp0",
                             "probes": [
                                 {
                                     "httpGet": {
@@ -104,9 +115,9 @@ def main():
                     ],
                     "initContainers": [
                         {
-                            "image": "repo/testcontainerapp0:v4",
+                            "image": "repo/testcontainerApp0:v4",
                             "name": "testinitcontainerApp0",
-                            "resources": {"cpu": 0.5, "memory": "1Gi"},
+                            "resources": {"cpu": 0.2, "memory": "100Mi"},
                         }
                     ],
                     "scale": {
@@ -121,6 +132,8 @@ def main():
                     },
                     "serviceBinds": [
                         {
+                            "clientType": "dotnet",
+                            "customizedKeys": {"DesiredKey": "defaultKey"},
                             "name": "service",
                             "serviceId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/service",
                         }
@@ -133,6 +146,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/ContainerApps_Patch.json
 if __name__ == "__main__":
     main()
