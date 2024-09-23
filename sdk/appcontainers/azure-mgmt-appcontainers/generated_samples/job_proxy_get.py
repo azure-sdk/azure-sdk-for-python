@@ -32,12 +32,11 @@ def main():
 
     response = client.jobs.proxy_get(
         resource_group_name="rg",
-        job_name="testcontainerappsjob0",
-        api_name="rootApi",
+        job_name="testcontainerAppsJob0",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_ProxyGet.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_ProxyGet.json
 if __name__ == "__main__":
     main()
