@@ -1715,9 +1715,8 @@ class DataDisk(_serialization.Model):  # pylint: disable=too-many-instance-attri
      previous detachment attempt of the data disk did not complete due to an unexpected failure from
      the virtual machine and the disk is still not released then use force-detach as a last resort
      option to detach the disk forcibly from the VM. All writes might not have been flushed when
-     using this detach behavior. **This feature is still in preview** mode and is not supported for
-     VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with
-     setting detachOption: 'ForceDetach'. "ForceDetach"
+     using this detach behavior. **This feature is still in preview**. To force-detach a data disk
+     update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. "ForceDetach"
     :vartype detach_option: str or ~azure.mgmt.compute.v2024_07_01.models.DiskDetachOptionTypes
     :ivar delete_option: Specifies whether data disk should be deleted or detached upon VM
      deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when
@@ -1817,9 +1816,8 @@ class DataDisk(_serialization.Model):  # pylint: disable=too-many-instance-attri
          previous detachment attempt of the data disk did not complete due to an unexpected failure from
          the virtual machine and the disk is still not released then use force-detach as a last resort
          option to detach the disk forcibly from the VM. All writes might not have been flushed when
-         using this detach behavior. **This feature is still in preview** mode and is not supported for
-         VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with
-         setting detachOption: 'ForceDetach'. "ForceDetach"
+         using this detach behavior. **This feature is still in preview**. To force-detach a data disk
+         update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. "ForceDetach"
         :paramtype detach_option: str or ~azure.mgmt.compute.v2024_07_01.models.DiskDetachOptionTypes
         :keyword delete_option: Specifies whether data disk should be deleted or detached upon VM
          deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when
