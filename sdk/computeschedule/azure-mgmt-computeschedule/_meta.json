@@ -1,0 +1,6 @@
+{
+  "commit": "e6d487a031c060d5d333c1ee745032205def6680",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/computeschedule/ComputeSchedule.Management",
+  "@azure-tools/typespec-python": "0.33.0"
+}
