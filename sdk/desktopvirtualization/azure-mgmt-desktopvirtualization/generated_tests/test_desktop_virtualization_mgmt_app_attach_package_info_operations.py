@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageInfoOperations(AzureMgmtRecor
             resource_group_name=resource_group.name,
             host_pool_name="str",
             import_package_info_request={"packageArchitecture": "str", "path": "str"},
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

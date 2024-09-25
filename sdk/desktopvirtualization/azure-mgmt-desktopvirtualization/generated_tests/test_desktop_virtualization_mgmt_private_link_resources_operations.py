@@ -24,7 +24,7 @@ class TestDesktopVirtualizationMgmtPrivateLinkResourcesOperations(AzureMgmtRecor
         response = self.client.private_link_resources.list_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -36,7 +36,7 @@ class TestDesktopVirtualizationMgmtPrivateLinkResourcesOperations(AzureMgmtRecor
         response = self.client.private_link_resources.list_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

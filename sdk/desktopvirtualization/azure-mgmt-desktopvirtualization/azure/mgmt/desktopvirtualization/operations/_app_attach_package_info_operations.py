@@ -46,7 +46,7 @@ def build_import_method_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -61,7 +61,7 @@ def build_import_method_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
     }
 
