@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_package_full_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -72,7 +72,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperations(AzureMgmtRecordedTestC
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -85,7 +85,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_package_full_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -98,7 +98,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_package_full_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -110,7 +110,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperations(AzureMgmtRecordedTestC
         response = self.client.msix_packages.list(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
