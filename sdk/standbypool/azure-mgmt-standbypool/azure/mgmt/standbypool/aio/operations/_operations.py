@@ -99,8 +99,7 @@ class Operations:
 
     @distributed_trace
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={"2023-12-01-preview": ["api_version", "accept"]},
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """List the operations for the provider.
@@ -204,16 +203,7 @@ class StandbyVirtualMachinePoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def get(
         self, resource_group_name: str, standby_virtual_machine_pool_name: str, **kwargs: Any
@@ -284,17 +274,7 @@ class StandbyVirtualMachinePoolsOperations:
         return deserialized  # type: ignore
 
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "content_type",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def _create_or_update_initial(
         self,
@@ -455,17 +435,7 @@ class StandbyVirtualMachinePoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "content_type",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def begin_create_or_update(
         self,
@@ -544,16 +514,7 @@ class StandbyVirtualMachinePoolsOperations:
         )
 
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def _delete_initial(
         self, resource_group_name: str, standby_virtual_machine_pool_name: str, **kwargs: Any
@@ -614,16 +575,7 @@ class StandbyVirtualMachinePoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def begin_delete(
         self, resource_group_name: str, standby_virtual_machine_pool_name: str, **kwargs: Any
@@ -769,17 +721,7 @@ class StandbyVirtualMachinePoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "content_type",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def update(
         self,
@@ -869,8 +811,7 @@ class StandbyVirtualMachinePoolsOperations:
 
     @distributed_trace
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={"2023-12-01-preview": ["api_version", "subscription_id", "resource_group_name", "accept"]},
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
@@ -964,8 +905,7 @@ class StandbyVirtualMachinePoolsOperations:
 
     @distributed_trace
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={"2023-12-01-preview": ["api_version", "subscription_id", "accept"]},
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.StandbyVirtualMachinePoolResource"]:
         """List StandbyVirtualMachinePoolResource resources by subscription ID.
@@ -1071,17 +1011,7 @@ class StandbyVirtualMachinesOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "standby_virtual_machine_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def get(
         self,
@@ -1160,16 +1090,7 @@ class StandbyVirtualMachinesOperations:
 
     @distributed_trace
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_virtual_machine_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )  # pylint: disable=name-too-long
     def list_by_standby_virtual_machine_pool_resource(  # pylint: disable=name-too-long
         self, resource_group_name: str, standby_virtual_machine_pool_name: str, **kwargs: Any
@@ -1283,6 +1204,20 @@ class StandbyVirtualMachinePoolRuntimeViewsOperations:  # pylint: disable=name-t
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={
+            "2024-03-01-preview": [
+                "base_url",
+                "api_version",
+                "subscription_id",
+                "resource_group_name",
+                "standby_virtual_machine_pool_name",
+                "runtime_view",
+                "accept",
+            ]
+        },
+    )
     async def get(
         self, resource_group_name: str, standby_virtual_machine_pool_name: str, runtime_view: str, **kwargs: Any
     ) -> _models.StandbyVirtualMachinePoolRuntimeViewResource:
@@ -1357,9 +1292,23 @@ class StandbyVirtualMachinePoolRuntimeViewsOperations:  # pylint: disable=name-t
         return deserialized  # type: ignore
 
     @distributed_trace
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={
+            "2024-03-01-preview": [
+                "base_url",
+                "api_version",
+                "subscription_id",
+                "resource_group_name",
+                "standby_virtual_machine_pool_name",
+                "accept",
+            ]
+        },
+    )
     def list_by_standby_pool(
         self, resource_group_name: str, standby_virtual_machine_pool_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.StandbyVirtualMachinePoolRuntimeViewResource"]:
+        # pylint: disable=line-too-long
         """List StandbyVirtualMachinePoolRuntimeViewResource resources by
         StandbyVirtualMachinePoolResource.
 
@@ -1473,16 +1422,7 @@ class StandbyContainerGroupPoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_container_group_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def get(
         self, resource_group_name: str, standby_container_group_pool_name: str, **kwargs: Any
@@ -1553,17 +1493,7 @@ class StandbyContainerGroupPoolsOperations:
         return deserialized  # type: ignore
 
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_container_group_pool_name",
-                "content_type",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def _create_or_update_initial(
         self,
@@ -1724,17 +1654,7 @@ class StandbyContainerGroupPoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_container_group_pool_name",
-                "content_type",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def begin_create_or_update(
         self,
@@ -1813,16 +1733,7 @@ class StandbyContainerGroupPoolsOperations:
         )
 
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_container_group_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def _delete_initial(
         self, resource_group_name: str, standby_container_group_pool_name: str, **kwargs: Any
@@ -1883,16 +1794,7 @@ class StandbyContainerGroupPoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_container_group_pool_name",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def begin_delete(
         self, resource_group_name: str, standby_container_group_pool_name: str, **kwargs: Any
@@ -2038,17 +1940,7 @@ class StandbyContainerGroupPoolsOperations:
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={
-            "2023-12-01-preview": [
-                "api_version",
-                "subscription_id",
-                "resource_group_name",
-                "standby_container_group_pool_name",
-                "content_type",
-                "accept",
-            ]
-        },
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     async def update(
         self,
@@ -2138,8 +2030,7 @@ class StandbyContainerGroupPoolsOperations:
 
     @distributed_trace
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={"2023-12-01-preview": ["api_version", "subscription_id", "resource_group_name", "accept"]},
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
@@ -2233,8 +2124,7 @@ class StandbyContainerGroupPoolsOperations:
 
     @distributed_trace
     @api_version_validation(
-        method_added_on="2023-12-01-preview",
-        params_added_on={"2023-12-01-preview": ["api_version", "subscription_id", "accept"]},
+        params_added_on={"2024-03-01-preview": ["base_url"]},
     )
     def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.StandbyContainerGroupPoolResource"]:
         """List StandbyContainerGroupPoolResource resources by subscription ID.
@@ -2339,6 +2229,20 @@ class StandbyContainerGroupPoolRuntimeViewsOperations:  # pylint: disable=name-t
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={
+            "2024-03-01-preview": [
+                "base_url",
+                "api_version",
+                "subscription_id",
+                "resource_group_name",
+                "standby_container_group_pool_name",
+                "runtime_view",
+                "accept",
+            ]
+        },
+    )
     async def get(
         self, resource_group_name: str, standby_container_group_pool_name: str, runtime_view: str, **kwargs: Any
     ) -> _models.StandbyContainerGroupPoolRuntimeViewResource:
@@ -2413,9 +2317,23 @@ class StandbyContainerGroupPoolRuntimeViewsOperations:  # pylint: disable=name-t
         return deserialized  # type: ignore
 
     @distributed_trace
+    @api_version_validation(
+        method_added_on="2024-03-01-preview",
+        params_added_on={
+            "2024-03-01-preview": [
+                "base_url",
+                "api_version",
+                "subscription_id",
+                "resource_group_name",
+                "standby_container_group_pool_name",
+                "accept",
+            ]
+        },
+    )
     def list_by_standby_pool(
         self, resource_group_name: str, standby_container_group_pool_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.StandbyContainerGroupPoolRuntimeViewResource"]:
+        # pylint: disable=line-too-long
         """List StandbyContainerGroupPoolRuntimeViewResource resources by
         StandbyContainerGroupPoolResource.
 
