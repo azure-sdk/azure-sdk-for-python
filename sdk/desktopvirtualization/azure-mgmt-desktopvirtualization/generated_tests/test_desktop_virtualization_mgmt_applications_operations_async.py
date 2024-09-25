@@ -26,7 +26,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             application_group_name="str",
             application_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -66,7 +66,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperationsAsync(AzureMgmtRecorded
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -79,7 +79,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             application_group_name="str",
             application_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -92,7 +92,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             application_group_name="str",
             application_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -104,7 +104,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperationsAsync(AzureMgmtRecorded
         response = self.client.applications.list(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

@@ -26,7 +26,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -41,24 +41,24 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
             scaling_plan_schedule_name="str",
             scaling_plan_schedule={
                 "daysOfWeek": ["str"],
+                "offPeakStartTime": {"hour": 0, "minute": 0},
+                "peakStartTime": {"hour": 0, "minute": 0},
+                "rampDownCapacityThresholdPct": 0,
+                "rampDownStartTime": {"hour": 0, "minute": 0},
+                "rampUpCapacityThresholdPct": 0,
+                "rampUpStartTime": {"hour": 0, "minute": 0},
                 "id": "str",
                 "name": "str",
                 "offPeakLoadBalancingAlgorithm": "str",
-                "offPeakStartTime": {"hour": 0, "minute": 0},
                 "peakLoadBalancingAlgorithm": "str",
-                "peakStartTime": {"hour": 0, "minute": 0},
-                "rampDownCapacityThresholdPct": 0,
                 "rampDownForceLogoffUsers": bool,
                 "rampDownLoadBalancingAlgorithm": "str",
                 "rampDownMinimumHostsPct": 0,
                 "rampDownNotificationMessage": "str",
-                "rampDownStartTime": {"hour": 0, "minute": 0},
                 "rampDownStopHostsWhen": "str",
                 "rampDownWaitTimeMinutes": 0,
-                "rampUpCapacityThresholdPct": 0,
                 "rampUpLoadBalancingAlgorithm": "str",
                 "rampUpMinimumHostsPct": 0,
-                "rampUpStartTime": {"hour": 0, "minute": 0},
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -69,7 +69,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -82,7 +82,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -95,7 +95,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -107,7 +107,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
         response = self.client.scaling_plan_pooled_schedules.list(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
