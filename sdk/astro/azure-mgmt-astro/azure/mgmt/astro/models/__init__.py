@@ -35,9 +35,9 @@ from ._astro_mgmt_client_enums import CreatedByType
 from ._astro_mgmt_client_enums import ManagedServiceIdentityType
 from ._astro_mgmt_client_enums import MarketplaceSubscriptionStatus
 from ._astro_mgmt_client_enums import Origin
+from ._astro_mgmt_client_enums import RenewalMode
 from ._astro_mgmt_client_enums import ResourceProvisioningState
 from ._astro_mgmt_client_enums import SingleSignOnStates
-from ._astro_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -71,9 +71,9 @@ __all__ = [
     "ManagedServiceIdentityType",
     "MarketplaceSubscriptionStatus",
     "Origin",
+    "RenewalMode",
     "ResourceProvisioningState",
     "SingleSignOnStates",
-    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
