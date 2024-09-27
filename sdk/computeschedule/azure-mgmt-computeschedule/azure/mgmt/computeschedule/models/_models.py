@@ -25,14 +25,14 @@ class CancelOperationsRequest(_model_base.Model):
 
     :ivar operation_ids: The list of operation ids to cancel operations on. Required.
     :vartype operation_ids: list[str]
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
     operation_ids: List[str] = rest_field(name="operationIds")
     """The list of operation ids to cancel operations on. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -212,7 +212,7 @@ class ExecuteDeallocateRequest(_model_base.Model):
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
     :vartype resources: ~azure.mgmt.computeschedule.models.Resources
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
@@ -221,7 +221,7 @@ class ExecuteDeallocateRequest(_model_base.Model):
     resources: "_models.Resources" = rest_field()
     """The resources for the request. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -252,7 +252,7 @@ class ExecuteHibernateRequest(_model_base.Model):
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
     :vartype resources: ~azure.mgmt.computeschedule.models.Resources
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
@@ -261,7 +261,7 @@ class ExecuteHibernateRequest(_model_base.Model):
     resources: "_models.Resources" = rest_field()
     """The resources for the request. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -292,7 +292,7 @@ class ExecuteStartRequest(_model_base.Model):
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
     :vartype resources: ~azure.mgmt.computeschedule.models.Resources
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
@@ -301,7 +301,7 @@ class ExecuteStartRequest(_model_base.Model):
     resources: "_models.Resources" = rest_field()
     """The resources for the request. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -427,14 +427,14 @@ class GetOperationStatusRequest(_model_base.Model):
 
     :ivar operation_ids: The list of operation ids to get the status of. Required.
     :vartype operation_ids: list[str]
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
     operation_ids: List[str] = rest_field(name="operationIds")
     """The list of operation ids to get the status of. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -1046,7 +1046,7 @@ class SubmitDeallocateRequest(_model_base.Model):
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
     :vartype resources: ~azure.mgmt.computeschedule.models.Resources
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
@@ -1057,7 +1057,7 @@ class SubmitDeallocateRequest(_model_base.Model):
     resources: "_models.Resources" = rest_field()
     """The resources for the request. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -1091,7 +1091,7 @@ class SubmitHibernateRequest(_model_base.Model):
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
     :vartype resources: ~azure.mgmt.computeschedule.models.Resources
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
@@ -1102,7 +1102,7 @@ class SubmitHibernateRequest(_model_base.Model):
     resources: "_models.Resources" = rest_field()
     """The resources for the request. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
@@ -1136,7 +1136,7 @@ class SubmitStartRequest(_model_base.Model):
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
     :vartype resources: ~azure.mgmt.computeschedule.models.Resources
-    :ivar correlationid: Correlationid item. Required.
+    :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
@@ -1147,7 +1147,7 @@ class SubmitStartRequest(_model_base.Model):
     resources: "_models.Resources" = rest_field()
     """The resources for the request. Required."""
     correlationid: str = rest_field()
-    """Correlationid item. Required."""
+    """CorrelationId item. Required."""
 
     @overload
     def __init__(
