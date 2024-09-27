@@ -14,9 +14,7 @@ from ._models import AutoUserSpecification
 from ._models import AutomaticOsUpgradePolicy
 from ._models import AzureBlobFileSystemConfiguration
 from ._models import AzureFileShareConfiguration
-from ._models import BatchAccountListSupportedImagesResult
 from ._models import BatchApplication
-from ._models import BatchApplicationListResult
 from ._models import BatchApplicationPackageReference
 from ._models import BatchAutoPoolSpecification
 from ._models import BatchError
@@ -27,11 +25,9 @@ from ._models import BatchJobConstraints
 from ._models import BatchJobCreateContent
 from ._models import BatchJobDisableContent
 from ._models import BatchJobExecutionInfo
-from ._models import BatchJobListResult
 from ._models import BatchJobManagerTask
 from ._models import BatchJobNetworkConfiguration
 from ._models import BatchJobPreparationAndReleaseTaskStatus
-from ._models import BatchJobPreparationAndReleaseTaskStatusListResult
 from ._models import BatchJobPreparationTask
 from ._models import BatchJobPreparationTaskExecutionInfo
 from ._models import BatchJobReleaseTask
@@ -40,7 +36,6 @@ from ._models import BatchJobSchedule
 from ._models import BatchJobScheduleConfiguration
 from ._models import BatchJobScheduleCreateContent
 from ._models import BatchJobScheduleExecutionInfo
-from ._models import BatchJobScheduleListResult
 from ._models import BatchJobScheduleStatistics
 from ._models import BatchJobScheduleUpdateContent
 from ._models import BatchJobSchedulingError
@@ -55,10 +50,8 @@ from ._models import BatchNodeDisableSchedulingContent
 from ._models import BatchNodeEndpointConfiguration
 from ._models import BatchNodeError
 from ._models import BatchNodeFile
-from ._models import BatchNodeFileListResult
 from ._models import BatchNodeIdentityReference
 from ._models import BatchNodeInfo
-from ._models import BatchNodeListResult
 from ._models import BatchNodePlacementConfiguration
 from ._models import BatchNodeRebootContent
 from ._models import BatchNodeRemoteLoginSettings
@@ -66,7 +59,6 @@ from ._models import BatchNodeRemoveContent
 from ._models import BatchNodeUserCreateContent
 from ._models import BatchNodeUserUpdateContent
 from ._models import BatchNodeVMExtension
-from ._models import BatchNodeVMExtensionListResult
 from ._models import BatchPool
 from ._models import BatchPoolCreateContent
 from ._models import BatchPoolEnableAutoScaleContent
@@ -74,10 +66,7 @@ from ._models import BatchPoolEndpointConfiguration
 from ._models import BatchPoolEvaluateAutoScaleContent
 from ._models import BatchPoolIdentity
 from ._models import BatchPoolInfo
-from ._models import BatchPoolListResult
-from ._models import BatchPoolListUsageMetricsResult
 from ._models import BatchPoolNodeCounts
-from ._models import BatchPoolNodeCountsListResult
 from ._models import BatchPoolReplaceContent
 from ._models import BatchPoolResizeContent
 from ._models import BatchPoolResourceStatistics
@@ -105,8 +94,6 @@ from ._models import BatchTaskFailureInfo
 from ._models import BatchTaskGroup
 from ._models import BatchTaskIdRange
 from ._models import BatchTaskInfo
-from ._models import BatchTaskListResult
-from ._models import BatchTaskListSubtasksResult
 from ._models import BatchTaskSchedulingPolicy
 from ._models import BatchTaskSlotCounts
 from ._models import BatchTaskStatistics
@@ -222,9 +209,7 @@ __all__ = [
     "AutomaticOsUpgradePolicy",
     "AzureBlobFileSystemConfiguration",
     "AzureFileShareConfiguration",
-    "BatchAccountListSupportedImagesResult",
     "BatchApplication",
-    "BatchApplicationListResult",
     "BatchApplicationPackageReference",
     "BatchAutoPoolSpecification",
     "BatchError",
@@ -235,11 +220,9 @@ __all__ = [
     "BatchJobCreateContent",
     "BatchJobDisableContent",
     "BatchJobExecutionInfo",
-    "BatchJobListResult",
     "BatchJobManagerTask",
     "BatchJobNetworkConfiguration",
     "BatchJobPreparationAndReleaseTaskStatus",
-    "BatchJobPreparationAndReleaseTaskStatusListResult",
     "BatchJobPreparationTask",
     "BatchJobPreparationTaskExecutionInfo",
     "BatchJobReleaseTask",
@@ -248,7 +231,6 @@ __all__ = [
     "BatchJobScheduleConfiguration",
     "BatchJobScheduleCreateContent",
     "BatchJobScheduleExecutionInfo",
-    "BatchJobScheduleListResult",
     "BatchJobScheduleStatistics",
     "BatchJobScheduleUpdateContent",
     "BatchJobSchedulingError",
@@ -263,10 +245,8 @@ __all__ = [
     "BatchNodeEndpointConfiguration",
     "BatchNodeError",
     "BatchNodeFile",
-    "BatchNodeFileListResult",
     "BatchNodeIdentityReference",
     "BatchNodeInfo",
-    "BatchNodeListResult",
     "BatchNodePlacementConfiguration",
     "BatchNodeRebootContent",
     "BatchNodeRemoteLoginSettings",
@@ -274,7 +254,6 @@ __all__ = [
     "BatchNodeUserCreateContent",
     "BatchNodeUserUpdateContent",
     "BatchNodeVMExtension",
-    "BatchNodeVMExtensionListResult",
     "BatchPool",
     "BatchPoolCreateContent",
     "BatchPoolEnableAutoScaleContent",
@@ -282,10 +261,7 @@ __all__ = [
     "BatchPoolEvaluateAutoScaleContent",
     "BatchPoolIdentity",
     "BatchPoolInfo",
-    "BatchPoolListResult",
-    "BatchPoolListUsageMetricsResult",
     "BatchPoolNodeCounts",
-    "BatchPoolNodeCountsListResult",
     "BatchPoolReplaceContent",
     "BatchPoolResizeContent",
     "BatchPoolResourceStatistics",
@@ -313,8 +289,6 @@ __all__ = [
     "BatchTaskGroup",
     "BatchTaskIdRange",
     "BatchTaskInfo",
-    "BatchTaskListResult",
-    "BatchTaskListSubtasksResult",
     "BatchTaskSchedulingPolicy",
     "BatchTaskSlotCounts",
     "BatchTaskStatistics",

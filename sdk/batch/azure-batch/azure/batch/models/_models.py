@@ -22,7 +22,6 @@ class AffinityInfo(_model_base.Model):
     """A locality hint that can be used by the Batch service to select a Compute Node
     on which to start a Task.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar affinity_id: An opaque string representing the location of a Compute Node or a Task that
      has run previously. You can pass the affinityId of a Node to indicate that this Task needs to
@@ -150,7 +149,6 @@ class AutomaticOsUpgradePolicy(_model_base.Model):
 class AutoScaleRun(_model_base.Model):
     """The results and errors from an execution of a Pool autoscale formula.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar timestamp: The time at which the autoscale formula was last evaluated. Required.
     :vartype timestamp: ~datetime.datetime
@@ -279,7 +277,6 @@ class AutoUserSpecification(_model_base.Model):
 class AzureBlobFileSystemConfiguration(_model_base.Model):
     """Information used to connect to an Azure Storage Container using Blobfuse.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar account_name: The Azure Storage Account name. Required.
     :vartype account_name: str
@@ -352,7 +349,6 @@ class AzureBlobFileSystemConfiguration(_model_base.Model):
 class AzureFileShareConfiguration(_model_base.Model):
     """Information used to connect to an Azure Fileshare.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar account_name: The Azure Storage account name. Required.
     :vartype account_name: str
@@ -406,43 +402,9 @@ class AzureFileShareConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchAccountListSupportedImagesResult(_model_base.Model):
-    """The result of listing the supported Virtual Machine Images.
-
-    :ivar value: The list of supported Virtual Machine Images.
-    :vartype value: list[~azure.batch.models.BatchSupportedImage]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchSupportedImage"]] = rest_field()
-    """The list of supported Virtual Machine Images."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchSupportedImage"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchApplication(_model_base.Model):
     """Contains information about an application in an Azure Batch Account.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: A string that uniquely identifies the application within the Account. Required.
     :vartype id: str
@@ -479,43 +441,9 @@ class BatchApplication(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchApplicationListResult(_model_base.Model):
-    """The result of listing the applications available in an Account.
-
-    :ivar value: The list of applications available in the Account.
-    :vartype value: list[~azure.batch.models.BatchApplication]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchApplication"]] = rest_field()
-    """The list of applications available in the Account."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchApplication"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchApplicationPackageReference(_model_base.Model):
     """A reference to an Package to be deployed to Compute Nodes.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar application_id: The ID of the application to deploy. When creating a pool, the package's
      application ID must be fully qualified
@@ -565,7 +493,6 @@ class BatchAutoPoolSpecification(_model_base.Model):
     """Specifies characteristics for a temporary 'auto pool'. The Batch service will
     create this auto Pool when the Job is submitted.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar auto_pool_id_prefix: A prefix to be added to the unique identifier when a Pool is
      automatically created. The Batch service assigns each auto Pool a unique identifier on
@@ -625,7 +552,6 @@ class BatchAutoPoolSpecification(_model_base.Model):
 class BatchError(_model_base.Model):
     """An error response received from the Azure Batch service.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar code: An identifier for the error. Codes are invariant and are intended to be consumed
      programmatically. Required.
@@ -737,7 +663,6 @@ class BatchJob(_model_base.Model):  # pylint: disable=too-many-instance-attribut
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: A string that uniquely identifies the Job within the Account. The ID is
      case-preserving and case-insensitive (that is, you may not have two IDs within an Account that
@@ -930,7 +855,7 @@ class BatchJob(_model_base.Model):  # pylint: disable=too-many-instance-attribut
      periodic roll-up of statistics. The typical delay is about 30 minutes."""
 
     @overload
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         pool_info: "_models.BatchPoolInfo",
@@ -1230,7 +1155,6 @@ class BatchJobDisableContent(_model_base.Model):
 class BatchJobExecutionInfo(_model_base.Model):
     """Contains information about the execution of a Job in the Azure Batch service.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The start time of the Job. This is the time at which the Job was created.
      Required.
@@ -1308,39 +1232,6 @@ class BatchJobExecutionInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobListResult(_model_base.Model):
-    """The result of listing the Jobs in an Account.
-
-    :ivar value: The list of Jobs.
-    :vartype value: list[~azure.batch.models.BatchJob]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchJob"]] = rest_field()
-    """The list of Jobs."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchJob"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchJobManagerTask(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Specifies details of a Job Manager Task.
     The Job Manager Task is automatically started when the Job is created. The
@@ -1366,7 +1257,6 @@ class BatchJobManagerTask(_model_base.Model):  # pylint: disable=too-many-instan
     duplicate data. The best practice for long running Tasks is to use some form of
     checkpointing.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: A string that uniquely identifies the Job Manager Task within the Job. The ID can
      contain any combination of alphanumeric characters including hyphens and underscores and cannot
@@ -1584,7 +1474,6 @@ class BatchJobManagerTask(_model_base.Model):  # pylint: disable=too-many-instan
 class BatchJobNetworkConfiguration(_model_base.Model):
     """The network configuration for the Job.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar subnet_id: The ARM resource identifier of the virtual network subnet which Compute Nodes
      running Tasks from the Job will join for the duration of the Task. This will only work with a
@@ -1704,40 +1593,6 @@ class BatchJobPreparationAndReleaseTaskStatus(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobPreparationAndReleaseTaskStatusListResult(_model_base.Model):  # pylint: disable=name-too-long
-    """The result of listing the status of the Job Preparation and Job Release Tasks
-    for a Job.
-
-    :ivar value: A list of Job Preparation and Job Release Task execution information.
-    :vartype value: list[~azure.batch.models.BatchJobPreparationAndReleaseTaskStatus]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchJobPreparationAndReleaseTaskStatus"]] = rest_field()
-    """A list of Job Preparation and Job Release Task execution information."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchJobPreparationAndReleaseTaskStatus"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchJobPreparationTask(_model_base.Model):
     """A Job Preparation Task to run before any Tasks of the Job on any given Compute Node.
     You can use Job Preparation to prepare a Node to run Tasks for the Job.
@@ -1766,7 +1621,6 @@ class BatchJobPreparationTask(_model_base.Model):
     without causing any corruption or duplicate data. The best practice for long
     running Tasks is to use some form of checkpointing.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: A string that uniquely identifies the Job Preparation Task within the Job. The ID can
      contain any combination of alphanumeric characters including hyphens and underscores and cannot
@@ -1918,7 +1772,6 @@ class BatchJobPreparationTaskExecutionInfo(_model_base.Model):  # pylint: disabl
     """Contains information about the execution of a Job Preparation Task on a Compute
     Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The time at which the Task started running. If the Task has been restarted or
      retried, this is the most recent time at which the Task started running. Required.
@@ -2058,7 +1911,6 @@ class BatchJobReleaseTask(_model_base.Model):
     scheduling slot; that is, it does not count towards the taskSlotsPerNode limit
     specified on the Pool.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: A string that uniquely identifies the Job Release Task within the Job. The ID can
      contain any combination of alphanumeric characters including hyphens and underscores and cannot
@@ -2187,7 +2039,6 @@ class BatchJobReleaseTaskExecutionInfo(_model_base.Model):
     """Contains information about the execution of a Job Release Task on a Compute
     Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The time at which the Task started running. If the Task has been restarted or
      retried, this is the most recent time at which the Task started running. Required.
@@ -2286,7 +2137,6 @@ class BatchJobSchedule(_model_base.Model):  # pylint: disable=too-many-instance-
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: A string that uniquely identifies the schedule within the Account.
     :vartype id: str
@@ -2613,43 +2463,9 @@ class BatchJobScheduleExecutionInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobScheduleListResult(_model_base.Model):
-    """The result of listing the Job Schedules in an Account.
-
-    :ivar value: The list of Job Schedules.
-    :vartype value: list[~azure.batch.models.BatchJobSchedule]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchJobSchedule"]] = rest_field()
-    """The list of Job Schedules."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchJobSchedule"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchJobScheduleStatistics(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Resource usage statistics for a Job Schedule.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar url: The URL of the statistics. Required.
     :vartype url: str
@@ -2676,12 +2492,12 @@ class BatchJobScheduleStatistics(_model_base.Model):  # pylint: disable=too-many
     :ivar write_i_ops: The total number of disk write operations made by all Tasks in all Jobs
      created under the schedule. Required.
     :vartype write_i_ops: int
-    :ivar read_i_o_gi_b: The total gibibytes read from disk by all Tasks in all Jobs created under
+    :ivar read_io_gi_b: The total gibibytes read from disk by all Tasks in all Jobs created under
      the schedule. Required.
-    :vartype read_i_o_gi_b: float
-    :ivar write_i_o_gi_b: The total gibibytes written to disk by all Tasks in all Jobs created
-     under the schedule. Required.
-    :vartype write_i_o_gi_b: float
+    :vartype read_io_gi_b: float
+    :ivar write_io_gi_b: The total gibibytes written to disk by all Tasks in all Jobs created under
+     the schedule. Required.
+    :vartype write_io_gi_b: float
     :ivar num_succeeded_tasks: The total number of Tasks successfully completed during the given
      time range in Jobs created under the schedule. A Task completes successfully if it returns exit
      code 0. Required.
@@ -2726,10 +2542,10 @@ class BatchJobScheduleStatistics(_model_base.Model):  # pylint: disable=too-many
     write_i_ops: int = rest_field(name="writeIOps")
     """The total number of disk write operations made by all Tasks in all Jobs created under the
      schedule. Required."""
-    read_i_o_gi_b: float = rest_field(name="readIOGiB")
+    read_io_gi_b: float = rest_field(name="readIOGiB")
     """The total gibibytes read from disk by all Tasks in all Jobs created under the schedule.
      Required."""
-    write_i_o_gi_b: float = rest_field(name="writeIOGiB")
+    write_io_gi_b: float = rest_field(name="writeIOGiB")
     """The total gibibytes written to disk by all Tasks in all Jobs created under the schedule.
      Required."""
     num_succeeded_tasks: int = rest_field(name="numSucceededTasks")
@@ -2761,8 +2577,8 @@ class BatchJobScheduleStatistics(_model_base.Model):  # pylint: disable=too-many
         wall_clock_time: datetime.timedelta,
         read_i_ops: int,
         write_i_ops: int,
-        read_i_o_gi_b: float,
-        write_i_o_gi_b: float,
+        read_io_gi_b: float,
+        write_io_gi_b: float,
         num_succeeded_tasks: int,
         num_failed_tasks: int,
         num_task_retries: int,
@@ -2831,7 +2647,6 @@ class BatchJobScheduleUpdateContent(_model_base.Model):
 class BatchJobSchedulingError(_model_base.Model):
     """An error encountered by the Batch service when scheduling a Job.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar category: The category of the Job scheduling error. Required. Known values are:
      "usererror" and "servererror".
@@ -2882,7 +2697,6 @@ class BatchJobSchedulingError(_model_base.Model):
 class BatchJobSpecification(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Specifies details of the Jobs to be created on a schedule.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar priority: The priority of Jobs created under this schedule. Priority values can range
      from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority.
@@ -3065,7 +2879,6 @@ class BatchJobSpecification(_model_base.Model):  # pylint: disable=too-many-inst
 class BatchJobStatistics(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Resource usage statistics for a Job.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar url: The URL of the statistics. Required.
     :vartype url: str
@@ -3091,12 +2904,12 @@ class BatchJobStatistics(_model_base.Model):  # pylint: disable=too-many-instanc
     :ivar write_i_ops: The total number of disk write operations made by all Tasks in the Job.
      Required.
     :vartype write_i_ops: int
-    :ivar read_i_o_gi_b: The total amount of data in GiB read from disk by all Tasks in the Job.
+    :ivar read_io_gi_b: The total amount of data in GiB read from disk by all Tasks in the Job.
      Required.
-    :vartype read_i_o_gi_b: float
-    :ivar write_i_o_gi_b: The total amount of data in GiB written to disk by all Tasks in the Job.
+    :vartype read_io_gi_b: float
+    :ivar write_io_gi_b: The total amount of data in GiB written to disk by all Tasks in the Job.
      Required.
-    :vartype write_i_o_gi_b: float
+    :vartype write_io_gi_b: float
     :ivar num_succeeded_tasks: The total number of Tasks successfully completed in the Job during
      the given time range. A Task completes successfully if it returns exit code 0. Required.
     :vartype num_succeeded_tasks: int
@@ -3137,9 +2950,9 @@ class BatchJobStatistics(_model_base.Model):  # pylint: disable=too-many-instanc
     """The total number of disk read operations made by all Tasks in the Job. Required."""
     write_i_ops: int = rest_field(name="writeIOps")
     """The total number of disk write operations made by all Tasks in the Job. Required."""
-    read_i_o_gi_b: float = rest_field(name="readIOGiB")
+    read_io_gi_b: float = rest_field(name="readIOGiB")
     """The total amount of data in GiB read from disk by all Tasks in the Job. Required."""
-    write_i_o_gi_b: float = rest_field(name="writeIOGiB")
+    write_io_gi_b: float = rest_field(name="writeIOGiB")
     """The total amount of data in GiB written to disk by all Tasks in the Job. Required."""
     num_succeeded_tasks: int = rest_field(name="numSucceededTasks")
     """The total number of Tasks successfully completed in the Job during the given time range. A Task
@@ -3168,8 +2981,8 @@ class BatchJobStatistics(_model_base.Model):  # pylint: disable=too-many-instanc
         wall_clock_time: datetime.timedelta,
         read_i_ops: int,
         write_i_ops: int,
-        read_i_o_gi_b: float,
-        write_i_o_gi_b: float,
+        read_io_gi_b: float,
+        write_io_gi_b: float,
         num_succeeded_tasks: int,
         num_failed_tasks: int,
         num_task_retries: int,
@@ -3513,7 +3326,6 @@ class BatchNodeAgentInfo(_model_base.Model):
     """The Batch Compute Node agent is a program that runs on each Compute Node in the
     Pool and provides Batch capability on the Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar version: The version of the Batch Compute Node agent running on the Compute Node. This
      version number can be checked against the Compute Node agent release notes located at
@@ -3555,7 +3367,6 @@ class BatchNodeAgentInfo(_model_base.Model):
 class BatchNodeCounts(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """The number of Compute Nodes in each Compute Node state.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar creating: The number of Compute Nodes in the creating state. Required.
     :vartype creating: int
@@ -3690,7 +3501,6 @@ class BatchNodeDisableSchedulingContent(_model_base.Model):
 class BatchNodeEndpointConfiguration(_model_base.Model):
     """The endpoint configuration for the Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar inbound_endpoints: The list of inbound endpoints that are accessible on the Compute Node.
      Required.
@@ -3803,40 +3613,6 @@ class BatchNodeFile(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeFileListResult(_model_base.Model):
-    """The result of listing the files on a Compute Node, or the files associated with
-    a Task on a Compute Node.
-
-    :ivar value: The list of files.
-    :vartype value: list[~azure.batch.models.BatchNodeFile]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchNodeFile"]] = rest_field()
-    """The list of files."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchNodeFile"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchNodeIdentityReference(_model_base.Model):
     """The reference to a user assigned identity associated with the Batch pool which
     a compute node will use.
@@ -3921,39 +3697,6 @@ class BatchNodeInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeListResult(_model_base.Model):
-    """The result of listing the Compute Nodes in a Pool.
-
-    :ivar value: The list of Compute Nodes.
-    :vartype value: list[~azure.batch.models.BatchNode]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchNode"]] = rest_field()
-    """The list of Compute Nodes."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchNode"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchNodePlacementConfiguration(_model_base.Model):
     """For regional placement, nodes in the pool will be allocated in the same region.
     For zonal placement, nodes in the pool will be spread across different zones
@@ -4023,7 +3766,6 @@ class BatchNodeRebootContent(_model_base.Model):
 class BatchNodeRemoteLoginSettings(_model_base.Model):
     """The remote login settings for a Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar remote_login_ip_address: The IP address used for remote login to the Compute Node.
      Required.
@@ -4255,39 +3997,6 @@ class BatchNodeVMExtension(_model_base.Model):
         provisioning_state: Optional[str] = None,
         vm_extension: Optional["_models.VMExtension"] = None,
         instance_view: Optional["_models.VMExtensionInstanceView"] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class BatchNodeVMExtensionListResult(_model_base.Model):
-    """The result of listing the Compute Node extensions in a Node.
-
-    :ivar value: The list of Compute Node extensions.
-    :vartype value: list[~azure.batch.models.BatchNodeVMExtension]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchNodeVMExtension"]] = rest_field()
-    """The list of Compute Node extensions."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchNodeVMExtension"]] = None,
-        odata_next_link: Optional[str] = None,
     ): ...
 
     @overload
@@ -4578,7 +4287,7 @@ class BatchPool(_model_base.Model):  # pylint: disable=too-many-instance-attribu
     """The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling."""
 
     @overload
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         start_task: Optional["_models.BatchStartTask"] = None,
@@ -4900,7 +4609,6 @@ class BatchPoolEnableAutoScaleContent(_model_base.Model):
 class BatchPoolEndpointConfiguration(_model_base.Model):
     """The endpoint configuration for a Pool.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar inbound_nat_pools: A list of inbound NAT Pools that can be used to address specific ports
      on an individual Compute Node externally. The maximum number of inbound NAT Pools per Batch
@@ -4975,7 +4683,6 @@ class BatchPoolEvaluateAutoScaleContent(_model_base.Model):
 class BatchPoolIdentity(_model_base.Model):
     """The identity of the Batch pool, if configured.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar type: The identity of the Batch pool, if configured. The list of user identities
      associated with the Batch pool. The user identity dictionary key references will be ARM
@@ -5073,76 +4780,9 @@ class BatchPoolInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolListResult(_model_base.Model):
-    """The result of listing the Pools in an Account.
-
-    :ivar value: The list of Pools.
-    :vartype value: list[~azure.batch.models.BatchPool]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchPool"]] = rest_field()
-    """The list of Pools."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchPool"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class BatchPoolListUsageMetricsResult(_model_base.Model):
-    """The result of a listing the usage metrics for an Account.
-
-    :ivar value: The Pool usage metrics data.
-    :vartype value: list[~azure.batch.models.BatchPoolUsageMetrics]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchPoolUsageMetrics"]] = rest_field()
-    """The Pool usage metrics data."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchPoolUsageMetrics"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchPoolNodeCounts(_model_base.Model):
     """The number of Compute Nodes in each state for a Pool.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar pool_id: The ID of the Pool. Required.
     :vartype pool_id: str
@@ -5166,39 +4806,6 @@ class BatchPoolNodeCounts(_model_base.Model):
         pool_id: str,
         dedicated: Optional["_models.BatchNodeCounts"] = None,
         low_priority: Optional["_models.BatchNodeCounts"] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class BatchPoolNodeCountsListResult(_model_base.Model):
-    """The result of listing the Compute Node counts in the Account.
-
-    :ivar value: A list of Compute Node counts by Pool.
-    :vartype value: list[~azure.batch.models.BatchPoolNodeCounts]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchPoolNodeCounts"]] = rest_field()
-    """A list of Compute Node counts by Pool."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchPoolNodeCounts"]] = None,
-        odata_next_link: Optional[str] = None,
     ): ...
 
     @overload
@@ -5347,7 +4954,6 @@ class BatchPoolResizeContent(_model_base.Model):
 class BatchPoolResourceStatistics(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Statistics related to resource consumption by Compute Nodes in a Pool.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The start time of the time range covered by the statistics. Required.
     :vartype start_time: ~datetime.datetime
@@ -5452,7 +5058,6 @@ class BatchPoolResourceStatistics(_model_base.Model):  # pylint: disable=too-man
 class BatchPoolSpecification(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Specification for creating a new Pool.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar display_name: The display name for the Pool. The display name need not be unique and can
      contain any Unicode characters up to a maximum length of 1024.
@@ -5679,7 +5284,6 @@ class BatchPoolSpecification(_model_base.Model):  # pylint: disable=too-many-ins
 class BatchPoolStatistics(_model_base.Model):
     """Contains utilization and resource usage statistics for the lifetime of a Pool.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar url: The URL for the statistics. Required.
     :vartype url: str
@@ -5804,7 +5408,6 @@ class BatchPoolUpdateContent(_model_base.Model):
 class BatchPoolUsageMetrics(_model_base.Model):
     """Usage metrics for a Pool across an aggregation interval.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar pool_id: The ID of the Pool whose metrics are aggregated in this entry. Required.
     :vartype pool_id: str
@@ -5860,7 +5463,6 @@ class BatchPoolUsageMetrics(_model_base.Model):
 class BatchPoolUsageStatistics(_model_base.Model):
     """Statistics related to Pool usage information.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The start time of the time range covered by the statistics. Required.
     :vartype start_time: ~datetime.datetime
@@ -5916,7 +5518,6 @@ class BatchStartTask(_model_base.Model):
     install/launch services from the StartTask working directory, as this will
     block Batch from being able to re-run the StartTask.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar command_line: The command line of the StartTask. The command line does not run under a
      shell, and therefore cannot take advantage of shell features such as environment variable
@@ -6043,7 +5644,6 @@ class BatchStartTask(_model_base.Model):
 class BatchStartTaskInfo(_model_base.Model):
     """Information about a StartTask running on a Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar state: The state of the StartTask on the Compute Node. Required. Known values are:
      "running" and "completed".
@@ -6271,7 +5871,6 @@ class BatchSupportedImage(_model_base.Model):
     """A reference to the Azure Virtual Machines Marketplace Image and additional
     information about the Image.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar node_agent_sku_id: The ID of the Compute Node agent SKU which the Image supports.
      Required.
@@ -6580,7 +6179,7 @@ class BatchTask(_model_base.Model):  # pylint: disable=too-many-instance-attribu
      of the Job or of other Tasks under the Job."""
 
     @overload
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         constraints: Optional["_models.BatchTaskConstraints"] = None,
@@ -6628,7 +6227,6 @@ class BatchTaskAddCollectionResult(_model_base.Model):
 class BatchTaskAddResult(_model_base.Model):
     """Result for a single Task added as part of an add Task collection operation.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar status: The status of the add Task request. Required. Known values are: "success",
      "clienterror", and "servererror".
@@ -6797,7 +6395,6 @@ class BatchTaskContainerExecutionInfo(_model_base.Model):
 class BatchTaskContainerSettings(_model_base.Model):
     """The container settings for a Task.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar container_run_options: Additional options to the container create command. These
      additional options are supplied as arguments to the "docker create" command, in addition to
@@ -6854,7 +6451,6 @@ class BatchTaskContainerSettings(_model_base.Model):
 class BatchTaskCounts(_model_base.Model):
     """The Task counts for a Job.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar active: The number of Tasks in the active state. Required.
     :vartype active: int
@@ -6908,7 +6504,6 @@ class BatchTaskCounts(_model_base.Model):
 class BatchTaskCountsResult(_model_base.Model):
     """The Task and TaskSlot counts for a Job.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar task_counts: The number of Tasks per state. Required.
     :vartype task_counts: ~azure.batch.models.BatchTaskCounts
@@ -7200,7 +6795,6 @@ class BatchTaskDependencies(_model_base.Model):
 class BatchTaskExecutionInfo(_model_base.Model):
     """Information about the execution of a Task.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start_time: The time at which the Task started running. 'Running' corresponds to the
      running state, so if the Task specifies resource files or Packages, then the start time
@@ -7328,7 +6922,6 @@ class BatchTaskExecutionInfo(_model_base.Model):
 class BatchTaskFailureInfo(_model_base.Model):
     """Information about a Task failure.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar category: The category of the Task error. Required. Known values are: "usererror" and
      "servererror".
@@ -7414,7 +7007,6 @@ class BatchTaskIdRange(_model_base.Model):
     """The start and end of the range are inclusive. For example, if a range has start
     9 and end 12, then it represents Tasks '9', '10', '11' and '12'.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start: The first Task ID in the range. Required.
     :vartype start: int
@@ -7449,7 +7041,6 @@ class BatchTaskIdRange(_model_base.Model):
 class BatchTaskInfo(_model_base.Model):
     """Information about a Task running on a Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar task_url: The URL of the Task.
     :vartype task_url: str
@@ -7503,76 +7094,9 @@ class BatchTaskInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchTaskListResult(_model_base.Model):
-    """The result of listing the Tasks in a Job.
-
-    :ivar value: The list of Tasks.
-    :vartype value: list[~azure.batch.models.BatchTask]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchTask"]] = rest_field()
-    """The list of Tasks."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchTask"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class BatchTaskListSubtasksResult(_model_base.Model):
-    """The result of listing the subtasks of a Task.
-
-    :ivar value: The list of subtasks.
-    :vartype value: list[~azure.batch.models.BatchSubtask]
-    :ivar odata_next_link: The URL to get the next set of results.
-    :vartype odata_next_link: str
-    """
-
-    value: Optional[List["_models.BatchSubtask"]] = rest_field()
-    """The list of subtasks."""
-    odata_next_link: Optional[str] = rest_field(name="odata.nextLink")
-    """The URL to get the next set of results."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchSubtask"]] = None,
-        odata_next_link: Optional[str] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
 class BatchTaskSchedulingPolicy(_model_base.Model):
     """Specifies how Tasks should be distributed across Compute Nodes.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar node_fill_type: How Tasks are distributed across Compute Nodes in a Pool. If not
      specified, the default is spread. Required. Known values are: "spread" and "pack".
@@ -7604,7 +7128,6 @@ class BatchTaskSchedulingPolicy(_model_base.Model):
 class BatchTaskSlotCounts(_model_base.Model):
     """The TaskSlot counts for a Job.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar active: The number of TaskSlots for active Tasks. Required.
     :vartype active: int
@@ -7654,7 +7177,6 @@ class BatchTaskSlotCounts(_model_base.Model):
 class BatchTaskStatistics(_model_base.Model):  # pylint: disable=too-many-instance-attributes
     """Resource usage statistics for a Task.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar url: The URL of the statistics. Required.
     :vartype url: str
@@ -7678,10 +7200,10 @@ class BatchTaskStatistics(_model_base.Model):  # pylint: disable=too-many-instan
     :vartype read_i_ops: int
     :ivar write_i_ops: The total number of disk write operations made by the Task. Required.
     :vartype write_i_ops: int
-    :ivar read_i_o_gi_b: The total gibibytes read from disk by the Task. Required.
-    :vartype read_i_o_gi_b: float
-    :ivar write_i_o_gi_b: The total gibibytes written to disk by the Task. Required.
-    :vartype write_i_o_gi_b: float
+    :ivar read_io_gi_b: The total gibibytes read from disk by the Task. Required.
+    :vartype read_io_gi_b: float
+    :ivar write_io_gi_b: The total gibibytes written to disk by the Task. Required.
+    :vartype write_io_gi_b: float
     :ivar wait_time: The total wait time of the Task. The wait time for a Task is defined as the
      elapsed time between the creation of the Task and the start of Task execution. (If the Task is
      retried due to failures, the wait time is the time to the most recent Task execution.).
@@ -7711,9 +7233,9 @@ class BatchTaskStatistics(_model_base.Model):  # pylint: disable=too-many-instan
     """The total number of disk read operations made by the Task. Required."""
     write_i_ops: int = rest_field(name="writeIOps")
     """The total number of disk write operations made by the Task. Required."""
-    read_i_o_gi_b: float = rest_field(name="readIOGiB")
+    read_io_gi_b: float = rest_field(name="readIOGiB")
     """The total gibibytes read from disk by the Task. Required."""
-    write_i_o_gi_b: float = rest_field(name="writeIOGiB")
+    write_io_gi_b: float = rest_field(name="writeIOGiB")
     """The total gibibytes written to disk by the Task. Required."""
     wait_time: datetime.timedelta = rest_field(name="waitTime")
     """The total wait time of the Task. The wait time for a Task is defined as the elapsed time
@@ -7732,8 +7254,8 @@ class BatchTaskStatistics(_model_base.Model):  # pylint: disable=too-many-instan
         wall_clock_time: datetime.timedelta,
         read_i_ops: int,
         write_i_ops: int,
-        read_i_o_gi_b: float,
-        write_i_o_gi_b: float,
+        read_io_gi_b: float,
+        write_io_gi_b: float,
         wait_time: datetime.timedelta,
     ): ...
 
@@ -7751,7 +7273,6 @@ class BatchTaskStatistics(_model_base.Model):  # pylint: disable=too-many-instan
 class CifsMountConfiguration(_model_base.Model):
     """Information used to connect to a CIFS file system.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar username: The user to use for authentication against the CIFS file system. Required.
     :vartype username: str
@@ -7807,7 +7328,6 @@ class CifsMountConfiguration(_model_base.Model):
 class ContainerConfiguration(_model_base.Model):
     """The configuration for container-enabled Pools.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar type: The container technology to be used. Required. Known values are: "dockerCompatible"
      and "criCompatible".
@@ -7904,7 +7424,6 @@ class DataDisk(_model_base.Model):
     the Pool. When using attached data disks, you need to mount and format the
     disks from within a VM to use them.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar logical_unit_number: The logical unit number. The logicalUnitNumber is used to uniquely
      identify each data disk. If attaching multiple disks, each should have a distinct
@@ -8039,7 +7558,6 @@ class DiskEncryptionConfiguration(_model_base.Model):
 class EnvironmentSetting(_model_base.Model):
     """An environment variable to be set on a Task process.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the environment variable. Required.
     :vartype name: str
@@ -8075,7 +7593,6 @@ class ExitCodeMapping(_model_base.Model):
     """How the Batch service should respond if a Task exits with a particular exit
     code.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar code: A process exit code. Required.
     :vartype code: int
@@ -8112,7 +7629,6 @@ class ExitCodeRangeMapping(_model_base.Model):
     """A range of exit codes and how the Batch service should respond to exit codes
     within that range.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar start: The first exit code in the range. Required.
     :vartype start: int
@@ -8269,7 +7785,6 @@ class ExitOptions(_model_base.Model):
 class FileProperties(_model_base.Model):
     """The properties of a file on a Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar creation_time: The file creation time. The creation time is not returned for files on
      Linux Compute Nodes.
@@ -8277,7 +7792,7 @@ class FileProperties(_model_base.Model):
     :ivar last_modified: The time at which the file was last modified. Required.
     :vartype last_modified: ~datetime.datetime
     :ivar content_length: The length of the file. Required.
-    :vartype content_length: int
+    :vartype content_length: str
     :ivar content_type: The content type of the file.
     :vartype content_type: str
     :ivar file_mode: The file mode attribute in octal format. The file mode is returned only for
@@ -8289,7 +7804,7 @@ class FileProperties(_model_base.Model):
     """The file creation time. The creation time is not returned for files on Linux Compute Nodes."""
     last_modified: datetime.datetime = rest_field(name="lastModified", format="rfc3339")
     """The time at which the file was last modified. Required."""
-    content_length: int = rest_field(name="contentLength")
+    content_length: str = rest_field(name="contentLength")
     """The length of the file. Required."""
     content_type: Optional[str] = rest_field(name="contentType")
     """The content type of the file."""
@@ -8302,7 +7817,7 @@ class FileProperties(_model_base.Model):
         self,
         *,
         last_modified: datetime.datetime,
-        content_length: int,
+        content_length: str,
         creation_time: Optional[datetime.datetime] = None,
         content_type: Optional[str] = None,
         file_mode: Optional[str] = None,
@@ -8322,7 +7837,6 @@ class FileProperties(_model_base.Model):
 class HttpHeader(_model_base.Model):
     """An HTTP header name-value pair.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The case-insensitive name of the header to be used while uploading output files.
      Required.
@@ -8446,7 +7960,6 @@ class ImageReference(_model_base.Model):
 class InboundEndpoint(_model_base.Model):
     """An inbound endpoint on a Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the endpoint. Required.
     :vartype name: str
@@ -8454,8 +7967,8 @@ class InboundEndpoint(_model_base.Model):
     :vartype protocol: str or ~azure.batch.models.InboundEndpointProtocol
     :ivar public_ip_address: The public IP address of the Compute Node. Required.
     :vartype public_ip_address: str
-    :ivar public_f_q_d_n: The public fully qualified domain name for the Compute Node. Required.
-    :vartype public_f_q_d_n: str
+    :ivar public_fqdn: The public fully qualified domain name for the Compute Node. Required.
+    :vartype public_fqdn: str
     :ivar frontend_port: The public port number of the endpoint. Required.
     :vartype frontend_port: int
     :ivar backend_port: The backend port number of the endpoint. Required.
@@ -8468,7 +7981,7 @@ class InboundEndpoint(_model_base.Model):
     """The protocol of the endpoint. Required. Known values are: \"tcp\" and \"udp\"."""
     public_ip_address: str = rest_field(name="publicIPAddress")
     """The public IP address of the Compute Node. Required."""
-    public_f_q_d_n: str = rest_field(name="publicFQDN")
+    public_fqdn: str = rest_field(name="publicFQDN")
     """The public fully qualified domain name for the Compute Node. Required."""
     frontend_port: int = rest_field(name="frontendPort")
     """The public port number of the endpoint. Required."""
@@ -8482,7 +7995,7 @@ class InboundEndpoint(_model_base.Model):
         name: str,
         protocol: Union[str, "_models.InboundEndpointProtocol"],
         public_ip_address: str,
-        public_f_q_d_n: str,
+        public_fqdn: str,
         frontend_port: int,
         backend_port: int,
     ): ...
@@ -8502,7 +8015,6 @@ class InboundNatPool(_model_base.Model):
     """A inbound NAT Pool that can be used to address specific ports on Compute Nodes
     in a Batch Pool externally.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the endpoint. The name must be unique within a Batch Pool, can contain
      letters, numbers, underscores, periods, and hyphens. Names must start with a letter or number,
@@ -8698,7 +8210,6 @@ class LinuxUserConfiguration(_model_base.Model):
 class ManagedDisk(_model_base.Model):
     """The managed disk parameters.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar storage_account_type: The storage account type for managed disk. Required. Known values
      are: "standard_lrs", "premium_lrs", and "standardssd_lrs".
@@ -8731,7 +8242,6 @@ class MetadataItem(_model_base.Model):
     """The Batch service does not assign any meaning to this metadata; it is solely
     for the use of user code.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the metadata item. Required.
     :vartype name: str
@@ -8825,7 +8335,6 @@ class MultiInstanceSettings(_model_base.Model):
     code) the entire multi-instance Task fails. The multi-instance Task is then
     terminated and retried, up to its retry limit.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar number_of_instances: The number of Compute Nodes required by the Task. If omitted, the
      default is 1.
@@ -9024,7 +8533,6 @@ class NetworkConfiguration(_model_base.Model):
 class NetworkSecurityGroupRule(_model_base.Model):
     """A network security group rule to apply to an inbound endpoint.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar priority: The priority for this rule. Priorities within a Pool must be unique and are
      evaluated in order of priority. The lower the number the higher the priority. For example,
@@ -9094,7 +8602,6 @@ class NetworkSecurityGroupRule(_model_base.Model):
 class NfsMountConfiguration(_model_base.Model):
     """Information used to connect to an NFS file system.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar source: The URI of the file system to mount. Required.
     :vartype source: str
@@ -9140,15 +8647,15 @@ class NfsMountConfiguration(_model_base.Model):
 class OSDisk(_model_base.Model):
     """Settings for the operating system disk of the compute node (VM).
 
-    :ivar ephemeral_o_s_disk_settings: Specifies the ephemeral Disk Settings for the operating
+    :ivar ephemeral_os_disk_settings: Specifies the ephemeral Disk Settings for the operating
      system disk used by the compute node (VM).
-    :vartype ephemeral_o_s_disk_settings: ~azure.batch.models.DiffDiskSettings
+    :vartype ephemeral_os_disk_settings: ~azure.batch.models.DiffDiskSettings
     :ivar caching: Specifies the caching requirements. Possible values are: None, ReadOnly,
      ReadWrite. The default values are: None for Standard storage. ReadOnly for Premium storage.
      Known values are: "none", "readonly", and "readwrite".
     :vartype caching: str or ~azure.batch.models.CachingType
-    :ivar disk_size_g_b: The initial disk size in GB when creating new OS disk.
-    :vartype disk_size_g_b: int
+    :ivar disk_size_gb: The initial disk size in GB when creating new OS disk.
+    :vartype disk_size_gb: int
     :ivar managed_disk: The managed disk parameters.
     :vartype managed_disk: ~azure.batch.models.ManagedDisk
     :ivar write_accelerator_enabled: Specifies whether writeAccelerator should be enabled or
@@ -9156,14 +8663,14 @@ class OSDisk(_model_base.Model):
     :vartype write_accelerator_enabled: bool
     """
 
-    ephemeral_o_s_disk_settings: Optional["_models.DiffDiskSettings"] = rest_field(name="ephemeralOSDiskSettings")
+    ephemeral_os_disk_settings: Optional["_models.DiffDiskSettings"] = rest_field(name="ephemeralOSDiskSettings")
     """Specifies the ephemeral Disk Settings for the operating system disk used by the compute node
      (VM)."""
     caching: Optional[Union[str, "_models.CachingType"]] = rest_field()
     """Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The default
      values are: None for Standard storage. ReadOnly for Premium storage. Known values are:
      \"none\", \"readonly\", and \"readwrite\"."""
-    disk_size_g_b: Optional[int] = rest_field(name="diskSizeGB")
+    disk_size_gb: Optional[int] = rest_field(name="diskSizeGB")
     """The initial disk size in GB when creating new OS disk."""
     managed_disk: Optional["_models.ManagedDisk"] = rest_field(name="managedDisk")
     """The managed disk parameters."""
@@ -9174,9 +8681,9 @@ class OSDisk(_model_base.Model):
     def __init__(
         self,
         *,
-        ephemeral_o_s_disk_settings: Optional["_models.DiffDiskSettings"] = None,
+        ephemeral_os_disk_settings: Optional["_models.DiffDiskSettings"] = None,
         caching: Optional[Union[str, "_models.CachingType"]] = None,
-        disk_size_g_b: Optional[int] = None,
+        disk_size_gb: Optional[int] = None,
         managed_disk: Optional["_models.ManagedDisk"] = None,
         write_accelerator_enabled: Optional[bool] = None,
     ): ...
@@ -9197,7 +8704,6 @@ class OutputFile(_model_base.Model):
     'fileuploadout.txt' and 'fileuploaderr.txt'. These log files are used to learn more about a
     specific failure.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar file_pattern: A pattern indicating which file(s) to upload. Both relative and absolute
      paths are supported. Relative paths are relative to the Task working directory. The following
@@ -9264,7 +8770,6 @@ class OutputFile(_model_base.Model):
 class OutputFileBlobContainerDestination(_model_base.Model):
     """Specifies a file upload destination within an Azure blob storage container.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar path: The destination blob or virtual directory within the Azure Storage container. If
      filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of
@@ -9361,7 +8866,6 @@ class OutputFileUploadConfig(_model_base.Model):
     """Options for an output file upload operation, including under what conditions
     to perform the upload.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar upload_condition: The conditions under which the Task output file or set of files should
      be uploaded. The default is taskcompletion. Required. Known values are: "tasksuccess",
@@ -9729,7 +9233,6 @@ class RollingUpgradePolicy(_model_base.Model):
 class SecurityProfile(_model_base.Model):
     """Specifies the security profile settings for the virtual machine or virtual machine scale set.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar encryption_at_host: This property can be used by user in the request to enable or disable
      the Host Encryption for the virtual machine or virtual machine scale set. This will enable the
@@ -9780,7 +9283,6 @@ class ServiceArtifactReference(_model_base.Model):
     """Specifies the service artifact reference id used to set same image version
     for all virtual machines in the scale set when using 'latest' image version.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar id: The service artifact reference id of ServiceArtifactReference. The service artifact
      reference id in the form of
@@ -9851,7 +9353,6 @@ class UefiSettings(_model_base.Model):
 class UpgradePolicy(_model_base.Model):
     """Describes an upgrade policy - automatic, manual, or rolling.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar mode: Specifies the mode of an upgrade to virtual machines in the scale set.:code:`<br
      />`:code:`<br />` Possible values are::code:`<br />`:code:`<br />` **Manual** - You  control
@@ -9980,7 +9481,6 @@ class UploadBatchServiceLogsContent(_model_base.Model):
 class UploadBatchServiceLogsResult(_model_base.Model):
     """The result of uploading Batch service log files from a specific Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar virtual_directory_name: The virtual directory within Azure Blob Storage container to
      which the Batch Service log file(s) will be uploaded. The virtual directory name is part of the
@@ -10021,7 +9521,6 @@ class UserAccount(_model_base.Model):
     """Properties used to create a user used to execute Tasks on an Azure Batch
     Compute Node.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the user Account. Names can contain any Unicode characters up to a
      maximum length of 20. Required.
@@ -10086,7 +9585,6 @@ class UserAssignedIdentity(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar resource_id: The ARM resource id of the user assigned identity. Required.
     :vartype resource_id: str
@@ -10163,7 +9661,6 @@ class VirtualMachineConfiguration(_model_base.Model):  # pylint: disable=too-man
     """The configuration for Compute Nodes in a Pool based on the Azure Virtual
     Machines infrastructure.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar image_reference: A reference to the Azure Virtual Machines Marketplace Image or the
      custom Virtual Machine Image to use. Required.
@@ -10356,7 +9853,6 @@ class VirtualMachineInfo(_model_base.Model):
 class VMExtension(_model_base.Model):
     """The configuration for virtual machine extensions.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the virtual machine extension. Required.
     :vartype name: str
