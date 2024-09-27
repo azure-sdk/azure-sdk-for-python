@@ -37,10 +37,9 @@ class ChatCompletionsClient(ChatCompletionsClientOperationsMixin):  # pylint: di
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -120,10 +119,9 @@ class EmbeddingsClient(EmbeddingsClientOperationsMixin):  # pylint: disable=clie
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -203,10 +201,9 @@ class ImageEmbeddingsClient(ImageEmbeddingsClientOperationsMixin):  # pylint: di
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
