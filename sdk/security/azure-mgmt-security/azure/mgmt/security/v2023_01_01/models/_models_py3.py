@@ -109,7 +109,16 @@ class Extension(_serialization.Model):
      Available for StorageAccounts and CloudPosture plans.:code:`<br>`:code:`<br>`\\
      **ContainerRegistriesVulnerabilityAssessments** - Provides vulnerability management for images
      stored in your container registries.
-     Available for CloudPosture and Containers plans. Required.
+     Available for CloudPosture and Containers plans. :code:`<br>`:code:`<br>`\\
+     **MdeDesignatedSubscription** - VirtualMachines_P1;VirtualMachines_P2
+     :code:`<br>`:code:`<br>`\\ **AgentlessVmScanning** -
+     CloudPosture_Default;VirtualMachines_P2;Containers_Default_Preview :code:`<br>`:code:`<br>`\\
+     **EntraPermissionsManagement** - CloudPosture_Default :code:`<br>`:code:`<br>`\\
+     **FileIntegrityMonitoring** - VirtualMachines_P2 :code:`<br>`:code:`<br>`\\ **ContainerSensor**
+     - Containers_Default :code:`<br>`:code:`<br>`\\ **ContainerIntegrityContribution** -
+     Containers_Default_Preview;CloudPosture_Default_Preview :code:`<br>`:code:`<br>`\\
+     **AIPromptEvidence** - AI_Default :code:`<br>`:code:`<br>`\\ **ApiPosture** -
+     CloudPosture_Default_Preview :code:`<br>`:code:`<br>`. Required.
     :vartype name: str
     :ivar is_enabled: Indicates whether the extension is enabled. Required. Known values are:
      "True" and "False".
@@ -158,7 +167,16 @@ class Extension(_serialization.Model):
          Available for StorageAccounts and CloudPosture plans.:code:`<br>`:code:`<br>`\\
          **ContainerRegistriesVulnerabilityAssessments** - Provides vulnerability management for images
          stored in your container registries.
-         Available for CloudPosture and Containers plans. Required.
+         Available for CloudPosture and Containers plans. :code:`<br>`:code:`<br>`\\
+         **MdeDesignatedSubscription** - VirtualMachines_P1;VirtualMachines_P2
+         :code:`<br>`:code:`<br>`\\ **AgentlessVmScanning** -
+         CloudPosture_Default;VirtualMachines_P2;Containers_Default_Preview :code:`<br>`:code:`<br>`\\
+         **EntraPermissionsManagement** - CloudPosture_Default :code:`<br>`:code:`<br>`\\
+         **FileIntegrityMonitoring** - VirtualMachines_P2 :code:`<br>`:code:`<br>`\\ **ContainerSensor**
+         - Containers_Default :code:`<br>`:code:`<br>`\\ **ContainerIntegrityContribution** -
+         Containers_Default_Preview;CloudPosture_Default_Preview :code:`<br>`:code:`<br>`\\
+         **AIPromptEvidence** - AI_Default :code:`<br>`:code:`<br>`\\ **ApiPosture** -
+         CloudPosture_Default_Preview :code:`<br>`:code:`<br>`. Required.
         :paramtype name: str
         :keyword is_enabled: Indicates whether the extension is enabled. Required. Known values are:
          "True" and "False".
