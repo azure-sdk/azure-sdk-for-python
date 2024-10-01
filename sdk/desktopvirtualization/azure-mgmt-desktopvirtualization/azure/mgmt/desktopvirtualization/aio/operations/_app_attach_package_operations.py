@@ -73,7 +73,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :return: AppAttachPackage or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.AppAttachPackage
@@ -137,7 +137,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package: Object containing App Attach Package definitions. Required.
         :type app_attach_package: ~azure.mgmt.desktopvirtualization.models.AppAttachPackage
@@ -164,7 +164,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package: Object containing App Attach Package definitions. Required.
         :type app_attach_package: IO[bytes]
@@ -189,7 +189,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package: Object containing App Attach Package definitions. Is either a
          AppAttachPackage type or a IO[bytes] type. Required.
@@ -256,15 +256,17 @@ class AppAttachPackageOperations:
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, app_attach_package_name: str, **kwargs: Any
+        self, resource_group_name: str, app_attach_package_name: str, force: Optional[bool] = None, **kwargs: Any
     ) -> None:
         """Remove an App Attach Package.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
+        :param force: Force flag to delete App Attach package. Default value is None.
+        :type force: bool
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -287,6 +289,7 @@ class AppAttachPackageOperations:
             resource_group_name=resource_group_name,
             app_attach_package_name=app_attach_package_name,
             subscription_id=self._config.subscription_id,
+            force=force,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -323,7 +326,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package_patch: Object containing App Attach Package definition. Default value
          is None.
@@ -351,7 +354,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package_patch: Object containing App Attach Package definition. Default value
          is None.
@@ -377,7 +380,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package_patch: Object containing App Attach Package definition. Is either a
          AppAttachPackagePatch type or a IO[bytes] type. Default value is None.
@@ -454,8 +457,8 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param filter: OData filter expression. Valid properties for filtering are package name and
-         host pool. Default value is None.
+        :param filter: OData filter expression. Valid properties for filtering are package name, host
+         pool, package owner name, and custom data. Default value is None.
         :type filter: str
         :return: An iterator like instance of either AppAttachPackage or the result of cls(response)
         :rtype:
@@ -537,8 +540,8 @@ class AppAttachPackageOperations:
     ) -> AsyncIterable["_models.AppAttachPackage"]:
         """List App Attach packages in subscription.
 
-        :param filter: OData filter expression. Valid properties for filtering are package name, host
-         pool, and resource group. Default value is None.
+        :param filter: OData filter expression. Valid properties for filtering are package name,
+         resource group, host pool, package owner name, and custom data. Default value is None.
         :type filter: str
         :return: An iterator like instance of either AppAttachPackage or the result of cls(response)
         :rtype:

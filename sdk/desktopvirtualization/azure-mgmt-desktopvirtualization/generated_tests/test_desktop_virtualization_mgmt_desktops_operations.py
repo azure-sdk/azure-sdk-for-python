@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtDesktopsOperations(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             application_group_name="str",
             desktop_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestDesktopVirtualizationMgmtDesktopsOperations(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             application_group_name="str",
             desktop_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -50,7 +50,7 @@ class TestDesktopVirtualizationMgmtDesktopsOperations(AzureMgmtRecordedTestCase)
         response = self.client.desktops.list(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

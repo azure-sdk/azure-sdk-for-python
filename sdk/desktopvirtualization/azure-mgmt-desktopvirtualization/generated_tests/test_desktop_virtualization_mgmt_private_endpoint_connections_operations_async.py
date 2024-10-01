@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
         response = self.client.private_endpoint_connections.list_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
             resource_group_name=resource_group.name,
             workspace_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -51,7 +51,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
             resource_group_name=resource_group.name,
             workspace_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -81,7 +81,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -93,7 +93,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
         response = self.client.private_endpoint_connections.list_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -106,7 +106,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
             resource_group_name=resource_group.name,
             host_pool_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -119,7 +119,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
             resource_group_name=resource_group.name,
             host_pool_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -149,7 +149,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperationsAsync(Azu
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
