@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.azurearcdata import AzureArcDataManagementClient
 
 """
@@ -35,21 +36,20 @@ def main():
         sql_server_instance={
             "location": "northeurope",
             "properties": {
-                "azureDefenderStatus": "Protected",
-                "azureDefenderStatusLastUpdated": "2020-01-02T17:18:19.1234567Z",
-                "collation": "collation",
-                "containerResourceId": "Resource id of hosting Arc Machine",
-                "currentVersion": "2012",
+                "backupPolicy": {
+                    "differentialBackupHours": 12,
+                    "fullBackupDays": 1,
+                    "retentionPeriodDays": 1,
+                    "transactionLogBackupMinutes": 30,
+                },
+                "clientConnection": {"enabled": False},
+                "cores": "4",
                 "edition": "Developer",
                 "hostType": "Physical Server",
                 "instanceName": "name of instance",
-                "licenseType": "Free",
-                "patchLevel": "patchlevel",
-                "productId": "sql id",
-                "status": "Registered",
-                "tcpDynamicPorts": "1433",
-                "tcpStaticPorts": "1433",
-                "vCore": "4",
+                "migration": {"assessment": {"enabled": False}},
+                "monitoring": {"enabled": False},
+                "serviceType": "Engine",
                 "version": "SQL Server 2012",
             },
             "tags": {"mytag": "myval"},
@@ -58,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2022-03-01-preview/examples/CreateOrUpdateSqlServerInstance.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2024-05-01-preview/examples/CreateOrUpdateSqlServerInstance.json
 if __name__ == "__main__":
     main()
