@@ -10,6 +10,13 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AadEnabledEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether the cluster was created using AAD authentication."""
+
+    ENABLED = "enabled"
+    DISABLED = "disabled"
+
+
 class ActiveDirectoryAuth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ActiveDirectoryAuth."""
 
@@ -35,6 +42,20 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class DataEncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DataEncryptionType."""
+
+    AZURE_KEY_VAULT = "AzureKeyVault"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+
+
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """IdentityType."""
+
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+
+
 class OperationOrigin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The intended executor of the operation."""
 
@@ -45,6 +66,13 @@ class OperationOrigin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 class PasswordAuth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """PasswordAuth."""
+
+    ENABLED = "enabled"
+    DISABLED = "disabled"
+
+
+class PasswordEnabledEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether the cluster was created with a password or using AAD authentication."""
 
     ENABLED = "enabled"
     DISABLED = "disabled"

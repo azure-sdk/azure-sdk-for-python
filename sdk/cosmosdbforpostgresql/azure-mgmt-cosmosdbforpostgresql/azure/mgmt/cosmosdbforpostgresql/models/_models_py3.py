@@ -57,7 +57,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -98,10 +98,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -151,10 +151,10 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -168,11 +168,18 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
+    :ivar identity: Describes the identity of the cluster.
+    :vartype identity: ~azure.mgmt.cosmosdbforpostgresql.models.IdentityProperties
+    :ivar aad_auth_enabled: Indicates whether the cluster was created using AAD authentication.
+     Known values are: "enabled" and "disabled".
+    :vartype aad_auth_enabled: str or ~azure.mgmt.cosmosdbforpostgresql.models.AadEnabledEnum
     :ivar administrator_login: The administrator's login name of the servers in the cluster.
     :vartype administrator_login: str
     :ivar administrator_login_password: The password of the administrator login. Required for
      creation.
     :vartype administrator_login_password: str
+    :ivar data_encryption: The data encryption properties of a cluster.
+    :vartype data_encryption: ~azure.mgmt.cosmosdbforpostgresql.models.DataEncryption
     :ivar provisioning_state: Provisioning state of the cluster.
     :vartype provisioning_state: str
     :ivar state: A state of a cluster/server that is visible to user.
@@ -224,6 +231,9 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype source_resource_id: str
     :ivar source_location: The Azure region of source cluster for read replica clusters.
     :vartype source_location: str
+    :ivar password_enabled: Indicates whether the cluster was created with a password or using AAD
+     authentication. Known values are: "enabled" and "disabled".
+    :vartype password_enabled: str or ~azure.mgmt.cosmosdbforpostgresql.models.PasswordEnabledEnum
     :ivar point_in_time_utc: Date and time in UTC (ISO8601 format) for cluster restore.
     :vartype point_in_time_utc: ~datetime.datetime
     :ivar read_replicas: The array of read replica clusters.
@@ -250,10 +260,12 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
+        "aad_auth_enabled": {"readonly": True},
         "administrator_login": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "state": {"readonly": True},
         "server_names": {"readonly": True, "unique": True},
+        "password_enabled": {"readonly": True},
         "read_replicas": {"readonly": True, "unique": True},
         "earliest_restore_time": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
@@ -266,8 +278,11 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
+        "aad_auth_enabled": {"key": "properties.aadAuthEnabled", "type": "str"},
         "administrator_login": {"key": "properties.administratorLogin", "type": "str"},
         "administrator_login_password": {"key": "properties.administratorLoginPassword", "type": "str"},
+        "data_encryption": {"key": "properties.dataEncryption", "type": "DataEncryption"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
         "postgresql_version": {"key": "properties.postgresqlVersion", "type": "str"},
@@ -288,6 +303,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "server_names": {"key": "properties.serverNames", "type": "[ServerNameItem]"},
         "source_resource_id": {"key": "properties.sourceResourceId", "type": "str"},
         "source_location": {"key": "properties.sourceLocation", "type": "str"},
+        "password_enabled": {"key": "properties.passwordEnabled", "type": "str"},
         "point_in_time_utc": {"key": "properties.pointInTimeUTC", "type": "iso-8601"},
         "read_replicas": {"key": "properties.readReplicas", "type": "[str]"},
         "earliest_restore_time": {"key": "properties.earliestRestoreTime", "type": "iso-8601"},
@@ -305,7 +321,9 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
         administrator_login_password: Optional[str] = None,
+        data_encryption: Optional["_models.DataEncryption"] = None,
         postgresql_version: Optional[str] = None,
         citus_version: Optional[str] = None,
         maintenance_window: Optional["_models.MaintenanceWindow"] = None,
@@ -334,9 +352,13 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword identity: Describes the identity of the cluster.
+        :paramtype identity: ~azure.mgmt.cosmosdbforpostgresql.models.IdentityProperties
         :keyword administrator_login_password: The password of the administrator login. Required for
          creation.
         :paramtype administrator_login_password: str
+        :keyword data_encryption: The data encryption properties of a cluster.
+        :paramtype data_encryption: ~azure.mgmt.cosmosdbforpostgresql.models.DataEncryption
         :keyword postgresql_version: The major PostgreSQL version on all cluster servers.
         :paramtype postgresql_version: str
         :keyword citus_version: The Citus extension version on all cluster servers.
@@ -397,8 +419,11 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype auth_config: ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfig
         """
         super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.aad_auth_enabled = None
         self.administrator_login = None
         self.administrator_login_password = administrator_login_password
+        self.data_encryption = data_encryption
         self.provisioning_state = None
         self.state = None
         self.postgresql_version = postgresql_version
@@ -419,6 +444,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.server_names = None
         self.source_resource_id = source_resource_id
         self.source_location = source_location
+        self.password_enabled = None
         self.point_in_time_utc = point_in_time_utc
         self.read_replicas = None
         self.earliest_restore_time = None
@@ -463,6 +489,8 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar identity: Describes the identity of the cluster.
+    :vartype identity: ~azure.mgmt.cosmosdbforpostgresql.models.IdentityProperties
     :ivar tags: Application-specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar administrator_login_password: The password of the administrator login. Each cluster is
@@ -509,6 +537,7 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
     }
 
     _attribute_map = {
+        "identity": {"key": "identity", "type": "IdentityProperties"},
         "tags": {"key": "tags", "type": "{str}"},
         "administrator_login_password": {"key": "properties.administratorLoginPassword", "type": "str"},
         "postgresql_version": {"key": "properties.postgresqlVersion", "type": "str"},
@@ -531,6 +560,7 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
     def __init__(
         self,
         *,
+        identity: Optional["_models.IdentityProperties"] = None,
         tags: Optional[Dict[str, str]] = None,
         administrator_login_password: Optional[str] = None,
         postgresql_version: Optional[str] = None,
@@ -550,6 +580,8 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
         **kwargs: Any
     ) -> None:
         """
+        :keyword identity: Describes the identity of the cluster.
+        :paramtype identity: ~azure.mgmt.cosmosdbforpostgresql.models.IdentityProperties
         :keyword tags: Application-specific metadata in the form of key-value pairs.
         :paramtype tags: dict[str, str]
         :keyword administrator_login_password: The password of the administrator login. Each cluster is
@@ -590,6 +622,7 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
         :paramtype maintenance_window: ~azure.mgmt.cosmosdbforpostgresql.models.MaintenanceWindow
         """
         super().__init__(**kwargs)
+        self.identity = identity
         self.tags = tags
         self.administrator_login_password = administrator_login_password
         self.postgresql_version = postgresql_version
@@ -646,7 +679,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -658,24 +691,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.cosmosdbforpostgresql.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class ClusterServer(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Represents a server in a cluster.
@@ -683,7 +698,7 @@ class ClusterServer(ProxyResource):  # pylint: disable=too-many-instance-attribu
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1008,7 +1023,7 @@ class Configuration(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1084,6 +1099,48 @@ class Configuration(ProxyResource):
         self.requires_restart = requires_restart
         self.server_role_group_configurations = server_role_group_configurations
         self.provisioning_state = None
+
+
+class DataEncryption(_serialization.Model):
+    """The data encryption properties of a cluster.
+
+    :ivar primary_key_uri: URI for the key in keyvault for data encryption of the primary server.
+    :vartype primary_key_uri: str
+    :ivar primary_user_assigned_identity_id: Resource Id for the User assigned identity to be used
+     for data encryption of the primary server.
+    :vartype primary_user_assigned_identity_id: str
+    :ivar type: Known values are: "AzureKeyVault" and "SystemAssigned".
+    :vartype type: str or ~azure.mgmt.cosmosdbforpostgresql.models.DataEncryptionType
+    """
+
+    _attribute_map = {
+        "primary_key_uri": {"key": "primaryKeyUri", "type": "str"},
+        "primary_user_assigned_identity_id": {"key": "primaryUserAssignedIdentityId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        primary_key_uri: Optional[str] = None,
+        primary_user_assigned_identity_id: Optional[str] = None,
+        type: Optional[Union[str, "_models.DataEncryptionType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword primary_key_uri: URI for the key in keyvault for data encryption of the primary
+         server.
+        :paramtype primary_key_uri: str
+        :keyword primary_user_assigned_identity_id: Resource Id for the User assigned identity to be
+         used for data encryption of the primary server.
+        :paramtype primary_user_assigned_identity_id: str
+        :keyword type: Known values are: "AzureKeyVault" and "SystemAssigned".
+        :paramtype type: str or ~azure.mgmt.cosmosdbforpostgresql.models.DataEncryptionType
+        """
+        super().__init__(**kwargs)
+        self.primary_key_uri = primary_key_uri
+        self.primary_user_assigned_identity_id = primary_user_assigned_identity_id
+        self.type = type
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1183,10 +1240,10 @@ class FirewallRule(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1266,6 +1323,46 @@ class FirewallRuleListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class IdentityProperties(_serialization.Model):
+    """Describes the identity of the cluster.
+
+    :ivar type: Known values are: "UserAssigned" and "SystemAssigned".
+    :vartype type: str or ~azure.mgmt.cosmosdbforpostgresql.models.IdentityType
+    :ivar user_assigned_identities: The set of user assigned identities associated with the
+     resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+     The dictionary values can be empty objects ({}) in requests.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.cosmosdbforpostgresql.models.UserAssignedIdentity]
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.IdentityType"]] = None,
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Known values are: "UserAssigned" and "SystemAssigned".
+        :paramtype type: str or ~azure.mgmt.cosmosdbforpostgresql.models.IdentityType
+        :keyword user_assigned_identities: The set of user assigned identities associated with the
+         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+         The dictionary values can be empty objects ({}) in requests.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.cosmosdbforpostgresql.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class MaintenanceWindow(_serialization.Model):
@@ -1365,7 +1462,7 @@ class NameAvailabilityRequest(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Cluster name to verify. Required.
     :vartype name: str
@@ -1539,7 +1636,7 @@ class PrivateEndpointConnection(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1654,7 +1751,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1771,7 +1868,7 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
 class PromoteRequest(_serialization.Model):
     """Request from client to promote geo-redundant replica.
 
-    :ivar enable_geo_backup: Cluster name to verify.
+    :ivar enable_geo_backup: Boolean property to enable geo-redundant replica promotion.
     :vartype enable_geo_backup: bool
     """
 
@@ -1781,7 +1878,7 @@ class PromoteRequest(_serialization.Model):
 
     def __init__(self, *, enable_geo_backup: Optional[bool] = None, **kwargs: Any) -> None:
         """
-        :keyword enable_geo_backup: Cluster name to verify.
+        :keyword enable_geo_backup: Boolean property to enable geo-redundant replica promotion.
         :paramtype enable_geo_backup: bool
         """
         super().__init__(**kwargs)
@@ -1794,7 +1891,7 @@ class Role(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1899,7 +1996,7 @@ class ServerConfiguration(ProxyResource):  # pylint: disable=too-many-instance-a
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2039,7 +2136,7 @@ class ServerRoleGroupConfiguration(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar role: The role of servers in the server role group. Required. Known values are:
      "Coordinator" and "Worker".
@@ -2087,7 +2184,7 @@ class SimplePrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2213,3 +2310,31 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
+
+
+class UserAssignedIdentity(_serialization.Model):
+    """User assigned identity properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: The principal ID of the assigned identity.
+    :vartype principal_id: str
+    :ivar client_id: The client ID of the assigned identity.
+    :vartype client_id: str
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "client_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.client_id = None
