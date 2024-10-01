@@ -6,20 +6,26 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._client import DocumentTranslationClient
-from ._client import SingleDocumentTranslationClient
+from azure.ai.translation.document import DocumentTranslationClient
 
-try:
-    from ._patch import __all__ as _patch_all
-    from ._patch import *  # pylint: disable=unused-wildcard-import
-except ImportError:
-    _patch_all = []
-from ._patch import patch_sdk as _patch_sdk
+"""
+# PREREQUISITES
+    pip install azure-ai-translation-document
+# USAGE
+    python format.py
+"""
 
-__all__ = [
-    "DocumentTranslationClient",
-    "SingleDocumentTranslationClient",
-]
-__all__.extend([p for p in _patch_all if p not in __all__])
 
-_patch_sdk()
+def main():
+    client = DocumentTranslationClient(
+        endpoint="{endpoint}",
+        credential="CREDENTIAL",
+    )
+
+    response = client.get_supported_formats()
+    print(response)
+
+
+# x-ms-original-file: 2024-05-01/format.json
+if __name__ == "__main__":
+    main()
