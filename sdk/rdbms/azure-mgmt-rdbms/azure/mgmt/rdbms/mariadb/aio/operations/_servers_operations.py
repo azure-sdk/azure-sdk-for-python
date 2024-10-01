@@ -42,7 +42,6 @@ from ...operations._servers_operations import (
     build_stop_request,
     build_update_request,
 )
-from .._vendor import MariaDBManagementClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping

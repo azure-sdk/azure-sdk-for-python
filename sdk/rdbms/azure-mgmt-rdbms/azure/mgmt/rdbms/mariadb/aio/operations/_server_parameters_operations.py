@@ -30,7 +30,6 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
 from ...operations._server_parameters_operations import build_list_update_configurations_request
-from .._vendor import MariaDBManagementClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping

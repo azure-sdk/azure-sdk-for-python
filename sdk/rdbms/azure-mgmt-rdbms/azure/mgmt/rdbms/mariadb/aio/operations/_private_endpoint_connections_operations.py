@@ -38,7 +38,6 @@ from ...operations._private_endpoint_connections_operations import (
     build_list_by_server_request,
     build_update_tags_request,
 )
-from .._vendor import MariaDBManagementClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
