@@ -350,6 +350,9 @@ from ._models_py3 import HttpSource
 from ._models_py3 import HubspotLinkedService
 from ._models_py3 import HubspotObjectDataset
 from ._models_py3 import HubspotSource
+from ._models_py3 import IcebergDataset
+from ._models_py3 import IcebergSink
+from ._models_py3 import IcebergWriteSettings
 from ._models_py3 import IfConditionActivity
 from ._models_py3 import ImpalaLinkedService
 from ._models_py3 import ImpalaObjectDataset
@@ -1271,6 +1274,9 @@ __all__ = [
     "HubspotLinkedService",
     "HubspotObjectDataset",
     "HubspotSource",
+    "IcebergDataset",
+    "IcebergSink",
+    "IcebergWriteSettings",
     "IfConditionActivity",
     "ImpalaLinkedService",
     "ImpalaObjectDataset",
