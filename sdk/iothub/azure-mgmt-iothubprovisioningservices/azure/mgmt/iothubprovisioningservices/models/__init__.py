@@ -49,6 +49,7 @@ from ._iot_dps_client_enums import AllocationPolicy
 from ._iot_dps_client_enums import CertificatePurpose
 from ._iot_dps_client_enums import CreatedByType
 from ._iot_dps_client_enums import IotDpsSku
+from ._iot_dps_client_enums import IotHubAuthenticationType
 from ._iot_dps_client_enums import IpFilterActionType
 from ._iot_dps_client_enums import IpFilterTargetType
 from ._iot_dps_client_enums import ManagedServiceIdentityType
@@ -103,6 +104,7 @@ __all__ = [
     "CertificatePurpose",
     "CreatedByType",
     "IotDpsSku",
+    "IotHubAuthenticationType",
     "IpFilterActionType",
     "IpFilterTargetType",
     "ManagedServiceIdentityType",
