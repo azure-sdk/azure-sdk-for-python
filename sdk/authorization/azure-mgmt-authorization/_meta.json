@@ -1,11 +1,29 @@
 {
-  "commit": "1af2861030243b06ee35172c95899f4809eedfc7",
+  "commit": "b327bc49f12dd6ee04cca788869af6de31f269cb",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.6.0",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.19.0",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/authorization/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.6.0 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/authorization/resource-manager/readme.md"
+  "autorest_command": "autorest specification/authorization/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/authorization/resource-manager/readme.md",
+  "package-2022-08-01-preview-only": "2023-02-17 06:42:30 -0800 66e7f9b04a2325fe00afd04d8abdab6ed78b7c4a Microsoft.Authorization/preview/2022-08-01-preview/RoleManagementAlerts.json",
+  "package-2022-05-01-preview-only": "2023-06-20 23:40:41 -0700 526e6049f46d58a5077850731dce19ab9767988f Microsoft.Authorization/preview/2022-05-01-preview/common-types.json",
+  "package-2022-04-01-only": "2023-06-20 23:40:41 -0700 526e6049f46d58a5077850731dce19ab9767988f Microsoft.Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+  "package-2022-04-01-preview-only": "2022-02-28 18:24:29 -0800 e785020b4fcd3b1e5d7943d9a0d59ad36ef4d7f8 Microsoft.Authorization/preview/2022-04-01-preview/RoleEligibilityScheduleRequest.json",
+  "package-2021-12-01-preview-python-only": "2022-06-29 21:34:39 -0700 a4d7a85899e7b980990870106224524ec6438c8a Microsoft.Authorization/preview/2021-12-01-preview/authorization-AccessReviewCalls.json",
+  "package-2021-07-01-preview-only": "2021-07-29 01:50:48 -0700 74dbcfee45a6634d0043e478aba324796d98940c Microsoft.Authorization/preview/2021-07-01-preview/authorization-AccessReviewCalls.json",
+  "package-2021-03-01-preview-only": "2021-04-21 00:47:59 -0700 890f0755f2a973edadc31c78d7a74f5e283f6c3d Microsoft.Authorization/preview/2021-03-01-preview/authorization-AccessReviewCalls.json",
+  "package-2021-01-01-preview-only": "2021-02-18 00:34:14 -0800 c740df72bd77fd8c6a822bbd1ad8d366a31dc2b3 Microsoft.Authorization/preview/2021-01-01-preview/authorization-RoleAssignmentApprovalCalls.json",
+  "package-2020-10-01-only": "2022-03-31 17:46:02 -0700 95a128e006b4478203e188c9bf8896ffe9900998 Microsoft.Authorization/stable/2020-10-01/common-types.json",
+  "package-2020-10-01-preview-only": "2023-06-20 23:40:41 -0700 526e6049f46d58a5077850731dce19ab9767988f Microsoft.Authorization/preview/2020-10-01-preview/RoleManagementPolicy.json",
+  "package-2020-04-01-preview-only": "2021-11-03 18:26:47 -0700 42c2ad511bc23ece4f224a67eb35c598280c6dcf Microsoft.Authorization/preview/2020-04-01-preview/authorization-RoleAssignmentsCalls.json",
+  "package-2019-08-01-preview-only": "2021-08-31 20:25:39 -0700 4dc391780cb36a5c8c5632f5baec0cb8f255fa71 Microsoft.Authorization/preview/2019-08-01-preview/authorization-UsageMetricsCalls.json",
+  "package-2018-09-01-preview-only": "2021-11-03 18:26:47 -0700 42c2ad511bc23ece4f224a67eb35c598280c6dcf Microsoft.Authorization/preview/2018-09-01-preview/authorization-RoleAssignmentsCalls.json",
+  "package-2018-07-01-preview-only": "2022-02-10 03:42:48 +0100 47c12e21d06ca29be0579880585fc883bd6e6055 Microsoft.Authorization/preview/2018-07-01-preview/authorization-DenyAssignmentGetCalls.json",
+  "package-2018-05-01-preview": "2022-02-10 03:42:48 +0100 47c12e21d06ca29be0579880585fc883bd6e6055 Microsoft.Authorization/preview/2018-05-01-preview/authorization-AccessReviewCalls.json",
+  "package-2018-01-01-preview-only": "2022-02-10 03:42:48 +0100 47c12e21d06ca29be0579880585fc883bd6e6055 Microsoft.Authorization/preview/2018-01-01-preview/authorization-RoleDefinitionsCalls.json",
+  "package-2015-07-01": "2022-06-01 00:48:33 -0700 688cfd36391115f70ea9276a8e526caea6a5c8ad Microsoft.Authorization/stable/2015-07-01/authorization-ElevateAccessCalls.json",
+  "package-2015-06-01-preview": "2021-08-31 20:25:39 -0700 4dc391780cb36a5c8c5632f5baec0cb8f255fa71 Microsoft.Authorization/preview/2015-06-01/authorization-ClassicAdminCalls.json"
 }
