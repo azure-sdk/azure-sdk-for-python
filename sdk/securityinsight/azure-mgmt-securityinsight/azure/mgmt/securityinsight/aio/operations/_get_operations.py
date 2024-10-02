@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,36 +7,26 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Optional, TypeVar
+from typing import Any, Callable, Dict, Optional, Type, TypeVar
 
-from azure.core.exceptions import (
-    ClientAuthenticationError,
-    HttpResponseError,
-    ResourceExistsError,
-    ResourceNotFoundError,
-    ResourceNotModifiedError,
-    map_error,
-)
+from azure.core.exceptions import ClientAuthenticationError, HttpResponseError, ResourceExistsError, ResourceNotFoundError, ResourceNotModifiedError, map_error
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._get_operations import build_single_recommendation_request
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
-T = TypeVar("T")
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+T = TypeVar('T')
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
-
-class GetOperations:
+class GetOperations: 
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -55,9 +45,16 @@ class GetOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
+
+
+
     @distributed_trace_async
     async def single_recommendation(
-        self, resource_group_name: str, workspace_name: str, recommendation_id: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        recommendation_id: str,
+        **kwargs: Any
     ) -> _models.Recommendation:
         """Gets a recommendation by its id.
 
@@ -68,42 +65,40 @@ class GetOperations:
         :type workspace_name: str
         :param recommendation_id: Recommendation Id. Required.
         :type recommendation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Recommendation or the result of cls(response)
         :rtype: ~azure.mgmt.securityinsight.models.Recommendation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError, 304: ResourceNotModifiedError
         }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+        error_map.update(kwargs.pop('error_map', {}) or {})
 
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-12-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
+        api_version: str = kwargs.pop('api_version', _params.pop('api-version', self._config.api_version))
+        cls: ClsType[_models.Recommendation] = kwargs.pop(
+            'cls', None
         )
-        cls: ClsType[_models.Recommendation] = kwargs.pop("cls", None)
 
-        request = build_single_recommendation_request(
+        
+        _request = build_single_recommendation_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             recommendation_id=recommendation_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.single_recommendation.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(   # pylint: disable=protected-access
+            _request,
+            stream=_stream,
+            **kwargs
         )
 
         response = pipeline_response.http_response
@@ -112,13 +107,14 @@ class GetOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Recommendation", pipeline_response)
+        deserialized = self._deserialize(
+            'Recommendation',
+         pipeline_response.http_response
+        )
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {}) # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    single_recommendation.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/recommendations/{recommendationId}"
-    }
+

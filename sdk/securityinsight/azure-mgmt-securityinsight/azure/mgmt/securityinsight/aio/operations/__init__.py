@@ -10,19 +10,33 @@ from ._alert_rules_operations import AlertRulesOperations
 from ._actions_operations import ActionsOperations
 from ._alert_rule_templates_operations import AlertRuleTemplatesOperations
 from ._automation_rules_operations import AutomationRulesOperations
+from ._entities_operations import EntitiesOperations
 from ._incidents_operations import IncidentsOperations
+from ._billing_statistics_operations import BillingStatisticsOperations
 from ._bookmarks_operations import BookmarksOperations
 from ._bookmark_relations_operations import BookmarkRelationsOperations
 from ._bookmark_operations import BookmarkOperations
-from ._ip_geodata_operations import IPGeodataOperations
-from ._domain_whois_operations import DomainWhoisOperations
-from ._entities_operations import EntitiesOperations
+from ._business_application_agents_operations import BusinessApplicationAgentsOperations
+from ._business_application_agent_operations import BusinessApplicationAgentOperations
+from ._systems_operations import SystemsOperations
+from ._content_packages_operations import ContentPackagesOperations
+from ._content_package_operations import ContentPackageOperations
+from ._product_packages_operations import ProductPackagesOperations
+from ._product_package_operations import ProductPackageOperations
+from ._product_templates_operations import ProductTemplatesOperations
+from ._product_template_operations import ProductTemplateOperations
+from ._content_templates_operations import ContentTemplatesOperations
+from ._content_template_operations import ContentTemplateOperations
+from ._security_insights_operations import SecurityInsightsOperationsMixin
 from ._entities_get_timeline_operations import EntitiesGetTimelineOperations
 from ._entities_relations_operations import EntitiesRelationsOperations
 from ._entity_relations_operations import EntityRelationsOperations
 from ._entity_queries_operations import EntityQueriesOperations
 from ._entity_query_templates_operations import EntityQueryTemplatesOperations
 from ._file_imports_operations import FileImportsOperations
+from ._hunts_operations import HuntsOperations
+from ._hunt_relations_operations import HuntRelationsOperations
+from ._hunt_comments_operations import HuntCommentsOperations
 from ._incident_comments_operations import IncidentCommentsOperations
 from ._incident_relations_operations import IncidentRelationsOperations
 from ._incident_tasks_operations import IncidentTasksOperations
@@ -32,6 +46,7 @@ from ._sentinel_onboarding_states_operations import SentinelOnboardingStatesOper
 from ._get_recommendations_operations import GetRecommendationsOperations
 from ._get_operations import GetOperations
 from ._update_operations import UpdateOperations
+from ._reevaluate_operations import ReevaluateOperations
 from ._security_ml_analytics_settings_operations import SecurityMLAnalyticsSettingsOperations
 from ._product_settings_operations import ProductSettingsOperations
 from ._source_control_operations import SourceControlOperations
@@ -39,8 +54,18 @@ from ._source_controls_operations import SourceControlsOperations
 from ._threat_intelligence_indicator_operations import ThreatIntelligenceIndicatorOperations
 from ._threat_intelligence_indicators_operations import ThreatIntelligenceIndicatorsOperations
 from ._threat_intelligence_indicator_metrics_operations import ThreatIntelligenceIndicatorMetricsOperations
+from ._threat_intelligence_operations import ThreatIntelligenceOperations
+from ._triggered_analytics_rule_run_operations import TriggeredAnalyticsRuleRunOperations
+from ._get_triggered_analytics_rule_runs_operations import GetTriggeredAnalyticsRuleRunsOperations
+from ._alert_rule_operations import AlertRuleOperations
 from ._watchlists_operations import WatchlistsOperations
 from ._watchlist_items_operations import WatchlistItemsOperations
+from ._workspace_manager_assignments_operations import WorkspaceManagerAssignmentsOperations
+from ._workspace_manager_assignment_jobs_operations import WorkspaceManagerAssignmentJobsOperations
+from ._workspace_manager_configurations_operations import WorkspaceManagerConfigurationsOperations
+from ._workspace_manager_groups_operations import WorkspaceManagerGroupsOperations
+from ._workspace_manager_members_operations import WorkspaceManagerMembersOperations
+from ._data_connector_definitions_operations import DataConnectorDefinitionsOperations
 from ._data_connectors_operations import DataConnectorsOperations
 from ._data_connectors_check_requirements_operations import DataConnectorsCheckRequirementsOperations
 from ._operations import Operations
@@ -48,46 +73,70 @@ from ._operations import Operations
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
-
 __all__ = [
-    "AlertRulesOperations",
-    "ActionsOperations",
-    "AlertRuleTemplatesOperations",
-    "AutomationRulesOperations",
-    "IncidentsOperations",
-    "BookmarksOperations",
-    "BookmarkRelationsOperations",
-    "BookmarkOperations",
-    "IPGeodataOperations",
-    "DomainWhoisOperations",
-    "EntitiesOperations",
-    "EntitiesGetTimelineOperations",
-    "EntitiesRelationsOperations",
-    "EntityRelationsOperations",
-    "EntityQueriesOperations",
-    "EntityQueryTemplatesOperations",
-    "FileImportsOperations",
-    "IncidentCommentsOperations",
-    "IncidentRelationsOperations",
-    "IncidentTasksOperations",
-    "MetadataOperations",
-    "OfficeConsentsOperations",
-    "SentinelOnboardingStatesOperations",
-    "GetRecommendationsOperations",
-    "GetOperations",
-    "UpdateOperations",
-    "SecurityMLAnalyticsSettingsOperations",
-    "ProductSettingsOperations",
-    "SourceControlOperations",
-    "SourceControlsOperations",
-    "ThreatIntelligenceIndicatorOperations",
-    "ThreatIntelligenceIndicatorsOperations",
-    "ThreatIntelligenceIndicatorMetricsOperations",
-    "WatchlistsOperations",
-    "WatchlistItemsOperations",
-    "DataConnectorsOperations",
-    "DataConnectorsCheckRequirementsOperations",
-    "Operations",
+    'AlertRulesOperations',
+    'ActionsOperations',
+    'AlertRuleTemplatesOperations',
+    'AutomationRulesOperations',
+    'EntitiesOperations',
+    'IncidentsOperations',
+    'BillingStatisticsOperations',
+    'BookmarksOperations',
+    'BookmarkRelationsOperations',
+    'BookmarkOperations',
+    'BusinessApplicationAgentsOperations',
+    'BusinessApplicationAgentOperations',
+    'SystemsOperations',
+    'ContentPackagesOperations',
+    'ContentPackageOperations',
+    'ProductPackagesOperations',
+    'ProductPackageOperations',
+    'ProductTemplatesOperations',
+    'ProductTemplateOperations',
+    'ContentTemplatesOperations',
+    'ContentTemplateOperations',
+    'SecurityInsightsOperationsMixin',
+    'EntitiesGetTimelineOperations',
+    'EntitiesRelationsOperations',
+    'EntityRelationsOperations',
+    'EntityQueriesOperations',
+    'EntityQueryTemplatesOperations',
+    'FileImportsOperations',
+    'HuntsOperations',
+    'HuntRelationsOperations',
+    'HuntCommentsOperations',
+    'IncidentCommentsOperations',
+    'IncidentRelationsOperations',
+    'IncidentTasksOperations',
+    'MetadataOperations',
+    'OfficeConsentsOperations',
+    'SentinelOnboardingStatesOperations',
+    'GetRecommendationsOperations',
+    'GetOperations',
+    'UpdateOperations',
+    'ReevaluateOperations',
+    'SecurityMLAnalyticsSettingsOperations',
+    'ProductSettingsOperations',
+    'SourceControlOperations',
+    'SourceControlsOperations',
+    'ThreatIntelligenceIndicatorOperations',
+    'ThreatIntelligenceIndicatorsOperations',
+    'ThreatIntelligenceIndicatorMetricsOperations',
+    'ThreatIntelligenceOperations',
+    'TriggeredAnalyticsRuleRunOperations',
+    'GetTriggeredAnalyticsRuleRunsOperations',
+    'AlertRuleOperations',
+    'WatchlistsOperations',
+    'WatchlistItemsOperations',
+    'WorkspaceManagerAssignmentsOperations',
+    'WorkspaceManagerAssignmentJobsOperations',
+    'WorkspaceManagerConfigurationsOperations',
+    'WorkspaceManagerGroupsOperations',
+    'WorkspaceManagerMembersOperations',
+    'DataConnectorDefinitionsOperations',
+    'DataConnectorsOperations',
+    'DataConnectorsCheckRequirementsOperations',
+    'Operations',
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
