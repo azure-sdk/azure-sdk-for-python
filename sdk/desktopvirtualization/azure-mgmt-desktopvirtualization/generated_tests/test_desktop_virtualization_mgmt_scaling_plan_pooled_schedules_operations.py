@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -68,7 +68,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -81,7 +81,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -94,7 +94,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -106,7 +106,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
         response = self.client.scaling_plan_pooled_schedules.list(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

@@ -356,6 +356,7 @@ class SessionHostsOperations:
         page_size: Optional[int] = None,
         is_descending: Optional[bool] = None,
         initial_skip: Optional[int] = None,
+        vm_path: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.SessionHost"]:
         """List sessionHosts.
@@ -371,6 +372,8 @@ class SessionHostsOperations:
         :type is_descending: bool
         :param initial_skip: Initial number of items to skip. Default value is None.
         :type initial_skip: int
+        :param vm_path: The path to the VM. Default value is None.
+        :type vm_path: str
         :return: An iterator like instance of either SessionHost or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.desktopvirtualization.models.SessionHost]
@@ -400,6 +403,7 @@ class SessionHostsOperations:
                     page_size=page_size,
                     is_descending=is_descending,
                     initial_skip=initial_skip,
+                    vm_path=vm_path,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,

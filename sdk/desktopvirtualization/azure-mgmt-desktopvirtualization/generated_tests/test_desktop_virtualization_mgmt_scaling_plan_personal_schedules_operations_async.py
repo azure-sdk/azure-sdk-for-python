@@ -26,7 +26,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -78,7 +78,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -91,7 +91,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -104,7 +104,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -116,7 +116,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
         response = self.client.scaling_plan_personal_schedules.list(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

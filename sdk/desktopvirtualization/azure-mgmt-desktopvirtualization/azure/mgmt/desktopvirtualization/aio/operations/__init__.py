@@ -18,8 +18,15 @@ from ._start_menu_items_operations import StartMenuItemsOperations
 from ._applications_operations import ApplicationsOperations
 from ._desktops_operations import DesktopsOperations
 from ._host_pools_operations import HostPoolsOperations
+from ._session_host_managements_operations import SessionHostManagementsOperations
+from ._initiate_session_host_update_operations import InitiateSessionHostUpdateOperations
+from ._control_session_host_update_operations import ControlSessionHostUpdateOperations
+from ._session_host_managements_update_status_operations import SessionHostManagementsUpdateStatusOperations
+from ._session_host_configurations_operations import SessionHostConfigurationsOperations
+from ._active_session_host_configurations_operations import ActiveSessionHostConfigurationsOperations
 from ._user_sessions_operations import UserSessionsOperations
 from ._session_hosts_operations import SessionHostsOperations
+from ._session_host_operations import SessionHostOperations
 from ._msix_packages_operations import MSIXPackagesOperations
 from ._app_attach_package_info_operations import AppAttachPackageInfoOperations
 from ._msix_images_operations import MsixImagesOperations
@@ -42,8 +49,15 @@ __all__ = [
     "ApplicationsOperations",
     "DesktopsOperations",
     "HostPoolsOperations",
+    "SessionHostManagementsOperations",
+    "InitiateSessionHostUpdateOperations",
+    "ControlSessionHostUpdateOperations",
+    "SessionHostManagementsUpdateStatusOperations",
+    "SessionHostConfigurationsOperations",
+    "ActiveSessionHostConfigurationsOperations",
     "UserSessionsOperations",
     "SessionHostsOperations",
+    "SessionHostOperations",
     "MSIXPackagesOperations",
     "AppAttachPackageInfoOperations",
     "MsixImagesOperations",

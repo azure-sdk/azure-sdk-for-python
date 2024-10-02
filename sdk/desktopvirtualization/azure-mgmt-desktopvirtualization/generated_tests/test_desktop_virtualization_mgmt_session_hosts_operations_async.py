@@ -26,7 +26,7 @@ class TestDesktopVirtualizationMgmtSessionHostsOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -39,7 +39,7 @@ class TestDesktopVirtualizationMgmtSessionHostsOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -52,7 +52,7 @@ class TestDesktopVirtualizationMgmtSessionHostsOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -64,7 +64,7 @@ class TestDesktopVirtualizationMgmtSessionHostsOperationsAsync(AzureMgmtRecorded
         response = self.client.session_hosts.list(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

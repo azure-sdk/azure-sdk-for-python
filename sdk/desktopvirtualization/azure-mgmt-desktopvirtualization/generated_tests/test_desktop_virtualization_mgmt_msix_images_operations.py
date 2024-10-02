@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtMsixImagesOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_image_uri={"uri": "str"},
-            api_version="2024-04-03",
+            api_version="2024-04-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
