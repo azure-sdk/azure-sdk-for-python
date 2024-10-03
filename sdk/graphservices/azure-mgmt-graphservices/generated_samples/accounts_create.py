@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.graphservices import GraphServicesMgmtClient
 
 """
@@ -32,7 +33,10 @@ def main():
     response = client.accounts.begin_create_and_update(
         resource_group_name="testResourceGroupGRAM",
         resource_name="11111111-aaaa-1111-bbbb-1111111111111",
-        account_resource={"properties": {"appId": "11111111-aaaa-1111-bbbb-111111111111"}},
+        account_resource={
+            "properties": {"appId": "11111111-aaaa-1111-bbbb-111111111111"},
+            "tags": {"tag1": "value1", "tag2": "value2"},
+        },
     ).result()
     print(response)
 

@@ -47,18 +47,6 @@ class AccountPatchResource(TagUpdate):
     :vartype tags: dict[str, str]
     """
 
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: List of key value pairs that describe the resource. This will overwrite the
-         existing tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
-
 
 class Resource(_serialization.Model):
     """An Azure resource.
@@ -111,7 +99,7 @@ class AccountResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource ID.
     :vartype id: str
@@ -201,7 +189,7 @@ class AccountResourceProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Provisioning state. Known values are: "Succeeded", "Failed", and
      "Canceled".
