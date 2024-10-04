@@ -26,7 +26,7 @@ JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 class AzureFileVolume(_serialization.Model):
     """The properties of the Azure File volume. Azure File shares are mounted as volumes.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar share_name: The name of the Azure File share to be mounted as a volume. Required.
     :vartype share_name: str
@@ -38,6 +38,9 @@ class AzureFileVolume(_serialization.Model):
     :vartype storage_account_name: str
     :ivar storage_account_key: The storage account access key used to access the Azure File share.
     :vartype storage_account_key: str
+    :ivar storage_account_key_reference: The reference to the storage account access key used to
+     access the Azure File share.
+    :vartype storage_account_key_reference: str
     """
 
     _validation = {
@@ -50,6 +53,7 @@ class AzureFileVolume(_serialization.Model):
         "read_only": {"key": "readOnly", "type": "bool"},
         "storage_account_name": {"key": "storageAccountName", "type": "str"},
         "storage_account_key": {"key": "storageAccountKey", "type": "str"},
+        "storage_account_key_reference": {"key": "storageAccountKeyReference", "type": "str"},
     }
 
     def __init__(
@@ -59,6 +63,7 @@ class AzureFileVolume(_serialization.Model):
         storage_account_name: str,
         read_only: Optional[bool] = None,
         storage_account_key: Optional[str] = None,
+        storage_account_key_reference: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -73,18 +78,22 @@ class AzureFileVolume(_serialization.Model):
         :keyword storage_account_key: The storage account access key used to access the Azure File
          share.
         :paramtype storage_account_key: str
+        :keyword storage_account_key_reference: The reference to the storage account access key used to
+         access the Azure File share.
+        :paramtype storage_account_key_reference: str
         """
         super().__init__(**kwargs)
         self.share_name = share_name
         self.read_only = read_only
         self.storage_account_name = storage_account_name
         self.storage_account_key = storage_account_key
+        self.storage_account_key_reference = storage_account_key_reference
 
 
 class CachedImages(_serialization.Model):
     """The cached image and OS type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar os_type: The OS type of the cached image. Required.
     :vartype os_type: str
@@ -328,7 +337,7 @@ class Container(_serialization.Model):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The user-provided name of the container instance. Required.
     :vartype name: str
@@ -564,13 +573,16 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar identity: The identity of the container group, if configured.
     :vartype identity: ~azure.mgmt.containerinstance.models.ContainerGroupIdentity
     :ivar provisioning_state: The provisioning state of the container group. This only appears in
      the response.
     :vartype provisioning_state: str
+    :ivar secret_references: The secret references that will be referenced within the container
+     group.
+    :vartype secret_references: list[~azure.mgmt.containerinstance.models.SecretReference]
     :ivar containers: The containers within the container group. Required.
     :vartype containers: list[~azure.mgmt.containerinstance.models.Container]
     :ivar image_registry_credentials: The image registry credentials by which the container group
@@ -615,6 +627,8 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
      ~azure.mgmt.containerinstance.models.ConfidentialComputeProperties
     :ivar priority: The priority of the container group. Known values are: "Regular" and "Spot".
     :vartype priority: str or ~azure.mgmt.containerinstance.models.ContainerGroupPriority
+    :ivar identity_acls: The access control levels of the identities.
+    :vartype identity_acls: ~azure.mgmt.containerinstance.models.IdentityAcls
     """
 
     _validation = {
@@ -627,6 +641,7 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
     _attribute_map = {
         "identity": {"key": "identity", "type": "ContainerGroupIdentity"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "secret_references": {"key": "properties.secretReferences", "type": "[SecretReference]"},
         "containers": {"key": "properties.containers", "type": "[Container]"},
         "image_registry_credentials": {
             "key": "properties.imageRegistryCredentials",
@@ -649,6 +664,7 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
             "type": "ConfidentialComputeProperties",
         },
         "priority": {"key": "properties.priority", "type": "str"},
+        "identity_acls": {"key": "properties.identityAcls", "type": "IdentityAcls"},
     }
 
     def __init__(
@@ -657,6 +673,7 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
         containers: List["_models.Container"],
         os_type: Union[str, "_models.OperatingSystemTypes"],
         identity: Optional["_models.ContainerGroupIdentity"] = None,
+        secret_references: Optional[List["_models.SecretReference"]] = None,
         image_registry_credentials: Optional[List["_models.ImageRegistryCredential"]] = None,
         restart_policy: Optional[Union[str, "_models.ContainerGroupRestartPolicy"]] = None,
         ip_address: Optional["_models.IpAddress"] = None,
@@ -670,11 +687,15 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
         extensions: Optional[List["_models.DeploymentExtensionSpec"]] = None,
         confidential_compute_properties: Optional["_models.ConfidentialComputeProperties"] = None,
         priority: Optional[Union[str, "_models.ContainerGroupPriority"]] = None,
+        identity_acls: Optional["_models.IdentityAcls"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword identity: The identity of the container group, if configured.
         :paramtype identity: ~azure.mgmt.containerinstance.models.ContainerGroupIdentity
+        :keyword secret_references: The secret references that will be referenced within the container
+         group.
+        :paramtype secret_references: list[~azure.mgmt.containerinstance.models.SecretReference]
         :keyword containers: The containers within the container group. Required.
         :paramtype containers: list[~azure.mgmt.containerinstance.models.Container]
         :keyword image_registry_credentials: The image registry credentials by which the container
@@ -717,10 +738,13 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
          ~azure.mgmt.containerinstance.models.ConfidentialComputeProperties
         :keyword priority: The priority of the container group. Known values are: "Regular" and "Spot".
         :paramtype priority: str or ~azure.mgmt.containerinstance.models.ContainerGroupPriority
+        :keyword identity_acls: The access control levels of the identities.
+        :paramtype identity_acls: ~azure.mgmt.containerinstance.models.IdentityAcls
         """
         super().__init__(**kwargs)
         self.identity = identity
         self.provisioning_state = None
+        self.secret_references = secret_references
         self.containers = containers
         self.image_registry_credentials = image_registry_credentials
         self.restart_policy = restart_policy
@@ -737,6 +761,7 @@ class ContainerGroupProperties(_serialization.Model):  # pylint: disable=too-man
         self.extensions = extensions
         self.confidential_compute_properties = confidential_compute_properties
         self.priority = priority
+        self.identity_acls = identity_acls
 
 
 class Resource(_serialization.Model):
@@ -803,13 +828,16 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar identity: The identity of the container group, if configured.
     :vartype identity: ~azure.mgmt.containerinstance.models.ContainerGroupIdentity
     :ivar provisioning_state: The provisioning state of the container group. This only appears in
      the response.
     :vartype provisioning_state: str
+    :ivar secret_references: The secret references that will be referenced within the container
+     group.
+    :vartype secret_references: list[~azure.mgmt.containerinstance.models.SecretReference]
     :ivar containers: The containers within the container group. Required.
     :vartype containers: list[~azure.mgmt.containerinstance.models.Container]
     :ivar image_registry_credentials: The image registry credentials by which the container group
@@ -854,6 +882,8 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
      ~azure.mgmt.containerinstance.models.ConfidentialComputeProperties
     :ivar priority: The priority of the container group. Known values are: "Regular" and "Spot".
     :vartype priority: str or ~azure.mgmt.containerinstance.models.ContainerGroupPriority
+    :ivar identity_acls: The access control levels of the identities.
+    :vartype identity_acls: ~azure.mgmt.containerinstance.models.IdentityAcls
     :ivar id: The resource id.
     :vartype id: str
     :ivar name: The resource name.
@@ -881,6 +911,7 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
     _attribute_map = {
         "identity": {"key": "identity", "type": "ContainerGroupIdentity"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "secret_references": {"key": "properties.secretReferences", "type": "[SecretReference]"},
         "containers": {"key": "properties.containers", "type": "[Container]"},
         "image_registry_credentials": {
             "key": "properties.imageRegistryCredentials",
@@ -903,6 +934,7 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
             "type": "ConfidentialComputeProperties",
         },
         "priority": {"key": "properties.priority", "type": "str"},
+        "identity_acls": {"key": "properties.identityAcls", "type": "IdentityAcls"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
@@ -917,6 +949,7 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
         containers: List["_models.Container"],
         os_type: Union[str, "_models.OperatingSystemTypes"],
         identity: Optional["_models.ContainerGroupIdentity"] = None,
+        secret_references: Optional[List["_models.SecretReference"]] = None,
         image_registry_credentials: Optional[List["_models.ImageRegistryCredential"]] = None,
         restart_policy: Optional[Union[str, "_models.ContainerGroupRestartPolicy"]] = None,
         ip_address: Optional["_models.IpAddress"] = None,
@@ -930,6 +963,7 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
         extensions: Optional[List["_models.DeploymentExtensionSpec"]] = None,
         confidential_compute_properties: Optional["_models.ConfidentialComputeProperties"] = None,
         priority: Optional[Union[str, "_models.ContainerGroupPriority"]] = None,
+        identity_acls: Optional["_models.IdentityAcls"] = None,
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         zones: Optional[List[str]] = None,
@@ -938,6 +972,9 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
         """
         :keyword identity: The identity of the container group, if configured.
         :paramtype identity: ~azure.mgmt.containerinstance.models.ContainerGroupIdentity
+        :keyword secret_references: The secret references that will be referenced within the container
+         group.
+        :paramtype secret_references: list[~azure.mgmt.containerinstance.models.SecretReference]
         :keyword containers: The containers within the container group. Required.
         :paramtype containers: list[~azure.mgmt.containerinstance.models.Container]
         :keyword image_registry_credentials: The image registry credentials by which the container
@@ -980,6 +1017,8 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
          ~azure.mgmt.containerinstance.models.ConfidentialComputeProperties
         :keyword priority: The priority of the container group. Known values are: "Regular" and "Spot".
         :paramtype priority: str or ~azure.mgmt.containerinstance.models.ContainerGroupPriority
+        :keyword identity_acls: The access control levels of the identities.
+        :paramtype identity_acls: ~azure.mgmt.containerinstance.models.IdentityAcls
         :keyword location: The resource location.
         :paramtype location: str
         :keyword tags: The resource tags.
@@ -992,6 +1031,7 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
             tags=tags,
             zones=zones,
             identity=identity,
+            secret_references=secret_references,
             containers=containers,
             image_registry_credentials=image_registry_credentials,
             restart_policy=restart_policy,
@@ -1007,10 +1047,12 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
             extensions=extensions,
             confidential_compute_properties=confidential_compute_properties,
             priority=priority,
+            identity_acls=identity_acls,
             **kwargs
         )
         self.identity = identity
         self.provisioning_state = None
+        self.secret_references = secret_references
         self.containers = containers
         self.image_registry_credentials = image_registry_credentials
         self.restart_policy = restart_policy
@@ -1027,6 +1069,7 @@ class ContainerGroup(Resource, ContainerGroupProperties):  # pylint: disable=too
         self.extensions = extensions
         self.confidential_compute_properties = confidential_compute_properties
         self.priority = priority
+        self.identity_acls = identity_acls
         self.id = None
         self.name = None
         self.type = None
@@ -1173,7 +1216,7 @@ class ContainerGroupPropertiesInstanceView(_serialization.Model):
 class ContainerGroupSubnetId(_serialization.Model):
     """Container group subnet information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID of virtual network and subnet. Required.
     :vartype id: str
@@ -1207,7 +1250,7 @@ class ContainerGroupSubnetId(_serialization.Model):
 class ContainerHttpGet(_serialization.Model):
     """The container Http Get settings, for liveness or readiness probe.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar path: The path to probe.
     :vartype path: str
@@ -1259,7 +1302,7 @@ class ContainerHttpGet(_serialization.Model):
 class ContainerPort(_serialization.Model):
     """The port exposed on the container instance.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar protocol: The protocol associated with the port. Known values are: "TCP" and "UDP".
     :vartype protocol: str or ~azure.mgmt.containerinstance.models.ContainerNetworkProtocol
@@ -1442,7 +1485,7 @@ class ContainerState(_serialization.Model):
 class DeploymentExtensionSpec(_serialization.Model):
     """Extension sidecars to be added to the deployment.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the extension. Required.
     :vartype name: str
@@ -1501,7 +1544,7 @@ class DeploymentExtensionSpec(_serialization.Model):
 class DnsConfiguration(_serialization.Model):
     """DNS configuration for the container group.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name_servers: The DNS servers for the container group. Required.
     :vartype name_servers: list[str]
@@ -1546,7 +1589,7 @@ class DnsConfiguration(_serialization.Model):
 class EncryptionProperties(_serialization.Model):
     """The container group encryption properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar vault_base_url: The keyvault base url. Required.
     :vartype vault_base_url: str
@@ -1594,7 +1637,7 @@ class EncryptionProperties(_serialization.Model):
 class EnvironmentVariable(_serialization.Model):
     """The environment variable to set within the container instance.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the environment variable. Required.
     :vartype name: str
@@ -1602,6 +1645,8 @@ class EnvironmentVariable(_serialization.Model):
     :vartype value: str
     :ivar secure_value: The value of the secure environment variable.
     :vartype secure_value: str
+    :ivar secure_value_reference: The reference of the secure environment variable.
+    :vartype secure_value_reference: str
     """
 
     _validation = {
@@ -1612,10 +1657,17 @@ class EnvironmentVariable(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "value": {"key": "value", "type": "str"},
         "secure_value": {"key": "secureValue", "type": "str"},
+        "secure_value_reference": {"key": "secureValueReference", "type": "str"},
     }
 
     def __init__(
-        self, *, name: str, value: Optional[str] = None, secure_value: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        name: str,
+        value: Optional[str] = None,
+        secure_value: Optional[str] = None,
+        secure_value_reference: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword name: The name of the environment variable. Required.
@@ -1624,11 +1676,14 @@ class EnvironmentVariable(_serialization.Model):
         :paramtype value: str
         :keyword secure_value: The value of the secure environment variable.
         :paramtype secure_value: str
+        :keyword secure_value_reference: The reference of the secure environment variable.
+        :paramtype secure_value_reference: str
         """
         super().__init__(**kwargs)
         self.name = name
         self.value = value
         self.secure_value = secure_value
+        self.secure_value_reference = secure_value_reference
 
 
 class Event(_serialization.Model):
@@ -1682,7 +1737,7 @@ class Event(_serialization.Model):
 class GitRepoVolume(_serialization.Model):
     """Represents a volume that is populated with the contents of a git repository.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar directory: Target directory name. Must not contain or start with '..'.  If '.' is
      supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume
@@ -1726,7 +1781,7 @@ class GitRepoVolume(_serialization.Model):
 class GpuResource(_serialization.Model):
     """The GPU resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar count: The count of the GPU resource. Required.
     :vartype count: int
@@ -1783,10 +1838,76 @@ class HttpHeader(_serialization.Model):
         self.value = value
 
 
+class IdentityAccessControl(_serialization.Model):
+    """The access control for an identity.
+
+    :ivar access: The access level of the identity. Known values are: "All", "System", and "User".
+    :vartype access: str or ~azure.mgmt.containerinstance.models.IdentityAccessLevel
+    :ivar identity: An identity.
+    :vartype identity: str
+    """
+
+    _attribute_map = {
+        "access": {"key": "access", "type": "str"},
+        "identity": {"key": "identity", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        access: Optional[Union[str, "_models.IdentityAccessLevel"]] = None,
+        identity: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword access: The access level of the identity. Known values are: "All", "System", and
+         "User".
+        :paramtype access: str or ~azure.mgmt.containerinstance.models.IdentityAccessLevel
+        :keyword identity: An identity.
+        :paramtype identity: str
+        """
+        super().__init__(**kwargs)
+        self.access = access
+        self.identity = identity
+
+
+class IdentityAcls(_serialization.Model):
+    """The access control levels of the identities.
+
+    :ivar default_access: The default access level. Known values are: "All", "System", and "User".
+    :vartype default_access: str or ~azure.mgmt.containerinstance.models.IdentityAccessLevel
+    :ivar acls: The access control levels for each identity.
+    :vartype acls: list[~azure.mgmt.containerinstance.models.IdentityAccessControl]
+    """
+
+    _attribute_map = {
+        "default_access": {"key": "defaultAccess", "type": "str"},
+        "acls": {"key": "acls", "type": "[IdentityAccessControl]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        default_access: Optional[Union[str, "_models.IdentityAccessLevel"]] = None,
+        acls: Optional[List["_models.IdentityAccessControl"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword default_access: The default access level. Known values are: "All", "System", and
+         "User".
+        :paramtype default_access: str or ~azure.mgmt.containerinstance.models.IdentityAccessLevel
+        :keyword acls: The access control levels for each identity.
+        :paramtype acls: list[~azure.mgmt.containerinstance.models.IdentityAccessControl]
+        """
+        super().__init__(**kwargs)
+        self.default_access = default_access
+        self.acls = acls
+
+
 class ImageRegistryCredential(_serialization.Model):
     """Image registry credential.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar server: The Docker image registry server without a protocol such as "http" and "https".
      Required.
@@ -1795,6 +1916,8 @@ class ImageRegistryCredential(_serialization.Model):
     :vartype username: str
     :ivar password: The password for the private registry.
     :vartype password: str
+    :ivar password_reference: The reference for the private registry password.
+    :vartype password_reference: str
     :ivar identity: The identity for the private registry.
     :vartype identity: str
     :ivar identity_url: The identity URL for the private registry.
@@ -1809,6 +1932,7 @@ class ImageRegistryCredential(_serialization.Model):
         "server": {"key": "server", "type": "str"},
         "username": {"key": "username", "type": "str"},
         "password": {"key": "password", "type": "str"},
+        "password_reference": {"key": "passwordReference", "type": "str"},
         "identity": {"key": "identity", "type": "str"},
         "identity_url": {"key": "identityUrl", "type": "str"},
     }
@@ -1819,6 +1943,7 @@ class ImageRegistryCredential(_serialization.Model):
         server: str,
         username: Optional[str] = None,
         password: Optional[str] = None,
+        password_reference: Optional[str] = None,
         identity: Optional[str] = None,
         identity_url: Optional[str] = None,
         **kwargs: Any
@@ -1831,6 +1956,8 @@ class ImageRegistryCredential(_serialization.Model):
         :paramtype username: str
         :keyword password: The password for the private registry.
         :paramtype password: str
+        :keyword password_reference: The reference for the private registry password.
+        :paramtype password_reference: str
         :keyword identity: The identity for the private registry.
         :paramtype identity: str
         :keyword identity_url: The identity URL for the private registry.
@@ -1840,6 +1967,7 @@ class ImageRegistryCredential(_serialization.Model):
         self.server = server
         self.username = username
         self.password = password
+        self.password_reference = password_reference
         self.identity = identity
         self.identity_url = identity_url
 
@@ -1849,7 +1977,7 @@ class InitContainerDefinition(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name for the init container. Required.
     :vartype name: str
@@ -1919,7 +2047,7 @@ class InitContainerDefinition(_serialization.Model):
         self.security_context = security_context
 
 
-class InitContainerPropertiesDefinitionInstanceView(_serialization.Model):
+class InitContainerPropertiesDefinitionInstanceView(_serialization.Model):  # pylint: disable=name-too-long
     """The instance view of the init container. Only valid in response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1962,7 +2090,7 @@ class IpAddress(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar ports: The list of ports exposed on the container group. Required.
     :vartype ports: list[~azure.mgmt.containerinstance.models.Port]
@@ -2047,7 +2175,7 @@ class IpAddress(_serialization.Model):
 class LogAnalytics(_serialization.Model):
     """Container group log analytics information.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar workspace_id: The workspace id for log analytics. Required.
     :vartype workspace_id: str
@@ -2129,7 +2257,7 @@ class Logs(_serialization.Model):
 class Operation(_serialization.Model):
     """An operation for Azure Container Instance service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the operation. Required.
     :vartype name: str
@@ -2257,7 +2385,7 @@ class OperationListResult(_serialization.Model):
 class Port(_serialization.Model):
     """The port exposed on the container group.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar protocol: The protocol associated with the port. Known values are: "TCP" and "UDP".
     :vartype protocol: str or ~azure.mgmt.containerinstance.models.ContainerGroupNetworkProtocol
@@ -2334,7 +2462,7 @@ class ResourceLimits(_serialization.Model):
 class ResourceRequests(_serialization.Model):
     """The resource requests.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar memory_in_gb: The memory request in GB of this container instance. Required.
     :vartype memory_in_gb: float
@@ -2375,7 +2503,7 @@ class ResourceRequests(_serialization.Model):
 class ResourceRequirements(_serialization.Model):
     """The resource requirements.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar requests: The resource requests of this container instance. Required.
     :vartype requests: ~azure.mgmt.containerinstance.models.ResourceRequests
@@ -2404,6 +2532,48 @@ class ResourceRequirements(_serialization.Model):
         super().__init__(**kwargs)
         self.requests = requests
         self.limits = limits
+
+
+class SecretReference(_serialization.Model):
+    """A secret reference.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: The identifier of the secret reference. Required.
+    :vartype name: str
+    :ivar identity: The ARM resource id of the managed identity that has access to the secret in
+     the key vault. Required.
+    :vartype identity: str
+    :ivar secret_reference_uri: The URI to the secret in key vault. Required.
+    :vartype secret_reference_uri: str
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "identity": {"required": True},
+        "secret_reference_uri": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "identity": {"key": "identity", "type": "str"},
+        "secret_reference_uri": {"key": "secretReferenceUri", "type": "str"},
+    }
+
+    def __init__(self, *, name: str, identity: str, secret_reference_uri: str, **kwargs: Any) -> None:
+        """
+        :keyword name: The identifier of the secret reference. Required.
+        :paramtype name: str
+        :keyword identity: The ARM resource id of the managed identity that has access to the secret in
+         the key vault. Required.
+        :paramtype identity: str
+        :keyword secret_reference_uri: The URI to the secret in key vault. Required.
+        :paramtype secret_reference_uri: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.identity = identity
+        self.secret_reference_uri = secret_reference_uri
 
 
 class SecurityContextCapabilitiesDefinition(_serialization.Model):
@@ -2626,7 +2796,7 @@ class UserAssignedIdentities(_serialization.Model):
 class Volume(_serialization.Model):
     """The properties of the volume.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the volume. Required.
     :vartype name: str
@@ -2636,6 +2806,8 @@ class Volume(_serialization.Model):
     :vartype empty_dir: JSON
     :ivar secret: The secret volume.
     :vartype secret: dict[str, str]
+    :ivar secret_reference: The secret reference volume.
+    :vartype secret_reference: dict[str, str]
     :ivar git_repo: The git repo volume.
     :vartype git_repo: ~azure.mgmt.containerinstance.models.GitRepoVolume
     """
@@ -2649,6 +2821,7 @@ class Volume(_serialization.Model):
         "azure_file": {"key": "azureFile", "type": "AzureFileVolume"},
         "empty_dir": {"key": "emptyDir", "type": "object"},
         "secret": {"key": "secret", "type": "{str}"},
+        "secret_reference": {"key": "secretReference", "type": "{str}"},
         "git_repo": {"key": "gitRepo", "type": "GitRepoVolume"},
     }
 
@@ -2659,6 +2832,7 @@ class Volume(_serialization.Model):
         azure_file: Optional["_models.AzureFileVolume"] = None,
         empty_dir: Optional[JSON] = None,
         secret: Optional[Dict[str, str]] = None,
+        secret_reference: Optional[Dict[str, str]] = None,
         git_repo: Optional["_models.GitRepoVolume"] = None,
         **kwargs: Any
     ) -> None:
@@ -2671,6 +2845,8 @@ class Volume(_serialization.Model):
         :paramtype empty_dir: JSON
         :keyword secret: The secret volume.
         :paramtype secret: dict[str, str]
+        :keyword secret_reference: The secret reference volume.
+        :paramtype secret_reference: dict[str, str]
         :keyword git_repo: The git repo volume.
         :paramtype git_repo: ~azure.mgmt.containerinstance.models.GitRepoVolume
         """
@@ -2679,13 +2855,14 @@ class Volume(_serialization.Model):
         self.azure_file = azure_file
         self.empty_dir = empty_dir
         self.secret = secret
+        self.secret_reference = secret_reference
         self.git_repo = git_repo
 
 
 class VolumeMount(_serialization.Model):
     """The properties of the volume mount.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the volume mount. Required.
     :vartype name: str

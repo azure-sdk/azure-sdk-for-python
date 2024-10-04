@@ -40,6 +40,8 @@ from ._models_py3 import Event
 from ._models_py3 import GitRepoVolume
 from ._models_py3 import GpuResource
 from ._models_py3 import HttpHeader
+from ._models_py3 import IdentityAccessControl
+from ._models_py3 import IdentityAcls
 from ._models_py3 import ImageRegistryCredential
 from ._models_py3 import InitContainerDefinition
 from ._models_py3 import InitContainerPropertiesDefinitionInstanceView
@@ -54,6 +56,7 @@ from ._models_py3 import Resource
 from ._models_py3 import ResourceLimits
 from ._models_py3 import ResourceRequests
 from ._models_py3 import ResourceRequirements
+from ._models_py3 import SecretReference
 from ._models_py3 import SecurityContextCapabilitiesDefinition
 from ._models_py3 import SecurityContextDefinition
 from ._models_py3 import Usage
@@ -72,6 +75,7 @@ from ._container_instance_management_client_enums import ContainerInstanceOperat
 from ._container_instance_management_client_enums import ContainerNetworkProtocol
 from ._container_instance_management_client_enums import DnsNameLabelReusePolicy
 from ._container_instance_management_client_enums import GpuSku
+from ._container_instance_management_client_enums import IdentityAccessLevel
 from ._container_instance_management_client_enums import LogAnalyticsLogType
 from ._container_instance_management_client_enums import OperatingSystemTypes
 from ._container_instance_management_client_enums import ResourceIdentityType
@@ -115,6 +119,8 @@ __all__ = [
     "GitRepoVolume",
     "GpuResource",
     "HttpHeader",
+    "IdentityAccessControl",
+    "IdentityAcls",
     "ImageRegistryCredential",
     "InitContainerDefinition",
     "InitContainerPropertiesDefinitionInstanceView",
@@ -129,6 +135,7 @@ __all__ = [
     "ResourceLimits",
     "ResourceRequests",
     "ResourceRequirements",
+    "SecretReference",
     "SecurityContextCapabilitiesDefinition",
     "SecurityContextDefinition",
     "Usage",
@@ -146,6 +153,7 @@ __all__ = [
     "ContainerNetworkProtocol",
     "DnsNameLabelReusePolicy",
     "GpuSku",
+    "IdentityAccessLevel",
     "LogAnalyticsLogType",
     "OperatingSystemTypes",
     "ResourceIdentityType",

@@ -93,6 +93,14 @@ class GpuSku(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     V100 = "V100"
 
 
+class IdentityAccessLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The default access level."""
+
+    ALL = "All"
+    SYSTEM = "System"
+    USER = "User"
+
+
 class LogAnalyticsLogType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The log type to be used."""
 
