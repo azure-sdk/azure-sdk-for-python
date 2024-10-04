@@ -3890,7 +3890,8 @@ class BillingSubscription(ProxyResourceWithTags):  # pylint: disable=too-many-in
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -4244,7 +4245,8 @@ class BillingSubscriptionAlias(ProxyResourceWithTags):  # pylint: disable=too-ma
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -4616,7 +4618,8 @@ class BillingSubscriptionProperties(_serialization.Model):  # pylint: disable=to
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -4938,7 +4941,8 @@ class BillingSubscriptionAliasProperties(BillingSubscriptionProperties):  # pyli
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -5317,7 +5321,8 @@ class BillingSubscriptionPatch(ProxyResourceWithTags):  # pylint: disable=too-ma
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
