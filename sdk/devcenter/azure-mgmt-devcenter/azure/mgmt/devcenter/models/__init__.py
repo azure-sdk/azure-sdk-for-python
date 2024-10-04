@@ -23,21 +23,38 @@ from ._models_py3 import CatalogUpdateProperties
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import CheckScopedNameAvailabilityRequest
+from ._models_py3 import CurationProfile
+from ._models_py3 import CurationProfileListResult
+from ._models_py3 import CurationProfileProperties
+from ._models_py3 import CurationProfileUpdate
+from ._models_py3 import CurationProfileUpdateProperties
 from ._models_py3 import CustomerManagedKeyEncryption
 from ._models_py3 import CustomerManagedKeyEncryptionKeyIdentity
+from ._models_py3 import CustomizationTask
+from ._models_py3 import CustomizationTaskInput
+from ._models_py3 import CustomizationTaskListResult
 from ._models_py3 import DevBoxDefinition
 from ._models_py3 import DevBoxDefinitionListResult
 from ._models_py3 import DevBoxDefinitionProperties
 from ._models_py3 import DevBoxDefinitionUpdate
 from ._models_py3 import DevBoxDefinitionUpdateProperties
+from ._models_py3 import DevBoxProvisioningSettings
 from ._models_py3 import DevCenter
+from ._models_py3 import DevCenterEncryptionSet
+from ._models_py3 import DevCenterEncryptionSetProperties
+from ._models_py3 import DevCenterEncryptionSetUpdateProperties
 from ._models_py3 import DevCenterListResult
+from ._models_py3 import DevCenterNetworkSettings
+from ._models_py3 import DevCenterPlan
+from ._models_py3 import DevCenterPlanMember
 from ._models_py3 import DevCenterProjectCatalogSettings
 from ._models_py3 import DevCenterProperties
 from ._models_py3 import DevCenterSku
 from ._models_py3 import DevCenterUpdate
 from ._models_py3 import DevCenterUpdateProperties
 from ._models_py3 import Encryption
+from ._models_py3 import EncryptionSetListResult
+from ._models_py3 import EncryptionSetUpdate
 from ._models_py3 import EndpointDependency
 from ._models_py3 import EndpointDetail
 from ._models_py3 import EnvironmentDefinition
@@ -60,11 +77,22 @@ from ._models_py3 import HealthCheckStatusDetails
 from ._models_py3 import HealthCheckStatusDetailsListResult
 from ._models_py3 import HealthStatusDetail
 from ._models_py3 import Image
+from ._models_py3 import ImageCreationErrorDetails
+from ._models_py3 import ImageDefinition
+from ._models_py3 import ImageDefinitionBuild
+from ._models_py3 import ImageDefinitionBuildDetails
+from ._models_py3 import ImageDefinitionBuildListResult
+from ._models_py3 import ImageDefinitionBuildTask
+from ._models_py3 import ImageDefinitionBuildTaskGroup
+from ._models_py3 import ImageDefinitionBuildTaskParametersItem
+from ._models_py3 import ImageDefinitionListResult
 from ._models_py3 import ImageListResult
 from ._models_py3 import ImageReference
 from ._models_py3 import ImageValidationErrorDetails
 from ._models_py3 import ImageVersion
 from ._models_py3 import ImageVersionListResult
+from ._models_py3 import InheritedSettingsForProject
+from ._models_py3 import LatestImageBuild
 from ._models_py3 import ListUsagesResult
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import NetworkConnection
@@ -79,7 +107,15 @@ from ._models_py3 import OperationStatus
 from ._models_py3 import OperationStatusResult
 from ._models_py3 import OutboundEnvironmentEndpoint
 from ._models_py3 import OutboundEnvironmentEndpointCollection
+from ._models_py3 import PlanListResult
+from ._models_py3 import PlanMemberProperties
+from ._models_py3 import PlanMemberSyncStatus
+from ._models_py3 import PlanMemberUpdate
+from ._models_py3 import PlanMemberUpdateProperties
+from ._models_py3 import PlanMembersListResult
+from ._models_py3 import PlanUpdate
 from ._models_py3 import Pool
+from ._models_py3 import PoolDevBoxDefinition
 from ._models_py3 import PoolListResult
 from ._models_py3 import PoolProperties
 from ._models_py3 import PoolUpdate
@@ -93,12 +129,19 @@ from ._models_py3 import ProjectEnvironmentTypeUpdate
 from ._models_py3 import ProjectEnvironmentTypeUpdateProperties
 from ._models_py3 import ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment
 from ._models_py3 import ProjectListResult
+from ._models_py3 import ProjectNetworkSettings
+from ._models_py3 import ProjectPolicy
+from ._models_py3 import ProjectPolicyListResult
+from ._models_py3 import ProjectPolicyProperties
+from ._models_py3 import ProjectPolicyUpdate
+from ._models_py3 import ProjectPolicyUpdateProperties
 from ._models_py3 import ProjectProperties
 from ._models_py3 import ProjectUpdate
 from ._models_py3 import ProjectUpdateProperties
 from ._models_py3 import ProxyResource
 from ._models_py3 import RecommendedMachineConfiguration
 from ._models_py3 import Resource
+from ._models_py3 import ResourcePolicy
 from ._models_py3 import ResourceRange
 from ._models_py3 import Schedule
 from ._models_py3 import ScheduleListResult
@@ -108,6 +151,7 @@ from ._models_py3 import ScheduleUpdateProperties
 from ._models_py3 import Sku
 from ._models_py3 import SkuListResult
 from ._models_py3 import StopOnDisconnectConfiguration
+from ._models_py3 import StopOnNoConnectConfiguration
 from ._models_py3 import SyncErrorDetails
 from ._models_py3 import SyncStats
 from ._models_py3 import SystemData
@@ -127,18 +171,27 @@ from ._dev_center_mgmt_client_enums import CatalogSyncState
 from ._dev_center_mgmt_client_enums import CatalogSyncType
 from ._dev_center_mgmt_client_enums import CheckNameAvailabilityReason
 from ._dev_center_mgmt_client_enums import CreatedByType
+from ._dev_center_mgmt_client_enums import CustomizationTaskInputType
+from ._dev_center_mgmt_client_enums import DevCenterResourceType
+from ._dev_center_mgmt_client_enums import DevboxDisksEncryptionEnableStatus
 from ._dev_center_mgmt_client_enums import DomainJoinType
 from ._dev_center_mgmt_client_enums import EnvironmentTypeEnableStatus
 from ._dev_center_mgmt_client_enums import HealthCheckStatus
 from ._dev_center_mgmt_client_enums import HealthStatus
 from ._dev_center_mgmt_client_enums import HibernateSupport
 from ._dev_center_mgmt_client_enums import IdentityType
+from ._dev_center_mgmt_client_enums import ImageDefinitionBuildStatus
 from ._dev_center_mgmt_client_enums import ImageValidationStatus
+from ._dev_center_mgmt_client_enums import InstallAzureMonitorAgentEnableStatus
 from ._dev_center_mgmt_client_enums import LicenseType
 from ._dev_center_mgmt_client_enums import LocalAdminStatus
 from ._dev_center_mgmt_client_enums import ManagedServiceIdentityType
+from ._dev_center_mgmt_client_enums import MicrosoftHostedNetworkEnableStatus
 from ._dev_center_mgmt_client_enums import Origin
 from ._dev_center_mgmt_client_enums import ParameterType
+from ._dev_center_mgmt_client_enums import PlanMemberSyncState
+from ._dev_center_mgmt_client_enums import PlanMemberType
+from ._dev_center_mgmt_client_enums import PoolDevBoxDefinitionType
 from ._dev_center_mgmt_client_enums import ProvisioningState
 from ._dev_center_mgmt_client_enums import ScheduleEnableStatus
 from ._dev_center_mgmt_client_enums import ScheduledFrequency
@@ -146,6 +199,7 @@ from ._dev_center_mgmt_client_enums import ScheduledType
 from ._dev_center_mgmt_client_enums import SingleSignOnStatus
 from ._dev_center_mgmt_client_enums import SkuTier
 from ._dev_center_mgmt_client_enums import StopOnDisconnectEnableStatus
+from ._dev_center_mgmt_client_enums import StopOnNoConnectEnableStatus
 from ._dev_center_mgmt_client_enums import UsageUnit
 from ._dev_center_mgmt_client_enums import VirtualNetworkType
 from ._patch import __all__ as _patch_all
@@ -170,21 +224,38 @@ __all__ = [
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResponse",
     "CheckScopedNameAvailabilityRequest",
+    "CurationProfile",
+    "CurationProfileListResult",
+    "CurationProfileProperties",
+    "CurationProfileUpdate",
+    "CurationProfileUpdateProperties",
     "CustomerManagedKeyEncryption",
     "CustomerManagedKeyEncryptionKeyIdentity",
+    "CustomizationTask",
+    "CustomizationTaskInput",
+    "CustomizationTaskListResult",
     "DevBoxDefinition",
     "DevBoxDefinitionListResult",
     "DevBoxDefinitionProperties",
     "DevBoxDefinitionUpdate",
     "DevBoxDefinitionUpdateProperties",
+    "DevBoxProvisioningSettings",
     "DevCenter",
+    "DevCenterEncryptionSet",
+    "DevCenterEncryptionSetProperties",
+    "DevCenterEncryptionSetUpdateProperties",
     "DevCenterListResult",
+    "DevCenterNetworkSettings",
+    "DevCenterPlan",
+    "DevCenterPlanMember",
     "DevCenterProjectCatalogSettings",
     "DevCenterProperties",
     "DevCenterSku",
     "DevCenterUpdate",
     "DevCenterUpdateProperties",
     "Encryption",
+    "EncryptionSetListResult",
+    "EncryptionSetUpdate",
     "EndpointDependency",
     "EndpointDetail",
     "EnvironmentDefinition",
@@ -207,11 +278,22 @@ __all__ = [
     "HealthCheckStatusDetailsListResult",
     "HealthStatusDetail",
     "Image",
+    "ImageCreationErrorDetails",
+    "ImageDefinition",
+    "ImageDefinitionBuild",
+    "ImageDefinitionBuildDetails",
+    "ImageDefinitionBuildListResult",
+    "ImageDefinitionBuildTask",
+    "ImageDefinitionBuildTaskGroup",
+    "ImageDefinitionBuildTaskParametersItem",
+    "ImageDefinitionListResult",
     "ImageListResult",
     "ImageReference",
     "ImageValidationErrorDetails",
     "ImageVersion",
     "ImageVersionListResult",
+    "InheritedSettingsForProject",
+    "LatestImageBuild",
     "ListUsagesResult",
     "ManagedServiceIdentity",
     "NetworkConnection",
@@ -226,7 +308,15 @@ __all__ = [
     "OperationStatusResult",
     "OutboundEnvironmentEndpoint",
     "OutboundEnvironmentEndpointCollection",
+    "PlanListResult",
+    "PlanMemberProperties",
+    "PlanMemberSyncStatus",
+    "PlanMemberUpdate",
+    "PlanMemberUpdateProperties",
+    "PlanMembersListResult",
+    "PlanUpdate",
     "Pool",
+    "PoolDevBoxDefinition",
     "PoolListResult",
     "PoolProperties",
     "PoolUpdate",
@@ -240,12 +330,19 @@ __all__ = [
     "ProjectEnvironmentTypeUpdateProperties",
     "ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment",
     "ProjectListResult",
+    "ProjectNetworkSettings",
+    "ProjectPolicy",
+    "ProjectPolicyListResult",
+    "ProjectPolicyProperties",
+    "ProjectPolicyUpdate",
+    "ProjectPolicyUpdateProperties",
     "ProjectProperties",
     "ProjectUpdate",
     "ProjectUpdateProperties",
     "ProxyResource",
     "RecommendedMachineConfiguration",
     "Resource",
+    "ResourcePolicy",
     "ResourceRange",
     "Schedule",
     "ScheduleListResult",
@@ -255,6 +352,7 @@ __all__ = [
     "Sku",
     "SkuListResult",
     "StopOnDisconnectConfiguration",
+    "StopOnNoConnectConfiguration",
     "SyncErrorDetails",
     "SyncStats",
     "SystemData",
@@ -273,18 +371,27 @@ __all__ = [
     "CatalogSyncType",
     "CheckNameAvailabilityReason",
     "CreatedByType",
+    "CustomizationTaskInputType",
+    "DevCenterResourceType",
+    "DevboxDisksEncryptionEnableStatus",
     "DomainJoinType",
     "EnvironmentTypeEnableStatus",
     "HealthCheckStatus",
     "HealthStatus",
     "HibernateSupport",
     "IdentityType",
+    "ImageDefinitionBuildStatus",
     "ImageValidationStatus",
+    "InstallAzureMonitorAgentEnableStatus",
     "LicenseType",
     "LocalAdminStatus",
     "ManagedServiceIdentityType",
+    "MicrosoftHostedNetworkEnableStatus",
     "Origin",
     "ParameterType",
+    "PlanMemberSyncState",
+    "PlanMemberType",
+    "PoolDevBoxDefinitionType",
     "ProvisioningState",
     "ScheduleEnableStatus",
     "ScheduledFrequency",
@@ -292,6 +399,7 @@ __all__ = [
     "SingleSignOnStatus",
     "SkuTier",
     "StopOnDisconnectEnableStatus",
+    "StopOnNoConnectEnableStatus",
     "UsageUnit",
     "VirtualNetworkType",
 ]
