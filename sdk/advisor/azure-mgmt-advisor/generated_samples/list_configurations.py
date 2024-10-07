@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.advisor import AdvisorManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python get_configurations.py
+    python list_configurations.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +30,13 @@ def main():
         subscription_id="subscriptionId",
     )
 
-    response = client.configurations.list_by_subscription()
+    response = client.configurations.list_by_resource_group(
+        resource_group="resourceGroup",
+    )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListConfigurations.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListConfigurations.json
 if __name__ == "__main__":
     main()
