@@ -24,7 +24,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
         response = self.client.volume_groups.list_by_elastic_san(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -47,6 +47,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                 },
                 "name": "str",
                 "properties": {
+                    "deleteRetentionPolicy": {"policyState": "str", "retentionPeriodDays": 0},
                     "encryption": "str",
                     "encryptionProperties": {
                         "identity": {"userAssignedIdentity": "str"},
@@ -99,7 +100,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -120,6 +121,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                     "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                 },
                 "properties": {
+                    "deleteRetentionPolicy": {"policyState": "str", "retentionPeriodDays": 0},
                     "encryption": "str",
                     "encryptionProperties": {
                         "identity": {"userAssignedIdentity": "str"},
@@ -137,7 +139,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                     "protocolType": "str",
                 },
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -150,7 +152,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             elastic_san_name="str",
             volume_group_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -163,7 +165,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             elastic_san_name="str",
             volume_group_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01-preview",
         )
 
         # please add some check logic here by yourself

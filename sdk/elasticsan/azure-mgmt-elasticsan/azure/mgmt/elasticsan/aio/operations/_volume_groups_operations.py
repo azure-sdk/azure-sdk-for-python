@@ -69,7 +69,11 @@ class VolumeGroupsOperations:
 
     @distributed_trace
     def list_by_elastic_san(
-        self, resource_group_name: str, elastic_san_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        elastic_san_name: str,
+        x_ms_access_soft_deleted_resources: Optional[Union[str, _models.XMsAccessSoftDeletedResources]] = None,
+        **kwargs: Any
     ) -> AsyncIterable["_models.VolumeGroup"]:
         """List VolumeGroups.
 
@@ -78,6 +82,11 @@ class VolumeGroupsOperations:
         :type resource_group_name: str
         :param elastic_san_name: The name of the ElasticSan. Required.
         :type elastic_san_name: str
+        :param x_ms_access_soft_deleted_resources: Optional, returns only soft deleted volume groups if
+         set to true. If set to false or if not specified, returns only active volume groups. Known
+         values are: "true" and "false". Default value is None.
+        :type x_ms_access_soft_deleted_resources: str or
+         ~azure.mgmt.elasticsan.models.XMsAccessSoftDeletedResources
         :return: An iterator like instance of either VolumeGroup or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.elasticsan.models.VolumeGroup]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -103,6 +112,7 @@ class VolumeGroupsOperations:
                     resource_group_name=resource_group_name,
                     elastic_san_name=elastic_san_name,
                     subscription_id=self._config.subscription_id,
+                    x_ms_access_soft_deleted_resources=x_ms_access_soft_deleted_resources,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
@@ -570,7 +580,12 @@ class VolumeGroupsOperations:
         )
 
     async def _delete_initial(
-        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        elastic_san_name: str,
+        volume_group_name: str,
+        delete_type: Optional[Union[str, _models.DeleteType]] = None,
+        **kwargs: Any
     ) -> AsyncIterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -591,6 +606,7 @@ class VolumeGroupsOperations:
             elastic_san_name=elastic_san_name,
             volume_group_name=volume_group_name,
             subscription_id=self._config.subscription_id,
+            delete_type=delete_type,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -627,7 +643,12 @@ class VolumeGroupsOperations:
 
     @distributed_trace_async
     async def begin_delete(
-        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        elastic_san_name: str,
+        volume_group_name: str,
+        delete_type: Optional[Union[str, _models.DeleteType]] = None,
+        **kwargs: Any
     ) -> AsyncLROPoller[None]:
         """Delete an VolumeGroup.
 
@@ -638,6 +659,10 @@ class VolumeGroupsOperations:
         :type elastic_san_name: str
         :param volume_group_name: The name of the VolumeGroup. Required.
         :type volume_group_name: str
+        :param delete_type: Optional. Specifies that the delete operation should be a permanent delete
+         for the soft deleted volume group. The value of deleteType can only be 'permanent'. "permanent"
+         Default value is None.
+        :type delete_type: str or ~azure.mgmt.elasticsan.models.DeleteType
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -655,6 +680,7 @@ class VolumeGroupsOperations:
                 resource_group_name=resource_group_name,
                 elastic_san_name=elastic_san_name,
                 volume_group_name=volume_group_name,
+                delete_type=delete_type,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
