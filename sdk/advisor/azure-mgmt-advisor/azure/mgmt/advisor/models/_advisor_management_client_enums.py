@@ -10,6 +10,14 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class Aggregated(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The aggregation level of the score."""
+
+    WEEK = "week"
+    DAY = "day"
+    MONTH = "month"
+
+
 class Category(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Category."""
 
@@ -37,11 +45,33 @@ class CpuThreshold(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TWENTY = "20"
 
 
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class DigestConfigState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """State of digest configuration."""
 
     ACTIVE = "Active"
     DISABLED = "Disabled"
+
+
+class Duration(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Minimum duration for Advisor low CPU utilization evaluation. Valid only for subscriptions.
+    Valid values: 7 (default), 14, 21, 30, 60 or 90.
+    """
+
+    SEVEN = "7"
+    FOURTEEN = "14"
+    TWENTY_ONE = "21"
+    THIRTY = "30"
+    SIXTY = "60"
+    NINETY = "90"
 
 
 class Impact(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -50,6 +80,20 @@ class Impact(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HIGH = "High"
     MEDIUM = "Medium"
     LOW = "Low"
+
+
+class PredictionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the prediction."""
+
+    PREDICTIVE_RIGHTSIZING = "PredictiveRightsizing"
+
+
+class Risk(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The potential risk of not implementing the recommendation."""
+
+    ERROR = "Error"
+    WARNING = "Warning"
+    NONE = "None"
 
 
 class Scenario(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -15,7 +15,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python list_recommendations.py
+    python list_recommendation_metadata.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,14 +27,14 @@ from azure.mgmt.advisor import AdvisorManagementClient
 def main():
     client = AdvisorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.recommendations.list()
+    response = client.recommendation_metadata.list()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListRecommendations.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListRecommendationMetadata.json
 if __name__ == "__main__":
     main()
