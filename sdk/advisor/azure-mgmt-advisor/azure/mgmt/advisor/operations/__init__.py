@@ -11,9 +11,11 @@ from ._configurations_operations import ConfigurationsOperations
 from ._recommendations_operations import RecommendationsOperations
 from ._operations import Operations
 from ._suppressions_operations import SuppressionsOperations
+from ._advisor_management_client_operations import AdvisorManagementClientOperationsMixin
+from ._advisor_scores_operations import AdvisorScoresOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -22,6 +24,8 @@ __all__ = [
     "RecommendationsOperations",
     "Operations",
     "SuppressionsOperations",
+    "AdvisorManagementClientOperationsMixin",
+    "AdvisorScoresOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
