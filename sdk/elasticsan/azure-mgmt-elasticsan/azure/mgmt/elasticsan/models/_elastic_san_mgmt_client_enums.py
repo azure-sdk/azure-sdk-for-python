@@ -22,6 +22,14 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AutoScalePolicyEnforcement(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enable or Disable scale up setting on Elastic San Appliance."""
+
+    NONE = "None"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -29,6 +37,12 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class DeleteType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DeleteType."""
+
+    PERMANENT = "permanent"
 
 
 class EncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -72,6 +86,13 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_SYSTEM = "user,system"
 
 
+class PolicyState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """PolicyState."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The private endpoint connection status."""
 
@@ -92,6 +113,9 @@ class ProvisioningStates(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CREATING = "Creating"
     UPDATING = "Updating"
     DELETING = "Deleting"
+    DELETED = "Deleted"
+    RESTORING = "Restoring"
+    SOFT_DELETING = "SoftDeleting"
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -134,6 +158,13 @@ class VolumeCreateOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISK_SNAPSHOT = "DiskSnapshot"
     DISK = "Disk"
     DISK_RESTORE_POINT = "DiskRestorePoint"
+
+
+class XMsAccessSoftDeletedResources(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """XMsAccessSoftDeletedResources."""
+
+    TRUE = "true"
+    FALSE = "false"
 
 
 class XMsDeleteSnapshots(str, Enum, metaclass=CaseInsensitiveEnumMeta):

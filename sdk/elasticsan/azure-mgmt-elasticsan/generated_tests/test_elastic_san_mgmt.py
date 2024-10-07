@@ -6,25 +6,28 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.elasticsan.aio import ElasticSanMgmtClient
+from azure.mgmt.elasticsan import ElasticSanMgmtClient
 
-from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
-from devtools_testutils.aio import recorded_by_proxy_async
+from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
 AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestElasticSanMgmtOperationsAsync(AzureMgmtRecordedTestCase):
+class TestElasticSanMgmt(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(ElasticSanMgmtClient, is_async=True)
+        self.client = self.create_mgmt_client(ElasticSanMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_list(self, resource_group):
-        response = self.client.operations.list(
+    @recorded_by_proxy
+    def test_begin_restore_volume(self, resource_group):
+        response = self.client.begin_restore_volume(
+            resource_group_name=resource_group.name,
+            elastic_san_name="str",
+            volume_group_name="str",
+            volume_name="str",
             api_version="2024-07-01-preview",
-        )
-        result = [r async for r in response]
+        ).result()  # call '.result()' to poll until service return final result
+
         # please add some check logic here by yourself
         # ...
