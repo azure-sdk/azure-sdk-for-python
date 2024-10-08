@@ -18979,8 +18979,8 @@ class OperationWorkerResponse(_serialization.Model):
      "RequestTimeout", "Conflict", "Gone", "LengthRequired", "PreconditionFailed",
      "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
      "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired", "InternalServerError",
-     "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout", and
-     "HttpVersionNotSupported".
+     "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
+     "HttpVersionNotSupported", and "Continue".
     :vartype status_code: str or
      ~azure.mgmt.recoveryservicesbackup.activestamp.models.HttpStatusCode
     :ivar headers: HTTP headers associated with this operation.
@@ -19009,8 +19009,8 @@ class OperationWorkerResponse(_serialization.Model):
          "RequestTimeout", "Conflict", "Gone", "LengthRequired", "PreconditionFailed",
          "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
          "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired", "InternalServerError",
-         "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout", and
-         "HttpVersionNotSupported".
+         "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
+         "HttpVersionNotSupported", and "Continue".
         :paramtype status_code: str or
          ~azure.mgmt.recoveryservicesbackup.activestamp.models.HttpStatusCode
         :keyword headers: HTTP headers associated with this operation.
@@ -19033,8 +19033,8 @@ class OperationResultInfoBaseResource(OperationWorkerResponse):
      "RequestTimeout", "Conflict", "Gone", "LengthRequired", "PreconditionFailed",
      "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
      "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired", "InternalServerError",
-     "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout", and
-     "HttpVersionNotSupported".
+     "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
+     "HttpVersionNotSupported", and "Continue".
     :vartype status_code: str or
      ~azure.mgmt.recoveryservicesbackup.activestamp.models.HttpStatusCode
     :ivar headers: HTTP headers associated with this operation.
@@ -19068,8 +19068,8 @@ class OperationResultInfoBaseResource(OperationWorkerResponse):
          "RequestTimeout", "Conflict", "Gone", "LengthRequired", "PreconditionFailed",
          "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
          "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired", "InternalServerError",
-         "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout", and
-         "HttpVersionNotSupported".
+         "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
+         "HttpVersionNotSupported", and "Continue".
         :paramtype status_code: str or
          ~azure.mgmt.recoveryservicesbackup.activestamp.models.HttpStatusCode
         :keyword headers: HTTP headers associated with this operation.
