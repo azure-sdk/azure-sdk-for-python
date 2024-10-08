@@ -6,6 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._solution_configurations_operations import SolutionConfigurationsOperations
+from ._inventory_operations import InventoryOperations
+from ._generate_aws_template_operations import GenerateAwsTemplateOperations
+from ._public_cloud_connectors_operations import PublicCloudConnectorsOperations
+from ._solution_types_operations import SolutionTypesOperations
 from ._operations import Operations
 from ._endpoints_operations import EndpointsOperations
 from ._service_configurations_operations import ServiceConfigurationsOperations
@@ -15,6 +20,11 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "SolutionConfigurationsOperations",
+    "InventoryOperations",
+    "GenerateAwsTemplateOperations",
+    "PublicCloudConnectorsOperations",
+    "SolutionTypesOperations",
     "Operations",
     "EndpointsOperations",
     "ServiceConfigurationsOperations",
