@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.quota import QuotaMgmtClient
@@ -36,8 +34,13 @@ def main():
         management_group_id="E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
         group_quota_name="groupquota1",
         resource_provider_name="Microsoft.Compute",
-        resource_name="standardav2family",
-        allocate_quota_request={"properties": {"requestedResource": {"properties": {"limit": 10, "region": "westus"}}}},
+        allocate_quota_request={
+            "properties": {
+                "requestedResource": {
+                    "properties": {"limit": 10, "region": "westus", "resourceName": "standardav2family"}
+                }
+            }
+        },
     ).result()
     print(response)
 

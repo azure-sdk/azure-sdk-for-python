@@ -34,7 +34,6 @@ def main():
         management_group_id="E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
         group_quota_name="groupquota1",
         resource_provider_name="Microsoft.Compute",
-        resource_name="standardav2family",
     ).result()
     print(response)
 
