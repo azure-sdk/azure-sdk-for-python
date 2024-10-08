@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AdapterPropertyOverrides
 from ._models_py3 import ArcConnectivityProperties
 from ._models_py3 import ArcIdentityResponse
 from ._models_py3 import ArcSetting
@@ -24,55 +25,74 @@ from ._models_py3 import DeploymentConfiguration
 from ._models_py3 import DeploymentData
 from ._models_py3 import DeploymentSecuritySettings
 from ._models_py3 import DeploymentSetting
-from ._models_py3 import DeploymentSettingAdapterPropertyOverrides
-from ._models_py3 import DeploymentSettingHostNetwork
-from ._models_py3 import DeploymentSettingIntents
 from ._models_py3 import DeploymentSettingListResult
-from ._models_py3 import DeploymentSettingStorageAdapterIPInfo
-from ._models_py3 import DeploymentSettingStorageNetworks
-from ._models_py3 import DeploymentSettingVirtualSwitchConfigurationOverrides
+from ._models_py3 import DeploymentStatus
 from ._models_py3 import DeploymentStep
 from ._models_py3 import DeviceConfiguration
-from ._models_py3 import EceActionStatus
-from ._models_py3 import EceDeploymentSecrets
-from ._models_py3 import EceReportedProperties
 from ._models_py3 import EdgeDevice
 from ._models_py3 import EdgeDeviceListResult
-from ._models_py3 import EdgeDeviceProperties
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExtendedLocation
 from ._models_py3 import Extension
 from ._models_py3 import ExtensionInstanceView
 from ._models_py3 import ExtensionInstanceViewStatus
 from ._models_py3 import ExtensionList
 from ._models_py3 import ExtensionPatch
 from ._models_py3 import ExtensionPatchParameters
-from ._models_py3 import ExtensionProfile
 from ._models_py3 import ExtensionUpgradeParameters
-from ._models_py3 import HciEdgeDevice
-from ._models_py3 import HciEdgeDeviceAdapterPropertyOverrides
-from ._models_py3 import HciEdgeDeviceArcExtension
-from ._models_py3 import HciEdgeDeviceHostNetwork
-from ._models_py3 import HciEdgeDeviceIntents
-from ._models_py3 import HciEdgeDeviceProperties
-from ._models_py3 import HciEdgeDeviceStorageAdapterIPInfo
-from ._models_py3 import HciEdgeDeviceStorageNetworks
-from ._models_py3 import HciEdgeDeviceVirtualSwitchConfigurationOverrides
-from ._models_py3 import HciNetworkProfile
-from ._models_py3 import HciNicDetail
-from ._models_py3 import HciOsProfile
-from ._models_py3 import HciReportedProperties
-from ._models_py3 import HciValidationFailureDetail
+from ._models_py3 import GalleryDiskImage
+from ._models_py3 import GalleryImageIdentifier
+from ._models_py3 import GalleryImageStatus
+from ._models_py3 import GalleryImageStatusDownloadStatus
+from ._models_py3 import GalleryImageStatusProvisioningStatus
+from ._models_py3 import GalleryImageVersion
+from ._models_py3 import GalleryImageVersionStorageProfile
+from ._models_py3 import GalleryImages
+from ._models_py3 import GalleryImagesListResult
+from ._models_py3 import GalleryImagesUpdateRequest
+from ._models_py3 import GalleryOSDiskImage
+from ._models_py3 import GuestAgent
+from ._models_py3 import GuestAgentInstallStatus
+from ._models_py3 import GuestAgentList
+from ._models_py3 import GuestCredential
+from ._models_py3 import HardwareProfileUpdate
+from ._models_py3 import HostNetwork
+from ._models_py3 import HttpProxyConfiguration
+from ._models_py3 import HybridIdentityMetadata
+from ._models_py3 import HybridIdentityMetadataList
+from ._models_py3 import IPConfiguration
+from ._models_py3 import IPConfigurationProperties
+from ._models_py3 import IPConfigurationPropertiesSubnet
+from ._models_py3 import IPPool
+from ._models_py3 import IPPoolInfo
+from ._models_py3 import Identity
 from ._models_py3 import InfrastructureNetwork
+from ._models_py3 import InstanceViewStatus
+from ._models_py3 import Intents
+from ._models_py3 import InterfaceDNSSettings
 from ._models_py3 import IpPools
 from ._models_py3 import IsolatedVmAttestationConfiguration
-from ._models_py3 import LogCollectionError
-from ._models_py3 import LogCollectionProperties
-from ._models_py3 import LogCollectionRequest
-from ._models_py3 import LogCollectionRequestProperties
-from ._models_py3 import LogCollectionSession
-from ._models_py3 import NetworkController
+from ._models_py3 import LogicalNetworkPropertiesDhcpOptions
+from ._models_py3 import LogicalNetworkStatus
+from ._models_py3 import LogicalNetworkStatusProvisioningStatus
+from ._models_py3 import LogicalNetworks
+from ._models_py3 import LogicalNetworksListResult
+from ._models_py3 import LogicalNetworksUpdateRequest
+from ._models_py3 import MarketplaceGalleryImageStatus
+from ._models_py3 import MarketplaceGalleryImageStatusDownloadStatus
+from ._models_py3 import MarketplaceGalleryImageStatusProvisioningStatus
+from ._models_py3 import MarketplaceGalleryImages
+from ._models_py3 import MarketplaceGalleryImagesListResult
+from ._models_py3 import MarketplaceGalleryImagesUpdateRequest
+from ._models_py3 import NetworkInterfaceStatus
+from ._models_py3 import NetworkInterfaceStatusProvisioningStatus
+from ._models_py3 import NetworkInterfaces
+from ._models_py3 import NetworkInterfacesListResult
+from ._models_py3 import NetworkInterfacesUpdateRequest
+from ._models_py3 import NetworkProfileUpdate
+from ._models_py3 import NetworkProfileUpdateNetworkInterfacesItem
 from ._models_py3 import NicDetail
 from ._models_py3 import Observability
 from ._models_py3 import Offer
@@ -81,10 +101,12 @@ from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OptionalServices
+from ._models_py3 import OsProfileUpdate
+from ._models_py3 import OsProfileUpdateLinuxConfiguration
+from ._models_py3 import OsProfileUpdateWindowsConfiguration
 from ._models_py3 import PackageVersionInfo
 from ._models_py3 import PasswordCredential
 from ._models_py3 import PerNodeExtensionState
-from ._models_py3 import PerNodeRemoteSupportSession
 from ._models_py3 import PerNodeState
 from ._models_py3 import PhysicalNodes
 from ._models_py3 import PrecheckResult
@@ -94,19 +116,11 @@ from ._models_py3 import Publisher
 from ._models_py3 import PublisherList
 from ._models_py3 import QosPolicyOverrides
 from ._models_py3 import RawCertificateData
-from ._models_py3 import RemoteSupportNodeSettings
-from ._models_py3 import RemoteSupportProperties
-from ._models_py3 import RemoteSupportRequest
-from ._models_py3 import RemoteSupportRequestProperties
 from ._models_py3 import ReportedProperties
 from ._models_py3 import Resource
-from ._models_py3 import SbeCredentials
-from ._models_py3 import SbeDeploymentInfo
-from ._models_py3 import SbeDeploymentPackageInfo
-from ._models_py3 import SbePartnerInfo
-from ._models_py3 import SbePartnerProperties
+from ._models_py3 import Route
+from ._models_py3 import RouteTable
 from ._models_py3 import ScaleUnits
-from ._models_py3 import SdnIntegration
 from ._models_py3 import SecurityComplianceStatus
 from ._models_py3 import SecuritySetting
 from ._models_py3 import SecuritySettingListResult
@@ -117,10 +131,20 @@ from ._models_py3 import SkuMappings
 from ._models_py3 import SoftwareAssuranceChangeRequest
 from ._models_py3 import SoftwareAssuranceChangeRequestProperties
 from ._models_py3 import SoftwareAssuranceProperties
+from ._models_py3 import SshConfiguration
+from ._models_py3 import SshPublicKey
 from ._models_py3 import Step
 from ._models_py3 import Storage
-from ._models_py3 import SwitchDetail
-from ._models_py3 import SwitchExtension
+from ._models_py3 import StorageContainerStatus
+from ._models_py3 import StorageContainerStatusProvisioningStatus
+from ._models_py3 import StorageContainers
+from ._models_py3 import StorageContainersListResult
+from ._models_py3 import StorageContainersUpdateRequest
+from ._models_py3 import StorageNetworks
+from ._models_py3 import StorageProfileUpdate
+from ._models_py3 import StorageProfileUpdateDataDisksItem
+from ._models_py3 import Subnet
+from ._models_py3 import SubnetPropertiesFormatIpConfigurationReferencesItem
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import Update
@@ -134,37 +158,67 @@ from ._models_py3 import UploadCertificateRequest
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import ValidateRequest
 from ._models_py3 import ValidateResponse
+from ._models_py3 import ValidationStatus
+from ._models_py3 import VirtualHardDiskStatus
+from ._models_py3 import VirtualHardDiskStatusProvisioningStatus
+from ._models_py3 import VirtualHardDisks
+from ._models_py3 import VirtualHardDisksListResult
+from ._models_py3 import VirtualHardDisksUpdateRequest
+from ._models_py3 import VirtualMachineConfigAgentInstanceView
+from ._models_py3 import VirtualMachineInstance
+from ._models_py3 import VirtualMachineInstanceListResult
+from ._models_py3 import VirtualMachineInstancePropertiesHardwareProfile
+from ._models_py3 import VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig
+from ._models_py3 import VirtualMachineInstancePropertiesNetworkProfile
+from ._models_py3 import VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem
+from ._models_py3 import VirtualMachineInstancePropertiesOsProfile
+from ._models_py3 import VirtualMachineInstancePropertiesOsProfileLinuxConfiguration
+from ._models_py3 import VirtualMachineInstancePropertiesOsProfileWindowsConfiguration
+from ._models_py3 import VirtualMachineInstancePropertiesSecurityProfile
+from ._models_py3 import VirtualMachineInstancePropertiesSecurityProfileUefiSettings
+from ._models_py3 import VirtualMachineInstancePropertiesStorageProfile
+from ._models_py3 import VirtualMachineInstancePropertiesStorageProfileDataDisksItem
+from ._models_py3 import VirtualMachineInstancePropertiesStorageProfileImageReference
+from ._models_py3 import VirtualMachineInstancePropertiesStorageProfileOsDisk
+from ._models_py3 import VirtualMachineInstanceStatus
+from ._models_py3 import VirtualMachineInstanceStatusProvisioningStatus
+from ._models_py3 import VirtualMachineInstanceUpdateProperties
+from ._models_py3 import VirtualMachineInstanceUpdateRequest
+from ._models_py3 import VirtualMachineInstanceView
+from ._models_py3 import VirtualSwitchConfigurationOverrides
 
-from ._azure_stack_hci_client_enums import AccessLevel
 from ._azure_stack_hci_client_enums import ActionType
-from ._azure_stack_hci_client_enums import ArcExtensionState
 from ._azure_stack_hci_client_enums import ArcSettingAggregateState
 from ._azure_stack_hci_client_enums import AvailabilityType
+from ._azure_stack_hci_client_enums import CloudInitDataSource
 from ._azure_stack_hci_client_enums import ClusterNodeType
 from ._azure_stack_hci_client_enums import ComplianceAssignmentType
 from ._azure_stack_hci_client_enums import ComplianceStatus
 from ._azure_stack_hci_client_enums import ConnectivityStatus
 from ._azure_stack_hci_client_enums import CreatedByType
 from ._azure_stack_hci_client_enums import DeploymentMode
-from ._azure_stack_hci_client_enums import DeviceKind
-from ._azure_stack_hci_client_enums import DeviceState
 from ._azure_stack_hci_client_enums import DiagnosticLevel
-from ._azure_stack_hci_client_enums import EceSecrets
+from ._azure_stack_hci_client_enums import DiskFileFormat
+from ._azure_stack_hci_client_enums import ExtendedLocationTypes
 from ._azure_stack_hci_client_enums import ExtensionAggregateState
 from ._azure_stack_hci_client_enums import ExtensionManagedBy
 from ._azure_stack_hci_client_enums import HealthState
+from ._azure_stack_hci_client_enums import HyperVGeneration
+from ._azure_stack_hci_client_enums import IPPoolTypeEnum
 from ._azure_stack_hci_client_enums import ImdsAttestation
-from ._azure_stack_hci_client_enums import LogCollectionJobType
-from ._azure_stack_hci_client_enums import LogCollectionStatus
+from ._azure_stack_hci_client_enums import IpAllocationMethodEnum
 from ._azure_stack_hci_client_enums import ManagedServiceIdentityType
 from ._azure_stack_hci_client_enums import NodeArcState
 from ._azure_stack_hci_client_enums import NodeExtensionState
 from ._azure_stack_hci_client_enums import OemActivation
-from ._azure_stack_hci_client_enums import OperationType
+from ._azure_stack_hci_client_enums import OperatingSystemTypes
 from ._azure_stack_hci_client_enums import Origin
+from ._azure_stack_hci_client_enums import PowerStateEnum
+from ._azure_stack_hci_client_enums import ProvisioningAction
 from ._azure_stack_hci_client_enums import ProvisioningState
+from ._azure_stack_hci_client_enums import ProvisioningStateEnum
 from ._azure_stack_hci_client_enums import RebootRequirement
-from ._azure_stack_hci_client_enums import RemoteSupportType
+from ._azure_stack_hci_client_enums import SecurityTypes
 from ._azure_stack_hci_client_enums import ServiceName
 from ._azure_stack_hci_client_enums import Severity
 from ._azure_stack_hci_client_enums import SoftwareAssuranceIntent
@@ -172,14 +226,17 @@ from ._azure_stack_hci_client_enums import SoftwareAssuranceStatus
 from ._azure_stack_hci_client_enums import State
 from ._azure_stack_hci_client_enums import Status
 from ._azure_stack_hci_client_enums import StatusLevelTypes
+from ._azure_stack_hci_client_enums import StatusTypes
 from ._azure_stack_hci_client_enums import UpdateRunPropertiesState
 from ._azure_stack_hci_client_enums import UpdateSummariesPropertiesState
+from ._azure_stack_hci_client_enums import VmSizeEnum
 from ._azure_stack_hci_client_enums import WindowsServerSubscription
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AdapterPropertyOverrides",
     "ArcConnectivityProperties",
     "ArcIdentityResponse",
     "ArcSetting",
@@ -198,55 +255,74 @@ __all__ = [
     "DeploymentData",
     "DeploymentSecuritySettings",
     "DeploymentSetting",
-    "DeploymentSettingAdapterPropertyOverrides",
-    "DeploymentSettingHostNetwork",
-    "DeploymentSettingIntents",
     "DeploymentSettingListResult",
-    "DeploymentSettingStorageAdapterIPInfo",
-    "DeploymentSettingStorageNetworks",
-    "DeploymentSettingVirtualSwitchConfigurationOverrides",
+    "DeploymentStatus",
     "DeploymentStep",
     "DeviceConfiguration",
-    "EceActionStatus",
-    "EceDeploymentSecrets",
-    "EceReportedProperties",
     "EdgeDevice",
     "EdgeDeviceListResult",
-    "EdgeDeviceProperties",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "ExtendedLocation",
     "Extension",
     "ExtensionInstanceView",
     "ExtensionInstanceViewStatus",
     "ExtensionList",
     "ExtensionPatch",
     "ExtensionPatchParameters",
-    "ExtensionProfile",
     "ExtensionUpgradeParameters",
-    "HciEdgeDevice",
-    "HciEdgeDeviceAdapterPropertyOverrides",
-    "HciEdgeDeviceArcExtension",
-    "HciEdgeDeviceHostNetwork",
-    "HciEdgeDeviceIntents",
-    "HciEdgeDeviceProperties",
-    "HciEdgeDeviceStorageAdapterIPInfo",
-    "HciEdgeDeviceStorageNetworks",
-    "HciEdgeDeviceVirtualSwitchConfigurationOverrides",
-    "HciNetworkProfile",
-    "HciNicDetail",
-    "HciOsProfile",
-    "HciReportedProperties",
-    "HciValidationFailureDetail",
+    "GalleryDiskImage",
+    "GalleryImageIdentifier",
+    "GalleryImageStatus",
+    "GalleryImageStatusDownloadStatus",
+    "GalleryImageStatusProvisioningStatus",
+    "GalleryImageVersion",
+    "GalleryImageVersionStorageProfile",
+    "GalleryImages",
+    "GalleryImagesListResult",
+    "GalleryImagesUpdateRequest",
+    "GalleryOSDiskImage",
+    "GuestAgent",
+    "GuestAgentInstallStatus",
+    "GuestAgentList",
+    "GuestCredential",
+    "HardwareProfileUpdate",
+    "HostNetwork",
+    "HttpProxyConfiguration",
+    "HybridIdentityMetadata",
+    "HybridIdentityMetadataList",
+    "IPConfiguration",
+    "IPConfigurationProperties",
+    "IPConfigurationPropertiesSubnet",
+    "IPPool",
+    "IPPoolInfo",
+    "Identity",
     "InfrastructureNetwork",
+    "InstanceViewStatus",
+    "Intents",
+    "InterfaceDNSSettings",
     "IpPools",
     "IsolatedVmAttestationConfiguration",
-    "LogCollectionError",
-    "LogCollectionProperties",
-    "LogCollectionRequest",
-    "LogCollectionRequestProperties",
-    "LogCollectionSession",
-    "NetworkController",
+    "LogicalNetworkPropertiesDhcpOptions",
+    "LogicalNetworkStatus",
+    "LogicalNetworkStatusProvisioningStatus",
+    "LogicalNetworks",
+    "LogicalNetworksListResult",
+    "LogicalNetworksUpdateRequest",
+    "MarketplaceGalleryImageStatus",
+    "MarketplaceGalleryImageStatusDownloadStatus",
+    "MarketplaceGalleryImageStatusProvisioningStatus",
+    "MarketplaceGalleryImages",
+    "MarketplaceGalleryImagesListResult",
+    "MarketplaceGalleryImagesUpdateRequest",
+    "NetworkInterfaceStatus",
+    "NetworkInterfaceStatusProvisioningStatus",
+    "NetworkInterfaces",
+    "NetworkInterfacesListResult",
+    "NetworkInterfacesUpdateRequest",
+    "NetworkProfileUpdate",
+    "NetworkProfileUpdateNetworkInterfacesItem",
     "NicDetail",
     "Observability",
     "Offer",
@@ -255,10 +331,12 @@ __all__ = [
     "OperationDisplay",
     "OperationListResult",
     "OptionalServices",
+    "OsProfileUpdate",
+    "OsProfileUpdateLinuxConfiguration",
+    "OsProfileUpdateWindowsConfiguration",
     "PackageVersionInfo",
     "PasswordCredential",
     "PerNodeExtensionState",
-    "PerNodeRemoteSupportSession",
     "PerNodeState",
     "PhysicalNodes",
     "PrecheckResult",
@@ -268,19 +346,11 @@ __all__ = [
     "PublisherList",
     "QosPolicyOverrides",
     "RawCertificateData",
-    "RemoteSupportNodeSettings",
-    "RemoteSupportProperties",
-    "RemoteSupportRequest",
-    "RemoteSupportRequestProperties",
     "ReportedProperties",
     "Resource",
-    "SbeCredentials",
-    "SbeDeploymentInfo",
-    "SbeDeploymentPackageInfo",
-    "SbePartnerInfo",
-    "SbePartnerProperties",
+    "Route",
+    "RouteTable",
     "ScaleUnits",
-    "SdnIntegration",
     "SecurityComplianceStatus",
     "SecuritySetting",
     "SecuritySettingListResult",
@@ -291,10 +361,20 @@ __all__ = [
     "SoftwareAssuranceChangeRequest",
     "SoftwareAssuranceChangeRequestProperties",
     "SoftwareAssuranceProperties",
+    "SshConfiguration",
+    "SshPublicKey",
     "Step",
     "Storage",
-    "SwitchDetail",
-    "SwitchExtension",
+    "StorageContainerStatus",
+    "StorageContainerStatusProvisioningStatus",
+    "StorageContainers",
+    "StorageContainersListResult",
+    "StorageContainersUpdateRequest",
+    "StorageNetworks",
+    "StorageProfileUpdate",
+    "StorageProfileUpdateDataDisksItem",
+    "Subnet",
+    "SubnetPropertiesFormatIpConfigurationReferencesItem",
     "SystemData",
     "TrackedResource",
     "Update",
@@ -308,36 +388,66 @@ __all__ = [
     "UserAssignedIdentity",
     "ValidateRequest",
     "ValidateResponse",
-    "AccessLevel",
+    "ValidationStatus",
+    "VirtualHardDiskStatus",
+    "VirtualHardDiskStatusProvisioningStatus",
+    "VirtualHardDisks",
+    "VirtualHardDisksListResult",
+    "VirtualHardDisksUpdateRequest",
+    "VirtualMachineConfigAgentInstanceView",
+    "VirtualMachineInstance",
+    "VirtualMachineInstanceListResult",
+    "VirtualMachineInstancePropertiesHardwareProfile",
+    "VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig",
+    "VirtualMachineInstancePropertiesNetworkProfile",
+    "VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem",
+    "VirtualMachineInstancePropertiesOsProfile",
+    "VirtualMachineInstancePropertiesOsProfileLinuxConfiguration",
+    "VirtualMachineInstancePropertiesOsProfileWindowsConfiguration",
+    "VirtualMachineInstancePropertiesSecurityProfile",
+    "VirtualMachineInstancePropertiesSecurityProfileUefiSettings",
+    "VirtualMachineInstancePropertiesStorageProfile",
+    "VirtualMachineInstancePropertiesStorageProfileDataDisksItem",
+    "VirtualMachineInstancePropertiesStorageProfileImageReference",
+    "VirtualMachineInstancePropertiesStorageProfileOsDisk",
+    "VirtualMachineInstanceStatus",
+    "VirtualMachineInstanceStatusProvisioningStatus",
+    "VirtualMachineInstanceUpdateProperties",
+    "VirtualMachineInstanceUpdateRequest",
+    "VirtualMachineInstanceView",
+    "VirtualSwitchConfigurationOverrides",
     "ActionType",
-    "ArcExtensionState",
     "ArcSettingAggregateState",
     "AvailabilityType",
+    "CloudInitDataSource",
     "ClusterNodeType",
     "ComplianceAssignmentType",
     "ComplianceStatus",
     "ConnectivityStatus",
     "CreatedByType",
     "DeploymentMode",
-    "DeviceKind",
-    "DeviceState",
     "DiagnosticLevel",
-    "EceSecrets",
+    "DiskFileFormat",
+    "ExtendedLocationTypes",
     "ExtensionAggregateState",
     "ExtensionManagedBy",
     "HealthState",
+    "HyperVGeneration",
+    "IPPoolTypeEnum",
     "ImdsAttestation",
-    "LogCollectionJobType",
-    "LogCollectionStatus",
+    "IpAllocationMethodEnum",
     "ManagedServiceIdentityType",
     "NodeArcState",
     "NodeExtensionState",
     "OemActivation",
-    "OperationType",
+    "OperatingSystemTypes",
     "Origin",
+    "PowerStateEnum",
+    "ProvisioningAction",
     "ProvisioningState",
+    "ProvisioningStateEnum",
     "RebootRequirement",
-    "RemoteSupportType",
+    "SecurityTypes",
     "ServiceName",
     "Severity",
     "SoftwareAssuranceIntent",
@@ -345,8 +455,10 @@ __all__ = [
     "State",
     "Status",
     "StatusLevelTypes",
+    "StatusTypes",
     "UpdateRunPropertiesState",
     "UpdateSummariesPropertiesState",
+    "VmSizeEnum",
     "WindowsServerSubscription",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

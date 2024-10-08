@@ -24,7 +24,7 @@ class TestAzureStackHCIPublishersOperations(AzureMgmtRecordedTestCase):
         response = self.client.publishers.list_by_cluster(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestAzureStackHCIPublishersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             cluster_name="str",
             publisher_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
