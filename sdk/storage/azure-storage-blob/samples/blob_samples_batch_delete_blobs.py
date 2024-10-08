@@ -18,11 +18,14 @@ SOURCE_FOLDER = "./sample-blobs/"
 
 def batch_delete_blobs_sample(local_path):
     # Set the connection string and container name values to initialize the Container Client
-    connection_string = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+    connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 
     if connection_string is None:
-        print("Missing required environment variable: AZURE_STORAGE_CONNECTION_STRING." + '\n' +
-              "Test: batch_delete_blobs_sample")
+        print(
+            "Missing required environment variable: AZURE_STORAGE_CONNECTION_STRING."
+            + "\n"
+            + "Test: batch_delete_blobs_sample"
+        )
         sys.exit(1)
 
     blob_service_client = BlobServiceClient.from_connection_string(conn_str=connection_string)
@@ -34,7 +37,7 @@ def batch_delete_blobs_sample(local_path):
         pass
     # Upload blobs
     for filename in os.listdir(local_path):
-        with open(local_path+filename, "rb") as data:
+        with open(local_path + filename, "rb") as data:
             container_client.upload_blob(name=filename, data=data, blob_type="BlockBlob")
 
     # List blobs in storage account
@@ -43,6 +46,6 @@ def batch_delete_blobs_sample(local_path):
     # Delete blobs
     container_client.delete_blobs(*blob_list)
 
-if __name__ == '__main__':
-    batch_delete_blobs_sample(SOURCE_FOLDER)
 
+if __name__ == "__main__":
+    batch_delete_blobs_sample(SOURCE_FOLDER)
