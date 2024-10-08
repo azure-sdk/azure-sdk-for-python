@@ -205,7 +205,7 @@ class AccessReviewDecisionIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -426,7 +426,7 @@ class AccessReviewDecisionResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of resource. Required. "azureRole"
     :vartype type: str or ~azure.mgmt.authorization.v2021_03_01_preview.models.DecisionResourceType
@@ -456,12 +456,12 @@ class AccessReviewDecisionResource(_serialization.Model):
         self.display_name = None
 
 
-class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):
+class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):  # pylint: disable=name-too-long
     """Service Principal Decision Target.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -500,7 +500,7 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".

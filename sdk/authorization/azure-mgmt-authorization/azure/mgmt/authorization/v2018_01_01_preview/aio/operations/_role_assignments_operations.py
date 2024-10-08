@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -20,15 +21,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._role_assignments_operations import (
     build_create_by_id_request,
     build_create_request,
@@ -42,6 +41,10 @@ from ...operations._role_assignments_operations import (
     build_list_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -94,7 +97,6 @@ class RoleAssignmentsOperations:
          assignments at or above the scope. Use $filter=principalId eq {id} to return all role
          assignments at, above or below the scope for the specified principal. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RoleAssignment or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment]
@@ -108,7 +110,7 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[_models.RoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -119,7 +121,7 @@ class RoleAssignmentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_for_resource_request(
+                _request = build_list_for_resource_request(
                     resource_group_name=resource_group_name,
                     resource_provider_namespace=resource_provider_namespace,
                     parent_resource_path=parent_resource_path,
@@ -128,12 +130,10 @@ class RoleAssignmentsOperations:
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_for_resource.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -144,14 +144,13 @@ class RoleAssignmentsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("RoleAssignmentListResult", pipeline_response)
@@ -161,11 +160,11 @@ class RoleAssignmentsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -177,10 +176,6 @@ class RoleAssignmentsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_for_resource.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments"
-    }
 
     @distributed_trace
     def list_for_resource_group(
@@ -195,7 +190,6 @@ class RoleAssignmentsOperations:
          assignments at or above the scope. Use $filter=principalId eq {id} to return all role
          assignments at, above or below the scope for the specified principal. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RoleAssignment or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment]
@@ -209,7 +203,7 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[_models.RoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -220,17 +214,15 @@ class RoleAssignmentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_for_resource_group_request(
+                _request = build_list_for_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_for_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -241,14 +233,13 @@ class RoleAssignmentsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("RoleAssignmentListResult", pipeline_response)
@@ -258,11 +249,11 @@ class RoleAssignmentsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -275,10 +266,6 @@ class RoleAssignmentsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_for_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/roleAssignments"
-    }
-
     @distributed_trace_async
     async def delete(self, scope: str, role_assignment_name: str, **kwargs: Any) -> Optional[_models.RoleAssignment]:
         """Deletes a role assignment.
@@ -287,12 +274,11 @@ class RoleAssignmentsOperations:
         :type scope: str
         :param role_assignment_name: The name of the role assignment to delete. Required.
         :type role_assignment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or None or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -308,20 +294,18 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[Optional[_models.RoleAssignment]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             scope=scope,
             role_assignment_name=role_assignment_name,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -333,14 +317,12 @@ class RoleAssignmentsOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("RoleAssignment", pipeline_response)
+            deserialized = self._deserialize("RoleAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    delete.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}"}
+        return deserialized  # type: ignore
 
     @overload
     async def create(
@@ -370,7 +352,6 @@ class RoleAssignmentsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -381,7 +362,7 @@ class RoleAssignmentsOperations:
         self,
         scope: str,
         role_assignment_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -399,11 +380,10 @@ class RoleAssignmentsOperations:
          and different for each role assignment. Required.
         :type role_assignment_name: str
         :param parameters: Parameters for the role assignment. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -414,7 +394,7 @@ class RoleAssignmentsOperations:
         self,
         scope: str,
         role_assignment_name: str,
-        parameters: Union[_models.RoleAssignmentCreateParameters, IO],
+        parameters: Union[_models.RoleAssignmentCreateParameters, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleAssignment:
         """Creates a role assignment.
@@ -430,18 +410,15 @@ class RoleAssignmentsOperations:
          and different for each role assignment. Required.
         :type role_assignment_name: str
         :param parameters: Parameters for the role assignment. Is either a
-         RoleAssignmentCreateParameters type or a IO type. Required.
+         RoleAssignmentCreateParameters type or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignmentCreateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignmentCreateParameters or
+         IO[bytes]
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -466,23 +443,21 @@ class RoleAssignmentsOperations:
         else:
             _json = self._serialize.body(parameters, "RoleAssignmentCreateParameters")
 
-        request = build_create_request(
+        _request = build_create_request(
             scope=scope,
             role_assignment_name=role_assignment_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -492,14 +467,12 @@ class RoleAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignment", pipeline_response)
+        deserialized = self._deserialize("RoleAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(self, scope: str, role_assignment_name: str, **kwargs: Any) -> _models.RoleAssignment:
@@ -509,12 +482,11 @@ class RoleAssignmentsOperations:
         :type scope: str
         :param role_assignment_name: The name of the role assignment to get. Required.
         :type role_assignment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -530,20 +502,18 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             scope=scope,
             role_assignment_name=role_assignment_name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -553,14 +523,12 @@ class RoleAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignment", pipeline_response)
+        deserialized = self._deserialize("RoleAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete_by_id(self, role_id: str, **kwargs: Any) -> Optional[_models.RoleAssignment]:
@@ -568,12 +536,11 @@ class RoleAssignmentsOperations:
 
         :param role_id: The ID of the role assignment to delete. Required.
         :type role_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or None or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -589,19 +556,17 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[Optional[_models.RoleAssignment]] = kwargs.pop("cls", None)
 
-        request = build_delete_by_id_request(
+        _request = build_delete_by_id_request(
             role_id=role_id,
             api_version=api_version,
-            template_url=self.delete_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -613,14 +578,12 @@ class RoleAssignmentsOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("RoleAssignment", pipeline_response)
+            deserialized = self._deserialize("RoleAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    delete_by_id.metadata = {"url": "/{roleId}"}
+        return deserialized  # type: ignore
 
     @overload
     async def create_by_id(
@@ -641,7 +604,6 @@ class RoleAssignmentsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -649,18 +611,17 @@ class RoleAssignmentsOperations:
 
     @overload
     async def create_by_id(
-        self, role_id: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, role_id: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.RoleAssignment:
         """Creates a role assignment by ID.
 
         :param role_id: The ID of the role assignment to create. Required.
         :type role_id: str
         :param parameters: Parameters for the role assignment. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -668,25 +629,22 @@ class RoleAssignmentsOperations:
 
     @distributed_trace_async
     async def create_by_id(
-        self, role_id: str, parameters: Union[_models.RoleAssignmentCreateParameters, IO], **kwargs: Any
+        self, role_id: str, parameters: Union[_models.RoleAssignmentCreateParameters, IO[bytes]], **kwargs: Any
     ) -> _models.RoleAssignment:
         """Creates a role assignment by ID.
 
         :param role_id: The ID of the role assignment to create. Required.
         :type role_id: str
         :param parameters: Parameters for the role assignment. Is either a
-         RoleAssignmentCreateParameters type or a IO type. Required.
+         RoleAssignmentCreateParameters type or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignmentCreateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignmentCreateParameters or
+         IO[bytes]
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -711,22 +669,20 @@ class RoleAssignmentsOperations:
         else:
             _json = self._serialize.body(parameters, "RoleAssignmentCreateParameters")
 
-        request = build_create_by_id_request(
+        _request = build_create_by_id_request(
             role_id=role_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -736,14 +692,12 @@ class RoleAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignment", pipeline_response)
+        deserialized = self._deserialize("RoleAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_by_id.metadata = {"url": "/{roleId}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get_by_id(self, role_id: str, **kwargs: Any) -> _models.RoleAssignment:
@@ -751,12 +705,11 @@ class RoleAssignmentsOperations:
 
         :param role_id: The ID of the role assignment to get. Required.
         :type role_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -772,19 +725,17 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
 
-        request = build_get_by_id_request(
+        _request = build_get_by_id_request(
             role_id=role_id,
             api_version=api_version,
-            template_url=self.get_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -794,14 +745,12 @@ class RoleAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignment", pipeline_response)
+        deserialized = self._deserialize("RoleAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_id.metadata = {"url": "/{roleId}"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list(self, filter: Optional[str] = None, **kwargs: Any) -> AsyncIterable["_models.RoleAssignment"]:
@@ -811,7 +760,6 @@ class RoleAssignmentsOperations:
          assignments at or above the scope. Use $filter=principalId eq {id} to return all role
          assignments at, above or below the scope for the specified principal. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RoleAssignment or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment]
@@ -825,7 +773,7 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[_models.RoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -836,16 +784,14 @@ class RoleAssignmentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     subscription_id=self._config.subscription_id,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -856,14 +802,13 @@ class RoleAssignmentsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("RoleAssignmentListResult", pipeline_response)
@@ -873,11 +818,11 @@ class RoleAssignmentsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -889,8 +834,6 @@ class RoleAssignmentsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments"}
 
     @distributed_trace
     def list_for_scope(
@@ -904,7 +847,6 @@ class RoleAssignmentsOperations:
          assignments at or above the scope. Use $filter=principalId eq {id} to return all role
          assignments at, above or below the scope for the specified principal. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RoleAssignment or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.authorization.v2018_01_01_preview.models.RoleAssignment]
@@ -918,7 +860,7 @@ class RoleAssignmentsOperations:
         )
         cls: ClsType[_models.RoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -929,16 +871,14 @@ class RoleAssignmentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_for_scope_request(
+                _request = build_list_for_scope_request(
                     scope=scope,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_for_scope.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -949,14 +889,13 @@ class RoleAssignmentsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("RoleAssignmentListResult", pipeline_response)
@@ -966,11 +905,11 @@ class RoleAssignmentsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -982,5 +921,3 @@ class RoleAssignmentsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_for_scope.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/roleAssignments"}

@@ -315,7 +315,7 @@ class AccessReviewDecisionIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -404,7 +404,7 @@ class AccessReviewDecisionInsightProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of insight. Required. "userSignInInsight"
     :vartype type: str or
@@ -638,12 +638,12 @@ class AccessReviewDecisionProperties(_serialization.Model):  # pylint: disable=t
         self.display_name_principal_display_name = None
 
 
-class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):
+class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):  # pylint: disable=name-too-long
     """Service Principal Decision Target.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -682,7 +682,7 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -716,12 +716,14 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
         self.user_principal_name = None
 
 
-class AccessReviewDecisionUserSignInInsightProperties(AccessReviewDecisionInsightProperties):
+class AccessReviewDecisionUserSignInInsightProperties(
+    AccessReviewDecisionInsightProperties
+):  # pylint: disable=name-too-long
     """User Decision Target.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of insight. Required. "userSignInInsight"
     :vartype type: str or
@@ -1125,7 +1127,7 @@ class AccessReviewHistoryDefinition(_serialization.Model):  # pylint: disable=to
         self.user_principal_name = None
 
 
-class AccessReviewHistoryDefinitionInstanceListResult(_serialization.Model):
+class AccessReviewHistoryDefinitionInstanceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """List of Access Review History Instances.
 
     :ivar value: Access Review History Definition's Instance list.

@@ -479,7 +479,7 @@ class RoleAssignmentScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role assignment schedule.
 
     :ivar start_date_time: Start DateTime of the role assignment schedule.
@@ -506,14 +506,16 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
         :paramtype start_date_time: ~datetime.datetime
         :keyword expiration: Expiration of the role assignment schedule.
         :paramtype expiration:
-         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration
+         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.start_date_time = start_date_time
         self.expiration = expiration
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role assignment schedule.
 
     :ivar type: Type of the role assignment schedule expiration. Known values are: "AfterDuration",
@@ -554,7 +556,7 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serializati
         self.duration = duration
 
 
-class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role assignment.
 
     :ivar ticket_number: Ticket number for the role assignment.
@@ -838,7 +840,7 @@ class RoleEligibilityScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role eligibility schedule.
 
     :ivar start_date_time: Start DateTime of the role eligibility schedule.
@@ -865,14 +867,16 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model)
         :paramtype start_date_time: ~datetime.datetime
         :keyword expiration: Expiration of the role eligibility schedule.
         :paramtype expiration:
-         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration
+         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.start_date_time = start_date_time
         self.expiration = expiration
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role eligibility schedule.
 
     :ivar type: Type of the role eligibility schedule expiration. Known values are:
@@ -913,7 +917,7 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serializat
         self.duration = duration
 
 
-class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role eligibility.
 
     :ivar ticket_number: Ticket number for the role eligibility.
