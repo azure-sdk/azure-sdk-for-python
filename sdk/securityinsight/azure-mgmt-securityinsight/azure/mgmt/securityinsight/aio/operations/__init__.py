@@ -10,30 +10,25 @@ from ._alert_rules_operations import AlertRulesOperations
 from ._actions_operations import ActionsOperations
 from ._alert_rule_templates_operations import AlertRuleTemplatesOperations
 from ._automation_rules_operations import AutomationRulesOperations
+from ._entities_operations import EntitiesOperations
 from ._incidents_operations import IncidentsOperations
 from ._bookmarks_operations import BookmarksOperations
-from ._bookmark_relations_operations import BookmarkRelationsOperations
-from ._bookmark_operations import BookmarkOperations
-from ._ip_geodata_operations import IPGeodataOperations
-from ._domain_whois_operations import DomainWhoisOperations
-from ._entities_operations import EntitiesOperations
-from ._entities_get_timeline_operations import EntitiesGetTimelineOperations
-from ._entities_relations_operations import EntitiesRelationsOperations
-from ._entity_relations_operations import EntityRelationsOperations
-from ._entity_queries_operations import EntityQueriesOperations
-from ._entity_query_templates_operations import EntityQueryTemplatesOperations
-from ._file_imports_operations import FileImportsOperations
+from ._content_packages_operations import ContentPackagesOperations
+from ._content_package_operations import ContentPackageOperations
+from ._product_packages_operations import ProductPackagesOperations
+from ._product_package_operations import ProductPackageOperations
+from ._product_templates_operations import ProductTemplatesOperations
+from ._product_template_operations import ProductTemplateOperations
+from ._content_templates_operations import ContentTemplatesOperations
+from ._content_template_operations import ContentTemplateOperations
+from ._data_connectors_operations import DataConnectorsOperations
 from ._incident_comments_operations import IncidentCommentsOperations
 from ._incident_relations_operations import IncidentRelationsOperations
 from ._incident_tasks_operations import IncidentTasksOperations
 from ._metadata_operations import MetadataOperations
-from ._office_consents_operations import OfficeConsentsOperations
 from ._sentinel_onboarding_states_operations import SentinelOnboardingStatesOperations
-from ._get_recommendations_operations import GetRecommendationsOperations
-from ._get_operations import GetOperations
-from ._update_operations import UpdateOperations
+from ._operations import Operations
 from ._security_ml_analytics_settings_operations import SecurityMLAnalyticsSettingsOperations
-from ._product_settings_operations import ProductSettingsOperations
 from ._source_control_operations import SourceControlOperations
 from ._source_controls_operations import SourceControlsOperations
 from ._threat_intelligence_indicator_operations import ThreatIntelligenceIndicatorOperations
@@ -41,9 +36,6 @@ from ._threat_intelligence_indicators_operations import ThreatIntelligenceIndica
 from ._threat_intelligence_indicator_metrics_operations import ThreatIntelligenceIndicatorMetricsOperations
 from ._watchlists_operations import WatchlistsOperations
 from ._watchlist_items_operations import WatchlistItemsOperations
-from ._data_connectors_operations import DataConnectorsOperations
-from ._data_connectors_check_requirements_operations import DataConnectorsCheckRequirementsOperations
-from ._operations import Operations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -54,30 +46,25 @@ __all__ = [
     "ActionsOperations",
     "AlertRuleTemplatesOperations",
     "AutomationRulesOperations",
+    "EntitiesOperations",
     "IncidentsOperations",
     "BookmarksOperations",
-    "BookmarkRelationsOperations",
-    "BookmarkOperations",
-    "IPGeodataOperations",
-    "DomainWhoisOperations",
-    "EntitiesOperations",
-    "EntitiesGetTimelineOperations",
-    "EntitiesRelationsOperations",
-    "EntityRelationsOperations",
-    "EntityQueriesOperations",
-    "EntityQueryTemplatesOperations",
-    "FileImportsOperations",
+    "ContentPackagesOperations",
+    "ContentPackageOperations",
+    "ProductPackagesOperations",
+    "ProductPackageOperations",
+    "ProductTemplatesOperations",
+    "ProductTemplateOperations",
+    "ContentTemplatesOperations",
+    "ContentTemplateOperations",
+    "DataConnectorsOperations",
     "IncidentCommentsOperations",
     "IncidentRelationsOperations",
     "IncidentTasksOperations",
     "MetadataOperations",
-    "OfficeConsentsOperations",
     "SentinelOnboardingStatesOperations",
-    "GetRecommendationsOperations",
-    "GetOperations",
-    "UpdateOperations",
+    "Operations",
     "SecurityMLAnalyticsSettingsOperations",
-    "ProductSettingsOperations",
     "SourceControlOperations",
     "SourceControlsOperations",
     "ThreatIntelligenceIndicatorOperations",
@@ -85,9 +72,6 @@ __all__ = [
     "ThreatIntelligenceIndicatorMetricsOperations",
     "WatchlistsOperations",
     "WatchlistItemsOperations",
-    "DataConnectorsOperations",
-    "DataConnectorsCheckRequirementsOperations",
-    "Operations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
