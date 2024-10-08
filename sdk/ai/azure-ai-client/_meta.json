@@ -1,0 +1,6 @@
+{
+  "commit": "212c3f76d0cd195d3cabc13384f4e6b1076ba9e3",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/Azure.AI.Client",
+  "@azure-tools/typespec-python": "0.35.1"
+}
