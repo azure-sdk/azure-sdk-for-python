@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.azurearcdata import AzureArcDataManagementClient
 
 """
@@ -57,6 +58,24 @@ def main():
                                 }
                             }
                         },
+                        "security": {
+                            "activeDirectory": {
+                                "accountName": "Account name",
+                                "connector": {"name": "Name of connector", "namespace": "Namespace of connector"},
+                                "encryptionTypes": ["Encryption type item1, Encryption type item2,..."],
+                                "keytabSecret": "Key tab secret of account",
+                            },
+                            "adminLoginSecret": "test-sql-login-secret",
+                            "serviceCertificateSecret": "Service Certificate Secret",
+                            "transparentDataEncryption": {"mode": "SystemManaged"},
+                        },
+                        "settings": {
+                            "network": {
+                                "forceencryption": 0,
+                                "tlsciphers": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384",
+                                "tlsprotocols": "1.2",
+                            }
+                        },
                     },
                 },
                 "licenseType": "LicenseIncluded",
@@ -69,6 +88,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2022-03-01-preview/examples/CreateOrUpdateSqlManagedInstance.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2024-05-01-preview/examples/CreateOrUpdateSqlManagedInstance.json
 if __name__ == "__main__":
     main()
