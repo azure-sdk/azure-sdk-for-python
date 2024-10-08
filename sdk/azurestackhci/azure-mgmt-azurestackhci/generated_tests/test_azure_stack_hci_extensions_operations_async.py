@@ -26,7 +26,7 @@ class TestAzureStackHCIExtensionsOperationsAsync(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             cluster_name="str",
             arc_setting_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -40,7 +40,7 @@ class TestAzureStackHCIExtensionsOperationsAsync(AzureMgmtRecordedTestCase):
             cluster_name="str",
             arc_setting_name="str",
             extension_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -98,7 +98,7 @@ class TestAzureStackHCIExtensionsOperationsAsync(AzureMgmtRecordedTestCase):
                     "type": "str",
                     "typeHandlerVersion": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -122,7 +122,7 @@ class TestAzureStackHCIExtensionsOperationsAsync(AzureMgmtRecordedTestCase):
                         "typeHandlerVersion": "str",
                     }
                 },
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -138,7 +138,7 @@ class TestAzureStackHCIExtensionsOperationsAsync(AzureMgmtRecordedTestCase):
                 cluster_name="str",
                 arc_setting_name="str",
                 extension_name="str",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -155,7 +155,7 @@ class TestAzureStackHCIExtensionsOperationsAsync(AzureMgmtRecordedTestCase):
                 arc_setting_name="str",
                 extension_name="str",
                 extension_upgrade_parameters={"targetVersion": "str"},
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 

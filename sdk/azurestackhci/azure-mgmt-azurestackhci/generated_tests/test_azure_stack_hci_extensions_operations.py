@@ -25,7 +25,7 @@ class TestAzureStackHCIExtensionsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             cluster_name="str",
             arc_setting_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -39,7 +39,7 @@ class TestAzureStackHCIExtensionsOperations(AzureMgmtRecordedTestCase):
             cluster_name="str",
             arc_setting_name="str",
             extension_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -96,7 +96,7 @@ class TestAzureStackHCIExtensionsOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "typeHandlerVersion": "str",
             },
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -118,7 +118,7 @@ class TestAzureStackHCIExtensionsOperations(AzureMgmtRecordedTestCase):
                     "typeHandlerVersion": "str",
                 }
             },
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -132,7 +132,7 @@ class TestAzureStackHCIExtensionsOperations(AzureMgmtRecordedTestCase):
             cluster_name="str",
             arc_setting_name="str",
             extension_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -147,7 +147,7 @@ class TestAzureStackHCIExtensionsOperations(AzureMgmtRecordedTestCase):
             arc_setting_name="str",
             extension_name="str",
             extension_upgrade_parameters={"targetVersion": "str"},
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
