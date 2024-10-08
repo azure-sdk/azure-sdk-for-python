@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -16,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -30,8 +32,11 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -124,12 +129,7 @@ def build_list_request(
 
 
 def build_create_or_update_request(
-    management_group_id: str,
-    group_quota_name: str,
-    resource_provider_name: str,
-    resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    management_group_id: str, group_quota_name: str, resource_provider_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -141,7 +141,7 @@ def build_create_or_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{resourceName}",
+        "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/createAllocationRequest",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "managementGroupId": _SERIALIZER.url(
@@ -156,9 +156,6 @@ def build_create_or_update_request(
             resource_provider_name,
             "str",
             pattern=r"^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$",
-        ),
-        "resourceName": _SERIALIZER.url(
-            "resource_name", resource_name, "str", max_length=63, min_length=3, pattern=r"^[a-z][a-z0-9]*$"
         ),
     }
 
@@ -172,16 +169,11 @@ def build_create_or_update_request(
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_update_request(
-    management_group_id: str,
-    group_quota_name: str,
-    resource_provider_name: str,
-    resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    management_group_id: str, group_quota_name: str, resource_provider_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -193,7 +185,7 @@ def build_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{resourceName}",
+        "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/createAllocationRequest",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "managementGroupId": _SERIALIZER.url(
@@ -208,9 +200,6 @@ def build_update_request(
             resource_provider_name,
             "str",
             pattern=r"^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$",
-        ),
-        "resourceName": _SERIALIZER.url(
-            "resource_name", resource_name, "str", max_length=63, min_length=3, pattern=r"^[a-z][a-z0-9]*$"
         ),
     }
 
@@ -265,7 +254,7 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :rtype: ~azure.mgmt.quota.models.QuotaAllocationRequestStatus
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -288,7 +277,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -303,7 +291,7 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response)
+        deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -349,7 +337,7 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.QuotaAllocationRequestStatusList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -370,7 +358,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -386,7 +373,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -421,11 +407,10 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: Union[_models.QuotaAllocationRequestStatus, IO[bytes]],
         **kwargs: Any
-    ) -> Union[_models.QuotaAllocationRequestStatus, _models.LROResponse]:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -438,7 +423,7 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Union[_models.QuotaAllocationRequestStatus, _models.LROResponse]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -452,7 +437,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
             management_group_id=management_group_id,
             group_quota_name=group_quota_name,
             resource_provider_name=resource_provider_name,
-            resource_name=resource_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -461,33 +445,34 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 201]:
+        if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response)
-
-        if response.status_code == 201:
+        if response.status_code == 202:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Azure-AsyncOperation"] = self._deserialize(
                 "str", response.headers.get("Azure-AsyncOperation")
             )
 
-            deserialized = self._deserialize("LROResponse", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -500,7 +485,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: _models.QuotaAllocationRequestStatus,
         *,
         content_type: str = "application/json",
@@ -524,17 +508,14 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :param resource_provider_name: The resource provider name, such as - Microsoft.Compute.
          Currently only Microsoft.Compute resource provider supports this API. Required.
         :type resource_provider_name: str
-        :param resource_name: Resource name. Required.
-        :type resource_name: str
         :param allocate_quota_request: Quota requests payload. Required.
         :type allocate_quota_request: ~azure.mgmt.quota.models.QuotaAllocationRequestStatus
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either QuotaAllocationRequestStatus or An
-         instance of LROPoller that returns either LROResponse or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.QuotaAllocationRequestStatus] or
-         ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.LROResponse]
+        :return: An instance of LROPoller that returns either QuotaAllocationRequestStatus or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.QuotaAllocationRequestStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -544,7 +525,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: IO[bytes],
         *,
         content_type: str = "application/json",
@@ -568,17 +548,14 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :param resource_provider_name: The resource provider name, such as - Microsoft.Compute.
          Currently only Microsoft.Compute resource provider supports this API. Required.
         :type resource_provider_name: str
-        :param resource_name: Resource name. Required.
-        :type resource_name: str
         :param allocate_quota_request: Quota requests payload. Required.
         :type allocate_quota_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either QuotaAllocationRequestStatus or An
-         instance of LROPoller that returns either LROResponse or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.QuotaAllocationRequestStatus] or
-         ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.LROResponse]
+        :return: An instance of LROPoller that returns either QuotaAllocationRequestStatus or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.QuotaAllocationRequestStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -588,7 +565,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: Union[_models.QuotaAllocationRequestStatus, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.QuotaAllocationRequestStatus]:
@@ -610,16 +586,13 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :param resource_provider_name: The resource provider name, such as - Microsoft.Compute.
          Currently only Microsoft.Compute resource provider supports this API. Required.
         :type resource_provider_name: str
-        :param resource_name: Resource name. Required.
-        :type resource_name: str
         :param allocate_quota_request: Quota requests payload. Is either a QuotaAllocationRequestStatus
          type or a IO[bytes] type. Required.
         :type allocate_quota_request: ~azure.mgmt.quota.models.QuotaAllocationRequestStatus or
          IO[bytes]
-        :return: An instance of LROPoller that returns either QuotaAllocationRequestStatus or An
-         instance of LROPoller that returns either LROResponse or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.QuotaAllocationRequestStatus] or
-         ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.LROResponse]
+        :return: An instance of LROPoller that returns either QuotaAllocationRequestStatus or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.quota.models.QuotaAllocationRequestStatus]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -636,7 +609,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
                 management_group_id=management_group_id,
                 group_quota_name=group_quota_name,
                 resource_provider_name=resource_provider_name,
-                resource_name=resource_name,
                 allocate_quota_request=allocate_quota_request,
                 api_version=api_version,
                 content_type=content_type,
@@ -645,10 +617,11 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response)
+            deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -677,11 +650,10 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: Union[_models.QuotaAllocationRequestStatus, IO[bytes]],
         **kwargs: Any
-    ) -> Optional[_models.QuotaAllocationRequestStatus]:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -694,7 +666,7 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.QuotaAllocationRequestStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -708,7 +680,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
             management_group_id=management_group_id,
             group_quota_name=group_quota_name,
             resource_provider_name=resource_provider_name,
-            resource_name=resource_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -717,10 +688,10 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -728,21 +699,23 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response)
-
         if response.status_code == 202:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Azure-AsyncOperation"] = self._deserialize(
                 "str", response.headers.get("Azure-AsyncOperation")
             )
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -755,7 +728,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: _models.QuotaAllocationRequestStatus,
         *,
         content_type: str = "application/json",
@@ -779,8 +751,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :param resource_provider_name: The resource provider name, such as - Microsoft.Compute.
          Currently only Microsoft.Compute resource provider supports this API. Required.
         :type resource_provider_name: str
-        :param resource_name: Resource name. Required.
-        :type resource_name: str
         :param allocate_quota_request: Quota requests payload. Required.
         :type allocate_quota_request: ~azure.mgmt.quota.models.QuotaAllocationRequestStatus
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -798,7 +768,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: IO[bytes],
         *,
         content_type: str = "application/json",
@@ -822,8 +791,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :param resource_provider_name: The resource provider name, such as - Microsoft.Compute.
          Currently only Microsoft.Compute resource provider supports this API. Required.
         :type resource_provider_name: str
-        :param resource_name: Resource name. Required.
-        :type resource_name: str
         :param allocate_quota_request: Quota requests payload. Required.
         :type allocate_quota_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
@@ -841,7 +808,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         management_group_id: str,
         group_quota_name: str,
         resource_provider_name: str,
-        resource_name: str,
         allocate_quota_request: Union[_models.QuotaAllocationRequestStatus, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.QuotaAllocationRequestStatus]:
@@ -863,8 +829,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
         :param resource_provider_name: The resource provider name, such as - Microsoft.Compute.
          Currently only Microsoft.Compute resource provider supports this API. Required.
         :type resource_provider_name: str
-        :param resource_name: Resource name. Required.
-        :type resource_name: str
         :param allocate_quota_request: Quota requests payload. Is either a QuotaAllocationRequestStatus
          type or a IO[bytes] type. Required.
         :type allocate_quota_request: ~azure.mgmt.quota.models.QuotaAllocationRequestStatus or
@@ -888,7 +852,6 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
                 management_group_id=management_group_id,
                 group_quota_name=group_quota_name,
                 resource_provider_name=resource_provider_name,
-                resource_name=resource_name,
                 allocate_quota_request=allocate_quota_request,
                 api_version=api_version,
                 content_type=content_type,
@@ -897,10 +860,11 @@ class GroupQuotaSubscriptionAllocationRequestOperations:  # pylint: disable=name
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response)
+            deserialized = self._deserialize("QuotaAllocationRequestStatus", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized

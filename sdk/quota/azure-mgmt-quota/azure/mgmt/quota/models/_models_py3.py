@@ -742,6 +742,8 @@ class GroupQuotaRequestBaseProperties(_serialization.Model):
     :vartype name: ~azure.mgmt.quota.models.GroupQuotaRequestBasePropertiesName
     :ivar region: Location/Azure region for the quota requested for resource.
     :vartype region: str
+    :ivar resource_name: The resource name, such as SKU name.
+    :vartype resource_name: str
     :ivar comments: GroupQuota Request comments and details for request. This is optional paramter
      to provide more details related to the requested resource.
     :vartype comments: str
@@ -755,6 +757,7 @@ class GroupQuotaRequestBaseProperties(_serialization.Model):
         "limit": {"key": "limit", "type": "int"},
         "name": {"key": "name", "type": "GroupQuotaRequestBasePropertiesName"},
         "region": {"key": "region", "type": "str"},
+        "resource_name": {"key": "resourceName", "type": "str"},
         "comments": {"key": "comments", "type": "str"},
     }
 
@@ -763,6 +766,7 @@ class GroupQuotaRequestBaseProperties(_serialization.Model):
         *,
         limit: Optional[int] = None,
         region: Optional[str] = None,
+        resource_name: Optional[str] = None,
         comments: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -772,6 +776,8 @@ class GroupQuotaRequestBaseProperties(_serialization.Model):
         :paramtype limit: int
         :keyword region: Location/Azure region for the quota requested for resource.
         :paramtype region: str
+        :keyword resource_name: The resource name, such as SKU name.
+        :paramtype resource_name: str
         :keyword comments: GroupQuota Request comments and details for request. This is optional
          paramter to provide more details related to the requested resource.
         :paramtype comments: str
@@ -780,6 +786,7 @@ class GroupQuotaRequestBaseProperties(_serialization.Model):
         self.limit = limit
         self.name = None
         self.region = region
+        self.resource_name = resource_name
         self.comments = comments
 
 
@@ -1720,6 +1727,8 @@ class QuotaAllocationRequestBaseProperties(_serialization.Model):
     :vartype name: ~azure.mgmt.quota.models.QuotaAllocationRequestBasePropertiesName
     :ivar region: The location for which the subscription is allocated.
     :vartype region: str
+    :ivar resource_name: The resource name, such as SKU name.
+    :vartype resource_name: str
     """
 
     _validation = {
@@ -1730,20 +1739,31 @@ class QuotaAllocationRequestBaseProperties(_serialization.Model):
         "limit": {"key": "limit", "type": "int"},
         "name": {"key": "name", "type": "QuotaAllocationRequestBasePropertiesName"},
         "region": {"key": "region", "type": "str"},
+        "resource_name": {"key": "resourceName", "type": "str"},
     }
 
-    def __init__(self, *, limit: Optional[int] = None, region: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+        region: Optional[str] = None,
+        resource_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword limit: The new quota limit for the subscription. The incremental quota will be
          allocated from pre-approved group quota.
         :paramtype limit: int
         :keyword region: The location for which the subscription is allocated.
         :paramtype region: str
+        :keyword resource_name: The resource name, such as SKU name.
+        :paramtype resource_name: str
         """
         super().__init__(**kwargs)
         self.limit = limit
         self.name = None
         self.region = region
+        self.resource_name = resource_name
 
 
 class QuotaAllocationRequestBasePropertiesName(_serialization.Model):
@@ -1980,7 +2000,7 @@ class QuotaProperties(_serialization.Model):
     :vartype resource_type: str
     :ivar quota_period: The time period over which the quota usage values are summarized. For
      example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because, for some resources like compute, the period is irrelevant.
     :vartype quota_period: str
@@ -2137,7 +2157,7 @@ class QuotaRequestOneResourceProperties(_serialization.Model):  # pylint: disabl
     :vartype resource_type: str
     :ivar quota_period: The time period over which the quota usage values are summarized. For
      example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because, for some resources like compute, the period is irrelevant.
     :vartype quota_period: str
@@ -2333,7 +2353,7 @@ class QuotaRequestStatusDetails(_serialization.Model):
     :vartype resource_type: str
     :ivar quota_period: The time period over which the quota usage values are summarized. For
      example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because, for some resources like compute, the period is irrelevant.
     :vartype quota_period: str
@@ -3259,7 +3279,7 @@ class UsagesProperties(_serialization.Model):
     :ivar resource_type: The name of the resource type. Optional field.
     :vartype resource_type: str
     :ivar quota_period: The time period for the summary of the quota usage values. For example:
-     *P1D (per one day)*\ PT1M (per one minute)
+     *P1D (per one day)*\\ PT1M (per one minute)
      *PT1S (per one second).
      This parameter is optional because it is not relevant for all resources such as compute.
     :vartype quota_period: str
