@@ -15,7 +15,7 @@ from azure.mgmt.deviceregistry import DeviceRegistryMgmtClient
     pip install azure-identity
     pip install azure-mgmt-deviceregistry
 # USAGE
-    python create_asset_without_external_asset_id.py
+    python create_asset_with_discovered_asset_ref.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -66,6 +66,7 @@ def main():
                 "defaultEventsConfiguration": '{"publishingInterval":10,"samplingInterval":15,"queueSize":20}',
                 "defaultTopic": {"path": "/path/defaultTopic", "retain": "Keep"},
                 "description": "This is a sample Asset",
+                "discoveredAssetRefs": ["discoveredAsset1", "discoveredAsset2"],
                 "displayName": "AssetDisplayName",
                 "documentationUri": "https://www.example.com/manual",
                 "enabled": True,
@@ -84,6 +85,7 @@ def main():
                         "observabilityMode": "Log",
                     },
                 ],
+                "externalAssetId": "8ZBA6LRHU0A458969",
                 "hardwareRevision": "1.0",
                 "manufacturer": "Contoso",
                 "manufacturerUri": "https://www.contoso.com/manufacturerUri",
@@ -98,6 +100,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/stable/2024-11-01/examples/Create_Asset_Without_ExternalAssetId.json
+# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/stable/2024-11-01/examples/Create_Asset_With_DiscoveredAssetRef.json
 if __name__ == "__main__":
     main()
