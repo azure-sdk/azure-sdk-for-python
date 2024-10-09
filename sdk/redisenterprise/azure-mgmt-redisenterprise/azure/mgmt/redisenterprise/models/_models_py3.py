@@ -554,12 +554,6 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar geo_replication: Optional set of properties to configure geo replication for this
      database.
     :vartype geo_replication: ~azure.mgmt.redisenterprise.models.DatabasePropertiesGeoReplication
-    :ivar redis_version: Version of Redis the database is running on, e.g. '6.0'.
-    :vartype redis_version: str
-    :ivar defer_upgrade: Option to defer upgrade when newest version is released - default is
-     NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
-     "NotDeferred".
-    :vartype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
     """
 
     _validation = {
@@ -568,7 +562,6 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "resource_state": {"readonly": True},
-        "redis_version": {"readonly": True},
     }
 
     _attribute_map = {
@@ -584,8 +577,6 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "persistence": {"key": "properties.persistence", "type": "Persistence"},
         "modules": {"key": "properties.modules", "type": "[Module]"},
         "geo_replication": {"key": "properties.geoReplication", "type": "DatabasePropertiesGeoReplication"},
-        "redis_version": {"key": "properties.redisVersion", "type": "str"},
-        "defer_upgrade": {"key": "properties.deferUpgrade", "type": "str"},
     }
 
     def __init__(
@@ -598,7 +589,6 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         persistence: Optional["_models.Persistence"] = None,
         modules: Optional[List["_models.Module"]] = None,
         geo_replication: Optional["_models.DatabasePropertiesGeoReplication"] = None,
-        defer_upgrade: Optional[Union[str, "_models.DeferUpgradeSetting"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -624,10 +614,6 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         :keyword geo_replication: Optional set of properties to configure geo replication for this
          database.
         :paramtype geo_replication: ~azure.mgmt.redisenterprise.models.DatabasePropertiesGeoReplication
-        :keyword defer_upgrade: Option to defer upgrade when newest version is released - default is
-         NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
-         "NotDeferred".
-        :paramtype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
         """
         super().__init__(**kwargs)
         self.client_protocol = client_protocol
@@ -639,8 +625,6 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
         self.persistence = persistence
         self.modules = modules
         self.geo_replication = geo_replication
-        self.redis_version = None
-        self.defer_upgrade = defer_upgrade
 
 
 class DatabaseList(_serialization.Model):
@@ -705,7 +689,7 @@ class DatabasePropertiesGeoReplication(_serialization.Model):
         self.linked_databases = linked_databases
 
 
-class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DatabaseUpdate(_serialization.Model):
     """A partial update to the RedisEnterprise database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -739,18 +723,11 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
     :ivar geo_replication: Optional set of properties to configure geo replication for this
      database.
     :vartype geo_replication: ~azure.mgmt.redisenterprise.models.DatabasePropertiesGeoReplication
-    :ivar redis_version: Version of Redis the database is running on, e.g. '6.0'.
-    :vartype redis_version: str
-    :ivar defer_upgrade: Option to defer upgrade when newest version is released - default is
-     NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
-     "NotDeferred".
-    :vartype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
     """
 
     _validation = {
         "provisioning_state": {"readonly": True},
         "resource_state": {"readonly": True},
-        "redis_version": {"readonly": True},
     }
 
     _attribute_map = {
@@ -763,8 +740,6 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         "persistence": {"key": "properties.persistence", "type": "Persistence"},
         "modules": {"key": "properties.modules", "type": "[Module]"},
         "geo_replication": {"key": "properties.geoReplication", "type": "DatabasePropertiesGeoReplication"},
-        "redis_version": {"key": "properties.redisVersion", "type": "str"},
-        "defer_upgrade": {"key": "properties.deferUpgrade", "type": "str"},
     }
 
     def __init__(
@@ -777,7 +752,6 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         persistence: Optional["_models.Persistence"] = None,
         modules: Optional[List["_models.Module"]] = None,
         geo_replication: Optional["_models.DatabasePropertiesGeoReplication"] = None,
-        defer_upgrade: Optional[Union[str, "_models.DeferUpgradeSetting"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -803,10 +777,6 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         :keyword geo_replication: Optional set of properties to configure geo replication for this
          database.
         :paramtype geo_replication: ~azure.mgmt.redisenterprise.models.DatabasePropertiesGeoReplication
-        :keyword defer_upgrade: Option to defer upgrade when newest version is released - default is
-         NotDeferred. Learn more:  https://aka.ms/redisversionupgrade. Known values are: "Deferred" and
-         "NotDeferred".
-        :paramtype defer_upgrade: str or ~azure.mgmt.redisenterprise.models.DeferUpgradeSetting
         """
         super().__init__(**kwargs)
         self.client_protocol = client_protocol
@@ -818,8 +788,6 @@ class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance
         self.persistence = persistence
         self.modules = modules
         self.geo_replication = geo_replication
-        self.redis_version = None
-        self.defer_upgrade = defer_upgrade
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -893,6 +861,49 @@ class ErrorDetail(_serialization.Model):
         self.additional_info = None
 
 
+class ErrorDetailAutoGenerated(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.redisenterprise.models.ErrorDetailAutoGenerated]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.redisenterprise.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetailAutoGenerated]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
 class ErrorResponse(_serialization.Model):
     """Common error response for all Azure Resource Manager APIs to return error details for failed
     operations. (This also follows the OData error response format.).
@@ -909,6 +920,27 @@ class ErrorResponse(_serialization.Model):
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.redisenterprise.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
+class ErrorResponseAutoGenerated(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.redisenterprise.models.ErrorDetailAutoGenerated
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetailAutoGenerated"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetailAutoGenerated"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.redisenterprise.models.ErrorDetailAutoGenerated
         """
         super().__init__(**kwargs)
         self.error = error
@@ -1678,9 +1710,9 @@ class Sku(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-     EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E5", "Enterprise_E10",
-     "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300",
-     "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
+     EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E1", "Enterprise_E5",
+     "Enterprise_E10", "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "Enterprise_E200",
+     "Enterprise_E400", "EnterpriseFlash_F300", "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
     :vartype name: str or ~azure.mgmt.redisenterprise.models.SkuName
     :ivar capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU.
      Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
@@ -1699,9 +1731,9 @@ class Sku(_serialization.Model):
     def __init__(self, *, name: Union[str, "_models.SkuName"], capacity: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-         EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E5", "Enterprise_E10",
-         "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300",
-         "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
+         EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E1", "Enterprise_E5",
+         "Enterprise_E10", "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "Enterprise_E200",
+         "Enterprise_E400", "EnterpriseFlash_F300", "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
         :paramtype name: str or ~azure.mgmt.redisenterprise.models.SkuName
         :keyword capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on
          SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
