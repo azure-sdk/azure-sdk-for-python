@@ -131,7 +131,7 @@ class ErrorResponse(_serialization.Model):
 class LocalizableString(_serialization.Model):
     """The localizable string class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the invariant value. Required.
     :vartype value: str
@@ -230,7 +230,7 @@ class MetadataValue(_serialization.Model):
 class Metric(_serialization.Model):
     """The result data of a query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: the metric Id. Required.
     :vartype id: str
@@ -485,7 +485,7 @@ class MetricDefinition(_serialization.Model):  # pylint: disable=too-many-instan
 class MetricDefinitionCollection(_serialization.Model):
     """Represents collection of metric definitions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values for the metric definitions. Required.
     :vartype value: list[~azure.mgmt.monitor.v2021_05_01.models.MetricDefinition]
@@ -518,7 +518,7 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
     :ivar display_description: Display description of the metric.
     :vartype display_description: str
     :ivar unit: The metric unit. Possible values include:
-     Count,Bytes,Seconds,Percent,CountPerSecond,BytesPerSecond,MilliSeconds,ByteSeconds,Unspecified,BitsPerSecond,Cores,MilliCores,NanoCores.
+     Count,Bytes,Seconds,Percent,CountPerSecond,BytesPerSecond,MilliSeconds,ByteSeconds,Unspecified,BitsPerSecond,Cores,MilliCores,NanoCores.  # pylint: disable=line-too-long
     :vartype unit: str
     :ivar aggregation_type: The default metric aggregation type. Possible values include:
      Total,Average,Maximum,Minimum,Count.
@@ -583,7 +583,7 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         :keyword display_description: Display description of the metric.
         :paramtype display_description: str
         :keyword unit: The metric unit. Possible values include:
-         Count,Bytes,Seconds,Percent,CountPerSecond,BytesPerSecond,MilliSeconds,ByteSeconds,Unspecified,BitsPerSecond,Cores,MilliCores,NanoCores.
+         Count,Bytes,Seconds,Percent,CountPerSecond,BytesPerSecond,MilliSeconds,ByteSeconds,Unspecified,BitsPerSecond,Cores,MilliCores,NanoCores.  # pylint: disable=line-too-long
         :paramtype unit: str
         :keyword aggregation_type: The default metric aggregation type. Possible values include:
          Total,Average,Maximum,Minimum,Count.
@@ -624,7 +624,7 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
 class MetricValue(_serialization.Model):
     """Represents a metric value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
@@ -820,7 +820,7 @@ class OperationListResult(_serialization.Model):
 class Response(_serialization.Model):
     """The response to a metrics query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar cost: The integer value representing the relative cost of the query.
     :vartype cost: int
@@ -939,7 +939,7 @@ class ServiceSpecification(_serialization.Model):
 class SubscriptionScopeMetric(_serialization.Model):
     """The result data of a query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: the metric Id. Required.
     :vartype id: str
@@ -1154,10 +1154,10 @@ class SubscriptionScopeMetricDefinition(_serialization.Model):  # pylint: disabl
         self.dimensions = dimensions
 
 
-class SubscriptionScopeMetricDefinitionCollection(_serialization.Model):
+class SubscriptionScopeMetricDefinitionCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents collection of metric definitions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The values for the metric definitions. Required.
     :vartype value: list[~azure.mgmt.monitor.v2021_05_01.models.SubscriptionScopeMetricDefinition]
@@ -1184,7 +1184,7 @@ class SubscriptionScopeMetricDefinitionCollection(_serialization.Model):
 class SubscriptionScopeMetricResponse(_serialization.Model):
     """The response to a subscription scope metrics query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar cost: The integer value representing the relative cost of the query.
     :vartype cost: int
@@ -1259,7 +1259,7 @@ class SubscriptionScopeMetricResponse(_serialization.Model):
 
 class SubscriptionScopeMetricsRequestBodyParameters(
     _serialization.Model
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """Query parameters can also be specified in the body, specifying the same parameter in both the
     body and query parameters will result in an error.
 
@@ -1274,13 +1274,13 @@ class SubscriptionScopeMetricsRequestBodyParameters(
     :vartype aggregation: str
     :ivar filter: The **$filter** is used to reduce the set of metric data
      returned.:code:`<br>`Example::code:`<br>`Metric contains metadata A, B and C.:code:`<br>`-
-     Return all time series of C where A = a1 and B = b1 or b2:code:`<br>`\ **$filter=A eq ‘a1’ and
-     B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**\ :code:`<br>`- Invalid variant::code:`<br>`\ **$filter=A
-     eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**\ :code:`<br>`This is invalid because the
-     logical or operator cannot separate two different metadata names.:code:`<br>`- Return all time
-     series where A = a1, B = b1 and C = c1::code:`<br>`\ **$filter=A eq ‘a1’ and B eq ‘b1’ and C eq
-     ‘c1’**\ :code:`<br>`- Return all time series where A = a1:code:`<br>`\ **$filter=A eq ‘a1’ and
-     B eq ‘\ *’ and C eq ‘*\ ’**.
+     Return all time series of C where A = a1 and B = b1 or b2:code:`<br>`\\ **$filter=A eq ‘a1’ and
+     B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**\\ :code:`<br>`- Invalid variant::code:`<br>`\\
+     **$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**\\ :code:`<br>`This is invalid
+     because the logical or operator cannot separate two different metadata names.:code:`<br>`-
+     Return all time series where A = a1, B = b1 and C = c1::code:`<br>`\\ **$filter=A eq ‘a1’ and B
+     eq ‘b1’ and C eq ‘c1’**\\ :code:`<br>`- Return all time series where A = a1:code:`<br>`\\
+     **$filter=A eq ‘a1’ and B eq ‘\\ *’ and C eq ‘*\\ ’**.
     :vartype filter: str
     :ivar top: The maximum number of records to retrieve.
      Valid only if $filter is specified.
@@ -1354,13 +1354,13 @@ class SubscriptionScopeMetricsRequestBodyParameters(
         :paramtype aggregation: str
         :keyword filter: The **$filter** is used to reduce the set of metric data
          returned.:code:`<br>`Example::code:`<br>`Metric contains metadata A, B and C.:code:`<br>`-
-         Return all time series of C where A = a1 and B = b1 or b2:code:`<br>`\ **$filter=A eq ‘a1’ and
-         B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**\ :code:`<br>`- Invalid variant::code:`<br>`\ **$filter=A
-         eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**\ :code:`<br>`This is invalid because the
-         logical or operator cannot separate two different metadata names.:code:`<br>`- Return all time
-         series where A = a1, B = b1 and C = c1::code:`<br>`\ **$filter=A eq ‘a1’ and B eq ‘b1’ and C eq
-         ‘c1’**\ :code:`<br>`- Return all time series where A = a1:code:`<br>`\ **$filter=A eq ‘a1’ and
-         B eq ‘\ *’ and C eq ‘*\ ’**.
+         Return all time series of C where A = a1 and B = b1 or b2:code:`<br>`\\ **$filter=A eq ‘a1’ and
+         B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**\\ :code:`<br>`- Invalid variant::code:`<br>`\\
+         **$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**\\ :code:`<br>`This is invalid
+         because the logical or operator cannot separate two different metadata names.:code:`<br>`-
+         Return all time series where A = a1, B = b1 and C = c1::code:`<br>`\\ **$filter=A eq ‘a1’ and B
+         eq ‘b1’ and C eq ‘c1’**\\ :code:`<br>`- Return all time series where A = a1:code:`<br>`\\
+         **$filter=A eq ‘a1’ and B eq ‘\\ *’ and C eq ‘*\\ ’**.
         :paramtype filter: str
         :keyword top: The maximum number of records to retrieve.
          Valid only if $filter is specified.
