@@ -15,7 +15,7 @@ from azure.mgmt.astro import AstroMgmtClient
     pip install azure-identity
     pip install azure-mgmt-astro
 # USAGE
-    python organizations_get_maximum_set_gen.py
+    python organizations_list_by_subscription_minimum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,11 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.organizations.get(
-        resource_group_name="rgastronomer",
-        organization_name="U.1-:7",
-    )
-    print(response)
+    response = client.organizations.list_by_subscription()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: 2024-08-27/Organizations_Get_MaximumSet_Gen.json
+# x-ms-original-file: 2024-08-27/Organizations_ListBySubscription_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
