@@ -1,4 +1,4 @@
 directory: specification/healthdataaiservices/HealthDataAIServices.Management
-commit: cac34a4eb170a1fb08635573362a8923f106421d
+commit: 14461e95dbf9f9e1043d1bc0377b88af6ade1dfc
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
