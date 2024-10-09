@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar, Union
+from typing import Any, AsyncIterable, Callable, Dict, Literal, Optional, Type, TypeVar, Union
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -19,14 +19,12 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._policy_events_operations import (
     build_list_query_results_for_management_group_request,
     build_list_query_results_for_policy_definition_request,
@@ -39,10 +37,10 @@ from ...operations._policy_events_operations import (
     build_next_link_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -83,11 +81,6 @@ class PolicyEventsOperations:
         :type management_group_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword management_groups_namespace: The namespace for Microsoft Management RP; only
-         "Microsoft.Management" is allowed. Default value is "Microsoft.Management". Note that
-         overriding this default value may result in unsupported behavior.
-        :paramtype management_groups_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -98,10 +91,10 @@ class PolicyEventsOperations:
         management_groups_namespace: Literal["Microsoft.Management"] = kwargs.pop(
             "management_groups_namespace", "Microsoft.Management"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -129,7 +122,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_management_group_request(
+                _request = build_list_query_results_for_management_group_request(
                     policy_events_resource=policy_events_resource,
                     management_group_name=management_group_name,
                     top=_top,
@@ -142,12 +135,10 @@ class PolicyEventsOperations:
                     skip_token=_skip_token,
                     management_groups_namespace=management_groups_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_management_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -168,18 +159,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -189,10 +178,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -204,10 +194,6 @@ class PolicyEventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_management_group.metadata = {
-        "url": "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
 
     @distributed_trace
     def list_query_results_for_subscription(
@@ -226,7 +212,6 @@ class PolicyEventsOperations:
         :type subscription_id: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -234,10 +219,10 @@ class PolicyEventsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -265,7 +250,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_subscription_request(
+                _request = build_list_query_results_for_subscription_request(
                     policy_events_resource=policy_events_resource,
                     subscription_id=subscription_id,
                     top=_top,
@@ -277,12 +262,10 @@ class PolicyEventsOperations:
                     apply=_apply,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -303,18 +286,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -324,10 +305,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -339,10 +321,6 @@ class PolicyEventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
 
     @distributed_trace
     def list_query_results_for_resource_group(
@@ -364,7 +342,6 @@ class PolicyEventsOperations:
         :type resource_group_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -372,10 +349,10 @@ class PolicyEventsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -403,7 +380,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_resource_group_request(
+                _request = build_list_query_results_for_resource_group_request(
                     policy_events_resource=policy_events_resource,
                     subscription_id=subscription_id,
                     resource_group_name=resource_group_name,
@@ -416,12 +393,10 @@ class PolicyEventsOperations:
                     apply=_apply,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -442,18 +417,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -463,10 +436,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -478,10 +452,6 @@ class PolicyEventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
 
     @distributed_trace
     def list_query_results_for_resource(
@@ -500,7 +470,6 @@ class PolicyEventsOperations:
         :type resource_id: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -508,10 +477,10 @@ class PolicyEventsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -541,7 +510,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_resource_request(
+                _request = build_list_query_results_for_resource_request(
                     policy_events_resource=policy_events_resource,
                     resource_id=resource_id,
                     top=_top,
@@ -554,12 +523,10 @@ class PolicyEventsOperations:
                     expand=_expand,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_resource.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -582,18 +549,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -603,10 +568,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -619,12 +585,8 @@ class PolicyEventsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_query_results_for_resource.metadata = {
-        "url": "/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
-
     @distributed_trace
-    def list_query_results_for_policy_set_definition(
+    def list_query_results_for_policy_set_definition(  # pylint: disable=name-too-long
         self,
         policy_events_resource: Union[str, _models.PolicyEventsResourceType],
         subscription_id: str,
@@ -643,11 +605,6 @@ class PolicyEventsOperations:
         :type policy_set_definition_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -658,10 +615,10 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -689,7 +646,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_policy_set_definition_request(
+                _request = build_list_query_results_for_policy_set_definition_request(
                     policy_events_resource=policy_events_resource,
                     subscription_id=subscription_id,
                     policy_set_definition_name=policy_set_definition_name,
@@ -703,12 +660,10 @@ class PolicyEventsOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_policy_set_definition.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -729,18 +684,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -750,10 +703,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -765,10 +719,6 @@ class PolicyEventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_policy_set_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
 
     @distributed_trace
     def list_query_results_for_policy_definition(
@@ -790,11 +740,6 @@ class PolicyEventsOperations:
         :type policy_definition_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -805,10 +750,10 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -836,7 +781,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_policy_definition_request(
+                _request = build_list_query_results_for_policy_definition_request(
                     policy_events_resource=policy_events_resource,
                     subscription_id=subscription_id,
                     policy_definition_name=policy_definition_name,
@@ -850,12 +795,10 @@ class PolicyEventsOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_policy_definition.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -876,18 +819,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -897,10 +838,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -913,12 +855,8 @@ class PolicyEventsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_query_results_for_policy_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
-
     @distributed_trace
-    def list_query_results_for_subscription_level_policy_assignment(
+    def list_query_results_for_subscription_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         policy_events_resource: Union[str, _models.PolicyEventsResourceType],
         subscription_id: str,
@@ -937,11 +875,6 @@ class PolicyEventsOperations:
         :type policy_assignment_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -952,10 +885,10 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -983,7 +916,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_subscription_level_policy_assignment_request(
+                _request = build_list_query_results_for_subscription_level_policy_assignment_request(
                     policy_events_resource=policy_events_resource,
                     subscription_id=subscription_id,
                     policy_assignment_name=policy_assignment_name,
@@ -997,12 +930,10 @@ class PolicyEventsOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_subscription_level_policy_assignment.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -1023,18 +954,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -1044,10 +973,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1060,12 +990,8 @@ class PolicyEventsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_query_results_for_subscription_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }
-
     @distributed_trace
-    def list_query_results_for_resource_group_level_policy_assignment(
+    def list_query_results_for_resource_group_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         policy_events_resource: Union[str, _models.PolicyEventsResourceType],
         subscription_id: str,
@@ -1087,11 +1013,6 @@ class PolicyEventsOperations:
         :type policy_assignment_name: str
         :param query_options: Parameter group. Default value is None.
         :type query_options: ~azure.mgmt.policyinsights.models.QueryOptions
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PolicyEvent or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.policyinsights.models.PolicyEvent]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1102,10 +1023,10 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1133,7 +1054,7 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_list_query_results_for_resource_group_level_policy_assignment_request(
+                _request = build_list_query_results_for_resource_group_level_policy_assignment_request(
                     policy_events_resource=policy_events_resource,
                     subscription_id=subscription_id,
                     resource_group_name=resource_group_name,
@@ -1148,12 +1069,10 @@ class PolicyEventsOperations:
                     skip_token=_skip_token,
                     authorization_namespace=authorization_namespace,
                     api_version=api_version,
-                    template_url=self.list_query_results_for_resource_group_level_policy_assignment.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 _top = None
@@ -1174,18 +1093,16 @@ class PolicyEventsOperations:
                     _to = query_options.to
                     _top = query_options.top
 
-                request = build_next_link_request(
+                _request = build_next_link_request(
                     next_link=next_link,
                     skip_token=_skip_token,
                     api_version=api_version,
-                    template_url="{nextLink}",
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
-            return request
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("PolicyEventsQueryResults", pipeline_response)
@@ -1195,10 +1112,11 @@ class PolicyEventsOperations:
             return deserialized.odata_next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1210,7 +1128,3 @@ class PolicyEventsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_query_results_for_resource_group_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults"
-    }

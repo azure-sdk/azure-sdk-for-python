@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 import datetime
 import sys
-from typing import Any, Callable, Dict, Optional, TypeVar, Union
+from typing import Any, Callable, Dict, Literal, Optional, Type, TypeVar, Union
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -19,20 +19,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -40,7 +38,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_list_query_results_for_subscription_request(
+def build_list_query_results_for_subscription_request(  # pylint: disable=name-too-long
     subscription_id: str,
     component_policy_states_resource: Union[str, _models.ComponentPolicyStatesResource],
     *,
@@ -56,7 +54,7 @@ def build_list_query_results_for_subscription_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +69,7 @@ def build_list_query_results_for_subscription_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -96,7 +94,7 @@ def build_list_query_results_for_subscription_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_query_results_for_resource_group_request(
+def build_list_query_results_for_resource_group_request(  # pylint: disable=name-too-long
     subscription_id: str,
     resource_group_name: str,
     component_policy_states_resource: Union[str, _models.ComponentPolicyStatesResource],
@@ -113,7 +111,7 @@ def build_list_query_results_for_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -129,7 +127,7 @@ def build_list_query_results_for_resource_group_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -154,7 +152,7 @@ def build_list_query_results_for_resource_group_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_query_results_for_resource_request(
+def build_list_query_results_for_resource_request(  # pylint: disable=name-too-long
     resource_id: str,
     component_policy_states_resource: Union[str, _models.ComponentPolicyStatesResource],
     *,
@@ -171,7 +169,7 @@ def build_list_query_results_for_resource_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -186,7 +184,7 @@ def build_list_query_results_for_resource_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -213,7 +211,7 @@ def build_list_query_results_for_resource_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_query_results_for_policy_definition_request(
+def build_list_query_results_for_policy_definition_request(  # pylint: disable=name-too-long
     subscription_id: str,
     policy_definition_name: str,
     component_policy_states_resource: Union[str, _models.ComponentPolicyStatesResource],
@@ -233,7 +231,7 @@ def build_list_query_results_for_policy_definition_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -257,7 +255,7 @@ def build_list_query_results_for_policy_definition_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -282,7 +280,7 @@ def build_list_query_results_for_policy_definition_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_query_results_for_subscription_level_policy_assignment_request(
+def build_list_query_results_for_subscription_level_policy_assignment_request(  # pylint: disable=name-too-long
     subscription_id: str,
     policy_assignment_name: str,
     component_policy_states_resource: Union[str, _models.ComponentPolicyStatesResource],
@@ -302,7 +300,7 @@ def build_list_query_results_for_subscription_level_policy_assignment_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -326,7 +324,7 @@ def build_list_query_results_for_subscription_level_policy_assignment_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -351,7 +349,7 @@ def build_list_query_results_for_subscription_level_policy_assignment_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_query_results_for_resource_group_level_policy_assignment_request(
+def build_list_query_results_for_resource_group_level_policy_assignment_request(  # pylint: disable=name-too-long
     subscription_id: str,
     resource_group_name: str,
     policy_assignment_name: str,
@@ -372,7 +370,7 @@ def build_list_query_results_for_resource_group_level_policy_assignment_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -397,7 +395,7 @@ def build_list_query_results_for_resource_group_level_policy_assignment_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -483,12 +481,11 @@ class ComponentPolicyStatesOperations:
         :type filter: str
         :param apply: OData apply expression for aggregations. Default value is None.
         :type apply: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ComponentPolicyStatesQueryResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.ComponentPolicyStatesQueryResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -499,10 +496,10 @@ class ComponentPolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        request = build_list_query_results_for_subscription_request(
+        _request = build_list_query_results_for_subscription_request(
             subscription_id=subscription_id,
             component_policy_states_resource=component_policy_states_resource,
             top=top,
@@ -513,15 +510,14 @@ class ComponentPolicyStatesOperations:
             filter=filter,
             apply=apply,
             api_version=api_version,
-            template_url=self.list_query_results_for_subscription.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -531,16 +527,12 @@ class ComponentPolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response)
+        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_query_results_for_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_resource_group(
@@ -587,12 +579,11 @@ class ComponentPolicyStatesOperations:
         :type filter: str
         :param apply: OData apply expression for aggregations. Default value is None.
         :type apply: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ComponentPolicyStatesQueryResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.ComponentPolicyStatesQueryResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -603,10 +594,10 @@ class ComponentPolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        request = build_list_query_results_for_resource_group_request(
+        _request = build_list_query_results_for_resource_group_request(
             subscription_id=subscription_id,
             resource_group_name=resource_group_name,
             component_policy_states_resource=component_policy_states_resource,
@@ -618,15 +609,14 @@ class ComponentPolicyStatesOperations:
             filter=filter,
             apply=apply,
             api_version=api_version,
-            template_url=self.list_query_results_for_resource_group.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -636,16 +626,12 @@ class ComponentPolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response)
+        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_query_results_for_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_resource(
@@ -692,12 +678,11 @@ class ComponentPolicyStatesOperations:
         :type apply: str
         :param expand: The $expand query parameter. Default value is None.
         :type expand: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ComponentPolicyStatesQueryResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.ComponentPolicyStatesQueryResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -708,10 +693,10 @@ class ComponentPolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        request = build_list_query_results_for_resource_request(
+        _request = build_list_query_results_for_resource_request(
             resource_id=resource_id,
             component_policy_states_resource=component_policy_states_resource,
             top=top,
@@ -723,15 +708,14 @@ class ComponentPolicyStatesOperations:
             apply=apply,
             expand=expand,
             api_version=api_version,
-            template_url=self.list_query_results_for_resource.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -741,16 +725,12 @@ class ComponentPolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response)
+        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_query_results_for_resource.metadata = {
-        "url": "/{resourceId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_query_results_for_policy_definition(
@@ -797,16 +777,11 @@ class ComponentPolicyStatesOperations:
         :type filter: str
         :param apply: OData apply expression for aggregations. Default value is None.
         :type apply: str
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ComponentPolicyStatesQueryResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.ComponentPolicyStatesQueryResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -820,10 +795,10 @@ class ComponentPolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        request = build_list_query_results_for_policy_definition_request(
+        _request = build_list_query_results_for_policy_definition_request(
             subscription_id=subscription_id,
             policy_definition_name=policy_definition_name,
             component_policy_states_resource=component_policy_states_resource,
@@ -836,15 +811,14 @@ class ComponentPolicyStatesOperations:
             apply=apply,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.list_query_results_for_policy_definition.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -854,19 +828,15 @@ class ComponentPolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response)
+        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_query_results_for_policy_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def list_query_results_for_subscription_level_policy_assignment(
+    def list_query_results_for_subscription_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         subscription_id: str,
         policy_assignment_name: str,
@@ -910,16 +880,11 @@ class ComponentPolicyStatesOperations:
         :type filter: str
         :param apply: OData apply expression for aggregations. Default value is None.
         :type apply: str
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ComponentPolicyStatesQueryResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.ComponentPolicyStatesQueryResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -933,10 +898,10 @@ class ComponentPolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        request = build_list_query_results_for_subscription_level_policy_assignment_request(
+        _request = build_list_query_results_for_subscription_level_policy_assignment_request(
             subscription_id=subscription_id,
             policy_assignment_name=policy_assignment_name,
             component_policy_states_resource=component_policy_states_resource,
@@ -949,15 +914,14 @@ class ComponentPolicyStatesOperations:
             apply=apply,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.list_query_results_for_subscription_level_policy_assignment.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -967,19 +931,15 @@ class ComponentPolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response)
+        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_query_results_for_subscription_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def list_query_results_for_resource_group_level_policy_assignment(
+    def list_query_results_for_resource_group_level_policy_assignment(  # pylint: disable=name-too-long
         self,
         subscription_id: str,
         resource_group_name: str,
@@ -1026,16 +986,11 @@ class ComponentPolicyStatesOperations:
         :type filter: str
         :param apply: OData apply expression for aggregations. Default value is None.
         :type apply: str
-        :keyword authorization_namespace: The namespace for Microsoft Authorization resource provider;
-         only "Microsoft.Authorization" is allowed. Default value is "Microsoft.Authorization". Note
-         that overriding this default value may result in unsupported behavior.
-        :paramtype authorization_namespace: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ComponentPolicyStatesQueryResults or the result of cls(response)
         :rtype: ~azure.mgmt.policyinsights.models.ComponentPolicyStatesQueryResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1049,10 +1004,10 @@ class ComponentPolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
-        request = build_list_query_results_for_resource_group_level_policy_assignment_request(
+        _request = build_list_query_results_for_resource_group_level_policy_assignment_request(
             subscription_id=subscription_id,
             resource_group_name=resource_group_name,
             policy_assignment_name=policy_assignment_name,
@@ -1066,15 +1021,14 @@ class ComponentPolicyStatesOperations:
             apply=apply,
             authorization_namespace=authorization_namespace,
             api_version=api_version,
-            template_url=self.list_query_results_for_resource_group_level_policy_assignment.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1084,13 +1038,9 @@ class ComponentPolicyStatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response)
+        deserialized = self._deserialize("ComponentPolicyStatesQueryResults", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_query_results_for_resource_group_level_policy_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults"
-    }
+        return deserialized  # type: ignore
