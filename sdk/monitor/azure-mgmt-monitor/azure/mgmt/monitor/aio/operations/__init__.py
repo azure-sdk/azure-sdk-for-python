@@ -6,21 +6,18 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._client import MonitorManagementClient
-from ._version import VERSION
+from ._operations import Operations
+from ._operations import AzureMonitorWorkspacesOperations
+from ._operations import PipelineGroupsOperations
 
-__version__ = VERSION
-
-try:
-    from ._patch import __all__ as _patch_all
-    from ._patch import *  # pylint: disable=unused-wildcard-import
-except ImportError:
-    _patch_all = []
+from ._patch import __all__ as _patch_all
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "MonitorManagementClient",
+    "Operations",
+    "AzureMonitorWorkspacesOperations",
+    "PipelineGroupsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
-
 _patch_sdk()
