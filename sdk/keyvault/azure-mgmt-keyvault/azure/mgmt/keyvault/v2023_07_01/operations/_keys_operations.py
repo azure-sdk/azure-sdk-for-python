@@ -234,7 +234,7 @@ class KeysOperations:
     ) -> _models.Key:
         """Creates the first version of a new key if it does not exist. If it already exists, then the
         existing key is returned without any write operations being performed. This API does not create
-        subsequent versions, and does not update existing keys.
+        subsequent versions, and does not update existing keys. Test a trivial change.
 
         :param resource_group_name: The name of the resource group which contains the specified key
          vault. Required.
@@ -268,7 +268,7 @@ class KeysOperations:
     ) -> _models.Key:
         """Creates the first version of a new key if it does not exist. If it already exists, then the
         existing key is returned without any write operations being performed. This API does not create
-        subsequent versions, and does not update existing keys.
+        subsequent versions, and does not update existing keys. Test a trivial change.
 
         :param resource_group_name: The name of the resource group which contains the specified key
          vault. Required.
@@ -300,7 +300,7 @@ class KeysOperations:
     ) -> _models.Key:
         """Creates the first version of a new key if it does not exist. If it already exists, then the
         existing key is returned without any write operations being performed. This API does not create
-        subsequent versions, and does not update existing keys.
+        subsequent versions, and does not update existing keys. Test a trivial change.
 
         :param resource_group_name: The name of the resource group which contains the specified key
          vault. Required.
