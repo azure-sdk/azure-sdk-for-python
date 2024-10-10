@@ -1,0 +1,6 @@
+{
+  "commit": "69deffb3127a749733827ad735e09c1f1d55891d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/kubernetesruntime/KubernetesRuntime.Management",
+  "@azure-tools/typespec-python": "0.35.1"
+}
