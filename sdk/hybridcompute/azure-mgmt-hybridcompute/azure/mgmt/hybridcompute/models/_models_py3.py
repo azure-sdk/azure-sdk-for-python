@@ -121,9 +121,9 @@ class AgentUpgrade(_serialization.Model):
 
     :ivar desired_version: Specifies the version info w.r.t AgentUpgrade for the machine.
     :vartype desired_version: str
-    :ivar correlation_id: The correlation ID passed in from RSM per upgrade.
+    :ivar correlation_id: The correlation ID associated with an agent upgrade operation.
     :vartype correlation_id: str
-    :ivar enable_automatic_upgrade: Specifies if RSM should try to upgrade this machine.
+    :ivar enable_automatic_upgrade: Specifies if the machine's agent should be upgraded.
     :vartype enable_automatic_upgrade: bool
     :ivar last_attempt_desired_version: Specifies the version of the last attempt.
     :vartype last_attempt_desired_version: str
@@ -164,9 +164,9 @@ class AgentUpgrade(_serialization.Model):
         """
         :keyword desired_version: Specifies the version info w.r.t AgentUpgrade for the machine.
         :paramtype desired_version: str
-        :keyword correlation_id: The correlation ID passed in from RSM per upgrade.
+        :keyword correlation_id: The correlation ID associated with an agent upgrade operation.
         :paramtype correlation_id: str
-        :keyword enable_automatic_upgrade: Specifies if RSM should try to upgrade this machine.
+        :keyword enable_automatic_upgrade: Specifies if the machine's agent should be upgraded.
         :paramtype enable_automatic_upgrade: bool
         """
         super().__init__(**kwargs)
@@ -403,6 +403,73 @@ class ConnectionDetail(_serialization.Model):
         self.member_name = None
 
 
+class Disk(_serialization.Model):
+    """Describes a disk on the machine.
+
+    :ivar path: The path of the disk.
+    :vartype path: str
+    :ivar disk_type: The type of the disk.
+    :vartype disk_type: str
+    :ivar generated_id: The generated ID of the disk.
+    :vartype generated_id: str
+    :ivar id: The ID of the disk.
+    :vartype id: str
+    :ivar name: The name of the disk.
+    :vartype name: str
+    :ivar max_size_in_bytes: The size of the disk, in bytes.
+    :vartype max_size_in_bytes: int
+    :ivar used_space_in_bytes: The amount of space used on the disk, in bytes.
+    :vartype used_space_in_bytes: int
+    """
+
+    _attribute_map = {
+        "path": {"key": "path", "type": "str"},
+        "disk_type": {"key": "diskType", "type": "str"},
+        "generated_id": {"key": "generatedId", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "max_size_in_bytes": {"key": "maxSizeInBytes", "type": "int"},
+        "used_space_in_bytes": {"key": "usedSpaceInBytes", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        path: Optional[str] = None,
+        disk_type: Optional[str] = None,
+        generated_id: Optional[str] = None,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        max_size_in_bytes: Optional[int] = None,
+        used_space_in_bytes: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword path: The path of the disk.
+        :paramtype path: str
+        :keyword disk_type: The type of the disk.
+        :paramtype disk_type: str
+        :keyword generated_id: The generated ID of the disk.
+        :paramtype generated_id: str
+        :keyword id: The ID of the disk.
+        :paramtype id: str
+        :keyword name: The name of the disk.
+        :paramtype name: str
+        :keyword max_size_in_bytes: The size of the disk, in bytes.
+        :paramtype max_size_in_bytes: int
+        :keyword used_space_in_bytes: The amount of space used on the disk, in bytes.
+        :paramtype used_space_in_bytes: int
+        """
+        super().__init__(**kwargs)
+        self.path = path
+        self.disk_type = disk_type
+        self.generated_id = generated_id
+        self.id = id
+        self.name = name
+        self.max_size_in_bytes = max_size_in_bytes
+        self.used_space_in_bytes = used_space_in_bytes
+
+
 class ErrorAdditionalInfo(_serialization.Model):
     """The resource management error additional info.
 
@@ -587,6 +654,68 @@ class EsuKey(_serialization.Model):
         self.license_status = license_status
 
 
+class ExtensionPublisher(_serialization.Model):
+    """Describes an Extension Publisher.
+
+    :ivar id: The ID of the extension publisher.
+    :vartype id: str
+    :ivar name: The name of the extension publisher.
+    :vartype name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The ID of the extension publisher.
+        :paramtype id: str
+        :keyword name: The name of the extension publisher.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+
+
+class ExtensionPublisherListResult(_serialization.Model):
+    """The List of Extension Publishers.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of extension publishers.
+    :vartype value: list[~azure.mgmt.hybridcompute.models.ExtensionPublisher]
+    :ivar next_link: The URI to fetch the next page of extension publishers.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ExtensionPublisher]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword next_link: The URI to fetch the next page of extension publishers.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = next_link
+
+
 class ExtensionsResourceStatus(_serialization.Model):
     """Instance view status.
 
@@ -658,6 +787,68 @@ class ExtensionTargetProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.target_version = target_version
+
+
+class ExtensionType(_serialization.Model):
+    """Describes an Extension Type.
+
+    :ivar id: The ID of the extension type.
+    :vartype id: str
+    :ivar name: The name of the extension type.
+    :vartype name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The ID of the extension type.
+        :paramtype id: str
+        :keyword name: The name of the extension type.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+
+
+class ExtensionTypeListResult(_serialization.Model):
+    """The List of Extension Types.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of extension types.
+    :vartype value: list[~azure.mgmt.hybridcompute.models.ExtensionType]
+    :ivar next_link: The URI to fetch the next page of extension types.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ExtensionType]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword next_link: The URI to fetch the next page of extension types.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = next_link
 
 
 class ResourceAutoGenerated(_serialization.Model):
@@ -794,6 +985,219 @@ class ExtensionValueListResult(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.value = None
+
+
+class ExtensionValueListResultV2(_serialization.Model):
+    """The List Extension Metadata response.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of extension metadata.
+    :vartype value: list[~azure.mgmt.hybridcompute.models.ExtensionValue]
+    :ivar next_link: The URI to fetch the next page of extension metadata.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ExtensionValue]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword next_link: The URI to fetch the next page of extension metadata.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = next_link
+
+
+class ExtensionValueProperties(_serialization.Model):
+    """Describes Extension Metadata properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar version: The version of the Extension being received.
+    :vartype version: str
+    :ivar extension_type: The type of the Extension being received.
+    :vartype extension_type: str
+    :ivar publisher: The publisher of the Extension being received.
+    :vartype publisher: str
+    """
+
+    _validation = {
+        "version": {"readonly": True},
+        "extension_type": {"readonly": True},
+        "publisher": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "version": {"key": "version", "type": "str"},
+        "extension_type": {"key": "extensionType", "type": "str"},
+        "publisher": {"key": "publisher", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.version = None
+        self.extension_type = None
+        self.publisher = None
+
+
+class ExtensionValueV2(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Describes an Extension Metadata.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.hybridcompute.models.SystemData
+    :ivar version: The version of the Extension being received.
+    :vartype version: str
+    :ivar extension_type: The type of the Extension being received.
+    :vartype extension_type: str
+    :ivar publisher: The publisher of the Extension being received.
+    :vartype publisher: str
+    :ivar extension_uris: A list of locations where the extension packages can be found.
+    :vartype extension_uris: list[str]
+    :ivar extension_signature_uri: Location of the signature files for the extension.
+    :vartype extension_signature_uri: str
+    :ivar operating_system: The operating system (Windows, Linux, etc.) this extension supports.
+    :vartype operating_system: str
+    :ivar architecture: Architectures (x64, arms64, etc.) that this extension supports.
+    :vartype architecture: list[str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "version": {"readonly": True},
+        "extension_type": {"readonly": True},
+        "publisher": {"readonly": True},
+        "extension_uris": {"readonly": True},
+        "extension_signature_uri": {"readonly": True},
+        "operating_system": {"readonly": True},
+        "architecture": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "version": {"key": "properties.version", "type": "str"},
+        "extension_type": {"key": "properties.extensionType", "type": "str"},
+        "publisher": {"key": "properties.publisher", "type": "str"},
+        "extension_uris": {"key": "properties.extensionUris", "type": "[str]"},
+        "extension_signature_uri": {"key": "properties.extensionSignatureUri", "type": "str"},
+        "operating_system": {"key": "properties.operatingSystem", "type": "str"},
+        "architecture": {"key": "properties.architecture", "type": "[str]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.version = None
+        self.extension_type = None
+        self.publisher = None
+        self.extension_uris = None
+        self.extension_signature_uri = None
+        self.operating_system = None
+        self.architecture = None
+
+
+class ExtensionValueV2Properties(ExtensionValueProperties):
+    """Describes Extension Metadata properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar version: The version of the Extension being received.
+    :vartype version: str
+    :ivar extension_type: The type of the Extension being received.
+    :vartype extension_type: str
+    :ivar publisher: The publisher of the Extension being received.
+    :vartype publisher: str
+    :ivar extension_uris: A list of locations where the extension packages can be found.
+    :vartype extension_uris: list[str]
+    :ivar extension_signature_uri: Location of the signature files for the extension.
+    :vartype extension_signature_uri: str
+    :ivar operating_system: The operating system (Windows, Linux, etc.) this extension supports.
+    :vartype operating_system: str
+    :ivar architecture: Architectures (x64, arms64, etc.) that this extension supports.
+    :vartype architecture: list[str]
+    """
+
+    _validation = {
+        "version": {"readonly": True},
+        "extension_type": {"readonly": True},
+        "publisher": {"readonly": True},
+        "extension_uris": {"readonly": True},
+        "extension_signature_uri": {"readonly": True},
+        "operating_system": {"readonly": True},
+        "architecture": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "version": {"key": "version", "type": "str"},
+        "extension_type": {"key": "extensionType", "type": "str"},
+        "publisher": {"key": "publisher", "type": "str"},
+        "extension_uris": {"key": "extensionUris", "type": "[str]"},
+        "extension_signature_uri": {"key": "extensionSignatureUri", "type": "str"},
+        "operating_system": {"key": "operatingSystem", "type": "str"},
+        "architecture": {"key": "architecture", "type": "[str]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.extension_uris = None
+        self.extension_signature_uri = None
+        self.operating_system = None
+        self.architecture = None
+
+
+class FirmwareProfile(_serialization.Model):
+    """Describes the firmware of the machine.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar serial_number: The serial number of the firmware.
+    :vartype serial_number: str
+    :ivar type: The type of the firmware.
+    :vartype type: str
+    """
+
+    _validation = {
+        "serial_number": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "serial_number": {"key": "serialNumber", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.serial_number = None
+        self.type = None
 
 
 class TrackedResourceAutoGenerated(ResourceAutoGenerated):
@@ -1017,6 +1421,39 @@ class GatewayUpdate(ResourceUpdate):
         """
         super().__init__(tags=tags, **kwargs)
         self.allowed_features = allowed_features
+
+
+class HardwareProfile(_serialization.Model):
+    """Describes the hardware of the machine.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar total_physical_memory_in_bytes: The total physical memory on the machine.
+    :vartype total_physical_memory_in_bytes: int
+    :ivar number_of_cpu_sockets: The total number of CPU sockets available on the machine.
+    :vartype number_of_cpu_sockets: int
+    :ivar processors: The physical processors of the machine.
+    :vartype processors: list[~azure.mgmt.hybridcompute.models.Processor]
+    """
+
+    _validation = {
+        "total_physical_memory_in_bytes": {"readonly": True},
+        "number_of_cpu_sockets": {"readonly": True},
+        "processors": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "total_physical_memory_in_bytes": {"key": "totalPhysicalMemoryInBytes", "type": "int"},
+        "number_of_cpu_sockets": {"key": "numberOfCpuSockets", "type": "int"},
+        "processors": {"key": "processors", "type": "[Processor]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.total_physical_memory_in_bytes = None
+        self.number_of_cpu_sockets = None
+        self.processors = None
 
 
 class PrivateLinkScopesResource(_serialization.Model):
@@ -2525,6 +2962,12 @@ class Machine(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype agent_configuration: ~azure.mgmt.hybridcompute.models.AgentConfiguration
     :ivar service_statuses: Statuses of dependent services that are reported back to ARM.
     :vartype service_statuses: ~azure.mgmt.hybridcompute.models.ServiceStatuses
+    :ivar hardware_profile: Information about the machine's hardware.
+    :vartype hardware_profile: ~azure.mgmt.hybridcompute.models.HardwareProfile
+    :ivar storage_profile: Information about the machine's storage.
+    :vartype storage_profile: ~azure.mgmt.hybridcompute.models.StorageProfile
+    :ivar firmware_profile: Information about the machine's firmware.
+    :vartype firmware_profile: ~azure.mgmt.hybridcompute.models.FirmwareProfile
     :ivar cloud_metadata: The metadata of the cloud environment (Azure/GCP/AWS/OCI...).
     :vartype cloud_metadata: ~azure.mgmt.hybridcompute.models.CloudMetadata
     :ivar agent_upgrade: The info of the machine w.r.t Agent Upgrade.
@@ -2595,6 +3038,9 @@ class Machine(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "location": {"required": True},
         "resources": {"readonly": True},
         "agent_configuration": {"readonly": True},
+        "hardware_profile": {"readonly": True},
+        "storage_profile": {"readonly": True},
+        "firmware_profile": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "status": {"readonly": True},
         "last_status_change": {"readonly": True},
@@ -2627,6 +3073,9 @@ class Machine(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "location_data": {"key": "properties.locationData", "type": "LocationData"},
         "agent_configuration": {"key": "properties.agentConfiguration", "type": "AgentConfiguration"},
         "service_statuses": {"key": "properties.serviceStatuses", "type": "ServiceStatuses"},
+        "hardware_profile": {"key": "properties.hardwareProfile", "type": "HardwareProfile"},
+        "storage_profile": {"key": "properties.storageProfile", "type": "StorageProfile"},
+        "firmware_profile": {"key": "properties.firmwareProfile", "type": "FirmwareProfile"},
         "cloud_metadata": {"key": "properties.cloudMetadata", "type": "CloudMetadata"},
         "agent_upgrade": {"key": "properties.agentUpgrade", "type": "AgentUpgrade"},
         "os_profile": {"key": "properties.osProfile", "type": "OSProfile"},
@@ -2726,6 +3175,9 @@ class Machine(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.location_data = location_data
         self.agent_configuration = None
         self.service_statuses = service_statuses
+        self.hardware_profile = None
+        self.storage_profile = None
+        self.firmware_profile = None
         self.cloud_metadata = cloud_metadata
         self.agent_upgrade = agent_upgrade
         self.os_profile = os_profile
@@ -3993,20 +4445,46 @@ class NetworkConfiguration(ProxyResourceAutoGenerated):
 class NetworkInterface(_serialization.Model):
     """Describes a network interface.
 
+    :ivar mac_address: Represents MAC address of the network interface.
+    :vartype mac_address: str
+    :ivar id: Represents the ID of the network interface.
+    :vartype id: str
+    :ivar name: Represents the name of the network interface.
+    :vartype name: str
     :ivar ip_addresses: The list of IP addresses in this interface.
     :vartype ip_addresses: list[~azure.mgmt.hybridcompute.models.IpAddress]
     """
 
     _attribute_map = {
+        "mac_address": {"key": "macAddress", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
         "ip_addresses": {"key": "ipAddresses", "type": "[IpAddress]"},
     }
 
-    def __init__(self, *, ip_addresses: Optional[List["_models.IpAddress"]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        mac_address: Optional[str] = None,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        ip_addresses: Optional[List["_models.IpAddress"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword mac_address: Represents MAC address of the network interface.
+        :paramtype mac_address: str
+        :keyword id: Represents the ID of the network interface.
+        :paramtype id: str
+        :keyword name: Represents the name of the network interface.
+        :paramtype name: str
         :keyword ip_addresses: The list of IP addresses in this interface.
         :paramtype ip_addresses: list[~azure.mgmt.hybridcompute.models.IpAddress]
         """
         super().__init__(**kwargs)
+        self.mac_address = mac_address
+        self.id = id
+        self.name = name
         self.ip_addresses = ip_addresses
 
 
@@ -4166,6 +4644,27 @@ class NetworkSecurityPerimeterConfigurationListResult(_serialization.Model):  # 
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class NetworkSecurityPerimeterConfigurationReconcileResult(_serialization.Model):  # pylint: disable=name-too-long
+    """Result of network security perimeter configurations.
+
+    :ivar location: The URL of the resource used to check the status of the asynchronous operation.
+    :vartype location: str
+    """
+
+    _attribute_map = {
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword location: The URL of the resource used to check the status of the asynchronous
+         operation.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.location = location
 
 
 class NetworkSecurityPerimeterProfile(_serialization.Model):
@@ -4889,6 +5388,34 @@ class PrivateLinkServiceConnectionStateProperty(_serialization.Model):  # pylint
         self.actions_required = None
 
 
+class Processor(_serialization.Model):
+    """Describes the firmware of the machine.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the processor.
+    :vartype name: str
+    :ivar number_of_cores: The total number of physical cores on the processor.
+    :vartype number_of_cores: int
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "number_of_cores": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "number_of_cores": {"key": "numberOfCores", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.name = None
+        self.number_of_cores = None
+
+
 class ProductFeature(_serialization.Model):
     """Product Feature.
 
@@ -5247,6 +5774,26 @@ class Settings(ProxyResourceAutoGenerated):
         super().__init__(**kwargs)
         self.tenant_id = None
         self.gateway_resource_id = gateway_resource_id
+
+
+class StorageProfile(_serialization.Model):
+    """Describes the storage configuration of the machine.
+
+    :ivar disks: The disks on the machine.
+    :vartype disks: list[~azure.mgmt.hybridcompute.models.Disk]
+    """
+
+    _attribute_map = {
+        "disks": {"key": "disks", "type": "[Disk]"},
+    }
+
+    def __init__(self, *, disks: Optional[List["_models.Disk"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword disks: The disks on the machine.
+        :paramtype disks: list[~azure.mgmt.hybridcompute.models.Disk]
+        """
+        super().__init__(**kwargs)
+        self.disks = disks
 
 
 class Subnet(_serialization.Model):
