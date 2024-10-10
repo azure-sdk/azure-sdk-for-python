@@ -22,7 +22,7 @@ class Action(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AlertingAction, LogToMetricAction
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: Specifies the action. Supported values - AlertingAction, LogToMetricAction.
      Required.
@@ -53,7 +53,7 @@ class Action(_serialization.Model):
 class AlertingAction(Action):
     """Specify action need to be taken when rule type is Alert.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: Specifies the action. Supported values - AlertingAction, LogToMetricAction.
      Required.
@@ -104,7 +104,9 @@ class AlertingAction(Action):
         :paramtype trigger: ~azure.mgmt.monitor.v2018_04_16.models.TriggerCondition
         """
         super().__init__(**kwargs)
-        self.odata_type: str = "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+        self.odata_type: str = (
+            "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+        )
         self.severity = severity
         self.azns_action = azns_action
         self.throttling_in_min = throttling_in_min
@@ -155,7 +157,7 @@ class AzNsActionGroup(_serialization.Model):
 class Criteria(_serialization.Model):
     """Specifies the criteria for converting log to metric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar metric_name: Name of the metric. Required.
     :vartype metric_name: str
@@ -189,7 +191,7 @@ class Criteria(_serialization.Model):
 class Dimension(_serialization.Model):
     """Specifies the criteria for converting log to metric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the dimension. Required.
     :vartype name: str
@@ -332,7 +334,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -397,7 +399,7 @@ class LogSearchRuleResource(Resource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -591,7 +593,7 @@ class LogSearchRuleResourcePatch(_serialization.Model):
 class LogToMetricAction(Action):
     """Specify action need to be taken when rule type is converting log to metric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar odata_type: Specifies the action. Supported values - AlertingAction, LogToMetricAction.
      Required.
@@ -616,14 +618,16 @@ class LogToMetricAction(Action):
         :paramtype criteria: list[~azure.mgmt.monitor.v2018_04_16.models.Criteria]
         """
         super().__init__(**kwargs)
-        self.odata_type: str = "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+        self.odata_type: str = (
+            "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+        )
         self.criteria = criteria
 
 
 class Schedule(_serialization.Model):
     """Defines how often to run the search and the time interval.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar frequency_in_minutes: frequency (in minutes) at which rule condition should be evaluated.
      Required.
@@ -660,7 +664,7 @@ class Schedule(_serialization.Model):
 class Source(_serialization.Model):
     """Specifies the log search query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar query: Log search query. Required for action type - AlertingAction.
     :vartype query: str
@@ -712,7 +716,7 @@ class Source(_serialization.Model):
 class TriggerCondition(_serialization.Model):
     """The condition that results in the Log Search rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar threshold_operator: Evaluation operation for rule - 'GreaterThan' or 'LessThan. Known
      values are: "GreaterThanOrEqual", "LessThanOrEqual", "GreaterThan", "LessThan", and "Equal".
