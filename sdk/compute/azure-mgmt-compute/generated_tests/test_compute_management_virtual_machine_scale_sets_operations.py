@@ -22,7 +22,7 @@ class TestComputeManagementVirtualMachineScaleSetsOperations(AzureMgmtRecordedTe
     @recorded_by_proxy
     def test_list_by_location(self, resource_group):
         response = self.client.virtual_machine_scale_sets.list_by_location(
-            location="str",
+            location=0,
             api_version="2024-07-01",
         )
         result = [r for r in response]

@@ -552,12 +552,12 @@ class VirtualMachineScaleSetsOperations:  # pylint: disable=too-many-public-meth
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
-    def list_by_location(self, location: str, **kwargs: Any) -> AsyncIterable["_models.VirtualMachineScaleSet"]:
+    def list_by_location(self, location: int, **kwargs: Any) -> AsyncIterable["_models.VirtualMachineScaleSet"]:
         """Gets all the VM scale sets under the specified subscription for the specified location.
 
         :param location: The location for which VM scale sets under the subscription are queried.
          Required.
-        :type location: str
+        :type location: int
         :return: An iterator like instance of either VirtualMachineScaleSet or the result of
          cls(response)
         :rtype:
