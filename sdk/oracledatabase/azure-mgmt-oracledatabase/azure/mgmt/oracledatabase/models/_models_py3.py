@@ -523,7 +523,7 @@ class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disab
 class AutonomousDatabaseBackupUpdate(_serialization.Model):
     """The type used for update operations of the AutonomousDatabaseBackup.
 
-    :ivar properties: The updatable properties of the AutonomousDatabaseBackup.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupUpdateProperties
     """
 
@@ -535,7 +535,7 @@ class AutonomousDatabaseBackupUpdate(_serialization.Model):
         self, *, properties: Optional["_models.AutonomousDatabaseBackupUpdateProperties"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword properties: The updatable properties of the AutonomousDatabaseBackup.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupUpdateProperties
         """
@@ -1224,8 +1224,6 @@ class AutonomousDatabaseCharacterSetListResult(_serialization.Model):
 class AutonomousDatabaseCharacterSetProperties(_serialization.Model):
     """AutonomousDatabaseCharacterSet resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar character_set: The Oracle Autonomous Database supported character sets. Required.
@@ -1233,17 +1231,20 @@ class AutonomousDatabaseCharacterSetProperties(_serialization.Model):
     """
 
     _validation = {
-        "character_set": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "character_set": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
         "character_set": {"key": "characterSet", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, character_set: str, **kwargs: Any) -> None:
+        """
+        :keyword character_set: The Oracle Autonomous Database supported character sets. Required.
+        :paramtype character_set: str
+        """
         super().__init__(**kwargs)
-        self.character_set = None
+        self.character_set = character_set
 
 
 class AutonomousDatabaseCloneProperties(
@@ -1968,8 +1969,6 @@ class AutonomousDatabaseNationalCharacterSetListResult(_serialization.Model):  #
 class AutonomousDatabaseNationalCharacterSetProperties(_serialization.Model):  # pylint: disable=name-too-long
     """AutonomousDatabaseNationalCharacterSet resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar character_set: The Oracle Autonomous Database supported national character sets.
@@ -1978,17 +1977,21 @@ class AutonomousDatabaseNationalCharacterSetProperties(_serialization.Model):  #
     """
 
     _validation = {
-        "character_set": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "character_set": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
         "character_set": {"key": "characterSet", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, character_set: str, **kwargs: Any) -> None:
+        """
+        :keyword character_set: The Oracle Autonomous Database supported national character sets.
+         Required.
+        :paramtype character_set: str
+        """
         super().__init__(**kwargs)
-        self.character_set = None
+        self.character_set = character_set
 
 
 class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint: disable=too-many-instance-attributes
@@ -2595,7 +2598,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the AutonomousDatabase.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseUpdateProperties
     """
 
@@ -2614,7 +2617,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the AutonomousDatabase.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseUpdateProperties
         """
         super().__init__(**kwargs)
@@ -2958,8 +2961,6 @@ class AutonomousDbVersionListResult(_serialization.Model):
 class AutonomousDbVersionProperties(_serialization.Model):
     """AutonomousDbVersion resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar version: Supported Autonomous Db versions. Required.
@@ -2982,12 +2983,7 @@ class AutonomousDbVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "version": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "db_workload": {"readonly": True},
-        "is_default_for_free": {"readonly": True},
-        "is_default_for_paid": {"readonly": True},
-        "is_free_tier_enabled": {"readonly": True},
-        "is_paid_enabled": {"readonly": True},
+        "version": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
@@ -2999,15 +2995,69 @@ class AutonomousDbVersionProperties(_serialization.Model):
         "is_paid_enabled": {"key": "isPaidEnabled", "type": "bool"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        version: str,
+        db_workload: Optional[Union[str, "_models.WorkloadType"]] = None,
+        is_default_for_free: Optional[bool] = None,
+        is_default_for_paid: Optional[bool] = None,
+        is_free_tier_enabled: Optional[bool] = None,
+        is_paid_enabled: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword version: Supported Autonomous Db versions. Required.
+        :paramtype version: str
+        :keyword db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
+         "AJD", and "APEX".
+        :paramtype db_workload: str or ~azure.mgmt.oracledatabase.models.WorkloadType
+        :keyword is_default_for_free: True if this version of the Oracle Database software's default is
+         free.
+        :paramtype is_default_for_free: bool
+        :keyword is_default_for_paid: True if this version of the Oracle Database software's default is
+         paid.
+        :paramtype is_default_for_paid: bool
+        :keyword is_free_tier_enabled: True if this version of the Oracle Database software can be used
+         for Always-Free Autonomous Databases.
+        :paramtype is_free_tier_enabled: bool
+        :keyword is_paid_enabled: True if this version of the Oracle Database software has payments
+         enabled.
+        :paramtype is_paid_enabled: bool
+        """
         super().__init__(**kwargs)
-        self.version = None
-        self.db_workload = None
-        self.is_default_for_free = None
-        self.is_default_for_paid = None
-        self.is_free_tier_enabled = None
-        self.is_paid_enabled = None
+        self.version = version
+        self.db_workload = db_workload
+        self.is_default_for_free = is_default_for_free
+        self.is_default_for_paid = is_default_for_paid
+        self.is_free_tier_enabled = is_free_tier_enabled
+        self.is_paid_enabled = is_paid_enabled
+
+
+class AzureSubscriptions(_serialization.Model):
+    """Azure Subscriptions model.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar azure_subscription_ids: Azure Subscription Ids to be updated. Required.
+    :vartype azure_subscription_ids: list[str]
+    """
+
+    _validation = {
+        "azure_subscription_ids": {"required": True},
+    }
+
+    _attribute_map = {
+        "azure_subscription_ids": {"key": "azureSubscriptionIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, azure_subscription_ids: List[str], **kwargs: Any) -> None:
+        """
+        :keyword azure_subscription_ids: Azure Subscription Ids to be updated. Required.
+        :paramtype azure_subscription_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.azure_subscription_ids = azure_subscription_ids
 
 
 class CloudAccountDetails(_serialization.Model):
@@ -3365,7 +3415,7 @@ class CloudExadataInfrastructureUpdate(_serialization.Model):
     :vartype zones: list[str]
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the CloudExadataInfrastructure.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
      ~azure.mgmt.oracledatabase.models.CloudExadataInfrastructureUpdateProperties
     """
@@ -3389,7 +3439,7 @@ class CloudExadataInfrastructureUpdate(_serialization.Model):
         :paramtype zones: list[str]
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the CloudExadataInfrastructure.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.oracledatabase.models.CloudExadataInfrastructureUpdateProperties
         """
@@ -3952,7 +4002,7 @@ class CloudVmClusterUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the CloudVmCluster.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.CloudVmClusterUpdateProperties
     """
 
@@ -3971,7 +4021,7 @@ class CloudVmClusterUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the CloudVmCluster.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.CloudVmClusterUpdateProperties
         """
         super().__init__(**kwargs)
@@ -4528,9 +4578,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar ocid: DbNode OCID. Required.
+    :ivar ocid: DbNode OCID.
     :vartype ocid: str
     :ivar additional_details: Additional information about the planned maintenance.
     :vartype additional_details: str
@@ -4546,7 +4594,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     :vartype db_node_storage_size_in_gbs: int
     :ivar db_server_id: The OCID of the Exacc Db server associated with the database node.
     :vartype db_server_id: str
-    :ivar db_system_id: The OCID of the DB system. Required.
+    :ivar db_system_id: The OCID of the DB system.
     :vartype db_system_id: str
     :ivar fault_domain: The name of the Fault Domain the instance is contained in.
     :vartype fault_domain: str
@@ -4583,7 +4631,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "ocid": {"readonly": True, "max_length": 255, "min_length": 1},
         "additional_details": {"readonly": True},
         "backup_ip_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "backup_vnic2_id": {"readonly": True, "max_length": 255, "min_length": 1},
@@ -4591,7 +4639,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
         "cpu_core_count": {"readonly": True},
         "db_node_storage_size_in_gbs": {"readonly": True},
         "db_server_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "db_system_id": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "db_system_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "fault_domain": {"readonly": True, "max_length": 255, "min_length": 1},
         "host_ip_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "hostname": {"readonly": True},
@@ -4979,8 +5027,6 @@ class DbSystemShapeListResult(_serialization.Model):
 class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """DbSystemShape resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar shape_family: The family of the shape used for the DB system.
@@ -5041,26 +5087,8 @@ class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many
     """
 
     _validation = {
-        "shape_family": {"readonly": True, "max_length": 255, "min_length": 1},
-        "available_core_count": {"required": True, "readonly": True},
-        "minimum_core_count": {"readonly": True},
-        "runtime_minimum_core_count": {"readonly": True},
-        "core_count_increment": {"readonly": True},
-        "min_storage_count": {"readonly": True},
-        "max_storage_count": {"readonly": True},
-        "available_data_storage_per_server_in_tbs": {"readonly": True},
-        "available_memory_per_node_in_gbs": {"readonly": True},
-        "available_db_node_per_node_in_gbs": {"readonly": True},
-        "min_core_count_per_node": {"readonly": True},
-        "available_memory_in_gbs": {"readonly": True},
-        "min_memory_per_node_in_gbs": {"readonly": True},
-        "available_db_node_storage_in_gbs": {"readonly": True},
-        "min_db_node_storage_per_node_in_gbs": {"readonly": True},
-        "available_data_storage_in_tbs": {"readonly": True},
-        "min_data_storage_in_tbs": {"readonly": True},
-        "minimum_node_count": {"readonly": True},
-        "maximum_node_count": {"readonly": True},
-        "available_core_count_per_node": {"readonly": True},
+        "shape_family": {"max_length": 255, "min_length": 1},
+        "available_core_count": {"required": True},
     }
 
     _attribute_map = {
@@ -5086,29 +5114,111 @@ class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many
         "available_core_count_per_node": {"key": "availableCoreCountPerNode", "type": "int"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        available_core_count: int,
+        shape_family: Optional[str] = None,
+        minimum_core_count: Optional[int] = None,
+        runtime_minimum_core_count: Optional[int] = None,
+        core_count_increment: Optional[int] = None,
+        min_storage_count: Optional[int] = None,
+        max_storage_count: Optional[int] = None,
+        available_data_storage_per_server_in_tbs: Optional[float] = None,
+        available_memory_per_node_in_gbs: Optional[int] = None,
+        available_db_node_per_node_in_gbs: Optional[int] = None,
+        min_core_count_per_node: Optional[int] = None,
+        available_memory_in_gbs: Optional[int] = None,
+        min_memory_per_node_in_gbs: Optional[int] = None,
+        available_db_node_storage_in_gbs: Optional[int] = None,
+        min_db_node_storage_per_node_in_gbs: Optional[int] = None,
+        available_data_storage_in_tbs: Optional[int] = None,
+        min_data_storage_in_tbs: Optional[int] = None,
+        minimum_node_count: Optional[int] = None,
+        maximum_node_count: Optional[int] = None,
+        available_core_count_per_node: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword shape_family: The family of the shape used for the DB system.
+        :paramtype shape_family: str
+        :keyword available_core_count: The maximum number of CPU cores that can be enabled on the DB
+         system for this shape. Required.
+        :paramtype available_core_count: int
+        :keyword minimum_core_count: The minimum number of CPU cores that can be enabled on the DB
+         system for this shape.
+        :paramtype minimum_core_count: int
+        :keyword runtime_minimum_core_count: The runtime minimum number of CPU cores that can be
+         enabled on the DB system for this shape.
+        :paramtype runtime_minimum_core_count: int
+        :keyword core_count_increment: The discrete number by which the CPU core count for this shape
+         can be increased or decreased.
+        :paramtype core_count_increment: int
+        :keyword min_storage_count: The minimum number of Exadata storage servers available for the
+         Exadata infrastructure.
+        :paramtype min_storage_count: int
+        :keyword max_storage_count: The maximum number of Exadata storage servers available for the
+         Exadata infrastructure.
+        :paramtype max_storage_count: int
+        :keyword available_data_storage_per_server_in_tbs: The maximum data storage available per
+         storage server for this shape. Only applicable to ExaCC Elastic shapes.
+        :paramtype available_data_storage_per_server_in_tbs: float
+        :keyword available_memory_per_node_in_gbs: The maximum memory available per database node for
+         this shape. Only applicable to ExaCC Elastic shapes.
+        :paramtype available_memory_per_node_in_gbs: int
+        :keyword available_db_node_per_node_in_gbs: The maximum Db Node storage available per database
+         node for this shape. Only applicable to ExaCC Elastic shapes.
+        :paramtype available_db_node_per_node_in_gbs: int
+        :keyword min_core_count_per_node: The minimum number of CPU cores that can be enabled per node
+         for this shape.
+        :paramtype min_core_count_per_node: int
+        :keyword available_memory_in_gbs: The maximum memory that can be enabled for this shape.
+        :paramtype available_memory_in_gbs: int
+        :keyword min_memory_per_node_in_gbs: The minimum memory that need be allocated per node for
+         this shape.
+        :paramtype min_memory_per_node_in_gbs: int
+        :keyword available_db_node_storage_in_gbs: The maximum Db Node storage that can be enabled for
+         this shape.
+        :paramtype available_db_node_storage_in_gbs: int
+        :keyword min_db_node_storage_per_node_in_gbs: The minimum Db Node storage that need be
+         allocated per node for this shape.
+        :paramtype min_db_node_storage_per_node_in_gbs: int
+        :keyword available_data_storage_in_tbs: The maximum DATA storage that can be enabled for this
+         shape.
+        :paramtype available_data_storage_in_tbs: int
+        :keyword min_data_storage_in_tbs: The minimum data storage that need be allocated for this
+         shape.
+        :paramtype min_data_storage_in_tbs: int
+        :keyword minimum_node_count: The minimum number of database nodes available for this shape.
+        :paramtype minimum_node_count: int
+        :keyword maximum_node_count: The maximum number of database nodes available for this shape.
+        :paramtype maximum_node_count: int
+        :keyword available_core_count_per_node: The maximum number of CPU cores per database node that
+         can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic
+         shapes.
+        :paramtype available_core_count_per_node: int
+        """
         super().__init__(**kwargs)
-        self.shape_family = None
-        self.available_core_count = None
-        self.minimum_core_count = None
-        self.runtime_minimum_core_count = None
-        self.core_count_increment = None
-        self.min_storage_count = None
-        self.max_storage_count = None
-        self.available_data_storage_per_server_in_tbs = None
-        self.available_memory_per_node_in_gbs = None
-        self.available_db_node_per_node_in_gbs = None
-        self.min_core_count_per_node = None
-        self.available_memory_in_gbs = None
-        self.min_memory_per_node_in_gbs = None
-        self.available_db_node_storage_in_gbs = None
-        self.min_db_node_storage_per_node_in_gbs = None
-        self.available_data_storage_in_tbs = None
-        self.min_data_storage_in_tbs = None
-        self.minimum_node_count = None
-        self.maximum_node_count = None
-        self.available_core_count_per_node = None
+        self.shape_family = shape_family
+        self.available_core_count = available_core_count
+        self.minimum_core_count = minimum_core_count
+        self.runtime_minimum_core_count = runtime_minimum_core_count
+        self.core_count_increment = core_count_increment
+        self.min_storage_count = min_storage_count
+        self.max_storage_count = max_storage_count
+        self.available_data_storage_per_server_in_tbs = available_data_storage_per_server_in_tbs
+        self.available_memory_per_node_in_gbs = available_memory_per_node_in_gbs
+        self.available_db_node_per_node_in_gbs = available_db_node_per_node_in_gbs
+        self.min_core_count_per_node = min_core_count_per_node
+        self.available_memory_in_gbs = available_memory_in_gbs
+        self.min_memory_per_node_in_gbs = min_memory_per_node_in_gbs
+        self.available_db_node_storage_in_gbs = available_db_node_storage_in_gbs
+        self.min_db_node_storage_per_node_in_gbs = min_db_node_storage_per_node_in_gbs
+        self.available_data_storage_in_tbs = available_data_storage_in_tbs
+        self.min_data_storage_in_tbs = min_data_storage_in_tbs
+        self.minimum_node_count = minimum_node_count
+        self.maximum_node_count = maximum_node_count
+        self.available_core_count_per_node = available_core_count_per_node
 
 
 class DnsPrivateView(ProxyResource):
@@ -5198,20 +5308,20 @@ class DnsPrivateViewProperties(_serialization.Model):
 
     :ivar ocid: The OCID of the view. Required.
     :vartype ocid: str
-    :ivar display_name: The display name of the view resource.
+    :ivar display_name: The display name of the view resource. Required.
     :vartype display_name: str
     :ivar is_protected: A Boolean flag indicating whether or not parts of the resource are unable
      to be explicitly managed. Required.
     :vartype is_protected: bool
-    :ivar lifecycle_state: Views lifecycleState. Known values are: "Active", "Deleted", "Deleting",
-     and "Updating".
+    :ivar lifecycle_state: Views lifecycleState. Required. Known values are: "Active", "Deleted",
+     "Deleting", and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.DnsPrivateViewsLifecycleState
     :ivar self_property: The canonical absolute URL of the resource. Required.
     :vartype self_property: str
     :ivar time_created: views timeCreated. Required.
     :vartype time_created: ~datetime.datetime
-    :ivar time_updated: views timeCreated. Required.
+    :ivar time_updated: views timeUpdated. Required.
     :vartype time_updated: ~datetime.datetime
     :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
      "Failed", and "Canceled".
@@ -5219,13 +5329,13 @@ class DnsPrivateViewProperties(_serialization.Model):
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "display_name": {"readonly": True},
-        "is_protected": {"required": True, "readonly": True},
-        "lifecycle_state": {"readonly": True},
-        "self_property": {"required": True, "readonly": True},
-        "time_created": {"required": True, "readonly": True},
-        "time_updated": {"required": True, "readonly": True},
+        "ocid": {"required": True, "max_length": 255, "min_length": 1},
+        "display_name": {"required": True},
+        "is_protected": {"required": True},
+        "lifecycle_state": {"required": True},
+        "self_property": {"required": True},
+        "time_created": {"required": True},
+        "time_updated": {"required": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -5240,16 +5350,45 @@ class DnsPrivateViewProperties(_serialization.Model):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        ocid: str,
+        display_name: str,
+        is_protected: bool,
+        lifecycle_state: Union[str, "_models.DnsPrivateViewsLifecycleState"],
+        self_property: str,
+        time_created: datetime.datetime,
+        time_updated: datetime.datetime,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword ocid: The OCID of the view. Required.
+        :paramtype ocid: str
+        :keyword display_name: The display name of the view resource. Required.
+        :paramtype display_name: str
+        :keyword is_protected: A Boolean flag indicating whether or not parts of the resource are
+         unable to be explicitly managed. Required.
+        :paramtype is_protected: bool
+        :keyword lifecycle_state: Views lifecycleState. Required. Known values are: "Active",
+         "Deleted", "Deleting", and "Updating".
+        :paramtype lifecycle_state: str or
+         ~azure.mgmt.oracledatabase.models.DnsPrivateViewsLifecycleState
+        :keyword self_property: The canonical absolute URL of the resource. Required.
+        :paramtype self_property: str
+        :keyword time_created: views timeCreated. Required.
+        :paramtype time_created: ~datetime.datetime
+        :keyword time_updated: views timeUpdated. Required.
+        :paramtype time_updated: ~datetime.datetime
+        """
         super().__init__(**kwargs)
-        self.ocid = None
-        self.display_name = None
-        self.is_protected = None
-        self.lifecycle_state = None
-        self.self_property = None
-        self.time_created = None
-        self.time_updated = None
+        self.ocid = ocid
+        self.display_name = display_name
+        self.is_protected = is_protected
+        self.lifecycle_state = lifecycle_state
+        self.self_property = self_property
+        self.time_created = time_created
+        self.time_updated = time_updated
         self.provisioning_state = None
 
 
@@ -5343,8 +5482,8 @@ class DnsPrivateZoneProperties(_serialization.Model):
     :ivar is_protected: A Boolean flag indicating whether or not parts of the resource are unable
      to be explicitly managed. Required.
     :vartype is_protected: bool
-    :ivar lifecycle_state: Zones lifecycleState. Known values are: "Active", "Creating", "Deleted",
-     "Deleting", and "Updating".
+    :ivar lifecycle_state: Zones lifecycleState. Required. Known values are: "Active", "Creating",
+     "Deleted", "Deleting", and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.DnsPrivateZonesLifecycleState
     :ivar self_property: The canonical absolute URL of the resource. Required.
@@ -5368,15 +5507,15 @@ class DnsPrivateZoneProperties(_serialization.Model):
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "is_protected": {"required": True, "readonly": True},
-        "lifecycle_state": {"readonly": True},
-        "self_property": {"required": True, "readonly": True},
-        "serial": {"required": True, "readonly": True},
-        "version": {"required": True, "readonly": True},
-        "view_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "zone_type": {"required": True, "readonly": True},
-        "time_created": {"required": True, "readonly": True},
+        "ocid": {"required": True, "max_length": 255, "min_length": 1},
+        "is_protected": {"required": True},
+        "lifecycle_state": {"required": True},
+        "self_property": {"required": True},
+        "serial": {"required": True},
+        "version": {"required": True},
+        "view_id": {"max_length": 255, "min_length": 1},
+        "zone_type": {"required": True},
+        "time_created": {"required": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -5393,18 +5532,56 @@ class DnsPrivateZoneProperties(_serialization.Model):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        ocid: str,
+        is_protected: bool,
+        lifecycle_state: Union[str, "_models.DnsPrivateZonesLifecycleState"],
+        self_property: str,
+        serial: int,
+        version: str,
+        zone_type: Union[str, "_models.ZoneType"],
+        time_created: datetime.datetime,
+        view_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword ocid: The OCID of the Zone. Required.
+        :paramtype ocid: str
+        :keyword is_protected: A Boolean flag indicating whether or not parts of the resource are
+         unable to be explicitly managed. Required.
+        :paramtype is_protected: bool
+        :keyword lifecycle_state: Zones lifecycleState. Required. Known values are: "Active",
+         "Creating", "Deleted", "Deleting", and "Updating".
+        :paramtype lifecycle_state: str or
+         ~azure.mgmt.oracledatabase.models.DnsPrivateZonesLifecycleState
+        :keyword self_property: The canonical absolute URL of the resource. Required.
+        :paramtype self_property: str
+        :keyword serial: The current serial of the zone. As seen in the zone's SOA record. Required.
+        :paramtype serial: int
+        :keyword version: Version is the never-repeating, totally-orderable, version of the zone, from
+         which the serial field of the zone's SOA record is derived. Required.
+        :paramtype version: str
+        :keyword view_id: The OCID of the private view containing the zone. This value will be null for
+         zones in the global DNS, which are publicly resolvable and not part of a private view.
+        :paramtype view_id: str
+        :keyword zone_type: The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is
+         only supported for GLOBAL zones. Required. Known values are: "Primary" and "Secondary".
+        :paramtype zone_type: str or ~azure.mgmt.oracledatabase.models.ZoneType
+        :keyword time_created: Zones timeCreated. Required.
+        :paramtype time_created: ~datetime.datetime
+        """
         super().__init__(**kwargs)
-        self.ocid = None
-        self.is_protected = None
-        self.lifecycle_state = None
-        self.self_property = None
-        self.serial = None
-        self.version = None
-        self.view_id = None
-        self.zone_type = None
-        self.time_created = None
+        self.ocid = ocid
+        self.is_protected = is_protected
+        self.lifecycle_state = lifecycle_state
+        self.self_property = self_property
+        self.serial = serial
+        self.version = version
+        self.view_id = view_id
+        self.zone_type = zone_type
+        self.time_created = time_created
         self.provisioning_state = None
 
 
@@ -5719,8 +5896,6 @@ class GiVersionListResult(_serialization.Model):
 class GiVersionProperties(_serialization.Model):
     """GiVersion resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar version: A valid Oracle Grid Infrastructure (GI) software version. Required.
@@ -5728,17 +5903,20 @@ class GiVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "version": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "version": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, version: str, **kwargs: Any) -> None:
+        """
+        :keyword version: A valid Oracle Grid Infrastructure (GI) software version. Required.
+        :paramtype version: str
+        """
         super().__init__(**kwargs)
-        self.version = None
+        self.version = version
 
 
 class LongTermBackUpScheduleDetails(_serialization.Model):
@@ -6226,6 +6404,15 @@ class OracleSubscriptionProperties(_serialization.Model):
     :vartype product_code: str
     :ivar intent: Intent for the update operation. Known values are: "Retain" and "Reset".
     :vartype intent: str or ~azure.mgmt.oracledatabase.models.Intent
+    :ivar azure_subscription_ids: Azure subscriptions associated with this OracleSubscription.
+    :vartype azure_subscription_ids: list[str]
+    :ivar add_subscription_operation_state: State of the add Azure subscription operation on Oracle
+     subscription. Known values are: "Succeeded", "Updating", and "Failed".
+    :vartype add_subscription_operation_state: str or
+     ~azure.mgmt.oracledatabase.models.AddSubscriptionOperationState
+    :ivar last_operation_status_detail: Status details of the last operation on Oracle
+     subscription.
+    :vartype last_operation_status_detail: str
     """
 
     _validation = {
@@ -6233,6 +6420,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         "saas_subscription_id": {"readonly": True},
         "cloud_account_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "cloud_account_state": {"readonly": True},
+        "azure_subscription_ids": {"readonly": True},
+        "add_subscription_operation_state": {"readonly": True},
+        "last_operation_status_detail": {"readonly": True},
     }
 
     _attribute_map = {
@@ -6243,6 +6433,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         "term_unit": {"key": "termUnit", "type": "str"},
         "product_code": {"key": "productCode", "type": "str"},
         "intent": {"key": "intent", "type": "str"},
+        "azure_subscription_ids": {"key": "azureSubscriptionIds", "type": "[str]"},
+        "add_subscription_operation_state": {"key": "addSubscriptionOperationState", "type": "str"},
+        "last_operation_status_detail": {"key": "lastOperationStatusDetail", "type": "str"},
     }
 
     def __init__(
@@ -6270,6 +6463,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         self.term_unit = term_unit
         self.product_code = product_code
         self.intent = intent
+        self.azure_subscription_ids = None
+        self.add_subscription_operation_state = None
+        self.last_operation_status_detail = None
 
 
 class OracleSubscriptionUpdate(_serialization.Model):
@@ -6277,7 +6473,7 @@ class OracleSubscriptionUpdate(_serialization.Model):
 
     :ivar plan: Details of the resource plan.
     :vartype plan: ~azure.mgmt.oracledatabase.models.PlanUpdate
-    :ivar properties: The updatable properties of the OracleSubscription.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.OracleSubscriptionUpdateProperties
     """
 
@@ -6296,7 +6492,7 @@ class OracleSubscriptionUpdate(_serialization.Model):
         """
         :keyword plan: Details of the resource plan.
         :paramtype plan: ~azure.mgmt.oracledatabase.models.PlanUpdate
-        :keyword properties: The updatable properties of the OracleSubscription.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.OracleSubscriptionUpdateProperties
         """
         super().__init__(**kwargs)
@@ -7064,8 +7260,6 @@ class SystemVersionListResult(_serialization.Model):
 class SystemVersionProperties(_serialization.Model):
     """System Version Resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar system_version: A valid Oracle System Version. Required.
@@ -7073,17 +7267,20 @@ class SystemVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "system_version": {"required": True, "readonly": True},
+        "system_version": {"required": True},
     }
 
     _attribute_map = {
         "system_version": {"key": "systemVersion", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, system_version: str, **kwargs: Any) -> None:
+        """
+        :keyword system_version: A valid Oracle System Version. Required.
+        :paramtype system_version: str
+        """
         super().__init__(**kwargs)
-        self.system_version = None
+        self.system_version = system_version
 
 
 class SystemVersionsFilter(_serialization.Model):
