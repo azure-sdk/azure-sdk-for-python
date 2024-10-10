@@ -1,5 +1,5 @@
+# pylint: disable=too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines, line-too-long
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,14 +10,13 @@
 import datetime
 from typing import Any, Dict, List, Literal, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from azure.core.exceptions import HttpResponseError
+from azure.core.exceptions import ODataV4Format
 
 from .. import _model_base
 from .._model_base import rest_discriminator, rest_field
 from ._enums import RadiologyInsightsInferenceType
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -39,14 +38,16 @@ class RadiologyInsightsInference(_model_base.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AgeMismatchInference, CompleteOrderDiscrepancyInference, CriticalResultInference,
     FindingInference, FollowupCommunicationInference, FollowupRecommendationInference,
-    LateralityDiscrepancyInference, LimitedOrderDiscrepancyInference, RadiologyProcedureInference,
+    GuidanceInference, LateralityDiscrepancyInference, LimitedOrderDiscrepancyInference,
+    QualityMeasureInference, RadiologyProcedureInference, ScoringAndAssessmentInference,
     SexMismatchInference
 
 
     :ivar kind: Discriminator property for RadiologyInsightsInference. Required. Known values are:
      "ageMismatch", "lateralityDiscrepancy", "sexMismatch", "completeOrderDiscrepancy",
      "limitedOrderDiscrepancy", "finding", "criticalResult", "followupRecommendation",
-     "followupCommunication", and "radiologyProcedure".
+     "followupCommunication", "radiologyProcedure", "scoringAndAssessment", "guidance", and
+     "qualityMeasure".
     :vartype kind: str or
      ~azure.healthinsights.radiologyinsights.models.RadiologyInsightsInferenceType
     :ivar extension: Additional Content defined by implementations.
@@ -58,7 +59,8 @@ class RadiologyInsightsInference(_model_base.Model):
     """Discriminator property for RadiologyInsightsInference. Required. Known values are:
      \"ageMismatch\", \"lateralityDiscrepancy\", \"sexMismatch\", \"completeOrderDiscrepancy\",
      \"limitedOrderDiscrepancy\", \"finding\", \"criticalResult\", \"followupRecommendation\",
-     \"followupCommunication\", and \"radiologyProcedure\"."""
+     \"followupCommunication\", \"radiologyProcedure\", \"scoringAndAssessment\", \"guidance\", and
+     \"qualityMeasure\"."""
     extension: Optional[List["_models.Extension"]] = rest_field()
     """Additional Content defined by implementations."""
 
@@ -115,7 +117,7 @@ class AgeMismatchInference(RadiologyInsightsInference, discriminator="ageMismatc
 
 class Element(_model_base.Model):
     """The base definition for all elements contained inside a resource.
-    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`__.
+    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`_.
 
     :ivar id: Unique id for inter-element referencing.
     :vartype id: str
@@ -180,6 +182,40 @@ class Annotation(Element):
         extension: Optional[List["_models.Extension"]] = None,
         author_string: Optional[str] = None,
         time: Optional[str] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class AssessmentValueRange(_model_base.Model):
+    """A range of values.
+
+
+    :ivar minimum: The minimum value. Required.
+    :vartype minimum: str
+    :ivar maximum: The maximum value. Required.
+    :vartype maximum: str
+    """
+
+    minimum: str = rest_field()
+    """The minimum value. Required."""
+    maximum: str = rest_field()
+    """The maximum value. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        minimum: str,
+        maximum: str,
     ): ...
 
     @overload
@@ -635,7 +671,7 @@ class DomainResource(Resource):
 
 class Extension(Element):  # pylint: disable=too-many-instance-attributes
     """Base for all elements
-    Based on `FHIR Element <https://www.hl7.org/fhir/datatypes.html#Element>`_.
+    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`_.
 
 
     :ivar url: Source of the definition for the extension code - a logical name or a URL. Required.
@@ -812,7 +848,7 @@ class FollowupCommunicationInference(RadiologyInsightsInference, discriminator="
     :vartype was_acknowledged: bool
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.FOLLOWUP_COMMUNICATION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[RadiologyInsightsInferenceType.FOLLOWUP_COMMUNICATION] = rest_discriminator(name="kind")  # type: ignore # pylint: disable=line-too-long
     """Inference type. Required. Followup Communication inference type"""
     communicated_at: Optional[List[datetime.datetime]] = rest_field(name="communicatedAt", format="rfc3339")
     """Communication date and time."""
@@ -879,7 +915,7 @@ class FollowupRecommendationInference(RadiologyInsightsInference, discriminator=
      ~azure.healthinsights.radiologyinsights.models.ProcedureRecommendation
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.FOLLOWUP_RECOMMENDATION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[RadiologyInsightsInferenceType.FOLLOWUP_RECOMMENDATION] = rest_discriminator(name="kind")  # type: ignore # pylint: disable=line-too-long
     """Inference type. Required. Recommendation inference type"""
     effective_at: Optional[str] = rest_field(name="effectiveAt")
     """Date and time are displayed when the procedure is recommended to be done at a specific point in
@@ -1062,22 +1098,129 @@ class GenericProcedureRecommendation(ProcedureRecommendation, discriminator="gen
         super().__init__(*args, kind="genericProcedureRecommendation", **kwargs)
 
 
+class GuidanceInference(RadiologyInsightsInference, discriminator="guidance"):
+    """A guidance inference collects structured information about a specific finding in the report and
+    can possibly propose appropriate follow-up recommendations, based upon established,
+    evidence-based best practices i.e. ACR guidelines.
+
+
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
+    :ivar kind: Inference type. Required. Guidance inference type
+    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.GUIDANCE
+    :ivar finding: The finding associated with the guidance. Required.
+    :vartype finding: ~azure.healthinsights.radiologyinsights.models.FindingInference
+    :ivar identifier: The guidance identifier, as a concept. Required.
+    :vartype identifier: ~azure.healthinsights.radiologyinsights.models.CodeableConcept
+    :ivar present_guidance_information: presentGuidanceInformation lists each item of the
+     structured information (e.g. laterality) and corresponding details (left, right, bilateral)
+     that is present in the document.
+    :vartype present_guidance_information:
+     list[~azure.healthinsights.radiologyinsights.models.PresentGuidanceInformation]
+    :ivar ranking: See doc of GuidanceRankingType. Required. Known values are: "high" and "low".
+    :vartype ranking: str or ~azure.healthinsights.radiologyinsights.models.GuidanceRankingType
+    :ivar recommendation_proposals: The proposed follow-up recommendations, if any. If this is
+     filled, missingGuidanceInformation cannot be filled (and vice versa).
+    :vartype recommendation_proposals:
+     list[~azure.healthinsights.radiologyinsights.models.FollowupRecommendationInference]
+    :ivar missing_guidance_information: Contains all missing items that are needed to determine
+     follow-up.
+    :vartype missing_guidance_information: list[str]
+    """
+
+    kind: Literal[RadiologyInsightsInferenceType.GUIDANCE] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Guidance inference type"""
+    finding: "_models.FindingInference" = rest_field()
+    """The finding associated with the guidance. Required."""
+    identifier: "_models.CodeableConcept" = rest_field()
+    """The guidance identifier, as a concept. Required."""
+    present_guidance_information: Optional[List["_models.PresentGuidanceInformation"]] = rest_field(
+        name="presentGuidanceInformation"
+    )
+    """presentGuidanceInformation lists each item of the structured information (e.g. laterality) and
+     corresponding details (left, right, bilateral) that is present in the document."""
+    ranking: Union[str, "_models.GuidanceRankingType"] = rest_field()
+    """See doc of GuidanceRankingType. Required. Known values are: \"high\" and \"low\"."""
+    recommendation_proposals: Optional[List["_models.FollowupRecommendationInference"]] = rest_field(
+        name="recommendationProposals"
+    )
+    """The proposed follow-up recommendations, if any. If this is filled, missingGuidanceInformation
+     cannot be filled (and vice versa)."""
+    missing_guidance_information: Optional[List[str]] = rest_field(name="missingGuidanceInformation")
+    """Contains all missing items that are needed to determine follow-up."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        finding: "_models.FindingInference",
+        identifier: "_models.CodeableConcept",
+        ranking: Union[str, "_models.GuidanceRankingType"],
+        extension: Optional[List["_models.Extension"]] = None,
+        present_guidance_information: Optional[List["_models.PresentGuidanceInformation"]] = None,
+        recommendation_proposals: Optional[List["_models.FollowupRecommendationInference"]] = None,
+        missing_guidance_information: Optional[List[str]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, kind=RadiologyInsightsInferenceType.GUIDANCE, **kwargs)
+
+
+class GuidanceOptions(_model_base.Model):
+    """Guidance options.
+
+
+    :ivar show_guidance_in_history: If this is true, also show guidances from a clinical history
+     section i.e. if the first token of the associated finding's clinical indicator is in this
+     section. Default is false. Required.
+    :vartype show_guidance_in_history: bool
+    """
+
+    show_guidance_in_history: bool = rest_field(name="showGuidanceInHistory")
+    """If this is true, also show guidances from a clinical history section i.e. if the first token of
+     the associated finding's clinical indicator is in this section. Default is false. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        show_guidance_in_history: bool,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class HealthInsightsErrorResponse(_model_base.Model):
     """A response containing error details.
 
 
     :ivar error: The error object. Required.
-    :vartype error: ~azure.core.HttpResponseError
+    :vartype error: ~azure.core.ODataV4Format
     """
 
-    error: HttpResponseError = rest_field()
+    error: ODataV4Format = rest_field()
     """The error object. Required."""
 
     @overload
     def __init__(
         self,
         *,
-        error: HttpResponseError,
+        error: ODataV4Format,
     ): ...
 
     @overload
@@ -1257,7 +1400,7 @@ class LateralityDiscrepancyInference(RadiologyInsightsInference, discriminator="
      ~azure.healthinsights.radiologyinsights.models.LateralityDiscrepancyType
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.LATERALITY_DISCREPANCY] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[RadiologyInsightsInferenceType.LATERALITY_DISCREPANCY] = rest_discriminator(name="kind")  # type: ignore # pylint: disable=line-too-long
     """Inference type. Required. Laterality discrepancy inference type"""
     laterality_indication: Optional["_models.CodeableConcept"] = rest_field(name="lateralityIndication")
     """Laterality indication : SNOMED CT code for laterality qualifier value."""
@@ -2121,6 +2264,141 @@ class Period(Element):
         super().__init__(*args, **kwargs)
 
 
+class PresentGuidanceInformation(_model_base.Model):
+    """An item of the structured information (e.g. laterality or size) and one or more corresponding
+    details (e.g. left or size-value).
+
+
+    :ivar present_guidance_item: The item of the structured information. Required.
+    :vartype present_guidance_item: str
+    :ivar sizes: A list of size values, if the item is about size.
+    :vartype sizes: list[~azure.healthinsights.radiologyinsights.models.Observation]
+    :ivar maximum_diameter_as_in_text: The maximum diameter value, if the item is about the maximum
+     diameter.
+    :vartype maximum_diameter_as_in_text: ~azure.healthinsights.radiologyinsights.models.Quantity
+    :ivar present_guidance_values: The list of item values that are mentioned in the report.
+    :vartype present_guidance_values: list[str]
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
+    """
+
+    present_guidance_item: str = rest_field(name="presentGuidanceItem")
+    """The item of the structured information. Required."""
+    sizes: Optional[List["_models.Observation"]] = rest_field()
+    """A list of size values, if the item is about size."""
+    maximum_diameter_as_in_text: Optional["_models.Quantity"] = rest_field(name="maximumDiameterAsInText")
+    """The maximum diameter value, if the item is about the maximum diameter."""
+    present_guidance_values: Optional[List[str]] = rest_field(name="presentGuidanceValues")
+    """The list of item values that are mentioned in the report."""
+    extension: Optional[List["_models.Extension"]] = rest_field()
+    """Additional Content defined by implementations."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        present_guidance_item: str,
+        sizes: Optional[List["_models.Observation"]] = None,
+        maximum_diameter_as_in_text: Optional["_models.Quantity"] = None,
+        present_guidance_values: Optional[List[str]] = None,
+        extension: Optional[List["_models.Extension"]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class QualityMeasureInference(RadiologyInsightsInference, discriminator="qualityMeasure"):
+    """A QualityMeasure inference captures the  MIPS ('measure based incentive payment system')
+    quality measure criteria in the document that are used to measure the data completeness.
+
+
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
+    :ivar kind: Inference type. Required. Guidance measure inference type
+    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.QUALITY_MEASURE
+    :ivar quality_measure_denominator: The denominator, which identifies the QualityMeasure kind.
+     Required.
+    :vartype quality_measure_denominator: str
+    :ivar compliance_type: The ComplianceType indicates whether the document is compliant for the
+     specified QualityMeasure or not, or if exceptions apply. Required. Known values are:
+     "notEligible", "performanceNotMet", "performanceMet", and "denominatorException".
+    :vartype compliance_type: str or
+     ~azure.healthinsights.radiologyinsights.models.QualityMeasureComplianceType
+    :ivar quality_criteria: List of quality criteria identified in the document, if any.
+    :vartype quality_criteria: list[str]
+    """
+
+    kind: Literal[RadiologyInsightsInferenceType.QUALITY_MEASURE] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Guidance measure inference type"""
+    quality_measure_denominator: str = rest_field(name="qualityMeasureDenominator")
+    """The denominator, which identifies the QualityMeasure kind. Required."""
+    compliance_type: Union[str, "_models.QualityMeasureComplianceType"] = rest_field(name="complianceType")
+    """The ComplianceType indicates whether the document is compliant for the specified QualityMeasure
+     or not, or if exceptions apply. Required. Known values are: \"notEligible\",
+     \"performanceNotMet\", \"performanceMet\", and \"denominatorException\"."""
+    quality_criteria: Optional[List[str]] = rest_field(name="qualityCriteria")
+    """List of quality criteria identified in the document, if any."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        quality_measure_denominator: str,
+        compliance_type: Union[str, "_models.QualityMeasureComplianceType"],
+        extension: Optional[List["_models.Extension"]] = None,
+        quality_criteria: Optional[List[str]] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, kind=RadiologyInsightsInferenceType.QUALITY_MEASURE, **kwargs)
+
+
+class QualityMeasureOptions(_model_base.Model):
+    """Quality Measure Options.
+
+
+    :ivar measure_types: Id(s) of the MIPS measures that need to be evaluated in the document.
+     Required.
+    :vartype measure_types: list[str or
+     ~azure.healthinsights.radiologyinsights.models.QualityMeasureType]
+    """
+
+    measure_types: List[Union[str, "_models.QualityMeasureType"]] = rest_field(name="measureTypes")
+    """Id(s) of the MIPS measures that need to be evaluated in the document. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        measure_types: List[Union[str, "_models.QualityMeasureType"]],
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
 class Quantity(Element):
     """A measured or measurable amount
     Based on `FHIR Quantity <https://www.hl7.org/fhir/R4/datatypes.html#Quantity>`_.
@@ -2253,6 +2531,11 @@ class RadiologyInsightsInferenceOptions(_model_base.Model):
      ~azure.healthinsights.radiologyinsights.models.FollowupRecommendationOptions
     :ivar finding_options: Finding options.
     :vartype finding_options: ~azure.healthinsights.radiologyinsights.models.FindingOptions
+    :ivar guidance_options: Guidance options.
+    :vartype guidance_options: ~azure.healthinsights.radiologyinsights.models.GuidanceOptions
+    :ivar quality_measure_options: QualityMeasureOptions.
+    :vartype quality_measure_options:
+     ~azure.healthinsights.radiologyinsights.models.QualityMeasureOptions
     """
 
     followup_recommendation_options: Optional["_models.FollowupRecommendationOptions"] = rest_field(
@@ -2261,6 +2544,10 @@ class RadiologyInsightsInferenceOptions(_model_base.Model):
     """Follow-up recommendation options."""
     finding_options: Optional["_models.FindingOptions"] = rest_field(name="findingOptions")
     """Finding options."""
+    guidance_options: Optional["_models.GuidanceOptions"] = rest_field(name="guidanceOptions")
+    """Guidance options."""
+    quality_measure_options: Optional["_models.QualityMeasureOptions"] = rest_field(name="qualityMeasureOptions")
+    """QualityMeasureOptions."""
 
     @overload
     def __init__(
@@ -2268,6 +2555,8 @@ class RadiologyInsightsInferenceOptions(_model_base.Model):
         *,
         followup_recommendation_options: Optional["_models.FollowupRecommendationOptions"] = None,
         finding_options: Optional["_models.FindingOptions"] = None,
+        guidance_options: Optional["_models.GuidanceOptions"] = None,
+        quality_measure_options: Optional["_models.QualityMeasureOptions"] = None,
     ): ...
 
     @overload
@@ -2341,7 +2630,7 @@ class RadiologyInsightsJob(_model_base.Model):
     :ivar updated_at: The date and time when the processing job was last updated.
     :vartype updated_at: ~datetime.datetime
     :ivar error: Error object that describes the error when status is "Failed".
-    :vartype error: ~azure.core.HttpResponseError
+    :vartype error: ~azure.core.ODataV4Format
     """
 
     job_data: Optional["_models.RadiologyInsightsData"] = rest_field(name="jobData", visibility=["read", "create"])
@@ -2359,7 +2648,7 @@ class RadiologyInsightsJob(_model_base.Model):
     """The date and time when the processing job is set to expire."""
     updated_at: Optional[datetime.datetime] = rest_field(name="updatedAt", visibility=["read"], format="rfc3339")
     """The date and time when the processing job was last updated."""
-    error: Optional[HttpResponseError] = rest_field(visibility=["read"])
+    error: Optional[ODataV4Format] = rest_field(visibility=["read"])
     """Error object that describes the error when status is \"Failed\"."""
 
     @overload
@@ -2742,6 +3031,77 @@ class SampledData(Element):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
         super().__init__(*args, **kwargs)
+
+
+class ScoringAndAssessmentInference(RadiologyInsightsInference, discriminator="scoringAndAssessment"):
+    """Identifies and highlights Risk, Scoring, Assessment and Classifications and correspondent
+    values dictated in a report, e.g. 'BIRADS 5'.
+
+
+    :ivar extension: Additional Content defined by implementations.
+    :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
+    :ivar kind: Inference type. Required. Scoring and assessment inference type
+    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.SCORING_AND_ASSESSMENT
+    :ivar category: Category, e.g. BIRADS. Required. Known values are: "BIRADS", "C-RADS COLONIC
+     FINDINGS", "CAD-RADS", "LI-RADS", "LUNG-RADS", "NI-RADS", "O-RADS", "PI-RADS", "TI-RADS",
+     "C-RADS EXTRACOLONIC FINDINGS", "LIFETIME BREAST CANCER RISK", "ASCVD RISK", "MODIFIED GAIL
+     MODEL RISK", "TYRER CUSICK MODEL RISK", "AGATSTON SCORE", "10 YEAR CHD RISK", "Z-SCORE",
+     "T-SCORE", "CALCIUM VOLUME SCORE", "US LI-RADS VISUALIZATION SCORE", "US LI-RADS", "CEUS
+     LI-RADS", "TREATMENT RESPONSE LI-RADS", "O-RADS MRI", "CALCIUM MASS SCORE", "RISK OF MALIGNANCY
+     INDEX", "HNPCC MUTATION RISK", "ALBERTA STROKE PROGRAM EARLY CT SCORE", "KELLGREN-LAWRENCE
+     GRADING SCALE", "TONNIS CLASSIFICATION", "CALCIUM SCORE (UNSPECIFIED)", "10 YEAR CHD RISK
+     (OBSERVED AGE)", "10 YEAR CHD RISK (ARTERIAL AGE)", and "FRAX SCORE".
+    :vartype category: str or
+     ~azure.healthinsights.radiologyinsights.models.ScoringAndAssessmentCategoryType
+    :ivar category_description: The expansion of the category (which is an abbreviation.).
+     Required.
+    :vartype category_description: str
+    :ivar single_value: The value. If the value is a range, use field valueRange.
+    :vartype single_value: str
+    :ivar range_value: The range.
+    :vartype range_value: ~azure.healthinsights.radiologyinsights.models.AssessmentValueRange
+    """
+
+    kind: Literal[RadiologyInsightsInferenceType.SCORING_AND_ASSESSMENT] = rest_discriminator(name="kind")  # type: ignore # pylint: disable=line-too-long
+    """Inference type. Required. Scoring and assessment inference type"""
+    category: Union[str, "_models.ScoringAndAssessmentCategoryType"] = rest_field()
+    """Category, e.g. BIRADS. Required. Known values are: \"BIRADS\", \"C-RADS COLONIC FINDINGS\",
+     \"CAD-RADS\", \"LI-RADS\", \"LUNG-RADS\", \"NI-RADS\", \"O-RADS\", \"PI-RADS\", \"TI-RADS\",
+     \"C-RADS EXTRACOLONIC FINDINGS\", \"LIFETIME BREAST CANCER RISK\", \"ASCVD RISK\", \"MODIFIED
+     GAIL MODEL RISK\", \"TYRER CUSICK MODEL RISK\", \"AGATSTON SCORE\", \"10 YEAR CHD RISK\",
+     \"Z-SCORE\", \"T-SCORE\", \"CALCIUM VOLUME SCORE\", \"US LI-RADS VISUALIZATION SCORE\", \"US
+     LI-RADS\", \"CEUS LI-RADS\", \"TREATMENT RESPONSE LI-RADS\", \"O-RADS MRI\", \"CALCIUM MASS
+     SCORE\", \"RISK OF MALIGNANCY INDEX\", \"HNPCC MUTATION RISK\", \"ALBERTA STROKE PROGRAM EARLY
+     CT SCORE\", \"KELLGREN-LAWRENCE GRADING SCALE\", \"TONNIS CLASSIFICATION\", \"CALCIUM SCORE
+     (UNSPECIFIED)\", \"10 YEAR CHD RISK (OBSERVED AGE)\", \"10 YEAR CHD RISK (ARTERIAL AGE)\", and
+     \"FRAX SCORE\"."""
+    category_description: str = rest_field(name="categoryDescription")
+    """The expansion of the category (which is an abbreviation.). Required."""
+    single_value: Optional[str] = rest_field(name="singleValue")
+    """The value. If the value is a range, use field valueRange."""
+    range_value: Optional["_models.AssessmentValueRange"] = rest_field(name="rangeValue")
+    """The range."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        category: Union[str, "_models.ScoringAndAssessmentCategoryType"],
+        category_description: str,
+        extension: Optional[List["_models.Extension"]] = None,
+        single_value: Optional[str] = None,
+        range_value: Optional["_models.AssessmentValueRange"] = None,
+    ): ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]):
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, kind=RadiologyInsightsInferenceType.SCORING_AND_ASSESSMENT, **kwargs)
 
 
 class SexMismatchInference(RadiologyInsightsInference, discriminator="sexMismatch"):
