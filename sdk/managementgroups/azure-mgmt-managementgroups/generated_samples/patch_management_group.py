@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.managementgroups import ManagementGroupsAPI
 
 """
@@ -38,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/PatchManagementGroup.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/PatchManagementGroup.json
 if __name__ == "__main__":
     main()
