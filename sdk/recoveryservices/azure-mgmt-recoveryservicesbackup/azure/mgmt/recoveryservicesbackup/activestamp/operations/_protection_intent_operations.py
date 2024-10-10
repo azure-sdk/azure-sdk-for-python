@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -18,16 +19,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import RecoveryServicesBackupClientMixinABC, _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -291,7 +294,7 @@ class ProtectionIntentOperations:
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.PreValidateEnableBackupResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -324,7 +327,6 @@ class ProtectionIntentOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -338,7 +340,7 @@ class ProtectionIntentOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PreValidateEnableBackupResponse", pipeline_response)
+        deserialized = self._deserialize("PreValidateEnableBackupResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -366,7 +368,7 @@ class ProtectionIntentOperations:
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.ProtectionIntentResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -390,7 +392,6 @@ class ProtectionIntentOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -404,7 +405,7 @@ class ProtectionIntentOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ProtectionIntentResource", pipeline_response)
+        deserialized = self._deserialize("ProtectionIntentResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -507,7 +508,7 @@ class ProtectionIntentOperations:
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.ProtectionIntentResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -543,7 +544,6 @@ class ProtectionIntentOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -557,7 +557,7 @@ class ProtectionIntentOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ProtectionIntentResource", pipeline_response)
+        deserialized = self._deserialize("ProtectionIntentResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -583,7 +583,7 @@ class ProtectionIntentOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -607,7 +607,6 @@ class ProtectionIntentOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False

@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -15,26 +16,29 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._private_endpoint_connection_operations import (
     build_delete_request,
     build_get_request,
     build_put_request,
 )
-from .._vendor import RecoveryServicesBackupClientMixinABC
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -75,7 +79,7 @@ class PrivateEndpointConnectionOperations:
         :rtype: ~azure.mgmt.recoveryservicesbackup.activestamp.models.PrivateEndpointConnectionResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -98,7 +102,6 @@ class PrivateEndpointConnectionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -113,7 +116,7 @@ class PrivateEndpointConnectionOperations:
             error = self._deserialize.failsafe_deserialize(_models.NewErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PrivateEndpointConnectionResource", pipeline_response)
+        deserialized = self._deserialize("PrivateEndpointConnectionResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -127,8 +130,8 @@ class PrivateEndpointConnectionOperations:
         private_endpoint_connection_name: str,
         parameters: Union[_models.PrivateEndpointConnectionResource, IO[bytes]],
         **kwargs: Any
-    ) -> _models.PrivateEndpointConnectionResource:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -141,7 +144,7 @@ class PrivateEndpointConnectionOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PrivateEndpointConnectionResource] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -163,10 +166,10 @@ class PrivateEndpointConnectionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -174,14 +177,14 @@ class PrivateEndpointConnectionOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("PrivateEndpointConnectionResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("PrivateEndpointConnectionResource", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -304,10 +307,11 @@ class PrivateEndpointConnectionOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("PrivateEndpointConnectionResource", pipeline_response)
+            deserialized = self._deserialize("PrivateEndpointConnectionResource", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -329,10 +333,10 @@ class PrivateEndpointConnectionOperations:
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
+    async def _delete_initial(
         self, vault_name: str, resource_group_name: str, private_endpoint_connection_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -344,7 +348,7 @@ class PrivateEndpointConnectionOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
             vault_name=vault_name,
@@ -355,10 +359,10 @@ class PrivateEndpointConnectionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -366,11 +370,19 @@ class PrivateEndpointConnectionOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -398,7 +410,7 @@ class PrivateEndpointConnectionOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._delete_initial(  # type: ignore
+            raw_result = await self._delete_initial(
                 vault_name=vault_name,
                 resource_group_name=resource_group_name,
                 private_endpoint_connection_name=private_endpoint_connection_name,
@@ -408,6 +420,7 @@ class PrivateEndpointConnectionOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
