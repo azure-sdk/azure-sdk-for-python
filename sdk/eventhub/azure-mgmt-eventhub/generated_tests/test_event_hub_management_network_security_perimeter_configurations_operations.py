@@ -25,7 +25,7 @@ class TestEventHubManagementNetworkSecurityPerimeterConfigurationsOperations(Azu
             resource_group_name=resource_group.name,
             namespace_name="str",
             resource_association_name="str",
-            api_version="2022-10-01-preview",
+            api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
