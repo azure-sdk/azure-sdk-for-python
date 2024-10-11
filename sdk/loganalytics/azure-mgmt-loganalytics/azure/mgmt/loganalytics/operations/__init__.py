@@ -6,56 +6,56 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._available_service_tiers_operations import AvailableServiceTiersOperations
 from ._query_packs_operations import QueryPacksOperations
 from ._queries_operations import QueriesOperations
+from ._clusters_operations import ClustersOperations
 from ._data_exports_operations import DataExportsOperations
 from ._data_sources_operations import DataSourcesOperations
+from ._gateways_operations import GatewaysOperations
 from ._intelligence_packs_operations import IntelligencePacksOperations
 from ._linked_services_operations import LinkedServicesOperations
 from ._linked_storage_accounts_operations import LinkedStorageAccountsOperations
 from ._management_groups_operations import ManagementGroupsOperations
-from ._operation_statuses_operations import OperationStatusesOperations
-from ._shared_keys_operations import SharedKeysOperations
-from ._usages_operations import UsagesOperations
-from ._storage_insight_configs_operations import StorageInsightConfigsOperations
-from ._saved_searches_operations import SavedSearchesOperations
-from ._available_service_tiers_operations import AvailableServiceTiersOperations
-from ._gateways_operations import GatewaysOperations
-from ._schema_operations import SchemaOperations
-from ._workspace_purge_operations import WorkspacePurgeOperations
-from ._clusters_operations import ClustersOperations
 from ._operations import Operations
+from ._operation_statuses_operations import OperationStatusesOperations
+from ._saved_searches_operations import SavedSearchesOperations
+from ._schema_operations import SchemaOperations
+from ._shared_keys_operations import SharedKeysOperations
+from ._storage_insight_configs_operations import StorageInsightConfigsOperations
+from ._tables_operations import TablesOperations
+from ._usages_operations import UsagesOperations
+from ._workspace_purge_operations import WorkspacePurgeOperations
 from ._workspaces_operations import WorkspacesOperations
 from ._deleted_workspaces_operations import DeletedWorkspacesOperations
-from ._tables_operations import TablesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AvailableServiceTiersOperations",
     "QueryPacksOperations",
     "QueriesOperations",
+    "ClustersOperations",
     "DataExportsOperations",
     "DataSourcesOperations",
+    "GatewaysOperations",
     "IntelligencePacksOperations",
     "LinkedServicesOperations",
     "LinkedStorageAccountsOperations",
     "ManagementGroupsOperations",
-    "OperationStatusesOperations",
-    "SharedKeysOperations",
-    "UsagesOperations",
-    "StorageInsightConfigsOperations",
-    "SavedSearchesOperations",
-    "AvailableServiceTiersOperations",
-    "GatewaysOperations",
-    "SchemaOperations",
-    "WorkspacePurgeOperations",
-    "ClustersOperations",
     "Operations",
+    "OperationStatusesOperations",
+    "SavedSearchesOperations",
+    "SchemaOperations",
+    "SharedKeysOperations",
+    "StorageInsightConfigsOperations",
+    "TablesOperations",
+    "UsagesOperations",
+    "WorkspacePurgeOperations",
     "WorkspacesOperations",
     "DeletedWorkspacesOperations",
-    "TablesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
