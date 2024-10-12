@@ -31,6 +31,9 @@ from ._models_py3 import ApiOperationListResult
 from ._models_py3 import ApiOperationPropertiesServiceSpecification
 from ._models_py3 import AscOperation
 from ._models_py3 import AscOperationErrorResponse
+from ._models_py3 import AutoExportJob
+from ._models_py3 import AutoExportJobUpdate
+from ._models_py3 import AutoExportJobsListResult
 from ._models_py3 import BlobNfsTarget
 from ._models_py3 import Cache
 from ._models_py3 import CacheActiveDirectorySettings
@@ -97,6 +100,9 @@ from ._storage_cache_management_client_enums import AmlFilesystemIdentityType
 from ._storage_cache_management_client_enums import AmlFilesystemProvisioningStateType
 from ._storage_cache_management_client_enums import AmlFilesystemSquashMode
 from ._storage_cache_management_client_enums import ArchiveStatusType
+from ._storage_cache_management_client_enums import AutoExportJobAdminStatus
+from ._storage_cache_management_client_enums import AutoExportJobProvisioningStateType
+from ._storage_cache_management_client_enums import AutoExportStatusType
 from ._storage_cache_management_client_enums import CacheIdentityType
 from ._storage_cache_management_client_enums import ConflictResolutionMode
 from ._storage_cache_management_client_enums import CreatedByType
@@ -104,6 +110,7 @@ from ._storage_cache_management_client_enums import DomainJoinedType
 from ._storage_cache_management_client_enums import FilesystemSubnetStatusType
 from ._storage_cache_management_client_enums import FirmwareStatusType
 from ._storage_cache_management_client_enums import HealthStateType
+from ._storage_cache_management_client_enums import ImportJobAdminStatus
 from ._storage_cache_management_client_enums import ImportJobProvisioningStateType
 from ._storage_cache_management_client_enums import ImportStatusType
 from ._storage_cache_management_client_enums import MaintenanceDayOfWeekType
@@ -147,6 +154,9 @@ __all__ = [
     "ApiOperationPropertiesServiceSpecification",
     "AscOperation",
     "AscOperationErrorResponse",
+    "AutoExportJob",
+    "AutoExportJobUpdate",
+    "AutoExportJobsListResult",
     "BlobNfsTarget",
     "Cache",
     "CacheActiveDirectorySettings",
@@ -212,6 +222,9 @@ __all__ = [
     "AmlFilesystemProvisioningStateType",
     "AmlFilesystemSquashMode",
     "ArchiveStatusType",
+    "AutoExportJobAdminStatus",
+    "AutoExportJobProvisioningStateType",
+    "AutoExportStatusType",
     "CacheIdentityType",
     "ConflictResolutionMode",
     "CreatedByType",
@@ -219,6 +232,7 @@ __all__ = [
     "FilesystemSubnetStatusType",
     "FirmwareStatusType",
     "HealthStateType",
+    "ImportJobAdminStatus",
     "ImportJobProvisioningStateType",
     "ImportStatusType",
     "MaintenanceDayOfWeekType",
