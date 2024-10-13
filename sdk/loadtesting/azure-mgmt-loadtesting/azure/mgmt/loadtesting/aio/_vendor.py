@@ -11,15 +11,15 @@ from typing import TYPE_CHECKING
 from ._configuration import LoadTestMgmtClientConfiguration
 
 if TYPE_CHECKING:
-    from azure.core import PipelineClient
+    from azure.core import AsyncPipelineClient
 
-    from ._serialization import Deserializer, Serializer
+    from .._serialization import Deserializer, Serializer
 
 
 class LoadTestMgmtClientMixinABC(ABC):
     """DO NOT use this class. It is for internal typing use only."""
 
-    _client: "PipelineClient"
+    _client: "AsyncPipelineClient"
     _config: LoadTestMgmtClientConfiguration
     _serialize: "Serializer"
     _deserialize: "Deserializer"
