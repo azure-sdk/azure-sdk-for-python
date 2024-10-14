@@ -15,7 +15,7 @@ from azure.mgmt.deviceregistry import DeviceRegistryMgmtClient
     pip install azure-identity
     pip install azure-mgmt-deviceregistry
 # USAGE
-    python list_assets_resource_group.py
+    python get_billing_container.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.assets.list_by_resource_group(
-        resource_group_name="myResourceGroup",
+    response = client.billing_containers.get(
+        billing_container_name="my-billingContainer",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/stable/2024-11-01/examples/List_Assets_ResourceGroup.json
+# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/stable/2024-11-01/examples/Get_BillingContainer.json
 if __name__ == "__main__":
     main()

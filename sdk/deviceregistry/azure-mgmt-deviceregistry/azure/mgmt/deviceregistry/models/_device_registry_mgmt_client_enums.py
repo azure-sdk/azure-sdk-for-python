@@ -16,6 +16,17 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the method to authenticate the user of the client at the server."""
+
+    ANONYMOUS = "Anonymous"
+    """The user authentication method is anonymous."""
+    CERTIFICATE = "Certificate"
+    """The user authentication method is an x509 certificate."""
+    USERNAME_PASSWORD = "UsernamePassword"
+    """The user authentication method is a username and password."""
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -25,27 +36,27 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
-class DataPointsObservabilityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class DataPointObservabilityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """An indication of how the data point should be mapped to OpenTelemetry."""
 
-    NONE = "none"
+    NONE = "None"
     """No mapping to OpenTelemetry."""
-    COUNTER = "counter"
+    COUNTER = "Counter"
     """Map as counter to OpenTelemetry."""
-    GAUGE = "gauge"
+    GAUGE = "Gauge"
     """Map as gauge to OpenTelemetry."""
-    HISTOGRAM = "histogram"
+    HISTOGRAM = "Histogram"
     """Map as histogram to OpenTelemetry."""
-    LOG = "log"
+    LOG = "Log"
     """Map as log to OpenTelemetry."""
 
 
-class EventsObservabilityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class EventObservabilityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """An indication of how the event should be mapped to OpenTelemetry."""
 
-    NONE = "none"
+    NONE = "None"
     """No mapping to OpenTelemetry."""
-    LOG = "log"
+    LOG = "Log"
     """Map as log to OpenTelemetry."""
 
 
@@ -70,14 +81,16 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource creation was canceled."""
     ACCEPTED = "Accepted"
     """Resource has been accepted by the server."""
+    DELETING = "Deleting"
+    """Resource is deleting."""
 
 
-class UserAuthenticationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Defines the mode to authenticate the user of the client at the server."""
+class TopicRetainType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
+    Default: 'Never'.
+    """
 
-    ANONYMOUS = "Anonymous"
-    """The user authentication mode is anonymous."""
-    CERTIFICATE = "Certificate"
-    """The user authentication mode is an x509 certificate."""
-    USERNAME_PASSWORD = "UsernamePassword"
-    """The user authentication mode is a username and password."""
+    KEEP = "Keep"
+    """Retain the messages."""
+    NEVER = "Never"
+    """Never retain messages."""

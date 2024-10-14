@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/preview/2023-11-01-preview/examples/Get_AssetEndpointProfile.json
+# x-ms-original-file: specification/deviceregistry/resource-manager/Microsoft.DeviceRegistry/stable/2024-11-01/examples/Get_AssetEndpointProfile.json
 if __name__ == "__main__":
     main()
