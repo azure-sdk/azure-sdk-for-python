@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.datamigration import DataMigrationManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.datamigration import DataMigrationManagementClient
     pip install azure-identity
     pip install azure-mgmt-datamigration
 # USAGE
-    python list_auth_keys_migration_service.py
+    python cosmos_db_mongo_get_database_migration_expanded.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +30,14 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_migration_services.list_auth_keys(
+    response = client.database_migrations_mongo_to_cosmos_dbv_core_mongo.get(
         resource_group_name="testrg",
-        sql_migration_service_name="service1",
+        target_resource_name="targetCosmosDbClusterName",
+        migration_name="migrationRequest",
     )
     print(response)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/ListAuthKeysMigrationService.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2023-07-15-preview/examples/CosmosDbMongoGetDatabaseMigrationExpanded.json
 if __name__ == "__main__":
     main()
