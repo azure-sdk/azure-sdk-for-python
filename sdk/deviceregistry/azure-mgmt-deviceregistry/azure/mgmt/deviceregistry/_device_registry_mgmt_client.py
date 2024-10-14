@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -17,7 +18,13 @@ from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 from . import models as _models
 from ._configuration import DeviceRegistryMgmtClientConfiguration
 from ._serialization import Deserializer, Serializer
-from .operations import AssetEndpointProfilesOperations, AssetsOperations, OperationStatusOperations, Operations
+from .operations import (
+    AssetEndpointProfilesOperations,
+    AssetsOperations,
+    BillingContainersOperations,
+    OperationStatusOperations,
+    Operations,
+)
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -34,16 +41,18 @@ class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-ke
      azure.mgmt.deviceregistry.operations.AssetEndpointProfilesOperations
     :ivar assets: AssetsOperations operations
     :vartype assets: azure.mgmt.deviceregistry.operations.AssetsOperations
+    :ivar billing_containers: BillingContainersOperations operations
+    :vartype billing_containers: azure.mgmt.deviceregistry.operations.BillingContainersOperations
     :ivar operation_status: OperationStatusOperations operations
     :vartype operation_status: azure.mgmt.deviceregistry.operations.OperationStatusOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-11-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-11-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -88,6 +97,9 @@ class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize
         )
         self.assets = AssetsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.billing_containers = BillingContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operation_status = OperationStatusOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -117,7 +129,7 @@ class DeviceRegistryMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "DeviceRegistryMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

@@ -9,6 +9,7 @@
 from ._operations import Operations
 from ._asset_endpoint_profiles_operations import AssetEndpointProfilesOperations
 from ._assets_operations import AssetsOperations
+from ._billing_containers_operations import BillingContainersOperations
 from ._operation_status_operations import OperationStatusOperations
 
 from ._patch import __all__ as _patch_all
@@ -19,6 +20,7 @@ __all__ = [
     "Operations",
     "AssetEndpointProfilesOperations",
     "AssetsOperations",
+    "BillingContainersOperations",
     "OperationStatusOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
