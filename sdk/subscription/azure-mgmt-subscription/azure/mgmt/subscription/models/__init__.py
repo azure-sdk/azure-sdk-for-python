@@ -32,6 +32,7 @@ from ._models_py3 import Subscription
 from ._models_py3 import SubscriptionAliasListResult
 from ._models_py3 import SubscriptionAliasResponse
 from ._models_py3 import SubscriptionAliasResponseProperties
+from ._models_py3 import SubscriptionCreationResult
 from ._models_py3 import SubscriptionListResult
 from ._models_py3 import SubscriptionName
 from ._models_py3 import SubscriptionPolicies
@@ -78,6 +79,7 @@ __all__ = [
     "SubscriptionAliasListResult",
     "SubscriptionAliasResponse",
     "SubscriptionAliasResponseProperties",
+    "SubscriptionCreationResult",
     "SubscriptionListResult",
     "SubscriptionName",
     "SubscriptionPolicies",
