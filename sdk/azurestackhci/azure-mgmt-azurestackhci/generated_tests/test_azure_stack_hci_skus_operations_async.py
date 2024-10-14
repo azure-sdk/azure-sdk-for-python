@@ -27,7 +27,7 @@ class TestAzureStackHCISkusOperationsAsync(AzureMgmtRecordedTestCase):
             cluster_name="str",
             publisher_name="str",
             offer_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -42,7 +42,7 @@ class TestAzureStackHCISkusOperationsAsync(AzureMgmtRecordedTestCase):
             publisher_name="str",
             offer_name="str",
             sku_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
