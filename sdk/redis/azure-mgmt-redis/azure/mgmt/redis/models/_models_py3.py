@@ -1156,6 +1156,15 @@ class RedisCommonProperties(_serialization.Model):  # pylint: disable=too-many-i
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     """
 
     _attribute_map = {
@@ -1170,6 +1179,7 @@ class RedisCommonProperties(_serialization.Model):  # pylint: disable=too-many-i
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "zonalAllocationPolicy", "type": "str"},
     }
 
     def __init__(
@@ -1186,6 +1196,7 @@ class RedisCommonProperties(_serialization.Model):  # pylint: disable=too-many-i
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1226,6 +1237,15 @@ class RedisCommonProperties(_serialization.Model):  # pylint: disable=too-many-i
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         """
         super().__init__(**kwargs)
         self.redis_configuration = redis_configuration
@@ -1239,6 +1259,7 @@ class RedisCommonProperties(_serialization.Model):  # pylint: disable=too-many-i
         self.public_network_access = public_network_access
         self.update_channel = update_channel
         self.disable_access_key_authentication = disable_access_key_authentication
+        self.zonal_allocation_policy = zonal_allocation_policy
 
 
 class RedisCommonPropertiesRedisConfiguration(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -1472,6 +1493,15 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -1511,6 +1541,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "properties.updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "properties.disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "properties.zonalAllocationPolicy", "type": "str"},
         "sku": {"key": "properties.sku", "type": "Sku"},
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "static_ip": {"key": "properties.staticIP", "type": "str"},
@@ -1535,6 +1566,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         subnet_id: Optional[str] = None,
         static_ip: Optional[str] = None,
         **kwargs: Any
@@ -1585,6 +1617,15 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -1611,6 +1652,7 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
         self.public_network_access = public_network_access
         self.update_channel = update_channel
         self.disable_access_key_authentication = disable_access_key_authentication
+        self.zonal_allocation_policy = zonal_allocation_policy
         self.sku = sku
         self.subnet_id = subnet_id
         self.static_ip = static_ip
@@ -1656,6 +1698,15 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -1687,6 +1738,7 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "zonalAllocationPolicy", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "subnet_id": {"key": "subnetId", "type": "str"},
         "static_ip": {"key": "staticIP", "type": "str"},
@@ -1707,6 +1759,7 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         subnet_id: Optional[str] = None,
         static_ip: Optional[str] = None,
         **kwargs: Any
@@ -1749,6 +1802,15 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -1771,6 +1833,7 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
             public_network_access=public_network_access,
             update_channel=update_channel,
             disable_access_key_authentication=disable_access_key_authentication,
+            zonal_allocation_policy=zonal_allocation_policy,
             **kwargs
         )
         self.sku = sku
@@ -2426,6 +2489,15 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -2485,6 +2557,7 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "zonalAllocationPolicy", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "subnet_id": {"key": "subnetId", "type": "str"},
         "static_ip": {"key": "staticIP", "type": "str"},
@@ -2513,6 +2586,7 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         subnet_id: Optional[str] = None,
         static_ip: Optional[str] = None,
         **kwargs: Any
@@ -2555,6 +2629,15 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -2577,6 +2660,7 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
             public_network_access=public_network_access,
             update_channel=update_channel,
             disable_access_key_authentication=disable_access_key_authentication,
+            zonal_allocation_policy=zonal_allocation_policy,
             sku=sku,
             subnet_id=subnet_id,
             static_ip=static_ip,
@@ -2770,6 +2854,15 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
     :ivar subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -2843,6 +2936,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "properties.updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "properties.disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "properties.zonalAllocationPolicy", "type": "str"},
         "sku": {"key": "properties.sku", "type": "Sku"},
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "static_ip": {"key": "properties.staticIP", "type": "str"},
@@ -2878,6 +2972,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         subnet_id: Optional[str] = None,
         static_ip: Optional[str] = None,
         **kwargs: Any
@@ -2928,6 +3023,15 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         :keyword subnet_id: The full resource ID of a subnet in a virtual network to deploy the Redis
@@ -2952,6 +3056,7 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         self.public_network_access = public_network_access
         self.update_channel = update_channel
         self.disable_access_key_authentication = disable_access_key_authentication
+        self.zonal_allocation_policy = zonal_allocation_policy
         self.sku = sku
         self.subnet_id = subnet_id
         self.static_ip = static_ip
@@ -3007,6 +3112,15 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     :ivar sku: The SKU of the Redis cache to deploy.
     :vartype sku: ~azure.mgmt.redis.models.Sku
     """
@@ -3028,6 +3142,7 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "properties.updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "properties.disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "properties.zonalAllocationPolicy", "type": "str"},
         "sku": {"key": "properties.sku", "type": "Sku"},
     }
 
@@ -3047,6 +3162,7 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         sku: Optional["_models.Sku"] = None,
         **kwargs: Any
     ) -> None:
@@ -3092,6 +3208,15 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         :keyword sku: The SKU of the Redis cache to deploy.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         """
@@ -3109,6 +3234,7 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
         self.public_network_access = public_network_access
         self.update_channel = update_channel
         self.disable_access_key_authentication = disable_access_key_authentication
+        self.zonal_allocation_policy = zonal_allocation_policy
         self.sku = sku
 
 
@@ -3150,6 +3276,15 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
     :ivar disable_access_key_authentication: Authentication to Redis through access keys is
      disabled when set as true. Default value is false.
     :vartype disable_access_key_authentication: bool
+    :ivar zonal_allocation_policy: Optional: Specifies how availability zones are allocated to the
+     Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+     based on regional availability and capacity. 'UserDefined' will select availability zones
+     passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+     'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+     in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+     in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+     "NoZones".
+    :vartype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
     :ivar sku: The SKU of the Redis cache to deploy.
     :vartype sku: ~azure.mgmt.redis.models.Sku
     """
@@ -3166,6 +3301,7 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "update_channel": {"key": "updateChannel", "type": "str"},
         "disable_access_key_authentication": {"key": "disableAccessKeyAuthentication", "type": "bool"},
+        "zonal_allocation_policy": {"key": "zonalAllocationPolicy", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
     }
 
@@ -3183,6 +3319,7 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         update_channel: Optional[Union[str, "_models.UpdateChannel"]] = None,
         disable_access_key_authentication: bool = False,
+        zonal_allocation_policy: Optional[Union[str, "_models.ZonalAllocationPolicy"]] = None,
         sku: Optional["_models.Sku"] = None,
         **kwargs: Any
     ) -> None:
@@ -3224,6 +3361,15 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
         :keyword disable_access_key_authentication: Authentication to Redis through access keys is
          disabled when set as true. Default value is false.
         :paramtype disable_access_key_authentication: bool
+        :keyword zonal_allocation_policy: Optional: Specifies how availability zones are allocated to
+         the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones
+         based on regional availability and capacity. 'UserDefined' will select availability zones
+         passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If
+         'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed
+         in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones'
+         in regions where zones are not supported. Known values are: "Automatic", "UserDefined", and
+         "NoZones".
+        :paramtype zonal_allocation_policy: str or ~azure.mgmt.redis.models.ZonalAllocationPolicy
         :keyword sku: The SKU of the Redis cache to deploy.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
         """
@@ -3239,6 +3385,7 @@ class RedisUpdateProperties(RedisCommonProperties):  # pylint: disable=too-many-
             public_network_access=public_network_access,
             update_channel=update_channel,
             disable_access_key_authentication=disable_access_key_authentication,
+            zonal_allocation_policy=zonal_allocation_policy,
             **kwargs
         )
         self.sku = sku
