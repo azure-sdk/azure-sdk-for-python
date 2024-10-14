@@ -46,15 +46,6 @@ class CmkIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_ASSIGNED_IDENTITY = "userAssignedIdentity"
 
 
-class DeferUpgradeSetting(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Option to defer upgrade when newest version is released - default is NotDeferred. Learn more:
-    https://aka.ms/redisversionupgrade.
-    """
-
-    DEFERRED = "Deferred"
-    NOT_DEFERRED = "NotDeferred"
-
-
 class EvictionPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Redis eviction policy - default is VolatileLRU."""
 
@@ -168,11 +159,14 @@ class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     EnterpriseFlash_F300 etc.).
     """
 
+    ENTERPRISE_E1 = "Enterprise_E1"
     ENTERPRISE_E5 = "Enterprise_E5"
     ENTERPRISE_E10 = "Enterprise_E10"
     ENTERPRISE_E20 = "Enterprise_E20"
     ENTERPRISE_E50 = "Enterprise_E50"
     ENTERPRISE_E100 = "Enterprise_E100"
+    ENTERPRISE_E200 = "Enterprise_E200"
+    ENTERPRISE_E400 = "Enterprise_E400"
     ENTERPRISE_FLASH_F300 = "EnterpriseFlash_F300"
     ENTERPRISE_FLASH_F700 = "EnterpriseFlash_F700"
     ENTERPRISE_FLASH_F1500 = "EnterpriseFlash_F1500"
