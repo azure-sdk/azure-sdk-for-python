@@ -278,9 +278,9 @@ class AzureDevOpsOrgProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -483,9 +483,9 @@ class AzureDevOpsProjectProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -662,9 +662,9 @@ class AzureDevOpsRepositoryProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -956,9 +956,9 @@ class DevOpsConfigurationProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -984,6 +984,9 @@ class DevOpsConfigurationProperties(_serialization.Model):
     :ivar capabilities: List of capabilities assigned to the DevOps configuration during the
      discovery process.
     :vartype capabilities: list[~azure.mgmt.security.v2024_04_01.models.DevOpsCapability]
+    :ivar agentless_scanning: Agentless Scanning states. Known values are: "Disabled", "Enabled",
+     and "NotApplicable".
+    :vartype agentless_scanning: str or ~azure.mgmt.security.v2024_04_01.models.AgentlessScanning
     """
 
     _validation = {
@@ -1000,6 +1003,7 @@ class DevOpsConfigurationProperties(_serialization.Model):
         "auto_discovery": {"key": "autoDiscovery", "type": "str"},
         "top_level_inventory_list": {"key": "topLevelInventoryList", "type": "[str]"},
         "capabilities": {"key": "capabilities", "type": "[DevOpsCapability]"},
+        "agentless_scanning": {"key": "agentlessScanning", "type": "str"},
     }
 
     def __init__(
@@ -1009,6 +1013,7 @@ class DevOpsConfigurationProperties(_serialization.Model):
         authorization: Optional["_models.Authorization"] = None,
         auto_discovery: Optional[Union[str, "_models.AutoDiscovery"]] = None,
         top_level_inventory_list: Optional[List[str]] = None,
+        agentless_scanning: Optional[Union[str, "_models.AgentlessScanning"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1033,6 +1038,9 @@ class DevOpsConfigurationProperties(_serialization.Model):
          disabled.
          This field is ignored when AutoDiscovery is enabled.
         :paramtype top_level_inventory_list: list[str]
+        :keyword agentless_scanning: Agentless Scanning states. Known values are: "Disabled",
+         "Enabled", and "NotApplicable".
+        :paramtype agentless_scanning: str or ~azure.mgmt.security.v2024_04_01.models.AgentlessScanning
         """
         super().__init__(**kwargs)
         self.provisioning_status_message = None
@@ -1042,6 +1050,7 @@ class DevOpsConfigurationProperties(_serialization.Model):
         self.auto_discovery = auto_discovery
         self.top_level_inventory_list = top_level_inventory_list
         self.capabilities = None
+        self.agentless_scanning = agentless_scanning
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1253,9 +1262,9 @@ class GitHubOwnerProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -1420,9 +1429,9 @@ class GitHubRepositoryProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -1646,9 +1655,9 @@ class GitLabGroupProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
@@ -1821,9 +1830,9 @@ class GitLabProjectProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_status_message: Gets or sets resource status message.
+    :ivar provisioning_status_message: Gets the resource status message.
     :vartype provisioning_status_message: str
-    :ivar provisioning_status_update_time_utc: Gets or sets time when resource was last checked.
+    :ivar provisioning_status_update_time_utc: Gets the time when resource was last checked.
     :vartype provisioning_status_update_time_utc: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the resource.
 
