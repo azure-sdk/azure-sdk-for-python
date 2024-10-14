@@ -31,3 +31,4 @@ from .v2023_10_01_preview.models import *
 from .v2023_11_15.models import *
 from .v2024_01_01.models import *
 from .v2024_04_01.models import *
+from .v2024_08_01.models import *

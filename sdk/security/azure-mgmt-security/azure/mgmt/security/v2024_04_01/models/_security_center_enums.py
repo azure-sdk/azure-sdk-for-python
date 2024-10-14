@@ -22,6 +22,14 @@ class ActionableRemediationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENABLED = "Enabled"
 
 
+class AgentlessScanning(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Agentless Scanning states."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+    NOT_APPLICABLE = "NotApplicable"
+
+
 class AnnotateDefaultBranchState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Configuration of PR Annotations on default branch.
 

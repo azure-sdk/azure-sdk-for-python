@@ -49,6 +49,7 @@ from ._models_py3 import SystemData
 from ._models_py3 import TargetBranchConfiguration
 
 from ._security_center_enums import ActionableRemediationState
+from ._security_center_enums import AgentlessScanning
 from ._security_center_enums import AnnotateDefaultBranchState
 from ._security_center_enums import AutoDiscovery
 from ._security_center_enums import CreatedByType
@@ -104,6 +105,7 @@ __all__ = [
     "SystemData",
     "TargetBranchConfiguration",
     "ActionableRemediationState",
+    "AgentlessScanning",
     "AnnotateDefaultBranchState",
     "AutoDiscovery",
     "CreatedByType",
