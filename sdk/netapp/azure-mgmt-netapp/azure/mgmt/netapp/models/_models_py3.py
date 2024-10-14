@@ -1440,6 +1440,30 @@ class CloudErrorBody(_serialization.Model):
         self.message = message
 
 
+class ClusterPeerCommandResponse(_serialization.Model):
+    """Information about cluster peering process.
+
+    :ivar peer_accept_command: A command that needs to be run on the external ONTAP to accept
+     cluster peering.  Will only be present if :code:`<code>clusterPeeringStatus</code>` is
+     :code:`<code>pending</code>`.
+    :vartype peer_accept_command: str
+    """
+
+    _attribute_map = {
+        "peer_accept_command": {"key": "peerAcceptCommand", "type": "str"},
+    }
+
+    def __init__(self, *, peer_accept_command: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword peer_accept_command: A command that needs to be run on the external ONTAP to accept
+         cluster peering.  Will only be present if :code:`<code>clusterPeeringStatus</code>` is
+         :code:`<code>pending</code>`.
+        :paramtype peer_accept_command: str
+        """
+        super().__init__(**kwargs)
+        self.peer_accept_command = peer_accept_command
+
+
 class DailySchedule(_serialization.Model):
     """Daily Schedule properties.
 
@@ -1791,6 +1815,10 @@ class FilePathAvailabilityRequest(_serialization.Model):
     :ivar subnet_id: The Azure Resource URI for a delegated subnet. Must have the delegation
      Microsoft.NetApp/volumes. Required.
     :vartype subnet_id: str
+    :ivar availability_zone: The Azure Resource logical availability zone which is used within zone
+     mapping lookup for the subscription and region. The lookup will retrieve the physical zone
+     where volume is placed.
+    :vartype availability_zone: str
     """
 
     _validation = {
@@ -1801,19 +1829,25 @@ class FilePathAvailabilityRequest(_serialization.Model):
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "subnet_id": {"key": "subnetId", "type": "str"},
+        "availability_zone": {"key": "availabilityZone", "type": "str"},
     }
 
-    def __init__(self, *, name: str, subnet_id: str, **kwargs: Any) -> None:
+    def __init__(self, *, name: str, subnet_id: str, availability_zone: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: File path to verify. Required.
         :paramtype name: str
         :keyword subnet_id: The Azure Resource URI for a delegated subnet. Must have the delegation
          Microsoft.NetApp/volumes. Required.
         :paramtype subnet_id: str
+        :keyword availability_zone: The Azure Resource logical availability zone which is used within
+         zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone
+         where volume is placed.
+        :paramtype availability_zone: str
         """
         super().__init__(**kwargs)
         self.name = name
         self.subnet_id = subnet_id
+        self.availability_zone = availability_zone
 
 
 class GetGroupIdListForLDAPUserRequest(_serialization.Model):
@@ -2876,6 +2910,34 @@ class OperationListResult(_serialization.Model):
         self.value = value
 
 
+class PeerClusterForVolumeMigrationRequest(_serialization.Model):
+    """Source Cluster properties for a cluster peer request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar peer_ip_addresses: A list of IC-LIF IPs that can be used to connect to the On-prem
+     cluster. Required.
+    :vartype peer_ip_addresses: list[str]
+    """
+
+    _validation = {
+        "peer_ip_addresses": {"required": True, "min_items": 1},
+    }
+
+    _attribute_map = {
+        "peer_ip_addresses": {"key": "peerIpAddresses", "type": "[str]"},
+    }
+
+    def __init__(self, *, peer_ip_addresses: List[str], **kwargs: Any) -> None:
+        """
+        :keyword peer_ip_addresses: A list of IC-LIF IPs that can be used to connect to the On-prem
+         cluster. Required.
+        :paramtype peer_ip_addresses: list[str]
+        """
+        super().__init__(**kwargs)
+        self.peer_ip_addresses = peer_ip_addresses
+
+
 class PlacementKeyValuePairs(_serialization.Model):
     """Application specific parameters for the placement of volumes in the volume group.
 
@@ -3247,6 +3309,46 @@ class RelocateVolumeRequest(_serialization.Model):
         self.creation_token = creation_token
 
 
+class RemotePath(_serialization.Model):
+    """The full path to a volume that is to be migrated into ANF. Required for Migration volumes.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar external_host_name: The Path to a ONTAP Host. Required.
+    :vartype external_host_name: str
+    :ivar server_name: The name of a server on the ONTAP Host. Required.
+    :vartype server_name: str
+    :ivar volume_name: The name of a volume on the server. Required.
+    :vartype volume_name: str
+    """
+
+    _validation = {
+        "external_host_name": {"required": True},
+        "server_name": {"required": True},
+        "volume_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "external_host_name": {"key": "externalHostName", "type": "str"},
+        "server_name": {"key": "serverName", "type": "str"},
+        "volume_name": {"key": "volumeName", "type": "str"},
+    }
+
+    def __init__(self, *, external_host_name: str, server_name: str, volume_name: str, **kwargs: Any) -> None:
+        """
+        :keyword external_host_name: The Path to a ONTAP Host. Required.
+        :paramtype external_host_name: str
+        :keyword server_name: The name of a server on the ONTAP Host. Required.
+        :paramtype server_name: str
+        :keyword volume_name: The name of a volume on the server. Required.
+        :paramtype volume_name: str
+        """
+        super().__init__(**kwargs)
+        self.external_host_name = external_host_name
+        self.server_name = server_name
+        self.volume_name = volume_name
+
+
 class Replication(_serialization.Model):
     """Replication properties.
 
@@ -3330,6 +3432,9 @@ class ReplicationObject(_serialization.Model):
     :vartype replication_schedule: str or ~azure.mgmt.netapp.models.ReplicationSchedule
     :ivar remote_volume_resource_id: The resource ID of the remote volume. Required.
     :vartype remote_volume_resource_id: str
+    :ivar remote_path: The full path to a volume that is to be migrated into ANF. Required for
+     Migration volumes.
+    :vartype remote_path: ~azure.mgmt.netapp.models.RemotePath
     :ivar remote_volume_region: The remote region for the other end of the Volume Replication.
     :vartype remote_volume_region: str
     """
@@ -3344,6 +3449,7 @@ class ReplicationObject(_serialization.Model):
         "endpoint_type": {"key": "endpointType", "type": "str"},
         "replication_schedule": {"key": "replicationSchedule", "type": "str"},
         "remote_volume_resource_id": {"key": "remoteVolumeResourceId", "type": "str"},
+        "remote_path": {"key": "remotePath", "type": "RemotePath"},
         "remote_volume_region": {"key": "remoteVolumeRegion", "type": "str"},
     }
 
@@ -3353,6 +3459,7 @@ class ReplicationObject(_serialization.Model):
         remote_volume_resource_id: str,
         endpoint_type: Optional[Union[str, "_models.EndpointType"]] = None,
         replication_schedule: Optional[Union[str, "_models.ReplicationSchedule"]] = None,
+        remote_path: Optional["_models.RemotePath"] = None,
         remote_volume_region: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -3365,6 +3472,9 @@ class ReplicationObject(_serialization.Model):
         :paramtype replication_schedule: str or ~azure.mgmt.netapp.models.ReplicationSchedule
         :keyword remote_volume_resource_id: The resource ID of the remote volume. Required.
         :paramtype remote_volume_resource_id: str
+        :keyword remote_path: The full path to a volume that is to be migrated into ANF. Required for
+         Migration volumes.
+        :paramtype remote_path: ~azure.mgmt.netapp.models.RemotePath
         :keyword remote_volume_region: The remote region for the other end of the Volume Replication.
         :paramtype remote_volume_region: str
         """
@@ -3373,6 +3483,7 @@ class ReplicationObject(_serialization.Model):
         self.endpoint_type = endpoint_type
         self.replication_schedule = replication_schedule
         self.remote_volume_resource_id = remote_volume_resource_id
+        self.remote_path = remote_path
         self.remote_volume_region = remote_volume_region
 
 
@@ -4338,6 +4449,30 @@ class SubvolumesList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class SvmPeerCommandResponse(_serialization.Model):
+    """Information about svm peering process.
+
+    :ivar svm_peering_command: A command that needs to be run on the external ONTAP to accept svm
+     peering.  Will only be present if :code:`<code>svmPeeringStatus</code>` is
+     :code:`<code>pending</code>`.
+    :vartype svm_peering_command: str
+    """
+
+    _attribute_map = {
+        "svm_peering_command": {"key": "svmPeeringCommand", "type": "str"},
+    }
+
+    def __init__(self, *, svm_peering_command: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword svm_peering_command: A command that needs to be run on the external ONTAP to accept
+         svm peering.  Will only be present if :code:`<code>svmPeeringStatus</code>` is
+         :code:`<code>pending</code>`.
+        :paramtype svm_peering_command: str
+        """
+        super().__init__(**kwargs)
+        self.svm_peering_command = svm_peering_command
 
 
 class SystemData(_serialization.Model):
