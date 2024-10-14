@@ -6991,7 +6991,7 @@ class PushInfo(_serialization.Model):
     :vartype max_delivery_count: int
     :ivar event_time_to_live: Time span duration in ISO 8601 format that determines how long
      messages are available to the subscription from the time the message was published.
-     This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+     This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
      where:
 
      .. code-block::
@@ -7014,8 +7014,8 @@ class PushInfo(_serialization.Model):
 
      .. code-block::
 
-        - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-        - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+        - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+        - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
     :vartype event_time_to_live: str
     :ivar dead_letter_destination_with_resource_identity: The dead letter destination of the event
      subscription. Any event that cannot be delivered to its' destination is sent to the dead letter
@@ -7066,7 +7066,7 @@ class PushInfo(_serialization.Model):
         :paramtype max_delivery_count: int
         :keyword event_time_to_live: Time span duration in ISO 8601 format that determines how long
          messages are available to the subscription from the time the message was published.
-         This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+         This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
          where:
 
          .. code-block::
@@ -7089,8 +7089,8 @@ class PushInfo(_serialization.Model):
 
          .. code-block::
 
-            - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-            - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+            - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+            - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
         :paramtype event_time_to_live: str
         :keyword dead_letter_destination_with_resource_identity: The dead letter destination of the
          event subscription. Any event that cannot be delivered to its' destination is sent to the dead
@@ -7140,7 +7140,7 @@ class QueueInfo(_serialization.Model):
      ~azure.mgmt.eventgrid.models.DeadLetterWithResourceIdentity
     :ivar event_time_to_live: Time span duration in ISO 8601 format that determines how long
      messages are available to the subscription from the time the message was published.
-     This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+     This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
      where:
 
      .. code-block::
@@ -7163,8 +7163,8 @@ class QueueInfo(_serialization.Model):
 
      .. code-block::
 
-        - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-        - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+        - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+        - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
     :vartype event_time_to_live: ~datetime.timedelta
     """
 
@@ -7206,7 +7206,7 @@ class QueueInfo(_serialization.Model):
          ~azure.mgmt.eventgrid.models.DeadLetterWithResourceIdentity
         :keyword event_time_to_live: Time span duration in ISO 8601 format that determines how long
          messages are available to the subscription from the time the message was published.
-         This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+         This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
          where:
 
          .. code-block::
@@ -7229,8 +7229,8 @@ class QueueInfo(_serialization.Model):
 
          .. code-block::
 
-            - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-            - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+            - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+            - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
         :paramtype event_time_to_live: ~datetime.timedelta
         """
         super().__init__(**kwargs)
