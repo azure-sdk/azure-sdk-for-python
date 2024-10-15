@@ -280,8 +280,8 @@ class PolicyAssignment(_serialization.Model):  # pylint: disable=too-many-instan
     :ivar metadata: The policy assignment metadata. Metadata is an open ended object and is
      typically a collection of key value pairs.
     :vartype metadata: JSON
-    :ivar enforcement_mode: The policy assignment enforcement mode. Possible values are Default and
-     DoNotEnforce. Known values are: "Default" and "DoNotEnforce".
+    :ivar enforcement_mode: The policy assignment enforcement mode. Possible values are Default,
+     DoNotEnforce, and Enroll. Known values are: "Default", "DoNotEnforce", and "Enroll".
     :vartype enforcement_mode: str or
      ~azure.mgmt.resource.policy.v2019_09_01.models.EnforcementMode
     """
@@ -351,8 +351,8 @@ class PolicyAssignment(_serialization.Model):  # pylint: disable=too-many-instan
         :keyword metadata: The policy assignment metadata. Metadata is an open ended object and is
          typically a collection of key value pairs.
         :paramtype metadata: JSON
-        :keyword enforcement_mode: The policy assignment enforcement mode. Possible values are Default
-         and DoNotEnforce. Known values are: "Default" and "DoNotEnforce".
+        :keyword enforcement_mode: The policy assignment enforcement mode. Possible values are Default,
+         DoNotEnforce, and Enroll. Known values are: "Default", "DoNotEnforce", and "Enroll".
         :paramtype enforcement_mode: str or
          ~azure.mgmt.resource.policy.v2019_09_01.models.EnforcementMode
         """

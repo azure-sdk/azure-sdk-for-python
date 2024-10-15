@@ -20,12 +20,16 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class EnforcementMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The policy assignment enforcement mode. Possible values are Default and DoNotEnforce."""
+    """The policy assignment enforcement mode. Possible values are Default, DoNotEnforce, and Enroll."""
 
     DEFAULT = "Default"
     """The policy effect is enforced during resource creation or update."""
     DO_NOT_ENFORCE = "DoNotEnforce"
     """The policy effect is not enforced during resource creation or update."""
+    ENROLL = "Enroll"
+    """The policy effect is not enforced during resource creation or update until the resource or
+    scope of the resource is enrolled to the assignment instance. Enrollment occurs upon deployment
+    of the policy enrollment resource."""
 
 
 class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
