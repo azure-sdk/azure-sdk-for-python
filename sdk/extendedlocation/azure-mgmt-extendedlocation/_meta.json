@@ -1,11 +1,14 @@
 {
-  "commit": "2f17a9028f33fe80cf1ae62642fe9ed63c0a17f7",
+  "commit": "0aac32aa8f01774480444e2a3a158f614a44e442",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.4.0",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.19.0",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/extendedlocation/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.0 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/extendedlocation/resource-manager/readme.md"
+  "autorest_command": "autorest specification/extendedlocation/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/extendedlocation/resource-manager/readme.md",
+  "package-2021-03-15-preview": "2021-09-16 19:39:55 -0700 e687b0f9c1856f7f20e1c0e1aca53b1e342cde3e Microsoft.ExtendedLocation/preview/2021-03-15-preview/customlocations.json",
+  "package-2021-08-15": "2021-09-10 00:12:05 -0700 382987fbc0f7f2465b99a86045b0ef18e1af3ecd Microsoft.ExtendedLocation/stable/2021-08-15/customlocations.json",
+  "package-2021-08-31-preview": "2022-05-23 20:25:37 -0700 e81add1be9dcbab8bb549b0a3da6e5a80a72185b Microsoft.ExtendedLocation/preview/2021-08-31-preview/customlocations.json"
 }
