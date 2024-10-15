@@ -9,12 +9,6 @@
 from ._models_py3 import AadConnectivityState
 from ._models_py3 import AadExternalSecuritySolution
 from ._models_py3 import AadSolutionProperties
-from ._models_py3 import AdaptiveApplicationControlGroup
-from ._models_py3 import AdaptiveApplicationControlGroups
-from ._models_py3 import AdaptiveApplicationControlIssueSummary
-from ._models_py3 import AdaptiveNetworkHardening
-from ._models_py3 import AdaptiveNetworkHardeningEnforceRequest
-from ._models_py3 import AdaptiveNetworkHardeningsList
 from ._models_py3 import AllowedConnectionsList
 from ._models_py3 import AllowedConnectionsResource
 from ._models_py3 import AssessmentLinks
@@ -31,7 +25,6 @@ from ._models_py3 import ConnectedResource
 from ._models_py3 import ConnectedWorkspace
 from ._models_py3 import DiscoveredSecuritySolution
 from ._models_py3 import DiscoveredSecuritySolutionList
-from ._models_py3 import EffectiveNetworkSecurityGroups
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ExternalSecuritySolution
 from ._models_py3 import ExternalSecuritySolutionKind
@@ -51,12 +44,8 @@ from ._models_py3 import Kind
 from ._models_py3 import Location
 from ._models_py3 import OnPremiseResourceDetails
 from ._models_py3 import OnPremiseSqlResourceDetails
-from ._models_py3 import PathRecommendation
-from ._models_py3 import ProtectionMode
-from ._models_py3 import PublisherInfo
 from ._models_py3 import Resource
 from ._models_py3 import ResourceDetails
-from ._models_py3 import Rule
 from ._models_py3 import SecureScoreControlDefinitionItem
 from ._models_py3 import SecureScoreControlDefinitionList
 from ._models_py3 import SecureScoreControlDefinitionSource
@@ -83,39 +72,26 @@ from ._models_py3 import TopologyResource
 from ._models_py3 import TopologySingleResource
 from ._models_py3 import TopologySingleResourceChild
 from ._models_py3 import TopologySingleResourceParent
-from ._models_py3 import UserRecommendation
-from ._models_py3 import VmRecommendation
 
 from ._security_center_enums import AadConnectivityStateEnum
-from ._security_center_enums import AdaptiveApplicationControlIssue
 from ._security_center_enums import AssessmentStatusCode
 from ._security_center_enums import AssessmentType
 from ._security_center_enums import Categories
-from ._security_center_enums import ConfigurationStatus
 from ._security_center_enums import ConnectionType
 from ._security_center_enums import ControlType
-from ._security_center_enums import Direction
-from ._security_center_enums import EnforcementMode
-from ._security_center_enums import EnforcementSupport
 from ._security_center_enums import ExpandControlsEnum
 from ._security_center_enums import ExpandEnum
 from ._security_center_enums import ExternalSecuritySolutionKindEnum
-from ._security_center_enums import FileType
 from ._security_center_enums import ImplementationEffort
 from ._security_center_enums import ProtocolEnum
 from ._security_center_enums import ProvisioningState
-from ._security_center_enums import RecommendationAction
-from ._security_center_enums import RecommendationStatus
-from ._security_center_enums import RecommendationType
 from ._security_center_enums import SecurityFamily
 from ._security_center_enums import ServerVulnerabilityAssessmentPropertiesProvisioningState
 from ._security_center_enums import Severity
 from ._security_center_enums import Source
-from ._security_center_enums import SourceSystem
 from ._security_center_enums import Status
 from ._security_center_enums import StatusReason
 from ._security_center_enums import Threats
-from ._security_center_enums import TransportProtocol
 from ._security_center_enums import UserImpact
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -125,12 +101,6 @@ __all__ = [
     "AadConnectivityState",
     "AadExternalSecuritySolution",
     "AadSolutionProperties",
-    "AdaptiveApplicationControlGroup",
-    "AdaptiveApplicationControlGroups",
-    "AdaptiveApplicationControlIssueSummary",
-    "AdaptiveNetworkHardening",
-    "AdaptiveNetworkHardeningEnforceRequest",
-    "AdaptiveNetworkHardeningsList",
     "AllowedConnectionsList",
     "AllowedConnectionsResource",
     "AssessmentLinks",
@@ -147,7 +117,6 @@ __all__ = [
     "ConnectedWorkspace",
     "DiscoveredSecuritySolution",
     "DiscoveredSecuritySolutionList",
-    "EffectiveNetworkSecurityGroups",
     "ErrorAdditionalInfo",
     "ExternalSecuritySolution",
     "ExternalSecuritySolutionKind",
@@ -167,12 +136,8 @@ __all__ = [
     "Location",
     "OnPremiseResourceDetails",
     "OnPremiseSqlResourceDetails",
-    "PathRecommendation",
-    "ProtectionMode",
-    "PublisherInfo",
     "Resource",
     "ResourceDetails",
-    "Rule",
     "SecureScoreControlDefinitionItem",
     "SecureScoreControlDefinitionList",
     "SecureScoreControlDefinitionSource",
@@ -199,38 +164,25 @@ __all__ = [
     "TopologySingleResource",
     "TopologySingleResourceChild",
     "TopologySingleResourceParent",
-    "UserRecommendation",
-    "VmRecommendation",
     "AadConnectivityStateEnum",
-    "AdaptiveApplicationControlIssue",
     "AssessmentStatusCode",
     "AssessmentType",
     "Categories",
-    "ConfigurationStatus",
     "ConnectionType",
     "ControlType",
-    "Direction",
-    "EnforcementMode",
-    "EnforcementSupport",
     "ExpandControlsEnum",
     "ExpandEnum",
     "ExternalSecuritySolutionKindEnum",
-    "FileType",
     "ImplementationEffort",
     "ProtocolEnum",
     "ProvisioningState",
-    "RecommendationAction",
-    "RecommendationStatus",
-    "RecommendationType",
     "SecurityFamily",
     "ServerVulnerabilityAssessmentPropertiesProvisioningState",
     "Severity",
     "Source",
-    "SourceSystem",
     "Status",
     "StatusReason",
     "Threats",
-    "TransportProtocol",
     "UserImpact",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
