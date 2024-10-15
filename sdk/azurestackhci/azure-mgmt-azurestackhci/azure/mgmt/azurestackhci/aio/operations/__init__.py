@@ -11,14 +11,24 @@ from ._clusters_operations import ClustersOperations
 from ._deployment_settings_operations import DeploymentSettingsOperations
 from ._edge_devices_operations import EdgeDevicesOperations
 from ._extensions_operations import ExtensionsOperations
+from ._gallery_images_operations import GalleryImagesOperations
+from ._logical_networks_operations import LogicalNetworksOperations
+from ._marketplace_gallery_images_operations import MarketplaceGalleryImagesOperations
+from ._network_interfaces_operations import NetworkInterfacesOperations
 from ._offers_operations import OffersOperations
 from ._operations import Operations
 from ._publishers_operations import PublishersOperations
 from ._security_settings_operations import SecuritySettingsOperations
 from ._skus_operations import SkusOperations
+from ._storage_containers_operations import StorageContainersOperations
 from ._update_runs_operations import UpdateRunsOperations
 from ._update_summaries_operations import UpdateSummariesOperations
 from ._updates_operations import UpdatesOperations
+from ._virtual_hard_disks_operations import VirtualHardDisksOperations
+from ._virtual_machine_instances_operations import VirtualMachineInstancesOperations
+from ._hybrid_identity_metadata_operations import HybridIdentityMetadataOperations
+from ._guest_agent_operations import GuestAgentOperations
+from ._guest_agents_operations import GuestAgentsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -30,14 +40,24 @@ __all__ = [
     "DeploymentSettingsOperations",
     "EdgeDevicesOperations",
     "ExtensionsOperations",
+    "GalleryImagesOperations",
+    "LogicalNetworksOperations",
+    "MarketplaceGalleryImagesOperations",
+    "NetworkInterfacesOperations",
     "OffersOperations",
     "Operations",
     "PublishersOperations",
     "SecuritySettingsOperations",
     "SkusOperations",
+    "StorageContainersOperations",
     "UpdateRunsOperations",
     "UpdateSummariesOperations",
     "UpdatesOperations",
+    "VirtualHardDisksOperations",
+    "VirtualMachineInstancesOperations",
+    "HybridIdentityMetadataOperations",
+    "GuestAgentOperations",
+    "GuestAgentsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
