@@ -101,12 +101,14 @@ from ._desktop_virtualization_mgmt_client_enums import ApplicationType
 from ._desktop_virtualization_mgmt_client_enums import CommandLineSetting
 from ._desktop_virtualization_mgmt_client_enums import CreatedByType
 from ._desktop_virtualization_mgmt_client_enums import DayOfWeek
+from ._desktop_virtualization_mgmt_client_enums import DirectUDP
 from ._desktop_virtualization_mgmt_client_enums import FailHealthCheckOnStagingFailure
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckName
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckResult
 from ._desktop_virtualization_mgmt_client_enums import HostPoolType
 from ._desktop_virtualization_mgmt_client_enums import HostpoolPublicNetworkAccess
 from ._desktop_virtualization_mgmt_client_enums import LoadBalancerType
+from ._desktop_virtualization_mgmt_client_enums import ManagedPrivateUDP
 from ._desktop_virtualization_mgmt_client_enums import PackageTimestamped
 from ._desktop_virtualization_mgmt_client_enums import PersonalDesktopAssignmentType
 from ._desktop_virtualization_mgmt_client_enums import PreferredAppGroupType
@@ -114,7 +116,9 @@ from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointConnection
 from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
 from ._desktop_virtualization_mgmt_client_enums import ProvisioningState
 from ._desktop_virtualization_mgmt_client_enums import PublicNetworkAccess
+from ._desktop_virtualization_mgmt_client_enums import PublicUDP
 from ._desktop_virtualization_mgmt_client_enums import RegistrationTokenOperation
+from ._desktop_virtualization_mgmt_client_enums import RelayUDP
 from ._desktop_virtualization_mgmt_client_enums import RemoteApplicationType
 from ._desktop_virtualization_mgmt_client_enums import SSOSecretType
 from ._desktop_virtualization_mgmt_client_enums import ScalingHostPoolType
@@ -228,12 +232,14 @@ __all__ = [
     "CommandLineSetting",
     "CreatedByType",
     "DayOfWeek",
+    "DirectUDP",
     "FailHealthCheckOnStagingFailure",
     "HealthCheckName",
     "HealthCheckResult",
     "HostPoolType",
     "HostpoolPublicNetworkAccess",
     "LoadBalancerType",
+    "ManagedPrivateUDP",
     "PackageTimestamped",
     "PersonalDesktopAssignmentType",
     "PreferredAppGroupType",
@@ -241,7 +247,9 @@ __all__ = [
     "PrivateEndpointServiceConnectionStatus",
     "ProvisioningState",
     "PublicNetworkAccess",
+    "PublicUDP",
     "RegistrationTokenOperation",
+    "RelayUDP",
     "RemoteApplicationType",
     "SSOSecretType",
     "ScalingHostPoolType",

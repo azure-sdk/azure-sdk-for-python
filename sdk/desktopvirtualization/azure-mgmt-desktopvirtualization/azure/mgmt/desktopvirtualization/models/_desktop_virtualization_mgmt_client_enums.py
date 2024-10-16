@@ -68,6 +68,18 @@ class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUNDAY = "Sunday"
 
 
+class DirectUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class FailHealthCheckOnStagingFailure(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Parameter indicating how the health check should behave if this package fails staging."""
 
@@ -179,6 +191,18 @@ class LoadBalancerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PERSISTENT = "Persistent"
 
 
+class ManagedPrivateUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class PackageTimestamped(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Is package timestamped so it can ignore the certificate expiry date."""
 
@@ -236,12 +260,36 @@ class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class PublicUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class RegistrationTokenOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of resetting the token."""
 
     DELETE = "Delete"
     NONE = "None"
     UPDATE = "Update"
+
+
+class RelayUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class RemoteApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

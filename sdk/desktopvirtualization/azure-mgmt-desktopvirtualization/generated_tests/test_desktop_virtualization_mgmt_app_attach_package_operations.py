@@ -24,7 +24,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
         response = self.client.app_attach_package.get(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -85,7 +85,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -97,7 +97,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
         response = self.client.app_attach_package.delete(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -109,7 +109,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
         response = self.client.app_attach_package.update(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -120,7 +120,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
     def test_list_by_resource_group(self, resource_group):
         response = self.client.app_attach_package.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -130,7 +130,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
     @recorded_by_proxy
     def test_list_by_subscription(self, resource_group):
         response = self.client.app_attach_package.list_by_subscription(
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
