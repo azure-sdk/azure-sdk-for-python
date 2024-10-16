@@ -15,7 +15,7 @@ from azure.mgmt.containerservicefleet import ContainerServiceFleetMgmtClient
     pip install azure-identity
     pip install azure-mgmt-containerservicefleet
 # USAGE
-    python operations_list.py
+    python auto_upgrade_profiles_list_by_fleet.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,11 +30,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list()
+    response = client.auto_upgrade_profiles.list_by_fleet(
+        resource_group_name="rg1",
+        fleet_name="fleet1",
+    )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: 2024-05-02-preview/Operations_List.json
+# x-ms-original-file: 2024-05-02-preview/AutoUpgradeProfiles_ListByFleet.json
 if __name__ == "__main__":
     main()
