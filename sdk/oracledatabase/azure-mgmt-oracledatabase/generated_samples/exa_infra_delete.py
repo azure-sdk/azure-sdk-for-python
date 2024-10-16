@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/exaInfra_delete.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2024-10-01-preview/examples/exaInfra_delete.json
 if __name__ == "__main__":
     main()

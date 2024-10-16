@@ -16,6 +16,17 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AddSubscriptionOperationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Add Subscription Operation state enum."""
+
+    SUCCEEDED = "Succeeded"
+    """Succeeded - State when Add Subscription operation succeeded"""
+    UPDATING = "Updating"
+    """Updating - State when Add Subscription operation is being Updated"""
+    FAILED = "Failed"
+    """Failed - State when Add Subscription operation failed"""
+
+
 class AutonomousDatabaseBackupLifecycleState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Autonomous database backup lifecycle state enum."""
 
@@ -218,6 +229,10 @@ class DataBaseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Regular DB"""
     CLONE = "Clone"
     """Clone DB"""
+    CLONE_FROM_BACKUP_TIMESTAMP = "CloneFromBackupTimestamp"
+    """Clone DB from backup timestamp"""
+    CROSS_REGION_DISASTER_RECOVERY = "CrossRegionDisasterRecovery"
+    """Cross Region Disaster Recovery"""
 
 
 class DataSafeStatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
