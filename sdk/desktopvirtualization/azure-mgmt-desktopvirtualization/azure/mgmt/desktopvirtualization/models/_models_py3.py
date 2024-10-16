@@ -1853,6 +1853,30 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
      specified resource.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.desktopvirtualization.models.PrivateEndpointConnection]
+    :ivar managed_private_udp: Default: AVD-wide settings are used to determine connection
+     availability, Enabled: UDP will attempt this connection type when making connections. This
+     means that this connection is possible, but is not guaranteed, as there are other factors that
+     may prevent this connection type, Disabled: UDP will not attempt this connection type when
+     making connections. Known values are: "Default", "Enabled", and "Disabled".
+    :vartype managed_private_udp: str or ~azure.mgmt.desktopvirtualization.models.ManagedPrivateUDP
+    :ivar direct_udp: Default: AVD-wide settings are used to determine connection availability,
+     Enabled: UDP will attempt this connection type when making connections. This means that this
+     connection is possible, but is not guaranteed, as there are other factors that may prevent this
+     connection type, Disabled: UDP will not attempt this connection type when making connections.
+     Known values are: "Default", "Enabled", and "Disabled".
+    :vartype direct_udp: str or ~azure.mgmt.desktopvirtualization.models.DirectUDP
+    :ivar public_udp: Default: AVD-wide settings are used to determine connection availability,
+     Enabled: UDP will attempt this connection type when making connections. This means that this
+     connection is possible, but is not guaranteed, as there are other factors that may prevent this
+     connection type, Disabled: UDP will not attempt this connection type when making connections.
+     Known values are: "Default", "Enabled", and "Disabled".
+    :vartype public_udp: str or ~azure.mgmt.desktopvirtualization.models.PublicUDP
+    :ivar relay_udp: Default: AVD-wide settings are used to determine connection availability,
+     Enabled: UDP will attempt this connection type when making connections. This means that this
+     connection is possible, but is not guaranteed, as there are other factors that may prevent this
+     connection type, Disabled: UDP will not attempt this connection type when making connections.
+     Known values are: "Default", "Enabled", and "Disabled".
+    :vartype relay_udp: str or ~azure.mgmt.desktopvirtualization.models.RelayUDP
     """
 
     _validation = {
@@ -1913,6 +1937,10 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
+        "managed_private_udp": {"key": "properties.managedPrivateUDP", "type": "str"},
+        "direct_udp": {"key": "properties.directUDP", "type": "str"},
+        "public_udp": {"key": "properties.publicUDP", "type": "str"},
+        "relay_udp": {"key": "properties.relayUDP", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -1944,6 +1972,10 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
         start_vm_on_connect: Optional[bool] = None,
         public_network_access: Optional[Union[str, "_models.HostpoolPublicNetworkAccess"]] = None,
         agent_update: Optional["_models.AgentUpdateProperties"] = None,
+        managed_private_udp: Optional[Union[str, "_models.ManagedPrivateUDP"]] = None,
+        direct_udp: Optional[Union[str, "_models.DirectUDP"]] = None,
+        public_udp: Optional[Union[str, "_models.PublicUDP"]] = None,
+        relay_udp: Optional[Union[str, "_models.RelayUDP"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2021,6 +2053,31 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
         :keyword agent_update: The session host configuration for updating agent, monitoring agent, and
          stack component.
         :paramtype agent_update: ~azure.mgmt.desktopvirtualization.models.AgentUpdateProperties
+        :keyword managed_private_udp: Default: AVD-wide settings are used to determine connection
+         availability, Enabled: UDP will attempt this connection type when making connections. This
+         means that this connection is possible, but is not guaranteed, as there are other factors that
+         may prevent this connection type, Disabled: UDP will not attempt this connection type when
+         making connections. Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype managed_private_udp: str or
+         ~azure.mgmt.desktopvirtualization.models.ManagedPrivateUDP
+        :keyword direct_udp: Default: AVD-wide settings are used to determine connection availability,
+         Enabled: UDP will attempt this connection type when making connections. This means that this
+         connection is possible, but is not guaranteed, as there are other factors that may prevent this
+         connection type, Disabled: UDP will not attempt this connection type when making connections.
+         Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype direct_udp: str or ~azure.mgmt.desktopvirtualization.models.DirectUDP
+        :keyword public_udp: Default: AVD-wide settings are used to determine connection availability,
+         Enabled: UDP will attempt this connection type when making connections. This means that this
+         connection is possible, but is not guaranteed, as there are other factors that may prevent this
+         connection type, Disabled: UDP will not attempt this connection type when making connections.
+         Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype public_udp: str or ~azure.mgmt.desktopvirtualization.models.PublicUDP
+        :keyword relay_udp: Default: AVD-wide settings are used to determine connection availability,
+         Enabled: UDP will attempt this connection type when making connections. This means that this
+         connection is possible, but is not guaranteed, as there are other factors that may prevent this
+         connection type, Disabled: UDP will not attempt this connection type when making connections.
+         Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype relay_udp: str or ~azure.mgmt.desktopvirtualization.models.RelayUDP
         """
         super().__init__(
             tags=tags,
@@ -2056,6 +2113,10 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
         self.public_network_access = public_network_access
         self.agent_update = agent_update
         self.private_endpoint_connections = None
+        self.managed_private_udp = managed_private_udp
+        self.direct_udp = direct_udp
+        self.public_udp = public_udp
+        self.relay_udp = relay_udp
 
 
 class HostPoolList(_serialization.Model):
@@ -2154,6 +2215,30 @@ class HostPoolPatch(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar agent_update: The session host configuration for updating agent, monitoring agent, and
      stack component.
     :vartype agent_update: ~azure.mgmt.desktopvirtualization.models.AgentUpdatePatchProperties
+    :ivar managed_private_udp: Default: AVD-wide settings are used to determine connection
+     availability, Enabled: UDP will attempt this connection type when making connections. This
+     means that this connection is possible, but is not guaranteed, as there are other factors that
+     may prevent this connection type, Disabled: UDP will not attempt this connection type when
+     making connections. Known values are: "Default", "Enabled", and "Disabled".
+    :vartype managed_private_udp: str or ~azure.mgmt.desktopvirtualization.models.ManagedPrivateUDP
+    :ivar direct_udp: Default: AVD-wide settings are used to determine connection availability,
+     Enabled: UDP will attempt this connection type when making connections. This means that this
+     connection is possible, but is not guaranteed, as there are other factors that may prevent this
+     connection type, Disabled: UDP will not attempt this connection type when making connections.
+     Known values are: "Default", "Enabled", and "Disabled".
+    :vartype direct_udp: str or ~azure.mgmt.desktopvirtualization.models.DirectUDP
+    :ivar public_udp: Default: AVD-wide settings are used to determine connection availability,
+     Enabled: UDP will attempt this connection type when making connections. This means that this
+     connection is possible, but is not guaranteed, as there are other factors that may prevent this
+     connection type, Disabled: UDP will not attempt this connection type when making connections.
+     Known values are: "Default", "Enabled", and "Disabled".
+    :vartype public_udp: str or ~azure.mgmt.desktopvirtualization.models.PublicUDP
+    :ivar relay_udp: Default: AVD-wide settings are used to determine connection availability,
+     Enabled: UDP will attempt this connection type when making connections. This means that this
+     connection is possible, but is not guaranteed, as there are other factors that may prevent this
+     connection type, Disabled: UDP will not attempt this connection type when making connections.
+     Known values are: "Default", "Enabled", and "Disabled".
+    :vartype relay_udp: str or ~azure.mgmt.desktopvirtualization.models.RelayUDP
     """
 
     _validation = {
@@ -2187,9 +2272,13 @@ class HostPoolPatch(Resource):  # pylint: disable=too-many-instance-attributes
         "start_vm_on_connect": {"key": "properties.startVMOnConnect", "type": "bool"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "agent_update": {"key": "properties.agentUpdate", "type": "AgentUpdatePatchProperties"},
+        "managed_private_udp": {"key": "properties.managedPrivateUDP", "type": "str"},
+        "direct_udp": {"key": "properties.directUDP", "type": "str"},
+        "public_udp": {"key": "properties.publicUDP", "type": "str"},
+        "relay_udp": {"key": "properties.relayUDP", "type": "str"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
@@ -2211,6 +2300,10 @@ class HostPoolPatch(Resource):  # pylint: disable=too-many-instance-attributes
         start_vm_on_connect: Optional[bool] = None,
         public_network_access: Optional[Union[str, "_models.HostpoolPublicNetworkAccess"]] = None,
         agent_update: Optional["_models.AgentUpdatePatchProperties"] = None,
+        managed_private_udp: Optional[Union[str, "_models.ManagedPrivateUDP"]] = None,
+        direct_udp: Optional[Union[str, "_models.DirectUDP"]] = None,
+        public_udp: Optional[Union[str, "_models.PublicUDP"]] = None,
+        relay_udp: Optional[Union[str, "_models.RelayUDP"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2264,6 +2357,31 @@ class HostPoolPatch(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword agent_update: The session host configuration for updating agent, monitoring agent, and
          stack component.
         :paramtype agent_update: ~azure.mgmt.desktopvirtualization.models.AgentUpdatePatchProperties
+        :keyword managed_private_udp: Default: AVD-wide settings are used to determine connection
+         availability, Enabled: UDP will attempt this connection type when making connections. This
+         means that this connection is possible, but is not guaranteed, as there are other factors that
+         may prevent this connection type, Disabled: UDP will not attempt this connection type when
+         making connections. Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype managed_private_udp: str or
+         ~azure.mgmt.desktopvirtualization.models.ManagedPrivateUDP
+        :keyword direct_udp: Default: AVD-wide settings are used to determine connection availability,
+         Enabled: UDP will attempt this connection type when making connections. This means that this
+         connection is possible, but is not guaranteed, as there are other factors that may prevent this
+         connection type, Disabled: UDP will not attempt this connection type when making connections.
+         Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype direct_udp: str or ~azure.mgmt.desktopvirtualization.models.DirectUDP
+        :keyword public_udp: Default: AVD-wide settings are used to determine connection availability,
+         Enabled: UDP will attempt this connection type when making connections. This means that this
+         connection is possible, but is not guaranteed, as there are other factors that may prevent this
+         connection type, Disabled: UDP will not attempt this connection type when making connections.
+         Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype public_udp: str or ~azure.mgmt.desktopvirtualization.models.PublicUDP
+        :keyword relay_udp: Default: AVD-wide settings are used to determine connection availability,
+         Enabled: UDP will attempt this connection type when making connections. This means that this
+         connection is possible, but is not guaranteed, as there are other factors that may prevent this
+         connection type, Disabled: UDP will not attempt this connection type when making connections.
+         Known values are: "Default", "Enabled", and "Disabled".
+        :paramtype relay_udp: str or ~azure.mgmt.desktopvirtualization.models.RelayUDP
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -2285,6 +2403,10 @@ class HostPoolPatch(Resource):  # pylint: disable=too-many-instance-attributes
         self.start_vm_on_connect = start_vm_on_connect
         self.public_network_access = public_network_access
         self.agent_update = agent_update
+        self.managed_private_udp = managed_private_udp
+        self.direct_udp = direct_udp
+        self.public_udp = public_udp
+        self.relay_udp = relay_udp
 
 
 class Identity(_serialization.Model):

@@ -24,7 +24,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
         response = self.client.scaling_plans.get(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -86,7 +86,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -98,7 +98,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
         response = self.client.scaling_plans.delete(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -110,7 +110,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
         response = self.client.scaling_plans.update(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
 
         # please add some check logic here by yourself
@@ -121,7 +121,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
     def test_list_by_resource_group(self, resource_group):
         response = self.client.scaling_plans.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -131,7 +131,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
     @recorded_by_proxy
     def test_list_by_subscription(self, resource_group):
         response = self.client.scaling_plans.list_by_subscription(
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -143,7 +143,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperations(AzureMgmtRecordedTestC
         response = self.client.scaling_plans.list_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-09-10",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
