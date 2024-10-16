@@ -46,7 +46,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -60,7 +60,7 @@ def build_get_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
         "sessionHostName": _SERIALIZER.url(
             "session_host_name", session_host_name, "str", max_length=48, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
@@ -90,7 +90,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -104,7 +104,7 @@ def build_delete_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
         "sessionHostName": _SERIALIZER.url(
             "session_host_name", session_host_name, "str", max_length=48, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
@@ -136,7 +136,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -151,7 +151,7 @@ def build_update_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
         "sessionHostName": _SERIALIZER.url(
             "session_host_name", session_host_name, "str", max_length=48, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
@@ -181,12 +181,13 @@ def build_list_request(
     page_size: Optional[int] = None,
     is_descending: Optional[bool] = None,
     initial_skip: Optional[int] = None,
+    vm_path: Optional[str] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -200,7 +201,7 @@ def build_list_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
     }
 
@@ -214,6 +215,10 @@ def build_list_request(
         _params["isDescending"] = _SERIALIZER.query("is_descending", is_descending, "bool")
     if initial_skip is not None:
         _params["initialSkip"] = _SERIALIZER.query("initial_skip", initial_skip, "int")
+    if vm_path is not None:
+        _params["vmPath"] = _SERIALIZER.query(
+            "vm_path", vm_path, "str", max_length=1092, min_length=3, pattern=r"^[A-Z][a-z][0-9][@./-_ ]*$"
+        )
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -534,6 +539,7 @@ class SessionHostsOperations:
         page_size: Optional[int] = None,
         is_descending: Optional[bool] = None,
         initial_skip: Optional[int] = None,
+        vm_path: Optional[str] = None,
         **kwargs: Any
     ) -> Iterable["_models.SessionHost"]:
         """List sessionHosts.
@@ -549,6 +555,8 @@ class SessionHostsOperations:
         :type is_descending: bool
         :param initial_skip: Initial number of items to skip. Default value is None.
         :type initial_skip: int
+        :param vm_path: The path to the VM. Default value is None.
+        :type vm_path: str
         :return: An iterator like instance of either SessionHost or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.desktopvirtualization.models.SessionHost]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -577,6 +585,7 @@ class SessionHostsOperations:
                     page_size=page_size,
                     is_descending=is_descending,
                     initial_skip=initial_skip,
+                    vm_path=vm_path,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,

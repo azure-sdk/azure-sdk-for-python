@@ -52,7 +52,7 @@ def build_list_by_workspace_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -66,7 +66,7 @@ def build_list_by_workspace_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "workspaceName": _SERIALIZER.url(
-            "workspace_name", workspace_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "workspace_name", workspace_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
     }
 
@@ -100,7 +100,7 @@ def build_list_by_host_pool_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -114,7 +114,7 @@ def build_list_by_host_pool_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
     }
 

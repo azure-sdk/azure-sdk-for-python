@@ -24,7 +24,7 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
         response = self.client.user_sessions.list_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -52,7 +52,7 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -65,7 +65,7 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -79,7 +79,7 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -93,7 +93,7 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself

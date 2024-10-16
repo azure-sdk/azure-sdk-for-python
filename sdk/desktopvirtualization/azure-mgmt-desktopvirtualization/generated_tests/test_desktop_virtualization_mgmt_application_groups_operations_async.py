@@ -25,7 +25,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
         response = await self.client.application_groups.get(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,7 +46,12 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
                 "etag": "str",
                 "friendlyName": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
                 "name": "str",
@@ -66,7 +71,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
                 "type": "str",
                 "workspaceArmPath": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -78,7 +83,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
         response = await self.client.application_groups.delete(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -90,7 +95,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
         response = await self.client.application_groups.update(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -101,7 +106,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.application_groups.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -111,7 +116,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperationsAsync(AzureMgmtRec
     @recorded_by_proxy_async
     async def test_list_by_subscription(self, resource_group):
         response = self.client.application_groups.list_by_subscription(
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

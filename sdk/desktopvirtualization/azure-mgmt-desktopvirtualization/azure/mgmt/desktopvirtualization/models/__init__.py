@@ -6,6 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import ActiveDirectoryInfoPatchProperties
+from ._models_py3 import ActiveDirectoryInfoProperties
+from ._models_py3 import ActiveSessionHostConfiguration
+from ._models_py3 import ActiveSessionHostConfigurationList
 from ._models_py3 import AgentUpdatePatchProperties
 from ._models_py3 import AgentUpdateProperties
 from ._models_py3 import AppAttachPackage
@@ -20,10 +24,19 @@ from ._models_py3 import ApplicationGroupList
 from ._models_py3 import ApplicationGroupPatch
 from ._models_py3 import ApplicationList
 from ._models_py3 import ApplicationPatch
+from ._models_py3 import AzureActiveDirectoryInfoProperties
+from ._models_py3 import BootDiagnosticsInfoPatchProperties
+from ._models_py3 import BootDiagnosticsInfoProperties
 from ._models_py3 import CloudErrorProperties
+from ._models_py3 import CustomInfoPatchProperties
+from ._models_py3 import CustomInfoProperties
 from ._models_py3 import Desktop
 from ._models_py3 import DesktopList
 from ._models_py3 import DesktopPatch
+from ._models_py3 import DiskInfoPatchProperties
+from ._models_py3 import DiskInfoProperties
+from ._models_py3 import DomainInfoPatchProperties
+from ._models_py3 import DomainInfoProperties
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -32,8 +45,15 @@ from ._models_py3 import ExpandMsixImageList
 from ._models_py3 import HostPool
 from ._models_py3 import HostPoolList
 from ._models_py3 import HostPoolPatch
-from ._models_py3 import Identity
+from ._models_py3 import HostPoolUpdateConfigurationPatchProperties
+from ._models_py3 import HostPoolUpdateConfigurationProperties
+from ._models_py3 import HostPoolUpdateControlParameter
+from ._models_py3 import HostPoolUpdateFault
+from ._models_py3 import ImageInfoPatchProperties
+from ._models_py3 import ImageInfoProperties
 from ._models_py3 import ImportPackageInfoRequest
+from ._models_py3 import KeyVaultCredentialsPatchProperties
+from ._models_py3 import KeyVaultCredentialsProperties
 from ._models_py3 import LogSpecification
 from ._models_py3 import MSIXImageURI
 from ._models_py3 import MSIXPackage
@@ -41,8 +61,13 @@ from ._models_py3 import MSIXPackageList
 from ._models_py3 import MSIXPackagePatch
 from ._models_py3 import MaintenanceWindowPatchProperties
 from ._models_py3 import MaintenanceWindowProperties
+from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import MarketplaceInfoPatchProperties
+from ._models_py3 import MarketplaceInfoProperties
 from ._models_py3 import MsixPackageApplications
 from ._models_py3 import MsixPackageDependencies
+from ._models_py3 import NetworkInfoPatchProperties
+from ._models_py3 import NetworkInfoProperties
 from ._models_py3 import OperationProperties
 from ._models_py3 import Plan
 from ._models_py3 import PrivateEndpoint
@@ -59,9 +84,6 @@ from ._models_py3 import RegistrationTokenList
 from ._models_py3 import RegistrationTokenMinimal
 from ._models_py3 import Resource
 from ._models_py3 import ResourceModelWithAllowedPropertySet
-from ._models_py3 import ResourceModelWithAllowedPropertySetIdentity
-from ._models_py3 import ResourceModelWithAllowedPropertySetPlan
-from ._models_py3 import ResourceModelWithAllowedPropertySetSku
 from ._models_py3 import ResourceProviderOperation
 from ._models_py3 import ResourceProviderOperationDisplay
 from ._models_py3 import ResourceProviderOperationList
@@ -76,12 +98,22 @@ from ._models_py3 import ScalingPlanPooledSchedule
 from ._models_py3 import ScalingPlanPooledScheduleList
 from ._models_py3 import ScalingPlanPooledSchedulePatch
 from ._models_py3 import ScalingSchedule
+from ._models_py3 import SecurityInfoPatchProperties
+from ._models_py3 import SecurityInfoProperties
 from ._models_py3 import SendMessage
 from ._models_py3 import ServiceSpecification
 from ._models_py3 import SessionHost
+from ._models_py3 import SessionHostConfiguration
+from ._models_py3 import SessionHostConfigurationList
+from ._models_py3 import SessionHostConfigurationPatch
 from ._models_py3 import SessionHostHealthCheckFailureDetails
 from ._models_py3 import SessionHostHealthCheckReport
 from ._models_py3 import SessionHostList
+from ._models_py3 import SessionHostManagement
+from ._models_py3 import SessionHostManagementList
+from ._models_py3 import SessionHostManagementOperationProgress
+from ._models_py3 import SessionHostManagementPatch
+from ._models_py3 import SessionHostManagementUpdateStatus
 from ._models_py3 import SessionHostPatch
 from ._models_py3 import Sku
 from ._models_py3 import StartMenuItem
@@ -89,6 +121,8 @@ from ._models_py3 import StartMenuItemList
 from ._models_py3 import SystemData
 from ._models_py3 import Time
 from ._models_py3 import TrackedResource
+from ._models_py3 import UpdateSessionHostsRequestBody
+from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import UserSession
 from ._models_py3 import UserSessionList
 from ._models_py3 import Workspace
@@ -101,24 +135,34 @@ from ._desktop_virtualization_mgmt_client_enums import ApplicationType
 from ._desktop_virtualization_mgmt_client_enums import CommandLineSetting
 from ._desktop_virtualization_mgmt_client_enums import CreatedByType
 from ._desktop_virtualization_mgmt_client_enums import DayOfWeek
+from ._desktop_virtualization_mgmt_client_enums import DirectUDP
+from ._desktop_virtualization_mgmt_client_enums import DomainJoinType
 from ._desktop_virtualization_mgmt_client_enums import FailHealthCheckOnStagingFailure
+from ._desktop_virtualization_mgmt_client_enums import FaultType
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckName
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckResult
 from ._desktop_virtualization_mgmt_client_enums import HostPoolType
+from ._desktop_virtualization_mgmt_client_enums import HostPoolUpdateAction
 from ._desktop_virtualization_mgmt_client_enums import HostpoolPublicNetworkAccess
 from ._desktop_virtualization_mgmt_client_enums import LoadBalancerType
+from ._desktop_virtualization_mgmt_client_enums import ManagedPrivateUDP
+from ._desktop_virtualization_mgmt_client_enums import ManagedServiceIdentityType
+from ._desktop_virtualization_mgmt_client_enums import ManagementType
+from ._desktop_virtualization_mgmt_client_enums import OperationTypeSHM
 from ._desktop_virtualization_mgmt_client_enums import PackageTimestamped
 from ._desktop_virtualization_mgmt_client_enums import PersonalDesktopAssignmentType
 from ._desktop_virtualization_mgmt_client_enums import PreferredAppGroupType
 from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointConnectionProvisioningState
 from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
 from ._desktop_virtualization_mgmt_client_enums import ProvisioningState
+from ._desktop_virtualization_mgmt_client_enums import ProvisioningStateSHC
 from ._desktop_virtualization_mgmt_client_enums import PublicNetworkAccess
+from ._desktop_virtualization_mgmt_client_enums import PublicUDP
 from ._desktop_virtualization_mgmt_client_enums import RegistrationTokenOperation
+from ._desktop_virtualization_mgmt_client_enums import RelayUDP
 from ._desktop_virtualization_mgmt_client_enums import RemoteApplicationType
 from ._desktop_virtualization_mgmt_client_enums import SSOSecretType
 from ._desktop_virtualization_mgmt_client_enums import ScalingHostPoolType
-from ._desktop_virtualization_mgmt_client_enums import ScalingScheduleDaysOfWeekItem
 from ._desktop_virtualization_mgmt_client_enums import SessionHandlingOperation
 from ._desktop_virtualization_mgmt_client_enums import SessionHostComponentUpdateType
 from ._desktop_virtualization_mgmt_client_enums import SessionHostLoadBalancingAlgorithm
@@ -128,12 +172,19 @@ from ._desktop_virtualization_mgmt_client_enums import SkuTier
 from ._desktop_virtualization_mgmt_client_enums import StartupBehavior
 from ._desktop_virtualization_mgmt_client_enums import Status
 from ._desktop_virtualization_mgmt_client_enums import StopHostsWhen
+from ._desktop_virtualization_mgmt_client_enums import Type
 from ._desktop_virtualization_mgmt_client_enums import UpdateState
+from ._desktop_virtualization_mgmt_client_enums import VirtualMachineDiskType
+from ._desktop_virtualization_mgmt_client_enums import VirtualMachineSecurityType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ActiveDirectoryInfoPatchProperties",
+    "ActiveDirectoryInfoProperties",
+    "ActiveSessionHostConfiguration",
+    "ActiveSessionHostConfigurationList",
     "AgentUpdatePatchProperties",
     "AgentUpdateProperties",
     "AppAttachPackage",
@@ -148,10 +199,19 @@ __all__ = [
     "ApplicationGroupPatch",
     "ApplicationList",
     "ApplicationPatch",
+    "AzureActiveDirectoryInfoProperties",
+    "BootDiagnosticsInfoPatchProperties",
+    "BootDiagnosticsInfoProperties",
     "CloudErrorProperties",
+    "CustomInfoPatchProperties",
+    "CustomInfoProperties",
     "Desktop",
     "DesktopList",
     "DesktopPatch",
+    "DiskInfoPatchProperties",
+    "DiskInfoProperties",
+    "DomainInfoPatchProperties",
+    "DomainInfoProperties",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -160,8 +220,15 @@ __all__ = [
     "HostPool",
     "HostPoolList",
     "HostPoolPatch",
-    "Identity",
+    "HostPoolUpdateConfigurationPatchProperties",
+    "HostPoolUpdateConfigurationProperties",
+    "HostPoolUpdateControlParameter",
+    "HostPoolUpdateFault",
+    "ImageInfoPatchProperties",
+    "ImageInfoProperties",
     "ImportPackageInfoRequest",
+    "KeyVaultCredentialsPatchProperties",
+    "KeyVaultCredentialsProperties",
     "LogSpecification",
     "MSIXImageURI",
     "MSIXPackage",
@@ -169,8 +236,13 @@ __all__ = [
     "MSIXPackagePatch",
     "MaintenanceWindowPatchProperties",
     "MaintenanceWindowProperties",
+    "ManagedServiceIdentity",
+    "MarketplaceInfoPatchProperties",
+    "MarketplaceInfoProperties",
     "MsixPackageApplications",
     "MsixPackageDependencies",
+    "NetworkInfoPatchProperties",
+    "NetworkInfoProperties",
     "OperationProperties",
     "Plan",
     "PrivateEndpoint",
@@ -187,9 +259,6 @@ __all__ = [
     "RegistrationTokenMinimal",
     "Resource",
     "ResourceModelWithAllowedPropertySet",
-    "ResourceModelWithAllowedPropertySetIdentity",
-    "ResourceModelWithAllowedPropertySetPlan",
-    "ResourceModelWithAllowedPropertySetSku",
     "ResourceProviderOperation",
     "ResourceProviderOperationDisplay",
     "ResourceProviderOperationList",
@@ -204,12 +273,22 @@ __all__ = [
     "ScalingPlanPooledScheduleList",
     "ScalingPlanPooledSchedulePatch",
     "ScalingSchedule",
+    "SecurityInfoPatchProperties",
+    "SecurityInfoProperties",
     "SendMessage",
     "ServiceSpecification",
     "SessionHost",
+    "SessionHostConfiguration",
+    "SessionHostConfigurationList",
+    "SessionHostConfigurationPatch",
     "SessionHostHealthCheckFailureDetails",
     "SessionHostHealthCheckReport",
     "SessionHostList",
+    "SessionHostManagement",
+    "SessionHostManagementList",
+    "SessionHostManagementOperationProgress",
+    "SessionHostManagementPatch",
+    "SessionHostManagementUpdateStatus",
     "SessionHostPatch",
     "Sku",
     "StartMenuItem",
@@ -217,6 +296,8 @@ __all__ = [
     "SystemData",
     "Time",
     "TrackedResource",
+    "UpdateSessionHostsRequestBody",
+    "UserAssignedIdentity",
     "UserSession",
     "UserSessionList",
     "Workspace",
@@ -228,24 +309,34 @@ __all__ = [
     "CommandLineSetting",
     "CreatedByType",
     "DayOfWeek",
+    "DirectUDP",
+    "DomainJoinType",
     "FailHealthCheckOnStagingFailure",
+    "FaultType",
     "HealthCheckName",
     "HealthCheckResult",
     "HostPoolType",
+    "HostPoolUpdateAction",
     "HostpoolPublicNetworkAccess",
     "LoadBalancerType",
+    "ManagedPrivateUDP",
+    "ManagedServiceIdentityType",
+    "ManagementType",
+    "OperationTypeSHM",
     "PackageTimestamped",
     "PersonalDesktopAssignmentType",
     "PreferredAppGroupType",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
     "ProvisioningState",
+    "ProvisioningStateSHC",
     "PublicNetworkAccess",
+    "PublicUDP",
     "RegistrationTokenOperation",
+    "RelayUDP",
     "RemoteApplicationType",
     "SSOSecretType",
     "ScalingHostPoolType",
-    "ScalingScheduleDaysOfWeekItem",
     "SessionHandlingOperation",
     "SessionHostComponentUpdateType",
     "SessionHostLoadBalancingAlgorithm",
@@ -255,7 +346,10 @@ __all__ = [
     "StartupBehavior",
     "Status",
     "StopHostsWhen",
+    "Type",
     "UpdateState",
+    "VirtualMachineDiskType",
+    "VirtualMachineSecurityType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

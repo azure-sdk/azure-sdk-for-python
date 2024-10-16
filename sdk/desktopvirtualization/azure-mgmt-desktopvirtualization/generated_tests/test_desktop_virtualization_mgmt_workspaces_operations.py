@@ -24,7 +24,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
         response = self.client.workspaces.get(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -44,7 +44,12 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
                 "etag": "str",
                 "friendlyName": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
                 "name": "str",
@@ -86,7 +91,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -98,7 +103,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
         response = self.client.workspaces.delete(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -110,7 +115,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
         response = self.client.workspaces.update(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -121,7 +126,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
     def test_list_by_resource_group(self, resource_group):
         response = self.client.workspaces.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -131,7 +136,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
     @recorded_by_proxy
     def test_list_by_subscription(self, resource_group):
         response = self.client.workspaces.list_by_subscription(
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
