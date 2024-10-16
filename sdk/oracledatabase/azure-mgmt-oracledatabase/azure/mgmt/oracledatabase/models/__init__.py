@@ -21,6 +21,8 @@ from ._models_py3 import AutonomousDatabaseCharacterSet
 from ._models_py3 import AutonomousDatabaseCharacterSetListResult
 from ._models_py3 import AutonomousDatabaseCharacterSetProperties
 from ._models_py3 import AutonomousDatabaseCloneProperties
+from ._models_py3 import AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+from ._models_py3 import AutonomousDatabaseFromBackupTimestampProperties
 from ._models_py3 import AutonomousDatabaseListResult
 from ._models_py3 import AutonomousDatabaseNationalCharacterSet
 from ._models_py3 import AutonomousDatabaseNationalCharacterSetListResult
@@ -33,6 +35,7 @@ from ._models_py3 import AutonomousDatabaseWalletFile
 from ._models_py3 import AutonomousDbVersion
 from ._models_py3 import AutonomousDbVersionListResult
 from ._models_py3 import AutonomousDbVersionProperties
+from ._models_py3 import AzureSubscriptions
 from ._models_py3 import CloudAccountDetails
 from ._models_py3 import CloudExadataInfrastructure
 from ._models_py3 import CloudExadataInfrastructureListResult
@@ -62,6 +65,7 @@ from ._models_py3 import DbServerProperties
 from ._models_py3 import DbSystemShape
 from ._models_py3 import DbSystemShapeListResult
 from ._models_py3 import DbSystemShapeProperties
+from ._models_py3 import DisasterRecoveryConfigurationDetails
 from ._models_py3 import DnsPrivateView
 from ._models_py3 import DnsPrivateViewListResult
 from ._models_py3 import DnsPrivateViewProperties
@@ -115,6 +119,7 @@ from ._models_py3 import VirtualNetworkAddressListResult
 from ._models_py3 import VirtualNetworkAddressProperties
 
 from ._oracle_database_mgmt_client_enums import ActionType
+from ._oracle_database_mgmt_client_enums import AddSubscriptionOperationState
 from ._oracle_database_mgmt_client_enums import AutonomousDatabaseBackupLifecycleState
 from ._oracle_database_mgmt_client_enums import AutonomousDatabaseBackupType
 from ._oracle_database_mgmt_client_enums import AutonomousDatabaseLifecycleState
@@ -189,6 +194,8 @@ __all__ = [
     "AutonomousDatabaseCharacterSetListResult",
     "AutonomousDatabaseCharacterSetProperties",
     "AutonomousDatabaseCloneProperties",
+    "AutonomousDatabaseCrossRegionDisasterRecoveryProperties",
+    "AutonomousDatabaseFromBackupTimestampProperties",
     "AutonomousDatabaseListResult",
     "AutonomousDatabaseNationalCharacterSet",
     "AutonomousDatabaseNationalCharacterSetListResult",
@@ -201,6 +208,7 @@ __all__ = [
     "AutonomousDbVersion",
     "AutonomousDbVersionListResult",
     "AutonomousDbVersionProperties",
+    "AzureSubscriptions",
     "CloudAccountDetails",
     "CloudExadataInfrastructure",
     "CloudExadataInfrastructureListResult",
@@ -230,6 +238,7 @@ __all__ = [
     "DbSystemShape",
     "DbSystemShapeListResult",
     "DbSystemShapeProperties",
+    "DisasterRecoveryConfigurationDetails",
     "DnsPrivateView",
     "DnsPrivateViewListResult",
     "DnsPrivateViewProperties",
@@ -282,6 +291,7 @@ __all__ = [
     "VirtualNetworkAddressListResult",
     "VirtualNetworkAddressProperties",
     "ActionType",
+    "AddSubscriptionOperationState",
     "AutonomousDatabaseBackupLifecycleState",
     "AutonomousDatabaseBackupType",
     "AutonomousDatabaseLifecycleState",
