@@ -25,7 +25,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
         response = self.client.deployment_settings.list_by_clusters(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
             resource_group_name=resource_group.name,
             cluster_name="str",
             deployment_settings_name="default",
-            api_version="2024-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -94,14 +94,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                                         ],
                                         "storageConnectivitySwitchless": False,
                                         "storageNetworks": [
-                                            {
-                                                "name": "str",
-                                                "networkAdapterName": "str",
-                                                "storageAdapterIPInfo": [
-                                                    {"ipv4Address": "str", "physicalNode": "str", "subnetMask": "str"}
-                                                ],
-                                                "vlanId": "str",
-                                            }
+                                            {"name": "str", "networkAdapterName": "str", "vlanId": "str"}
                                         ],
                                     },
                                     "infrastructureNetwork": [
@@ -121,14 +114,6 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                                     },
                                     "optionalServices": {"customLocation": "str"},
                                     "physicalNodes": [{"ipv4Address": "str", "name": "str"}],
-                                    "sdnIntegration": {
-                                        "networkController": {
-                                            "macAddressPoolStart": "str",
-                                            "macAddressPoolStop": "str",
-                                            "networkVirtualizationEnabled": bool,
-                                        }
-                                    },
-                                    "secrets": [{"eceSecretName": "str", "secretLocation": "str", "secretName": "str"}],
                                     "secretsLocation": "str",
                                     "securitySettings": {
                                         "bitlockerBootVolume": True,
@@ -143,20 +128,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                                         "wdacEnforced": True,
                                     },
                                     "storage": {"configurationMode": "Express"},
-                                },
-                                "sbePartnerInfo": {
-                                    "credentialList": [
-                                        {"eceSecretName": "str", "secretLocation": "str", "secretName": "str"}
-                                    ],
-                                    "partnerProperties": [{"name": "str", "value": "str"}],
-                                    "sbeDeploymentInfo": {
-                                        "family": "str",
-                                        "publisher": "str",
-                                        "sbeManifestCreationDate": "2020-02-20 00:00:00",
-                                        "sbeManifestSource": "str",
-                                        "version": "str",
-                                    },
-                                },
+                                }
                             }
                         ],
                         "version": "str",
@@ -164,7 +136,6 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                     "deploymentMode": "Deploy",
                     "id": "str",
                     "name": "str",
-                    "operationType": "ClusterProvisioning",
                     "provisioningState": "str",
                     "reportedProperties": {
                         "deploymentStatus": {
@@ -209,7 +180,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                     "type": "str",
                 },
                 deployment_settings_name="default",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -224,7 +195,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 deployment_settings_name="default",
-                api_version="2024-04-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
