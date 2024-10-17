@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -22,7 +22,7 @@ class TrackedResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -55,7 +55,7 @@ class TrackedResource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "TrackedResourceSystemData"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -76,7 +76,7 @@ class AzureTrafficCollector(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -131,8 +131,8 @@ class AzureTrafficCollector(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         virtual_hub: Optional["_models.ResourceReference"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -168,7 +168,7 @@ class AzureTrafficCollectorListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AzureTrafficCollector"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.AzureTrafficCollector"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A list of Traffic Collector resources.
         :paramtype value: list[~azure.mgmt.networkfunction.models.AzureTrafficCollector]
@@ -208,8 +208,8 @@ class CloudErrorBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
          programmatically.
@@ -235,7 +235,7 @@ class CollectorPolicy(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -291,8 +291,8 @@ class CollectorPolicy(TrackedResource):
         tags: Optional[Dict[str, str]] = None,
         ingestion_policy: Optional["_models.IngestionPolicyPropertiesFormat"] = None,
         emission_policies: Optional[List["_models.EmissionPoliciesPropertiesFormat"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -331,7 +331,7 @@ class CollectorPolicyListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.CollectorPolicy"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.CollectorPolicy"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A list of collection policies.
         :paramtype value: list[~azure.mgmt.networkfunction.models.CollectorPolicy]
@@ -361,8 +361,8 @@ class EmissionPoliciesPropertiesFormat(_serialization.Model):
         *,
         emission_type: Optional[Union[str, "_models.EmissionType"]] = None,
         emission_destinations: Optional[List["_models.EmissionPolicyDestination"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword emission_type: Emission format type. "IPFIX"
         :paramtype emission_type: str or ~azure.mgmt.networkfunction.models.EmissionType
@@ -386,7 +386,9 @@ class EmissionPolicyDestination(_serialization.Model):
         "destination_type": {"key": "destinationType", "type": "str"},
     }
 
-    def __init__(self, *, destination_type: Optional[Union[str, "_models.DestinationType"]] = None, **kwargs):
+    def __init__(
+        self, *, destination_type: Optional[Union[str, "_models.DestinationType"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword destination_type: Emission destination type. "AzureMonitor"
         :paramtype destination_type: str or ~azure.mgmt.networkfunction.models.DestinationType
@@ -415,8 +417,8 @@ class IngestionPolicyPropertiesFormat(_serialization.Model):
         *,
         ingestion_type: Optional[Union[str, "_models.IngestionType"]] = None,
         ingestion_sources: Optional[List["_models.IngestionSourcesPropertiesFormat"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ingestion_type: The ingestion type. "IPFIX"
         :paramtype ingestion_type: str or ~azure.mgmt.networkfunction.models.IngestionType
@@ -448,8 +450,8 @@ class IngestionSourcesPropertiesFormat(_serialization.Model):
         *,
         source_type: Optional[Union[str, "_models.SourceType"]] = None,
         resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_type: Ingestion source type. "Resource"
         :paramtype source_type: str or ~azure.mgmt.networkfunction.models.SourceType
@@ -488,8 +490,8 @@ class Operation(_serialization.Model):
         is_data_action: bool = False,
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -534,8 +536,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft NetworkFunction.
         :paramtype provider: str
@@ -554,7 +556,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list Azure Traffic Collector operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list Azure Traffic Collector operations. It contains a list of
+    operations and a URL link to get the next set of results.
 
     :ivar value: List of operations supported by the Azure Traffic Collector resource provider.
     :vartype value: list[~azure.mgmt.networkfunction.models.Operation]
@@ -567,7 +570,9 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of operations supported by the Azure Traffic Collector resource provider.
         :paramtype value: list[~azure.mgmt.networkfunction.models.Operation]
@@ -604,7 +609,7 @@ class ProxyResource(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -629,7 +634,7 @@ class ResourceReference(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -668,8 +673,8 @@ class SystemData(_serialization.Model):
         created_at: Optional[datetime.datetime] = None,
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -703,7 +708,7 @@ class TagsObject(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -728,44 +733,3 @@ class TrackedResourceSystemData(SystemData):
      are: "User", "Application", "ManagedIdentity", and "Key".
     :vartype last_modified_by_type: str or ~azure.mgmt.networkfunction.models.CreatedByType
     """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword created_by: The identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: The type of identity that created the resource. Known values are:
-         "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype created_by_type: str or ~azure.mgmt.networkfunction.models.CreatedByType
-        :keyword created_at: The timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: The identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
-         values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.networkfunction.models.CreatedByType
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            **kwargs
-        )
