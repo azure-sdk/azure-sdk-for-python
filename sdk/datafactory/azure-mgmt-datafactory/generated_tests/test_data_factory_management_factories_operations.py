@@ -42,17 +42,6 @@ class TestDataFactoryManagementFactoriesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
-        response = self.client.factories.list_by_resource_group(
-            resource_group_name=resource_group.name,
-            api_version="2018-06-01",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
     def test_create_or_update(self, resource_group):
         response = self.client.factories.create_or_update(
             resource_group_name=resource_group.name,
