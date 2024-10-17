@@ -1,0 +1,6 @@
+{
+  "commit": "f9564158d277fd39f7c42ff5a60eed0124d74f85",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/symphony/Symphony.Management",
+  "@azure-tools/typespec-python": "0.36.0"
+}
