@@ -15,7 +15,7 @@ from azure.mgmt.healthdataaiservices import HealthDataAIServicesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-healthdataaiservices
 # USAGE
-    python private_links_list_by_deid_service_maximum_set_gen.py
+    python deid_services_update_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,21 @@ from azure.mgmt.healthdataaiservices import HealthDataAIServicesMgmtClient
 def main():
     client = HealthDataAIServicesMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="F21BB31B-C214-42C0-ACF0-DACCA05D3011",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.private_links.list_by_deid_service(
+    response = client.deid_services.begin_update(
         resource_group_name="rgopenapi",
         deid_service_name="deidTest",
-    )
-    for item in response:
-        print(item)
+        properties={
+            "identity": {"type": "None", "userAssignedIdentities": {}},
+            "properties": {"publicNetworkAccess": "Enabled"},
+            "tags": {},
+        },
+    ).result()
+    print(response)
 
 
+# x-ms-original-file: 2024-02-28-preview/DeidServices_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

@@ -15,7 +15,7 @@ from azure.mgmt.healthdataaiservices import HealthDataAIServicesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-healthdataaiservices
 # USAGE
-    python operations_list_minimum_set_gen.py
+    python deid_services_get_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,10 +30,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.deid_services.get(
+        resource_group_name="rgopenapi",
+        deid_service_name="deidTest",
+    )
+    print(response)
 
 
+# x-ms-original-file: 2024-02-28-preview/DeidServices_Get_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
