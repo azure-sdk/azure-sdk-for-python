@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._operations import Operations
 from ._operations import UsageOperations
 from ._operations import VirtualMachineSizesOperations
 from ._operations import VirtualMachineScaleSetsOperations
@@ -38,7 +37,6 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "Operations",
     "UsageOperations",
     "VirtualMachineSizesOperations",
     "VirtualMachineScaleSetsOperations",

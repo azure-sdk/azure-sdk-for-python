@@ -26,7 +26,6 @@ from .operations import (
     DedicatedHostsOperations,
     ImagesOperations,
     LogAnalyticsOperations,
-    Operations,
     ProximityPlacementGroupsOperations,
     RestorePointCollectionsOperations,
     RestorePointsOperations,
@@ -55,8 +54,6 @@ if TYPE_CHECKING:
 class ComputeManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Compute Client.
 
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.compute.v2024_07_01.aio.operations.Operations
     :ivar usage: UsageOperations operations
     :vartype usage: azure.mgmt.compute.v2024_07_01.aio.operations.UsageOperations
     :ivar virtual_machine_sizes: VirtualMachineSizesOperations operations
@@ -179,7 +176,6 @@ class ComputeManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2024-07-01")
         self.usage = UsageOperations(self._client, self._config, self._serialize, self._deserialize, "2024-07-01")
         self.virtual_machine_sizes = VirtualMachineSizesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-07-01"
