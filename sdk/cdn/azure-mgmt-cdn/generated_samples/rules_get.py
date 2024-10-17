@@ -39,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Get.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-09-01/examples/Rules_Get.json
 if __name__ == "__main__":
     main()

@@ -38,6 +38,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Delete.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-09-01/examples/Rules_Delete.json
 if __name__ == "__main__":
     main()
