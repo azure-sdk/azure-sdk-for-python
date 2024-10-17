@@ -79,6 +79,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             'gallery_image_versions': '2023-07-03',
             'gallery_images': '2023-07-03',
             'gallery_sharing_profile': '2023-07-03',
+            'operations': '2024-03-01',
             'resource_skus': '2021-07-01',
             'shared_galleries': '2023-07-03',
             'shared_gallery_image_versions': '2023-07-03',
@@ -1463,7 +1464,6 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2023-07-01: :class:`Operations<azure.mgmt.compute.v2023_07_01.aio.operations.Operations>`
            * 2023-09-01: :class:`Operations<azure.mgmt.compute.v2023_09_01.aio.operations.Operations>`
            * 2024-03-01: :class:`Operations<azure.mgmt.compute.v2024_03_01.aio.operations.Operations>`
-           * 2024-07-01: :class:`Operations<azure.mgmt.compute.v2024_07_01.aio.operations.Operations>`
         """
         api_version = self._get_api_version('operations')
         if api_version == '2017-12-01':
@@ -1506,8 +1506,6 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2023_09_01.aio.operations import Operations as OperationClass
         elif api_version == '2024-03-01':
             from ..v2024_03_01.aio.operations import Operations as OperationClass
-        elif api_version == '2024-07-01':
-            from ..v2024_07_01.aio.operations import Operations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
