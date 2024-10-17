@@ -21,15 +21,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._scoping_configuration_operations import (
     build_create_or_update_request,
     build_delete_request,
@@ -99,7 +97,6 @@ class ScopingConfigurationOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -115,7 +112,6 @@ class ScopingConfigurationOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -180,7 +176,6 @@ class ScopingConfigurationOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -195,7 +190,7 @@ class ScopingConfigurationOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ScopingConfigurationResource", pipeline_response)
+        deserialized = self._deserialize("ScopingConfigurationResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -207,7 +202,7 @@ class ScopingConfigurationOperations:
         self,
         report_name: str,
         scoping_configuration_name: str,
-        properties: _models.ScopingConfigurationResource,
+        resource: _models.ScopingConfigurationResource,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -218,9 +213,9 @@ class ScopingConfigurationOperations:
         :type report_name: str
         :param scoping_configuration_name: The scoping configuration of the specific report. Required.
         :type scoping_configuration_name: str
-        :param properties: Parameters for the create or update operation, this is a singleton resource,
+        :param resource: Parameters for the create or update operation, this is a singleton resource,
          so please make sure you're using 'default' as the name. Required.
-        :type properties: ~azure.mgmt.appcomplianceautomation.models.ScopingConfigurationResource
+        :type resource: ~azure.mgmt.appcomplianceautomation.models.ScopingConfigurationResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -234,7 +229,7 @@ class ScopingConfigurationOperations:
         self,
         report_name: str,
         scoping_configuration_name: str,
-        properties: IO[bytes],
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -245,9 +240,9 @@ class ScopingConfigurationOperations:
         :type report_name: str
         :param scoping_configuration_name: The scoping configuration of the specific report. Required.
         :type scoping_configuration_name: str
-        :param properties: Parameters for the create or update operation, this is a singleton resource,
+        :param resource: Parameters for the create or update operation, this is a singleton resource,
          so please make sure you're using 'default' as the name. Required.
-        :type properties: IO[bytes]
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -261,7 +256,7 @@ class ScopingConfigurationOperations:
         self,
         report_name: str,
         scoping_configuration_name: str,
-        properties: Union[_models.ScopingConfigurationResource, IO[bytes]],
+        resource: Union[_models.ScopingConfigurationResource, IO[bytes]],
         **kwargs: Any
     ) -> _models.ScopingConfigurationResource:
         """Get the AppComplianceAutomation scoping configuration of the specific report.
@@ -270,10 +265,10 @@ class ScopingConfigurationOperations:
         :type report_name: str
         :param scoping_configuration_name: The scoping configuration of the specific report. Required.
         :type scoping_configuration_name: str
-        :param properties: Parameters for the create or update operation, this is a singleton resource,
+        :param resource: Parameters for the create or update operation, this is a singleton resource,
          so please make sure you're using 'default' as the name. Is either a
          ScopingConfigurationResource type or a IO[bytes] type. Required.
-        :type properties: ~azure.mgmt.appcomplianceautomation.models.ScopingConfigurationResource or
+        :type resource: ~azure.mgmt.appcomplianceautomation.models.ScopingConfigurationResource or
          IO[bytes]
         :return: ScopingConfigurationResource or the result of cls(response)
         :rtype: ~azure.mgmt.appcomplianceautomation.models.ScopingConfigurationResource
@@ -297,10 +292,10 @@ class ScopingConfigurationOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(properties, (IOBase, bytes)):
-            _content = properties
+        if isinstance(resource, (IOBase, bytes)):
+            _content = resource
         else:
-            _json = self._serialize.body(properties, "ScopingConfigurationResource")
+            _json = self._serialize.body(resource, "ScopingConfigurationResource")
 
         _request = build_create_or_update_request(
             report_name=report_name,
@@ -312,7 +307,6 @@ class ScopingConfigurationOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -327,11 +321,7 @@ class ScopingConfigurationOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ScopingConfigurationResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ScopingConfigurationResource", pipeline_response)
+        deserialized = self._deserialize("ScopingConfigurationResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -373,7 +363,6 @@ class ScopingConfigurationOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
