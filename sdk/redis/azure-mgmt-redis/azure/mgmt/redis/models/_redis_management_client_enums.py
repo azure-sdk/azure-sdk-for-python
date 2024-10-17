@@ -153,12 +153,8 @@ class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class TlsVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0',
-    '1.1', '1.2').
-    """
+    """Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.2')."""
 
-    ONE0 = "1.0"
-    ONE1 = "1.1"
     ONE2 = "1.2"
 
 
@@ -170,3 +166,18 @@ class UpdateChannel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     STABLE = "Stable"
     PREVIEW = "Preview"
+
+
+class ZonalAllocationPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic'
+    enables zone redundancy and Azure will automatically select zones based on regional
+    availability and capacity. 'UserDefined' will select availability zones passed in by you using
+    the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is
+    not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set
+    to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are
+    not supported.
+    """
+
+    AUTOMATIC = "Automatic"
+    USER_DEFINED = "UserDefined"
+    NO_ZONES = "NoZones"
