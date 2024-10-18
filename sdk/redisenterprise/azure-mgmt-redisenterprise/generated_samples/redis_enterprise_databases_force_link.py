@@ -48,6 +48,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesForceLink.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2024-10-01/examples/RedisEnterpriseDatabasesForceLink.json
 if __name__ == "__main__":
     main()

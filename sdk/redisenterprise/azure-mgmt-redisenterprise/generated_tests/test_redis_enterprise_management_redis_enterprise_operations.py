@@ -33,7 +33,6 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
                         "keyEncryptionKeyUrl": "str",
                     }
                 },
-                "highAvailability": "str",
                 "hostName": "str",
                 "id": "str",
                 "identity": {
@@ -60,13 +59,12 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
                 ],
                 "provisioningState": "str",
                 "redisVersion": "str",
-                "redundancyMode": "str",
                 "resourceState": "str",
                 "tags": {"str": "str"},
                 "type": "str",
                 "zones": ["str"],
             },
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -85,7 +83,6 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
                         "keyEncryptionKeyUrl": "str",
                     }
                 },
-                "highAvailability": "str",
                 "hostName": "str",
                 "identity": {
                     "type": "str",
@@ -110,12 +107,11 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
                 ],
                 "provisioningState": "str",
                 "redisVersion": "str",
-                "redundancyMode": "str",
                 "resourceState": "str",
                 "sku": {"name": "str", "capacity": 0},
                 "tags": {"str": "str"},
             },
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -127,7 +123,7 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
         response = self.client.redis_enterprise.begin_delete(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -139,7 +135,7 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
         response = self.client.redis_enterprise.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         )
 
         # please add some check logic here by yourself
@@ -150,7 +146,7 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
     def test_list_by_resource_group(self, resource_group):
         response = self.client.redis_enterprise.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -160,7 +156,7 @@ class TestRedisEnterpriseManagementRedisEnterpriseOperations(AzureMgmtRecordedTe
     @recorded_by_proxy
     def test_list(self, resource_group):
         response = self.client.redis_enterprise.list(
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

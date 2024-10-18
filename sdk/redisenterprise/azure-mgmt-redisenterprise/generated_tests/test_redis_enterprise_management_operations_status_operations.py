@@ -24,7 +24,7 @@ class TestRedisEnterpriseManagementOperationsStatusOperations(AzureMgmtRecordedT
         response = self.client.operations_status.get(
             location="str",
             operation_id="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-10-01",
         )
 
         # please add some check logic here by yourself
