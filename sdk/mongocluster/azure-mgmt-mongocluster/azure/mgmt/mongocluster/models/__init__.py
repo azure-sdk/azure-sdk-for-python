@@ -12,6 +12,7 @@ from ._models import CheckNameAvailabilityRequest
 from ._models import CheckNameAvailabilityResponse
 from ._models import ComputeProperties
 from ._models import ConnectionString
+from ._models import DataApiProperties
 from ._models import ErrorAdditionalInfo
 from ._models import ErrorDetail
 from ._models import ErrorResponse
@@ -48,6 +49,7 @@ from ._enums import ActionType
 from ._enums import CheckNameAvailabilityReason
 from ._enums import CreateMode
 from ._enums import CreatedByType
+from ._enums import DataApiMode
 from ._enums import HighAvailabilityMode
 from ._enums import MongoClusterStatus
 from ._enums import Origin
@@ -71,6 +73,7 @@ __all__ = [
     "CheckNameAvailabilityResponse",
     "ComputeProperties",
     "ConnectionString",
+    "DataApiProperties",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -106,6 +109,7 @@ __all__ = [
     "CheckNameAvailabilityReason",
     "CreateMode",
     "CreatedByType",
+    "DataApiMode",
     "HighAvailabilityMode",
     "MongoClusterStatus",
     "Origin",
@@ -119,5 +123,5 @@ __all__ = [
     "ReplicationRole",
     "ReplicationState",
 ]
-__all__.extend([p for p in _patch_all if p not in __all__])
+__all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()
