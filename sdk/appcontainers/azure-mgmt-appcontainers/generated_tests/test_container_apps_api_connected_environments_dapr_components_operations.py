@@ -24,7 +24,7 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperations(AzureMgm
         response = self.client.connected_environments_dapr_components.list(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperations(AzureMgm
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             component_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -45,21 +45,29 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
-        response = self.client.connected_environments_dapr_components.create_or_update(
+    def test_begin_create_or_update(self, resource_group):
+        response = self.client.connected_environments_dapr_components.begin_create_or_update(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             component_name="str",
             dapr_component_envelope={
-                "componentType": "str",
                 "id": "str",
-                "ignoreErrors": False,
-                "initTimeout": "str",
-                "metadata": [{"name": "str", "secretRef": "str", "value": "str"}],
                 "name": "str",
-                "scopes": ["str"],
-                "secretStoreComponent": "str",
-                "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
+                "properties": {
+                    "componentType": "str",
+                    "deploymentErrors": "str",
+                    "ignoreErrors": False,
+                    "initTimeout": "str",
+                    "metadata": [{"name": "str", "secretRef": "str", "value": "str"}],
+                    "provisioningState": "str",
+                    "scopes": ["str"],
+                    "secretStoreComponent": "str",
+                    "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
+                    "serviceComponentBind": [
+                        {"metadata": {"name": "str", "value": "str"}, "name": "str", "serviceId": "str"}
+                    ],
+                    "version": "str",
+                },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -69,23 +77,22 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperations(AzureMgm
                     "lastModifiedByType": "str",
                 },
                 "type": "str",
-                "version": "str",
             },
-            api_version="2024-03-01",
-        )
+            api_version="2024-10-02-preview",
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
-        response = self.client.connected_environments_dapr_components.delete(
+    def test_begin_delete(self, resource_group):
+        response = self.client.connected_environments_dapr_components.begin_delete(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             component_name="str",
-            api_version="2024-03-01",
-        )
+            api_version="2024-10-02-preview",
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
@@ -97,7 +104,7 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperations(AzureMgm
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             component_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
