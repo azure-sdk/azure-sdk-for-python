@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,52 +9,46 @@
 import datetime
 from typing import Any, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
+from azure.core.exceptions import ODataV4Format
+
 from .. import _model_base
 from .._model_base import rest_field
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class DeidentificationContent(_model_base.Model):
-    """Request body for de-identification operation.
+class BatchCustomizationOptions(_model_base.Model):
+    """Customizations options to override default service behaviors for job behavior.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar input_text: Input text to de-identify. Required.
-    :vartype input_text: str
-    :ivar operation: Operation to perform on the input. Known values are: "Redact", "Surrogate",
-     and "Tag".
-    :vartype operation: str or ~azure.health.deidentification.models.OperationType
-    :ivar data_type: Data type of the input. "Plaintext"
-    :vartype data_type: str or ~azure.health.deidentification.models.DocumentDataType
-    :ivar redaction_format: Format of the redacted output. Only valid when OperationType is
-     "Redact".
+    :ivar redaction_format: Format of the redacted output. Only valid when Operation is Redact.
     :vartype redaction_format: str
+    :ivar operation: Operation to perform on the input documents. Known values are: "Redact",
+     "Surrogate", and "Tag".
+    :vartype operation: str or ~azure.health.deidentification.models.OperationType
+    :ivar surrogate_locale: Locale in which the output surrogates are written.
+    :vartype surrogate_locale: str
     """
 
-    input_text: str = rest_field(name="inputText")
-    """Input text to de-identify. Required."""
-    operation: Optional[Union[str, "_models.OperationType"]] = rest_field()
-    """Operation to perform on the input. Known values are: \"Redact\", \"Surrogate\", and \"Tag\"."""
-    data_type: Optional[Union[str, "_models.DocumentDataType"]] = rest_field(name="dataType")
-    """Data type of the input. \"Plaintext\""""
     redaction_format: Optional[str] = rest_field(name="redactionFormat")
-    """Format of the redacted output. Only valid when OperationType is \"Redact\"."""
+    """Format of the redacted output. Only valid when Operation is Redact."""
+    operation: Optional[Union[str, "_models.OperationType"]] = rest_field()
+    """Operation to perform on the input documents. Known values are: \"Redact\", \"Surrogate\", and
+     \"Tag\"."""
+    surrogate_locale: Optional[str] = rest_field(name="surrogateLocale")
+    """Locale in which the output surrogates are written."""
 
     @overload
     def __init__(
         self,
         *,
-        input_text: str,
-        operation: Optional[Union[str, "_models.OperationType"]] = None,
-        data_type: Optional[Union[str, "_models.DocumentDataType"]] = None,
         redaction_format: Optional[str] = None,
-    ): ...
+        operation: Optional[Union[str, "_models.OperationType"]] = None,
+        surrogate_locale: Optional[str] = None,
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -65,12 +58,51 @@ class DeidentificationContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DeidentificationJob(_model_base.Model):  # pylint: disable=too-many-instance-attributes
+class DeidentificationContent(_model_base.Model):
+    """Request body for de-identification operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar input_text: Input text to de-identify. Required.
+    :vartype input_text: str
+    :ivar data_type: Data type of the input. "Plaintext"
+    :vartype data_type: str or ~azure.health.deidentification.models.DocumentDataType
+    :ivar customizations: Customization parameters to override default service behaviors.
+    :vartype customizations: ~azure.health.deidentification.models.RealtimeCustomizationOptions
+    """
+
+    input_text: str = rest_field(name="inputText")
+    """Input text to de-identify. Required."""
+    data_type: Optional[Union[str, "_models.DocumentDataType"]] = rest_field(name="dataType")
+    """Data type of the input. \"Plaintext\""""
+    customizations: Optional["_models.RealtimeCustomizationOptions"] = rest_field()
+    """Customization parameters to override default service behaviors."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        input_text: str,
+        data_type: Optional[Union[str, "_models.DocumentDataType"]] = None,
+        customizations: Optional["_models.RealtimeCustomizationOptions"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class DeidentificationJob(_model_base.Model):
     """A job containing a batch of documents to de-identify.
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of a job. Required.
     :vartype name: str
@@ -78,18 +110,13 @@ class DeidentificationJob(_model_base.Model):  # pylint: disable=too-many-instan
     :vartype source_location: ~azure.health.deidentification.models.SourceStorageLocation
     :ivar target_location: Target location to store output of operation. Required.
     :vartype target_location: ~azure.health.deidentification.models.TargetStorageLocation
-    :ivar operation: Operation to perform on the input documents. Known values are: "Redact",
-     "Surrogate", and "Tag".
-    :vartype operation: str or ~azure.health.deidentification.models.OperationType
-    :ivar data_type: Data type of the input documents. "Plaintext"
-    :vartype data_type: str or ~azure.health.deidentification.models.DocumentDataType
-    :ivar redaction_format: Format of the redacted output. Only valid when Operation is Redact.
-    :vartype redaction_format: str
+    :ivar customizations: Customization parameters to override default service behaviors.
+    :vartype customizations: ~azure.health.deidentification.models.BatchCustomizationOptions
     :ivar status: Current status of a job. Required. Known values are: "NotStarted", "Running",
      "Succeeded", "PartialFailed", "Failed", and "Canceled".
     :vartype status: str or ~azure.health.deidentification.models.JobStatus
     :ivar error: Error when job fails in it's entirety.
-    :vartype error: ~azure.health.deidentification.models.Error
+    :vartype error: ~azure.core.ODataV4Format
     :ivar last_updated_at: Date and time when the job was completed.
 
      If the job is canceled, this is the time when the job was canceled.
@@ -110,17 +137,12 @@ class DeidentificationJob(_model_base.Model):  # pylint: disable=too-many-instan
     """Storage location to perform the operation on. Required."""
     target_location: "_models.TargetStorageLocation" = rest_field(name="targetLocation")
     """Target location to store output of operation. Required."""
-    operation: Optional[Union[str, "_models.OperationType"]] = rest_field()
-    """Operation to perform on the input documents. Known values are: \"Redact\", \"Surrogate\", and
-     \"Tag\"."""
-    data_type: Optional[Union[str, "_models.DocumentDataType"]] = rest_field(name="dataType")
-    """Data type of the input documents. \"Plaintext\""""
-    redaction_format: Optional[str] = rest_field(name="redactionFormat")
-    """Format of the redacted output. Only valid when Operation is Redact."""
+    customizations: Optional["_models.BatchCustomizationOptions"] = rest_field()
+    """Customization parameters to override default service behaviors."""
     status: Union[str, "_models.JobStatus"] = rest_field(visibility=["read"])
     """Current status of a job. Required. Known values are: \"NotStarted\", \"Running\",
      \"Succeeded\", \"PartialFailed\", \"Failed\", and \"Canceled\"."""
-    error: Optional["_models.Error"] = rest_field(visibility=["read"])
+    error: Optional[ODataV4Format] = rest_field(visibility=["read"])
     """Error when job fails in it's entirety."""
     last_updated_at: datetime.datetime = rest_field(name="lastUpdatedAt", visibility=["read"], format="rfc3339")
     """Date and time when the job was completed.
@@ -141,13 +163,11 @@ class DeidentificationJob(_model_base.Model):  # pylint: disable=too-many-instan
         *,
         source_location: "_models.SourceStorageLocation",
         target_location: "_models.TargetStorageLocation",
-        operation: Optional[Union[str, "_models.OperationType"]] = None,
-        data_type: Optional[Union[str, "_models.DocumentDataType"]] = None,
-        redaction_format: Optional[str] = None,
-    ): ...
+        customizations: Optional["_models.BatchCustomizationOptions"] = None,
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -177,10 +197,10 @@ class DeidentificationResult(_model_base.Model):
         *,
         output_text: Optional[str] = None,
         tagger_result: Optional["_models.PhiTaggerResult"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -206,7 +226,7 @@ class DocumentDetails(_model_base.Model):
      "Succeeded", "Failed", and "Canceled".
     :vartype status: str or ~azure.health.deidentification.models.OperationState
     :ivar error: Error when document fails.
-    :vartype error: ~azure.health.deidentification.models.Error
+    :vartype error: ~azure.core.ODataV4Format
     """
 
     id: str = rest_field(visibility=["read"])
@@ -218,7 +238,7 @@ class DocumentDetails(_model_base.Model):
     status: Union[str, "_models.OperationState"] = rest_field()
     """Status of the document. Required. Known values are: \"NotStarted\", \"Running\", \"Succeeded\",
      \"Failed\", and \"Canceled\"."""
-    error: Optional["_models.Error"] = rest_field()
+    error: Optional[ODataV4Format] = rest_field()
     """Error when document fails."""
 
     @overload
@@ -228,11 +248,11 @@ class DocumentDetails(_model_base.Model):
         input: "_models.DocumentLocation",
         status: Union[str, "_models.OperationState"],
         output: Optional["_models.DocumentLocation"] = None,
-        error: Optional["_models.Error"] = None,
-    ): ...
+        error: Optional[ODataV4Format] = None,
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -264,96 +284,10 @@ class DocumentLocation(_model_base.Model):
         self,
         *,
         path: str,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class Error(_model_base.Model):
-    """The error object.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar code: One of a server-defined set of error codes. Required.
-    :vartype code: str
-    :ivar message: A human-readable representation of the error. Required.
-    :vartype message: str
-    :ivar target: The target of the error.
-    :vartype target: str
-    :ivar details: An array of details about specific errors that led to this reported error.
-    :vartype details: list[~azure.health.deidentification.models.Error]
-    :ivar innererror: An object containing more specific information than the current object about
-     the error.
-    :vartype innererror: ~azure.health.deidentification.models.InnerError
-    """
-
-    code: str = rest_field()
-    """One of a server-defined set of error codes. Required."""
-    message: str = rest_field()
-    """A human-readable representation of the error. Required."""
-    target: Optional[str] = rest_field()
-    """The target of the error."""
-    details: Optional[List["_models.Error"]] = rest_field()
-    """An array of details about specific errors that led to this reported error."""
-    innererror: Optional["_models.InnerError"] = rest_field()
-    """An object containing more specific information than the current object about the error."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        code: str,
-        message: str,
-        target: Optional[str] = None,
-        details: Optional[List["_models.Error"]] = None,
-        innererror: Optional["_models.InnerError"] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
-
-class InnerError(_model_base.Model):
-    """An object containing more specific information about the error. As per Microsoft One API
-    guidelines -
-    https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
-
-    :ivar code: One of a server-defined set of error codes.
-    :vartype code: str
-    :ivar innererror: Inner error.
-    :vartype innererror: ~azure.health.deidentification.models.InnerError
-    """
-
-    code: Optional[str] = rest_field()
-    """One of a server-defined set of error codes."""
-    innererror: Optional["_models.InnerError"] = rest_field()
-    """Inner error."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        code: Optional[str] = None,
-        innererror: Optional["_models.InnerError"] = None,
-    ): ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -399,10 +333,10 @@ class JobSummary(_model_base.Model):
         canceled: int,
         total: int,
         bytes_processed: int,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -456,10 +390,10 @@ class PhiEntity(_model_base.Model):
         length: "_models.StringIndex",
         text: Optional[str] = None,
         confidence_score: Optional[float] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -475,30 +409,60 @@ class PhiTaggerResult(_model_base.Model):
 
     :ivar entities: List of entities detected in the input. Required.
     :vartype entities: list[~azure.health.deidentification.models.PhiEntity]
-    :ivar path: Path to the document in storage.
-    :vartype path: str
-    :ivar etag: The entity tag for this resource.
-    :vartype etag: str
     """
 
     entities: List["_models.PhiEntity"] = rest_field()
     """List of entities detected in the input. Required."""
-    path: Optional[str] = rest_field()
-    """Path to the document in storage."""
-    etag: Optional[str] = rest_field()
-    """The entity tag for this resource."""
 
     @overload
     def __init__(
         self,
         *,
         entities: List["_models.PhiEntity"],
-        path: Optional[str] = None,
-        etag: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
+
+
+class RealtimeCustomizationOptions(_model_base.Model):
+    """Customizations options to override default service behaviors for realtime behavior.
+
+    :ivar redaction_format: Format of the redacted output. Only valid when Operation is Redact.
+    :vartype redaction_format: str
+    :ivar operation: Operation to perform on the input documents. Known values are: "Redact",
+     "Surrogate", and "Tag".
+    :vartype operation: str or ~azure.health.deidentification.models.OperationType
+    :ivar surrogate_locale: Locale in which the output surrogates are written.
+    :vartype surrogate_locale: str
+    """
+
+    redaction_format: Optional[str] = rest_field(name="redactionFormat")
+    """Format of the redacted output. Only valid when Operation is Redact."""
+    operation: Optional[Union[str, "_models.OperationType"]] = rest_field()
+    """Operation to perform on the input documents. Known values are: \"Redact\", \"Surrogate\", and
+     \"Tag\"."""
+    surrogate_locale: Optional[str] = rest_field(name="surrogateLocale")
+    """Locale in which the output surrogates are written."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        redaction_format: Optional[str] = None,
+        operation: Optional[Union[str, "_models.OperationType"]] = None,
+        surrogate_locale: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -511,7 +475,6 @@ class PhiTaggerResult(_model_base.Model):
 class SourceStorageLocation(_model_base.Model):
     """Storage location.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar location: URL to storage location. Required.
     :vartype location: str
@@ -519,6 +482,8 @@ class SourceStorageLocation(_model_base.Model):
     :vartype prefix: str
     :ivar extensions: List of extensions to filter path by.
     :vartype extensions: list[str]
+    :ivar data_type: Data type of the input documents. "Plaintext"
+    :vartype data_type: str or ~azure.health.deidentification.models.DocumentDataType
     """
 
     location: str = rest_field()
@@ -527,6 +492,8 @@ class SourceStorageLocation(_model_base.Model):
     """Prefix to filter path by. Required."""
     extensions: Optional[List[str]] = rest_field()
     """List of extensions to filter path by."""
+    data_type: Optional[Union[str, "_models.DocumentDataType"]] = rest_field(name="dataType")
+    """Data type of the input documents. \"Plaintext\""""
 
     @overload
     def __init__(
@@ -535,10 +502,11 @@ class SourceStorageLocation(_model_base.Model):
         location: str,
         prefix: str,
         extensions: Optional[List[str]] = None,
-    ): ...
+        data_type: Optional[Union[str, "_models.DocumentDataType"]] = None,
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -582,10 +550,10 @@ class StringIndex(_model_base.Model):
         utf8: int,
         utf16: int,
         code_point: int,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -598,18 +566,39 @@ class StringIndex(_model_base.Model):
 class TargetStorageLocation(_model_base.Model):
     """Storage location.
 
-    All required parameters must be populated in order to send to server.
 
     :ivar location: URL to storage location. Required.
     :vartype location: str
-    :ivar prefix: Prefix to filter path by. Required.
+    :ivar prefix: Replaces the input prefix of a file path with the output prefix, preserving the
+     rest of the path structure.
+
+     Example:
+     File full path: documents/user/note.txt
+     Input Prefix: "documents/user/"
+     Output Prefix: "output_docs/"
+
+     Output file: "output_docs/note.txt". Required.
     :vartype prefix: str
+    :ivar overwrite: When set to true during a job, the service will overwrite the output location
+     if it already exists.
+    :vartype overwrite: bool
     """
 
     location: str = rest_field()
     """URL to storage location. Required."""
     prefix: str = rest_field()
-    """Prefix to filter path by. Required."""
+    """Replaces the input prefix of a file path with the output prefix, preserving the rest of the
+     path structure.
+     
+     Example:
+     File full path: documents/user/note.txt
+     Input Prefix: \"documents/user/\"
+     Output Prefix: \"output_docs/\"
+     
+     Output file: \"output_docs/note.txt\". Required."""
+    overwrite: Optional[bool] = rest_field()
+    """When set to true during a job, the service will overwrite the output location if it already
+     exists."""
 
     @overload
     def __init__(
@@ -617,10 +606,11 @@ class TargetStorageLocation(_model_base.Model):
         *,
         location: str,
         prefix: str,
-    ): ...
+        overwrite: Optional[bool] = None,
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]

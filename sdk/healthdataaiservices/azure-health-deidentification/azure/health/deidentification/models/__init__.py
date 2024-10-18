@@ -6,16 +6,16 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models import BatchCustomizationOptions
 from ._models import DeidentificationContent
 from ._models import DeidentificationJob
 from ._models import DeidentificationResult
 from ._models import DocumentDetails
 from ._models import DocumentLocation
-from ._models import Error
-from ._models import InnerError
 from ._models import JobSummary
 from ._models import PhiEntity
 from ._models import PhiTaggerResult
+from ._models import RealtimeCustomizationOptions
 from ._models import SourceStorageLocation
 from ._models import StringIndex
 from ._models import TargetStorageLocation
@@ -30,16 +30,16 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "BatchCustomizationOptions",
     "DeidentificationContent",
     "DeidentificationJob",
     "DeidentificationResult",
     "DocumentDetails",
     "DocumentLocation",
-    "Error",
-    "InnerError",
     "JobSummary",
     "PhiEntity",
     "PhiTaggerResult",
+    "RealtimeCustomizationOptions",
     "SourceStorageLocation",
     "StringIndex",
     "TargetStorageLocation",
@@ -49,5 +49,5 @@ __all__ = [
     "OperationType",
     "PhiCategory",
 ]
-__all__.extend([p for p in _patch_all if p not in __all__])
+__all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()
