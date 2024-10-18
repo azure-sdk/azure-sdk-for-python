@@ -21,7 +21,7 @@ from azure.storage.blob import BlobServiceClient, DelimitedJsonDialect, Delimite
 
 def main():
     try:
-        CONNECTION_STRING = os.environ['AZURE_STORAGE_CONNECTION_STRING']
+        CONNECTION_STRING = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
 
     except KeyError:
         print("AZURE_STORAGE_CONNECTION_STRING must be set.")
@@ -36,6 +36,7 @@ def main():
         pass
     # [START query]
     errors = []
+
     def on_error(error):
         errors.append(error)
 
@@ -46,9 +47,13 @@ def main():
 
     # select the second column of the csv file
     query_expression = "SELECT _2 from BlobStorage"
-    input_format = DelimitedTextDialect(delimiter=',', quotechar='"', lineterminator='\n', escapechar="", has_header=False)
-    output_format = DelimitedJsonDialect(delimiter='\n')
-    reader = blob_client.query_blob(query_expression, on_error=on_error, blob_format=input_format, output_format=output_format)
+    input_format = DelimitedTextDialect(
+        delimiter=",", quotechar='"', lineterminator="\n", escapechar="", has_header=False
+    )
+    output_format = DelimitedJsonDialect(delimiter="\n")
+    reader = blob_client.query_blob(
+        query_expression, on_error=on_error, blob_format=input_format, output_format=output_format
+    )
     content = reader.readall()
     # [END query]
     print(content)
