@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -14,7 +14,6 @@ from .. import _model_base
 from .._model_base import rest_field
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -38,10 +37,10 @@ class AdministratorProperties(_model_base.Model):
         *,
         user_name: Optional[str] = None,
         password: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -85,10 +84,10 @@ class CheckNameAvailabilityRequest(_model_base.Model):
         *,
         name: Optional[str] = None,
         type: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -125,10 +124,10 @@ class CheckNameAvailabilityResponse(_model_base.Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = None,
         message: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -156,10 +155,10 @@ class ComputeProperties(_model_base.Model):
         self,
         *,
         tier: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -188,6 +187,36 @@ class ConnectionString(_model_base.Model):
     """Description of the connection string."""
     name: Optional[str] = rest_field(visibility=["read"])
     """Name of the connection string."""
+
+
+class DataApiProperties(_model_base.Model):
+    """Data API properties.
+
+    :ivar mode: The mode to indicate whether the Mongo Data API is enabled for a cluster. Known
+     values are: "Enabled" and "Disabled".
+    :vartype mode: str or ~azure.mgmt.mongocluster.models.DataApiMode
+    """
+
+    mode: Optional[Union[str, "_models.DataApiMode"]] = rest_field()
+    """The mode to indicate whether the Mongo Data API is enabled for a cluster. Known values are:
+     \"Enabled\" and \"Disabled\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        mode: Optional[Union[str, "_models.DataApiMode"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
+        super().__init__(*args, **kwargs)
 
 
 class ErrorAdditionalInfo(_model_base.Model):
@@ -254,10 +283,10 @@ class ErrorResponse(_model_base.Model):
         self,
         *,
         error: Optional["_models.ErrorDetail"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -345,10 +374,10 @@ class FirewallRule(ProxyResource):
         self,
         *,
         properties: Optional["_models.FirewallRuleProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -391,10 +420,10 @@ class FirewallRuleProperties(_model_base.Model):
         *,
         start_ip_address: str,
         end_ip_address: str,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -421,10 +450,10 @@ class HighAvailabilityProperties(_model_base.Model):
         self,
         *,
         target_mode: Optional[Union[str, "_models.HighAvailabilityMode"]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -484,10 +513,10 @@ class TrackedResource(Resource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -532,10 +561,10 @@ class MongoCluster(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.MongoClusterProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -583,6 +612,8 @@ class MongoClusterProperties(_model_base.Model):  # pylint: disable=too-many-ins
     :vartype compute: ~azure.mgmt.mongocluster.models.ComputeProperties
     :ivar backup: The backup properties of the mongo cluster.
     :vartype backup: ~azure.mgmt.mongocluster.models.BackupProperties
+    :ivar data_api: The Data API properties of the mongo cluster.
+    :vartype data_api: ~azure.mgmt.mongocluster.models.DataApiProperties
     :ivar private_endpoint_connections: List of private endpoint connections.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.mongocluster.models.PrivateEndpointConnection]
@@ -634,6 +665,8 @@ class MongoClusterProperties(_model_base.Model):  # pylint: disable=too-many-ins
     """The compute properties of the mongo cluster."""
     backup: Optional["_models.BackupProperties"] = rest_field()
     """The backup properties of the mongo cluster."""
+    data_api: Optional["_models.DataApiProperties"] = rest_field(name="dataApi")
+    """The Data API properties of the mongo cluster."""
     private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = rest_field(
         name="privateEndpointConnections", visibility=["read"]
     )
@@ -660,11 +693,12 @@ class MongoClusterProperties(_model_base.Model):  # pylint: disable=too-many-ins
         sharding: Optional["_models.ShardingProperties"] = None,
         compute: Optional["_models.ComputeProperties"] = None,
         backup: Optional["_models.BackupProperties"] = None,
+        data_api: Optional["_models.DataApiProperties"] = None,
         preview_features: Optional[List[Union[str, "_models.PreviewFeature"]]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -695,10 +729,10 @@ class MongoClusterReplicaParameters(_model_base.Model):
         *,
         source_resource_id: str,
         source_location: str,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -728,10 +762,10 @@ class MongoClusterRestoreParameters(_model_base.Model):
         *,
         point_in_time_utc: Optional[datetime.datetime] = None,
         source_resource_id: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -761,10 +795,10 @@ class MongoClusterUpdate(_model_base.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.MongoClusterUpdateProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -795,6 +829,8 @@ class MongoClusterUpdateProperties(_model_base.Model):
     :vartype compute: ~azure.mgmt.mongocluster.models.ComputeProperties
     :ivar backup: The backup properties of the mongo cluster.
     :vartype backup: ~azure.mgmt.mongocluster.models.BackupProperties
+    :ivar data_api: The Data API properties of the mongo cluster.
+    :vartype data_api: ~azure.mgmt.mongocluster.models.DataApiProperties
     :ivar preview_features: List of private endpoint connections.
     :vartype preview_features: list[str or ~azure.mgmt.mongocluster.models.PreviewFeature]
     """
@@ -816,6 +852,8 @@ class MongoClusterUpdateProperties(_model_base.Model):
     """The compute properties of the mongo cluster."""
     backup: Optional["_models.BackupProperties"] = rest_field()
     """The backup properties of the mongo cluster."""
+    data_api: Optional["_models.DataApiProperties"] = rest_field(name="dataApi")
+    """The Data API properties of the mongo cluster."""
     preview_features: Optional[List[Union[str, "_models.PreviewFeature"]]] = rest_field(name="previewFeatures")
     """List of private endpoint connections."""
 
@@ -831,11 +869,12 @@ class MongoClusterUpdateProperties(_model_base.Model):
         sharding: Optional["_models.ShardingProperties"] = None,
         compute: Optional["_models.ComputeProperties"] = None,
         backup: Optional["_models.BackupProperties"] = None,
+        data_api: Optional["_models.DataApiProperties"] = None,
         preview_features: Optional[List[Union[str, "_models.PreviewFeature"]]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -889,10 +928,10 @@ class Operation(_model_base.Model):
         self,
         *,
         action_type: Optional[Union[str, "_models.ActionType"]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -976,10 +1015,10 @@ class PrivateEndpointConnection(Resource):
         self,
         *,
         properties: Optional["_models.PrivateEndpointConnectionProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1030,10 +1069,10 @@ class PrivateEndpointConnectionProperties(_model_base.Model):
         *,
         private_link_service_connection_state: "_models.PrivateLinkServiceConnectionState",
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1072,10 +1111,10 @@ class PrivateEndpointConnectionResource(ProxyResource):
         self,
         *,
         properties: Optional["_models.PrivateEndpointConnectionProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1114,10 +1153,10 @@ class PrivateLinkResource(ProxyResource):
         self,
         *,
         properties: Optional["_models.PrivateLinkResourceProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1152,10 +1191,10 @@ class PrivateLinkResourceProperties(_model_base.Model):
         self,
         *,
         required_zone_names: Optional[List[str]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1194,10 +1233,10 @@ class PrivateLinkServiceConnectionState(_model_base.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1231,10 +1270,10 @@ class PromoteReplicaRequest(_model_base.Model):
         *,
         promote_option: Union[str, "_models.PromoteOption"],
         mode: Optional[Union[str, "_models.PromoteMode"]] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1272,10 +1311,10 @@ class Replica(ProxyResource):
         self,
         *,
         properties: Optional["_models.MongoClusterProperties"] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1328,10 +1367,10 @@ class ShardingProperties(_model_base.Model):
         self,
         *,
         shard_count: Optional[int] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1357,10 +1396,10 @@ class StorageProperties(_model_base.Model):
         self,
         *,
         size_gb: Optional[int] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
@@ -1414,10 +1453,10 @@ class SystemData(_model_base.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-    ): ...
+    ) -> None: ...
 
     @overload
-    def __init__(self, mapping: Mapping[str, Any]):
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
         """
         :param mapping: raw JSON to initialize the model.
         :type mapping: Mapping[str, Any]
