@@ -20,13 +20,10 @@ from ._configuration import MessageTemplateClientConfiguration, NotificationMess
 from ._operations import MessageTemplateClientOperationsMixin, NotificationMessagesClientOperationsMixin
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class NotificationMessagesClient(
-    NotificationMessagesClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword
+class NotificationMessagesClient(NotificationMessagesClientOperationsMixin):
     """NotificationMessagesClient.
 
     :param endpoint: The communication resource, for example
@@ -36,7 +33,7 @@ class NotificationMessagesClient(
      TokenCredential type or a AzureKeyCredential type. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
      ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-08-30".
+    :keyword api_version: The API version to use for this operation. Default value is "2024-11-15".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
@@ -108,7 +105,7 @@ class NotificationMessagesClient(
         await self._client.__aexit__(*exc_details)
 
 
-class MessageTemplateClient(MessageTemplateClientOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
+class MessageTemplateClient(MessageTemplateClientOperationsMixin):
     """MessageTemplateClient.
 
     :param endpoint: The communication resource, for example
@@ -118,7 +115,7 @@ class MessageTemplateClient(MessageTemplateClientOperationsMixin):  # pylint: di
      TokenCredential type or a AzureKeyCredential type. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
      ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-08-30".
+    :keyword api_version: The API version to use for this operation. Default value is "2024-11-15".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """

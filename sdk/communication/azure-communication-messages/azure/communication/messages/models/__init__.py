@@ -9,6 +9,7 @@
 from ._models import AudioNotificationContent
 from ._models import DocumentNotificationContent
 from ._models import ImageNotificationContent
+from ._models import MediaNotificationContent
 from ._models import MessageReceipt
 from ._models import MessageTemplate
 from ._models import MessageTemplateBindings
@@ -21,7 +22,9 @@ from ._models import MessageTemplateText
 from ._models import MessageTemplateValue
 from ._models import MessageTemplateVideo
 from ._models import NotificationContent
+from ._models import ReactionNotificationContent
 from ._models import SendMessageResult
+from ._models import StickerNotificationContent
 from ._models import TemplateNotificationContent
 from ._models import TextNotificationContent
 from ._models import VideoNotificationContent
@@ -45,6 +48,7 @@ __all__ = [
     "AudioNotificationContent",
     "DocumentNotificationContent",
     "ImageNotificationContent",
+    "MediaNotificationContent",
     "MessageReceipt",
     "MessageTemplate",
     "MessageTemplateBindings",
@@ -57,7 +61,9 @@ __all__ = [
     "MessageTemplateValue",
     "MessageTemplateVideo",
     "NotificationContent",
+    "ReactionNotificationContent",
     "SendMessageResult",
+    "StickerNotificationContent",
     "TemplateNotificationContent",
     "TextNotificationContent",
     "VideoNotificationContent",
@@ -73,5 +79,5 @@ __all__ = [
     "RepeatabilityResult",
     "WhatsAppMessageButtonSubType",
 ]
-__all__.extend([p for p in _patch_all if p not in __all__])
+__all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()
