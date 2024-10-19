@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._operations import LargeFaceListOperations
+from ._operations import LargePersonGroupOperations
 from ._operations import FaceClientOperationsMixin
 from ._operations import FaceSessionClientOperationsMixin
 
@@ -14,8 +16,10 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "LargeFaceListOperations",
+    "LargePersonGroupOperations",
     "FaceClientOperationsMixin",
     "FaceSessionClientOperationsMixin",
 ]
-__all__.extend([p for p in _patch_all if p not in __all__])
+__all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()
