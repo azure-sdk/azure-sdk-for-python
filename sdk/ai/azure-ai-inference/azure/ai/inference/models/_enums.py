@@ -10,7 +10,7 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class ChatCompletionsToolChoicePreset(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class ChatCompletionsToolSelectionPreset(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents a generic policy for how a chat completions tool may be selected."""
 
     AUTO = "auto"
@@ -76,12 +76,11 @@ class EmbeddingInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents the input types used for embedding search."""
 
     TEXT = "text"
-    """Indicates the input is a general text input."""
+    """to do"""
     QUERY = "query"
-    """Indicates the input represents a search query to find the most relevant documents in your
-    vector database."""
+    """to do"""
     DOCUMENT = "document"
-    """Indicates the input represents a document that is stored in a vector database."""
+    """to do"""
 
 
 class ExtraParameters(str, Enum, metaclass=CaseInsensitiveEnumMeta):
