@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import sys
+from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -18,16 +19,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -39,7 +42,7 @@ def build_list_request(scope: str, *, expand: Optional[str] = None, **kwargs: An
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -48,7 +51,7 @@ def build_list_request(scope: str, *, expand: Optional[str] = None, **kwargs: An
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -65,7 +68,7 @@ def build_get_request(scope: str, export_name: str, *, expand: Optional[str] = N
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -75,7 +78,7 @@ def build_get_request(scope: str, export_name: str, *, expand: Optional[str] = N
         "exportName": _SERIALIZER.url("export_name", export_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -92,7 +95,7 @@ def build_create_or_update_request(scope: str, export_name: str, **kwargs: Any) 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -103,7 +106,7 @@ def build_create_or_update_request(scope: str, export_name: str, **kwargs: Any) 
         "exportName": _SERIALIZER.url("export_name", export_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -120,7 +123,7 @@ def build_delete_request(scope: str, export_name: str, **kwargs: Any) -> HttpReq
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -130,7 +133,7 @@ def build_delete_request(scope: str, export_name: str, **kwargs: Any) -> HttpReq
         "exportName": _SERIALIZER.url("export_name", export_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -145,7 +148,7 @@ def build_execute_request(scope: str, export_name: str, **kwargs: Any) -> HttpRe
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -155,7 +158,7 @@ def build_execute_request(scope: str, export_name: str, **kwargs: Any) -> HttpRe
         "exportName": _SERIALIZER.url("export_name", export_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -170,7 +173,7 @@ def build_get_execution_history_request(scope: str, export_name: str, **kwargs: 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -180,7 +183,7 @@ def build_get_execution_history_request(scope: str, export_name: str, **kwargs: 
         "exportName": _SERIALIZER.url("export_name", export_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -238,12 +241,11 @@ class ExportsOperations:
          'runHistory' is supported and will return information for the last run of each export. Default
          value is None.
         :type expand: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExportListResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ExportListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -257,20 +259,18 @@ class ExportsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ExportListResult] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             scope=scope,
             expand=expand,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -280,14 +280,12 @@ class ExportsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ExportListResult", pipeline_response)
+        deserialized = self._deserialize("ExportListResult", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/exports"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get(self, scope: str, export_name: str, expand: Optional[str] = None, **kwargs: Any) -> _models.Export:
@@ -319,12 +317,11 @@ class ExportsOperations:
          'runHistory' is supported and will return information for the last 10 runs of the export.
          Default value is None.
         :type expand: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Export or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Export
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -338,21 +335,19 @@ class ExportsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Export] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             scope=scope,
             export_name=export_name,
             expand=expand,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -362,14 +357,12 @@ class ExportsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Export", pipeline_response)
+        deserialized = self._deserialize("Export", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}"}
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -412,7 +405,6 @@ class ExportsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Export or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Export
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -420,7 +412,13 @@ class ExportsOperations:
 
     @overload
     def create_or_update(
-        self, scope: str, export_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        scope: str,
+        export_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.Export:
         """The operation to create or update a export. Update operation requires latest eTag to be set in
         the request. You may obtain the latest eTag by performing a get operation. Create operation
@@ -449,11 +447,10 @@ class ExportsOperations:
         :param export_name: Export Name. Required.
         :type export_name: str
         :param parameters: Parameters supplied to the CreateOrUpdate Export operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Export or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Export
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -461,7 +458,7 @@ class ExportsOperations:
 
     @distributed_trace
     def create_or_update(
-        self, scope: str, export_name: str, parameters: Union[_models.Export, IO], **kwargs: Any
+        self, scope: str, export_name: str, parameters: Union[_models.Export, IO[bytes]], **kwargs: Any
     ) -> _models.Export:
         """The operation to create or update a export. Update operation requires latest eTag to be set in
         the request. You may obtain the latest eTag by performing a get operation. Create operation
@@ -490,17 +487,13 @@ class ExportsOperations:
         :param export_name: Export Name. Required.
         :type export_name: str
         :param parameters: Parameters supplied to the CreateOrUpdate Export operation. Is either a
-         Export type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.Export or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         Export type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.Export or IO[bytes]
         :return: Export or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.Export
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -523,23 +516,21 @@ class ExportsOperations:
         else:
             _json = self._serialize.body(parameters, "Export")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             scope=scope,
             export_name=export_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -549,18 +540,12 @@ class ExportsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("Export", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("Export", pipeline_response)
+        deserialized = self._deserialize("Export", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}"}
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -590,12 +575,11 @@ class ExportsOperations:
         :type scope: str
         :param export_name: Export Name. Required.
         :type export_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -609,20 +593,18 @@ class ExportsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             scope=scope,
             export_name=export_name,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -633,9 +615,7 @@ class ExportsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def execute(  # pylint: disable=inconsistent-return-statements
@@ -665,12 +645,11 @@ class ExportsOperations:
         :type scope: str
         :param export_name: Export Name. Required.
         :type export_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -684,20 +663,18 @@ class ExportsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_execute_request(
+        _request = build_execute_request(
             scope=scope,
             export_name=export_name,
             api_version=api_version,
-            template_url=self.execute.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -708,9 +685,7 @@ class ExportsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    execute.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/run"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def get_execution_history(self, scope: str, export_name: str, **kwargs: Any) -> _models.ExportExecutionListResult:
@@ -738,12 +713,11 @@ class ExportsOperations:
         :type scope: str
         :param export_name: Export Name. Required.
         :type export_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExportExecutionListResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ExportExecutionListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -757,20 +731,18 @@ class ExportsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ExportExecutionListResult] = kwargs.pop("cls", None)
 
-        request = build_get_execution_history_request(
+        _request = build_get_execution_history_request(
             scope=scope,
             export_name=export_name,
             api_version=api_version,
-            template_url=self.get_execution_history.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -780,13 +752,9 @@ class ExportsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ExportExecutionListResult", pipeline_response)
+        deserialized = self._deserialize("ExportExecutionListResult", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_execution_history.metadata = {
-        "url": "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory"
-    }
+        return deserialized  # type: ignore
