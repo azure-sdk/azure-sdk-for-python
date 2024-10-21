@@ -1,0 +1,6 @@
+{
+  "commit": "4d7b88c7bc112273da4a8852f7f5ecb46ab98d3e",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/healthdataaiservices/HealthDataAIServices.DeidServices",
+  "@azure-tools/typespec-python": "0.36.1"
+}
