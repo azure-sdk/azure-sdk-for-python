@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._api_keys_operations import ApiKeysOperations
 from ._certificates_operations import CertificatesOperations
 from ._configurations_operations import ConfigurationsOperations
 from ._deployments_operations import DeploymentsOperations
@@ -16,6 +17,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ApiKeysOperations",
     "CertificatesOperations",
     "ConfigurationsOperations",
     "DeploymentsOperations",
