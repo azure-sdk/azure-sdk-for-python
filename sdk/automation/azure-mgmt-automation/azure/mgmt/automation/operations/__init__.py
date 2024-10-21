@@ -38,6 +38,7 @@ from ._activity_operations import ActivityOperations
 from ._module_operations import ModuleOperations
 from ._object_data_types_operations import ObjectDataTypesOperations
 from ._fields_operations import FieldsOperations
+from ._power_shell72_module_operations import PowerShell72ModuleOperations
 from ._operations import Operations
 from ._automation_client_operations import AutomationClientOperationsMixin
 from ._python2_package_operations import Python2PackageOperations
@@ -91,6 +92,7 @@ __all__ = [
     "ModuleOperations",
     "ObjectDataTypesOperations",
     "FieldsOperations",
+    "PowerShell72ModuleOperations",
     "Operations",
     "AutomationClientOperationsMixin",
     "Python2PackageOperations",
