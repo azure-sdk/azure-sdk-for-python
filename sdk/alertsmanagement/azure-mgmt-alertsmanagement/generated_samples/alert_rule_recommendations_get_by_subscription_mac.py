@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python list_prometheus_rule_groups.py
+    python alert_rule_recommendations_get_by_subscription_mac.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +27,16 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7",
+        subscription_id="2f00cc51-6809-498f-9ffc-48c42aff570d",
     )
 
-    response = client.prometheus_rule_groups.list_by_resource_group(
-        resource_group_name="giladstest",
+    response = client.alert_rule_recommendations.list_by_target_type(
+        target_type="microsoft.monitor/accounts",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2021-07-22-preview/examples/listPrometheusRuleGroups.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-08-01-preview/examples/AlertRuleRecommendations_GetBySubscription_MAC.json
 if __name__ == "__main__":
     main()
