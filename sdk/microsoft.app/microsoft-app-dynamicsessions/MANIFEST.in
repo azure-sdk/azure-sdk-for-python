@@ -1,0 +1,7 @@
+include *.md
+include LICENSE
+include microsoft/app/dynamicsessions/py.typed
+recursive-include tests *.py
+recursive-include samples *.py *.md
+include microsoft/__init__.py
+include microsoft/app/__init__.py
