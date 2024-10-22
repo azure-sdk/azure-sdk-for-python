@@ -43,6 +43,7 @@ from ._models_py3 import DomainUpdateParameters
 from ._models_py3 import DomainsListResult
 from ._models_py3 import DynamicDeliveryAttributeMapping
 from ._models_py3 import DynamicRoutingEnrichment
+from ._models_py3 import EncodedIssuerCertificateInfo
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -59,6 +60,7 @@ from ._models_py3 import EventTypeInfo
 from ._models_py3 import EventTypesListResult
 from ._models_py3 import ExtendedLocation
 from ._models_py3 import ExtensionTopic
+from ._models_py3 import FederatedIdentityCredentialInfo
 from ._models_py3 import Filter
 from ._models_py3 import FiltersConfiguration
 from ._models_py3 import HybridConnectionEventSubscriptionDestination
@@ -320,6 +322,7 @@ __all__ = [
     "DomainsListResult",
     "DynamicDeliveryAttributeMapping",
     "DynamicRoutingEnrichment",
+    "EncodedIssuerCertificateInfo",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -336,6 +339,7 @@ __all__ = [
     "EventTypesListResult",
     "ExtendedLocation",
     "ExtensionTopic",
+    "FederatedIdentityCredentialInfo",
     "Filter",
     "FiltersConfiguration",
     "HybridConnectionEventSubscriptionDestination",
