@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hardwaresecuritymodules
 # USAGE
-    python dedicated_hsm_operations_list.py
+    python cloud_hsm_cluster_request_or_validate_restore_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +27,20 @@ from azure.mgmt.hardwaresecuritymodules import HardwareSecurityModulesMgmtClient
 def main():
     client = HardwareSecurityModulesMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.cloud_hsm_clusters.begin_restore(
+        resource_group_name="rgcloudhsm",
+        cloud_hsm_cluster_name="chsm1",
+        restore_request_properties={
+            "azureStorageBlobContainerUri": "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+            "backupId": "backupId",
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_OperationsList.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2025-03-31/examples/CloudHsmCluster_RequestOrValidate_Restore_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
