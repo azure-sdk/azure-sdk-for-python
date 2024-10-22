@@ -30,9 +30,7 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.throughput_pools.list_by_resource_group(
-        resource_group_name="rgName",
-    )
+    response = client.throughput_pools.list()
     for item in response:
         print(item)
 
