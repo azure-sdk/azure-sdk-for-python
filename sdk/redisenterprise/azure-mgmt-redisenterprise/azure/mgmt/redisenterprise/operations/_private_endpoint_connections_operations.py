@@ -48,7 +48,7 @@ def build_list_request(resource_group_name: str, cluster_name: str, subscription
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -60,7 +60,9 @@ def build_list_request(resource_group_name: str, cluster_name: str, subscription
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[A-Za-z0-9]{1,60}$"),
+        "clusterName": _SERIALIZER.url(
+            "cluster_name", cluster_name, "str", pattern=r"^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"
+        ),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
@@ -85,7 +87,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -97,7 +99,9 @@ def build_get_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[A-Za-z0-9]{1,60}$"),
+        "clusterName": _SERIALIZER.url(
+            "cluster_name", cluster_name, "str", pattern=r"^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"
+        ),
         "privateEndpointConnectionName": _SERIALIZER.url(
             "private_endpoint_connection_name", private_endpoint_connection_name, "str"
         ),
@@ -125,7 +129,7 @@ def build_put_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -138,7 +142,9 @@ def build_put_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[A-Za-z0-9]{1,60}$"),
+        "clusterName": _SERIALIZER.url(
+            "cluster_name", cluster_name, "str", pattern=r"^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"
+        ),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "privateEndpointConnectionName": _SERIALIZER.url(
             "private_endpoint_connection_name", private_endpoint_connection_name, "str"
@@ -168,7 +174,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -180,7 +186,9 @@ def build_delete_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[A-Za-z0-9]{1,60}$"),
+        "clusterName": _SERIALIZER.url(
+            "cluster_name", cluster_name, "str", pattern=r"^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"
+        ),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "privateEndpointConnectionName": _SERIALIZER.url(
             "private_endpoint_connection_name", private_endpoint_connection_name, "str"
@@ -221,12 +229,14 @@ class PrivateEndpointConnectionsOperations:
     def list(
         self, resource_group_name: str, cluster_name: str, **kwargs: Any
     ) -> Iterable["_models.PrivateEndpointConnection"]:
-        """Lists all the private endpoint connections associated with the Redis Enterprise cluster.
+        """Lists all the private endpoint connections associated with the RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :return: An iterator like instance of either PrivateEndpointConnection or the result of
          cls(response)
@@ -307,12 +317,14 @@ class PrivateEndpointConnectionsOperations:
     def get(
         self, resource_group_name: str, cluster_name: str, private_endpoint_connection_name: str, **kwargs: Any
     ) -> _models.PrivateEndpointConnection:
-        """Gets the specified private endpoint connection associated with the Redis Enterprise cluster.
+        """Gets the specified private endpoint connection associated with the RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection associated
          with the Azure resource. Required.
@@ -445,13 +457,15 @@ class PrivateEndpointConnectionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Updates the state of the specified private endpoint connection associated with the Redis
-        Enterprise cluster.
+        """Updates the state of the specified private endpoint connection associated with the
+        RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection associated
          with the Azure resource. Required.
@@ -479,13 +493,15 @@ class PrivateEndpointConnectionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Updates the state of the specified private endpoint connection associated with the Redis
-        Enterprise cluster.
+        """Updates the state of the specified private endpoint connection associated with the
+        RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection associated
          with the Azure resource. Required.
@@ -511,13 +527,15 @@ class PrivateEndpointConnectionsOperations:
         properties: Union[_models.PrivateEndpointConnection, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Updates the state of the specified private endpoint connection associated with the Redis
-        Enterprise cluster.
+        """Updates the state of the specified private endpoint connection associated with the
+        RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection associated
          with the Azure resource. Required.
@@ -642,12 +660,14 @@ class PrivateEndpointConnectionsOperations:
     def begin_delete(
         self, resource_group_name: str, cluster_name: str, private_endpoint_connection_name: str, **kwargs: Any
     ) -> LROPoller[None]:
-        """Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
+        """Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection associated
          with the Azure resource. Required.

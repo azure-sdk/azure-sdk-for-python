@@ -59,12 +59,14 @@ class PrivateLinkResourcesOperations:
     def list_by_cluster(
         self, resource_group_name: str, cluster_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.PrivateLinkResource"]:
-        """Gets the private link resources that need to be created for a Redis Enterprise cluster.
+        """Gets the private link resources that need to be created for a RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :return: An iterator like instance of either PrivateLinkResource or the result of cls(response)
         :rtype:

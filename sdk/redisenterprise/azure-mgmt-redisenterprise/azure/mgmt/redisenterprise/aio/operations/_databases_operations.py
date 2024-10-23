@@ -45,7 +45,6 @@ from ...operations._databases_operations import (
     build_list_keys_request,
     build_regenerate_key_request,
     build_update_request,
-    build_upgrade_db_redis_version_request,
 )
 
 if sys.version_info >= (3, 9):
@@ -79,12 +78,14 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
     def list_by_cluster(
         self, resource_group_name: str, cluster_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.Database"]:
-        """Gets all databases in the specified Redis Enterprise cluster.
+        """Gets all databases in the specified RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :return: An iterator like instance of either Database or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.redisenterprise.models.Database]
@@ -244,7 +245,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -275,7 +278,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -304,7 +309,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -459,7 +466,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -490,7 +499,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -519,7 +530,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -586,12 +599,14 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
     async def get(
         self, resource_group_name: str, cluster_name: str, database_name: str, **kwargs: Any
     ) -> _models.Database:
-        """Gets information about a database in a Redis Enterprise cluster.
+        """Gets information about a database in a RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -711,7 +726,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -767,12 +784,14 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
     async def list_keys(
         self, resource_group_name: str, cluster_name: str, database_name: str, **kwargs: Any
     ) -> _models.AccessKeys:
-        """Retrieves the access keys for the Redis Enterprise database.
+        """Retrieves the access keys for the RedisEnterprise database.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -911,12 +930,14 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.AccessKeys]:
-        """Regenerates the Redis Enterprise database's access keys.
+        """Regenerates the RedisEnterprise database's access keys.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -942,12 +963,14 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.AccessKeys]:
-        """Regenerates the Redis Enterprise database's access keys.
+        """Regenerates the RedisEnterprise database's access keys.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -971,12 +994,14 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         parameters: Union[_models.RegenerateKeyParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.AccessKeys]:
-        """Regenerates the Redis Enterprise database's access keys.
+        """Regenerates the RedisEnterprise database's access keys.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1131,7 +1156,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1161,7 +1188,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1189,7 +1218,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1339,7 +1370,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1369,7 +1402,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1397,7 +1432,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1547,7 +1584,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1577,7 +1616,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1605,7 +1646,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1722,7 +1765,7 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -1756,7 +1799,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1788,7 +1833,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1818,7 +1865,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1968,7 +2017,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -1998,7 +2049,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -2026,7 +2079,9 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :param database_name: The name of the Redis Enterprise database. Required.
         :type database_name: str
@@ -2054,124 +2109,6 @@ class DatabasesOperations:  # pylint: disable=too-many-public-methods
                 parameters=parameters,
                 api_version=api_version,
                 content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            await raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    async def _upgrade_db_redis_version_initial(
-        self, resource_group_name: str, cluster_name: str, database_name: str, **kwargs: Any
-    ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
-
-        _request = build_upgrade_db_redis_version_request(
-            resource_group_name=resource_group_name,
-            cluster_name=cluster_name,
-            database_name=database_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [202]:
-            try:
-                await response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        response_headers = {}
-        response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
-        response_headers["Azure-AsyncOperation"] = self._deserialize(
-            "str", response.headers.get("Azure-AsyncOperation")
-        )
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace_async
-    async def begin_upgrade_db_redis_version(
-        self, resource_group_name: str, cluster_name: str, database_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
-        """Upgrades the database Redis version to the latest available.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
-        :type cluster_name: str
-        :param database_name: The name of the Redis Enterprise database. Required.
-        :type database_name: str
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._upgrade_db_redis_version_initial(
-                resource_group_name=resource_group_name,
-                cluster_name=cluster_name,
-                database_name=database_name,
-                api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
                 params=_params,
