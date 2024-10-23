@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.kubernetesconfiguration import SourceControlConfigurationClient
 
 """
@@ -40,6 +41,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/GetFluxConfigurationAsyncOperationStatus.json
+# x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2024-11-01/examples/GetFluxConfigurationAsyncOperationStatus.json
 if __name__ == "__main__":
     main()
