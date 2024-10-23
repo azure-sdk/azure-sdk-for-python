@@ -27,7 +27,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
 def main():
     client = RedisEnterpriseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f",
+        subscription_id="subid",
     )
 
     client.private_endpoint_connections.begin_delete(
@@ -37,6 +37,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDeletePrivateEndpointConnection.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2024-10-01/examples/RedisEnterpriseDeletePrivateEndpointConnection.json
 if __name__ == "__main__":
     main()
