@@ -28,19 +28,17 @@ from ._operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ChatCompletionsClient(ChatCompletionsClientOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
+class ChatCompletionsClient(ChatCompletionsClientOperationsMixin):
     """ChatCompletionsClient.
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -115,15 +113,14 @@ class ChatCompletionsClient(ChatCompletionsClientOperationsMixin):  # pylint: di
         await self._client.__aexit__(*exc_details)
 
 
-class EmbeddingsClient(EmbeddingsClientOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
+class EmbeddingsClient(EmbeddingsClientOperationsMixin):
     """EmbeddingsClient.
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
@@ -198,15 +195,14 @@ class EmbeddingsClient(EmbeddingsClientOperationsMixin):  # pylint: disable=clie
         await self._client.__aexit__(*exc_details)
 
 
-class ImageEmbeddingsClient(ImageEmbeddingsClientOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
+class ImageEmbeddingsClient(ImageEmbeddingsClientOperationsMixin):
     """ImageEmbeddingsClient.
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported

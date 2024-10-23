@@ -14,11 +14,10 @@ from azure.core.pipeline import policies
 from ._version import VERSION
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for ChatCompletionsClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -26,10 +25,10 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.TokenCredential
+     ~azure.core.credentials.TokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
      behavior.
@@ -55,8 +54,6 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -75,7 +72,7 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
             self.authentication_policy = self._infer_policy(**kwargs)
 
 
-class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for EmbeddingsClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -83,10 +80,10 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.TokenCredential
+     ~azure.core.credentials.TokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
      behavior.
@@ -112,8 +109,6 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -132,7 +127,7 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
             self.authentication_policy = self._infer_policy(**kwargs)
 
 
-class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for ImageEmbeddingsClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -140,10 +135,10 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
 
     :param endpoint: Service host. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is one of the
-     following types: AzureKeyCredential, AzureKeyCredential, TokenCredential Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.TokenCredential
+     ~azure.core.credentials.TokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2024-05-01-preview". Note that overriding this default value may result in unsupported
      behavior.
@@ -169,8 +164,6 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
