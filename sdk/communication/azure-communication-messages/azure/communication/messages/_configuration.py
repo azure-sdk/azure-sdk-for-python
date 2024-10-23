@@ -14,11 +14,10 @@ from azure.core.pipeline import policies
 from ._version import VERSION
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for NotificationMessagesClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -31,13 +30,13 @@ class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-insta
      TokenCredential type or a AzureKeyCredential type. Required.
     :type credential: ~azure.core.credentials.TokenCredential or
      ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-08-30".
+    :keyword api_version: The API version to use for this operation. Default value is "2024-11-15".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(self, endpoint: str, credential: Union["TokenCredential", AzureKeyCredential], **kwargs: Any) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-08-30")
+        api_version: str = kwargs.pop("api_version", "2024-11-15")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -73,7 +72,7 @@ class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-insta
             self.authentication_policy = self._infer_policy(**kwargs)
 
 
-class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for MessageTemplateClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -86,13 +85,13 @@ class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-a
      TokenCredential type or a AzureKeyCredential type. Required.
     :type credential: ~azure.core.credentials.TokenCredential or
      ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-08-30".
+    :keyword api_version: The API version to use for this operation. Default value is "2024-11-15".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(self, endpoint: str, credential: Union["TokenCredential", AzureKeyCredential], **kwargs: Any) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-08-30")
+        api_version: str = kwargs.pop("api_version", "2024-11-15")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
