@@ -141,7 +141,7 @@ class ActiveDirectory(_serialization.Model):  # pylint: disable=too-many-instanc
         "status": {"readonly": True},
         "status_details": {"readonly": True},
         "kdc_ip": {
-            "pattern": r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)((, ?)(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))*$"
+            "pattern": r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
         },
         "ad_name": {"max_length": 64, "min_length": 1},
         "server_root_ca_certificate": {"max_length": 10240, "min_length": 1},
@@ -3421,8 +3421,6 @@ class ReplicationObject(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar replication_id: Id.
     :vartype replication_id: str
     :ivar endpoint_type: Indicates whether the local volume is the source or destination for the
@@ -3430,7 +3428,8 @@ class ReplicationObject(_serialization.Model):
     :vartype endpoint_type: str or ~azure.mgmt.netapp.models.EndpointType
     :ivar replication_schedule: Schedule. Known values are: "_10minutely", "hourly", and "daily".
     :vartype replication_schedule: str or ~azure.mgmt.netapp.models.ReplicationSchedule
-    :ivar remote_volume_resource_id: The resource ID of the remote volume. Required for cross region and cross zone replication.
+    :ivar remote_volume_resource_id: The resource ID of the remote volume. Required for cross
+     region and cross zone replication.
     :vartype remote_volume_resource_id: str
     :ivar remote_path: The full path to a volume that is to be migrated into ANF. Required for
      Migration volumes.
@@ -3455,9 +3454,9 @@ class ReplicationObject(_serialization.Model):
     def __init__(
         self,
         *,
-        remote_volume_resource_id: Optional[str] = None,
         endpoint_type: Optional[Union[str, "_models.EndpointType"]] = None,
         replication_schedule: Optional[Union[str, "_models.ReplicationSchedule"]] = None,
+        remote_volume_resource_id: Optional[str] = None,
         remote_path: Optional["_models.RemotePath"] = None,
         remote_volume_region: Optional[str] = None,
         **kwargs: Any
@@ -3469,7 +3468,8 @@ class ReplicationObject(_serialization.Model):
         :keyword replication_schedule: Schedule. Known values are: "_10minutely", "hourly", and
          "daily".
         :paramtype replication_schedule: str or ~azure.mgmt.netapp.models.ReplicationSchedule
-        :keyword remote_volume_resource_id: The resource ID of the remote volume. Required for cross region and cross zone replication.
+        :keyword remote_volume_resource_id: The resource ID of the remote volume. Required for cross
+         region and cross zone replication.
         :paramtype remote_volume_resource_id: str
         :keyword remote_path: The full path to a volume that is to be migrated into ANF. Required for
          Migration volumes.
