@@ -21,11 +21,9 @@ class TestContainerInstanceManagementContainerGroupProfileOperationsAsync(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_all_revisions(self, resource_group):
-        response = self.client.container_group_profile.list_all_revisions(
-            resource_group_name=resource_group.name,
-            container_group_profile_name="str",
-            api_version="2024-05-01-preview",
+    async def test_list_by_subscription(self, resource_group):
+        response = self.client.container_group_profile.list_by_subscription(
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,13 +31,272 @@ class TestContainerInstanceManagementContainerGroupProfileOperationsAsync(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_by_revision_number(self, resource_group):
-        response = await self.client.container_group_profile.get_by_revision_number(
+    async def test_list_by_resource_group(self, resource_group):
+        response = self.client.container_group_profile.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2024-11-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_create_or_update(self, resource_group):
+        response = await self.client.container_group_profile.create_or_update(
             resource_group_name=resource_group.name,
             container_group_profile_name="str",
-            revision_number="str",
-            api_version="2024-05-01-preview",
+            container_group_profile={
+                "id": "str",
+                "location": "str",
+                "name": "str",
+                "properties": {
+                    "confidentialComputeProperties": {"ccePolicy": "str"},
+                    "containers": [
+                        {
+                            "image": "str",
+                            "name": "str",
+                            "resources": {
+                                "requests": {"cpu": 0.0, "memoryInGB": 0.0, "gpu": {"count": 0, "sku": "str"}},
+                                "limits": {"cpu": 0.0, "gpu": {"count": 0, "sku": "str"}, "memoryInGB": 0.0},
+                            },
+                            "command": ["str"],
+                            "environmentVariables": [
+                                {"name": "str", "secureValue": "str", "secureValueReference": "str", "value": "str"}
+                            ],
+                            "instanceView": {
+                                "currentState": {
+                                    "detailStatus": "str",
+                                    "exitCode": 0,
+                                    "finishTime": "2020-02-20 00:00:00",
+                                    "startTime": "2020-02-20 00:00:00",
+                                    "state": "str",
+                                },
+                                "events": [
+                                    {
+                                        "count": 0,
+                                        "firstTimestamp": "2020-02-20 00:00:00",
+                                        "lastTimestamp": "2020-02-20 00:00:00",
+                                        "message": "str",
+                                        "name": "str",
+                                        "type": "str",
+                                    }
+                                ],
+                                "previousState": {
+                                    "detailStatus": "str",
+                                    "exitCode": 0,
+                                    "finishTime": "2020-02-20 00:00:00",
+                                    "startTime": "2020-02-20 00:00:00",
+                                    "state": "str",
+                                },
+                                "restartCount": 0,
+                            },
+                            "livenessProbe": {
+                                "exec": {"command": ["str"]},
+                                "failureThreshold": 0,
+                                "httpGet": {
+                                    "port": 0,
+                                    "httpHeaders": [{"name": "str", "value": "str"}],
+                                    "path": "str",
+                                    "scheme": "str",
+                                },
+                                "initialDelaySeconds": 0,
+                                "periodSeconds": 0,
+                                "successThreshold": 0,
+                                "timeoutSeconds": 0,
+                            },
+                            "ports": [{"port": 0, "protocol": "str"}],
+                            "readinessProbe": {
+                                "exec": {"command": ["str"]},
+                                "failureThreshold": 0,
+                                "httpGet": {
+                                    "port": 0,
+                                    "httpHeaders": [{"name": "str", "value": "str"}],
+                                    "path": "str",
+                                    "scheme": "str",
+                                },
+                                "initialDelaySeconds": 0,
+                                "periodSeconds": 0,
+                                "successThreshold": 0,
+                                "timeoutSeconds": 0,
+                            },
+                            "securityContext": {
+                                "allowPrivilegeEscalation": bool,
+                                "capabilities": {"add": ["str"], "drop": ["str"]},
+                                "privileged": bool,
+                                "runAsGroup": 0,
+                                "runAsUser": 0,
+                                "seccompProfile": "str",
+                            },
+                            "volumeMounts": [{"mountPath": "str", "name": "str", "readOnly": bool}],
+                        }
+                    ],
+                    "diagnostics": {
+                        "logAnalytics": {
+                            "workspaceId": "str",
+                            "workspaceKey": "str",
+                            "logType": "str",
+                            "metadata": {"str": "str"},
+                            "workspaceResourceId": "str",
+                        }
+                    },
+                    "encryptionProperties": {
+                        "keyName": "str",
+                        "keyVersion": "str",
+                        "vaultBaseUrl": "str",
+                        "identity": "str",
+                    },
+                    "extensions": [
+                        {
+                            "name": "str",
+                            "extensionType": "str",
+                            "protectedSettings": {},
+                            "settings": {},
+                            "version": "str",
+                        }
+                    ],
+                    "imageRegistryCredentials": [
+                        {
+                            "server": "str",
+                            "identity": "str",
+                            "identityUrl": "str",
+                            "password": "str",
+                            "passwordReference": "str",
+                            "username": "str",
+                        }
+                    ],
+                    "initContainers": [
+                        {
+                            "name": "str",
+                            "command": ["str"],
+                            "environmentVariables": [
+                                {"name": "str", "secureValue": "str", "secureValueReference": "str", "value": "str"}
+                            ],
+                            "image": "str",
+                            "instanceView": {
+                                "currentState": {
+                                    "detailStatus": "str",
+                                    "exitCode": 0,
+                                    "finishTime": "2020-02-20 00:00:00",
+                                    "startTime": "2020-02-20 00:00:00",
+                                    "state": "str",
+                                },
+                                "events": [
+                                    {
+                                        "count": 0,
+                                        "firstTimestamp": "2020-02-20 00:00:00",
+                                        "lastTimestamp": "2020-02-20 00:00:00",
+                                        "message": "str",
+                                        "name": "str",
+                                        "type": "str",
+                                    }
+                                ],
+                                "previousState": {
+                                    "detailStatus": "str",
+                                    "exitCode": 0,
+                                    "finishTime": "2020-02-20 00:00:00",
+                                    "startTime": "2020-02-20 00:00:00",
+                                    "state": "str",
+                                },
+                                "restartCount": 0,
+                            },
+                            "securityContext": {
+                                "allowPrivilegeEscalation": bool,
+                                "capabilities": {"add": ["str"], "drop": ["str"]},
+                                "privileged": bool,
+                                "runAsGroup": 0,
+                                "runAsUser": 0,
+                                "seccompProfile": "str",
+                            },
+                            "volumeMounts": [{"mountPath": "str", "name": "str", "readOnly": bool}],
+                        }
+                    ],
+                    "ipAddress": {
+                        "ports": [{"port": 0, "protocol": "str"}],
+                        "type": "str",
+                        "autoGeneratedDomainNameLabelScope": "Unsecure",
+                        "dnsNameLabel": "str",
+                        "fqdn": "str",
+                        "ip": "str",
+                    },
+                    "osType": "str",
+                    "priority": "str",
+                    "registeredRevisions": [0],
+                    "restartPolicy": "str",
+                    "revision": 0,
+                    "securityContext": {
+                        "allowPrivilegeEscalation": bool,
+                        "capabilities": {"add": ["str"], "drop": ["str"]},
+                        "privileged": bool,
+                        "runAsGroup": 0,
+                        "runAsUser": 0,
+                        "seccompProfile": "str",
+                    },
+                    "shutdownGracePeriod": "2020-02-20 00:00:00",
+                    "sku": "str",
+                    "timeToLive": "2020-02-20 00:00:00",
+                    "useKrypton": bool,
+                    "volumes": [
+                        {
+                            "name": "str",
+                            "azureFile": {
+                                "shareName": "str",
+                                "storageAccountName": "str",
+                                "readOnly": bool,
+                                "storageAccountKey": "str",
+                                "storageAccountKeyReference": "str",
+                            },
+                            "emptyDir": {},
+                            "gitRepo": {"repository": "str", "directory": "str", "revision": "str"},
+                            "secret": {"str": "str"},
+                            "secretReference": {"str": "str"},
+                        }
+                    ],
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+                "zones": ["str"],
+            },
+            api_version="2024-11-01-preview",
         )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_update(self, resource_group):
+        response = await self.client.container_group_profile.update(
+            resource_group_name=resource_group.name,
+            container_group_profile_name="str",
+            api_version="2024-11-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_get(self, resource_group):
+        response = await self.client.container_group_profile.get(
+            resource_group_name=resource_group.name,
+            container_group_profile_name="str",
+            api_version="2024-11-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_begin_delete(self, resource_group):
+        response = await (
+            await self.client.container_group_profile.begin_delete(
+                resource_group_name=resource_group.name,
+                container_group_profile_name="str",
+                api_version="2024-11-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...

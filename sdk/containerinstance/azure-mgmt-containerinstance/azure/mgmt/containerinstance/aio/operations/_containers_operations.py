@@ -73,8 +73,7 @@ class ContainersOperations:
         Get the logs for a specified container instance in a specified resource group and container
         group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -151,8 +150,7 @@ class ContainersOperations:
         Executes a command for a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -184,8 +182,7 @@ class ContainersOperations:
         Executes a command for a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -215,8 +212,7 @@ class ContainersOperations:
         Executes a command for a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -294,8 +290,7 @@ class ContainersOperations:
         Attach to the output stream of a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str

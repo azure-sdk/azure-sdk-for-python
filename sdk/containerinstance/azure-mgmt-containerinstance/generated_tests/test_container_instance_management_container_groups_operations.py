@@ -22,7 +22,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
     @recorded_by_proxy
     def test_list(self, resource_group):
         response = self.client.container_groups.list(
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
     def test_list_by_resource_group(self, resource_group):
         response = self.client.container_groups.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
         response = self.client.container_groups.get(
             resource_group_name=resource_group.name,
             container_group_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -60,11 +60,16 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
             container_group={
                 "containers": [
                     {
-                        "name": "str",
-                        "command": ["str"],
-                        "configMap": {"keyValuePairs": {"str": "str"}},
-                        "environmentVariables": [{"name": "str", "secureValue": "str", "value": "str"}],
                         "image": "str",
+                        "name": "str",
+                        "resources": {
+                            "requests": {"cpu": 0.0, "memoryInGB": 0.0, "gpu": {"count": 0, "sku": "str"}},
+                            "limits": {"cpu": 0.0, "gpu": {"count": 0, "sku": "str"}, "memoryInGB": 0.0},
+                        },
+                        "command": ["str"],
+                        "environmentVariables": [
+                            {"name": "str", "secureValue": "str", "secureValueReference": "str", "value": "str"}
+                        ],
                         "instanceView": {
                             "currentState": {
                                 "detailStatus": "str",
@@ -121,10 +126,6 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
                             "successThreshold": 0,
                             "timeoutSeconds": 0,
                         },
-                        "resources": {
-                            "requests": {"cpu": 0.0, "memoryInGB": 0.0, "gpu": {"count": 0, "sku": "str"}},
-                            "limits": {"cpu": 0.0, "gpu": {"count": 0, "sku": "str"}, "memoryInGB": 0.0},
-                        },
                         "securityContext": {
                             "allowPrivilegeEscalation": bool,
                             "capabilities": {"add": ["str"], "drop": ["str"]},
@@ -136,8 +137,8 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
                         "volumeMounts": [{"mountPath": "str", "name": "str", "readOnly": bool}],
                     }
                 ],
+                "osType": "str",
                 "confidentialComputeProperties": {"ccePolicy": "str"},
-                "containerGroupProfile": {"id": "str", "revision": 0},
                 "diagnostics": {
                     "logAnalytics": {
                         "workspaceId": "str",
@@ -165,13 +166,22 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
                     "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                 },
                 "imageRegistryCredentials": [
-                    {"server": "str", "identity": "str", "identityUrl": "str", "password": "str", "username": "str"}
+                    {
+                        "server": "str",
+                        "identity": "str",
+                        "identityUrl": "str",
+                        "password": "str",
+                        "passwordReference": "str",
+                        "username": "str",
+                    }
                 ],
                 "initContainers": [
                     {
                         "name": "str",
                         "command": ["str"],
-                        "environmentVariables": [{"name": "str", "secureValue": "str", "value": "str"}],
+                        "environmentVariables": [
+                            {"name": "str", "secureValue": "str", "secureValueReference": "str", "value": "str"}
+                        ],
                         "image": "str",
                         "instanceView": {
                             "currentState": {
@@ -232,15 +242,13 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
                     "fqdn": "str",
                     "ip": "str",
                 },
-                "isCreatedFromStandbyPool": bool,
                 "location": "str",
                 "name": "str",
-                "osType": "str",
                 "priority": "str",
                 "provisioningState": "str",
                 "restartPolicy": "str",
+                "secretReferences": [{"identity": "str", "name": "str", "secretReferenceUri": "str"}],
                 "sku": "str",
-                "standbyPoolProfile": {"failContainerGroupCreateOnReuseFailure": bool, "id": "str"},
                 "subnetIds": [{"id": "str", "name": "str"}],
                 "tags": {"str": "str"},
                 "type": "str",
@@ -252,15 +260,17 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
                             "storageAccountName": "str",
                             "readOnly": bool,
                             "storageAccountKey": "str",
+                            "storageAccountKeyReference": "str",
                         },
                         "emptyDir": {},
                         "gitRepo": {"repository": "str", "directory": "str", "revision": "str"},
                         "secret": {"str": "str"},
+                        "secretReference": {"str": "str"},
                     }
                 ],
                 "zones": ["str"],
             },
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -280,7 +290,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
                 "type": "str",
                 "zones": ["str"],
             },
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -292,7 +302,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
         response = self.client.container_groups.begin_delete(
             resource_group_name=resource_group.name,
             container_group_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -304,7 +314,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
         response = self.client.container_groups.begin_restart(
             resource_group_name=resource_group.name,
             container_group_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -316,7 +326,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
         response = self.client.container_groups.stop(
             resource_group_name=resource_group.name,
             container_group_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -328,7 +338,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
         response = self.client.container_groups.begin_start(
             resource_group_name=resource_group.name,
             container_group_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -340,7 +350,7 @@ class TestContainerInstanceManagementContainerGroupsOperations(AzureMgmtRecorded
         response = self.client.container_groups.get_outbound_network_dependencies_endpoints(
             resource_group_name=resource_group.name,
             container_group_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself

@@ -15,21 +15,18 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestContainerInstanceManagementSubnetServiceAssociationLinkOperationsAsync(AzureMgmtRecordedTestCase):
+class TestContainerInstanceManagementNGroupsSkusOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ContainerInstanceManagementClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
-        response = await (
-            await self.client.subnet_service_association_link.begin_delete(
-                resource_group_name=resource_group.name,
-                virtual_network_name="str",
-                subnet_name="str",
-                api_version="2024-11-01-preview",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
+    async def test_get(self, resource_group):
+        response = self.client.ngroups_skus.get(
+            resource_group_name=resource_group.name,
+            ngroups_name="str",
+            api_version="2024-11-01-preview",
+        )
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...

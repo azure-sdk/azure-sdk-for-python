@@ -11,7 +11,8 @@ from ._operations import Operations
 from ._location_operations import LocationOperations
 from ._containers_operations import ContainersOperations
 from ._subnet_service_association_link_operations import SubnetServiceAssociationLinkOperations
-from ._container_group_profiles_operations import ContainerGroupProfilesOperations
+from ._ngroups_skus_operations import NGroupsSkusOperations
+from ._ngroups_operations import NGroupsOperations
 from ._container_group_profile_operations import ContainerGroupProfileOperations
 
 from ._patch import __all__ as _patch_all
@@ -24,7 +25,8 @@ __all__ = [
     "LocationOperations",
     "ContainersOperations",
     "SubnetServiceAssociationLinkOperations",
-    "ContainerGroupProfilesOperations",
+    "NGroupsSkusOperations",
+    "NGroupsOperations",
     "ContainerGroupProfileOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

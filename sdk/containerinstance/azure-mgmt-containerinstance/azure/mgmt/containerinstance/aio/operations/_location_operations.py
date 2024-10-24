@@ -63,7 +63,7 @@ class LocationOperations:
     def list_usage(self, location: str, **kwargs: Any) -> AsyncIterable["_models.Usage"]:
         """Get the usage for a subscription.
 
-        :param location: The name of the Azure region. Required.
+        :param location: The identifier for the physical azure location. Required.
         :type location: str
         :return: An iterator like instance of either Usage or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.containerinstance.models.Usage]
@@ -142,7 +142,7 @@ class LocationOperations:
 
         Get the list of cached images on specific OS type for a subscription in a region.
 
-        :param location: The name of the Azure region. Required.
+        :param location: The identifier for the physical azure location. Required.
         :type location: str
         :return: An iterator like instance of either CachedImages or the result of cls(response)
         :rtype:
@@ -222,7 +222,7 @@ class LocationOperations:
 
         Get the list of CPU/memory/GPU capabilities of a region.
 
-        :param location: The name of the Azure region. Required.
+        :param location: The identifier for the physical azure location. Required.
         :type location: str
         :return: An iterator like instance of either Capabilities or the result of cls(response)
         :rtype:

@@ -20,10 +20,11 @@ from .._serialization import Deserializer, Serializer
 from ._configuration import ContainerInstanceManagementClientConfiguration
 from .operations import (
     ContainerGroupProfileOperations,
-    ContainerGroupProfilesOperations,
     ContainerGroupsOperations,
     ContainersOperations,
     LocationOperations,
+    NGroupsOperations,
+    NGroupsSkusOperations,
     Operations,
     SubnetServiceAssociationLinkOperations,
 )
@@ -48,19 +49,21 @@ class ContainerInstanceManagementClient:  # pylint: disable=client-accepts-api-v
     :ivar subnet_service_association_link: SubnetServiceAssociationLinkOperations operations
     :vartype subnet_service_association_link:
      azure.mgmt.containerinstance.aio.operations.SubnetServiceAssociationLinkOperations
-    :ivar container_group_profiles: ContainerGroupProfilesOperations operations
-    :vartype container_group_profiles:
-     azure.mgmt.containerinstance.aio.operations.ContainerGroupProfilesOperations
+    :ivar ngroups_skus: NGroupsSkusOperations operations
+    :vartype ngroups_skus: azure.mgmt.containerinstance.aio.operations.NGroupsSkusOperations
+    :ivar ngroups: NGroupsOperations operations
+    :vartype ngroups: azure.mgmt.containerinstance.aio.operations.NGroupsOperations
     :ivar container_group_profile: ContainerGroupProfileOperations operations
     :vartype container_group_profile:
      azure.mgmt.containerinstance.aio.operations.ContainerGroupProfileOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
+    :param subscription_id: Subscription credentials which uniquely identify Microsoft Azure
+     subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-05-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-11-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -110,9 +113,8 @@ class ContainerInstanceManagementClient:  # pylint: disable=client-accepts-api-v
         self.subnet_service_association_link = SubnetServiceAssociationLinkOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.container_group_profiles = ContainerGroupProfilesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
+        self.ngroups_skus = NGroupsSkusOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.ngroups = NGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.container_group_profile = ContainerGroupProfileOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
