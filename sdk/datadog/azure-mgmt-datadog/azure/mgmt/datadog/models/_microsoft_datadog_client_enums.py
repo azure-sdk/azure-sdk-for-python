@@ -27,9 +27,7 @@ class LiftrResourceCategories(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ManagedIdentityTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Specifies the identity type of the Datadog Monitor. At this time the only allowed value is
-    'SystemAssigned'.
-    """
+    """Identity type."""
 
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
