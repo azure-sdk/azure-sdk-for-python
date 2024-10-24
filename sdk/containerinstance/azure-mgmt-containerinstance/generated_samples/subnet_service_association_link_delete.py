@@ -27,7 +27,7 @@ from azure.mgmt.containerinstance import ContainerInstanceManagementClient
 def main():
     client = ContainerInstanceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="subid",
     )
 
     client.subnet_service_association_link.begin_delete(
@@ -37,6 +37,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/SubnetServiceAssociationLinkDelete.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-11-01-preview/examples/SubnetServiceAssociationLinkDelete.json
 if __name__ == "__main__":
     main()

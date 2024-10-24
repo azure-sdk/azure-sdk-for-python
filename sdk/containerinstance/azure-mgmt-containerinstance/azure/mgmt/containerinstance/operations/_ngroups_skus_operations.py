@@ -39,7 +39,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_list_request(**kwargs: Any) -> HttpRequest:
+def build_get_request(resource_group_name: str, ngroups_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -47,7 +47,24 @@ def build_list_request(**kwargs: Any) -> HttpRequest:
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = kwargs.pop("template_url", "/providers/Microsoft.ContainerInstance/operations")
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/skus",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "ngroupsName": _SERIALIZER.url(
+            "ngroups_name",
+            ngroups_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -58,14 +75,14 @@ def build_list_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class Operations:
+class NGroupsSkusOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.containerinstance.ContainerInstanceManagementClient`'s
-        :attr:`operations` attribute.
+        :attr:`ngroups_skus` attribute.
     """
 
     models = _models
@@ -78,18 +95,24 @@ class Operations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
-        """List the operations for Azure Container Instance service.
+    def get(self, resource_group_name: str, ngroups_name: str, **kwargs: Any) -> Iterable["_models.NGroupSkus"]:
+        """Get the resource sku, resource type, and sku capacity of the NGroups resource.
 
-        :return: An iterator like instance of either Operation or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.Operation]
+        Get the resource sku, resource type, and sku capacity of the NGroups resource.
+
+        :param resource_group_name: The name of the resource group. Required.
+        :type resource_group_name: str
+        :param ngroups_name: The NGroups name. Required.
+        :type ngroups_name: str
+        :return: An iterator like instance of either NGroupSkus or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.NGroupSkus]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.NGroupsSkusList] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -102,7 +125,10 @@ class Operations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_list_request(
+                _request = build_get_request(
+                    resource_group_name=resource_group_name,
+                    ngroups_name=ngroups_name,
+                    subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
@@ -127,7 +153,7 @@ class Operations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("OperationListResult", pipeline_response)
+            deserialized = self._deserialize("NGroupsSkusList", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore

@@ -25,7 +25,7 @@ class TestContainerInstanceManagementSubnetServiceAssociationLinkOperations(Azur
             resource_group_name=resource_group.name,
             virtual_network_name="str",
             subnet_name="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

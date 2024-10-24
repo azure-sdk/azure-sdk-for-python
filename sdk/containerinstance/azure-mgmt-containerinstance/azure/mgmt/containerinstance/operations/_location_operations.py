@@ -43,7 +43,7 @@ def build_list_usage_request(location: str, subscription_id: str, **kwargs: Any)
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -53,7 +53,7 @@ def build_list_usage_request(location: str, subscription_id: str, **kwargs: Any)
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -71,7 +71,7 @@ def build_list_cached_images_request(location: str, subscription_id: str, **kwar
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -81,7 +81,7 @@ def build_list_cached_images_request(location: str, subscription_id: str, **kwar
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -99,7 +99,7 @@ def build_list_capabilities_request(location: str, subscription_id: str, **kwarg
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -109,7 +109,7 @@ def build_list_capabilities_request(location: str, subscription_id: str, **kwarg
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -146,7 +146,7 @@ class LocationOperations:
     def list_usage(self, location: str, **kwargs: Any) -> Iterable["_models.Usage"]:
         """Get the usage for a subscription.
 
-        :param location: The name of the Azure region. Required.
+        :param location: The identifier for the physical azure location. Required.
         :type location: str
         :return: An iterator like instance of either Usage or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.Usage]
@@ -225,7 +225,7 @@ class LocationOperations:
 
         Get the list of cached images on specific OS type for a subscription in a region.
 
-        :param location: The name of the Azure region. Required.
+        :param location: The identifier for the physical azure location. Required.
         :type location: str
         :return: An iterator like instance of either CachedImages or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.CachedImages]
@@ -304,7 +304,7 @@ class LocationOperations:
 
         Get the list of CPU/memory/GPU capabilities of a region.
 
-        :param location: The name of the Azure region. Required.
+        :param location: The identifier for the physical azure location. Required.
         :type location: str
         :return: An iterator like instance of either Capabilities or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.Capabilities]

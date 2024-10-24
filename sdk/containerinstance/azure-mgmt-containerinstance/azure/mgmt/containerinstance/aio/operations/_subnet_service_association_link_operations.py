@@ -117,8 +117,7 @@ class SubnetServiceAssociationLinkOperations:
         Delete container group virtual network association links. The operation does not delete other
         resources provided by the user.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param virtual_network_name: The name of the virtual network. Required.
         :type virtual_network_name: str
