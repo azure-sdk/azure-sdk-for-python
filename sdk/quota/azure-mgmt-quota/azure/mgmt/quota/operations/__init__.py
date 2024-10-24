@@ -9,10 +9,10 @@
 from ._group_quotas_operations import GroupQuotasOperations
 from ._group_quota_subscriptions_operations import GroupQuotaSubscriptionsOperations
 from ._group_quota_subscription_requests_operations import GroupQuotaSubscriptionRequestsOperations
-from ._group_quota_limits_operations import GroupQuotaLimitsOperations
 from ._group_quota_limits_request_operations import GroupQuotaLimitsRequestOperations
-from ._group_quota_subscription_allocation_operations import GroupQuotaSubscriptionAllocationOperations
+from ._group_quota_limits_operations import GroupQuotaLimitsOperations
 from ._group_quota_subscription_allocation_request_operations import GroupQuotaSubscriptionAllocationRequestOperations
+from ._group_quota_subscription_allocation_operations import GroupQuotaSubscriptionAllocationOperations
 from ._group_quota_usages_operations import GroupQuotaUsagesOperations
 from ._group_quota_location_settings_operations import GroupQuotaLocationSettingsOperations
 from ._usages_operations import UsagesOperations
@@ -28,10 +28,10 @@ __all__ = [
     "GroupQuotasOperations",
     "GroupQuotaSubscriptionsOperations",
     "GroupQuotaSubscriptionRequestsOperations",
-    "GroupQuotaLimitsOperations",
     "GroupQuotaLimitsRequestOperations",
-    "GroupQuotaSubscriptionAllocationOperations",
+    "GroupQuotaLimitsOperations",
     "GroupQuotaSubscriptionAllocationRequestOperations",
+    "GroupQuotaSubscriptionAllocationOperations",
     "GroupQuotaUsagesOperations",
     "GroupQuotaLocationSettingsOperations",
     "UsagesOperations",

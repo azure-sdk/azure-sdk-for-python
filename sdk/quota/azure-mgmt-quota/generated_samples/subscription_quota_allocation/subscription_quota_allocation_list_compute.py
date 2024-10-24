@@ -15,7 +15,7 @@ from azure.mgmt.quota import QuotaMgmtClient
     pip install azure-identity
     pip install azure-mgmt-quota
 # USAGE
-    python put_group_quota_limits_requests_compute.py
+    python subscription_quota_allocation_list_compute.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,18 +27,18 @@ from azure.mgmt.quota import QuotaMgmtClient
 def main():
     client = QuotaMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.group_quota_limits_request.begin_create_or_update(
+    response = client.group_quota_subscription_allocation.list(
         management_group_id="E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
         group_quota_name="groupquota1",
         resource_provider_name="Microsoft.Compute",
-        resource_name="standardav2family",
-    ).result()
+        location="westus",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotaLimitsRequests/PutGroupQuotaLimitsRequests-Compute.json
+# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-10-15-preview/examples/SubscriptionQuotaAllocation/SubscriptionQuotaAllocation_List-Compute.json
 if __name__ == "__main__":
     main()
